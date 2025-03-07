@@ -7518,7 +7518,7 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><img alt="image" src="https://raw.githubusercontent.com/IBM/watson-machine-learning-samples/master/cloud/notebooks/headers/watsonx-Prompt_Lab-Notebook.png"/></p>
-<h1 id="Use-watsonx,-and-meta-llama/llama-3-1-8b-instruct-to-run-as-an-AI-service">Use watsonx, and <code>meta-llama/llama-3-1-8b-instruct</code> to run as an AI service<a class="anchor-link" href="#Use-watsonx,-and-meta-llama/llama-3-1-8b-instruct-to-run-as-an-AI-service">¶</a></h1>
+<h1 id="Use-watsonx,-and-ibm/granite-3-8b-instruct-to-run-as-an-AI-service">Use watsonx, and <code>ibm/granite-3-8b-instruct</code> to run as an AI service<a class="anchor-link" href="#Use-watsonx,-and-ibm/granite-3-8b-instruct-to-run-as-an-AI-service">¶</a></h1>
 </div>
 </div>
 </div>
@@ -7761,7 +7761,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="Specify-model">Specify model<a class="anchor-link" href="#Specify-model">¶</a></h4><p>This notebook uses chat model <code>meta-llama/llama-3-1-8b-instruct</code>, which has to be available on your Cloud Pak for Data environment for this notebook to run successfully.<br/>
+<h4 id="Specify-model">Specify model<a class="anchor-link" href="#Specify-model">¶</a></h4><p>This notebook uses chat model <code>ibm/granite-3-8b-instruct</code>, which has to be available on your Cloud Pak for Data environment for this notebook to run successfully.<br/>
 If this model is not available on your Cloud Pack for Data environment, you can specify any other available chat model.<br/>
 You can list available chat models by running the cell below.</p>
 </div>
@@ -7791,7 +7791,7 @@ You can list available chat models by running the cell below.</p>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>meta-llama/llama-3-1-8b-instruct
+<pre>ibm/granite-3-8b-instruct
 </pre>
 </div>
 </div>
@@ -7816,7 +7816,7 @@ You can list available chat models by running the cell below.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">model_id</span> <span class="o">=</span> <span class="s2">"meta-llama/llama-3-1-8b-instruct"</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">model_id</span> <span class="o">=</span> <span class="s2">"ibm/granite-3-8b-instruct"</span>
 </pre></div>
 </div>
 </div>
@@ -8010,20 +8010,18 @@ You can list available chat models by running the cell below.</p>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>{'body': {'id': 'chat-95847c14bdfe4219a5152a7b05ae14b9',
-  'model_id': 'meta-llama/llama-3-1-8b-instruct',
-  'model': 'meta-llama/llama-3-1-8b-instruct',
+<pre>{'body': {'id': 'chatcmpl-386d2db6-2fc1-4b4d-808c-a8cbfe0458c8',
+  'model_id': 'ibm/granite-3-8b-instruct',
+  'model': 'ibm/granite-3-8b-instruct',
   'choices': [{'index': 0,
     'message': {'role': 'assistant',
-     'content': 'IBM, or International Business Machines, was founded on June 16, 1911.'},
+     'content': 'IBM was officially incorporated on June 16, 1911. However, it traces its roots back to 1906 when the "$5,000 doorbell" made by the Computing-Tabulating-Recording Company (CTR) attracted the attention of major banks and railroads. IBM evolved from CTR, which was founded by Charles Ranlett Flint, to become a leading technology company.'},
     'finish_reason': 'stop'}],
-  'created': 1737447745,
-  'created_at': '2025-01-21T08:22:25.449Z',
-  'usage': {'completion_tokens': 19, 'prompt_tokens': 46, 'total_tokens': 65},
-  'system': {'warnings': [{'message': 'This model is a Non-IBM Product governed by a third-party license that may impose use restrictions and other obligations. By using this model you agree to its terms as identified in the following URL.',
-     'id': 'disclaimer_warning',
-     'more_info': 'https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=models-supported-foundation'},
-    {'message': "The value of 'max_tokens' for this model was set to value 1024",
+  'created': 1741254013,
+  'model_version': '1.0.0',
+  'created_at': '2025-03-06T09:40:14.877Z',
+  'usage': {'completion_tokens': 98, 'prompt_tokens': 25, 'total_tokens': 123},
+  'system': {'warnings': [{'message': "The value of 'max_tokens' for this model was set to value 1024",
      'id': 'unspecified_max_token',
      'additional_properties': {'limit': 0,
       'new_value': 1024,
@@ -8081,7 +8079,7 @@ You can list available chat models by running the cell below.</p>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>IBM (International Business Machines) was founded on June 16, 1911. It was formed through the merger of three companies: Tabulating Machine Company, International Time Recording Company, and Computing Scale Company.</pre>
+<pre>IBM, an American multinational information technology company, was established on June 16, 1911. It was originally called Computing-Tabulating-Recording Company (CTR), before adopting its present name, International Business Machines, in 1924.</pre>
 </div>
 </div>
 </div>
@@ -8327,23 +8325,19 @@ Successfully finished deployment creation, deployment_id='90266394-4ed8-421b-9b8
       "finish_reason": "stop",
       "index": 0,
       "message": {
-        "content": "IBM (International Business Machines) was founded on June 16, 1911, under the name Computing-Tabulating-Recording Company (CTR). It wasn't until 1924 that the company changed its name to International Business Machines Corporation (IBM).",
+        "content": "IBM was founded on June 16, 1911. It was originally called Computing-Tabulating-Recording Company (CTR), which later was renamed to International Business Machines in 1924.",
         "role": "assistant"
       }
     }
   ],
-  "created": 1737447811,
-  "created_at": "2025-01-21T08:23:32.343Z",
-  "id": "chat-94595835a8af48ab87d7cfdf19a4549c",
-  "model": "meta-llama/llama-3-1-8b-instruct",
-  "model_id": "meta-llama/llama-3-1-8b-instruct",
+  "created": 1741254247,
+  "created_at": "2025-03-06T09:44:08.186Z",
+  "id": "chatcmpl-3b60a014-9277-4574-97d8-5d1796a64e0b",
+  "model": "ibm/granite-3-8b-instruct",
+  "model_id": "ibm/granite-3-8b-instruct",
+  "model_version": "1.0.0",
   "system": {
     "warnings": [
-      {
-        "id": "disclaimer_warning",
-        "message": "This model is a Non-IBM Product governed by a third-party license that may impose use restrictions and other obligations. By using this model you agree to its terms as identified in the following URL.",
-        "more_info": "https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=models-supported-foundation"
-      },
       {
         "additional_properties": {
           "limit": 0,
@@ -8357,9 +8351,9 @@ Successfully finished deployment creation, deployment_id='90266394-4ed8-421b-9b8
     ]
   },
   "usage": {
-    "completion_tokens": 52,
-    "prompt_tokens": 46,
-    "total_tokens": 98
+    "completion_tokens": 47,
+    "prompt_tokens": 25,
+    "total_tokens": 72
   }
 }
 </pre>
@@ -8422,7 +8416,7 @@ Successfully finished deployment creation, deployment_id='90266394-4ed8-421b-9b8
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>IBM (International Business Machines Corporation) was founded on June 16, 1911. It began as the Computing-Tabulating-Recording Company (CTR), a merger of several companies, including the Tabulating Machine Company, which was founded by Herman Hollerith in 1896. The company officially adopted the name IBM in 1924.</pre>
+<pre>IBM, or International Business Machines Corporation, was established on June 16, 1911. It was initially founded as the Computing-Tabulating-Recording Company (CTR), which was a consolidation of several enterprises operating in the USA. The name was changed to International Business Machines Corporation in 1924. IBM has since become a significant player in the global technology industry, contributing to numerous technological advancements across sectors such as computer hardware, software, and services.</pre>
 </div>
 </div>
 </div>
