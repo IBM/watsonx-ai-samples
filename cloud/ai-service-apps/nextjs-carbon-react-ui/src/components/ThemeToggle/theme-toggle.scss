@@ -1,0 +1,43 @@
+@use "@carbon/react/scss/spacing" as *;
+@use "@carbon/react/scss/motion" as *;
+@use "@carbon/react/scss/theme" as *;
+@use "@carbon/react/scss/colors" as *;
+
+.theme-toggle {
+  position: relative;
+  border-radius: 30px;
+  border: 1px solid $border-strong-03;
+  padding: 3px;
+  background-color: $background;
+
+  &__indicator {
+    pointer-events: none;
+    border-radius: 50%;
+    position: absolute;
+    background-color: $background-selected-hover;
+    width: 26px;
+    height: 26px;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  &__btn {
+    display: inline-flex;
+    border: 0;
+    background-color: $background;
+    color: $text-on-color-disabled;
+    padding: 0;
+    cursor: pointer;
+    margin-right: 5px;
+    border-radius: 50%;
+    padding: 4px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &--selected {
+      // background-color: $background-selected-hover;
+      color: $text-on-color;
+    }
+  }
+}

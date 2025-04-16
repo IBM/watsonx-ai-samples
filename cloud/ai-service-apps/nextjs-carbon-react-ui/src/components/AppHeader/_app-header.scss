@@ -1,0 +1,21 @@
+@use "@carbon/react/scss/colors" as *;
+@use "@carbon/react/scss/theme" as *;
+
+// overriding header tooltip bg color
+.app-header {
+  .cds--popover {
+    --cds-popover-background-color: var(--cds-background);
+  }
+
+  .cds--tooltip-content {
+    color: $text-on-color;
+  }
+
+  .cds--popover--bottom:not(.cds--popover--auto-align) > .cds--popover > .cds--popover-content {
+    inset-inline-start: -10px;
+  }
+
+  .cds--header__menu-toggle {
+    display: none;
+  }
+}

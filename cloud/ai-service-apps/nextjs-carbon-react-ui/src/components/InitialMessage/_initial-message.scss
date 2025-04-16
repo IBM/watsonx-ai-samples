@@ -1,0 +1,70 @@
+@use "@carbon/react/scss/spacing" as *;
+@use "@carbon/react/scss/theme" as *;
+@use "@carbon/colors";
+@use "@carbon/motion";
+@use "@carbon/type";
+@use "../../app/mixins.scss" as *;
+
+.initial-message {
+  .initial-message__imageContainer {
+    position: relative;
+    height: 200px;
+    background-color: $layer-01;
+    border: 1px solid $border-subtle-01;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    width: 100%;
+    margin-bottom: $spacing-07;
+    margin-top: $spacing-06;
+
+    &.customImage {
+      img {
+        max-height: 200px;
+        padding: $spacing-05;
+      }
+    }
+  }
+
+  .initial-message__initialMessageImg {
+    background-color: $background;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    padding-top: 25.25%;
+    background-image: url("/initial-message.svg");
+
+    @include dark-theme(&) {
+      background-image: url("/initial-message-dark.svg");
+    }
+  }
+
+  h2 {
+    border: none;
+    margin: 0;
+  }
+
+  .initial-message__header {
+    padding-bottom: $spacing-03;
+
+    @include type.type-style("heading-03");
+  }
+
+  .initial-message__message {
+    @include type.type-style("body-01");
+  }
+
+  .initial-message__quickChatHeader {
+    padding-bottom: $spacing-05;
+
+    @include type.type-style("heading-03");
+  }
+
+  .initial-message__quickChat {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-gap: $spacing-05;
+  }
+}

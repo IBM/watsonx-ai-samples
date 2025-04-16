@@ -1,0 +1,15 @@
+@mixin dark-theme($selector) {
+  @at-root {
+    body[data-theme="dark"] #{$selector} {
+      @content;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    @at-root {
+      body[data-theme="system"] #{$selector} {
+        @content;
+      }
+    }
+  }
+}

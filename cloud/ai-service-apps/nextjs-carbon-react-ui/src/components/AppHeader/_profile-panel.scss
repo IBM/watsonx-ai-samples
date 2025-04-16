@@ -1,0 +1,85 @@
+@use "@carbon/react/scss/spacing" as *;
+@use "@carbon/react/scss/motion" as *;
+@use "@carbon/react/scss/theme" as *;
+@use "@carbon/react/scss/colors" as *;
+
+.profile-panel {
+  &__userAvatar,
+  &__actionUserAvatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    text-transform: uppercase;
+    color: $text-on-color;
+  }
+
+  &__actionUserAvatar {
+    width: 2rem;
+    height: 2rem;
+    font-size: 14px;
+  }
+
+  &__userAvatar {
+    width: 4rem;
+    height: 4rem;
+    font-size: 28px;
+  }
+
+  &__content {
+    background-color: $background;
+    bottom: initial;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid $layer-02;
+    opacity: 0;
+    width: unset;
+    transform: translateY(-10%);
+    visibility: hidden;
+    transition:
+      visibility 250ms cubic-bezier(0.5, 0, 0.1, 1),
+      opacity 250ms cubic-bezier(0.5, 0, 0.1, 1),
+      transform 250ms cubic-bezier(0.5, 0, 0.1, 1);
+    border-inline-end: 1px solid var(--cds-border-subtle);
+    border-inline-start: 1px solid var(--cds-border-subtle);
+
+    &.cds--header-panel--expanded {
+      opacity: 1;
+      transform: translateY(0);
+      visibility: visible;
+    }
+  }
+
+  &__contentWrapper {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__appSection {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: $spacing-05;
+  }
+
+  &__userSection {
+    display: flex;
+  }
+
+  &__version {
+    color: $text-helper;
+    font-size: 14px;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    margin-left: 1rem;
+  }
+
+  &__userName {
+    color: $text-primary;
+    font-size: 20px;
+    line-height: 1.4;
+  }
+}
