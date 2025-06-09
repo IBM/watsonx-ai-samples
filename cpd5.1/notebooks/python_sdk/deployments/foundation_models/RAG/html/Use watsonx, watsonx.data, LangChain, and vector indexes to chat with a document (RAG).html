@@ -3,7 +3,7 @@
 <html lang="en">
 <head><meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Notebook</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>Use watsonx, watsonx.data, LangChain, and vector indexes to chat with a document (RAG)</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <style type="text/css">
     pre { line-height: 125%; }
 td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
@@ -7591,12 +7591,12 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">jq</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">docx2txt</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">tiktoken</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">python</span><span class="o">-</span><span class="n">pptx</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">unstructured</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="s2">"ibm-watsonx-ai&gt;=1.2.5"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>jq<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>docx2txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>tiktoken<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>python-pptx<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>unstructured<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"ibm-watsonx-ai&gt;=1.2.5"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
 </pre></div>
 </div>
 </div>
@@ -7902,7 +7902,7 @@ Connections:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ID of the embedding model</span>
@@ -7980,7 +7980,7 @@ Connections:
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><a id="initialize"></a></p>
-<h3 id="Initialize-vector-store">Initialize vector store<a class="anchor-link" href="#Initialize-vector-store">¶</a></h3><p>Instantiate the VectorStore class for the watsonx.data Milvus collection.</p>
+<h3 id="Initialize-vector-store">Initialize vector store<a class="anchor-link" href="#Initialize-vector-store">¶</a></h3><p>Instantiate the <code>VectorStore</code> class for the watsonx.data Milvus collection. By default, <code>VectorStore</code> will create a collection with the nama as is stated in <code>collection</code> variable. If collection with that name already exist, no new collection is created and running method <code>VectorStore.add_documents</code> the new documents will be added to the existing collection. To drop old collection and create a new one with the same name, please set <code>drop_old</code> param to <code>True</code> in <code>VectorStore</code> constructor.</p>
 </div>
 </div>
 </div>
@@ -7989,7 +7989,7 @@ Connections:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">Embeddings</span><span class="p">(</span>
@@ -8005,7 +8005,6 @@ Connections:
     <span class="n">connection_id</span><span class="o">=</span><span class="n">connection_id</span><span class="p">,</span>
     <span class="n">embeddings</span><span class="o">=</span><span class="n">embeddings</span><span class="p">,</span>
     <span class="n">index_name</span><span class="o">=</span><span class="n">collection</span><span class="p">,</span>
-    <span class="n">drop_old</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">database</span><span class="o">=</span><span class="n">database</span><span class="p">,</span>
     <span class="n">consistency_level</span><span class="o">=</span><span class="s1">'Strong'</span><span class="p">,</span>
     <span class="n">connection_args</span><span class="o">=</span><span class="p">{</span><span class="s1">'secure'</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
@@ -8517,14 +8516,13 @@ Successfully saved data asset content to file: 'ModelInference.txt'
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">"space_id"</span><span class="p">:</span> <span class="n">space_id</span><span class="p">,</span> 
     <span class="s2">"vector_index_id"</span><span class="p">:</span> <span class="n">vector_index_id</span><span class="p">,</span>
     <span class="s2">"url"</span><span class="p">:</span> <span class="n">credentials</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
-    <span class="s2">"inference_model_id"</span><span class="p">:</span> <span class="s1">'ibm/granite-3-8b-instruct'</span>
 <span class="p">}</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">gen_ai_service</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">custom</span><span class="p">):</span>
@@ -8618,11 +8616,12 @@ Successfully saved data asset content to file: 'ModelInference.txt'
         
         <span class="k">return</span> <span class="n">messages</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">inference_model</span><span class="p">(</span><span class="n">inner_client</span><span class="p">,</span> <span class="n">messages</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inference_model</span><span class="p">(</span><span class="n">inference_model_id</span><span class="p">,</span> <span class="n">inner_client</span><span class="p">,</span> <span class="n">messages</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Retrieve document chunks, incorporate contextual information, and generate a grounded response.</span>
 
 <span class="sd">        Parameters:</span>
+<span class="sd">            inference_model_id: ID of model that will be used for inferencing</span>
 <span class="sd">            inner_client: An API client instance used for connecting to the vector store and the inference model.</span>
 <span class="sd">            messages (list): A list of message dictionaries representing the conversation history. The content of</span>
 <span class="sd">                            the last message is used as the query for document retrieval.</span>
@@ -8639,6 +8638,8 @@ Successfully saved data asset content to file: 'ModelInference.txt'
             <span class="p">}</span>
         <span class="p">)</span>
 
+        <span class="n">top_n</span> <span class="o">=</span> <span class="mi">20</span> <span class="k">if</span> <span class="n">vector_index_properties</span><span class="p">[</span><span class="s2">"settings"</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"rerank"</span><span class="p">)</span> <span class="k">else</span> <span class="nb">int</span><span class="p">(</span><span class="n">vector_index_properties</span><span class="p">[</span><span class="s2">"settings"</span><span class="p">][</span><span class="s2">"top_k"</span><span class="p">])</span>
+
         <span class="n">vector_store</span> <span class="o">=</span> <span class="n">VectorStore</span><span class="p">(</span>
             <span class="n">client</span><span class="o">=</span><span class="n">inner_client</span><span class="p">,</span>
             <span class="n">connection_id</span><span class="o">=</span><span class="n">vector_index_properties</span><span class="p">[</span><span class="s2">"store"</span><span class="p">][</span><span class="s2">"connection_id"</span><span class="p">],</span>
@@ -8647,11 +8648,11 @@ Successfully saved data asset content to file: 'ModelInference.txt'
             <span class="n">database</span><span class="o">=</span><span class="n">vector_index_properties</span><span class="p">[</span><span class="s2">"store"</span><span class="p">][</span><span class="s2">"database"</span><span class="p">],</span>
             <span class="n">consistency_level</span><span class="o">=</span><span class="s1">'Strong'</span><span class="p">,</span>
             <span class="n">connection_args</span><span class="o">=</span><span class="p">{</span><span class="s1">'secure'</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
-            <span class="n">text_field</span><span class="o">=</span><span class="n">vector_index_properties</span><span class="p">[</span><span class="s2">"settings"</span><span class="p">][</span><span class="s2">"schema_fields"</span><span class="p">][</span><span class="s2">"text"</span><span class="p">]</span>
+            <span class="n">text_field</span><span class="o">=</span><span class="n">vector_index_properties</span><span class="p">[</span><span class="s2">"settings"</span><span class="p">][</span><span class="s2">"schema_fields"</span><span class="p">][</span><span class="s2">"text"</span><span class="p">],</span>
+            <span class="n">search_params</span><span class="o">=</span><span class="p">{</span><span class="s2">"ef"</span><span class="p">:</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">top_n</span><span class="p">}</span> <span class="c1"># `ef` param needs to be larger than `top_n` param</span>
         <span class="p">)</span>
 
         <span class="c1"># Retrieve document chunks from the vector index</span>
-        <span class="n">top_n</span> <span class="o">=</span> <span class="mi">20</span> <span class="k">if</span> <span class="n">vector_index_properties</span><span class="p">[</span><span class="s2">"settings"</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"rerank"</span><span class="p">)</span> <span class="k">else</span> <span class="nb">int</span><span class="p">(</span><span class="n">vector_index_properties</span><span class="p">[</span><span class="s2">"settings"</span><span class="p">][</span><span class="s2">"top_k"</span><span class="p">])</span>
         <span class="n">query</span> <span class="o">=</span> <span class="n">messages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"content"</span><span class="p">)</span>
 
         <span class="n">retriever</span> <span class="o">=</span> <span class="n">Retriever</span><span class="p">(</span><span class="n">vector_store</span><span class="o">=</span><span class="n">vector_store</span><span class="p">,</span> <span class="n">number_of_chunks</span><span class="o">=</span><span class="n">top_n</span><span class="p">)</span>
@@ -8713,9 +8714,10 @@ Successfully saved data asset content to file: 'ModelInference.txt'
     <span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span><span class="n">context</span><span class="p">):</span>
         <span class="n">payload</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
         <span class="n">messages</span> <span class="o">=</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"messages"</span><span class="p">)</span>
+        <span class="n">inference_model_id</span> <span class="o">=</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"model_id"</span><span class="p">)</span>
         <span class="n">inner_client</span> <span class="o">=</span> <span class="n">get_inner_client</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>    
         
-        <span class="n">results</span> <span class="o">=</span> <span class="n">inference_model</span><span class="p">(</span><span class="n">inner_client</span><span class="p">,</span> <span class="n">messages</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">inference_model</span><span class="p">(</span><span class="n">inference_model_id</span><span class="p">,</span> <span class="n">inner_client</span><span class="p">,</span> <span class="n">messages</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
         
         <span class="n">response</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">"headers"</span><span class="p">:</span> <span class="p">{</span>
@@ -8729,8 +8731,9 @@ Successfully saved data asset content to file: 'ModelInference.txt'
     <span class="k">def</span><span class="w"> </span><span class="nf">generate_stream</span><span class="p">(</span><span class="n">context</span><span class="p">):</span>
         <span class="n">payload</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
         <span class="n">messages</span> <span class="o">=</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"messages"</span><span class="p">)</span>
+        <span class="n">inference_model_id</span> <span class="o">=</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"model_id"</span><span class="p">)</span>
         <span class="n">inner_client</span> <span class="o">=</span> <span class="n">get_inner_client</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
-        <span class="n">response_stream</span> <span class="o">=</span> <span class="n">inference_model</span><span class="p">(</span><span class="n">inner_client</span><span class="p">,</span> <span class="n">messages</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">response_stream</span> <span class="o">=</span> <span class="n">inference_model</span><span class="p">(</span><span class="n">inference_model_id</span><span class="p">,</span> <span class="n">inner_client</span><span class="p">,</span> <span class="n">messages</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">response_stream</span><span class="p">:</span>
             <span class="k">yield</span> <span class="n">chunk</span>
@@ -8757,7 +8760,7 @@ Successfully saved data asset content to file: 'ModelInference.txt'
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">request_schema</span> <span class="o">=</span> <span class="p">{</span>
@@ -8765,6 +8768,10 @@ Successfully saved data asset content to file: 'ModelInference.txt'
         <span class="s2">"$schema"</span><span class="p">:</span> <span class="s2">"http://json-schema.org/draft-07/schema#"</span><span class="p">,</span>
         <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"object"</span><span class="p">,</span>
         <span class="s2">"properties"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"model_id"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"The model to use for the inference."</span><span class="p">,</span>
+                <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"str"</span>
+            <span class="p">},</span>
             <span class="s2">"messages"</span><span class="p">:</span> <span class="p">{</span>
                 <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"The messages for this chat session."</span><span class="p">,</span>
                 <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"array"</span><span class="p">,</span>
@@ -8785,7 +8792,7 @@ Successfully saved data asset content to file: 'ModelInference.txt'
                 <span class="p">}</span>
             <span class="p">}</span>
         <span class="p">},</span>
-        <span class="s2">"required"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"messages"</span><span class="p">]</span>
+        <span class="s2">"required"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"model_id"</span><span class="p">,</span> <span class="s2">"messages"</span><span class="p">]</span>
     <span class="p">}</span>
 <span class="p">}</span>
 
@@ -8918,14 +8925,16 @@ Successfully saved data asset content to file: 'ModelInference.txt'
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">local_question</span> <span class="o">=</span> <span class="s2">"Summarize the document"</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">inference_model_id</span> <span class="o">=</span> <span class="s2">"ibm/granite-3-8b-instruct"</span>
+
+<span class="n">local_question</span> <span class="o">=</span> <span class="s2">"Summarize the document"</span>
 
 <span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">({</span> <span class="s2">"role"</span> <span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">local_question</span> <span class="p">})</span>
 
-<span class="n">context</span> <span class="o">=</span> <span class="n">RuntimeContext</span><span class="p">(</span><span class="n">api_client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span> <span class="n">request_payload_json</span><span class="o">=</span><span class="p">{</span><span class="s2">"messages"</span><span class="p">:</span> <span class="n">messages</span><span class="p">})</span>
+<span class="n">context</span> <span class="o">=</span> <span class="n">RuntimeContext</span><span class="p">(</span><span class="n">api_client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span> <span class="n">request_payload_json</span><span class="o">=</span><span class="p">{</span><span class="s2">"model_id"</span><span class="p">:</span> <span class="n">inference_model_id</span><span class="p">,</span> <span class="s2">"messages"</span><span class="p">:</span> <span class="n">messages</span><span class="p">})</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">local_function</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
 
@@ -9095,11 +9104,13 @@ Successfully finished deployment creation, deployment_id='0b15cf4e-47f5-4541-aa1
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [29]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">remote_question</span> <span class="o">=</span> <span class="s2">"Summarize the document"</span>
-<span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"messages"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">remote_question</span><span class="p">}]}</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">inference_model_id</span> <span class="o">=</span> <span class="s2">"ibm/granite-3-8b-instruct"</span>
+
+<span class="n">remote_question</span> <span class="o">=</span> <span class="s2">"Summarize the document"</span>
+<span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"model_id"</span><span class="p">:</span> <span class="n">inference_model_id</span><span class="p">,</span> <span class="s2">"messages"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">remote_question</span><span class="p">}]}</span>
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">run_ai_service</span><span class="p">(</span><span class="n">deployment_id</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span>
 
