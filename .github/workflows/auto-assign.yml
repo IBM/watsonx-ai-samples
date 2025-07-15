@@ -17,31 +17,26 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const core = require('@actions/core');
-            core.info(`🚀 event: ${context.eventName}`);
-            core.info(`🔢 issue_number: ${context.issue.number}`);
-            core.info(`📋 repo: ${context.repo.owner}/${context.repo.repo}`);
+            console.log(`🚀 event: ${context.eventName}`);
+            console.log(`🔢 issue_number: ${context.issue.number}`);
+            console.log(`📋 repo: ${context.repo.owner}/${context.repo.repo}`);
 
       - name: Assign
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            (async () => {
-              const core = require('@actions/core');
+            const assignees = [
+              'Rafal-Chrzanowski',
+              'Dorota-Laczak'
+            ];
 
-              const assignees = [
-                'rafal-chrzanowski',
-                'dorota-laczak'
-              ];
+            const response = await github.rest.issues.addAssignees({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              assignees
+            });
 
-              const response = await github.rest.issues.addAssignees({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
-                assignees
-              });
-
-              core.info(`👷‍♂️ API status: ${response.status}`);
-              core.info(`📑 Response data: ${JSON.stringify(response.data)}`);
-            })();
+            console.log(`👷‍♂️ API status: ${response.status}`);
+            console.log(`📑 Response data: ${JSON.stringify(response.data)}`);
