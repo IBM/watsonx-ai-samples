@@ -4,15 +4,25 @@ on:
   issues:
     types: [opened]
 
+permissions:
+  issues: write
+
 jobs:
   assign:
     runs-on: ubuntu-latest
-    permissions:
-      issues: write
 
     steps:
-      - name: Auto‑assign issue
-        uses: pozil/auto-assign-issue@v2
+      - name: Auto Assign
+        uses: actions/github-script@v6
         with:
-          assignees: Rafal-Chrzanowski, Dorota-Laczak
-          numOfAssignees: 0  # 0 = all
+          script: |
+            const assignees = [
+              'Rafal-Chrzanowski',
+              'Dorota-Laczak'
+            ];
+            await github.issues.addAssignees({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              assignees
+            });
