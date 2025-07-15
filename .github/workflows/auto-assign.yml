@@ -12,18 +12,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Auto Assign
+      - name: Debug event context
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
+            const core = require('@actions/core');
+            core.info(`🚀 event: ${context.eventName}`);
+            core.info(`🔢 issue_number: ${context.issue.number}`);
+            core.info(`📋 repo: ${context.repo.owner}/${context.repo.repo}`);
+
+      - name: Assign
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const core = require('@actions/core');
             const assignees = [
-              'Rafal-Chrzanowski',
-              'Dorota-Laczak'
+              'rafal-chrzanowski',
+              'dorota-laczak'
             ];
-            await github.rest.issues.addAssignees({
+
+            const response = await github.rest.issues.addAssignees({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
               assignees
             });
+
+            core.info(`👷‍♂️ API status: ${response.status}`);
+            core.info(`📑 Response data: ${JSON.stringify(response.data)}`);
