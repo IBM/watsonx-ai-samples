@@ -27,18 +27,21 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const core = require('@actions/core');
-            const assignees = [
-              'rafal-chrzanowski',
-              'dorota-laczak'
-            ];
+            (async () => {
+              const core = require('@actions/core');
 
-            const response = await github.rest.issues.addAssignees({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              assignees
-            });
+              const assignees = [
+                'rafal-chrzanowski',
+                'dorota-laczak'
+              ];
 
-            core.info(`👷‍♂️ API status: ${response.status}`);
-            core.info(`📑 Response data: ${JSON.stringify(response.data)}`);
+              const response = await github.rest.issues.addAssignees({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                assignees
+              });
+
+              core.info(`👷‍♂️ API status: ${response.status}`);
+              core.info(`📑 Response data: ${JSON.stringify(response.data)}`);
+            })();
