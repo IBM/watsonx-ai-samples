@@ -15,12 +15,13 @@ jobs:
       - name: Auto Assign
         uses: actions/github-script@v6
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const assignees = [
               'Rafal-Chrzanowski',
               'Dorota-Laczak'
             ];
-            await github.issues.addAssignees({
+            await github.rest.issues.addAssignees({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
