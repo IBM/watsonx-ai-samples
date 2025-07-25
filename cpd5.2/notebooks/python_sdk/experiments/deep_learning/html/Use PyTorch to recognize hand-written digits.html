@@ -7528,8 +7528,9 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>This notebook contains steps and code to demonstrate support of Deep Learning model training and scoring in watsonx.ai service. It introduces commands for getting data, training_definition persistance to watsonx.ai repository, model training, model persistance, model deployment and scoring.</p>
-<p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
+<p>This notebook contains steps and code to demonstrate support of Deep Learning model training and scoring in watsonx.ai service. It introduces commands for getting data, training definition persistence to watsonx.ai repository, model training, model persistence, model deployment and scoring.</p>
+<p>Some familiarity with Python is helpful. This notebook uses Python 3.12.</p>
+<p><strong>Note:</strong> To use Deep Learning experiments, you must install and configure the IBM® Software Hub scheduling service.</p>
 <h2 id="Learning-goals">Learning goals<a class="anchor-link" href="#Learning-goals">¶</a></h2><p>The learning goals of this notebook are:</p>
 <ul>
 <li>Working with watsonx.ai service.</li>
@@ -7576,17 +7577,33 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">matplotlib</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 <span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">ibm</span><span class="o">-</span><span class="n">watsonx</span><span class="o">-</span><span class="n">ai</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Successfully installed wget-3.2
+Successfully installed contourpy-1.3.2 cycler-0.12.1 fonttools-4.59.0 kiwisolver-1.4.8 matplotlib-3.10.3 numpy-2.3.1 pillow-11.3.0 pyparsing-3.2.3
+Successfully installed anyio-4.9.0 cachetools-6.1.0 certifi-2025.7.14 charset_normalizer-3.4.2 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.2 ibm-cos-sdk-core-2.14.2 ibm-cos-sdk-s3transfer-2.14.2 ibm-watsonx-ai-1.3.31 idna-3.10 jmespath-1.0.1 lomond-0.3.3 pandas-2.2.3 pytz-2025.2 requests-2.32.4 sniffio-1.3.1 tabulate-0.9.0 typing_extensions-4.14.1 tzdata-2025.2 urllib3-2.5.0
+</pre>
 </div>
 </div>
 </div>
@@ -7607,7 +7624,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">username</span> <span class="o">=</span> <span class="s2">"PASTE YOUR USERNAME HERE"</span>
@@ -7667,7 +7684,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
@@ -7702,7 +7719,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span>
@@ -7737,7 +7754,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">space_id</span> <span class="o">=</span> <span class="s2">"PASTE YOUR SPACE ID HERE"</span>
@@ -7787,7 +7804,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">set</span><span class="o">.</span><span class="n">default_space</span><span class="p">(</span><span class="n">space_id</span><span class="p">)</span>
@@ -7801,7 +7818,7 @@ a.anchor-link {
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[4]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>'SUCCESS'</pre>
 </div>
@@ -7836,7 +7853,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">model_definition_metadata</span> <span class="o">=</span> <span class="p">{</span>
@@ -7871,7 +7888,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">wget</span><span class="o">,</span><span class="w"> </span><span class="nn">os</span>
@@ -7914,7 +7931,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">definition_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">model_definitions</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">model_definition_metadata</span><span class="p">)</span>
@@ -7928,7 +7945,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">model_definition_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">model_definitions</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">definition_details</span><span class="p">)</span>
@@ -7945,7 +7962,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>e3ec6abc-eadb-44b0-8251-86f2c0929b4f
+<pre>af85b14d-523b-4732-9287-be721514a617
 </pre>
 </div>
 </div>
@@ -7962,16 +7979,60 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">model_definitions</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">model_definitions</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[11]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>NAME</th>
+<th>ASSET_TYPE</th>
+<th>ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>PyTorch Hand-written Digit Recognition</td>
+<td>wml_model_definition</td>
+<td>af85b14d-523b-4732-9287-be721514a617</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 </div>
@@ -7995,17 +8056,6 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><strong>Warning</strong>: Before executing deep learning experiment make sure that <a href="https://github.com/IBM/watsonx-ai-samples/tree/master/cpd5.2/data/mnist/raw">training data</a> is saved in a folder where Watson Machine Learning Accelerator is installed.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="3.1-Prepare-training-metadata">3.1 Prepare training metadata<a class="anchor-link" href="#3.1-Prepare-training-metadata">¶</a></h3>
 </div>
 </div>
@@ -8015,10 +8065,10 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">training_metadata</span> <span class="o">=</span> <span class="n">training_metadata</span> <span class="o">=</span> <span class="p">{</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">training_metadata</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">client</span><span class="o">.</span><span class="n">training</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"PyTorch hand-written Digit Recognition"</span><span class="p">,</span>
     <span class="n">client</span><span class="o">.</span><span class="n">training</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DESCRIPTION</span><span class="p">:</span> <span class="s2">"PyTorch hand-written Digit Recognition"</span><span class="p">,</span>
     <span class="n">client</span><span class="o">.</span><span class="n">training</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">TRAINING_RESULTS_REFERENCE</span><span class="p">:</span> <span class="p">{</span>
@@ -8029,7 +8079,10 @@ a.anchor-link {
     <span class="p">},</span>
     <span class="n">client</span><span class="o">.</span><span class="n">training</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">MODEL_DEFINITION</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">"id"</span><span class="p">:</span> <span class="n">model_definition_id</span><span class="p">,</span>
-        <span class="s2">"hardware_spec"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"name"</span><span class="p">:</span> <span class="s2">"K80"</span><span class="p">,</span> <span class="s2">"nodes"</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+        <span class="s2">"hardware_spec"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"CPUx4"</span><span class="p">,</span>
+            <span class="s2">"nodes"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="p">},</span>  <span class="c1"># To use GPU for training, set hardware_spec.name to `GPUx1` for example</span>
         <span class="s2">"software_spec"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"name"</span><span class="p">:</span> <span class="s2">"pytorch-onnx_rt24.1-py3.11"</span><span class="p">},</span>
     <span class="p">},</span>
     <span class="n">client</span><span class="o">.</span><span class="n">training</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">TRAINING_DATA_REFERENCES</span><span class="p">:</span> <span class="p">[</span>
@@ -8057,20 +8110,45 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="3.2-Train-the-model-in-the-background">3.2 Train the model in the background<a class="anchor-link" href="#3.2-Train-the-model-in-the-background">¶</a></h3>
+<h3 id="3.2-Train-the-model">3.2 Train the model<a class="anchor-link" href="#3.2-Train-the-model">¶</a></h3>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">training</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">training</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">training_metadata</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">training</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">training</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">training_metadata</span><span class="p">,</span> <span class="n">asynchronous</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+
+##############################################
+
+Running '3b25afd1-0220-428b-829b-55276cbc8c9f'
+
+##############################################
+
+
+pending...
+running..............................................................................
+completed
+Training of '3b25afd1-0220-428b-829b-55276cbc8c9f' finished successfully.
+</pre>
 </div>
 </div>
 </div>
@@ -8082,7 +8160,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="3.3-Get-training-id-and-status">3.3 Get training id and status<a class="anchor-link" href="#3.3-Get-training-id-and-status">¶</a></h3>
+<h3 id="3.3-Get-training-ID">3.3 Get training ID<a class="anchor-link" href="#3.3-Get-training-ID">¶</a></h3>
 </div>
 </div>
 </div>
@@ -8091,7 +8169,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">training_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">training</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">training</span><span class="p">)</span>
@@ -8108,22 +8186,8 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>037d3be7-439e-4c10-98f4-45dcfa3a4943
+<pre>3b25afd1-0220-428b-829b-55276cbc8c9f
 </pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">training</span><span class="o">.</span><span class="n">get_status</span><span class="p">(</span><span class="n">training_id</span><span class="p">)[</span><span class="s2">"state"</span><span class="p">]</span>
-</pre></div>
 </div>
 </div>
 </div>
@@ -8139,12 +8203,12 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
@@ -8152,6 +8216,77 @@ a.anchor-link {
 <span class="n">training_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">training</span><span class="o">.</span><span class="n">get_details</span><span class="p">(</span><span class="n">training_id</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">training_details</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>{
+  "metadata": {
+    "created_at": "2025-07-17T07:33:45.359Z",
+    "description": "PyTorch hand-written Digit Recognition",
+    "id": "3b25afd1-0220-428b-829b-55276cbc8c9f",
+    "modified_at": "2025-07-17T07:41:53.606Z",
+    "name": "PyTorch hand-written Digit Recognition",
+    "space_id": "3b92fb5d-b85f-46ee-8dc6-1660c411d6f4"
+  },
+  "entity": {
+    "model_definition": {
+      "hardware_spec": {
+        "name": "CPUx4"
+      },
+      "id": "af85b14d-523b-4732-9287-be721514a617",
+      "software_spec": {
+        "name": "pytorch-onnx_rt24.1-py3.11"
+      }
+    },
+    "results_reference": {
+      "connection": {},
+      "location": {
+        "path": "spaces/3b92fb5d-b85f-46ee-8dc6-1660c411d6f4/assets/experiment",
+        "model": "spaces/3b92fb5d-b85f-46ee-8dc6-1660c411d6f4/assets/experiment/3b25afd1-0220-428b-829b-55276cbc8c9f/data/model",
+        "notebooks_path": "spaces/3b92fb5d-b85f-46ee-8dc6-1660c411d6f4/assets/experiment/3b25afd1-0220-428b-829b-55276cbc8c9f/notebooks",
+        "training": "spaces/3b92fb5d-b85f-46ee-8dc6-1660c411d6f4/assets/experiment/3b25afd1-0220-428b-829b-55276cbc8c9f",
+        "training_status": "spaces/3b92fb5d-b85f-46ee-8dc6-1660c411d6f4/assets/experiment/3b25afd1-0220-428b-829b-55276cbc8c9f/training-status.json",
+        "model_request_path": "spaces/3b92fb5d-b85f-46ee-8dc6-1660c411d6f4/assets/experiment/3b25afd1-0220-428b-829b-55276cbc8c9f/assets/3b25afd1-0220-428b-829b-55276cbc8c9f/resources/wml_model/request.json",
+        "logs": "spaces/3b92fb5d-b85f-46ee-8dc6-1660c411d6f4/assets/experiment/3b25afd1-0220-428b-829b-55276cbc8c9f/logs",
+        "assets_path": "spaces/3b92fb5d-b85f-46ee-8dc6-1660c411d6f4/assets/experiment/3b25afd1-0220-428b-829b-55276cbc8c9f/assets"
+      },
+      "type": "fs"
+    },
+    "space_id": "3b92fb5d-b85f-46ee-8dc6-1660c411d6f4",
+    "status": {
+      "completed_at": "2025-07-17T07:41:53.440Z",
+      "running_at": "2025-07-17T07:34:07.931Z",
+      "state": "completed"
+    },
+    "training_data_references": [
+      {
+        "location": {
+          "path": "pytorch-mnist"
+        },
+        "schema": {
+          "fields": [
+            {
+              "name": "text",
+              "nullable": false,
+              "type": "string"
+            }
+          ],
+          "id": "idmlp_schema"
+        },
+        "type": "fs"
+      }
+    ]
+  }
+}
+</pre>
 </div>
 </div>
 </div>
@@ -8167,16 +8302,60 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">training</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">training</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[16]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>ID (training)</th>
+<th>STATE</th>
+<th>CREATED</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>3b25afd1-0220-428b-829b-55276cbc8c9f</td>
+<td>completed</td>
+<td>2025-07-17T07:33:45.359Z</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 </div>
@@ -8199,12 +8378,12 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>You can cancel the training run by calling the method below.<br/>
-<strong>Tip</strong>: If you want to  delete train runs and results add <code>hard_delete=True</code> as a parameter.</p>
+<p>You can cancel the training run by calling <code>client.training.cancel(training_id)</code>.</p>
+<p><strong>Tip</strong>: If you want to delete train runs and results, add <code>hard_delete=True</code> as a parameter.</p>
 </div>
 </div>
 </div>
-</div>client.training.cancel(training_id)
+</div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -8232,7 +8411,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">software_spec_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">get_id_by_name</span><span class="p">(</span>
@@ -8248,7 +8427,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">model_meta_props</span> <span class="o">=</span> <span class="p">{</span>
@@ -8277,17 +8456,79 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">model_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">get_details</span><span class="p">(</span><span class="n">model_id</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">model_details</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>{
+  "metadata": {
+    "name": "PyTorch Mnist Model",
+    "space_id": "3b92fb5d-b85f-46ee-8dc6-1660c411d6f4",
+    "resource_key": "500a594e-366d-4151-ae4f-35a13ff0ebf9",
+    "id": "4ccf6a1e-eaf7-4515-a3b0-07096b341b65",
+    "created_at": "2025-07-17T07:42:49Z",
+    "rov": {
+      "member_roles": {
+        "1000331001": {
+          "user_iam_id": "1000331001",
+          "roles": [
+            "OWNER"
+          ]
+        }
+      }
+    },
+    "owner": "1000331001"
+  },
+  "entity": {
+    "model_definition": {
+      "id": "af85b14d-523b-4732-9287-be721514a617"
+    },
+    "software_spec": {
+      "id": "2da185aa-eac3-59a5-bb8e-0e5b60458a15"
+    },
+    "type": "pytorch-onnx_rt24.1",
+    "training_id": "3b25afd1-0220-428b-829b-55276cbc8c9f",
+    "content_location": {
+      "type": "fs",
+      "location": {
+        "assets_path": "spaces/3b92fb5d-b85f-46ee-8dc6-1660c411d6f4/assets/experiment/3b25afd1-0220-428b-829b-55276cbc8c9f/assets",
+        "logs": "spaces/3b92fb5d-b85f-46ee-8dc6-1660c411d6f4/assets/experiment/3b25afd1-0220-428b-829b-55276cbc8c9f/logs",
+        "model": "spaces/3b92fb5d-b85f-46ee-8dc6-1660c411d6f4/assets/experiment/3b25afd1-0220-428b-829b-55276cbc8c9f/data/model",
+        "notebooks_path": "spaces/3b92fb5d-b85f-46ee-8dc6-1660c411d6f4/assets/experiment/3b25afd1-0220-428b-829b-55276cbc8c9f/notebooks",
+        "path": "spaces/3b92fb5d-b85f-46ee-8dc6-1660c411d6f4/assets/experiment",
+        "training": "spaces/3b92fb5d-b85f-46ee-8dc6-1660c411d6f4/assets/experiment/3b25afd1-0220-428b-829b-55276cbc8c9f",
+        "training_status": "spaces/3b92fb5d-b85f-46ee-8dc6-1660c411d6f4/assets/experiment/3b25afd1-0220-428b-829b-55276cbc8c9f/training-status.json"
+      },
+      "contents": [
+        {
+          "content_format": "native",
+          "location": "spaces/3b92fb5d-b85f-46ee-8dc6-1660c411d6f4/assets/experiment/3b25afd1-0220-428b-829b-55276cbc8c9f/data/model/3b25afd1-0220-428b-829b-55276cbc8c9f.zip",
+          "file_name": "3b25afd1-0220-428b-829b-55276cbc8c9f.zip"
+        }
+      ]
+    },
+    "content_import_state": "completed"
+  }
+}
+</pre>
 </div>
 </div>
 </div>
@@ -8303,16 +8544,66 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">list_models</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">list_models</span><span class="p">()</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[20]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>ID</th>
+<th>NAME</th>
+<th>CREATED</th>
+<th>TYPE</th>
+<th>SPEC_STATE</th>
+<th>SPEC_REPLACEMENT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>4ccf6a1e-eaf7-4515-a3b0-07096b341b65</td>
+<td>PyTorch Mnist Model</td>
+<td>2025-07-17T07:42:49Z</td>
+<td>pytorch-onnx_rt24.1</td>
+<td>supported</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 </div>
@@ -8356,13 +8647,13 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">deployment</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
     <span class="n">model_id</span><span class="p">,</span>
     <span class="n">meta_props</span><span class="o">=</span><span class="p">{</span>
-        <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"PyCharm Mnist deployment"</span><span class="p">,</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"PyTorch Mnist deployment"</span><span class="p">,</span>
         <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">ONLINE</span><span class="p">:</span> <span class="p">{},</span>
     <span class="p">},</span>
 <span class="p">)</span>
@@ -8383,23 +8674,22 @@ a.anchor-link {
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
 
-#######################################################################################
+######################################################################################
 
-Synchronous deployment creation for uid: '11ac2c0e-34b1-4c34-a60b-1c0c638f9832' started
+Synchronous deployment creation for id: '4ccf6a1e-eaf7-4515-a3b0-07096b341b65' started
 
-#######################################################################################
+######################################################################################
 
 
-initializingNote: online_url is deprecated and will be removed in a future release. Use serving_urls instead.
-
+initializing
 Note: online_url is deprecated and will be removed in a future release. Use serving_urls instead.
-
+.......
 ready
 
 
-------------------------------------------------------------------------------------------------
-Successfully finished deployment creation, deployment_uid='4f09e2de-6330-486d-b774-b2fe78ea9432'
-------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------
+Successfully finished deployment creation, deployment_id='649c19d2-b174-4932-b662-ce8eb83999ac'
+-----------------------------------------------------------------------------------------------
 
 
 </pre>
@@ -8460,7 +8750,7 @@ Successfully finished deployment creation, deployment_uid='4f09e2de-6330-486d-b7
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">wget</span>
@@ -8468,9 +8758,7 @@ Successfully finished deployment creation, deployment_uid='4f09e2de-6330-486d-b7
 <span class="n">dataset_filename</span> <span class="o">=</span> <span class="s2">"mnist.npz"</span>
 
 <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">dataset_filename</span><span class="p">):</span>
-    <span class="n">dataset_filename</span> <span class="o">=</span> <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span>
-        <span class="s2">"https://github.com/IBM/watsonx-ai-samples/raw/master/cpd5.2/data/mnist/mnist.npz"</span>
-    <span class="p">)</span>
+    <span class="n">dataset_filename</span> <span class="o">=</span> <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s2">"https://s3.amazonaws.com/img-datasets/mnist.npz"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8481,12 +8769,11 @@ Successfully finished deployment creation, deployment_uid='4f09e2de-6330-486d-b7
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="n">dataset_filename</span> <span class="o">=</span> <span class="s2">"mnist.npz"</span>
 <span class="n">mnist_dataset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">dataset_filename</span><span class="p">)</span>
 <span class="n">x_test</span> <span class="o">=</span> <span class="n">mnist_dataset</span><span class="p">[</span><span class="s2">"x_test"</span><span class="p">]</span>
 </pre></div>
@@ -8499,7 +8786,7 @@ Successfully finished deployment creation, deployment_uid='4f09e2de-6330-486d-b7
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [55]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">image_1</span> <span class="o">=</span> <span class="p">[</span><span class="n">x_test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
@@ -8514,7 +8801,7 @@ Successfully finished deployment creation, deployment_uid='4f09e2de-6330-486d-b7
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [56]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
@@ -8529,7 +8816,7 @@ Successfully finished deployment creation, deployment_uid='4f09e2de-6330-486d-b7
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [27]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">image</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="n">x_test</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x_test</span><span class="p">[</span><span class="mi">1</span><span class="p">]]):</span>
@@ -8548,7 +8835,7 @@ Successfully finished deployment creation, deployment_uid='4f09e2de-6330-486d-b7
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedImage jp-OutputArea-output" tabindex="0">
-<img alt="No description has been provided for this image" class="jp-needs-light-background" src="data:image/png;base64,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"/>
+<img alt="No description has been provided for this image" class="" src="data:image/png;base64,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"/>
 </div>
 </div>
 </div>
@@ -8569,7 +8856,7 @@ Successfully finished deployment creation, deployment_uid='4f09e2de-6330-486d-b7
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [28]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">scoring_payload</span> <span class="o">=</span> <span class="p">{</span>
@@ -8595,28 +8882,28 @@ Successfully finished deployment creation, deployment_uid='4f09e2de-6330-486d-b7
     {
       "values": [
         [
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
+          2.9382650407717056e-39,
+          2.9382650407717056e-39,
+          2.9382650407717056e-39,
+          2.9382650407717056e-39,
+          2.9382650407717056e-39,
+          2.9382650407717056e-39,
+          2.9382650407717056e-39,
           1.0,
-          0.0,
-          0.0
+          2.9382650407717056e-39,
+          2.9382650407717056e-39
         ],
         [
-          0.0,
-          0.0,
+          2.9382650407717056e-39,
+          2.9382650407717056e-39,
           1.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0
+          2.9382650407717056e-39,
+          2.9382650407717056e-39,
+          2.9382650407717056e-39,
+          2.9382650407717056e-39,
+          2.9382650407717056e-39,
+          2.9382650407717056e-39,
+          2.9382650407717056e-39
         ]
       ]
     }
@@ -8638,16 +8925,68 @@ Successfully finished deployment creation, deployment_uid='4f09e2de-6330-486d-b7
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [29]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[29]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>ID</th>
+<th>NAME</th>
+<th>STATE</th>
+<th>CREATED</th>
+<th>ARTIFACT_TYPE</th>
+<th>SPEC_STATE</th>
+<th>SPEC_REPLACEMENT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>649c19d2-b174-4932-b662-ce8eb83999ac</td>
+<td>PyTorch Mnist deployment</td>
+<td>ready</td>
+<td>2025-07-17T07:43:04.518Z</td>
+<td>model</td>
+<td>supported</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 </div>
