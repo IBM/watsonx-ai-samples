@@ -7593,8 +7593,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Successfully installed ibm-watsonx-ai-1.3.3
-Note: you may need to restart the kernel to use updated packages.
+<pre>Successfully installed anyio-4.10.0 cachetools-6.2.0 certifi-2025.8.3 charset_normalizer-3.4.3 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 idna-3.10 jmespath-1.0.1 lomond-0.3.3 numpy-2.3.2 pandas-2.2.3 pytz-2025.2 requests-2.32.5 sniffio-1.3.1 tabulate-0.9.0 tzdata-2025.2 urllib3-2.5.0
 </pre>
 </div>
 </div>
@@ -7733,35 +7732,46 @@ Note: you may need to restart the kernel to use updated packages.
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>+-------------------+----------------------------------------+------------------------------+
-| PARAMETER         | TYPE                                   | EXAMPLE VALUE                |
-+===================+========================================+==============================+
-| frequency_penalty | float, NoneType                        | 0.5                          |
-+-------------------+----------------------------------------+------------------------------+
-| logprobs          | bool, NoneType                         | True                         |
-+-------------------+----------------------------------------+------------------------------+
-| top_logprobs      | int, NoneType                          | 3                            |
-+-------------------+----------------------------------------+------------------------------+
-| presence_penalty  | float, NoneType                        | 0.3                          |
-+-------------------+----------------------------------------+------------------------------+
-| response_format   | dict, TextChatResponseFormat, NoneType | {'type': 'json_object'}      |
-+-------------------+----------------------------------------+------------------------------+
-| temperature       | float, NoneType                        | 0.7                          |
-+-------------------+----------------------------------------+------------------------------+
-| max_tokens        | int, NoneType                          | 100                          |
-+-------------------+----------------------------------------+------------------------------+
-| time_limit        | int, NoneType                          | 600000                       |
-+-------------------+----------------------------------------+------------------------------+
-| top_p             | float, NoneType                        | 0.9                          |
-+-------------------+----------------------------------------+------------------------------+
-| n                 | int, NoneType                          | 1                            |
-+-------------------+----------------------------------------+------------------------------+
-| logit_bias        | dict, NoneType                         | {'1003': -100, '1004': -100} |
-+-------------------+----------------------------------------+------------------------------+
-| seed              | int, NoneType                          | 41                           |
-+-------------------+----------------------------------------+------------------------------+
-| stop              | list, NoneType                         | ['this', 'the']              |
-+-------------------+----------------------------------------+------------------------------+
+<pre>+-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| PARAMETER             | TYPE                                   | EXAMPLE VALUE                                                                                                                                                                                                                                                                   |
++=======================+========================================+=================================================================================================================================================================================================================================================================================+
+| frequency_penalty     | float, NoneType                        | 0.5                                                                                                                                                                                                                                                                             |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| logprobs              | bool, NoneType                         | True                                                                                                                                                                                                                                                                            |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| top_logprobs          | int, NoneType                          | 3                                                                                                                                                                                                                                                                               |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| presence_penalty      | float, NoneType                        | 0.3                                                                                                                                                                                                                                                                             |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| response_format       | dict, TextChatResponseFormat, NoneType | {'type': 'json_schema', 'json_schema': {'name': 'Sample JSON schema', 'schema': {'title': 'SimpleUser', 'type': 'object', 'properties': {'username': {'type': 'string'}, 'email': {'type': 'string', 'format': 'email'}}, 'required': ['username', 'email']}, 'strict': False}} |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| temperature           | float, NoneType                        | 0.7                                                                                                                                                                                                                                                                             |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| max_tokens            | int, NoneType                          | 100                                                                                                                                                                                                                                                                             |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| max_completion_tokens | int, NoneType                          | 512                                                                                                                                                                                                                                                                             |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| time_limit            | int, NoneType                          | 600000                                                                                                                                                                                                                                                                          |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| top_p                 | float, NoneType                        | 0.9                                                                                                                                                                                                                                                                             |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| n                     | int, NoneType                          | 1                                                                                                                                                                                                                                                                               |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| logit_bias            | dict, NoneType                         | {'1003': -100, '1004': -100}                                                                                                                                                                                                                                                    |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| seed                  | int, NoneType                          | 41                                                                                                                                                                                                                                                                              |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| stop                  | list, NoneType                         | ['this', 'the']                                                                                                                                                                                                                                                                 |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| guided_choice         | list, NoneType                         | ['red', 'blue']                                                                                                                                                                                                                                                                 |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| guided_regex          | str, NoneType                          | \w+@\w+\.xai                                                                                                                                                                                                                                                                    |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| guided_grammar        | str, NoneType                          | root ::= rating " stars"                                                                                                                                                                                                                                                        |
+|                       |                                        | rating ::= [1-5]                                                                                                                                                                                                                                                                |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| guided_json           | dict, NoneType                         | {'type': 'object', 'properties': {'sentiment': {'type': 'string'}}}                                                                                                                                                                                                             |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 </pre>
 </div>
 </div>
@@ -7775,7 +7785,10 @@ Note: you may need to restart the kernel to use updated packages.
 <div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextChatResponseFormat</span><span class="p">,</span> <span class="n">TextChatResponseFormatType</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.schema</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TextChatResponseFormat</span><span class="p">,</span>
+    <span class="n">TextChatResponseFormatType</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="n">TextChatResponseFormat</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -7790,11 +7803,13 @@ Note: you may need to restart the kernel to use updated packages.
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>+-------------+-------------------------------------------+-----------------+
-| PARAMETER   | TYPE                                      | EXAMPLE VALUE   |
-+=============+===========================================+=================+
-| type        | str, TextChatResponseFormatType, NoneType | json_object     |
-+-------------+-------------------------------------------+-----------------+
+<pre>+-------------+--------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| PARAMETER   | TYPE                                       | EXAMPLE VALUE                                                                                                                                                                                                                           |
++=============+============================================+=========================================================================================================================================================================================================================================+
+| type        | str, TextChatResponseFormatType            | json_schema                                                                                                                                                                                                                             |
++-------------+--------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| json_schema | dict, TextChatResponseJsonSchema, NoneType | {'name': 'Sample JSON schema', 'schema': {'title': 'SimpleUser', 'type': 'object', 'properties': {'username': {'type': 'string'}, 'email': {'type': 'string', 'format': 'email'}}, 'required': ['username', 'email']}, 'strict': False} |
++-------------+--------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 </pre>
 </div>
 </div>
@@ -7837,14 +7852,11 @@ Note: you may need to restart the kernel to use updated packages.
 <span class="n">params</span> <span class="o">=</span> <span class="n">TextChatParameters</span><span class="p">(</span>
     <span class="n">response_format</span><span class="o">=</span><span class="n">TextChatResponseFormat</span><span class="p">(</span><span class="n">TextChatResponseFormatType</span><span class="o">.</span><span class="n">JSON_OBJECT</span><span class="p">),</span>
     <span class="n">max_tokens</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span>
-    <span class="n">temperature</span><span class="o">=</span><span class="mi">1</span>
+    <span class="n">temperature</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">ModelInference</span><span class="p">(</span>
-    <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span>
-    <span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span>
-    <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">,</span>
-    <span class="n">params</span><span class="o">=</span><span class="n">params</span>
+    <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -7871,14 +7883,8 @@ Note: you may need to restart the kernel to use updated packages.
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">{</span>
-        <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"system"</span><span class="p">,</span>
-        <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Respond in a JSON format"</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span>
-        <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Describe methods of calculating pi"</span>
-    <span class="p">},</span>
+    <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"system"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Respond in a JSON format"</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Describe methods of calculating pi"</span><span class="p">},</span>
 <span class="p">]</span>
 
 <span class="n">chat_response</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">chat</span><span class="p">(</span><span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
@@ -7923,30 +7929,30 @@ Note: you may need to restart the kernel to use updated packages.
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>{
-  "Methods": [
+  "methods": [
     {
-      "name": "Gregory-Leibniz Series",
-      "description": "This is an infinite series: Pi = 4 * (1 - 1/3 + 1/5 - 1/7 + 1/9 - 1/11 ... ). It converges very slowly, so many terms must be calculated for an accurate result."
+      "method": "Gregory-Leibniz Series",
+      "description": "This is an infinite series which alternately adds and subtracts successive terms of a harmonic sequence. It converges very slowly, so it's not practical for calculating many digits of pi. The formula is pi = 4 * (1 - 1/3 + 1/5 - 1/7 + 1/9 - ...)"
     },
     {
-      "name": "Nilakantha Series",
-      "description": "This infinite series is: Pi = 3 + 4/(2*3*4) - 4/(4*5*6) + 4/(6*7*8) - 4/(8*9*10) ... . It converges faster than the Gregory-Leibniz Series."
+      "method": "Nilakantha Series",
+      "description": "Also known as the Nilakantha infinite series or the Mountains and valleys series, this method converges much faster than the Gregory-Leibniz series. The formula is pi = 3 + 4/(2*3*4) - 4/(4*5*6) + 4/(6*7*8) - 4/(8*9*10) ..."
     },
     {
-      "name": "Machin-like Formulas",
-      "description": "These include formulas like Pi = 16 * arctan(1/5) - 4 * arctan(1/239). Each arctan can be calculated using a Taylor series."
+      "method": "Machin-like formulae",
+      "description": "These formulae were discovered by John Machin and improved by others. They are—pi/4 = 4*arctan(1/5) - arctan(1/239) (the convergence here is particularly fast due to the arctan(1/239) term)."
     },
     {
-      "name": "Gauss–Legendre Algorithm",
-      "description": "This algorithm uses the arithmetic-geometric mean to calculate Pi. It converges extremely fast, with about 10 correct digits of Pi per iteration."
+      "method": "Gauss-Legendre Algorithm",
+      "description": "This is an algorithm for computing π to a high precision. It's used in most modern computers for their π calculations."
     },
     {
-      "name": "Ramanujan’s Series",
-      "description": "A formula discovered by Srinivasa Ramanujan: Pi^(95)/N = secpant90^3 - 18*secpant90 - 18 with secpant90 = 4*arctan(1/5.7) - arctan(1/239). Though complex, it converges quite rapidly."
+      "method": "Ramanujan series",
+      "description": "An infinite series for π, given by Ramanujan: pi = 9801/(2 * sqrt(2) + 1) / (4096 * (n^4 * (8n^2 + 4) - (18n^4 + 8n^3 - 6n^2 - 4n + 1)))"
     },
     {
-      "name": "Monte Carlo Methods",
-      "description": "This method uses random sampling to approximate Pi. It involves calculating the ratio of the area of a quarter circle to the square in which it's inscribed."
+      "method": "Chudnovsky algorithm",
+      "description": "This algorithm is one of the most efficient for calculating π. It is based on Ramanujan's ?, and was used in the world record calculation of π with over 22 trillion digits."
     }
   ]
 }
@@ -7983,14 +7989,14 @@ Note: you may need to restart the kernel to use updated packages.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="n">TextChatParameters</span><span class="p">(</span>
     <span class="n">response_format</span><span class="o">=</span><span class="p">{</span>
         <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"json_schema"</span><span class="p">,</span>
         <span class="s2">"json_schema"</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Pi calculation methods"</span><span class="p">,</span>
+            <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Cake recipes"</span><span class="p">,</span>
             <span class="s2">"schema"</span><span class="p">:</span> <span class="p">{</span>
                 <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"array"</span><span class="p">,</span>
                 <span class="s2">"items"</span><span class="p">:</span> <span class="p">{</span>
@@ -8007,20 +8013,17 @@ Note: you may need to restart the kernel to use updated packages.
                         <span class="p">},</span>
                         <span class="s2">"expected_price"</span><span class="p">:</span> <span class="p">{</span>
                             <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"number"</span><span class="p">,</span>
-                        <span class="p">}</span>
-                    <span class="p">}</span>
+                        <span class="p">},</span>
+                    <span class="p">},</span>
                 <span class="p">},</span>
-            <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="s2">"strict"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
         <span class="p">},</span>
-        <span class="s2">"additionalProperties"</span><span class="p">:</span> <span class="kc">True</span>
     <span class="p">}</span>
 <span class="p">)</span>
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">ModelInference</span><span class="p">(</span>
-    <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span>
-    <span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span>
-    <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">,</span>
-    <span class="n">params</span><span class="o">=</span><span class="n">params</span>
+    <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -8047,13 +8050,10 @@ Note: you may need to restart the kernel to use updated packages.
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">{</span>
-        <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"system"</span><span class="p">,</span>
-        <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Respond in a JSON format."</span>
-    <span class="p">},</span>
+    <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"system"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Respond in a JSON format."</span><span class="p">},</span>
     <span class="p">{</span>
         <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span>
-        <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Provide a list of cake recipes. Briefly describe what the cake tastes like. Give each a difficulty score between 1-10. Also add an expected price of the cake with accuracy of 2 decimal places."</span>
+        <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Provide a list of cake recipes. Briefly describe what the cake tastes like. Give each a difficulty score between 1-10. Also add an expected price of the cake with accuracy of 2 decimal places."</span><span class="p">,</span>
     <span class="p">},</span>
 <span class="p">]</span>
 
@@ -8098,40 +8098,46 @@ Note: you may need to restart the kernel to use updated packages.
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>[
   {
-    "cake_name": "Classic Vanilla Cake",
-    "description": "Light, airy, and naturally sweet vanilla flavor. A go-to recipe for any occasion.",
-    "difficulty_score": 4,
-    "expected_price": 22.5
-  },
-  {
-    "cake_name": "Red Velvet Cake",
-    "description": "Rich and decadent chocolate-flavored cake with a hint of cocoa and a cream cheese frosting, giving it a tangy flavor.",
-    "difficulty_score": 6,
-    "expected_price": 30.0
+    "cake_name": "Vanilla Cake",
+    "description": "Light, fluffy, and naturally sweet with a subtle vanilla flavor.",
+    "difficulty_score": 3,
+    "expected_price": 25.99
   },
   {
     "cake_name": "Chocolate Fudge Cake",
-    "description": "Rich, moist, and extremely chocolatey with a fudgy texture, often paired with a creamy chocolate ganache.",
+    "description": "Rich, decadent, and deeply chocolatey with a creamy fudge center.",
+    "difficulty_score": 5,
+    "expected_price": 32.5
+  },
+  {
+    "cake_name": "Red Velvet Cake",
+    "description": "Slightly tangy and sweet with a distinctive red color and cream cheese frosting.",
     "difficulty_score": 6,
-    "expected_price": 28.75
+    "expected_price": 35.0
   },
   {
     "cake_name": "Lemon Drizzle Cake",
-    "description": "A zesty, citrusy, and refreshing cake with a slight tartness from lemon, drizzled with a sugary lemon glaze.",
-    "difficulty_score": 5,
-    "expected_price": 25.0
+    "description": "Zesty and tangy from the lemon, balanced with a light, moist sponge.",
+    "difficulty_score": 4,
+    "expected_price": 28.75
+  },
+  {
+    "cake_name": "Marble Cake",
+    "description": "A visually attractive cake with a swirl of choclate batter within vanilla.",
+    "difficulty_score": 4,
+    "expected_price": 30.0
   },
   {
     "cake_name": "Carrot Cake",
-    "description": "Moist and sweet with a hint of spice from cinnamon, crunch from walnuts, and a creamy cream cheese frosting.",
+    "description": "Moist cake made with grated carrots, spiced, and typically topped with cream cheese frosting.",
     "difficulty_score": 6,
-    "expected_price": 35.5
+    "expected_price": 38.5
   },
   {
-    "cake_name": "Victoria Sponge",
-    "description": "A classic British cake consisting of soft, light sponge filled and topped with fresh strawberry jam and whipped cream.",
-    "difficulty_score": 3,
-    "expected_price": 20.0
+    "cake_name": "Cheesecake",
+    "description": "Creamy, rich, and tangy with a biscuit or oreo crumb base.",
+    "difficulty_score": 7,
+    "expected_price": 42.0
   }
 ]
 </pre>

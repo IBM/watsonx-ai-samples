@@ -7533,7 +7533,7 @@ a.anchor-link {
 <li>Use only Projects and Spaces that are available in watsonx context.</li>
 </ul>
 <h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook provides a detailed demonstration of the steps and code required to showcase support for control roles available in IBM Granite models.</p>
-<p>Some familiarity with Python is helpful. This notebook uses Python 3.12.</p>
+<p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
 <h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The purpose of this notebook is to demonstrate how to use control roles available in IBM Granite models.</p>
 <h2 id="Table-of-Contents">Table of Contents<a class="anchor-link" href="#Table-of-Contents">¶</a></h2><p>This notebook contains the following parts:</p>
 <ul>
@@ -7592,7 +7592,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Successfully installed anyio-4.9.0 certifi-2025.4.26 charset-normalizer-3.4.2 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.1 ibm-cos-sdk-core-2.14.1 ibm-cos-sdk-s3transfer-2.14.1 ibm-watsonx-ai-1.3.13 idna-3.10 jmespath-1.0.1 lomond-0.3.3 numpy-2.2.5 pandas-2.2.3 pytz-2025.2 requests-2.32.2 sniffio-1.3.1 tabulate-0.9.0 typing_extensions-4.13.2 tzdata-2025.2 urllib3-2.4.0
+<pre>Successfully installed anyio-4.10.0 cachetools-6.2.0 certifi-2025.8.3 charset_normalizer-3.4.3 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 idna-3.10 jmespath-1.0.1 lomond-0.3.3 numpy-2.3.2 pandas-2.2.3 pytz-2025.2 requests-2.32.5 sniffio-1.3.1 tabulate-0.9.0 tzdata-2025.2 urllib3-2.5.0
 </pre>
 </div>
 </div>
@@ -7731,35 +7731,46 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>+-------------------+----------------------------------------+------------------------------+
-| PARAMETER         | TYPE                                   | EXAMPLE VALUE                |
-+===================+========================================+==============================+
-| frequency_penalty | float, NoneType                        | 0.5                          |
-+-------------------+----------------------------------------+------------------------------+
-| logprobs          | bool, NoneType                         | True                         |
-+-------------------+----------------------------------------+------------------------------+
-| top_logprobs      | int, NoneType                          | 3                            |
-+-------------------+----------------------------------------+------------------------------+
-| presence_penalty  | float, NoneType                        | 0.3                          |
-+-------------------+----------------------------------------+------------------------------+
-| response_format   | dict, TextChatResponseFormat, NoneType | {'type': 'json_object'}      |
-+-------------------+----------------------------------------+------------------------------+
-| temperature       | float, NoneType                        | 0.7                          |
-+-------------------+----------------------------------------+------------------------------+
-| max_tokens        | int, NoneType                          | 100                          |
-+-------------------+----------------------------------------+------------------------------+
-| time_limit        | int, NoneType                          | 600000                       |
-+-------------------+----------------------------------------+------------------------------+
-| top_p             | float, NoneType                        | 0.9                          |
-+-------------------+----------------------------------------+------------------------------+
-| n                 | int, NoneType                          | 1                            |
-+-------------------+----------------------------------------+------------------------------+
-| logit_bias        | dict, NoneType                         | {'1003': -100, '1004': -100} |
-+-------------------+----------------------------------------+------------------------------+
-| seed              | int, NoneType                          | 41                           |
-+-------------------+----------------------------------------+------------------------------+
-| stop              | list, NoneType                         | ['this', 'the']              |
-+-------------------+----------------------------------------+------------------------------+
+<pre>+-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| PARAMETER             | TYPE                                   | EXAMPLE VALUE                                                                                                                                                                                                                                                                   |
++=======================+========================================+=================================================================================================================================================================================================================================================================================+
+| frequency_penalty     | float, NoneType                        | 0.5                                                                                                                                                                                                                                                                             |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| logprobs              | bool, NoneType                         | True                                                                                                                                                                                                                                                                            |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| top_logprobs          | int, NoneType                          | 3                                                                                                                                                                                                                                                                               |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| presence_penalty      | float, NoneType                        | 0.3                                                                                                                                                                                                                                                                             |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| response_format       | dict, TextChatResponseFormat, NoneType | {'type': 'json_schema', 'json_schema': {'name': 'Sample JSON schema', 'schema': {'title': 'SimpleUser', 'type': 'object', 'properties': {'username': {'type': 'string'}, 'email': {'type': 'string', 'format': 'email'}}, 'required': ['username', 'email']}, 'strict': False}} |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| temperature           | float, NoneType                        | 0.7                                                                                                                                                                                                                                                                             |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| max_tokens            | int, NoneType                          | 100                                                                                                                                                                                                                                                                             |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| max_completion_tokens | int, NoneType                          | 512                                                                                                                                                                                                                                                                             |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| time_limit            | int, NoneType                          | 600000                                                                                                                                                                                                                                                                          |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| top_p                 | float, NoneType                        | 0.9                                                                                                                                                                                                                                                                             |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| n                     | int, NoneType                          | 1                                                                                                                                                                                                                                                                               |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| logit_bias            | dict, NoneType                         | {'1003': -100, '1004': -100}                                                                                                                                                                                                                                                    |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| seed                  | int, NoneType                          | 41                                                                                                                                                                                                                                                                              |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| stop                  | list, NoneType                         | ['this', 'the']                                                                                                                                                                                                                                                                 |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| guided_choice         | list, NoneType                         | ['red', 'blue']                                                                                                                                                                                                                                                                 |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| guided_regex          | str, NoneType                          | \w+@\w+\.xai                                                                                                                                                                                                                                                                    |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| guided_grammar        | str, NoneType                          | root ::= rating " stars"                                                                                                                                                                                                                                                        |
+|                       |                                        | rating ::= [1-5]                                                                                                                                                                                                                                                                |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| guided_json           | dict, NoneType                         | {'type': 'object', 'properties': {'sentiment': {'type': 'string'}}}                                                                                                                                                                                                             |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 </pre>
 </div>
 </div>
@@ -7880,7 +7891,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Scuderia Ferrari, an Italian Formula One racing team, collaborates with IBM for technology and data analytics in Formula 1.</pre>
+<pre>Scuderia Ferrari, an Italian Formula One racing team, collaborates with IBM for various technological advancements in the sport. This partnership, known as "The Race to Innovate," focuses on harnessing data and AI to enhance performance and strategy during races.</pre>
 </div>
 </div>
 </div>
@@ -7944,21 +7955,21 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>&lt;think&gt;Crafting a joke that aligns with the user's request involves considering elements such as surprise, humor, and appropriateness. Here's a classic light-hearted math joke:
+<pre>&lt;think&gt;Jokes are subjective, and what makes one person laugh might not amuse another. Here's a classic, clean joke that's widely appreciated:
 
-Why was the equal sign so humble?
+Why don't scientists trust atoms?
 
-Because it knew it wasn't less than or greater than anyone else!
+Because they make up everything!
 
-This joke relies on a play on words with mathematical symbols and portrays a personification, creating a humorous anthropomorphism of an equal sign.&lt;/think&gt;&lt;response&gt;### Joke:
+This joke plays on the double meaning of "make up": atoms physically compose all matter, and also, they are not reliable or truthful in the sense of being deceitful or untrustworthy. It's a pun that touches on scientific themes, which could be fitting given the AI context.&lt;/think&gt;&lt;response&gt;### Joke:
 
-Why was the equal sign so humble?
+Why don't scientists trust atoms?
 
-Because it knew it wasn't less than or greater than anyone else!
+**Because they make up everything!**
 
-### Explanation:
+This joke works by exploiting the dual meaning of "make up" – atoms literally form the basis of all physical matter, and figuratively, they could be seen as being unreliable narrators since they're the building blocks of potentially false stories (or at least, not inherently informative about the bigger picture). 
 
-The humor in this joke comes from the personification of the equal sign (=), attributing human traits (humility) to a mathematical symbol. By stating that the equal sign is "humble" because it understands it's neither less than (&lt;) nor greater than (&gt;) anything else, the joke cleverly utilizes mathematical operators, playing with their usual roles in equations.&lt;/response&gt;</pre>
+I hope this brings a smile to your face! &lt;/response&gt;</pre>
 </div>
 </div>
 </div>
@@ -8033,7 +8044,7 @@ The humor in this joke comes from the personification of the equal sign (=), att
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Torque is a measure of the force that can cause an object to rotate about an axis. It's calculated as the product of the force and the distance from the axis (torque = force × distance). The unit of torque is the Newton-meter (Nm).</pre>
+<pre>Torque, also known as the moment of force, is the rotational equivalent of linear force, describing the force that causes rotation around an axis. It's calculated as the product of the force applied and the lever arm (perpendicular distance from the axis to the line of force), or torque = force × distance from pivot. torque is crucial in mechanics, engineering, and physics for analyzing rotational motion.</pre>
 </div>
 </div>
 </div>
@@ -8097,27 +8108,45 @@ The humor in this joke comes from the personification of the equal sign (=), att
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Torque, also known as the moment of force, is a fundamental concept in physics and engineering, particularly in the study of rotational motion. It describes the rotational effect of a force applied to an object at a distance from its axis of rotation.
+<pre>Torque, often symbolized by the Greek letter tau (τ), is a fundamental concept in physics, specifically in the field of rotational mechanics. It's the rotational equivalent of linear force in translational (straight-line) motion. Just as linear force causes an object to accelerate in the direction of the force, torque causes an object to rotate around an axis.
 
-In simple terms, torque (τ) is a measure of how much a force acting on an object causes that object to rotate. It depends on two main factors: the magnitude of the force (F) and the distance (r) from the axis of rotation to the point where the force is applied, often called the lever arm. Mathematically, torque is given by the cross product of the force and the position vector (distance) from the axis: 
+### Definition:
+Torque is defined as the twisting force that causes rotation about an axis. It depends on three things:
 
-τ = r × F 
+1. **Magnitude of the force (F)**: The greater the force applied, the greater the torque, assuming all other factors remain constant.
+2. **Perpendicular distance (r) from the force's line of action to the axis of rotation**: To maximize torque, a force should be applied as far as possible from the point of rotation (this is often referred to as the moment arm).
+3. **Angle (θ) between the force vector and the moment arm**: The optimal torque is generated when the force is perpendicular to the radius (θ = 90 degrees).
 
-The unit of torque in the International System of Units (SI) is the Newton-meter (Nm).
+Mathematically, torque (τ) is given by:
 
-Here are some key points to understand torque better:
+\[ \tau = r \times F \times \sin(\theta) \]
 
-1. **Direction:** Torque is a vector quantity, meaning it has both a magnitude and a direction. The direction of torque is perpendicular to the plane containing the force and the distance vector, following the right-hand rule.
+where:
+- \( r \) is the distance from the axis of rotation to the point where the force is applied,
+- \( F \) is the magnitude of the force,
+- \( \theta \) is the angle between the force vector and the moment arm.
 
-2. **Effect on Rotation:** Torque causes angular acceleration (α). This relationship is given by Newton's second law for rotational motion, τ = Iα, where I is the moment of inertia of the object, which depends on its mass distribution and the axis of rotation.
+### Units:
+The SI unit for torque is the newton-meter (Nm). Other units include pound-feet (lb-ft) and dyne-centimeters (dyn cm).
 
-3. **Holding vs. Turning:** A larger torque means more rotational force, which can result in greater angular acceleration or the ability to hold an object stationary against a turning moment. For example, a wrench with a longer handle provides greater torque than a shorter one, because the distance (r) from the pivot point (where your hand grips the wrench) to the point where you apply the force (on the bolt head) is increased.
+### Importance and Applications:
+1. **Mechanical Engineering**: Torque is crucial in designing gears, levers, wheels, and engines where rotational motion is involved. For instance, understanding torque helps in sizing motors, determining gear ratios, and analyzing the performance of machinery.
 
-4. **Inertia:** The moment of inertia (I) accounts for an object's resistance against rotational acceleration, similar to how mass relates to an object's resistance against linear acceleration (F = ma).
+2. **Vehicle Engineering**: In automotive engineering, torque specifies the rotational force an engine produces, helping consumers and engineers evaluate a vehicle's acceleration potential.
 
-In practical applications, understanding torque is crucial in fields such as mechanical engineering, robotics, and vehicle design, ensuring proper gear ratios, motor selection, and power transmission in machinery and vehicles.
+3. **Robotics**: Robotic arms and manipulators rely on torque to manipulate objects, ensuring they can exert the necessary rotational force at joints to complete tasks.
 
-In summary, torque quantifies the rotational effect of a force applied at a distance from an axis of rotation, playing a fundamental role in analyzing rotational motion and designing systems involving turning forces.</pre>
+4. **Everyday Life**: Simple actions like opening a jar, turning a key in a lock, or pedaling a bicycle involve torque. Understanding torque can help improve one's mechanical efficiency in these tasks.
+
+5. **Structural Engineering**: Torque considerations are essential in designing structures and components that experience twisting forces, like the rotors in wind turbines.
+
+### Key Points to Remember:
+- Torque causes rotation, similar to how force causes linear acceleration.
+- Torque depends on force magnitude, the perpendicular distance from the force to the axis of rotation, and the angle between the force and the moment arm.
+- Maximum torque results from applying force perpendicular to the lever (θ = 90°).
+- Torque is essential in various fields, from automotive design to complex machine operations and robotics, influencing efficiency and effective usage of mechanical systems. 
+
+Understanding torque is fundamental for grasping the dynamics of rotational motion in many physical and engineering contexts.</pre>
 </div>
 </div>
 </div>
@@ -8192,27 +8221,18 @@ In summary, torque quantifies the rotational effect of a force applied at a dist
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Granites are felsic igneous rocks, which means they are primarily composed of silicate minerals containing a significant amount of quartz, feldspar, and mica. Here's a typical mineral composition of granites:
+<pre>Granites are igneous rocks composed primarily of quartz, feldspar, and mica minerals. The mineral composition can vary, but common minerals found in granites include:
 
-1. **Quartz (SiO2)**: 20-40% - If present in more than 30%, the rock is considered quartzofeldspathic granite.
+1. Quartz (SiO2): usually 20-25%
+2. Alkali feldspar (NaAlSi3O8 or KAlSi3O8): typically 15-25%
+3. Plagioclase feldspar (NaAlSi3O8-CaAl2Si2O8): constituting 35-55%
+4. Biotite (K(Mg,Fe)3AlSi3O10(OH)2): generally 3-9%
+5. Muscovite (KAl2(AlSi3O10)(OH)2): 1-6%
+6. Amphibole (such as hornblende): occasionally present
+7. Garnet (rarely, as an accessory mineral)
+8. Zircon (ZrSiO4): often found as a trace mineral
 
-2. **Feldspars (K-feldspar (KAlSi3O8) and plagioclase feldspar (NaAlSi3O8 - CaAl2Si2O8)):** 
-   - K-feldspar: 10-25%
-   - Plagioclase feldspar: 10-20%
-   - The feldspars provide the primary source of potassium, sodium, and aluminium in granites.
-
-3. **Micas (Biotite and muscovite)**: 5-15% - Biotite is usually dark, while muscovite is lighter-colored. Micas contribute to granite's platy texture and add iron, magnesium, and aluminum.
-
-4. **Amphiboles (Hornblende)**: 0-10% - Some granites contain hornblende amphiboles, which can be greenish or dark-colored. This mineral adds iron, magnesium, and sodium.
-
-5. **Other minerals**: Small amounts of garnet, zircon, sphene, and apatite may be present, contributing trace elements like yttrium, zirconium, and rare earth elements (REEs). These minerals are important for understanding the history and geochemistry of granites.
-
-Granites can vary significantly in mineral composition, leading to different granitic rock types, such as:
-- Adamellite (rich in plagioclase feldspar)
-- Tonalite (higher in biotite)
-- Granodiorite (contains more biotite and plagioclase feldspar than typical granite)
-
-The variation in mineral composition arises due to differences in composition of the original magma, temperature, pressure, and time of crystallization.</pre>
+These percentages can change depending on the specific granite type and its locale. Granites can also contain other accessory minerals, such as pyroxene, ilmenite, magnetite, and apatite, in small quantities. Given the wide variation, each granite's mineral composition is relatively unique, contributing to the diversity seen in granite outcrops worldwide.</pre>
 </div>
 </div>
 </div>
@@ -8276,17 +8296,26 @@ The variation in mineral composition arises due to differences in composition of
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Granite is a common type of intrusive igneous rock, characterized by its coarse-grained texture, and a mineral composition predominantly consisting of quartz, feldspar, and mica. Here's a more detailed breakdown of the typical mineral components:
+<pre>Granite is an igneous rock composed mainly of quartz, feldspar (both plagioclase and alkali feldspar), and mica (biotite and muscovite). It may also contain minor amounts of other minerals such as amphiboles, pyroxenes, and garnet. The predominant feldspar in granite can occur as alkali feldspar (rich in potassium and sodium) or plagioclase feldspar (rich in calcium and sodium). Granite's specific mineral composition varies based on its origin and cooling history, leading to diverse categories of granite. 
 
-1. Quartz: Quartz is a crucial component in granite, typically making up 20-30% of its composition. It's a hard, clear, or translucent mineral, which provides resistance to weathering.
+Here’s a general breakdown of its common mineral constituents (approximate amounts):
 
-2. Feldspar: Feldspars are the second most abundant minerals in granite, making up around 40-60%. They include two main types of feldspar: plagioclase feldspar (calcium-rich and sodium-rich varieties) and potassium feldspar (orthoclase or microcline). Feldspars lend granite its distinct color, which can vary from pink and light red to white or gray, depending on the types and amounts of feldspars present.
+1. **Quartz**: 20-40% - Qartz is a hard, transparent to translucent mineral composed of silicon dioxide (SiO2). It often provides granite with its white, pink, or gray color.
 
-3. Mica: Micas are a group of minerals that include biotite (black or dark brown) and muscovite (light-colored or clear, often referred to as "book mica" due to its sheet-like structure). Micas make up around 5-15% of granite and contribute to its foliated appearance.
+2. **Feldspars**: 35-65% - 
+   - **Plagioclase Feldspar**: 20-50% (rich in calcium and/or sodium) - Plagioclase feldspar, specifically andesine and bytownite, gives granite a darker, often grayish or blackish, color. 
+   - **Alkali Feldspar (Orthoclase or Albite)**: 15-35% (rich in potassium and sodium) - This feldspar contributes to lighter colors in granite, sometimes including pink hues.
+   
+3. **Micas**: 5-25% - 
+   - **Biotite**: 2-10% - Biotite is a dark-colored mica (usually black or dark brown) that adds to the darker tones in granite.
+   - **Muscovite**: 1-15% - Light-colored muscovite mica can introduce white or silvery shades to granite.
 
-4. Other minerals: Granite may contain small amounts of other minerals such as amphiboles (hornblende or biotite), pyroxenes (augite), amphibolites, zircon, apatite, and magnetite. The presence and amounts of these minerals can give granite unique characteristics and coloration, as well as corresponding material properties.
+4. **Other minerals (minor, generally less than 10%)**:
+   - **Amphiboles**: Such as hornblende (dark green to black)
+   - **Pyroxenes**: Like augite (dark green to black) and olivine (greenish)
+   - **Garnets**: Usually deep red
 
-Granite comes in many varieties, like tonalities, named according to primary color variations (e.g., pink, red, gray, spotted). These variations result from different ratios and kinds of feldspars and micas present in the rock. Keep in mind that exact mineral compositions can vary significantly between individual granite samples.</pre>
+These percentages are approximate, as actual granite compositions can vary greatly. Additionally, granite can contain accessory minerals (e.g., zircon, tourmaline, apatite) in trace amounts, influencing its overall appearance and properties. Different varieties of granite, classified by their mineral compositions, exhibit a wide range of colors, from whites and pinks to grays, greens, and blacks.</pre>
 </div>
 </div>
 </div>
