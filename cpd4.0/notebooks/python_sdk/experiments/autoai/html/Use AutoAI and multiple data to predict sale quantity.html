@@ -7561,7 +7561,7 @@ a.anchor-link {
 <p><a id="setup"></a></p>
 <h2 id="1.-Set-up-the-environment">1. Set up the environment<a class="anchor-link" href="#1.-Set-up-the-environment">¶</a></h2><p>Before you use the sample code in this notebook, you must perform the following setup tasks:</p>
 <ul>
-<li>Contact with your Cloud Pack for Data administrator and ask him for your account credentials</li>
+<li>Contact with your IBM Cloud Pak® for Data administrator and ask him for your account credentials</li>
 </ul>
 </div>
 </div>
@@ -7573,7 +7573,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Connection-to-WML">Connection to WML<a class="anchor-link" href="#Connection-to-WML">¶</a></h3><p>Authenticate the Watson Machine Learning service on IBM Cloud Pack for Data. You need to provide platform <code>url</code>, your <code>username</code> and <code>api_key</code>.</p>
+<h3 id="Connection-to-WML">Connection to WML<a class="anchor-link" href="#Connection-to-WML">¶</a></h3><p>Authenticate the Watson Machine Learning service on IBM Cloud Pak® for Data. You need to provide platform <code>url</code>, your <code>username</code> and <code>api_key</code>.</p>
 </div>
 </div>
 </div>
@@ -7810,7 +7810,7 @@ a.anchor-link {
 
 <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span> <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">base_url</span> <span class="o">+</span> <span class="n">filename</span><span class="p">)</span>
-
+        
 <span class="n">assets_details</span> <span class="o">=</span> <span class="p">[</span><span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="n">filename</span><span class="p">)</span> <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -7863,7 +7863,7 @@ SUCCESS
 
 <span class="n">data_connections</span> <span class="o">=</span> <span class="p">[</span>
     <span class="n">DataConnection</span><span class="p">(</span><span class="n">data_join_node_name</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span>
-                   <span class="n">location</span><span class="o">=</span><span class="n">AssetLocation</span><span class="p">(</span><span class="n">asset_id</span><span class="o">=</span><span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">asset</span><span class="p">)))</span>
+                   <span class="n">location</span><span class="o">=</span><span class="n">AssetLocation</span><span class="p">(</span><span class="n">asset_id</span><span class="o">=</span><span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">asset</span><span class="p">)))</span> 
     <span class="k">for</span> <span class="n">filename</span><span class="p">,</span> <span class="n">asset</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">filenames</span><span class="p">,</span> <span class="n">assets_details</span><span class="p">)]</span>
 </pre></div>
 </div>
@@ -7896,10 +7896,10 @@ Next, edges between nodes with join columns names (<code>from_column</code>, <co
 
 <span class="n">data_join_graph</span> <span class="o">=</span> <span class="n">DataJoinGraph</span><span class="p">()</span>
 
-<span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+<span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span> 
     <span class="n">data_join_graph</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">filename</span><span class="p">)</span>
 
-<span class="n">data_join_graph</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="n">from_node</span><span class="o">=</span><span class="s2">"go_1k.csv"</span><span class="p">,</span> <span class="n">to_node</span><span class="o">=</span><span class="s2">"go_daily_sales.csv"</span><span class="p">,</span>
+<span class="n">data_join_graph</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="n">from_node</span><span class="o">=</span><span class="s2">"go_1k.csv"</span><span class="p">,</span> <span class="n">to_node</span><span class="o">=</span><span class="s2">"go_daily_sales.csv"</span><span class="p">,</span> 
                      <span class="n">from_column</span><span class="o">=</span><span class="p">[</span><span class="s2">"Retailer code"</span><span class="p">,</span> <span class="s2">"Product number"</span><span class="p">],</span> <span class="n">to_column</span><span class="o">=</span><span class="p">[</span><span class="s2">"Retailer code"</span><span class="p">,</span> <span class="s2">"Product number"</span><span class="p">])</span>
 <span class="n">data_join_graph</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="n">from_node</span><span class="o">=</span><span class="s2">"go_daily_sales.csv"</span><span class="p">,</span> <span class="n">to_node</span><span class="o">=</span><span class="s2">"go_methods.csv"</span><span class="p">,</span>
                      <span class="n">from_column</span><span class="o">=</span><span class="p">[</span><span class="s2">"Order method code"</span><span class="p">],</span> <span class="n">to_column</span><span class="o">=</span><span class="p">[</span><span class="s2">"Order method code"</span><span class="p">])</span>
@@ -9237,7 +9237,7 @@ operator.</p>
 
 <span class="n">service</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
     <span class="n">experiment_run_id</span><span class="o">=</span><span class="n">pipeline_optimizer</span><span class="o">.</span><span class="n">get_run_details</span><span class="p">()[</span><span class="s1">'metadata'</span><span class="p">][</span><span class="s1">'guid'</span><span class="p">],</span>
-    <span class="n">model</span><span class="o">=</span><span class="n">pipeline_name</span><span class="p">,</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">pipeline_name</span><span class="p">,</span> 
     <span class="n">deployment_name</span><span class="o">=</span><span class="s2">"Product Quantity with OBM and KB AutoAI"</span>
     <span class="p">)</span>
 </pre></div>

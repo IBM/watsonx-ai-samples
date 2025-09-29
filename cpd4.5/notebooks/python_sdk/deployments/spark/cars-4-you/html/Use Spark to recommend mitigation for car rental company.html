@@ -7577,7 +7577,7 @@ a.anchor-link {
 <p><a id="setup"></a></p>
 <h2 id="1.-Set-up-the-environment">1. Set up the environment<a class="anchor-link" href="#1.-Set-up-the-environment">¶</a></h2><p>Before you use the sample code in this notebook, you must perform the following setup tasks:</p>
 <ul>
-<li>Contact with your Cloud Pack for Data administrator and ask him for your account credentials</li>
+<li>Contact with your IBM Cloud Pak® for Data administrator and ask him for your account credentials</li>
 </ul>
 </div>
 </div>
@@ -7589,7 +7589,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Connection-to-WML">Connection to WML<a class="anchor-link" href="#Connection-to-WML">¶</a></h3><p>Authenticate the Watson Machine Learning service on IBM Cloud Pack for Data. You need to provide platform <code>url</code>, your <code>username</code> and <code>api_key</code>.</p>
+<h3 id="Connection-to-WML">Connection to WML<a class="anchor-link" href="#Connection-to-WML">¶</a></h3><p>Authenticate the Watson Machine Learning service on IBM Cloud Pak® for Data. You need to provide platform <code>url</code>, your <code>username</code> and <code>api_key</code>.</p>
 </div>
 </div>
 </div>
@@ -7884,7 +7884,7 @@ a.anchor-link {
 <span class="n">sample_dir</span> <span class="o">=</span> <span class="s1">'spark_sample_model'</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">sample_dir</span><span class="p">):</span>
     <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">sample_dir</span><span class="p">)</span>
-
+    
 <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sample_dir</span><span class="p">,</span> <span class="s1">'car_rental_training_data.csv'</span><span class="p">)</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
     <span class="n">filename</span> <span class="o">=</span> <span class="n">download</span><span class="p">(</span><span class="s1">'https://github.com/IBM/watson-machine-learning-samples/raw/master/cpd4.5/data/cars-4-you/car_rental_training_data.csv'</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">sample_dir</span><span class="p">)</span>
@@ -8434,14 +8434,14 @@ only showing top 2 rows
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">saved_model</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">store_model</span><span class="p">(</span>
-    <span class="n">model</span><span class="o">=</span><span class="n">model_action</span><span class="p">,</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">model_action</span><span class="p">,</span> 
     <span class="n">meta_props</span><span class="o">=</span><span class="p">{</span>
         <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">ModelMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span><span class="s2">"CARS4U - Action Recommendation Model"</span><span class="p">,</span>
         <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">ModelMetaNames</span><span class="o">.</span><span class="n">TYPE</span><span class="p">:</span> <span class="s2">"mllib_3.2"</span><span class="p">,</span>
         <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">ModelMetaNames</span><span class="o">.</span><span class="n">SOFTWARE_SPEC_UID</span><span class="p">:</span> <span class="n">client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">get_id_by_name</span><span class="p">(</span><span class="s1">'spark-mllib_3.2'</span><span class="p">),</span>
         <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">ModelMetaNames</span><span class="o">.</span><span class="n">LABEL_FIELD</span><span class="p">:</span> <span class="s2">"Action"</span><span class="p">,</span>
-    <span class="p">},</span>
-    <span class="n">training_data</span><span class="o">=</span><span class="n">train_data</span><span class="p">,</span>
+    <span class="p">},</span>  
+    <span class="n">training_data</span><span class="o">=</span><span class="n">train_data</span><span class="p">,</span> 
     <span class="n">pipeline</span><span class="o">=</span><span class="n">pipeline_action</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -8624,7 +8624,7 @@ only showing top 2 rows
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">deployment_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-    <span class="n">published_model_id</span><span class="p">,</span>
+    <span class="n">published_model_id</span><span class="p">,</span> 
     <span class="n">meta_props</span><span class="o">=</span><span class="p">{</span>
         <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"CARS4U - Action Recommendation model deployment"</span><span class="p">,</span>
         <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">ONLINE</span><span class="p">:</span> <span class="p">{}</span>

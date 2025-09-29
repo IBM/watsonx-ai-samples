@@ -7517,7 +7517,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Use-Custom-Image,-Software-Specification-and-Runtime-Definition-to-deploy-a-python-function-with-ibm-watson-machine-learning">Use Custom Image, Software Specification and Runtime Definition to deploy a python function with <code>ibm-watson-machine-learning</code><a class="anchor-link" href="#Use-Custom-Image,-Software-Specification-and-Runtime-Definition-to-deploy-a-python-function-with-ibm-watson-machine-learning">¶</a></h1>
+<h1 id="Use-Custom-Image,-Software-Specification-and-Runtime-Definition-to-deploy-a-python-function-with-ibm-watsonx-ai">Use Custom Image, Software Specification and Runtime Definition to deploy a python function with <code>ibm-watsonx-ai</code><a class="anchor-link" href="#Use-Custom-Image,-Software-Specification-and-Runtime-Definition-to-deploy-a-python-function-with-ibm-watsonx-ai">¶</a></h1>
 </div>
 </div>
 </div>
@@ -7529,7 +7529,7 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>This notebook demonstrates how to deploy in Watson Machine Learning service a python function which requires to create custom software specification and runtime definition.<br/>
-Familiarity with oc and python is helpful. This notebook uses Python 3.10.</p>
+Familiarity with oc and python is helpful. This notebook uses Python 3.11.</p>
 <h2 id="Learning-goals">Learning goals<a class="anchor-link" href="#Learning-goals">¶</a></h2><p>The learning goals of this notebook are:</p>
 <ul>
 <li>Creating a Custom Image</li>
@@ -7558,7 +7558,7 @@ Familiarity with oc and python is helpful. This notebook uses Python 3.10.</p>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><a id="setup"></a></p>
-<h2 id="1.-Set-up-the-environment">1. Set up the environment<a class="anchor-link" href="#1.-Set-up-the-environment">¶</a></h2><p>Required Role: You must be a Cloud Pak for Data <strong>Cluster Administrator</strong></p>
+<h2 id="1.-Set-up-the-environment">1. Set up the environment<a class="anchor-link" href="#1.-Set-up-the-environment">¶</a></h2><p>Required Role: You must be a IBM Cloud Pak® for Data <strong>Cluster Administrator</strong>.</p>
 </div>
 </div>
 </div>
@@ -7569,11 +7569,11 @@ Familiarity with oc and python is helpful. This notebook uses Python 3.10.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="Credentials">Credentials<a class="anchor-link" href="#Credentials">¶</a></h4><p>Authenticate the Watson Machine Learning service on IBM Cloud Pack for Data. You need to provide platform <code>url</code>, the <strong>admin</strong> <code>username</code> and <code>api_key</code> or <code>password</code></p>
+<h4 id="Credentials">Credentials<a class="anchor-link" href="#Credentials">¶</a></h4><p>Authenticate the Watson Machine Learning service on IBM Cloud Pak® for Data. You need to provide platform <code>url</code>, the <strong>admin</strong> <code>username</code> and <code>api_key</code> or <code>password</code></p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=5e263bae">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=e1924592">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7581,7 +7581,7 @@ Familiarity with oc and python is helpful. This notebook uses Python 3.10.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">username</span> <span class="o">=</span> <span class="s1">'PASTE YOUR USERNAME HERE'</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">username</span> <span class="o">=</span> <span class="s1">'PASTE YOUR USERNAME HERE'</span> 
 <span class="n">api_key</span> <span class="o">=</span> <span class="s1">'PASTE YOUR API_KEY HERE'</span>
 <span class="n">password</span> <span class="o">=</span> <span class="s1">'PASTE YOUR PASSWORD HERE'</span>
 <span class="n">url</span> <span class="o">=</span> <span class="s1">'PASTE THE PLATFORM URL HERE'</span>
@@ -7595,7 +7595,7 @@ Familiarity with oc and python is helpful. This notebook uses Python 3.10.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">wml_credentials</span> <span class="o">=</span> <span class="p">{</span>
@@ -7615,7 +7615,7 @@ Familiarity with oc and python is helpful. This notebook uses Python 3.10.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">CPDHOST</span> <span class="o">=</span> <span class="n">url</span>
@@ -7631,11 +7631,11 @@ Familiarity with oc and python is helpful. This notebook uses Python 3.10.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Install-and-import-the-ibm-watson-machine-learning-package">Install and import the <code>ibm-watson-machine-learning</code> package<a class="anchor-link" href="#Install-and-import-the-ibm-watson-machine-learning-package">¶</a></h3><p><strong>Note:</strong> <code>ibm-watson-machine-learning</code> documentation can be found <a href="http://ibm-wml-api-pyclient.mybluemix.net/" rel="noopener no referrer" target="_blank">here</a>.</p>
+<h3 id="Install-and-import-the-ibm-watsonx-ai-and-dependecies">Install and import the <code>ibm-watsonx-ai</code> and dependecies<a class="anchor-link" href="#Install-and-import-the-ibm-watsonx-ai-and-dependecies">¶</a></h3><p><strong>Note:</strong> <code>ibm-watsonx-ai</code> documentation can be found <a href="https://ibm.github.io/watsonx-ai-python-sdk/index.html" rel="noopener no referrer" target="_blank">here</a>.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=6b5fadfa">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=fd3c05d6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7643,7 +7643,7 @@ Familiarity with oc and python is helpful. This notebook uses Python 3.10.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">ibm</span><span class="o">-</span><span class="n">watson</span><span class="o">-</span><span class="n">machine</span><span class="o">-</span><span class="n">learning</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">ibm</span><span class="o">-</span><span class="n">watsonx</span><span class="o">-</span><span class="n">ai</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -7657,7 +7657,7 @@ Familiarity with oc and python is helpful. This notebook uses Python 3.10.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watson_machine_learning</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span>
 
 <span class="n">client</span> <span class="o">=</span> <span class="n">APIClient</span><span class="p">(</span><span class="n">wml_credentials</span><span class="p">)</span>
 </pre></div>
@@ -7690,7 +7690,7 @@ It involves:-</p>
 <li><strong>Downloading the runtime definition and getting the runtime image</strong> , This can be done from the notebook as shown later</li>
 <li><strong>Pulling, building, pushing docker images</strong> which cannot be done from the notebook. It must be done in a machine which have access to docker or podman</li>
 </ul>
-<p>See <a href="https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=runtimes-customizing-deployment-runtime-images">https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=runtimes-customizing-deployment-runtime-images</a> for details.</p>
+<p>See <a href="https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=runtimes-building-deployment-runtime-images">https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=runtimes-building-deployment-runtime-images</a> for details.</p>
 </div>
 </div>
 </div>
@@ -7710,7 +7710,7 @@ It involves:-</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span><span class="o">,</span><span class="w"> </span><span class="nn">json</span>
@@ -7726,7 +7726,7 @@ It involves:-</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">'Authorization'</span><span class="p">:</span> <span class="sa">f</span><span class="s1">'Bearer </span><span class="si">{</span><span class="n">client</span><span class="o">.</span><span class="n">_get_icptoken</span><span class="p">()</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span>
@@ -7755,7 +7755,7 @@ It involves:-</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>In this notebook we choose <code>runtime-23.1-py3.10</code> See <a href="https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=image-downloading-runtime-definition">https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=image-downloading-runtime-definition</a> for details</p>
+<p>In this notebook we choose <code>runtime-24.1-py3.11</code> See <a href="https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=images-downloading-runtime-definition">https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=images-downloading-runtime-definition</a> for details</p>
 </div>
 </div>
 </div>
@@ -7764,10 +7764,10 @@ It involves:-</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">runtime_definition_name</span> <span class="o">=</span> <span class="s2">"runtime-23.1-py3.10"</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">runtime_definition_name</span> <span class="o">=</span> <span class="s2">"runtime-24.1-py3.11"</span>
 </pre></div>
 </div>
 </div>
@@ -7778,7 +7778,7 @@ It involves:-</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
@@ -7794,6 +7794,7 @@ It involves:-</p>
         <span class="k">continue</span>
     <span class="n">template_runtime_definition</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s2">"entity"</span><span class="p">]</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Successfully fetched the Runtime Definition: </span><span class="si">{</span><span class="n">runtime_definition_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    
 </pre></div>
 </div>
 </div>
@@ -7806,7 +7807,7 @@ It involves:-</p>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Successfully fetched the Runtime Definition: runtime-23.1-py3.10
+<pre>Successfully fetched the Runtime Definition: runtime-24.1-py3.11
 </pre>
 </div>
 </div>
@@ -7819,7 +7820,7 @@ It involves:-</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>The required runtime image will be in the key <code>.launch_configuration.image</code> from the runtime definition we just downloaded</p>
+<p>The required base image will be in the key <code>.launch_configuration.image</code> from the runtime definition we just downloaded</p>
 </div>
 </div>
 </div>
@@ -7828,10 +7829,10 @@ It involves:-</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"required runtime image:</span><span class="se">\n\t</span><span class="si">{</span><span class="n">template_runtime_definition</span><span class="p">[</span><span class="s1">'launch_configuration'</span><span class="p">][</span><span class="s1">'image'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"required base image:</span><span class="se">\n\t</span><span class="si">{</span><span class="n">template_runtime_definition</span><span class="p">[</span><span class="s1">'launch_configuration'</span><span class="p">][</span><span class="s1">'image'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7844,8 +7845,8 @@ It involves:-</p>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>required runtime image:
-	cp.icr.io/cp/cpd/wml-dep-rt23-1-ms@sha256:096bd9906fe78159adc9118b0e8f7be656f3f13ad47f88827581481bbb2f9df5
+<pre>required base image:
+	cp.icr.io/cp/cpd/wml-dep-rt-241-py@sha256:5685dd4b3b9c5e8cca91b6dac7b01128e0e08eacf65b9f7c882ae01e1c36a190
 </pre>
 </div>
 </div>
@@ -7858,21 +7859,16 @@ It involves:-</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Pulling,-building,-pushing-docker-images">Pulling, building, pushing docker images<a class="anchor-link" href="#Pulling,-building,-pushing-docker-images">¶</a></h3><p>These steps cannot be run from a notebook, and need to be done in a machine which have access to docker or podman. See <a href="https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=pbci-downloading-runtime-image">https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=pbci-downloading-runtime-image</a> for more details.</p>
-<h4 id="Download-the-runtime-image-for-customization">Download the runtime image for customization<a class="anchor-link" href="#Download-the-runtime-image-for-customization">¶</a></h4><p>If you have access to the IBM Entitled registry URL, you can download the base image directly from the above, else you need to download from private container registry used at the time of installation.</p>
-<p>Pull the base image: Here <code>cp.stg.icr.io/cp/cpd/</code> is my private container registry used at the time of installation
+<h3 id="Pulling,-building,-pushing-docker-images">Pulling, building, pushing docker images<a class="anchor-link" href="#Pulling,-building,-pushing-docker-images">¶</a></h3><p>These steps cannot be run from a notebook, and need to be done in a machine which have access to docker or podman. See <a href="https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=runtimes-building-deployment-runtime-images">https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=runtimes-building-deployment-runtime-images</a> for more details.</p>
+<h4 id="Download-the-runtime-image-for-customization">Download the runtime image for customization<a class="anchor-link" href="#Download-the-runtime-image-for-customization">¶</a></h4><p>If you have access to the IBM Entitled registry URL, you can download the base image directly from the above, else you need to download from private container registry used at the time of installation.
 The base image:</p>
-<div class="highlight"><pre><span></span><span class="nv">BASE_IMAGE</span><span class="o">=</span><span class="s2">"cp.stg.icr.io/cp/cpd/wml-dep-rt23-1-ms@sha256:096bd9906fe78159adc9118b0e8f7be656f3f13ad47f88827581481bbb2f9df5"</span>
+<div class="highlight"><pre><span></span><span class="nv">BASE_IMAGE</span><span class="o">=</span><span class="s2">"cp.stg.icr.io/cp/cpd/wml-dep-rt-241-py@sha256:5685dd4b3b9c5e8cca91b6dac7b01128e0e08eacf65b9f7c882ae01e1c36a190"</span>
 </pre></div>
 <p>registry login and pulling the image:</p>
 <div class="highlight"><pre><span></span>podman<span class="w"> </span>login<span class="w"> </span>-u<span class="w"> </span>&lt;user&gt;<span class="w"> </span>-p<span class="w"> </span>&lt;password&gt;<span class="w"> </span>cp.stg.icr.io/cp/cpd/
 podman<span class="w"> </span>pull<span class="w"> </span><span class="nv">$BASE_IMAGE</span>
 </pre></div>
-<h4 id="Creating-and-uploading-a-custom-image">Creating and uploading a custom image<a class="anchor-link" href="#Creating-and-uploading-a-custom-image">¶</a></h4><h5 id="Building-the-custom-image">Building the custom image<a class="anchor-link" href="#Building-the-custom-image">¶</a></h5><p>Based on the CPD release patch version. You will have two different formats for the Dockerfile here as described here <a href="https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=image-customizing-python-deployment-images">https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=image-customizing-python-deployment-images</a></p>
-<p>e.g.</p>
-<div class="highlight"><pre><span></span>$<span class="w"> </span>podman<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span><span class="nv">$BASE_IMAGE</span><span class="w"> </span>grep<span class="w"> </span>-q<span class="w"> </span><span class="s1">'^wsbuild:'</span><span class="w"> </span>/etc/passwd<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"User wsbuild exists"</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"User wsbuild does not exist"</span>
-</pre></div>
-<p>This prints out <strong>User wsbuild exists</strong> in this case , so we have to use <code>wsbuild, wsuser</code> user base. We are going to install the program <code>jq</code> as well as the python package <code>pendulum</code> here. This needs to use the conda environment pointed by the variable <code>WML_CONDA_ENV_NAME</code> already available in the base image. <code>microdnf</code> can be used to install system packages</p>
+<h4 id="Creating-and-uploading-a-custom-image">Creating and uploading a custom image<a class="anchor-link" href="#Creating-and-uploading-a-custom-image">¶</a></h4><h5 id="Building-the-custom-image">Building the custom image<a class="anchor-link" href="#Building-the-custom-image">¶</a></h5><p>Dockerfile sample for this example is as below. We are going to install the program <code>jq</code> as well as the python package <code>pendulum</code> here. This needs to use the conda environment pointed by the variable <code>WML_CONDA_ENV_NAME</code> already available in the base image. <code>microdnf</code> can be used to install system packages</p>
 <div class="highlight"><pre><span></span><span class="k">ARG</span><span class="w">  </span>base_image_tag
 <span class="k">FROM</span><span class="w"> </span><span class="s">${base_image_tag}</span>
 
@@ -7889,21 +7885,6 @@ podman<span class="w"> </span>pull<span class="w"> </span><span class="nv">$BASE
 <span class="w">   </span>pip<span class="w"> </span>install<span class="w"> </span>pendulum
 <span class="k">USER</span><span class="w"> </span><span class="s">wsuser:wscommon</span>
 </pre></div>
-<p>If this CPD release is prior to <code>4.8.3</code> ; It would have been the case of <strong>User wsbuild does not exist</strong> , in which case we need to use a different user base <code>wmlbaseuser, wmlfuser</code> . Dockerfile sample for this example is as below. We are going to install the program <code>jq</code> as well as the python package <code>pendulum</code>. This needs to use the <code>base</code> conda environment for the python environment. <code>yum</code> can be used to install system packages</p>
-<div class="highlight"><pre><span></span><span class="k">ARG</span><span class="w">  </span>base_image_tag
-<span class="k">FROM</span><span class="w"> </span><span class="s">${base_image_tag}</span>
-<span class="c"># For installing OS packages, use root:root</span>
-<span class="c"># e.g.</span>
-<span class="k">USER</span><span class="w"> </span><span class="s">root:root</span>
-<span class="k">RUN</span><span class="w"> </span>yum<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>jq
-
-<span class="c"># For installing to conda site-packages,</span>
-<span class="c"># use wmlfuser:condausers</span>
-<span class="c"># e.g.</span>
-<span class="k">USER</span><span class="w"> </span><span class="s">wmlfuser:condausers</span>
-<span class="k">RUN</span><span class="w"> </span><span class="nb">source</span><span class="w"> </span>activate<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>pip<span class="w"> </span>install<span class="w"> </span>pendulum
-</pre></div>
 <p>Build the custom image <code>wml-demo-image:test-1</code>:</p>
 <div class="highlight"><pre><span></span>podman<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>wml-demo-image:test-1<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--build-arg<span class="w"> </span><span class="nv">base_image_tag</span><span class="o">=</span><span class="nv">$BASE_IMAGE</span><span class="w"> </span><span class="se">\</span>
@@ -7911,12 +7892,8 @@ podman<span class="w"> </span>pull<span class="w"> </span><span class="nv">$BASE
 </pre></div>
 <p>Some sanity checks on image for this example. You can run the following, which should print the package version</p>
 <div class="highlight"><pre><span></span>podman<span class="w"> </span>run<span class="w"> </span>wml-demo-image:test-1<span class="w"> </span>jq<span class="w"> </span>--version
-
-<span class="c1"># wsbuild case</span>
+<span class="w">    </span>
 podman<span class="w"> </span>run<span class="w"> </span>wml-demo-image:test-1<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s1">'source activate $WML_CONDA_ENV_NAME;pip show pendulum'</span>
-
-<span class="c1"># wmlbaseuser case</span>
-podman<span class="w"> </span>run<span class="w"> </span>wml-demo-image:test-1<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s1">'source activate base;pip show pendulum'</span>
 </pre></div>
 <h5 id="Uploading-the-custom-image">Uploading the custom image<a class="anchor-link" href="#Uploading-the-custom-image">¶</a></h5><p>Push the custom image to the private container registry</p>
 <div class="highlight"><pre><span></span><span class="c1"># e.g</span>
@@ -7968,7 +7945,7 @@ podman<span class="w"> </span>push<span class="w"> </span>cp.stg.icr.io/cp/cpd/w
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># name for this Vol Service instance, you can give any name of choice</span>
@@ -7986,7 +7963,7 @@ podman<span class="w"> </span>push<span class="w"> </span>cp.stg.icr.io/cp/cpd/w
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
@@ -8004,8 +7981,7 @@ podman<span class="w"> </span>push<span class="w"> </span>cp.stg.icr.io/cp/cpd/w
         <span class="s2">"display_name"</span><span class="p">:</span> <span class="n">display_name</span>
     <span class="p">},</span>
     <span class="n">verify</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"Successful"</span><span class="p">,</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+<span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -8015,11 +7991,10 @@ podman<span class="w"> </span>push<span class="w"> </span>cp.stg.icr.io/cp/cpd/w
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Successful {'id': '1721195823485960'}
-</pre>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[14]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>(200, {'id': '1721129241128898'})</pre>
 </div>
 </div>
 </div>
@@ -8040,7 +8015,7 @@ podman<span class="w"> </span>push<span class="w"> </span>cp.stg.icr.io/cp/cpd/w
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">CPDHOST</span> <span class="o">+</span> <span class="s1">'/zen-data/v3/service_instances'</span><span class="p">,</span>
@@ -8067,9 +8042,10 @@ podman<span class="w"> </span>push<span class="w"> </span>cp.stg.icr.io/cp/cpd/w
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>zen::CCHome 1721195823485960 cc-home-pvc
+<pre>zen::CCHome 1721129241128898 cc-home-pvc
+zen::dep-fvt 1720437437463324 None
 
-vol_svc_id: 1721195823485960
+vol_svc_id: 1721129241128898
 </pre>
 </div>
 </div>
@@ -8091,7 +8067,7 @@ vol_svc_id: 1721195823485960
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
@@ -8143,7 +8119,7 @@ vol_svc_id: 1721195823485960
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [60]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1">## The name of the Software Specification. You can give any name of your choice. e.g. here "cspec-demo". </span>
@@ -8174,7 +8150,7 @@ vol_svc_id: 1721195823485960
           <span class="p">{</span>
             <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"pendulum"</span><span class="p">,</span>
             <span class="s2">"version"</span><span class="p">:</span> <span class="s2">"3.0.0"</span>
-          <span class="p">}</span>
+          <span class="p">}</span>       
         <span class="p">],</span>
         <span class="s2">"platform"</span><span class="p">:</span> <span class="p">{</span>
           <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"python"</span><span class="p">,</span>
@@ -8219,7 +8195,7 @@ software spec filename : cspec-demo.json
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">target_file</span><span class="o">=</span><span class="sa">f</span><span class="s1">'%2F_global_%2Fconfig%2Fenvironments%2Fsoftware-specifications%2F</span><span class="si">{</span><span class="n">sw_spec_filename</span><span class="si">}</span><span class="s1">'</span>
@@ -8234,7 +8210,7 @@ software spec filename : cspec-demo.json
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[16]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[21]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>'%2F_global_%2Fconfig%2Fenvironments%2Fsoftware-specifications%2Fcspec-demo.json'</pre>
 </div>
@@ -8246,7 +8222,7 @@ software spec filename : cspec-demo.json
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># multipart/form-data</span>
@@ -8272,7 +8248,7 @@ software spec filename : cspec-demo.json
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[22]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>(200,
  {'_messageCode_': 'Success',
@@ -8297,7 +8273,7 @@ software spec filename : cspec-demo.json
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">CPDHOST</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">'/zen-volumes/</span><span class="si">{</span><span class="n">display_name</span><span class="si">}</span><span class="s1">/v1/volumes/files/</span><span class="si">{</span><span class="n">target_file</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span>
@@ -8358,7 +8334,7 @@ env-spec-sync-job   */5 * * * *   False     0        82s             23d
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [31]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
@@ -8404,7 +8380,7 @@ env-spec-sync-job   */5 * * * *   False     0        82s             23d
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [32]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
@@ -8462,7 +8438,7 @@ env-spec-sync-job   */5 * * * *   False     0        82s             23d
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [33]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># fully qualified name for the Internal Registry image of custom image</span>
@@ -8478,7 +8454,7 @@ env-spec-sync-job   */5 * * * *   False     0        82s             23d
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[23]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[33]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>'cp.stg.icr.io/cp/cpd/wml-demo-image:test-1'</pre>
 </div>
@@ -8527,7 +8503,7 @@ env-spec-sync-job   */5 * * * *   False     0        82s             23d
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [34]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># here we keep the custom image runtime definition name same as the custom software spec name ; as best practise</span>
@@ -8549,11 +8525,11 @@ env-spec-sync-job   */5 * * * *   False     0        82s             23d
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [35]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
-    <span class="n">CPDHOST</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">'/v2/runtime_definitions'</span><span class="p">,</span>
+    <span class="n">CPDHOST</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">'/v2/runtime_definitions'</span><span class="p">,</span> 
     <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
     <span class="n">json</span><span class="o">=</span><span class="n">custom_image_runtime_definition</span><span class="p">,</span>
     <span class="n">verify</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -8584,7 +8560,7 @@ env-spec-sync-job   */5 * * * *   False     0        82s             23d
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [36]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">'The required software specification name:'</span><span class="p">,</span> <span class="n">sw_spec_name</span><span class="p">)</span>
@@ -8649,7 +8625,7 @@ env-spec-sync-job   */5 * * * *   False     0        82s             23d
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=e80fd7f7">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=24e44c45">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8674,7 +8650,7 @@ env-spec-sync-job   */5 * * * *   False     0        82s             23d
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=7b99a310">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=08a33c4d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8704,7 +8680,7 @@ env-spec-sync-job   */5 * * * *   False     0        82s             23d
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [29]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [41]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">set</span><span class="o">.</span><span class="n">default_space</span><span class="p">(</span><span class="n">space_id</span><span class="p">)</span>
@@ -8718,7 +8694,7 @@ env-spec-sync-job   */5 * * * *   False     0        82s             23d
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[29]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[41]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>'SUCCESS'</pre>
 </div>
@@ -8753,11 +8729,11 @@ env-spec-sync-job   */5 * * * *   False     0        82s             23d
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [30]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [55]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">score_generator</span><span class="p">():</span>
-
+        
     <span class="c1"># Define scoring function</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">callModel</span><span class="p">(</span><span class="n">payload_scoring</span><span class="p">):</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">pendulum</span>
@@ -8765,7 +8741,7 @@ env-spec-sync-job   */5 * * * *   False     0        82s             23d
         <span class="n">v4_scoring_response</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">'predictions'</span><span class="p">:</span> <span class="p">[{</span><span class="s1">'values'</span><span class="p">:</span> <span class="p">[</span><span class="n">pendulum</span><span class="o">.</span><span class="n">__version__</span><span class="p">]}]</span>
         <span class="p">}</span>
-
+    
         <span class="k">return</span> <span class="n">v4_scoring_response</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">score</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
@@ -8773,7 +8749,7 @@ env-spec-sync-job   */5 * * * *   False     0        82s             23d
         <span class="c1"># Score using the pre-defined model</span>
         <span class="n">prediction</span> <span class="o">=</span> <span class="n">callModel</span><span class="p">(</span><span class="nb">input</span><span class="p">);</span>
         <span class="k">return</span> <span class="n">prediction</span>
-
+    
     <span class="k">return</span> <span class="n">score</span>
 </pre></div>
 </div>
@@ -8796,7 +8772,7 @@ env-spec-sync-job   */5 * * * *   False     0        82s             23d
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [31]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [45]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">stored_function_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">store_function</span><span class="p">(</span>
@@ -8822,7 +8798,7 @@ env-spec-sync-job   */5 * * * *   False     0        82s             23d
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>The required python function asset id: 72ce724a-044e-45df-8ad9-281935b2d413
+<pre>The required python function asset id: a5eb8150-c7b2-4b26-bea6-c70607b398cb
 </pre>
 </div>
 </div>
@@ -8844,7 +8820,7 @@ env-spec-sync-job   */5 * * * *   False     0        82s             23d
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [32]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [46]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">meta_props</span> <span class="o">=</span> <span class="p">{</span>
@@ -8870,19 +8846,19 @@ env-spec-sync-job   */5 * * * *   False     0        82s             23d
 
 #######################################################################################
 
-Synchronous deployment creation for uid: '72ce724a-044e-45df-8ad9-281935b2d413' started
+Synchronous deployment creation for uid: 'a5eb8150-c7b2-4b26-bea6-c70607b398cb' started
 
 #######################################################################################
 
 
 initializing
 Note: online_url is deprecated and will be removed in a future release. Use serving_urls instead.
-.............................................................
+.....................................................
 ready
 
 
 ------------------------------------------------------------------------------------------------
-Successfully finished deployment creation, deployment_uid='599ef2d8-2df2-4246-83e1-cda2af15ca9c'
+Successfully finished deployment creation, deployment_uid='5cd09c84-a8bc-433e-bcc7-765443d62068'
 ------------------------------------------------------------------------------------------------
 
 
@@ -8917,7 +8893,7 @@ $ oc describe pod wml-2c074a33-8960-47a0-9489-1bd050bbe901-b9867df6f-9fr9g | gre
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [33]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [47]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">deployment_id</span><span class="o">=</span><span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_uid</span><span class="p">(</span><span class="n">deployment_details</span><span class="p">)</span>
@@ -8932,9 +8908,9 @@ $ oc describe pod wml-2c074a33-8960-47a0-9489-1bd050bbe901-b9867df6f-9fr9g | gre
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[33]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[47]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'599ef2d8-2df2-4246-83e1-cda2af15ca9c'</pre>
+<pre>'5cd09c84-a8bc-433e-bcc7-765443d62068'</pre>
 </div>
 </div>
 </div>
@@ -8955,7 +8931,7 @@ $ oc describe pod wml-2c074a33-8960-47a0-9489-1bd050bbe901-b9867df6f-9fr9g | gre
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [35]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [49]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">scoring_payload</span> <span class="o">=</span> <span class="p">{</span>
@@ -8975,7 +8951,7 @@ $ oc describe pod wml-2c074a33-8960-47a0-9489-1bd050bbe901-b9867df6f-9fr9g | gre
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[35]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[49]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>{'predictions': [{'values': ['3.0.0']}]}</pre>
 </div>
@@ -9010,7 +8986,7 @@ $ oc describe pod wml-2c074a33-8960-47a0-9489-1bd050bbe901-b9867df6f-9fr9g | gre
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [36]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [50]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">deployment_id</span><span class="p">)</span>
@@ -9024,7 +9000,7 @@ $ oc describe pod wml-2c074a33-8960-47a0-9489-1bd050bbe901-b9867df6f-9fr9g | gre
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[36]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[50]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>'SUCCESS'</pre>
 </div>
@@ -9047,7 +9023,7 @@ $ oc describe pod wml-2c074a33-8960-47a0-9489-1bd050bbe901-b9867df6f-9fr9g | gre
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [37]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [51]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span>
@@ -9093,7 +9069,7 @@ $ oc describe pod wml-2c074a33-8960-47a0-9489-1bd050bbe901-b9867df6f-9fr9g | gre
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [38]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [52]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">CPDHOST</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">'/zen-data/v3/service_instances/</span><span class="si">{</span><span class="n">vol_svc_id</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span>
@@ -9113,7 +9089,7 @@ $ oc describe pod wml-2c074a33-8960-47a0-9489-1bd050bbe901-b9867df6f-9fr9g | gre
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>{
-  "id": "1721195823485960"
+  "id": "1721129241128898"
 }
 </pre>
 </div>
@@ -9173,7 +9149,7 @@ Check out our <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/getti
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h4 id="References:">References:<a class="anchor-link" href="#References:">¶</a></h4><ul>
-<li><a href="https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=runtimes-customizing-deployment-runtime-images">https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=runtimes-customizing-deployment-runtime-images</a></li>
+<li><a href="https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=runtimes-building-deployment-runtime-images">https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=runtimes-building-deployment-runtime-images</a></li>
 <li><a href="https://cloud.ibm.com/apidocs/cloud-pak-data/cloud-pak-data-4.8.0#provisionvolumeinstance">https://cloud.ibm.com/apidocs/cloud-pak-data/cloud-pak-data-4.8.0#provisionvolumeinstance</a></li>
 <li><a href="https://cloud.ibm.com/apidocs/watson-data-api-cpd#runtime-definitions-create">https://cloud.ibm.com/apidocs/watson-data-api-cpd#runtime-definitions-create</a></li>
 </ul>
@@ -9199,20 +9175,6 @@ Check out our <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/getti
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>Copyright © 2020-2025 IBM. This notebook and its source code are released under the terms of the MIT License.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=6d6b512e">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span>
-</pre></div>
-</div>
 </div>
 </div>
 </div>

@@ -7558,7 +7558,7 @@ a.anchor-link {
 <p><a id="setup"></a></p>
 <h2 id="1.-Set-up-the-environment">1. Set up the environment<a class="anchor-link" href="#1.-Set-up-the-environment">¶</a></h2><p>Before you use the sample code in this notebook, you must perform the following setup tasks:</p>
 <ul>
-<li>Contact with your Cloud Pack for Data administrator and ask him for your account credentials</li>
+<li>Contact with your IBM Cloud Pak® for Data administrator and ask him for your account credentials</li>
 </ul>
 </div>
 </div>
@@ -7570,7 +7570,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Connection-to-WML">Connection to WML<a class="anchor-link" href="#Connection-to-WML">¶</a></h3><p>Authenticate the Watson Machine Learning service on IBM Cloud Pack for Data. You need to provide platform <code>url</code>, your <code>username</code> and <code>api_key</code>.</p>
+<h3 id="Connection-to-WML">Connection to WML<a class="anchor-link" href="#Connection-to-WML">¶</a></h3><p>Authenticate the Watson Machine Learning service on IBM Cloud Pak® for Data. You need to provide platform <code>url</code>, your <code>username</code> and <code>api_key</code>.</p>
 </div>
 </div>
 </div>
@@ -7903,7 +7903,7 @@ print(score_template(template_payload))</code></pre>
         <span class="n">action_deployment_id</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="s1">'metadata'</span><span class="p">][</span><span class="s1">'id'</span><span class="p">]</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">'entity'</span><span class="p">][</span><span class="s1">'name'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'CARS4U - Business Area Prediction Model deployment'</span><span class="p">):</span>
         <span class="n">business_area_deployment_id</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="s1">'metadata'</span><span class="p">][</span><span class="s1">'id'</span><span class="p">]</span>
-
+        
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Action deployment id: </span><span class="si">{</span><span class="n">action_deployment_id</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Business area deployment id: </span><span class="si">{</span><span class="n">business_area_deployment_id</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
@@ -7955,9 +7955,9 @@ Business area deployment id: dcb4d6d3-4165-49ad-bca6-9c6d27d9ae71
 <div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">ai_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"wml_credentials"</span><span class="p">:</span> <span class="n">wml_credentials</span><span class="p">,</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">ai_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"wml_credentials"</span><span class="p">:</span> <span class="n">wml_credentials</span><span class="p">,</span> 
              <span class="s2">"space_id"</span><span class="p">:</span> <span class="n">space_id</span><span class="p">,</span>
-             <span class="s2">"action_deployment_id"</span><span class="p">:</span> <span class="n">action_deployment_id</span><span class="p">,</span>
+             <span class="s2">"action_deployment_id"</span><span class="p">:</span> <span class="n">action_deployment_id</span><span class="p">,</span> 
              <span class="s2">"business_area_deployment_id"</span><span class="p">:</span> <span class="n">business_area_deployment_id</span><span class="p">}</span>
 </pre></div>
 </div>
@@ -7973,7 +7973,7 @@ Business area deployment id: dcb4d6d3-4165-49ad-bca6-9c6d27d9ae71
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">score_generator</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">ai_params</span><span class="p">):</span>
-
+    
     <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watson_machine_learning</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span>
 
     <span class="n">wml_credentials</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">"wml_credentials"</span><span class="p">]</span>
@@ -7991,26 +7991,26 @@ Business area deployment id: dcb4d6d3-4165-49ad-bca6-9c6d27d9ae71
 <span class="sd">          {"fields": ["ID", "Gender", "Status", "Children", "Age", "Customer_Status", "Car_Owner", "Customer_Service", "Satisfaction"],</span>
 <span class="sd">           "values": [[2624, 'Male', 'S', 0, 49.27, 'Active', 'No', "Good experience with all the rental co.'s I contacted. I Just called with rental dates and received pricing and selected rental co.", 1]]}</span>
 <span class="sd">        """</span>
-
+        
         <span class="n">fields</span> <span class="o">=</span> <span class="n">payload</span><span class="p">[</span><span class="s2">"input_data"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">'fields'</span><span class="p">]</span>
-
+        
         <span class="n">scores_area</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">business_area_deployment_id</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'predictions'</span><span class="p">,</span> <span class="p">[])</span>
         <span class="n">idx_area</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">scores_area</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">"fields"</span><span class="p">])</span> <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="s1">'probability'</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="s1">'predictedLabel'</span><span class="p">)]</span>
 
         <span class="n">fields_from_action</span> <span class="o">=</span> <span class="n">fields</span> <span class="o">+</span> <span class="p">[</span><span class="s2">"predictedLabel"</span><span class="p">]</span>
-
+        
         <span class="n">idx_from_action</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">scores_area</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">"fields"</span><span class="p">])</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fields_from_action</span><span class="p">])</span>
         <span class="n">values_action</span> <span class="o">=</span> <span class="p">[[</span><span class="n">v</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">rec</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idx_from_action</span><span class="p">]</span> <span class="k">for</span> <span class="n">rec</span> <span class="ow">in</span> <span class="n">scores_area</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">"values"</span><span class="p">]]</span>
-
+        
         <span class="n">payload_action</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">"input_data"</span><span class="p">:</span> <span class="p">[</span>
                 <span class="p">{</span>
-                    <span class="s2">"fields"</span><span class="p">:</span> <span class="n">fields</span> <span class="o">+</span> <span class="p">[</span><span class="s2">"Business_Area"</span><span class="p">],</span>
+                    <span class="s2">"fields"</span><span class="p">:</span> <span class="n">fields</span> <span class="o">+</span> <span class="p">[</span><span class="s2">"Business_Area"</span><span class="p">],</span> 
                     <span class="s2">"values"</span><span class="p">:</span> <span class="n">values_action</span>
                 <span class="p">}</span>
             <span class="p">]</span>
         <span class="p">}</span>
-
+        
         <span class="n">scores_action</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">action_deployment_id</span><span class="p">,</span> <span class="n">payload_action</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'predictions'</span><span class="p">,</span> <span class="p">[])</span>
         <span class="n">idx_action</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">scores_action</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">"fields"</span><span class="p">])</span> <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="s1">'probability'</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="s1">'predictedLabel'</span><span class="p">)]</span>
 
@@ -8050,7 +8050,7 @@ Business area deployment id: dcb4d6d3-4165-49ad-bca6-9c6d27d9ae71
         <span class="p">{</span>
             <span class="s2">"fields"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"ID"</span><span class="p">,</span> <span class="s2">"Gender"</span><span class="p">,</span> <span class="s2">"Status"</span><span class="p">,</span> <span class="s2">"Children"</span><span class="p">,</span> <span class="s2">"Age"</span><span class="p">,</span> <span class="s2">"Customer_Status"</span><span class="p">,</span> <span class="s2">"Car_Owner"</span><span class="p">,</span> <span class="s2">"Customer_Service"</span><span class="p">,</span> <span class="s2">"Satisfaction"</span><span class="p">],</span>
             <span class="s2">"values"</span><span class="p">:</span> <span class="p">[[</span><span class="mi">2624</span><span class="p">,</span> <span class="s1">'Male'</span><span class="p">,</span> <span class="s1">'S'</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">49.27</span><span class="p">,</span> <span class="s1">'Active'</span><span class="p">,</span> <span class="s1">'No'</span><span class="p">,</span> <span class="s2">"Good experience with all the rental co.'s I contacted. I Just called with rental dates and received pricing and selected rental co."</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
-        <span class="p">}</span>
+        <span class="p">}</span>       
     <span class="p">]</span>
 <span class="p">}</span>
 </pre></div>
@@ -8252,7 +8252,7 @@ Business area deployment id: dcb4d6d3-4165-49ad-bca6-9c6d27d9ae71
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">deployment_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-    <span class="n">published_function_id</span><span class="p">,</span>
+    <span class="n">published_function_id</span><span class="p">,</span> 
     <span class="n">meta_props</span><span class="o">=</span><span class="p">{</span>
         <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"CARS4U - Business area and Action Prediction - AI Function Deployment"</span><span class="p">,</span>
         <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">ONLINE</span><span class="p">:</span> <span class="p">{}</span>

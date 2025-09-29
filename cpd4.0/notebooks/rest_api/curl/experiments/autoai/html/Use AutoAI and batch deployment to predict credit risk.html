@@ -7559,7 +7559,7 @@ a.anchor-link {
 <p><a id="setup"></a></p>
 <h2 id="1.-Set-up-the-environment">1. Set up the environment<a class="anchor-link" href="#1.-Set-up-the-environment">¶</a></h2><p>Before you use the sample code in this notebook, you must perform the following setup tasks:</p>
 <ul>
-<li>Contact with your Cloud Pack for Data administrator and ask him for your account credentials</li>
+<li>Contact with your IBM Cloud Pak® for Data administrator and ask him for your account credentials</li>
 </ul>
 </div>
 </div>
@@ -7571,7 +7571,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Connection-to-WML">Connection to WML<a class="anchor-link" href="#Connection-to-WML">¶</a></h3><p>Authenticate the Watson Machine Learning service on IBM Cloud Pack for Data. You need to provide platform <code>url</code>, your <code>username</code> and <code>api_key</code>.</p>
+<h3 id="Connection-to-WML">Connection to WML<a class="anchor-link" href="#Connection-to-WML">¶</a></h3><p>Authenticate the Watson Machine Learning service on IBM Cloud Pak® for Data. You need to provide platform <code>url</code>, your <code>username</code> and <code>api_key</code>.</p>
 </div>
 </div>
 </div>
@@ -7797,7 +7797,7 @@ Make sure that your newly created space is <code>active</code>.</p>
 <div class="highlight hl-ipython3"><pre><span></span>%%bash<span class="w"> </span>--out<span class="w"> </span>pipeline_payload
 
 <span class="nv">PIPELINE_PAYLOAD</span><span class="o">=</span><span class="s1">'{"space_id": "'</span><span class="s2">"</span><span class="nv">$SPACE_ID</span><span class="s2">"</span><span class="s1">'", "name": "Credit Risk Prediction - AutoAI", "description": "", "document": {"doc_type": "pipeline", "version": "2.0", "pipelines": [{"id": "autoai", "runtime_ref": "hybrid", "nodes": [{"id": "automl", "type": "execution_node", "parameters": {"stage_flag": true, "output_logs": true, "input_file_separator": ",", "optimization": {"learning_type": "binary", "label": "Risk", "max_num_daub_ensembles": 1, "daub_include_only_estimators": ["ExtraTreesClassifierEstimator", "GradientBoostingClassifierEstimator", "LGBMClassifierEstimator", "LogisticRegressionEstimator", "RandomForestClassifierEstimator", "XGBClassifierEstimator", "DecisionTreeClassifierEstimator"], "scorer_for_ranking": "roc_auc", "compute_pipeline_notebooks_flag": true, "run_cognito_flag": true, "holdout_param": 0.1}}, "runtime_ref": "autoai", "op": "kube"}]}], "runtimes": [{"id": "autoai", "name": "auto_ai.kb", "app_data": {"wml_data": {"hardware_spec": { "name": "M"}}}, "version": "3.0.2"}],"primary_pipeline": "autoai"}}'</span>
-<span class="nb">echo</span><span class="w"> </span><span class="nv">$PIPELINE_PAYLOAD</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$PIPELINE_PAYLOAD</span><span class="w"> </span>
 </pre></div>
 </div>
 </div>
@@ -8085,7 +8085,7 @@ wget<span class="w"> </span>-q<span class="w"> </span>https://github.com/IBM/wat
 <div class="highlight hl-ipython3"><pre><span></span>%%bash<span class="w"> </span>--out<span class="w"> </span>data_asset_metadata
 
 <span class="nv">DATA_ASSET_METADATA</span><span class="o">=</span><span class="s1">'{"metadata": {"name": "autoai_training_data","description": "desc","asset_type": "data_asset","origin_country": "us","asset_category": "USER"},"entity": {"data_asset": {"mime_type": "text/csv"}}}'</span>
-<span class="nb">echo</span><span class="w"> </span><span class="nv">$DATA_ASSET_METADATA</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$DATA_ASSET_METADATA</span><span class="w"> </span>
 </pre></div>
 </div>
 </div>
@@ -8388,7 +8388,7 @@ curl<span class="w"> </span>-sk<span class="w"> </span>-X<span class="w"> </span
 <span class="w">    </span>--header<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--header<span class="w"> </span><span class="s2">"Content-Type: multipart/form-data"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>-F<span class="w"> </span><span class="s1">'file=@credit_risk_training_light.csv'</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="s2">"</span><span class="nv">$DATAPLATFORM_URL$ATTACHMENT_URL</span><span class="s2">"</span>
+<span class="w">    </span><span class="s2">"</span><span class="nv">$DATAPLATFORM_URL$ATTACHMENT_URL</span><span class="s2">"</span><span class="w"> </span>
 </pre></div>
 </div>
 </div>

@@ -7560,7 +7560,7 @@ Familiarity with oc and python is helpful. This notebook uses Python 3.9.</p>
 <p><a id="setup"></a></p>
 <h2 id="1.-Set-up-the-environment">1. Set up the environment<a class="anchor-link" href="#1.-Set-up-the-environment">¶</a></h2><p>Before you use the sample code in this notebook, you must perform the following setup tasks:</p>
 <ul>
-<li>Contact with your Cloud Pack for Data administrator and ask him for your account credentials</li>
+<li>Contact with your IBM Cloud Pak® for Data administrator and ask him for your account credentials</li>
 </ul>
 </div>
 </div>
@@ -7572,7 +7572,7 @@ Familiarity with oc and python is helpful. This notebook uses Python 3.9.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Connection-to-WML">Connection to WML<a class="anchor-link" href="#Connection-to-WML">¶</a></h3><p>Authenticate the Watson Machine Learning service on IBM Cloud Pack for Data. You need to provide platform <code>url</code>, your <code>username</code> and <code>api_key</code>.</p>
+<h3 id="Connection-to-WML">Connection to WML<a class="anchor-link" href="#Connection-to-WML">¶</a></h3><p>Authenticate the Watson Machine Learning service on IBM Cloud Pak® for Data. You need to provide platform <code>url</code>, your <code>username</code> and <code>api_key</code>.</p>
 </div>
 </div>
 </div>
@@ -7785,7 +7785,7 @@ Familiarity with oc and python is helpful. This notebook uses Python 3.9.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><em>Required Role: You must be a Cloud Pak for Data cluster administrator</em> </p>
+<p><em>Required Role: You must be a IBM Cloud Pak® for Data cluster administrator</em> </p>
 <p>The Creation of the custom image involves the following steps, which cannot be done from a notebook. It involves pulling building pushing docker images and can be performed in the cluster.</p>
 <ol>
 <li>Downloading the base image <a href="https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=image-downloading-base">https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=image-downloading-base</a></li>
@@ -7801,7 +7801,7 @@ Familiarity with oc and python is helpful. This notebook uses Python 3.9.</p>
 <pre><code>    cp.stg.icr.io/cp/cpd/wml-deployment-runtime-py38-1:4.0.2.78-amd64
 </code></pre>
 <p>If you do not remember which private registry have been enabled, you can use the below queries and links to help in identifying. These registrys are configured at installation time. more info - <a href="https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=tasks-configuring-your-cluster-pull-images">https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=tasks-configuring-your-cluster-pull-images</a></p>
-<pre><code>    oc get imageContentSourcePolicy/mirror-config -o yaml
+<pre><code>    oc get imageContentSourcePolicy/mirror-config -o yaml    
     oc get secret/pull-secret -n openshift-config -o jsonpath='{.data.\.dockerconfigjson}' | base64 -d
 </code></pre>
 <p>Pull the base image:</p>
@@ -7845,7 +7845,7 @@ RUN umask 002 &amp;&amp; \
 <p>Get default route URL and login</p>
 <pre><code>    DEFAULT_ROUTE_REG=$(oc get route default-route -n openshift-image-registry -o=jsonpath='{ .spec.host }')
     echo $DEFAULT_ROUTE_REG
-
+    
     e.g. default-route-openshift-image-registry.apps.wml402devdep3.cp.fyre.ibm.com
     podman login -u kubeadmin -p $(oc whoami -t) --tls-verify=false $DEFAULT_ROUTE_REG
 </code></pre>
@@ -7869,7 +7869,7 @@ RUN umask 002 &amp;&amp; \
     podman login -u &lt;user&gt; -p &lt;password&gt; cp.stg.icr.io/cp/cpd/
     podman tag wml-demo-image:test-1 cp.stg.icr.io/cp/cpd/wml-demo-image:test-1
     podman push cp.stg.icr.io/cp/cpd/wml-demo-image:test-1
-
+    
     Required custom image:
     cp.stg.icr.io/cp/cpd/wml-demo-image:test-1
 </code></pre>
@@ -8148,7 +8148,7 @@ RUN umask 002 &amp;&amp; \
     <span class="k">if</span> <span class="n">svc_inst</span><span class="p">[</span><span class="s1">'display_name'</span><span class="p">]</span> <span class="o">==</span> <span class="n">display_name</span><span class="p">:</span>
         <span class="n">vol_svc_id</span> <span class="o">=</span> <span class="n">svc_inst</span><span class="p">[</span><span class="s1">'id'</span><span class="p">]</span>
 
-
+        
 <span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">vol_svc_id:'</span><span class="p">,</span> <span class="n">vol_svc_id</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -8425,7 +8425,7 @@ software spec filename : cspec-38-1-t1.json
           <span class="p">{</span>
             <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"dummy-b"</span><span class="p">,</span>
             <span class="s2">"version"</span><span class="p">:</span> <span class="s2">"0.0.1"</span>
-          <span class="p">}</span>
+          <span class="p">}</span>         
         <span class="p">],</span>
         <span class="s2">"platform"</span><span class="p">:</span> <span class="p">{</span>
           <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"python"</span><span class="p">,</span>
@@ -8578,7 +8578,7 @@ software spec filename : cspec-38-1-t1.json
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>200
+<pre>200 
  {
   "metadata": {
     "name": "cspec-38-1-t1",
@@ -8966,7 +8966,7 @@ env-spec-sync-job   */5 * * * *   False     0        82s             23d
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-    <span class="n">CPDHOST</span> <span class="o">+</span>
+    <span class="n">CPDHOST</span> <span class="o">+</span> 
     <span class="sa">f</span><span class="s1">'/zen-data/v1/volumes/files/%2F_global_%2Fconfig%2F.runtime-definitions%2Fibm%2F</span><span class="si">{</span><span class="n">runtime_definition_filename</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span>
     <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
     <span class="n">verify</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -9021,7 +9021,7 @@ env-spec-sync-job   */5 * * * *   False     0        82s             23d
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-    <span class="n">CPDHOST</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">'/v2/runtime_definitions'</span><span class="p">,</span>
+    <span class="n">CPDHOST</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">'/v2/runtime_definitions'</span><span class="p">,</span> 
     <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
     <span class="n">verify</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">response</span><span class="o">.</span><span class="n">status_code</span>
@@ -9058,7 +9058,7 @@ env-spec-sync-job   */5 * * * *   False     0        82s             23d
 <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">'resources'</span><span class="p">]:</span>
     <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="s1">'entity'</span><span class="p">][</span><span class="s1">'runtime_type'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'wml'</span> <span class="ow">and</span> <span class="n">r</span><span class="p">[</span><span class="s1">'entity'</span><span class="p">][</span><span class="s1">'name'</span><span class="p">]</span> <span class="o">==</span> <span class="n">run_def_name</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
-
+        
 <span class="c1"># The `entity.software_configuration` metadata needs special authorization to see details.</span>
 <span class="c1"># It will be shown as empty dict here (internally it is not necessarily empty).</span>
 </pre></div>
@@ -9249,7 +9249,7 @@ env-spec-sync-job   */5 * * * *   False     0        82s             23d
 <div class="highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="n">writefile</span> <span class="n">aifun_</span><span class="p">{</span><span class="n">sw_spec_name</span><span class="p">}</span><span class="o">.</span><span class="n">py</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">score_generator</span><span class="p">():</span>
-
+        
     <span class="c1"># Define scoring function</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">callModel</span><span class="p">(</span><span class="n">payload_scoring</span><span class="p">):</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">simplejson</span>
@@ -9257,7 +9257,7 @@ env-spec-sync-job   */5 * * * *   False     0        82s             23d
         <span class="n">v4_scoring_response</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">'predictions'</span><span class="p">:</span> <span class="p">[{</span><span class="s1">'values'</span><span class="p">:</span> <span class="p">[</span><span class="n">simplejson</span><span class="o">.</span><span class="n">__version__</span><span class="p">]}]</span>
         <span class="p">}</span>
-
+    
         <span class="k">return</span> <span class="n">v4_scoring_response</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">score</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
@@ -9265,7 +9265,7 @@ env-spec-sync-job   */5 * * * *   False     0        82s             23d
         <span class="c1"># Score using the pre-defined model</span>
         <span class="n">prediction</span> <span class="o">=</span> <span class="n">callModel</span><span class="p">(</span><span class="nb">input</span><span class="p">);</span>
         <span class="k">return</span> <span class="n">prediction</span>
-
+    
     <span class="k">return</span> <span class="n">score</span>
 
 
