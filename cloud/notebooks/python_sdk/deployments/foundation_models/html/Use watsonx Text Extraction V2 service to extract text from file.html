@@ -7568,7 +7568,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Install-required-packages">Install required packages<a class="anchor-link" href="#Install-required-packages">¶</a></h3>
+<h3 id="Install-dependencies">Install dependencies<a class="anchor-link" href="#Install-dependencies">¶</a></h3><p><strong>Note:</strong> <code>ibm-watsonx-ai</code> documentation can be found <a href="https://ibm.github.io/watsonx-ai-python-sdk/index.html" rel="noopener no referrer" target="_blank">here</a>.</p>
 </div>
 </div>
 </div>
@@ -7580,8 +7580,8 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">pip</span> install wget | tail -n 1
-<span class="o">%</span><span class="k">pip</span> install "ibm-watsonx-ai&gt;=1.3.13" | tail -n 1
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="s2">"ibm-watsonx-ai&gt;=1.3.13"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -7725,7 +7725,11 @@ Successfully installed anyio-4.9.0 cachetools-6.1.0 certifi-2025.7.14 charset_no
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>The document from which we are going to extract text is located in IBM Cloud Object Storage (COS). In the following example we are going to use <a href="https://arxiv.org/pdf/2405.04324">Granite Code Models paper</a> as a source text document. Also, the final results file, which will contain extracted text and necessary metadata, will be placed in COS as well. Therefore, we use <code>ibm_watsonx_ai.helpers.DataConnection</code> and <code>ibm_watsonx_ai.helpers.S3Location</code> class to create a Python objects that will represent the references to the processed files. Please note that you have to create connection asset with your COS details (for detailed explanation how to do this see <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/manage-data/conn-cos.html?context=wx">IBM Cloud Object Storage connection</a> or check below cells).</p>
+<p>In the following example we are going to use <a href="https://arxiv.org/pdf/2405.04324">Granite Code Models paper</a> as a source text document.<br/>
+We will upload this document to IBM Cloud Object Storage using <code>ibm_watsonx_ai.helpers.DataConnection</code> and <code>ibm_watsonx_ai.helpers.S3Location</code> classes.<br/>
+To achieve that, creating a connection asset to COS in your project is required.<br/>
+For detailed explanation, see <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/manage-data/conn-cos.html?context=wx">IBM Cloud Object Storage connection</a> or check below cells.</p>
+<p><strong>Note:</strong> Other types of connections are available. For more details, see the <strong>Supported storage types</strong> section in the <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/fm-api-text-extraction.html?context=wx&amp;audience=wdp#requirements">documentation</a>.</p>
 </div>
 </div>
 </div>
@@ -7879,6 +7883,29 @@ SUCCESS
 <span class="p">)</span>
 </pre></div>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><strong>Note:</strong> In order to create references to Box, Microsoft SharePoint, or IBM Filenet, you should use <code>ibm_watsonx_ai.helpers.RemoteFileStorageLocation</code>:</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataConnection</span><span class="p">,</span> <span class="n">RemoteFileStorageLocation</span>
+
+<span class="n">document_reference</span> <span class="o">=</span> <span class="n">DataConnection</span><span class="p">(</span>
+    <span class="n">connection_asset_id</span><span class="o">=</span><span class="n">connection_asset_id</span><span class="p">,</span>
+    <span class="n">location</span><span class="o">=</span><span class="n">RemoteFileStorageLocation</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">"granite_code_models_paper.pdf"</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">results_reference</span> <span class="o">=</span> <span class="n">DataConnection</span><span class="p">(</span>
+    <span class="n">connection_asset_id</span><span class="o">=</span><span class="n">connection_asset_id</span><span class="p">,</span>
+    <span class="n">location</span><span class="o">=</span><span class="n">RemoteFileStorageLocation</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">"text_extraction_results/"</span><span class="p">),</span>  <span class="c1"># Must end with /</span>
+<span class="p">)</span>
+</pre></div>
 </div>
 </div>
 </div>
@@ -8060,7 +8087,7 @@ SEMANTIC_CONFIG           dict  N
                             <span class="s2">"evaluate the effectiveness of the proposed system, the generated ideas generated are selected and "</span>
                             <span class="s2">"assessed using a set of established creativity criteria."</span>
                         <span class="p">),</span>
-                    <span class="p">}</span>
+                    <span class="p">},</span>
                 <span class="p">},</span>
             <span class="p">}</span>
         <span class="p">],</span>
@@ -8091,7 +8118,6 @@ SEMANTIC_CONFIG           dict  N
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.extractions</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextExtractionsV2ResultFormats</span>
-
 
 <span class="n">single_format_job_details</span> <span class="o">=</span> <span class="n">extraction</span><span class="o">.</span><span class="n">run_job</span><span class="p">(</span>
     <span class="n">document_reference</span><span class="o">=</span><span class="n">document_reference</span><span class="p">,</span>
@@ -8665,6 +8691,7 @@ completed
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">IPython.core.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display_markdown</span>
 
 
