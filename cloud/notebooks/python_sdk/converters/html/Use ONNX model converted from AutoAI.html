@@ -7517,7 +7517,8 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Use-ONNX-model-converted-from-XGBoost-with-ibm-watsonx-ai">Use ONNX model converted from XGBoost with <code>ibm-watsonx-ai</code><a class="anchor-link" href="#Use-ONNX-model-converted-from-XGBoost-with-ibm-watsonx-ai">¶</a></h1><p>This notebook facilitates the <code>ONNX</code> format, the <code>XGBoost</code> library and the <code>watsonx.ai Runtime</code> service. It contains steps and code to work with <a href="https://pypi.org/project/ibm-watsonx-ai/">ibm-watsonx-ai</a> library in order to convert the model to ONNX format. It also introduces commands necessary for trainining data, persisting and deploying the model and finally scoring it.</p>
+<p><a id="use-onnx-model-converted-from-lightgbm"></a></p>
+<h1 id="Use-ONNX-model-converted-from-AutoAI-with-ibm-watsonx-ai">Use ONNX model converted from AutoAI with <code>ibm-watsonx-ai</code><a class="anchor-link" href="#Use-ONNX-model-converted-from-AutoAI-with-ibm-watsonx-ai">¶</a></h1><p>This notebook facilitates <code>ONNX</code>, <code>AutoAI</code>, and <code>watsonx.ai Runtime</code> service. It contains steps and code to work with <a href="https://pypi.python.org/pypi/ibm-watsonx-ai">ibm-watsonx-ai</a> library available in PyPI repository in order to convert the model to ONNX format. It also introduces commands for persisting, deploying and scoring the model.</p>
 <p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
 </div>
 </div>
@@ -7531,21 +7532,19 @@ a.anchor-link {
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="Learning-goals">Learning goals<a class="anchor-link" href="#Learning-goals">¶</a></h2><p>The learning goals of this notebook are:</p>
 <ul>
-<li>Train an XGBoost model.</li>
-<li>Convert the XGBoost model to the ONNX format.</li>
-<li>Persist the converted model in the watsonx.ai repository.</li>
-<li>Deploy model for online scoring using the APIClient instance.</li>
-<li>Score sample records using the APIClient instance.</li>
+<li>Train an AutoAI model</li>
+<li>Convert the native scikit-learn model to ONNX format</li>
+<li>Deploy the model for online scoring using client library</li>
+<li>Score sample records using the client library</li>
 </ul>
 <h2 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h2><p>This notebook contains the following parts:</p>
 <ol>
-<li><a href="#setup">Setting up the environment</a><br/></li>
-<li><a href="#train-model">Training an XGBoost model</a><br/></li>
-<li><a href="#convert">Converting the XGBoost model to the ONNX format</a><br/></li>
-<li><a href="#onnx-persist">Persisting the converted ONNX model</a><br/></li>
-<li><a href="#deploy">Deploying and scoring the ONNX model</a><br/></li>
-<li><a href="#cleanup">Cleaning up</a><br/></li>
-<li><a href="#summary">Summary and next steps</a><br/></li>
+<li><a href="#setup">Environment setup</a></li>
+<li><a href="#create">Optimizer definition</a></li>
+<li><a href="#convert">Experiment run</a></li>
+<li><a href="#deploy">Deploy and run</a></li>
+<li><a href="#cleanup">Cleanup</a></li>
+<li><a href="#summary">Summary and next steps</a></li>
 </ol>
 </div>
 </div>
@@ -7557,9 +7556,11 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="1.-Setting-up-the-environment-">1. Setting up the environment <a id="setup"></a><a class="anchor-link" href="#1.-Setting-up-the-environment-">¶</a></h2><p>Before you use the sample code in this notebook, you must perform the following setup tasks:</p>
+<p><a id="setup"></a>
+<a id="1-setting-up-the-environment"></a></p>
+<h2 id="1.-Environment-setup">1. Environment setup<a class="anchor-link" href="#1.-Environment-setup">¶</a></h2><p>Before you use the sample code in this notebook, you must perform the following setup tasks:</p>
 <ul>
-<li>Create a <a href="https://cloud.ibm.com/catalog/services/watsonxai-runtime">watsonx.ai Runtime</a> instance (information on service plans and further reading can be found <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/wml-plans.html?context=wx&amp;audience=wdp">here</a>)</li>
+<li>Create a <a href="https://cloud.ibm.com/catalog/services/watsonxai-runtime">watsonx.ai Runtime</a> instance (information on service plans and further reading can be found <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/wml-plans.html?context=wx&amp;audience=wdp">here</a>).</li>
 </ul>
 </div>
 </div>
@@ -7571,15 +7572,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="ml-packages"></a></p>
-<h3 id="1.1.-Installing-and-importing-the-ibm-watsonx-ai-and-dependencies">1.1. Installing and importing the <code>ibm-watsonx-ai</code> and dependencies<a class="anchor-link" href="#1.1.-Installing-and-importing-the-ibm-watsonx-ai-and-dependencies">¶</a></h3><p>Before you use the sample code in this notebook, install the following packages:</p>
-<ul>
-<li>ibm-watsonx-ai</li>
-<li>scikit-learn</li>
-<li>xgboost</li>
-<li>ONNX-related packages</li>
-</ul>
-<p><strong>Note:</strong> <code>ibm-watsonx-ai</code> documentation can be found <a href="https://ibm.github.io/watsonx-ai-python-sdk/index.html">here</a>.</p>
+<h3 id="1.1.-Installing-and-importing-the-ibm-watsonx-ai-and-dependencies">1.1. Installing and importing the <code>ibm-watsonx-ai</code> and dependencies<a class="anchor-link" href="#1.1.-Installing-and-importing-the-ibm-watsonx-ai-and-dependencies">¶</a></h3><p><strong>Note:</strong> <code>ibm-watsonx-ai</code> documentation can be found <a href="https://ibm.github.io/watsonx-ai-python-sdk/index.html" rel="noopener no referrer" target="_blank">here</a>.</p>
 </div>
 </div>
 </div>
@@ -7591,13 +7584,10 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">ibm</span><span class="o">-</span><span class="n">watsonx</span><span class="o">-</span><span class="n">ai</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="s2">"numpy&gt;=1.26.4,&lt;2"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">scikit</span><span class="o">-</span><span class="n">learn</span><span class="o">==</span><span class="mf">1.3.0</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="s2">"xgboost&gt;2.0.3,&lt;3"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">onnxruntime</span><span class="o">==</span><span class="mf">1.16.3</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">onnx</span><span class="o">==</span><span class="mf">1.16.2</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">onnxmltools</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">ibm</span><span class="o">-</span><span class="n">watsonx</span><span class="o">-</span><span class="n">ai</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="s2">"autoai_libs[onnx]&lt;3.0.0"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">onnxruntime</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -7610,15 +7600,47 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Successfully installed anyio-4.12.0 cachetools-6.2.2 certifi-2025.11.12 charset_normalizer-3.4.4 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 idna-3.11 jmespath-1.0.1 lomond-0.3.3 numpy-2.3.5 pandas-2.2.3 pytz-2025.2 requests-2.32.5 tabulate-0.9.0 tzdata-2025.2 urllib3-2.6.2
-Successfully installed numpy-1.26.4
-Successfully installed joblib-1.5.2 scikit-learn-1.3.0 scipy-1.16.3 threadpoolctl-3.6.0
-Successfully installed xgboost-2.1.4
-Successfully installed coloredlogs-15.0.1 flatbuffers-25.9.23 humanfriendly-10.0 mpmath-1.3.0 onnxruntime-1.16.3 protobuf-6.33.2 sympy-1.14.0
-Successfully installed onnx-1.16.2
-Successfully installed onnxmltools-1.14.0
+<pre>Successfully installed anyio-4.12.0 cachetools-6.2.2 certifi-2025.11.12 charset_normalizer-3.4.4 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-watsonx-ai-1.4.11 idna-3.11 jmespath-1.0.1 lomond-0.3.3 numpy-2.3.5 pandas-2.2.3 pytz-2025.2 requests-2.32.5 tabulate-0.9.0 tzdata-2025.2 urllib3-2.6.2
+Successfully installed wget-3.2
+Successfully installed astunparse-1.6.3 attrs-25.4.0 autoai_libs-2.0.29 black-25.12.0 click-8.3.1 cloudpickle-3.1.2 future-1.0.0 gensim-4.3.3 graphviz-0.21 greenery-3.3.3 hyperopt-0.2.7 joblib-1.5.2 jsonref-1.1.0 jsonschema-4.20.0 jsonschema-specifications-2025.9.1 jsonsubschema-0.0.7 lale-0.8.4 lightgbm-4.2.0 mypy-extensions-1.1.0 networkx-3.6.1 numpy-1.26.4 onnx-1.16.0 onnxconverter-common-1.13.0 onnxmltools-1.14.0 onnxruntime-extensions-0.13.0 pandas-2.1.4 parameterized-0.8.1 pathspec-0.12.1 portion-2.6.1 protobuf-6.33.2 py4j-0.10.9.9 pytokens-0.3.0 referencing-0.37.0 rpds-py-0.30.0 scikit-learn-1.3.2 scipy-1.13.1 skl2onnx-1.18.0 smart-open-7.5.0 sortedcontainers-2.4.0 threadpoolctl-3.6.0 tqdm-4.67.1 wheel-0.45.1 wrapt-2.0.1 xgboost-2.0.3
+Successfully installed coloredlogs-15.0.1 flatbuffers-25.9.23 humanfriendly-10.0 mpmath-1.3.0 onnxruntime-1.23.2 sympy-1.14.0
 </pre>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="1.2.-Connecting-to-watsonx.ai-Runtime">1.2. Connecting to watsonx.ai Runtime<a class="anchor-link" href="#1.2.-Connecting-to-watsonx.ai-Runtime">¶</a></h3><p>Authenticate with the watsonx.ai Runtime service on IBM Cloud. You need to provide platform <code>api_key</code> and instance <code>location</code>.</p>
+<p>You can use <a href="https://cloud.ibm.com/docs/cli/index.html">IBM Cloud CLI</a> to retrieve platform API Key and instance location.</p>
+<p>API Key can be generated in the following way:</p>
+<pre><code>ibmcloud login
+ibmcloud iam api-key-create API_KEY_NAME
+</code></pre>
+<p>Get the value of <code>api_key</code> from the output.</p>
+<p>Location of your watsonx.ai Runtime instance can be retrieved in the following way:</p>
+<pre><code>ibmcloud login --apikey API_KEY -a https://cloud.ibm.com
+ibmcloud resource service-instance INSTANCE_NAME
+</code></pre>
+<p>Get the value of <code>location</code> from the output.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><strong>Tip</strong>: You can generate your <code>Cloud API key</code> by going to the <a href="https://cloud.ibm.com/iam#/users"><strong>Users</strong> section of the Cloud console</a>. From that page, click your name, scroll down to the <strong>API Keys</strong> section, and click <strong>Create an IBM Cloud API key</strong>. Give your key a name and click <strong>Create</strong>, then copy the created key and paste it below. You can also get a service-specific url by going to the <a href="https://cloud.ibm.com/apidocs/machine-learning"><strong>Endpoint URLs</strong> section of the watsonx.ai Runtime docs</a>.  You can check your instance location in your  <a href="https://cloud.ibm.com/catalog/services/watson-machine-learning" rel="noopener no referrer" target="_blank">watsonx.ai Runtime Service</a> instance details.</p>
+<p>You can also get the service specific apikey by going to the <a href="https://cloud.ibm.com/iam/serviceids"><strong>Service IDs</strong> section of the Cloud Console</a>.  From that page, click <strong>Create</strong>, then copy the created key, and paste it below.</p>
+<p><strong>Action</strong>: Enter your <code>api_key</code> and <code>location</code> in the following cells.</p>
 </div>
 </div>
 </div>
@@ -7631,44 +7653,10 @@ Successfully installed onnxmltools-1.14.0
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">onnx</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">onnxruntime</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span><span class="p">,</span> <span class="n">Credentials</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">onnxmltools.convert</span><span class="w"> </span><span class="kn">import</span> <span class="n">convert_xgboost</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">onnxmltools.convert.common.data_types</span><span class="w"> </span><span class="kn">import</span> <span class="n">FloatTensorType</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">onnxmltools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">save_model</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn</span><span class="w"> </span><span class="kn">import</span> <span class="n">datasets</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">xgboost</span><span class="w"> </span><span class="kn">import</span> <span class="n">XGBClassifier</span>
+<span class="n">api_key</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Please enter your api key (hit enter): "</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="1.2.-Connecting-to-the-watsonx.ai-Runtime-">1.2. Connecting to the watsonx.ai Runtime <a id="connect"></a><a class="anchor-link" href="#1.2.-Connecting-to-the-watsonx.ai-Runtime-">¶</a></h3><p>Authenticate with the watsonx.ai Runtime service on IBM Cloud. You need to provide platform <code>api_key</code> and instance <code>location</code>.</p>
-<p>You can use <a href="https://cloud.ibm.com/docs/cli/index.html">IBM Cloud CLI</a> to retrieve platform API Key and instance location.</p>
-<p>API Key can be generated in the following way:</p>
-<div class="highlight"><pre><span></span><span class="w">    </span>ibmcloud<span class="w"> </span>login
-<span class="w">    </span>ibmcloud<span class="w"> </span>iam<span class="w"> </span>api-key-create<span class="w"> </span>API_KEY_NAME
-</pre></div>
-<p>Get the value of <code>api_key</code> from the output.</p>
-<p>Location of your watsonx.ai Runtime instance can be retrieved in the following way:</p>
-<div class="highlight"><pre><span></span><span class="w">    </span>ibmcloud<span class="w"> </span>login<span class="w"> </span>--apikey<span class="w"> </span>API_KEY<span class="w"> </span>-a<span class="w"> </span>https://cloud.ibm.com
-<span class="w">    </span>ibmcloud<span class="w"> </span>resource<span class="w"> </span>service-instance<span class="w"> </span>INSTANCE_NAME
-</pre></div>
-<p>Get the value of <code>location</code> from the output.</p>
-<p><strong>Tip</strong>: You can generate your <code>Cloud API key</code> by going to the <a href="https://cloud.ibm.com/iam#/users"><strong>Users</strong> section of the Cloud console</a>. From that page, click your name, scroll down to the <strong>API Keys</strong> section, and click <strong>Create an IBM Cloud API key</strong>. Give your key a name and click <strong>Create</strong>, then copy the created key and paste it below. You can also get a service-specific url by going to the <a href="https://cloud.ibm.com/apidocs/machine-learning"><strong>Endpoint URLs</strong> section of the watsonx.ai Runtime docs</a>.  You can check your instance location in your  <a href="https://cloud.ibm.com/catalog/services/watson-machine-learning" rel="noopener no referrer" target="_blank">watsonx.ai Runtime Service</a> instance details.</p>
-<p>You can also get the service specific apikey by going to the <a href="https://cloud.ibm.com/iam/serviceids"><strong>Service IDs</strong> section of the Cloud Console</a>.  From that page, click <strong>Create</strong>, then copy the created key, and paste it below.</p>
-<p><strong>Action</strong>: Enter your <code>api_key</code> and <code>location</code> in the following cells.</p>
 </div>
 </div>
 </div>
@@ -7680,21 +7668,7 @@ Successfully installed onnxmltools-1.14.0
 <div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">api_key</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Please enter your api key (hit enter): "</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">location</span> <span class="o">=</span> <span class="s2">"ENTER YOUR LOCATION HERE"</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">location</span> <span class="o">=</span> <span class="s2">"PASTE YOUR LOCATION HERE"</span>
 </pre></div>
 </div>
 </div>
@@ -7708,8 +7682,34 @@ Successfully installed onnxmltools-1.14.0
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>If you are running this notebook on Cloud, you can access the <code>location</code> via:</p>
-<div class="highlight"><pre><span></span>    <span class="n">location</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"RUNTIME_ENV_REGION"</span><span class="p">)</span>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<pre><code>location = os.environ.get("RUNTIME_ENV_REGION")
+</code></pre>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span>
+
+<span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">"https://</span><span class="si">{</span><span class="n">location</span><span class="si">}</span><span class="s2">.ml.cloud.ibm.com"</span><span class="p">)</span>
 </pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -7721,21 +7721,8 @@ Successfully installed onnxmltools-1.14.0
 <div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"https://</span><span class="si">{</span><span class="n">location</span><span class="si">}</span><span class="s2">.ml.cloud.ibm.com"</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span>
+
 <span class="n">client</span> <span class="o">=</span> <span class="n">APIClient</span><span class="p">(</span><span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -7749,12 +7736,12 @@ Successfully installed onnxmltools-1.14.0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="1.3.-Working-with-spaces-">1.3. Working with spaces <a id="spaces"></a><a class="anchor-link" href="#1.3.-Working-with-spaces-">¶</a></h3><p>First of all, you need to create a space that will be used for your work. If you do not have space already created, you can use <a href="https://dataplatform.cloud.ibm.com/ml-runtime/spaces?context=cpdaas">Deployment Spaces Dashboard</a> to create one.</p>
+<h3 id="1.3.-Working-with-spaces">1.3. Working with spaces<a class="anchor-link" href="#1.3.-Working-with-spaces">¶</a></h3><p>First of all, you need to create a space that will be used for your work. If you do not have a space, you can use <a href="https://dataplatform.cloud.ibm.com/ml-runtime/spaces?context=cpdaas">Deployment Spaces Dashboard</a> to create one.</p>
 <ul>
 <li>Click New Deployment Space</li>
 <li>Create an empty space</li>
 <li>Select Cloud Object Storage</li>
-<li>Select Watson Machine Learning instance and press Create</li>
+<li>Select watsonx.ai Runtime instance and press Create</li>
 <li>Copy <code>space_id</code> and paste it below</li>
 </ul>
 <p><strong>Tip</strong>: You can also use the <code>ibm_watsonx_ai</code> SDK to prepare the space for your work. More information can be found <a href="https://github.com/IBM/watson-machine-learning-samples/blob/master/cloud/notebooks/python_sdk/instance-management/Space%20management.ipynb">here</a>.</p>
@@ -7767,10 +7754,10 @@ Successfully installed onnxmltools-1.14.0
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">space_id</span> <span class="o">=</span> <span class="s2">"ENTER YOUR SPACE ID HERE"</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">space_id</span> <span class="o">=</span> <span class="s2">"PASTE YOUR SPACE ID HERE"</span>
 </pre></div>
 </div>
 </div>
@@ -7808,7 +7795,7 @@ Successfully installed onnxmltools-1.14.0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>To be able to interact with all resources available in watsonx.ai Runtime, you need to set space which you will be using.</p>
+<p>To be able to interact with all resources available in watsonx.ai Runtime, you need to set <strong>space</strong> which you will be using.</p>
 </div>
 </div>
 </div>
@@ -7817,7 +7804,7 @@ Successfully installed onnxmltools-1.14.0
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">set</span><span class="o">.</span><span class="n">default_space</span><span class="p">(</span><span class="n">space_id</span><span class="p">)</span>
@@ -7831,7 +7818,7 @@ Successfully installed onnxmltools-1.14.0
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>'SUCCESS'</pre>
 </div>
@@ -7845,29 +7832,21 @@ Successfully installed onnxmltools-1.14.0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="2.-Training-the-XGBoost-model-">2. Training the XGBoost model <a id="train-model"></a><a class="anchor-link" href="#2.-Training-the-XGBoost-model-">¶</a></h2>
+<h3 id="Connections-to-COS">Connections to COS<a class="anchor-link" href="#Connections-to-COS">¶</a></h3><p>In next cell we read the COS credentials from the space.</p>
 </div>
 </div>
 </div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>In this section, you will train a simple <code>XGBoost</code> model.</p>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_from_json</span>
+</pre></div>
 </div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="2.1-Loading-the-iris-data-">2.1 Loading the <a href="https://scikit-learn.org/1.3/auto_examples/datasets/plot_iris_dataset.html">iris</a> data <a id="iris-load"></a><a class="anchor-link" href="#2.1-Loading-the-iris-data-">¶</a></h3>
 </div>
 </div>
 </div>
@@ -7879,9 +7858,9 @@ Successfully installed onnxmltools-1.14.0
 <div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">iris</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_iris</span><span class="p">()</span>
-<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span>
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">space_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">spaces</span><span class="o">.</span><span class="n">get_details</span><span class="p">(</span><span class="n">space_id</span><span class="o">=</span><span class="n">space_id</span><span class="p">)</span>
+
+<span class="n">cos_credentials</span> <span class="o">=</span> <span class="n">get_from_json</span><span class="p">(</span><span class="n">space_details</span><span class="p">,</span> <span class="p">[</span><span class="s2">"entity"</span><span class="p">,</span> <span class="s2">"storage"</span><span class="p">,</span> <span class="s2">"properties"</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -7894,11 +7873,24 @@ Successfully installed onnxmltools-1.14.0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3>2.2. Training the XGBoost model <a id="xgboost-train"></a></h3>
+<p><a id="definition"></a></p>
+<h2 id="2.-Optimizer-definition">2. Optimizer definition<a class="anchor-link" href="#2.-Optimizer-definition">¶</a></h2>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Training-data-connection">Training data connection<a class="anchor-link" href="#Training-data-connection">¶</a></h3><p>Define connection information to COS bucket and training data CSV file. This example uses the <a href="https://raw.githubusercontent.com/IBM/watson-machine-learning-samples/master/cloud/data/credit_risk/credit_risk_training_light.csv">German Credit Risk dataset</a>.</p>
+<p>The code in next cell uploads training data to the bucket.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7906,41 +7898,10 @@ Successfully installed onnxmltools-1.14.0
 <div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">xgb_classifier</span> <span class="o">=</span> <span class="n">XGBClassifier</span><span class="p">(</span><span class="n">objective</span><span class="o">=</span><span class="s2">"objective='multiclass'"</span><span class="p">)</span>
-<span class="n">xgb_classifier</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s2">"credit_risk_training_light.csv"</span>
+<span class="n">datasource_name</span> <span class="o">=</span> <span class="s2">"bluemixcloudobjectstorage"</span>
+<span class="n">bucket_name</span> <span class="o">=</span> <span class="n">cos_credentials</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"bucket_name"</span><span class="p">)</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[10]:</div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
-<style>#sk-container-id-1 {color: black;}#sk-container-id-1 pre{padding: 0;}#sk-container-id-1 div.sk-toggleable {background-color: white;}#sk-container-id-1 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-1 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-1 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-1 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-1 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-1 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-1 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-1 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-1 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-1 div.sk-item {position: relative;z-index: 1;}#sk-container-id-1 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-1 div.sk-item::before, #sk-container-id-1 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-1 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-1 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-1 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-1 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-1 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-1 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-1 div.sk-label-container {text-align: center;}#sk-container-id-1 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-1 div.sk-text-repr-fallback {display: none;}</style><div class="sk-top-container" id="sk-container-id-1"><div class="sk-text-repr-fallback"><pre>XGBClassifier(base_score=None, booster=None, callbacks=None,
-              colsample_bylevel=None, colsample_bynode=None,
-              colsample_bytree=None, device=None, early_stopping_rounds=None,
-              enable_categorical=False, eval_metric=None, feature_types=None,
-              gamma=None, grow_policy=None, importance_type=None,
-              interaction_constraints=None, learning_rate=None, max_bin=None,
-              max_cat_threshold=None, max_cat_to_onehot=None,
-              max_delta_step=None, max_depth=None, max_leaves=None,
-              min_child_weight=None, missing=nan, monotone_constraints=None,
-              multi_strategy=None, n_estimators=None, n_jobs=None,
-              num_parallel_tree=None, objective='multi:softprob', ...)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</br></b></div><div class="sk-container" hidden=""><div class="sk-item"><div class="sk-estimator sk-toggleable"><input checked="" class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox"/><label class="sk-toggleable__label sk-toggleable__label-arrow" for="sk-estimator-id-1">XGBClassifier</label><div class="sk-toggleable__content"><pre>XGBClassifier(base_score=None, booster=None, callbacks=None,
-              colsample_bylevel=None, colsample_bynode=None,
-              colsample_bytree=None, device=None, early_stopping_rounds=None,
-              enable_categorical=False, eval_metric=None, feature_types=None,
-              gamma=None, grow_policy=None, importance_type=None,
-              interaction_constraints=None, learning_rate=None, max_bin=None,
-              max_cat_threshold=None, max_cat_to_onehot=None,
-              max_delta_step=None, max_depth=None, max_leaves=None,
-              min_child_weight=None, missing=nan, monotone_constraints=None,
-              multi_strategy=None, n_estimators=None, n_jobs=None,
-              num_parallel_tree=None, objective='multi:softprob', ...)</pre></div></div></div></div></div>
 </div>
 </div>
 </div>
@@ -7952,11 +7913,11 @@ Successfully installed onnxmltools-1.14.0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="2.3.-Evaluating-the-model-">2.3. Evaluating the model <a id="xgboost-test"></a><a class="anchor-link" href="#2.3.-Evaluating-the-model-">¶</a></h3>
+<p>Download training data from git repository.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7964,24 +7925,18 @@ Successfully installed onnxmltools-1.14.0
 <div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">xgb_classifier</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">wget</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s2">"https://raw.githubusercontent.com/IBM/watsonx-ai-samples/master/cloud/data/credit_risk/credit_risk_training_light.csv"</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[11]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>array([1, 0, 2])</pre>
-</div>
-</div>
-</div>
-</div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
@@ -7989,22 +7944,11 @@ Successfully installed onnxmltools-1.14.0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="3.-Converting-the-XGBoost-model-to-the-ONNX-format-">3. Converting the XGBoost model to the ONNX format <a id="convert"></a><a class="anchor-link" href="#3.-Converting-the-XGBoost-model-to-the-ONNX-format-">¶</a></h2><p>In this section, you will convert the model to the ONNX format.</p>
+<h4 id="Create-connection">Create connection<a class="anchor-link" href="#Create-connection">¶</a></h4>
 </div>
 </div>
 </div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="3.1.-Converting-the-model">3.1. Converting the model<a class="anchor-link" href="#3.1.-Converting-the-model">¶</a></h3>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8012,154 +7956,26 @@ Successfully installed onnxmltools-1.14.0
 <div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">initial_type</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">"float_input"</span><span class="p">,</span> <span class="n">FloatTensorType</span><span class="p">([</span><span class="kc">None</span><span class="p">,</span> <span class="mi">4</span><span class="p">]))]</span>
-<span class="n">onnx_model</span> <span class="o">=</span> <span class="n">convert_xgboost</span><span class="p">(</span><span class="n">xgb_classifier</span><span class="p">,</span> <span class="n">initial_types</span><span class="o">=</span><span class="n">initial_type</span><span class="p">)</span>
-<span class="n">onnx_model_filename</span> <span class="o">=</span> <span class="s2">"xgboost_onnx_model.onnx"</span>
-<span class="n">save_model</span><span class="p">(</span><span class="n">onnx_model</span><span class="p">,</span> <span class="n">onnx_model_filename</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><strong>Note:</strong> To convert a scikit-learn pipeline with an XGBoost model refer to the <a href="https://onnx.ai/sklearn-onnx/auto_tutorial/plot_gexternal_xgboost.html">documentation</a>.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="onnx-check"></a></p>
-<h3 id="3.2.-Evaluating-the-ONNX-model">3.2. Evaluating the ONNX model<a class="anchor-link" href="#3.2.-Evaluating-the-ONNX-model">¶</a></h3><p>After exporting the model, you should verify its integrity and ensure that it functions as expected. We will use <code>onnxruntime</code> to load the model and perform inference on the test data. Additionally, we’ll use <code>onnx</code>'s <code>checker</code> module to validate the exported ONNX model.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">onnx</span><span class="o">.</span><span class="n">checker</span><span class="o">.</span><span class="n">check_model</span><span class="p">(</span><span class="n">onnx_model</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">session</span> <span class="o">=</span> <span class="n">onnxruntime</span><span class="o">.</span><span class="n">InferenceSession</span><span class="p">(</span><span class="n">onnx_model_filename</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">conn_meta_props</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Connection to Database - </span><span class="si">{</span><span class="n">datasource_name</span><span class="si">}</span><span class="s2"> "</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DATASOURCE_TYPE</span><span class="p">:</span> <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">get_datasource_type_id_by_name</span><span class="p">(</span>
+        <span class="n">datasource_name</span>
+    <span class="p">),</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DESCRIPTION</span><span class="p">:</span> <span class="s2">"Connection to external Database"</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">PROPERTIES</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"bucket"</span><span class="p">:</span> <span class="n">bucket_name</span><span class="p">,</span>
+        <span class="s2">"access_key"</span><span class="p">:</span> <span class="n">get_from_json</span><span class="p">(</span>
+            <span class="n">cos_credentials</span><span class="p">,</span> <span class="p">[</span><span class="s2">"credentials"</span><span class="p">,</span> <span class="s2">"editor"</span><span class="p">,</span> <span class="s2">"access_key_id"</span><span class="p">]</span>
+        <span class="p">),</span>
+        <span class="s2">"secret_key"</span><span class="p">:</span> <span class="n">get_from_json</span><span class="p">(</span>
+            <span class="n">cos_credentials</span><span class="p">,</span> <span class="p">[</span><span class="s2">"credentials"</span><span class="p">,</span> <span class="s2">"editor"</span><span class="p">,</span> <span class="s2">"secret_access_key"</span><span class="p">]</span>
+        <span class="p">),</span>
+        <span class="s2">"iam_url"</span><span class="p">:</span> <span class="s2">"https://iam.cloud.ibm.com/identity/token"</span><span class="p">,</span>
+        <span class="s2">"url"</span><span class="p">:</span> <span class="n">cos_credentials</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"endpoint_url"</span><span class="p">),</span>
+    <span class="p">},</span>
+<span class="p">}</span>
 
-<span class="n">input_data</span> <span class="o">=</span> <span class="p">{</span><span class="n">session</span><span class="o">.</span><span class="n">get_inputs</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">X_test</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()}</span>
-<span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">([],</span> <span class="n">input_data</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[14]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>[array([1, 0, 2], dtype=int64),
- array([[3.1062283e-03, 9.9465597e-01, 2.2377740e-03],
-        [9.9564880e-01, 3.7033202e-03, 6.4796471e-04],
-        [2.9969326e-04, 6.2021421e-04, 9.9908006e-01]], dtype=float32)]</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Every classifier, by design, produces two outputs: the predicted label and the probability distribution across all possible labels.</p>
-<p>As you can see, the predicted values are consistent with those calculated in the <a href="#xgboost-test">evaluation section</a>.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="onnx-persist"></a></p>
-<h2 id="4.-Persisting-the-converted-ONNX-model">4. Persisting the converted ONNX model<a class="anchor-link" href="#4.-Persisting-the-converted-ONNX-model">¶</a></h2><p>In this section, you will learn how to store your converted ONNX model in watsonx.ai Runtime.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Define model name, type and software spec.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">sw_spec_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">get_id_by_name</span><span class="p">(</span><span class="s2">"onnxruntime_opset_19"</span><span class="p">)</span>
-<span class="n">onnx_model_zip</span> <span class="o">=</span> <span class="s2">"xgboost_onnx_model.zip"</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Save the info to an archive.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="err">!</span><span class="nb">zip</span> <span class="p">{</span><span class="n">onnx_model_zip</span><span class="p">}</span> <span class="p">{</span><span class="n">onnx_model_filename</span><span class="p">}</span>
+<span class="n">conn_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">meta_props</span><span class="o">=</span><span class="n">conn_meta_props</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8172,7 +7988,8 @@ Successfully installed onnxmltools-1.14.0
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  adding: xgboost_onnx_model.onnx (deflated 83%)
+<pre>Creating connections...
+SUCCESS
 </pre>
 </div>
 </div>
@@ -8185,8 +8002,24 @@ Successfully installed onnxmltools-1.14.0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="onnx-publish"></a></p>
-<h3 id="4.1.-Publishing-the-ONNX-model-to-the-watsonx.ai-Runtime-repository">4.1. Publishing the ONNX model to the watsonx.ai Runtime repository<a class="anchor-link" href="#4.1.-Publishing-the-ONNX-model-to-the-watsonx.ai-Runtime-repository">¶</a></h3>
+<p><strong>Note</strong>: The above connection can be initialized alternatively with <code>api_key</code> and <code>resource_instance_id</code>.<br/>
+The above cell can be replaced with:</p>
+<pre><code>conn_meta_props= {
+    client.connections.ConfigurationMetaNames.NAME: f"Connection to Database - {db_name} ",
+    client.connections.ConfigurationMetaNames.DATASOURCE_TYPE: client.connections.get_datasource_type_id_by_name(db_name),
+    client.connections.ConfigurationMetaNames.DESCRIPTION: "Connection to external Database",
+    client.connections.ConfigurationMetaNames.PROPERTIES: {
+        "bucket": bucket_name,
+        "api_key": cos_credentials["apikey"],
+        "resource_instance_id": cos_credentials["resource_instance_id"],
+        "iam_url": "https://iam.cloud.ibm.com/identity/token",
+        "url": "https://s3.us.cloud-object-storage.appdomain.cloud"
+    }
+}
+
+conn_details = client.connections.create(meta_props=conn_meta_props)
+
+</code></pre>
 </div>
 </div>
 </div>
@@ -8195,17 +8028,429 @@ Successfully installed onnxmltools-1.14.0
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">ModelMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"XGBoost to ONNX converted model"</span><span class="p">,</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">ModelMetaNames</span><span class="o">.</span><span class="n">TYPE</span><span class="p">:</span> <span class="s2">"onnxruntime_1.16"</span><span class="p">,</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">ModelMetaNames</span><span class="o">.</span><span class="n">SOFTWARE_SPEC_ID</span><span class="p">:</span> <span class="n">sw_spec_id</span><span class="p">,</span>
-<span class="p">}</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">connection_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">conn_details</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Define connection information to training data.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataConnection</span><span class="p">,</span> <span class="n">S3Location</span>
 
-<span class="n">published_model</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">store_model</span><span class="p">(</span>
-    <span class="n">model</span><span class="o">=</span><span class="n">onnx_model_zip</span><span class="p">,</span> <span class="n">meta_props</span><span class="o">=</span><span class="n">metadata</span>
+<span class="n">credit_risk_conn</span> <span class="o">=</span> <span class="n">DataConnection</span><span class="p">(</span>
+    <span class="n">connection_asset_id</span><span class="o">=</span><span class="n">connection_id</span><span class="p">,</span>
+    <span class="n">location</span><span class="o">=</span><span class="n">S3Location</span><span class="p">(</span><span class="n">bucket</span><span class="o">=</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">filename</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">training_data_reference</span> <span class="o">=</span> <span class="p">[</span><span class="n">credit_risk_conn</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Check the connection information. Upload the data and validate.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">credit_risk_conn</span><span class="o">.</span><span class="n">set_client</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+<span class="n">credit_risk_conn</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="n">remote_name</span><span class="o">=</span><span class="n">filename</span><span class="p">)</span>
+<span class="n">credit_risk_conn</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[15]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>CheckingStatus</th>
+<th>LoanDuration</th>
+<th>CreditHistory</th>
+<th>LoanPurpose</th>
+<th>LoanAmount</th>
+<th>ExistingSavings</th>
+<th>EmploymentDuration</th>
+<th>InstallmentPercent</th>
+<th>Sex</th>
+<th>OthersOnLoan</th>
+<th>...</th>
+<th>OwnsProperty</th>
+<th>Age</th>
+<th>InstallmentPlans</th>
+<th>Housing</th>
+<th>ExistingCreditsCount</th>
+<th>Job</th>
+<th>Dependents</th>
+<th>Telephone</th>
+<th>ForeignWorker</th>
+<th>Risk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>0_to_200</td>
+<td>31</td>
+<td>credits_paid_to_date</td>
+<td>other</td>
+<td>1889</td>
+<td>100_to_500</td>
+<td>less_1</td>
+<td>3</td>
+<td>female</td>
+<td>none</td>
+<td>...</td>
+<td>savings_insurance</td>
+<td>32</td>
+<td>none</td>
+<td>own</td>
+<td>1</td>
+<td>skilled</td>
+<td>1</td>
+<td>none</td>
+<td>yes</td>
+<td>No Risk</td>
+</tr>
+<tr>
+<th>1</th>
+<td>less_0</td>
+<td>18</td>
+<td>credits_paid_to_date</td>
+<td>car_new</td>
+<td>462</td>
+<td>less_100</td>
+<td>1_to_4</td>
+<td>2</td>
+<td>female</td>
+<td>none</td>
+<td>...</td>
+<td>savings_insurance</td>
+<td>37</td>
+<td>stores</td>
+<td>own</td>
+<td>2</td>
+<td>skilled</td>
+<td>1</td>
+<td>none</td>
+<td>yes</td>
+<td>No Risk</td>
+</tr>
+<tr>
+<th>2</th>
+<td>less_0</td>
+<td>15</td>
+<td>prior_payments_delayed</td>
+<td>furniture</td>
+<td>250</td>
+<td>less_100</td>
+<td>1_to_4</td>
+<td>2</td>
+<td>male</td>
+<td>none</td>
+<td>...</td>
+<td>real_estate</td>
+<td>28</td>
+<td>none</td>
+<td>own</td>
+<td>2</td>
+<td>skilled</td>
+<td>1</td>
+<td>yes</td>
+<td>no</td>
+<td>No Risk</td>
+</tr>
+<tr>
+<th>3</th>
+<td>0_to_200</td>
+<td>28</td>
+<td>credits_paid_to_date</td>
+<td>retraining</td>
+<td>3693</td>
+<td>less_100</td>
+<td>greater_7</td>
+<td>3</td>
+<td>male</td>
+<td>none</td>
+<td>...</td>
+<td>savings_insurance</td>
+<td>32</td>
+<td>none</td>
+<td>own</td>
+<td>1</td>
+<td>skilled</td>
+<td>1</td>
+<td>none</td>
+<td>yes</td>
+<td>No Risk</td>
+</tr>
+<tr>
+<th>4</th>
+<td>no_checking</td>
+<td>28</td>
+<td>prior_payments_delayed</td>
+<td>education</td>
+<td>6235</td>
+<td>500_to_1000</td>
+<td>greater_7</td>
+<td>3</td>
+<td>male</td>
+<td>none</td>
+<td>...</td>
+<td>unknown</td>
+<td>57</td>
+<td>none</td>
+<td>own</td>
+<td>2</td>
+<td>skilled</td>
+<td>1</td>
+<td>none</td>
+<td>yes</td>
+<td>Risk</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th>244</th>
+<td>0_to_200</td>
+<td>22</td>
+<td>credits_paid_to_date</td>
+<td>repairs</td>
+<td>812</td>
+<td>less_100</td>
+<td>4_to_7</td>
+<td>3</td>
+<td>male</td>
+<td>none</td>
+<td>...</td>
+<td>savings_insurance</td>
+<td>19</td>
+<td>bank</td>
+<td>rent</td>
+<td>1</td>
+<td>unemployed</td>
+<td>1</td>
+<td>none</td>
+<td>yes</td>
+<td>No Risk</td>
+</tr>
+<tr>
+<th>245</th>
+<td>0_to_200</td>
+<td>13</td>
+<td>prior_payments_delayed</td>
+<td>furniture</td>
+<td>2735</td>
+<td>500_to_1000</td>
+<td>4_to_7</td>
+<td>2</td>
+<td>female</td>
+<td>none</td>
+<td>...</td>
+<td>savings_insurance</td>
+<td>45</td>
+<td>stores</td>
+<td>rent</td>
+<td>2</td>
+<td>skilled</td>
+<td>1</td>
+<td>none</td>
+<td>yes</td>
+<td>Risk</td>
+</tr>
+<tr>
+<th>246</th>
+<td>less_0</td>
+<td>28</td>
+<td>credits_paid_to_date</td>
+<td>radio_tv</td>
+<td>530</td>
+<td>less_100</td>
+<td>1_to_4</td>
+<td>2</td>
+<td>male</td>
+<td>none</td>
+<td>...</td>
+<td>real_estate</td>
+<td>32</td>
+<td>stores</td>
+<td>own</td>
+<td>1</td>
+<td>skilled</td>
+<td>1</td>
+<td>none</td>
+<td>yes</td>
+<td>No Risk</td>
+</tr>
+<tr>
+<th>247</th>
+<td>less_0</td>
+<td>17</td>
+<td>credits_paid_to_date</td>
+<td>retraining</td>
+<td>2119</td>
+<td>less_100</td>
+<td>1_to_4</td>
+<td>3</td>
+<td>female</td>
+<td>none</td>
+<td>...</td>
+<td>savings_insurance</td>
+<td>23</td>
+<td>bank</td>
+<td>rent</td>
+<td>1</td>
+<td>unskilled</td>
+<td>1</td>
+<td>none</td>
+<td>yes</td>
+<td>No Risk</td>
+</tr>
+<tr>
+<th>248</th>
+<td>no_checking</td>
+<td>26</td>
+<td>outstanding_credit</td>
+<td>furniture</td>
+<td>3573</td>
+<td>greater_1000</td>
+<td>greater_7</td>
+<td>5</td>
+<td>male</td>
+<td>none</td>
+<td>...</td>
+<td>car_other</td>
+<td>39</td>
+<td>none</td>
+<td>own</td>
+<td>2</td>
+<td>skilled</td>
+<td>1</td>
+<td>none</td>
+<td>yes</td>
+<td>Risk</td>
+</tr>
+</tbody>
+</table>
+<p>249 rows × 21 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Optimizer-configuration">Optimizer configuration<a class="anchor-link" href="#Optimizer-configuration">¶</a></h3><p>Provide the input information for AutoAI optimizer:</p>
+<ul>
+<li><code>name</code> - experiment name</li>
+<li><code>prediction_type</code> - type of the problem</li>
+<li><code>prediction_column</code> - target column name</li>
+<li><code>scoring</code> - optimization metric</li>
+</ul>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.experiment</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoAI</span>
+
+<span class="n">experiment</span> <span class="o">=</span> <span class="n">AutoAI</span><span class="p">(</span><span class="n">credentials</span><span class="p">,</span> <span class="n">space_id</span><span class="o">=</span><span class="n">space_id</span><span class="p">)</span>
+
+<span class="n">pipeline_optimizer</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">optimizer</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"Credit Risk Prediction - AutoAI"</span><span class="p">,</span>
+    <span class="n">prediction_type</span><span class="o">=</span><span class="n">AutoAI</span><span class="o">.</span><span class="n">PredictionType</span><span class="o">.</span><span class="n">BINARY</span><span class="p">,</span>
+    <span class="n">prediction_column</span><span class="o">=</span><span class="s2">"Risk"</span><span class="p">,</span>
+    <span class="n">include_only_estimators</span><span class="o">=</span><span class="p">[</span><span class="s2">"RandomForestClassifier"</span><span class="p">],</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -8219,8 +8464,98 @@ Successfully installed onnxmltools-1.14.0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="onnx-details"></a></p>
-<h3 id="4.2.-Getting-model-details">4.2. Getting model details<a class="anchor-link" href="#4.2.-Getting-model-details">¶</a></h3>
+<p>Configuration parameters can be retrieved via <code>get_params()</code>.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">pipeline_optimizer</span><span class="o">.</span><span class="n">get_params</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>{'name': 'Credit Risk Prediction - AutoAI',
+ 'desc': '',
+ 'prediction_type': 'binary',
+ 'prediction_column': 'Risk',
+ 'prediction_columns': None,
+ 'timestamp_column_name': None,
+ 'scoring': None,
+ 'holdout_size': None,
+ 'max_num_daub_ensembles': None,
+ 't_shirt_size': 'l',
+ 'train_sample_rows_test_size': None,
+ 'include_only_estimators': [&lt;ClassificationAlgorithms.RF: 'RandomForestClassifier'&gt;],
+ 'include_batched_ensemble_estimators': None,
+ 'backtest_num': None,
+ 'lookback_window': None,
+ 'forecast_window': None,
+ 'backtest_gap_length': None,
+ 'cognito_transform_names': None,
+ 'csv_separator': ',',
+ 'excel_sheet': None,
+ 'encoding': 'utf-8',
+ 'positive_label': None,
+ 'drop_duplicates': True,
+ 'outliers_columns': None,
+ 'text_processing': None,
+ 'word2vec_feature_number': None,
+ 'daub_give_priority_to_runtime': None,
+ 'text_columns_names': None,
+ 'sampling_type': None,
+ 'sample_size_limit': None,
+ 'sample_rows_limit': None,
+ 'sample_percentage_limit': None,
+ 'number_of_batch_rows': None,
+ 'n_parallel_data_connections': None,
+ 'test_data_csv_separator': ',',
+ 'test_data_excel_sheet': None,
+ 'test_data_encoding': 'utf-8',
+ 'categorical_imputation_strategy': None,
+ 'numerical_imputation_strategy': None,
+ 'numerical_imputation_value': None,
+ 'imputation_threshold': None,
+ 'retrain_on_holdout': True,
+ 'feature_columns': None,
+ 'pipeline_types': None,
+ 'supporting_features_at_forecast': None,
+ 'numerical_columns': None,
+ 'categorical_columns': None,
+ 'confidence_level': None,
+ 'incremental_learning': None,
+ 'early_stop_enabled': None,
+ 'early_stop_window_size': None,
+ 'time_ordered_data': None,
+ 'feature_selector_mode': None,
+ 'run_id': None}</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><a id="run"></a></p>
+<h2 id="3.-Experiment-run">3. Experiment run<a class="anchor-link" href="#3.-Experiment-run">¶</a></h2><p>Call the <code>fit()</code> method to trigger the AutoAI experiment. You can either use interactive mode (synchronous job) or background mode (asychronous job) by specifying <code>background_model=True</code>.</p>
 </div>
 </div>
 </div>
@@ -8232,9 +8567,9 @@ Successfully installed onnxmltools-1.14.0
 <div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">published_model_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">get_model_id</span><span class="p">(</span><span class="n">published_model</span><span class="p">)</span>
-<span class="n">model_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">get_details</span><span class="p">(</span><span class="n">published_model_id</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">model_details</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">run_details</span> <span class="o">=</span> <span class="n">pipeline_optimizer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+    <span class="n">training_data_reference</span><span class="o">=</span><span class="n">training_data_reference</span><span class="p">,</span> <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8247,32 +8582,7 @@ Successfully installed onnxmltools-1.14.0
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>{
-  "metadata": {
-    "name": "XGBoost to ONNX converted model",
-    "space_id": "fb3d528a-bf16-460e-bcf6-06f05d8ba57c",
-    "resource_key": "233fd931-aa52-4911-a4ce-07f0ef6523e3",
-    "id": "61f2036d-14da-4468-b377-de60ca06bbf6",
-    "created_at": "2025-12-12T10:34:09Z",
-    "rov": {
-      "member_roles": {
-        "IBMid-696000GJGB": {
-          "user_iam_id": "IBMid-696000GJGB",
-          "roles": [
-            "OWNER"
-          ]
-        }
-      }
-    },
-    "owner": "IBMid-696000GJGB"
-  },
-  "entity": {
-    "software_spec": {
-      "id": "368d2795-aaa7-59a0-834c-248c64a5a99e"
-    },
-    "type": "onnxruntime_1.16"
-  }
-}
+<pre>Training job c5bb1f49-573e-49d9-8641-2a35adb5aa35 completed: 100%|████████| [03:03&lt;00:00,  1.84s/it]
 </pre>
 </div>
 </div>
@@ -8285,20 +8595,7 @@ Successfully installed onnxmltools-1.14.0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="deploy"></a></p>
-<h2 id="5.-Deploying-and-scoring-the-ONNX-model">5. Deploying and scoring the ONNX model<a class="anchor-link" href="#5.-Deploying-and-scoring-the-ONNX-model">¶</a></h2><p>In this section you'll learn how to create an online scoring service and predict on unseen data.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="onnx-create"></a></p>
-<h3 id="5.1.-Creating-an-online-deployment-for-published-model">5.1. Creating an online deployment for published model<a class="anchor-link" href="#5.1.-Creating-an-online-deployment-for-published-model">¶</a></h3>
+<p>You can use the <code>get_run_status()</code> method to monitor AutoAI jobs in background mode.</p>
 </div>
 </div>
 </div>
@@ -8310,12 +8607,7 @@ Successfully installed onnxmltools-1.14.0
 <div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"Deployment of XGBoost to ONNX converted model"</span><span class="p">,</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">ONLINE</span><span class="p">:</span> <span class="p">{},</span>
-<span class="p">}</span>
-
-<span class="n">created_deployment</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">published_model_id</span><span class="p">,</span> <span class="n">meta_props</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">pipeline_optimizer</span><span class="o">.</span><span class="n">get_run_status</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -8325,35 +8617,15 @@ Successfully installed onnxmltools-1.14.0
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-
-######################################################################################
-
-Synchronous deployment creation for id: '61f2036d-14da-4468-b377-de60ca06bbf6' started
-
-######################################################################################
-
-
-initializing
-Note: online_url and serving_urls are deprecated and will be removed in a future release. Use inference instead.
-....
-ready
-
-
------------------------------------------------------------------------------------------------
-Successfully finished deployment creation, deployment_id='27da2ef1-01f0-4931-a151-f78029230337'
------------------------------------------------------------------------------------------------
-
-
-</pre>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[19]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>'completed'</pre>
 </div>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8361,20 +8633,188 @@ Successfully finished deployment creation, deployment_id='27da2ef1-01f0-4931-a15
 <div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">deployment_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">created_deployment</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">pipeline_optimizer</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[20]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Enhancements</th>
+<th>Estimator</th>
+<th>training_roc_auc</th>
+<th>holdout_average_precision</th>
+<th>holdout_log_loss</th>
+<th>training_accuracy</th>
+<th>holdout_roc_auc</th>
+<th>training_balanced_accuracy</th>
+<th>training_f1</th>
+<th>holdout_precision</th>
+<th>training_average_precision</th>
+<th>training_log_loss</th>
+<th>holdout_recall</th>
+<th>training_precision</th>
+<th>holdout_accuracy</th>
+<th>holdout_balanced_accuracy</th>
+<th>training_recall</th>
+<th>holdout_f1</th>
+</tr>
+<tr>
+<th>Pipeline Name</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>Pipeline_1</th>
+<td></td>
+<td>RandomForestClassifier</td>
+<td>0.816915</td>
+<td>0.540392</td>
+<td>0.138312</td>
+<td>0.754535</td>
+<td>0.731618</td>
+<td>0.698857</td>
+<td>0.826206</td>
+<td>0.944444</td>
+<td>0.897597</td>
+<td>1.043863</td>
+<td>1.000000</td>
+<td>0.813956</td>
+<td>0.96</td>
+<td>0.937500</td>
+<td>0.839744</td>
+<td>0.971429</td>
+</tr>
+<tr>
+<th>Pipeline_2</th>
+<td>HPO</td>
+<td>RandomForestClassifier</td>
+<td>0.857733</td>
+<td>0.540481</td>
+<td>0.526002</td>
+<td>0.781261</td>
+<td>0.772059</td>
+<td>0.760147</td>
+<td>0.838123</td>
+<td>0.833333</td>
+<td>0.933404</td>
+<td>0.492098</td>
+<td>0.882353</td>
+<td>0.863971</td>
+<td>0.80</td>
+<td>0.753676</td>
+<td>0.814103</td>
+<td>0.857143</td>
+</tr>
+<tr>
+<th>Pipeline_3</th>
+<td>HPO, FE</td>
+<td>RandomForestClassifier</td>
+<td>0.857885</td>
+<td>0.537330</td>
+<td>0.518701</td>
+<td>0.790150</td>
+<td>0.750000</td>
+<td>0.773981</td>
+<td>0.842970</td>
+<td>0.800000</td>
+<td>0.927565</td>
+<td>0.459822</td>
+<td>0.705882</td>
+<td>0.876053</td>
+<td>0.68</td>
+<td>0.665441</td>
+<td>0.814103</td>
+<td>0.750000</td>
+</tr>
+<tr>
+<th>Pipeline_4</th>
+<td>HPO, FE, HPO</td>
+<td>RandomForestClassifier</td>
+<td>0.863282</td>
+<td>0.539113</td>
+<td>0.531957</td>
+<td>0.785706</td>
+<td>0.764706</td>
+<td>0.766735</td>
+<td>0.840249</td>
+<td>0.857143</td>
+<td>0.931310</td>
+<td>0.458750</td>
+<td>0.705882</td>
+<td>0.869655</td>
+<td>0.72</td>
+<td>0.727941</td>
+<td>0.814103</td>
+<td>0.774194</td>
+</tr>
+<tr>
+<th>Pipeline_5</th>
+<td>HPO, FE, HPO, Ensemble</td>
+<td>BatchedTreeEnsembleClassifier(RandomForestClas...</td>
+<td>0.863282</td>
+<td>0.539113</td>
+<td>0.531957</td>
+<td>0.785706</td>
+<td>0.764706</td>
+<td>0.766735</td>
+<td>0.840249</td>
+<td>0.857143</td>
+<td>0.931310</td>
+<td>0.458750</td>
+<td>0.705882</td>
+<td>0.869655</td>
+<td>0.72</td>
+<td>0.727941</td>
+<td>0.814103</td>
+<td>0.774194</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Now you can print an online scoring endpoint.</p>
+</div>
 </div>
 </div>
 </div>
@@ -8386,21 +8826,9 @@ Successfully finished deployment creation, deployment_id='27da2ef1-01f0-4931-a15
 <div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_scoring_href</span><span class="p">(</span><span class="n">created_deployment</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">pipeline_name</span> <span class="o">=</span> <span class="s2">"Pipeline_1"</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="deployment-details"> </a></p>
-<h3 id="5.2.-Getting-deployment-details">5.2. Getting deployment details<a class="anchor-link" href="#5.2.-Getting-deployment-details">¶</a></h3>
 </div>
 </div>
 </div>
@@ -8412,7 +8840,9 @@ Successfully finished deployment creation, deployment_id='27da2ef1-01f0-4931-a15
 <div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_details</span><span class="p">(</span><span class="n">deployment_id</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">pipeline_model</span> <span class="o">=</span> <span class="n">pipeline_optimizer</span><span class="o">.</span><span class="n">get_pipeline</span><span class="p">(</span>
+    <span class="n">pipeline_name</span><span class="o">=</span><span class="n">pipeline_name</span><span class="p">,</span> <span class="n">astype</span><span class="o">=</span><span class="n">AutoAI</span><span class="o">.</span><span class="n">PipelineTypes</span><span class="o">.</span><span class="n">ONNX</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8425,9 +8855,8 @@ Successfully finished deployment creation, deployment_id='27da2ef1-01f0-4931-a15
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="deployment-score"></a></p>
-<h3 id="5.3.-Scoring">5.3. Scoring<a class="anchor-link" href="#5.3.-Scoring">¶</a></h3><p>You can use below method to do test scoring request against deployed model.
-Prepare scoring payload with records to score.</p>
+<p><a id="evaluation"></a></p>
+<h3 id="3.1.-Model-evaluation">3.1. Model evaluation<a class="anchor-link" href="#3.1.-Model-evaluation">¶</a></h3>
 </div>
 </div>
 </div>
@@ -8439,45 +8868,9 @@ Prepare scoring payload with records to score.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">scoring_payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"input_data"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"values"</span><span class="p">:</span> <span class="n">X_test</span><span class="p">[:</span><span class="mi">3</span><span class="p">]}]}</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">X_test</span> <span class="o">=</span> <span class="n">credit_risk_conn</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">"Risk"</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:</span><span class="mi">3</span><span class="p">]</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Use <code>client.deployments.score()</code> method to run scoring.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">deployment_id</span><span class="p">,</span> <span class="n">scoring_payload</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Let's see the predictions result</p>
 </div>
 </div>
 </div>
@@ -8486,10 +8879,85 @@ Prepare scoring payload with records to score.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">X_test_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">col</span><span class="p">:</span> <span class="n">X_test</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">[</span><span class="n">x</span><span class="p">])</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">X_test</span><span class="o">.</span><span class="n">columns</span><span class="p">}</span>
+<span class="n">pipeline_model</span><span class="o">.</span><span class="n">run</span><span class="p">([],</span> <span class="n">X_test_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[24]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>[array(['No Risk', 'No Risk', 'No Risk'], dtype=object),
+ [{'No Risk': 0.8999999761581421, 'Risk': 0.10000000149011612},
+  {'No Risk': 1.0, 'Risk': 0.0},
+  {'No Risk': 0.800000011920929, 'Risk': 0.20000000298023224}]]</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><a id="scoring"></a></p>
+<h2 id="4.-Deploy-and-score">4. Deploy and score<a class="anchor-link" href="#4.-Deploy-and-score">¶</a></h2><p>In this section you will learn how to deploy and score pipeline model as webservice using watsonx.ai Runtime instance.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Online-deployment-creation">Online deployment creation<a class="anchor-link" href="#Online-deployment-creation">¶</a></h3>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">run_id</span> <span class="o">=</span> <span class="n">get_from_json</span><span class="p">(</span><span class="n">run_details</span><span class="p">,</span> <span class="p">[</span><span class="s2">"metadata"</span><span class="p">,</span> <span class="s2">"id"</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.deployment</span><span class="w"> </span><span class="kn">import</span> <span class="n">WebService</span>
+
+<span class="n">service</span> <span class="o">=</span> <span class="n">WebService</span><span class="p">(</span><span class="n">credentials</span><span class="p">,</span> <span class="n">source_space_id</span><span class="o">=</span><span class="n">space_id</span><span class="p">)</span>
+
+<span class="n">service</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">experiment_run_id</span><span class="o">=</span><span class="n">run_id</span><span class="p">,</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">pipeline_name</span><span class="p">,</span>
+    <span class="n">deployment_name</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Credit Risk Deployment AutoAI - ONNX - </span><span class="si">{</span><span class="n">pipeline_name</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8502,38 +8970,29 @@ Prepare scoring payload with records to score.</p>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>{
-  "predictions": [
-    {
-      "id": "label",
-      "values": [
-        1,
-        0,
-        2
-      ]
-    },
-    {
-      "id": "probabilities",
-      "values": [
-        [
-          0.003106228308752179,
-          0.994655966758728,
-          0.0022377739660441875
-        ],
-        [
-          0.9956488013267517,
-          0.0037033201660960913,
-          0.0006479647126980126
-        ],
-        [
-          0.0002996932598762214,
-          0.000620214210357517,
-          0.9990800619125366
-        ]
-      ]
-    }
-  ]
-}
+<pre>Preparing an AutoAI Deployment...
+Published model uid: 62e3bf7b-37f7-4c38-8e4e-db82ce5a9f79
+Deploying model 62e3bf7b-37f7-4c38-8e4e-db82ce5a9f79 using V4 client.
+
+
+######################################################################################
+
+Synchronous deployment creation for id: '62e3bf7b-37f7-4c38-8e4e-db82ce5a9f79' started
+
+######################################################################################
+
+
+initializing
+Note: online_url and serving_urls are deprecated and will be removed in a future release. Use inference instead.
+.....
+ready
+
+
+-----------------------------------------------------------------------------------------------
+Successfully finished deployment creation, deployment_id='368c2d8f-cb12-430f-be1d-0ff493b2d3d5'
+-----------------------------------------------------------------------------------------------
+
+
 </pre>
 </div>
 </div>
@@ -8546,7 +9005,165 @@ Prepare scoring payload with records to score.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>As you can see, the predicted values are consistent with those calculated in the <a href="#onnx-check">evaluation section</a>.</p>
+<p>Deployment object could be printed to show basic information:</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [27]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">service</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>To show all available information about the deployment use the <code>.get_params()</code> method:</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [28]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">service</span><span class="o">.</span><span class="n">get_params</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [29]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">deployment_id</span> <span class="o">=</span> <span class="n">get_from_json</span><span class="p">(</span><span class="n">service</span><span class="o">.</span><span class="n">get_params</span><span class="p">(),</span> <span class="p">[</span><span class="s2">"metadata"</span><span class="p">,</span> <span class="s2">"id"</span><span class="p">])</span>
+<span class="n">deployment_id</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Note: online_url and serving_urls are deprecated and will be removed in a future release. Use inference instead.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[29]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>'368c2d8f-cb12-430f-be1d-0ff493b2d3d5'</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [30]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">scoring_payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"input_data"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"values"</span><span class="p">:</span> <span class="n">X_test</span><span class="p">}]}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Webservice-scoring">Webservice scoring<a class="anchor-link" href="#Webservice-scoring">¶</a></h3><p>You can make scoring request by calling <code>score()</code> on deployed pipeline.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [31]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">deployment_id</span><span class="p">,</span> <span class="n">scoring_payload</span><span class="p">)</span>
+
+<span class="n">predictions</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[31]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>{'predictions': [{'fields': ['prediction', 'probability'],
+   'values': [['No Risk', [0.9, 0.1]],
+    ['No Risk', [1.0, 0.0]],
+    ['No Risk', [0.8, 0.2]]]}]}</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>If you want to work with the web service in an external Python application you can retrieve the service object by:</p>
+<ul>
+<li>Initialize the service by <code>service = WebService(credentials)</code></li>
+<li>Get deployment_id by <code>service.list()</code> method</li>
+<li>Get webservice object by <code>service.get('deployment_id')</code> method</li>
+</ul>
+<p>After that you can call <code>service.score()</code> method.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Deleting-deployment">Deleting deployment<a class="anchor-link" href="#Deleting-deployment">¶</a></h3><p>You can delete the existing deployment by calling the <code>service.delete()</code> command.
+To list the existing web services you can use <code>service.list()</code>.</p>
 </div>
 </div>
 </div>
@@ -8558,17 +9175,7 @@ Prepare scoring payload with records to score.</p>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><a id="cleanup"></a></p>
-<h2 id="6.-Cleaning-up">6. Cleaning up<a class="anchor-link" href="#6.-Cleaning-up">¶</a></h2><p>If you want to clean up after the notebook execution, i.e. remove any created assets like:</p>
-<ul>
-<li>experiments<br/></li>
-<li>trainings<br/></li>
-<li>pipelines<br/></li>
-<li>model definitions<br/></li>
-<li>models<br/></li>
-<li>functions<br/></li>
-<li>deployments<br/></li>
-</ul>
-<p>please follow up this sample <a href="https://github.com/IBM/watson-machine-learning-samples/blob/8e3a3ece6aa7d872eeb072d0705bc5a0cf90ff60/cloud/notebooks/python_sdk/instance-management/Machine%20Learning%20artifacts%20management.ipynb">notebook</a>.<br/></p>
+<h2 id="5.-Cleanup">5. Cleanup<a class="anchor-link" href="#5.-Cleanup">¶</a></h2>
 </div>
 </div>
 </div>
@@ -8579,8 +9186,52 @@ Prepare scoring payload with records to score.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="summary"></a></p>
-<h2 id="7.-Summary-and-next-steps">7. Summary and next steps<a class="anchor-link" href="#7.-Summary-and-next-steps">¶</a></h2><p>You successfully completed this notebook! You learned how to use ONNX, XGBoost package as well as watsonx.ai Runtime for model creation and deployment. Check out our <em><a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/welcome-main.html?context=wx">Online Documentation</a></em> for more samples, tutorials, documentation, how-tos, and blog posts.<br/></p>
+<p>If you want to clean up after the notebook execution, i.e. remove any created assets like:</p>
+<ul>
+<li>experiments</li>
+<li>trainings</li>
+<li>pipelines</li>
+<li>model definitions</li>
+<li>models</li>
+<li>functions</li>
+<li>deployments</li>
+</ul>
+<p>please follow up this sample <a href="https://github.com/IBM/watson-machine-learning-samples/blob/master/cloud/notebooks/python_sdk/instance-management/Machine%20Learning%20artifacts%20management.ipynb">notebook</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><a id="summary"></a>
+<a id="7-summary-and-next-steps"></a></p>
+<h2 id="6.-Summary-and-next-steps">6. Summary and next steps<a class="anchor-link" href="#6.-Summary-and-next-steps">¶</a></h2>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>You successfully completed this notebook! You learned how to use ONNX, scikit-learn machine learning library as well as watsonx.ai Runtime for model creation and deployment. Check out our <em><a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/welcome-main.html?context=wx">Online Documentation</a></em> for more samples, tutorials, documentation, how-tos, and blog posts.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Authors">Authors<a class="anchor-link" href="#Authors">¶</a></h3><p><strong>Marta Tomzik</strong>, Software Engineer at watsonx.ai</p>
 </div>
 </div>
 </div>
