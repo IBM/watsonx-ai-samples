@@ -7517,7 +7517,8 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Use-AutoAI-and-AI-lifecycle-to-predict-credit-risk-with-ibm-watson-machine-learning">Use AutoAI and AI lifecycle to predict credit risk with <code>ibm-watson-machine-learning</code><a class="anchor-link" href="#Use-AutoAI-and-AI-lifecycle-to-predict-credit-risk-with-ibm-watson-machine-learning">¶</a></h1>
+<p><img alt="image" src="https://raw.githubusercontent.com/IBM/watson-machine-learning-samples/master/cloud/notebooks/headers/watsonx-Prompt_Lab-Notebook.png"/></p>
+<h1 id="Use-watsonx,-llama-3-1-70b-instruct-and-LlamaIndex-to-make-simple-chat-conversation-and-tool-calls.">Use watsonx, <code>llama-3-1-70b-instruct</code> and LlamaIndex to make simple chat conversation and tool calls.<a class="anchor-link" href="#Use-watsonx,-llama-3-1-70b-instruct-and-LlamaIndex-to-make-simple-chat-conversation-and-tool-calls.">¶</a></h1>
 </div>
 </div>
 </div>
@@ -7528,28 +7529,22 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>This notebook contains the steps and code to demonstrate support of AI Lifecycle features of am AutoAI model in Watson Machine Learning Service in Watson Machine Learning service. It contains steps and code to work with <a href="https://pypi.python.org/pypi/ibm-watson-machine-learning">ibm-watson-machine-learning</a> library available in PyPI repository. It also introduces commands for  training, persisting and deploying model, scoring it, updating the model and redeploying it.</p>
-<p>Some familiarity with Python is helpful. This notebook uses Python 3.9.</p>
-<h2 id="Learning-goals">Learning goals<a class="anchor-link" href="#Learning-goals">¶</a></h2><p>The learning goals of this notebook are:</p>
-<ul>
-<li>Work with Watson Machine Learning experiments to train AutoAI models.</li>
-<li>Persist an external model in Watson Machine Learning repository.</li>
-<li>Deploy model for online scoring using client library.</li>
-<li>Score sample records using client library.</li>
-<li>Update previously persisted model.</li>
-<li>Redeploy model in-place.</li>
+<h4 id="Disclaimers">Disclaimers<a class="anchor-link" href="#Disclaimers">¶</a></h4><ul>
+<li>Use only Projects and Spaces that are available in watsonx context.</li>
 </ul>
-<h2 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h2><p>This notebook contains the following parts:</p>
-<ol>
+<h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook provides a detailed demonstration of the steps and code required to showcase support for Chat models, including the integration of tools using <a href="https://docs.llamaindex.ai/en/stable/module_guides/deploying/chat_engines/">LlamaIndex</a>, ReActAgent and watsonx.ai models.</p>
+<p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
+<h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The purpose of this notebook is to show how to use chat models like <code>meta-llama/llama-3-1-70b-instruct</code> using the LlamaIndex tools and integration with ReActAgent.</p>
+<p>LlamaIndex is an open source data orchestration framework for building large language model (LLM) applications. LlamaIndex is available in Python and TypeScript and leverages a combination of tools and capabilities that simplify the process of context augmentation for generative AI (gen AI) use cases through a Retrieval-Augmented (RAG) pipeline.</p>
+<p>More examples can be found <a href="https://docs.llamaindex.ai/en/stable/examples/llm/ibm_watsonx/">here</a>.</p>
+<h2 id="Table-of-Contents">Table of Contents<a class="anchor-link" href="#Table-of-Contents">¶</a></h2><p>This notebook contains the following parts:</p>
+<ul>
 <li><a href="#setup">Setup</a></li>
-<li><a href="#definition">Optimizer definition</a></li>
-<li><a href="#run">Experiment Run</a></li>
-<li><a href="#persistence">Persist and Deploy trained AutoAI model</a></li>
-<li><a href="#refine">Refine and persist new version of the model</a></li>
-<li><a href="#redeploy">Redeploy and score new version of the model</a></li>
-<li><a href="#cleanup">Clean up</a></li>
-<li><a href="#summary">Summary and next steps</a></li>
-</ol>
+<li><a href="#models">Foundation Models on watsonx</a></li>
+<li><a href="#chatwatsonx">LlamaIndex integration</a></li>
+<li><a href="#reactagent">Using ReActAgent for chatting</a></li>
+<li><a href="#summary">Summary</a></li>
+</ul>
 </div>
 </div>
 </div>
@@ -7561,7 +7556,10 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><a id="setup"></a></p>
-<h2 id="1.-Set-up-the-environment">1. Set up the environment<a class="anchor-link" href="#1.-Set-up-the-environment">¶</a></h2><p>Before you use the sample code in this notebook, contact with your IBM Cloud Pak® for Data administrator and ask for your account credentials.</p>
+<h2 id="Set-up-the-environment">Set up the environment<a class="anchor-link" href="#Set-up-the-environment">¶</a></h2><p>Before you use the sample code in this notebook, you must perform the following setup tasks:</p>
+<ul>
+<li>Create a <a href="https://cloud.ibm.com/catalog/services/watson-machine-learning" rel="noopener no referrer" target="_blank">Watson Machine Learning (WML) Service</a> instance (a free plan is offered and information about how to create the instance can be found <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/wml-plans.html?context=wx&amp;audience=wdp" rel="noopener no referrer" target="_blank">here</a>).</li>
+</ul>
 </div>
 </div>
 </div>
@@ -7572,7 +7570,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Connection-to-WML">Connection to WML<a class="anchor-link" href="#Connection-to-WML">¶</a></h3><p>Authenticate the Watson Machine Learning service on IBM Cloud Pak® for Data. You need to provide platform <code>url</code>, your <code>username</code> and <code>api_key</code>.</p>
+<h3 id="Install-and-import-the-datasets-and-dependencies">Install and import the <code>datasets</code> and dependencies<a class="anchor-link" href="#Install-and-import-the-datasets-and-dependencies">¶</a></h3>
 </div>
 </div>
 </div>
@@ -7581,32 +7579,10 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">username</span> <span class="o">=</span> <span class="s1">'PASTE YOUR USERNAME HERE'</span>
-<span class="n">api_key</span> <span class="o">=</span> <span class="s1">'PASTE YOUR API_KEY HERE'</span>
-<span class="n">url</span> <span class="o">=</span> <span class="s1">'PASTE THE PLATFORM URL HERE'</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">wml_credentials</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"username"</span><span class="p">:</span> <span class="n">username</span><span class="p">,</span>
-    <span class="s2">"apikey"</span><span class="p">:</span> <span class="n">api_key</span><span class="p">,</span>
-    <span class="s2">"url"</span><span class="p">:</span> <span class="n">url</span><span class="p">,</span>
-    <span class="s2">"instance_id"</span><span class="p">:</span> <span class="s1">'openshift'</span><span class="p">,</span>
-    <span class="s2">"version"</span><span class="p">:</span> <span class="s1">'4.5'</span>
-<span class="p">}</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span><span class="s2">"llama-index-llms-ibm&gt;=0.3.0"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
 </pre></div>
 </div>
 </div>
@@ -7619,44 +7595,8 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Alternatively you can use <code>username</code> and <code>password</code> to authenticate WML services.</p>
-<pre><code>wml_credentials = {
-    "username": ***,
-    "password": ***,
-    "url": ***,
-    "instance_id": 'openshift',
-    "version": '4.5'
-}
-
-</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Install-and-import-the-ibm-watson-machine-learning-package">Install and import the <code>ibm-watson-machine-learning</code> package<a class="anchor-link" href="#Install-and-import-the-ibm-watson-machine-learning-package">¶</a></h3><p><strong>Note:</strong> <code>ibm-watson-machine-learning</code> documentation can be found <a href="http://ibm-wml-api-pyclient.mybluemix.net/" rel="noopener no referrer" target="_blank">here</a>.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>ibm-watson-machine-learning<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>autoai-libs<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>lale<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>scikit-learn<span class="o">==</span><span class="m">1</span>.0.2<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
-</pre></div>
-</div>
+<h3 id="Define-the-WML-credentials">Define the WML credentials<a class="anchor-link" href="#Define-the-WML-credentials">¶</a></h3><p>Use the code cell below to define the WML credentials that are required to work with watsonx Foundation Model inferencing.</p>
+<p><strong>Action:</strong> Provide the IBM Cloud user API key. For details, see <a href="https://cloud.ibm.com/docs/account?topic=account-userapikey&amp;interface=ui" rel="noopener no referrer" target="_blank">Managing user API keys</a>.</p>
 </div>
 </div>
 </div>
@@ -7668,294 +7608,12 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watson_machine_learning</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span>
 
-<span class="n">client</span> <span class="o">=</span> <span class="n">APIClient</span><span class="p">(</span><span class="n">wml_credentials</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Working-with-spaces">Working with spaces<a class="anchor-link" href="#Working-with-spaces">¶</a></h3><p>First of all, you need to create a space that will be used for your work. If you do not have space already created, you can use <code>{PLATFORM_URL}/ml-runtime/spaces?context=icp4data</code> to create one.</p>
-<ul>
-<li>Click New Deployment Space</li>
-<li>Create an empty space</li>
-<li>Go to space <code>Settings</code> tab</li>
-<li>Copy <code>space_id</code> and paste it below</li>
-</ul>
-<p><strong>Tip</strong>: You can also use SDK to prepare the space for your work. More information can be found <a href="https://github.com/IBM/watson-machine-learning-samples/blob/master/cpd4.5/notebooks/python_sdk/instance-management/Space%20management.ipynb">here</a>.</p>
-<p><strong>Action</strong>: Assign space ID below</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">space_id</span> <span class="o">=</span> <span class="s1">'PASTE YOUR SPACE ID HERE'</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>You can use the <code>list</code> method to print all existing spaces.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">spaces</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>To be able to interact with all resources available in Watson Machine Learning, you need to set the <strong>space</strong> which you will be using.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">set</span><span class="o">.</span><span class="n">default_space</span><span class="p">(</span><span class="n">space_id</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[4]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'SUCCESS'</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="definition"></a></p>
-<h2 id="2.-Optimizer-definition">2. Optimizer definition<a class="anchor-link" href="#2.-Optimizer-definition">¶</a></h2>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Training-data-connection">Training data connection<a class="anchor-link" href="#Training-data-connection">¶</a></h3><p>Define connection information to training data CSV file. This example uses the German Credit Risk dataset.</p>
-<p>The dataset can be downloaded from <a href="https://github.com/IBM/watson-machine-learning-samples/blob/master/cpd4.5/data/credit_risk/credit_risk_training_light.csv">here</a>.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s1">'credit_risk_training_light.csv'</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Download training data from git repository.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span><span class="o">,</span><span class="w"> </span><span class="nn">wget</span>
-
-<span class="n">url</span> <span class="o">=</span> <span class="s1">'https://raw.githubusercontent.com/IBM/watson-machine-learning-samples/master/cpd4.5/data/credit_risk/credit_risk_training_light.csv'</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span> <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">asset_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s1">'credit_risk_training'</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
-<span class="n">asset_details</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Creating data asset...
-SUCCESS
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>{'metadata': {'rov': {'mode': 0, 'collaborator_ids': {}},
-  'space_id': '507f09f6-e591-4c7b-8169-731021cb5f0d',
-  'usage': {'last_updated_at': '2021-10-18T14:30:49Z',
-   'last_updater_id': '1000330999',
-   'last_update_time': 1634567449696,
-   'last_accessed_at': '2021-10-18T14:30:49Z',
-   'last_access_time': 1634567449696,
-   'last_accessor_id': '1000330999',
-   'access_count': 0},
-  'name': 'credit_risk_training',
-  'description': '',
-  'tags': [],
-  'asset_type': 'data_asset',
-  'origin_country': 'us',
-  'resource_key': 'credit_risk_training',
-  'rating': 0.0,
-  'total_ratings': 0,
-  'catalog_id': '9defae00-d9cc-46dc-b84b-337cb13bf73c',
-  'created': 1634567449696,
-  'created_at': '2021-10-18T14:30:49Z',
-  'owner_id': '1000330999',
-  'size': 0,
-  'version': 2.0,
-  'asset_state': 'available',
-  'asset_attributes': ['data_asset'],
-  'asset_id': 'a6ec5b47-8dfc-4e34-94d3-1ced8958c8e5',
-  'asset_category': 'USER',
-  'guid': 'a6ec5b47-8dfc-4e34-94d3-1ced8958c8e5',
-  'href': '/v2/assets/a6ec5b47-8dfc-4e34-94d3-1ced8958c8e5?space_id=507f09f6-e591-4c7b-8169-731021cb5f0d',
-  'last_updated_at': '2021-10-18T14:30:49Z'},
- 'entity': {'data_asset': {'mime_type': 'text/csv'}}}</pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watson_machine_learning.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataConnection</span><span class="p">,</span> <span class="n">AssetLocation</span>
-
-
-<span class="n">credit_risk_conn</span> <span class="o">=</span> <span class="n">DataConnection</span><span class="p">(</span>
-    <span class="n">location</span><span class="o">=</span><span class="n">AssetLocation</span><span class="p">(</span><span class="n">asset_id</span><span class="o">=</span><span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">asset_details</span><span class="p">)))</span>
-
-<span class="n">training_data_reference</span><span class="o">=</span><span class="p">[</span><span class="n">credit_risk_conn</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Optimizer-configuration">Optimizer configuration<a class="anchor-link" href="#Optimizer-configuration">¶</a></h3><p>Provide the input information for AutoAI optimizer:</p>
-<ul>
-<li><code>name</code> - experiment name</li>
-<li><code>prediction_type</code> - type of the problem</li>
-<li><code>prediction_column</code> - target column name</li>
-<li><code>scoring</code> - optimization metric</li>
-</ul>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watson_machine_learning.experiment</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoAI</span>
-
-<span class="n">experiment</span> <span class="o">=</span> <span class="n">AutoAI</span><span class="p">(</span><span class="n">wml_credentials</span><span class="p">,</span> <span class="n">space_id</span><span class="o">=</span><span class="n">space_id</span><span class="p">)</span>
-
-<span class="n">pipeline_optimizer</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">optimizer</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s1">'Credit Risk Prediction - AutoAI'</span><span class="p">,</span>
-    <span class="n">prediction_type</span><span class="o">=</span><span class="n">AutoAI</span><span class="o">.</span><span class="n">PredictionType</span><span class="o">.</span><span class="n">BINARY</span><span class="p">,</span>
-    <span class="n">prediction_column</span><span class="o">=</span><span class="s1">'Risk'</span><span class="p">,</span>
-    <span class="n">scoring</span><span class="o">=</span><span class="n">AutoAI</span><span class="o">.</span><span class="n">Metrics</span><span class="o">.</span><span class="n">ROC_AUC_SCORE</span><span class="p">,</span>
+<span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span>
+    <span class="n">url</span><span class="o">=</span><span class="s2">"https://us-south.ml.cloud.ibm.com"</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Enter your WML API key and hit enter: "</span><span class="p">),</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -7969,60 +7627,25 @@ SUCCESS
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Configuration parameters can be retrieved via <code>get_params()</code>.</p>
+<h3 id="Define-the-project-ID">Define the project ID<a class="anchor-link" href="#Define-the-project-ID">¶</a></h3><p>You need to provide the project ID to give the Foundation Model the context for the call. If you have a default project ID set in Watson Studio, the notebook obtains that project ID. Otherwise, you need to provide the project ID in the code cell below.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">pipeline_optimizer</span><span class="o">.</span><span class="n">get_params</span><span class="p">()</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">project_id</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"PROJECT_ID"</span><span class="p">]</span>
+<span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+    <span class="n">project_id</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Enter your project_id and hit enter: "</span><span class="p">)</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>{'name': 'Credit Risk Prediction - AutoAI',
- 'desc': '',
- 'prediction_type': 'binary',
- 'prediction_column': 'Risk',
- 'prediction_columns': None,
- 'timestamp_column_name': None,
- 'scoring': 'roc_auc',
- 'holdout_size': 0.1,
- 'max_num_daub_ensembles': 2,
- 't_shirt_size': 'm',
- 'train_sample_rows_test_size': None,
- 'include_only_estimators': None,
- 'backtest_num': None,
- 'lookback_window': None,
- 'forecast_window': None,
- 'backtest_gap_length': None,
- 'cognito_transform_names': None,
- 'data_join_graph': False,
- 'csv_separator': ',',
- 'excel_sheet': 0,
- 'encoding': 'utf-8',
- 'positive_label': None,
- 'drop_duplicates': True,
- 'text_processing': None,
- 'word2vec_feature_number': None,
- 'daub_give_priority_to_runtime': None,
- 'text_columns_names': None,
- 'n_parallel_data_connections': None,
- 'run_id': None}</pre>
 </div>
 </div>
 </div>
@@ -8034,36 +7657,32 @@ SUCCESS
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="run"></a></p>
-<h2 id="3.-Experiment-run">3. Experiment run<a class="anchor-link" href="#3.-Experiment-run">¶</a></h2><p>Call the <code>fit()</code> method to trigger the AutoAI experiment. You can either use interactive mode (synchronous job) or background mode (asychronous job) by specifying <code>background_model=True</code>.</p>
+<p><a id="models"></a></p>
+<h2 id="Set-up-a-Foundation-Model-on-watsonx.ai">Set up a Foundation Model on <code>watsonx.ai</code><a class="anchor-link" href="#Set-up-a-Foundation-Model-on-watsonx.ai">¶</a></h2>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Specify the <code>model_id</code> of the model you will use for the chat with tools.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">run_details</span> <span class="o">=</span> <span class="n">pipeline_optimizer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
-            <span class="n">training_data_reference</span><span class="o">=</span><span class="n">training_data_reference</span><span class="p">,</span>
-            <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">model_id</span> <span class="o">=</span> <span class="s2">"meta-llama/llama-3-1-70b-instruct"</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Training job ff24edc0-0d19-46cb-8b91-fe993f4daf2a completed: 100%|████████| [03:41&lt;00:00,  2.21s/it]
-</pre>
 </div>
 </div>
 </div>
@@ -8075,7 +7694,41 @@ SUCCESS
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>You can use the <code>get_run_status()</code> method to monitor AutoAI jobs in background mode.</p>
+<p><a id="chatwatsonx"></a></p>
+<h2 id="LlamaIndex-integration">LlamaIndex integration<a class="anchor-link" href="#LlamaIndex-integration">¶</a></h2><p><code>WatsonxLLM</code> is a wrapper around watsonx.ai models that provides chat integration around these models.</p>
+<h3 id="Initialize-the-WatsonxLLM-class">Initialize the <code>WatsonxLLM</code> class<a class="anchor-link" href="#Initialize-the-WatsonxLLM-class">¶</a></h3>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.llms.ibm</span><span class="w"> </span><span class="kn">import</span> <span class="n">WatsonxLLM</span>
+
+<span class="n">llm</span> <span class="o">=</span> <span class="n">WatsonxLLM</span><span class="p">(</span>
+    <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span>
+    <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+    <span class="n">apikey</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span>
+    <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Answer a simple question using a defined object.</p>
 </div>
 </div>
 </div>
@@ -8087,7 +7740,10 @@ SUCCESS
 <div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">pipeline_optimizer</span><span class="o">.</span><span class="n">get_run_status</span><span class="p">()</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatMessage</span><span class="p">,</span> <span class="n">MessageRole</span>
+
+<span class="n">msg</span> <span class="o">=</span> <span class="n">ChatMessage</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="n">MessageRole</span><span class="o">.</span><span class="n">USER</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="s1">'Answer in short sentence: what is generative AI?'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">llm</span><span class="o">.</span><span class="n">chat</span><span class="p">([</span><span class="n">msg</span><span class="p">]))</span>
 </pre></div>
 </div>
 </div>
@@ -8097,10 +7753,11 @@ SUCCESS
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'completed'</pre>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>assistant: Generative AI refers to artificial intelligence technologies that can generate new content, such as text, images, or audio, based on patterns and structures learned from existing data.
+</pre>
 </div>
 </div>
 </div>
@@ -8112,11 +7769,11 @@ SUCCESS
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="Load-trained-model">Load trained model<a class="anchor-link" href="#Load-trained-model">¶</a></h4>
+<p>Using streaming.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8124,8 +7781,22 @@ SUCCESS
 <div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">pipeline_optimizer</span><span class="o">.</span><span class="n">get_pipeline</span><span class="p">()</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">msg</span> <span class="o">=</span> <span class="n">ChatMessage</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="n">MessageRole</span><span class="o">.</span><span class="n">USER</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="s1">'Answer in short sentence: how to drive a car?'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">llm</span><span class="o">.</span><span class="n">stream_chat</span><span class="p">([</span><span class="n">msg</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">delta</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>To drive a car, start the engine, check your mirrors and surroundings, release the brake, and slowly press the accelerator while steering in your desired direction.</pre>
 </div>
 </div>
 </div>
@@ -8137,7 +7808,9 @@ SUCCESS
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="Reading-training-data-from-COS">Reading training data from COS<a class="anchor-link" href="#Reading-training-data-from-COS">¶</a></h4>
+<p><a id="reactagent"></a></p>
+<h2 id="Use-ReActAgent-for-chatting">Use ReActAgent for chatting<a class="anchor-link" href="#Use-ReActAgent-for-chatting">¶</a></h2><p>Let's define the assistant tools for calculations and the <code>ReActAgent</code> object for chatting and streaming.</p>
+<p>More details about <code>ReActAgent</code> itself <a href="https://docs.llamaindex.ai/en/stable/examples/agent/react_agent/">here</a>.</p>
 </div>
 </div>
 </div>
@@ -8146,13 +7819,38 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">train_df</span> <span class="o">=</span> <span class="n">pipeline_optimizer</span><span class="o">.</span><span class="n">get_data_connections</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">FunctionTool</span>
 
-<span class="n">train_X</span> <span class="o">=</span> <span class="n">train_df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">'Risk'</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
-<span class="n">train_y</span> <span class="o">=</span> <span class="n">train_df</span><span class="o">.</span><span class="n">Risk</span><span class="o">.</span><span class="n">values</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">multiply</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Multiply two floats and returns the result float"""</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Add a and b."""</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">subtract</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Subtract a and b."""</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">multiply</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Multiply a and b."""</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">divide</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Divide a and b."""</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span>
+
+
+<span class="n">add_tool</span> <span class="o">=</span> <span class="n">FunctionTool</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span><span class="n">fn</span><span class="o">=</span><span class="n">add</span><span class="p">)</span>
+<span class="n">subtract_tool</span> <span class="o">=</span> <span class="n">FunctionTool</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span><span class="n">fn</span><span class="o">=</span><span class="n">subtract</span><span class="p">)</span>
+<span class="n">multiply_tool</span> <span class="o">=</span> <span class="n">FunctionTool</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span><span class="n">fn</span><span class="o">=</span><span class="n">multiply</span><span class="p">)</span>
+<span class="n">divide_tool</span> <span class="o">=</span> <span class="n">FunctionTool</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span><span class="n">fn</span><span class="o">=</span><span class="n">divide</span><span class="p">)</span>
+
+<span class="n">tools</span> <span class="o">=</span> <span class="p">[</span><span class="n">add_tool</span><span class="p">,</span> <span class="n">subtract_tool</span><span class="p">,</span> <span class="n">multiply_tool</span><span class="p">,</span> <span class="n">divide_tool</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -8165,8 +7863,23 @@ SUCCESS
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="persistence"></a></p>
-<h2 id="4.-Persist-and-Deploy-trained-AutoAI-model">4. Persist and Deploy trained AutoAI model<a class="anchor-link" href="#4.-Persist-and-Deploy-trained-AutoAI-model">¶</a></h2>
+<h3 id="Initialize-ReAct-agent">Initialize ReAct agent<a class="anchor-link" href="#Initialize-ReAct-agent">¶</a></h3>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReActAgent</span>
+
+<span class="n">agent</span> <span class="o">=</span> <span class="n">ReActAgent</span><span class="o">.</span><span class="n">from_tools</span><span class="p">(</span><span class="n">tools</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -8177,18 +7890,7 @@ SUCCESS
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>In this section you will learn how to deploy and score pipeline model as webservice using WML instance.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Online-deployment-creation">Online deployment creation<a class="anchor-link" href="#Online-deployment-creation">¶</a></h3>
+<h3 id="Answer-question-using-tools">Answer question using tools<a class="anchor-link" href="#Answer-question-using-tools">¶</a></h3>
 </div>
 </div>
 </div>
@@ -8200,14 +7902,7 @@ SUCCESS
 <div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watson_machine_learning.deployment</span><span class="w"> </span><span class="kn">import</span> <span class="n">WebService</span>
-
-<span class="n">service</span> <span class="o">=</span> <span class="n">WebService</span><span class="p">(</span><span class="n">wml_credentials</span><span class="p">,</span> <span class="n">source_space_id</span><span class="o">=</span><span class="n">space_id</span><span class="p">)</span>
-
-<span class="n">service</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-    <span class="n">experiment_run_id</span><span class="o">=</span><span class="n">run_details</span><span class="p">[</span><span class="s2">"metadata"</span><span class="p">][</span><span class="s2">"id"</span><span class="p">],</span>
-    <span class="n">model</span><span class="o">=</span><span class="s2">"Pipeline_1"</span><span class="p">,</span> 
-    <span class="n">deployment_name</span><span class="o">=</span><span class="s2">"AutoAI credit-risk deployment"</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">chat</span><span class="p">(</span><span class="s2">"What is 20 + (2 * 4)? Calculate step by step "</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8220,28 +7915,20 @@ SUCCESS
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Preparing an AutoAI Deployment...
-Published model uid: 44472067-33d4-4708-9dd2-d305c0eca40f
-Deploying model 44472067-33d4-4708-9dd2-d305c0eca40f using V4 client.
-
-
-#######################################################################################
-
-Synchronous deployment creation for uid: '44472067-33d4-4708-9dd2-d305c0eca40f' started
-
-#######################################################################################
-
-
-initializing....
-ready
-
-
-------------------------------------------------------------------------------------------------
-Successfully finished deployment creation, deployment_uid='0a561646-ce6e-4dd4-96c4-488463417307'
-------------------------------------------------------------------------------------------------
-
-
-</pre>
+<pre>&gt; Running step f25abc83-78c7-4f62-b2e5-c66e0ba4b066. Step input: What is 20 + (2 * 4)? Calculate step by step 
+<span class="ansi-bold" style="color: rgb(255,0,215)">Thought: The current language of the user is: English. I need to use a tool to help me calculate the expression 2 * 4.
+Action: multiply
+Action Input: {'a': 2, 'b': 4}
+</span><span class="ansi-blue-intense-fg ansi-bold">Observation: 8
+</span>&gt; Running step 99cd4dad-1cf3-45f0-8587-d9f851b984a5. Step input: None
+<span class="ansi-bold" style="color: rgb(255,0,215)">Thought: Now that I have the result of the multiplication, I can proceed with the addition.
+Action: add
+Action Input: {'a': 20, 'b': 8}
+</span><span class="ansi-blue-intense-fg ansi-bold">Observation: 28
+</span>&gt; Running step b07c5c9e-d55f-437a-bfda-877fb544b1d3. Step input: None
+<span class="ansi-bold" style="color: rgb(255,0,215)">Thought: I have now calculated the entire expression 20 + (2 * 4).
+Answer: 28
+</span></pre>
 </div>
 </div>
 </div>
@@ -8253,45 +7940,44 @@ Successfully finished deployment creation, deployment_uid='0a561646-ce6e-4dd4-96
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Deployment object could be printed to show basic information:</p>
+<h3 id="Using-chat-history">Using chat history<a class="anchor-link" href="#Using-chat-history">¶</a></h3><p>Have a conversation with your data:</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">service</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatMessage</span><span class="p">,</span> <span class="n">MessageRole</span>
+
+<span class="n">chat_history</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">ChatMessage</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="n">MessageRole</span><span class="o">.</span><span class="n">USER</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="s2">"You are a pirate!"</span><span class="p">),</span> 
+    <span class="n">ChatMessage</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="n">MessageRole</span><span class="o">.</span><span class="n">SYSTEM</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="s2">"Amma pirate! My name is Jack Blackbeak."</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">chat</span><span class="p">(</span><span class="s1">'Who are you?'</span><span class="p">,</span> <span class="n">chat_history</span><span class="o">=</span><span class="n">chat_history</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>To show all available information about the deployment use the <code>.get_params()</code> method:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">service</span><span class="o">.</span><span class="n">get_params</span><span class="p">()</span>
-</pre></div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>&gt; Running step 73ea7cca-22d5-4e48-9494-3b6f26c3c6b3. Step input: Who are you?
+<span class="ansi-blue-intense-fg ansi-bold">Observation: Error: Could not parse output. Please follow the thought-action-input format. Try again.
+</span>&gt; Running step dd73b261-f418-4304-a3c8-86c861f5e704. Step input: None
+<span class="ansi-bold" style="color: rgb(255,0,215)">Thought: The current language of the user is: English. I need to introduce myself as a pirate.
+Answer: Me name be Captain Jack Blackbeak, the most feared pirate to ever sail the Seven Seas.
+</span></pre>
 </div>
 </div>
 </div>
@@ -8303,7 +7989,7 @@ Successfully finished deployment creation, deployment_uid='0a561646-ce6e-4dd4-96
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Scoring-of-webservice">Scoring of webservice<a class="anchor-link" href="#Scoring-of-webservice">¶</a></h3><p>You can make scoring request by calling <code>score()</code> on deployed pipeline.</p>
+<h3 id="Using-chat-history-and-tools">Using chat history and tools<a class="anchor-link" href="#Using-chat-history-and-tools">¶</a></h3>
 </div>
 </div>
 </div>
@@ -8315,8 +8001,12 @@ Successfully finished deployment creation, deployment_uid='0a561646-ce6e-4dd4-96
 <div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">payload</span><span class="o">=</span><span class="n">train_df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">'Risk'</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
-<span class="n">predictions</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatMessage</span><span class="p">,</span> <span class="n">MessageRole</span>
+
+<span class="n">msg</span> <span class="o">=</span> <span class="n">ChatMessage</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="n">MessageRole</span><span class="o">.</span><span class="n">USER</span><span class="p">,</span> 
+                  <span class="n">content</span><span class="o">=</span><span class="sa">f</span><span class="s2">"I was born in Nevada, </span><span class="si">{</span><span class="mi">45</span><span class="si">}</span><span class="s2"> years ago. I am AI engineer"</span><span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">chat</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Currently we have </span><span class="si">{</span><span class="mi">2024</span><span class="si">}</span><span class="s1">. When I was born?'</span><span class="p">,</span> <span class="n">chat_history</span><span class="o">=</span><span class="p">[</span><span class="n">msg</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -8326,20 +8016,20 @@ Successfully finished deployment creation, deployment_uid='0a561646-ce6e-4dd4-96
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[14]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>{'predictions': [{'fields': ['prediction', 'probability'],
-   'values': [['No Risk', [0.9937857257272232, 0.006214274272776733]],
-    ['No Risk', [0.9692945258787946, 0.030705474121205386]],
-    ['No Risk', [0.9659028536178904, 0.034097146382109624]],
-    ['No Risk', [0.9528451816827154, 0.0471548183172846]],
-    ['Risk', [0.040341752701822275, 0.9596582472981777]],
-    ['Risk', [0.05804472513532977, 0.9419552748646702]],
-    ['No Risk', [0.8992536806845922, 0.10074631931540776]],
-    ['No Risk', [0.8997752272794306, 0.1002247727205694]],
-    ['No Risk', [0.998303342620675, 0.0016966573793250517]],
-    ['Risk', [0.007805452098065269, 0.9921945479019347]]]}]}</pre>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>&gt; Running step de928379-a0ae-4c74-a343-221675a661fa. Step input: Currently we have 2024. When I was born?
+<span class="ansi-bold" style="color: rgb(255,0,215)">Thought: The current language of the user is: English. I need to use a tool to help me answer the question.
+
+To find the birth year, we can subtract the age from the current year. However, the tool 'subtract' requires two numbers to subtract. We can use the given age and the current year as the two numbers.
+Action: subtract
+Action Input: {'a': 2024, 'b': 45}
+</span><span class="ansi-blue-intense-fg ansi-bold">Observation: 1979
+</span>&gt; Running step a0d00f41-29be-44a4-906b-b9e03aec38f6. Step input: None
+<span class="ansi-bold" style="color: rgb(255,0,215)">Thought: I can answer without using any more tools. I'll use the user's language to answer
+Answer: You were born in 1979.
+</span></pre>
 </div>
 </div>
 </div>
@@ -8351,13 +8041,7 @@ Successfully finished deployment creation, deployment_uid='0a561646-ce6e-4dd4-96
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>If you want to work with the web service in an external Python application you can retrieve the service object by:</p>
-<ul>
-<li>Initialize the service by <code>service = WebService(wml_credentials)</code></li>
-<li>Get deployment_id by <code>service.list()</code> method</li>
-<li>Get webservice object by <code>service.get('deployment_id')</code> method</li>
-</ul>
-<p>After that you can call <code>service.score()</code> method.</p>
+<h3 id="Streaming">Streaming<a class="anchor-link" href="#Streaming">¶</a></h3>
 </div>
 </div>
 </div>
@@ -8368,40 +8052,11 @@ Successfully finished deployment creation, deployment_uid='0a561646-ce6e-4dd4-96
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Deleting-deployment">Deleting deployment<a class="anchor-link" href="#Deleting-deployment">¶</a></h3><p>You can delete the existing deployment by calling the <code>service.delete()</code> command.
-To list the existing web services you can use <code>service.list()</code>.</p>
+<p>To enable streaming, you simply need to call the <code>stream_chat</code> endpoint instead of the <code>chat</code> endpoint.</p>
 </div>
 </div>
 </div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="refine"></a></p>
-<h2 id="5.-Refine-and-persist-new-version-of-the-model">5. Refine and persist new version of the model<a class="anchor-link" href="#5.-Refine-and-persist-new-version-of-the-model">¶</a></h2><p>In this section, you'll learn how to store new refinement version of your model in Watson Machine Learning repository by using the Watson Machine Learning Client.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Pipeline-refinement-with-Lale">Pipeline refinement with <a href="https://github.com/IBM/lale">Lale</a><a class="anchor-link" href="#Pipeline-refinement-with-Lale">¶</a></h3><p>In this section you learn how to refine and retrain the best
-pipeline returned by AutoAI. There are many ways to refine a pipeline.
-For illustration, simply replace the final estimator in the
-pipeline by an interpretable model. The call to
-<code>wrap_imported_operators()</code> augments scikit-learn operators with
-schemas for hyperparameter tuning.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8409,14 +8064,36 @@ schemas for hyperparameter tuning.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegression</span> <span class="k">as</span> <span class="n">LR</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.tree</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecisionTreeClassifier</span> <span class="k">as</span> <span class="n">Tree</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">KNeighborsClassifier</span> <span class="k">as</span> <span class="n">KNN</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">lale.lib.lale</span><span class="w"> </span><span class="kn">import</span> <span class="n">Hyperopt</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">lale</span><span class="w"> </span><span class="kn">import</span> <span class="n">wrap_imported_operators</span>
-
-<span class="n">wrap_imported_operators</span><span class="p">()</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">stream_chat</span><span class="p">(</span><span class="s2">"What is (20 / 5) + (2 * 4)? Calculate step by step "</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>&gt; Running step 14d7baa9-7652-4bb3-803c-b5526498ff01. Step input: What is (20 / 5) + (2 * 4)? Calculate step by step 
+<span class="ansi-bold" style="color: rgb(255,0,215)">Thought: To calculate (20 / 5) + (2 * 4), I need to use the tools to perform division, multiplication and addition. I will start with division.
+Action: divide
+Action Input: {'a': 20, 'b': 5}
+</span><span class="ansi-blue-intense-fg ansi-bold">Observation: 4.0
+</span>&gt; Running step 1d50fc9a-d45a-41ee-8357-4ad3a46baa01. Step input: None
+<span class="ansi-bold" style="color: rgb(255,0,215)">Thought: Now that I have the result of the division, I need to calculate the multiplication part of the expression, which is 2 * 4.
+Action: multiply
+Action Input: {'a': 2, 'b': 4}
+</span><span class="ansi-blue-intense-fg ansi-bold">Observation: 8
+</span>&gt; Running step ea5bccef-15ad-43ea-b7ae-9a8defbb469b. Step input: None
+<span class="ansi-bold" style="color: rgb(255,0,215)">Thought: Now that I have the results of both the division and the multiplication, I can calculate the final result by adding them together.
+Action: add
+Action Input: {'a': 4.0, 'b': 8}
+</span><span class="ansi-blue-intense-fg ansi-bold">Observation: 12.0
+</span>&gt; Running step 583a8edc-4061-4ca2-8248-58486c84b8a5. Step input: None
+</pre>
 </div>
 </div>
 </div>
@@ -8428,7 +8105,7 @@ schemas for hyperparameter tuning.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="Pipeline-decomposition-and-new-definition">Pipeline decomposition and new definition<a class="anchor-link" href="#Pipeline-decomposition-and-new-definition">¶</a></h4><p>Start by removing the last step of the pipeline, i.e., the final estimator.</p>
+<p>To use the generator, the user can simply call the <code>response.print_response_stream()</code> function or consume the generator via the <code>response_gen</code> field from the <code>response</code>.</p>
 </div>
 </div>
 </div>
@@ -8440,104 +8117,8 @@ schemas for hyperparameter tuning.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">prefix</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">remove_last</span><span class="p">()</span><span class="o">.</span><span class="n">freeze_trainable</span><span class="p">()</span>
-<span class="n">prefix</span><span class="o">.</span><span class="n">visualize</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedSVG jp-OutputArea-output" data-mime-type="image/svg+xml" tabindex="0">
-<img alt="No description has been provided for this image" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDIuNDcuMCAoMjAyMTAzMTYuMDAwNCkKIC0tPgo8IS0tIFRpdGxlOiBjbHVzdGVyOihyb290KSBQYWdlczogMSAtLT4KPHN2ZyB3aWR0aD0iMTI3NXB0IiBoZWlnaHQ9IjE0OXB0Igogdmlld0JveD0iMC4wMCAwLjAwIDEyNzQuOTYgMTQ4LjU0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KPGcgaWQ9ImdyYXBoMCIgY2xhc3M9ImdyYXBoIiB0cmFuc2Zvcm09InNjYWxlKDEgMSkgcm90YXRlKDApIHRyYW5zbGF0ZSg0IDE0NC41NCkiPgo8dGl0bGU+Y2x1c3Rlcjoocm9vdCk8L3RpdGxlPgo8ZyBpZD0iYV9ncmFwaDAiPjxhIHhsaW5rOnRpdGxlPSIocm9vdCkgPSAuLi4iPgo8cG9seWdvbiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJ0cmFuc3BhcmVudCIgcG9pbnRzPSItNCw0IC00LC0xNDQuNTQgMTI3MC45NiwtMTQ0LjU0IDEyNzAuOTYsNCAtNCw0Ii8+CjwvYT4KPC9nPgo8ZyBpZD0iY2x1c3QxIiBjbGFzcz0iY2x1c3RlciI+Cjx0aXRsZT5jbHVzdGVyOnRhbTwvdGl0bGU+CjxnIGlkPSJhX2NsdXN0MSI+PGEgeGxpbms6aHJlZj0iaHR0cHM6Ly9sYWxlLnJlYWR0aGVkb2NzLmlvL2VuL2xhdGVzdC9tb2R1bGVzL2xhbGUubGliLmF1dG9haV9saWJzLnRhbS5odG1sJnF1b3Q7IHRhcmdldD0mcXVvdDtfYmxhbmsmcXVvdDsgcmVsPSZxdW90O25vb3BlbmVyIG5vcmVmZXJyZXIiIHhsaW5rOnRpdGxlPSJ0YW0gPSBUQU0odGFuc19jbGFzcz1mZWF0dXJlX2FnZ2xvbWVyYXRpb24sIG5hbWU9JiMzOTtmZWF0dXJlYWdnbG9tZXJhdGlvbiYjMzk7LCBjb2xfbmFtZXM9WyYjMzk7Q2hlY2tpbmdTdGF0dXMmIzM5OywgJiMzOTtMb2FuRHVyYXRpb24mIzM5OywgJiMzOTtDcmVkaXRIaXN0b3J5JiMzOTssICYjMzk7TG9hblB1cnBvc2UmIzM5OywgJiMzOTtMb2FuQW1vdW50JiMzOTssICYjMzk7RXhpc3RpbmdTYXZpbmdzJiMzOTssICYjMzk7RW1wbG95bWVudER1cmF0aW9uJiMzOTssICYjMzk7SW5zdGFsbG1lbnRQZXJjZW50JiMzOTssICYjMzk7U2V4JiMzOTssICYjMzk7T3RoZXJzT25Mb2FuJiMzOTssICYjMzk7Q3VycmVudFJlc2kuLi4pIj4KPHBvbHlnb24gZmlsbD0id2hpdGUiIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMTA2Mi44OSwtNDAuNzcgMTA2Mi44OSwtMTE5Ljc3IDExODQuOTYsLTExOS43NyAxMTg0Ljk2LC00MC43NyAxMDYyLjg5LC00MC43NyIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxMTIzLjkyIiB5PSItMTA0LjU3IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuNTAiPlRBTTwvdGV4dD4KPC9hPgo8L2c+CjwvZz4KPCEtLSBudW1weV9jb2x1bW5fc2VsZWN0b3JfMCAtLT4KPGcgaWQ9Im5vZGUxIiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5udW1weV9jb2x1bW5fc2VsZWN0b3JfMDwvdGl0bGU+CjxnIGlkPSJhX25vZGUxIj48YSB4bGluazpocmVmPSJodHRwczovL2xhbGUucmVhZHRoZWRvY3MuaW8vZW4vbGF0ZXN0L21vZHVsZXMvbGFsZS5saWIuYXV0b2FpX2xpYnMubnVtcHlfY29sdW1uX3NlbGVjdG9yLmh0bWwmcXVvdDsgdGFyZ2V0PSZxdW90O19ibGFuayZxdW90OyByZWw9JnF1b3Q7bm9vcGVuZXIgbm9yZWZlcnJlciIgeGxpbms6dGl0bGU9Im51bXB5X2NvbHVtbl9zZWxlY3Rvcl8wID0gTnVtcHlDb2x1bW5TZWxlY3Rvcihjb2x1bW5zPVswLCAyLCAzLCA1LCA2LCA3LCA4LCA5LCAxMCwgMTEsIDEzLCAxNCwgMTUsIDE2LCAxNywgMTgsIDE5XSkiPgo8ZWxsaXBzZSBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJibGFjayIgY3g9IjMzLjIzIiBjeT0iLTEwMy43NyIgcng9IjMzLjQ3IiByeT0iMjguMDciLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzMuMjMiIHk9Ii0xMTIuOTciIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+TnVtcHkmIzQ1OzwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzMuMjMiIHk9Ii0xMDAuOTciIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+Q29sdW1uJiM0NTs8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjMzLjIzIiB5PSItODguOTciIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+U2VsZWN0b3I8L3RleHQ+CjwvYT4KPC9nPgo8L2c+CjwhLS0gY29tcHJlc3Nfc3RyaW5ncyAtLT4KPGcgaWQ9Im5vZGUyIiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5jb21wcmVzc19zdHJpbmdzPC90aXRsZT4KPGcgaWQ9ImFfbm9kZTIiPjxhIHhsaW5rOmhyZWY9Imh0dHBzOi8vbGFsZS5yZWFkdGhlZG9jcy5pby9lbi9sYXRlc3QvbW9kdWxlcy9sYWxlLmxpYi5hdXRvYWlfbGlicy5jb21wcmVzc19zdHJpbmdzLmh0bWwmcXVvdDsgdGFyZ2V0PSZxdW90O19ibGFuayZxdW90OyByZWw9JnF1b3Q7bm9vcGVuZXIgbm9yZWZlcnJlciIgeGxpbms6dGl0bGU9ImNvbXByZXNzX3N0cmluZ3MgPSBDb21wcmVzc1N0cmluZ3MoY29tcHJlc3NfdHlwZT0mIzM5O2hhc2gmIzM5OywgZHR5cGVzX2xpc3Q9WyYjMzk7Y2hhcl9zdHImIzM5OywgJiMzOTtjaGFyX3N0ciYjMzk7LCAmIzM5O2NoYXJfc3RyJiMzOTssICYjMzk7Y2hhcl9zdHImIzM5OywgJiMzOTtjaGFyX3N0ciYjMzk7LCAmIzM5O2ludF9udW0mIzM5OywgJiMzOTtjaGFyX3N0ciYjMzk7LCAmIzM5O2NoYXJfc3RyJiMzOTssICYjMzk7aW50X251bSYjMzk7LCAmIzM5O2NoYXJfc3RyJiMzOTssICYjMzk7Y2hhcl9zdHImIzM5OywgJiMzOTtjaGFyX3N0ciYjMzk7LCAmIzM5O2ludF9udW0mIzM5OywgJiMzOTtjaGFyX3N0ciYjMzk7LCAmIzM5O2ludF9udW0mIzM5OywgJiMzOTtjaGFyX3N0ciYjMzk7LCAmIzM5O2NoYXJfc3RyJiMzOTtdLCBtaXNzaW5nX3ZhbHVlc19yLi4uKSI+CjxlbGxpcHNlIGZpbGw9IndoaXRlIiBzdHJva2U9ImJsYWNrIiBjeD0iMTQyLjc3IiBjeT0iLTEwMy43NyIgcng9IjQwLjExIiByeT0iMTkuNiIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxNDIuNzciIHk9Ii0xMDYuOTciIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+Q29tcHJlc3MmIzQ1OzwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTQyLjc3IiB5PSItOTQuOTciIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+U3RyaW5nczwvdGV4dD4KPC9hPgo8L2c+CjwvZz4KPCEtLSBudW1weV9jb2x1bW5fc2VsZWN0b3JfMCYjNDU7Jmd0O2NvbXByZXNzX3N0cmluZ3MgLS0+CjxnIGlkPSJlZGdlMSIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+bnVtcHlfY29sdW1uX3NlbGVjdG9yXzAmIzQ1OyZndDtjb21wcmVzc19zdHJpbmdzPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTY2LjUsLTEwMy43N0M3NC41OSwtMTAzLjc3IDgzLjQ2LC0xMDMuNzcgOTIuMTksLTEwMy43NyIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSI5Mi4zLC0xMDcuMjcgMTAyLjMsLTEwMy43NyA5Mi4zLC0xMDAuMjcgOTIuMywtMTA3LjI3Ii8+CjwvZz4KPCEtLSBudW1weV9yZXBsYWNlX21pc3NpbmdfdmFsdWVzXzAgLS0+CjxnIGlkPSJub2RlMyIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+bnVtcHlfcmVwbGFjZV9taXNzaW5nX3ZhbHVlc18wPC90aXRsZT4KPGcgaWQ9ImFfbm9kZTMiPjxhIHhsaW5rOmhyZWY9Imh0dHBzOi8vbGFsZS5yZWFkdGhlZG9jcy5pby9lbi9sYXRlc3QvbW9kdWxlcy9sYWxlLmxpYi5hdXRvYWlfbGlicy5udW1weV9yZXBsYWNlX21pc3NpbmdfdmFsdWVzLmh0bWwmcXVvdDsgdGFyZ2V0PSZxdW90O19ibGFuayZxdW90OyByZWw9JnF1b3Q7bm9vcGVuZXIgbm9yZWZlcnJlciIgeGxpbms6dGl0bGU9Im51bXB5X3JlcGxhY2VfbWlzc2luZ192YWx1ZXNfMCA9IE51bXB5UmVwbGFjZU1pc3NpbmdWYWx1ZXMobWlzc2luZ192YWx1ZXM9W10sIGZpbGxpbmdfdmFsdWVzPWZsb2F0KCYjMzk7bmFuJiMzOTspKSI+CjxlbGxpcHNlIGZpbGw9IndoaXRlIiBzdHJva2U9ImJsYWNrIiBjeD0iMjUzLjczIiBjeT0iLTEwMy43NyIgcng9IjM0LjgiIHJ5PSIzNi41NCIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyNTMuNzMiIHk9Ii0xMTguOTciIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+TnVtcHkmIzQ1OzwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjUzLjczIiB5PSItMTA2Ljk3IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPlJlcGxhY2UmIzQ1OzwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjUzLjczIiB5PSItOTQuOTciIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+TWlzc2luZyYjNDU7PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyNTMuNzMiIHk9Ii04Mi45NyIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjExLjAwIj5WYWx1ZXM8L3RleHQ+CjwvYT4KPC9nPgo8L2c+CjwhLS0gY29tcHJlc3Nfc3RyaW5ncyYjNDU7Jmd0O251bXB5X3JlcGxhY2VfbWlzc2luZ192YWx1ZXNfMCAtLT4KPGcgaWQ9ImVkZ2UyIiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5jb21wcmVzc19zdHJpbmdzJiM0NTsmZ3Q7bnVtcHlfcmVwbGFjZV9taXNzaW5nX3ZhbHVlc18wPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTE4My4xMSwtMTAzLjc3QzE5MS40MywtMTAzLjc3IDIwMC4yNiwtMTAzLjc3IDIwOC43NCwtMTAzLjc3Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjIwOC44NSwtMTA3LjI3IDIxOC44NSwtMTAzLjc3IDIwOC44NSwtMTAwLjI3IDIwOC44NSwtMTA3LjI3Ii8+CjwvZz4KPCEtLSBudW1weV9yZXBsYWNlX3Vua25vd25fdmFsdWVzIC0tPgo8ZyBpZD0ibm9kZTQiIGNsYXNzPSJub2RlIj4KPHRpdGxlPm51bXB5X3JlcGxhY2VfdW5rbm93bl92YWx1ZXM8L3RpdGxlPgo8ZyBpZD0iYV9ub2RlNCI+PGEgeGxpbms6aHJlZj0iaHR0cHM6Ly9sYWxlLnJlYWR0aGVkb2NzLmlvL2VuL2xhdGVzdC9tb2R1bGVzL2xhbGUubGliLmF1dG9haV9saWJzLm51bXB5X3JlcGxhY2VfdW5rbm93bl92YWx1ZXMuaHRtbCZxdW90OyB0YXJnZXQ9JnF1b3Q7X2JsYW5rJnF1b3Q7IHJlbD0mcXVvdDtub29wZW5lciBub3JlZmVycmVyIiB4bGluazp0aXRsZT0ibnVtcHlfcmVwbGFjZV91bmtub3duX3ZhbHVlcyA9IE51bXB5UmVwbGFjZVVua25vd25WYWx1ZXMoZmlsbGluZ192YWx1ZXM9ZmxvYXQoJiMzOTtuYW4mIzM5OyksIGZpbGxpbmdfdmFsdWVzX2xpc3Q9W2Zsb2F0KCYjMzk7bmFuJiMzOTspLCBmbG9hdCgmIzM5O25hbiYjMzk7KSwgZmxvYXQoJiMzOTtuYW4mIzM5OyksIGZsb2F0KCYjMzk7bmFuJiMzOTspLCBmbG9hdCgmIzM5O25hbiYjMzk7KSwgZmxvYXQoJiMzOTtuYW4mIzM5OyksIGZsb2F0KCYjMzk7bmFuJiMzOTspLCBmbG9hdCgmIzM5O25hbiYjMzk7KSwgZmxvYXQoJiMzOTtuYW4mIzM5OyksIGZsb2F0KCYjMzk7bmFuJiMzOTspLCBmbG9hdCgmIzM5O25hbiYjMzk7KSwgZmxvYXQoJiMzOTtuYW4mIzM5OyksIGZsb2F0KCYjMzk7bmFuJiMzOTspLCBmbG9hdCgmIzM5O25hbiYjMzk7KSwgZmxvYXQoLi4uKSI+CjxlbGxpcHNlIGZpbGw9IndoaXRlIiBzdHJva2U9ImJsYWNrIiBjeD0iMzYzLjI3IiBjeT0iLTEwMy43NyIgcng9IjM4Ljc4IiByeT0iMzYuNTQiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzYzLjI3IiB5PSItMTE4Ljk3IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPk51bXB5JiM0NTs8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjM2My4yNyIgeT0iLTEwNi45NyIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjExLjAwIj5SZXBsYWNlJiM0NTs8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjM2My4yNyIgeT0iLTk0Ljk3IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPlVua25vd24mIzQ1OzwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzYzLjI3IiB5PSItODIuOTciIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+VmFsdWVzPC90ZXh0Pgo8L2E+CjwvZz4KPC9nPgo8IS0tIG51bXB5X3JlcGxhY2VfbWlzc2luZ192YWx1ZXNfMCYjNDU7Jmd0O251bXB5X3JlcGxhY2VfdW5rbm93bl92YWx1ZXMgLS0+CjxnIGlkPSJlZGdlMyIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+bnVtcHlfcmVwbGFjZV9taXNzaW5nX3ZhbHVlc18wJiM0NTsmZ3Q7bnVtcHlfcmVwbGFjZV91bmtub3duX3ZhbHVlczwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0yODguNDYsLTEwMy43N0MyOTYuNiwtMTAzLjc3IDMwNS40NywtMTAzLjc3IDMxNC4xMywtMTAzLjc3Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjMxNC4xNiwtMTA3LjI3IDMyNC4xNiwtMTAzLjc3IDMxNC4xNiwtMTAwLjI3IDMxNC4xNiwtMTA3LjI3Ii8+CjwvZz4KPCEtLSBib29sZWFuMmZsb2F0IC0tPgo8ZyBpZD0ibm9kZTUiIGNsYXNzPSJub2RlIj4KPHRpdGxlPmJvb2xlYW4yZmxvYXQ8L3RpdGxlPgo8ZyBpZD0iYV9ub2RlNSI+PGEgeGxpbms6aHJlZj0iaHR0cHM6Ly9sYWxlLnJlYWR0aGVkb2NzLmlvL2VuL2xhdGVzdC9tb2R1bGVzL2xhbGUubGliLmF1dG9haV9saWJzLmJvb2xlYW4yZmxvYXQuaHRtbCZxdW90OyB0YXJnZXQ9JnF1b3Q7X2JsYW5rJnF1b3Q7IHJlbD0mcXVvdDtub29wZW5lciBub3JlZmVycmVyIiB4bGluazp0aXRsZT0iYm9vbGVhbjJmbG9hdCA9IGJvb2xlYW4yZmxvYXQoKSI+CjxlbGxpcHNlIGZpbGw9IndoaXRlIiBzdHJva2U9ImJsYWNrIiBjeD0iNDc2LjExIiBjeT0iLTEwMC43NyIgcng9IjM3LjkxIiByeT0iMTgiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNDc2LjExIiB5PSItOTcuOTciIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+Ym9vbGVhbjJmbG9hdDwvdGV4dD4KPC9hPgo8L2c+CjwvZz4KPCEtLSBudW1weV9yZXBsYWNlX3Vua25vd25fdmFsdWVzJiM0NTsmZ3Q7Ym9vbGVhbjJmbG9hdCAtLT4KPGcgaWQ9ImVkZ2U0IiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5udW1weV9yZXBsYWNlX3Vua25vd25fdmFsdWVzJiM0NTsmZ3Q7Ym9vbGVhbjJmbG9hdDwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik00MDIuNDEsLTEwMi43NEM0MTAuNiwtMTAyLjUyIDQxOS4zNiwtMTAyLjI4IDQyNy44NSwtMTAyLjA1Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjQyOC4xMiwtMTA1LjU0IDQzOC4wMiwtMTAxLjc3IDQyNy45MywtOTguNTUgNDI4LjEyLC0xMDUuNTQiLz4KPC9nPgo8IS0tIGNhdF9pbXB1dGVyIC0tPgo8ZyBpZD0ibm9kZTYiIGNsYXNzPSJub2RlIj4KPHRpdGxlPmNhdF9pbXB1dGVyPC90aXRsZT4KPGcgaWQ9ImFfbm9kZTYiPjxhIHhsaW5rOmhyZWY9Imh0dHBzOi8vbGFsZS5yZWFkdGhlZG9jcy5pby9lbi9sYXRlc3QvbW9kdWxlcy9sYWxlLmxpYi5hdXRvYWlfbGlicy5jYXRfaW1wdXRlci5odG1sJnF1b3Q7IHRhcmdldD0mcXVvdDtfYmxhbmsmcXVvdDsgcmVsPSZxdW90O25vb3BlbmVyIG5vcmVmZXJyZXIiIHhsaW5rOnRpdGxlPSJjYXRfaW1wdXRlciA9IENhdEltcHV0ZXIoc3RyYXRlZ3k9JiMzOTttb3N0X2ZyZXF1ZW50JiMzOTssIG1pc3NpbmdfdmFsdWVzPWZsb2F0KCYjMzk7bmFuJiMzOTspLCBza2xlYXJuX3ZlcnNpb25fZmFtaWx5PSYjMzk7MjMmIzM5OykiPgo8ZWxsaXBzZSBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJibGFjayIgY3g9IjU4MC40NyIgY3k9Ii05OC43NyIgcng9IjMwLjMxIiByeT0iMTkuNiIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI1ODAuNDciIHk9Ii0xMDEuOTciIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+Q2F0JiM0NTs8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjU4MC40NyIgeT0iLTg5Ljk3IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPkltcHV0ZXI8L3RleHQ+CjwvYT4KPC9nPgo8L2c+CjwhLS0gYm9vbGVhbjJmbG9hdCYjNDU7Jmd0O2NhdF9pbXB1dGVyIC0tPgo8ZyBpZD0iZWRnZTUiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPmJvb2xlYW4yZmxvYXQmIzQ1OyZndDtjYXRfaW1wdXRlcjwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik01MTQuMDcsLTEwMC4wNUM1MjIuNDUsLTk5Ljg4IDUzMS4zOSwtOTkuNzEgNTM5Ljg4LC05OS41NCIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSI1NDAuMDIsLTEwMy4wNCA1NDkuOTUsLTk5LjM1IDUzOS44OCwtOTYuMDQgNTQwLjAyLC0xMDMuMDQiLz4KPC9nPgo8IS0tIGNhdF9lbmNvZGVyIC0tPgo8ZyBpZD0ibm9kZTciIGNsYXNzPSJub2RlIj4KPHRpdGxlPmNhdF9lbmNvZGVyPC90aXRsZT4KPGcgaWQ9ImFfbm9kZTciPjxhIHhsaW5rOmhyZWY9Imh0dHBzOi8vbGFsZS5yZWFkdGhlZG9jcy5pby9lbi9sYXRlc3QvbW9kdWxlcy9sYWxlLmxpYi5hdXRvYWlfbGlicy5jYXRfZW5jb2Rlci5odG1sJnF1b3Q7IHRhcmdldD0mcXVvdDtfYmxhbmsmcXVvdDsgcmVsPSZxdW90O25vb3BlbmVyIG5vcmVmZXJyZXIiIHhsaW5rOnRpdGxlPSJjYXRfZW5jb2RlciA9IENhdEVuY29kZXIoZW5jb2Rpbmc9JiMzOTtvcmRpbmFsJiMzOTssIGNhdGVnb3JpZXM9JiMzOTthdXRvJiMzOTssIGR0eXBlPW5wLmZsb2F0NjQsIGhhbmRsZV91bmtub3duPSYjMzk7ZXJyb3ImIzM5Oywgc2tsZWFybl92ZXJzaW9uX2ZhbWlseT0mIzM5OzIzJiMzOTspIj4KPGVsbGlwc2UgZmlsbD0id2hpdGUiIHN0cm9rZT0iYmxhY2siIGN4PSI2ODIuOTQiIGN5PSItOTcuNzciIHJ4PSIzMS42NCIgcnk9IjE5LjYiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNjgyLjk0IiB5PSItMTAwLjk3IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPkNhdCYjNDU7PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI2ODIuOTQiIHk9Ii04OC45NyIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjExLjAwIj5FbmNvZGVyPC90ZXh0Pgo8L2E+CjwvZz4KPC9nPgo8IS0tIGNhdF9pbXB1dGVyJiM0NTsmZ3Q7Y2F0X2VuY29kZXIgLS0+CjxnIGlkPSJlZGdlNiIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+Y2F0X2ltcHV0ZXImIzQ1OyZndDtjYXRfZW5jb2RlcjwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik02MTEuMDcsLTk4LjQ3QzYyMC4zNSwtOTguMzggNjMwLjc3LC05OC4yOCA2NDAuNywtOTguMTgiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iNjQwLjg0LC0xMDEuNjggNjUwLjgsLTk4LjA4IDY0MC43NywtOTQuNjggNjQwLjg0LC0xMDEuNjgiLz4KPC9nPgo8IS0tIGZsb2F0MzJfdHJhbnNmb3JtXzAgLS0+CjxnIGlkPSJub2RlOCIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+ZmxvYXQzMl90cmFuc2Zvcm1fMDwvdGl0bGU+CjxnIGlkPSJhX25vZGU4Ij48YSB4bGluazpocmVmPSJodHRwczovL2xhbGUucmVhZHRoZWRvY3MuaW8vZW4vbGF0ZXN0L21vZHVsZXMvbGFsZS5saWIuYXV0b2FpX2xpYnMuZmxvYXQzMl90cmFuc2Zvcm0uaHRtbCZxdW90OyB0YXJnZXQ9JnF1b3Q7X2JsYW5rJnF1b3Q7IHJlbD0mcXVvdDtub29wZW5lciBub3JlZmVycmVyIiB4bGluazp0aXRsZT0iZmxvYXQzMl90cmFuc2Zvcm1fMCA9IGZsb2F0MzJfdHJhbnNmb3JtKCkiPgo8ZWxsaXBzZSBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJibGFjayIgY3g9Ijc5MS4wNiIgY3k9Ii05NC43NyIgcng9IjM2LjEyIiByeT0iMTkuNiIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI3OTEuMDYiIHk9Ii05Ny45NyIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjExLjAwIj5mbG9hdDMyXyYjNDU7PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI3OTEuMDYiIHk9Ii04NS45NyIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjExLjAwIj50cmFuc2Zvcm08L3RleHQ+CjwvYT4KPC9nPgo8L2c+CjwhLS0gY2F0X2VuY29kZXImIzQ1OyZndDtmbG9hdDMyX3RyYW5zZm9ybV8wIC0tPgo8ZyBpZD0iZWRnZTciIGNsYXNzPSJlZGdlIj4KPHRpdGxlPmNhdF9lbmNvZGVyJiM0NTsmZ3Q7ZmxvYXQzMl90cmFuc2Zvcm1fMDwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik03MTQuOTIsLTk2Ljg5QzcyNC4xOCwtOTYuNjMgNzM0LjU0LC05Ni4zNCA3NDQuNTMsLTk2LjA2Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9Ijc0NC44NSwtOTkuNTUgNzU0Ljc1LC05NS43NyA3NDQuNjYsLTkyLjU1IDc0NC44NSwtOTkuNTUiLz4KPC9nPgo8IS0tIGNvbmNhdF9mZWF0dXJlcyAtLT4KPGcgaWQ9Im5vZGUxNSIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+Y29uY2F0X2ZlYXR1cmVzPC90aXRsZT4KPGcgaWQ9ImFfbm9kZTE1Ij48YSB4bGluazpocmVmPSJodHRwczovL2xhbGUucmVhZHRoZWRvY3MuaW8vZW4vbGF0ZXN0L21vZHVsZXMvbGFsZS5saWIubGFsZS5jb25jYXRfZmVhdHVyZXMuaHRtbCZxdW90OyB0YXJnZXQ9JnF1b3Q7X2JsYW5rJnF1b3Q7IHJlbD0mcXVvdDtub29wZW5lciBub3JlZmVycmVyIiB4bGluazp0aXRsZT0iY29uY2F0X2ZlYXR1cmVzID0gQ29uY2F0RmVhdHVyZXMoKSI+CjxlbGxpcHNlIGZpbGw9IndoaXRlIiBzdHJva2U9ImJsYWNrIiBjeD0iODk2LjM2IiBjeT0iLTY4Ljc3IiByeD0iMzMuNDciIHJ5PSIxOS42Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9Ijg5Ni4zNiIgeT0iLTcxLjk3IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPkNvbmNhdCYjNDU7PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI4OTYuMzYiIHk9Ii01OS45NyIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjExLjAwIj5GZWF0dXJlczwvdGV4dD4KPC9hPgo8L2c+CjwvZz4KPCEtLSBmbG9hdDMyX3RyYW5zZm9ybV8wJiM0NTsmZ3Q7Y29uY2F0X2ZlYXR1cmVzIC0tPgo8ZyBpZD0iZWRnZTEzIiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5mbG9hdDMyX3RyYW5zZm9ybV8wJiM0NTsmZ3Q7Y29uY2F0X2ZlYXR1cmVzPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTgyNC4xOCwtODYuNjlDODM0LjE1LC04NC4xOCA4NDUuMjUsLTgxLjM4IDg1NS42NiwtNzguNzYiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iODU2LjUzLC04Mi4xNSA4NjUuMzgsLTc2LjMyIDg1NC44MiwtNzUuMzYgODU2LjUzLC04Mi4xNSIvPgo8L2c+CjwhLS0gbnVtcHlfY29sdW1uX3NlbGVjdG9yXzEgLS0+CjxnIGlkPSJub2RlOSIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+bnVtcHlfY29sdW1uX3NlbGVjdG9yXzE8L3RpdGxlPgo8ZyBpZD0iYV9ub2RlOSI+PGEgeGxpbms6aHJlZj0iaHR0cHM6Ly9sYWxlLnJlYWR0aGVkb2NzLmlvL2VuL2xhdGVzdC9tb2R1bGVzL2xhbGUubGliLmF1dG9haV9saWJzLm51bXB5X2NvbHVtbl9zZWxlY3Rvci5odG1sJnF1b3Q7IHRhcmdldD0mcXVvdDtfYmxhbmsmcXVvdDsgcmVsPSZxdW90O25vb3BlbmVyIG5vcmVmZXJyZXIiIHhsaW5rOnRpdGxlPSJudW1weV9jb2x1bW5fc2VsZWN0b3JfMSA9IE51bXB5Q29sdW1uU2VsZWN0b3IoY29sdW1ucz1bMSwgNCwgMTJdKSI+CjxlbGxpcHNlIGZpbGw9IndoaXRlIiBzdHJva2U9ImJsYWNrIiBjeD0iMjUzLjczIiBjeT0iLTMxLjc3IiByeD0iMzMuNDciIHJ5PSIyOC4wNyIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyNTMuNzMiIHk9Ii00MC45NyIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjExLjAwIj5OdW1weSYjNDU7PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyNTMuNzMiIHk9Ii0yOC45NyIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjExLjAwIj5Db2x1bW4mIzQ1OzwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjUzLjczIiB5PSItMTYuOTciIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+U2VsZWN0b3I8L3RleHQ+CjwvYT4KPC9nPgo8L2c+CjwhLS0gZmxvYXRfc3RyMl9mbG9hdCAtLT4KPGcgaWQ9Im5vZGUxMCIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+ZmxvYXRfc3RyMl9mbG9hdDwvdGl0bGU+CjxnIGlkPSJhX25vZGUxMCI+PGEgeGxpbms6aHJlZj0iaHR0cHM6Ly9sYWxlLnJlYWR0aGVkb2NzLmlvL2VuL2xhdGVzdC9tb2R1bGVzL2xhbGUubGliLmF1dG9haV9saWJzLmZsb2F0X3N0cjJfZmxvYXQuaHRtbCZxdW90OyB0YXJnZXQ9JnF1b3Q7X2JsYW5rJnF1b3Q7IHJlbD0mcXVvdDtub29wZW5lciBub3JlZmVycmVyIiB4bGluazp0aXRsZT0iZmxvYXRfc3RyMl9mbG9hdCA9IEZsb2F0U3RyMkZsb2F0KGR0eXBlc19saXN0PVsmIzM5O2ludF9udW0mIzM5OywgJiMzOTtpbnRfbnVtJiMzOTssICYjMzk7aW50X251bSYjMzk7XSwgbWlzc2luZ192YWx1ZXNfcmVmZXJlbmNlX2xpc3Q9W10pIj4KPGVsbGlwc2UgZmlsbD0id2hpdGUiIHN0cm9rZT0iYmxhY2siIGN4PSIzNjMuMjciIGN5PSItMzEuNzciIHJ4PSIyNyIgcnk9IjI4LjA3Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjM2My4yNyIgeT0iLTQwLjk3IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPkZsb2F0JiM0NTs8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjM2My4yNyIgeT0iLTI4Ljk3IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPlN0cjImIzQ1OzwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzYzLjI3IiB5PSItMTYuOTciIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+RmxvYXQ8L3RleHQ+CjwvYT4KPC9nPgo8L2c+CjwhLS0gbnVtcHlfY29sdW1uX3NlbGVjdG9yXzEmIzQ1OyZndDtmbG9hdF9zdHIyX2Zsb2F0IC0tPgo8ZyBpZD0iZWRnZTgiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPm51bXB5X2NvbHVtbl9zZWxlY3Rvcl8xJiM0NTsmZ3Q7ZmxvYXRfc3RyMl9mbG9hdDwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0yODYuOTksLTMxLjc3QzI5OS4yNywtMzEuNzcgMzEzLjM0LC0zMS43NyAzMjUuOTYsLTMxLjc3Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjMyNi4xNiwtMzUuMjcgMzM2LjE2LC0zMS43NyAzMjYuMTYsLTI4LjI3IDMyNi4xNiwtMzUuMjciLz4KPC9nPgo8IS0tIG51bXB5X3JlcGxhY2VfbWlzc2luZ192YWx1ZXNfMSAtLT4KPGcgaWQ9Im5vZGUxMSIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+bnVtcHlfcmVwbGFjZV9taXNzaW5nX3ZhbHVlc18xPC90aXRsZT4KPGcgaWQ9ImFfbm9kZTExIj48YSB4bGluazpocmVmPSJodHRwczovL2xhbGUucmVhZHRoZWRvY3MuaW8vZW4vbGF0ZXN0L21vZHVsZXMvbGFsZS5saWIuYXV0b2FpX2xpYnMubnVtcHlfcmVwbGFjZV9taXNzaW5nX3ZhbHVlcy5odG1sJnF1b3Q7IHRhcmdldD0mcXVvdDtfYmxhbmsmcXVvdDsgcmVsPSZxdW90O25vb3BlbmVyIG5vcmVmZXJyZXIiIHhsaW5rOnRpdGxlPSJudW1weV9yZXBsYWNlX21pc3NpbmdfdmFsdWVzXzEgPSBOdW1weVJlcGxhY2VNaXNzaW5nVmFsdWVzKG1pc3NpbmdfdmFsdWVzPVtdLCBmaWxsaW5nX3ZhbHVlcz1mbG9hdCgmIzM5O25hbiYjMzk7KSkiPgo8ZWxsaXBzZSBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJibGFjayIgY3g9IjQ3Ni4xMSIgY3k9Ii0zNi43NyIgcng9IjM0LjgiIHJ5PSIzNi41NCIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI0NzYuMTEiIHk9Ii01MS45NyIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjExLjAwIj5OdW1weSYjNDU7PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI0NzYuMTEiIHk9Ii0zOS45NyIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjExLjAwIj5SZXBsYWNlJiM0NTs8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjQ3Ni4xMSIgeT0iLTI3Ljk3IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPk1pc3NpbmcmIzQ1OzwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNDc2LjExIiB5PSItMTUuOTciIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+VmFsdWVzPC90ZXh0Pgo8L2E+CjwvZz4KPC9nPgo8IS0tIGZsb2F0X3N0cjJfZmxvYXQmIzQ1OyZndDtudW1weV9yZXBsYWNlX21pc3NpbmdfdmFsdWVzXzEgLS0+CjxnIGlkPSJlZGdlOSIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+ZmxvYXRfc3RyMl9mbG9hdCYjNDU7Jmd0O251bXB5X3JlcGxhY2VfbWlzc2luZ192YWx1ZXNfMTwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0zOTAuMjUsLTMyLjk0QzQwMi4zOSwtMzMuNDkgNDE3LjE4LC0zNC4xNiA0MzAuOTksLTM0Ljc4Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjQzMS4xNSwtMzguMjkgNDQxLjMsLTM1LjI0IDQzMS40NywtMzEuMyA0MzEuMTUsLTM4LjI5Ii8+CjwvZz4KPCEtLSBudW1faW1wdXRlciAtLT4KPGcgaWQ9Im5vZGUxMiIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+bnVtX2ltcHV0ZXI8L3RpdGxlPgo8ZyBpZD0iYV9ub2RlMTIiPjxhIHhsaW5rOmhyZWY9Imh0dHBzOi8vbGFsZS5yZWFkdGhlZG9jcy5pby9lbi9sYXRlc3QvbW9kdWxlcy9sYWxlLmxpYi5hdXRvYWlfbGlicy5udW1faW1wdXRlci5odG1sJnF1b3Q7IHRhcmdldD0mcXVvdDtfYmxhbmsmcXVvdDsgcmVsPSZxdW90O25vb3BlbmVyIG5vcmVmZXJyZXIiIHhsaW5rOnRpdGxlPSJudW1faW1wdXRlciA9IE51bUltcHV0ZXIoc3RyYXRlZ3k9JiMzOTttZWRpYW4mIzM5OywgbWlzc2luZ192YWx1ZXM9ZmxvYXQoJiMzOTtuYW4mIzM5OykpIj4KPGVsbGlwc2UgZmlsbD0id2hpdGUiIHN0cm9rZT0iYmxhY2siIGN4PSI1ODAuNDciIGN5PSItMzkuNzciIHJ4PSIzMC4zMSIgcnk9IjE5LjYiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNTgwLjQ3IiB5PSItNDIuOTciIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+TnVtJiM0NTs8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjU4MC40NyIgeT0iLTMwLjk3IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPkltcHV0ZXI8L3RleHQ+CjwvYT4KPC9nPgo8L2c+CjwhLS0gbnVtcHlfcmVwbGFjZV9taXNzaW5nX3ZhbHVlc18xJiM0NTsmZ3Q7bnVtX2ltcHV0ZXIgLS0+CjxnIGlkPSJlZGdlMTAiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPm51bXB5X3JlcGxhY2VfbWlzc2luZ192YWx1ZXNfMSYjNDU7Jmd0O251bV9pbXB1dGVyPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTUxMC45MSwtMzcuNzZDNTIwLjE1LC0zOC4wMyA1MzAuMjQsLTM4LjMzIDUzOS43OCwtMzguNjEiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iNTM5Ljc0LC00Mi4xMSA1NDkuODMsLTM4LjkgNTM5Ljk0LC0zNS4xMSA1MzkuNzQsLTQyLjExIi8+CjwvZz4KPCEtLSBvcHRfc3RhbmRhcmRfc2NhbGVyIC0tPgo8ZyBpZD0ibm9kZTEzIiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5vcHRfc3RhbmRhcmRfc2NhbGVyPC90aXRsZT4KPGcgaWQ9ImFfbm9kZTEzIj48YSB4bGluazpocmVmPSJodHRwczovL2xhbGUucmVhZHRoZWRvY3MuaW8vZW4vbGF0ZXN0L21vZHVsZXMvbGFsZS5saWIuYXV0b2FpX2xpYnMub3B0X3N0YW5kYXJkX3NjYWxlci5odG1sJnF1b3Q7IHRhcmdldD0mcXVvdDtfYmxhbmsmcXVvdDsgcmVsPSZxdW90O25vb3BlbmVyIG5vcmVmZXJyZXIiIHhsaW5rOnRpdGxlPSJvcHRfc3RhbmRhcmRfc2NhbGVyID0gT3B0U3RhbmRhcmRTY2FsZXIobnVtX3NjYWxlcl9jb3B5PU5vbmUsIG51bV9zY2FsZXJfd2l0aF9tZWFuPU5vbmUsIG51bV9zY2FsZXJfd2l0aF9zdGQ9Tm9uZSwgdXNlX3NjYWxlcl9mbGFnPUZhbHNlKSI+CjxlbGxpcHNlIGZpbGw9IndoaXRlIiBzdHJva2U9ImJsYWNrIiBjeD0iNjgyLjk0IiBjeT0iLTQxLjc3IiByeD0iMzYuMTIiIHJ5PSIyOC4wNyIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI2ODIuOTQiIHk9Ii01MC45NyIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjExLjAwIj5PcHQmIzQ1OzwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNjgyLjk0IiB5PSItMzguOTciIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+U3RhbmRhcmQmIzQ1OzwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNjgyLjk0IiB5PSItMjYuOTciIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+U2NhbGVyPC90ZXh0Pgo8L2E+CjwvZz4KPC9nPgo8IS0tIG51bV9pbXB1dGVyJiM0NTsmZ3Q7b3B0X3N0YW5kYXJkX3NjYWxlciAtLT4KPGcgaWQ9ImVkZ2UxMSIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+bnVtX2ltcHV0ZXImIzQ1OyZndDtvcHRfc3RhbmRhcmRfc2NhbGVyPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTYxMS4wNywtNDAuMzZDNjE5LjE0LC00MC41MiA2MjguMDcsLTQwLjcgNjM2LjgsLTQwLjg3Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjYzNi44MSwtNDQuMzcgNjQ2Ljg4LC00MS4wNyA2MzYuOTUsLTM3LjM3IDYzNi44MSwtNDQuMzciLz4KPC9nPgo8IS0tIGZsb2F0MzJfdHJhbnNmb3JtXzEgLS0+CjxnIGlkPSJub2RlMTQiIGNsYXNzPSJub2RlIj4KPHRpdGxlPmZsb2F0MzJfdHJhbnNmb3JtXzE8L3RpdGxlPgo8ZyBpZD0iYV9ub2RlMTQiPjxhIHhsaW5rOmhyZWY9Imh0dHBzOi8vbGFsZS5yZWFkdGhlZG9jcy5pby9lbi9sYXRlc3QvbW9kdWxlcy9sYWxlLmxpYi5hdXRvYWlfbGlicy5mbG9hdDMyX3RyYW5zZm9ybS5odG1sJnF1b3Q7IHRhcmdldD0mcXVvdDtfYmxhbmsmcXVvdDsgcmVsPSZxdW90O25vb3BlbmVyIG5vcmVmZXJyZXIiIHhsaW5rOnRpdGxlPSJmbG9hdDMyX3RyYW5zZm9ybV8xID0gZmxvYXQzMl90cmFuc2Zvcm0oKSI+CjxlbGxpcHNlIGZpbGw9IndoaXRlIiBzdHJva2U9ImJsYWNrIiBjeD0iNzkxLjA2IiBjeT0iLTQ1Ljc3IiByeD0iMzYuMTIiIHJ5PSIxOS42Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9Ijc5MS4wNiIgeT0iLTQ4Ljk3IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPmZsb2F0MzJfJiM0NTs8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9Ijc5MS4wNiIgeT0iLTM2Ljk3IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPnRyYW5zZm9ybTwvdGV4dD4KPC9hPgo8L2c+CjwvZz4KPCEtLSBvcHRfc3RhbmRhcmRfc2NhbGVyJiM0NTsmZ3Q7ZmxvYXQzMl90cmFuc2Zvcm1fMSAtLT4KPGcgaWQ9ImVkZ2UxMiIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+b3B0X3N0YW5kYXJkX3NjYWxlciYjNDU7Jmd0O2Zsb2F0MzJfdHJhbnNmb3JtXzE8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNNzE4Ljk4LC00My4wOUM3MjcuMzEsLTQzLjQgNzM2LjMyLC00My43NCA3NDUuMDMsLTQ0LjA3Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9Ijc0NC45MywtNDcuNTcgNzU1LjA2LC00NC40NSA3NDUuMiwtNDAuNTggNzQ0LjkzLC00Ny41NyIvPgo8L2c+CjwhLS0gZmxvYXQzMl90cmFuc2Zvcm1fMSYjNDU7Jmd0O2NvbmNhdF9mZWF0dXJlcyAtLT4KPGcgaWQ9ImVkZ2UxNCIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+ZmxvYXQzMl90cmFuc2Zvcm1fMSYjNDU7Jmd0O2NvbmNhdF9mZWF0dXJlczwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik04MjQuNzUsLTUzLjA1QzgzNC40MSwtNTUuMiA4NDUuMSwtNTcuNTggODU1LjE4LC01OS44MiIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSI4NTQuNDcsLTYzLjI1IDg2NSwtNjIuMDEgODU2LC01Ni40MiA4NTQuNDcsLTYzLjI1Ii8+CjwvZz4KPCEtLSBudW1weV9wZXJtdXRlX2FycmF5IC0tPgo8ZyBpZD0ibm9kZTE2IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5udW1weV9wZXJtdXRlX2FycmF5PC90aXRsZT4KPGcgaWQ9ImFfbm9kZTE2Ij48YSB4bGluazpocmVmPSJodHRwczovL2xhbGUucmVhZHRoZWRvY3MuaW8vZW4vbGF0ZXN0L21vZHVsZXMvbGFsZS5saWIuYXV0b2FpX2xpYnMubnVtcHlfcGVybXV0ZV9hcnJheS5odG1sJnF1b3Q7IHRhcmdldD0mcXVvdDtfYmxhbmsmcXVvdDsgcmVsPSZxdW90O25vb3BlbmVyIG5vcmVmZXJyZXIiIHhsaW5rOnRpdGxlPSJudW1weV9wZXJtdXRlX2FycmF5ID0gTnVtcHlQZXJtdXRlQXJyYXkoYXhpcz0wLCBwZXJtdXRhdGlvbl9pbmRpY2VzPVswLCAyLCAzLCA1LCA2LCA3LCA4LCA5LCAxMCwgMTEsIDEzLCAxNCwgMTUsIDE2LCAxNywgMTgsIDE5LCAxLCA0LCAxMl0pIj4KPGVsbGlwc2UgZmlsbD0id2hpdGUiIHN0cm9rZT0iYmxhY2siIGN4PSIxMDAwLjI0IiBjeT0iLTY4Ljc3IiByeD0iMzQuOCIgcnk9IjI4LjA3Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEwMDAuMjQiIHk9Ii03Ny45NyIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjExLjAwIj5OdW1weSYjNDU7PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxMDAwLjI0IiB5PSItNjUuOTciIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+UGVybXV0ZSYjNDU7PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxMDAwLjI0IiB5PSItNTMuOTciIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+QXJyYXk8L3RleHQ+CjwvYT4KPC9nPgo8L2c+CjwhLS0gY29uY2F0X2ZlYXR1cmVzJiM0NTsmZ3Q7bnVtcHlfcGVybXV0ZV9hcnJheSAtLT4KPGcgaWQ9ImVkZ2UxNSIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+Y29uY2F0X2ZlYXR1cmVzJiM0NTsmZ3Q7bnVtcHlfcGVybXV0ZV9hcnJheTwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik05MjkuNiwtNjguNzdDOTM3LjgxLC02OC43NyA5NDYuNzgsLTY4Ljc3IDk1NS40NiwtNjguNzciLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iOTU1LjQ2LC03Mi4yNyA5NjUuNDYsLTY4Ljc3IDk1NS40NiwtNjUuMjcgOTU1LjQ2LC03Mi4yNyIvPgo8L2c+CjwhLS0gZmVhdHVyZV9hZ2dsb21lcmF0aW9uIC0tPgo8ZyBpZD0ibm9kZTE3IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5mZWF0dXJlX2FnZ2xvbWVyYXRpb248L3RpdGxlPgo8ZyBpZD0iYV9ub2RlMTciPjxhIHhsaW5rOmhyZWY9Imh0dHBzOi8vbGFsZS5yZWFkdGhlZG9jcy5pby9lbi9sYXRlc3QvbW9kdWxlcy9sYWxlLmxpYi5za2xlYXJuLmZlYXR1cmVfYWdnbG9tZXJhdGlvbi5odG1sJnF1b3Q7IHRhcmdldD0mcXVvdDtfYmxhbmsmcXVvdDsgcmVsPSZxdW90O25vb3BlbmVyIG5vcmVmZXJyZXIiIHhsaW5rOnRpdGxlPSJmZWF0dXJlX2FnZ2xvbWVyYXRpb24gPSBGZWF0dXJlQWdnbG9tZXJhdGlvbigpIj4KPGVsbGlwc2UgZmlsbD0id2hpdGUiIHN0cm9rZT0iYmxhY2siIGN4PSIxMTIzLjkyIiBjeT0iLTY4Ljc3IiByeD0iNTMuMDciIHJ5PSIxOS42Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjExMjMuOTIiIHk9Ii03MS45NyIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjExLjAwIj5GZWF0dXJlJiM0NTs8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjExMjMuOTIiIHk9Ii01OS45NyIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjExLjAwIj5BZ2dsb21lcmF0aW9uPC90ZXh0Pgo8L2E+CjwvZz4KPC9nPgo8IS0tIG51bXB5X3Blcm11dGVfYXJyYXkmIzQ1OyZndDtmZWF0dXJlX2FnZ2xvbWVyYXRpb24gLS0+CjxnIGlkPSJlZGdlMTYiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPm51bXB5X3Blcm11dGVfYXJyYXkmIzQ1OyZndDtmZWF0dXJlX2FnZ2xvbWVyYXRpb248L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMTAzNS4xNCwtNjguNzdDMTA0My4wMiwtNjguNzcgMTA1MS42NiwtNjguNzcgMTA2MC4zNSwtNjguNzciLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMTA1Mi44OSwtNzIuMjcgMTA2Mi44OSwtNjguNzcgMTA1Mi44OSwtNjUuMjcgMTA1Mi44OSwtNzIuMjciLz4KPC9nPgo8IS0tIGZzMSAtLT4KPGcgaWQ9Im5vZGUxOCIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+ZnMxPC90aXRsZT4KPGcgaWQ9ImFfbm9kZTE4Ij48YSB4bGluazpocmVmPSJodHRwczovL2xhbGUucmVhZHRoZWRvY3MuaW8vZW4vbGF0ZXN0L21vZHVsZXMvbGFsZS5saWIuYXV0b2FpX2xpYnMuZnMxLmh0bWwmcXVvdDsgdGFyZ2V0PSZxdW90O19ibGFuayZxdW90OyByZWw9JnF1b3Q7bm9vcGVuZXIgbm9yZWZlcnJlciIgeGxpbms6dGl0bGU9ImZzMSA9IEZTMShjb2xzX2lkc19tdXN0X2tlZXA9cmFuZ2UoMCwgMjApLCBhZGRpdGlvbmFsX2NvbF9jb3VudF90b19rZWVwPTIwLCBwdHlwZT0mIzM5O2NsYXNzaWZpY2F0aW9uJiMzOTspIj4KPGVsbGlwc2UgZmlsbD0id2hpdGUiIHN0cm9rZT0iYmxhY2siIGN4PSIxMjM5Ljk2IiBjeT0iLTY4Ljc3IiByeD0iMjciIHJ5PSIxOCIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxMjM5Ljk2IiB5PSItNjUuOTciIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+RlMxPC90ZXh0Pgo8L2E+CjwvZz4KPC9nPgo8IS0tIGZlYXR1cmVfYWdnbG9tZXJhdGlvbiYjNDU7Jmd0O2ZzMSAtLT4KPGcgaWQ9ImVkZ2UxNyIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+ZmVhdHVyZV9hZ2dsb21lcmF0aW9uJiM0NTsmZ3Q7ZnMxPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTExODQuOTYsLTY4Ljc3QzExOTAuOTYsLTY4Ljc3IDExOTYuOTIsLTY4Ljc3IDEyMDIuNTYsLTY4Ljc3Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjEyMDIuNzIsLTcyLjI3IDEyMTIuNzIsLTY4Ljc3IDEyMDIuNzIsLTY1LjI3IDEyMDIuNzIsLTcyLjI3Ii8+CjwvZz4KPC9nPgo8L3N2Zz4K"/>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Next, add a new final step, which consists of a choice of three
-estimators. In this code, <code>|</code> is the or combinator (algorithmic
-choice). It defines a search space for another optimizer run.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">new_pipeline</span> <span class="o">=</span> <span class="n">prefix</span> <span class="o">&gt;&gt;</span> <span class="p">(</span><span class="n">LR</span> <span class="o">|</span> <span class="n">Tree</span> <span class="o">|</span> <span class="n">KNN</span><span class="p">)</span>
-<span class="n">new_pipeline</span><span class="o">.</span><span class="n">visualize</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedSVG jp-OutputArea-output" data-mime-type="image/svg+xml" tabindex="0">
-<img alt="No description has been provided for this image" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDIuNDcuMCAoMjAyMTAzMTYuMDAwNCkKIC0tPgo8IS0tIFRpdGxlOiBjbHVzdGVyOihyb290KSBQYWdlczogMSAtLT4KPHN2ZyB3aWR0aD0iMTM4MXB0IiBoZWlnaHQ9IjIwMHB0Igogdmlld0JveD0iMC4wMCAwLjAwIDEzODAuOTYgMTk5Ljc3IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KPGcgaWQ9ImdyYXBoMCIgY2xhc3M9ImdyYXBoIiB0cmFuc2Zvcm09InNjYWxlKDEgMSkgcm90YXRlKDApIHRyYW5zbGF0ZSg0IDE5NS43NykiPgo8dGl0bGU+Y2x1c3Rlcjoocm9vdCk8L3RpdGxlPgo8ZyBpZD0iYV9ncmFwaDAiPjxhIHhsaW5rOnRpdGxlPSIocm9vdCkgPSAuLi4iPgo8cG9seWdvbiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJ0cmFuc3BhcmVudCIgcG9pbnRzPSItNCw0IC00LC0xOTUuNzcgMTM3Ni45NiwtMTk1Ljc3IDEzNzYuOTYsNCAtNCw0Ii8+CjwvYT4KPC9nPgo8ZyBpZD0iY2x1c3QxIiBjbGFzcz0iY2x1c3RlciI+Cjx0aXRsZT5jbHVzdGVyOnRhbTwvdGl0bGU+CjxnIGlkPSJhX2NsdXN0MSI+PGEgeGxpbms6aHJlZj0iaHR0cHM6Ly9sYWxlLnJlYWR0aGVkb2NzLmlvL2VuL2xhdGVzdC9tb2R1bGVzL2xhbGUubGliLmF1dG9haV9saWJzLnRhbS5odG1sJnF1b3Q7IHRhcmdldD0mcXVvdDtfYmxhbmsmcXVvdDsgcmVsPSZxdW90O25vb3BlbmVyIG5vcmVmZXJyZXIiIHhsaW5rOnRpdGxlPSJ0YW0gPSBUQU0odGFuc19jbGFzcz1mZWF0dXJlX2FnZ2xvbWVyYXRpb24sIG5hbWU9JiMzOTtmZWF0dXJlYWdnbG9tZXJhdGlvbiYjMzk7LCBjb2xfbmFtZXM9WyYjMzk7Q2hlY2tpbmdTdGF0dXMmIzM5OywgJiMzOTtMb2FuRHVyYXRpb24mIzM5OywgJiMzOTtDcmVkaXRIaXN0b3J5JiMzOTssICYjMzk7TG9hblB1cnBvc2UmIzM5OywgJiMzOTtMb2FuQW1vdW50JiMzOTssICYjMzk7RXhpc3RpbmdTYXZpbmdzJiMzOTssICYjMzk7RW1wbG95bWVudER1cmF0aW9uJiMzOTssICYjMzk7SW5zdGFsbG1lbnRQZXJjZW50JiMzOTssICYjMzk7U2V4JiMzOTssICYjMzk7T3RoZXJzT25Mb2FuJiMzOTssICYjMzk7Q3VycmVudFJlc2kuLi4pIj4KPHBvbHlnb24gZmlsbD0id2hpdGUiIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMTA2Mi44OSwtOTIgMTA2Mi44OSwtMTcxIDExODQuOTYsLTE3MSAxMTg0Ljk2LC05MiAxMDYyLjg5LC05MiIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxMTIzLjkyIiB5PSItMTU1LjgiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+VEFNPC90ZXh0Pgo8L2E+CjwvZz4KPC9nPgo8ZyBpZD0iY2x1c3QyIiBjbGFzcz0iY2x1c3RlciI+Cjx0aXRsZT5jbHVzdGVyOmNob2ljZTwvdGl0bGU+CjxnIGlkPSJhX2NsdXN0MiI+PGEgeGxpbms6dGl0bGU9ImNob2ljZSA9IGxyIHwgdHJlZSB8IGtubiI+Cjxwb2x5Z29uIGZpbGw9IiM3ZWMwZWUiIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMTI5NC45NiwtOCAxMjk0Ljk2LC0xNjkgMTM2NC45NiwtMTY5IDEzNjQuOTYsLTggMTI5NC45NiwtOCIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxMzI5Ljk2IiB5PSItMTUzLjgiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Q2hvaWNlPC90ZXh0Pgo8L2E+CjwvZz4KPC9nPgo8IS0tIG51bXB5X2NvbHVtbl9zZWxlY3Rvcl8wIC0tPgo8ZyBpZD0ibm9kZTEiIGNsYXNzPSJub2RlIj4KPHRpdGxlPm51bXB5X2NvbHVtbl9zZWxlY3Rvcl8wPC90aXRsZT4KPGcgaWQ9ImFfbm9kZTEiPjxhIHhsaW5rOmhyZWY9Imh0dHBzOi8vbGFsZS5yZWFkdGhlZG9jcy5pby9lbi9sYXRlc3QvbW9kdWxlcy9sYWxlLmxpYi5hdXRvYWlfbGlicy5udW1weV9jb2x1bW5fc2VsZWN0b3IuaHRtbCZxdW90OyB0YXJnZXQ9JnF1b3Q7X2JsYW5rJnF1b3Q7IHJlbD0mcXVvdDtub29wZW5lciBub3JlZmVycmVyIiB4bGluazp0aXRsZT0ibnVtcHlfY29sdW1uX3NlbGVjdG9yXzAgPSBOdW1weUNvbHVtblNlbGVjdG9yKGNvbHVtbnM9WzAsIDIsIDMsIDUsIDYsIDcsIDgsIDksIDEwLCAxMSwgMTMsIDE0LCAxNSwgMTYsIDE3LCAxOCwgMTldKSI+CjxlbGxpcHNlIGZpbGw9IndoaXRlIiBzdHJva2U9ImJsYWNrIiBjeD0iMzMuMjMiIGN5PSItMTU1IiByeD0iMzMuNDciIHJ5PSIyOC4wNyIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIzMy4yMyIgeT0iLTE2NC4yIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPk51bXB5JiM0NTs8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjMzLjIzIiB5PSItMTUyLjIiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+Q29sdW1uJiM0NTs8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjMzLjIzIiB5PSItMTQwLjIiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+U2VsZWN0b3I8L3RleHQ+CjwvYT4KPC9nPgo8L2c+CjwhLS0gY29tcHJlc3Nfc3RyaW5ncyAtLT4KPGcgaWQ9Im5vZGUyIiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5jb21wcmVzc19zdHJpbmdzPC90aXRsZT4KPGcgaWQ9ImFfbm9kZTIiPjxhIHhsaW5rOmhyZWY9Imh0dHBzOi8vbGFsZS5yZWFkdGhlZG9jcy5pby9lbi9sYXRlc3QvbW9kdWxlcy9sYWxlLmxpYi5hdXRvYWlfbGlicy5jb21wcmVzc19zdHJpbmdzLmh0bWwmcXVvdDsgdGFyZ2V0PSZxdW90O19ibGFuayZxdW90OyByZWw9JnF1b3Q7bm9vcGVuZXIgbm9yZWZlcnJlciIgeGxpbms6dGl0bGU9ImNvbXByZXNzX3N0cmluZ3MgPSBDb21wcmVzc1N0cmluZ3MoY29tcHJlc3NfdHlwZT0mIzM5O2hhc2gmIzM5OywgZHR5cGVzX2xpc3Q9WyYjMzk7Y2hhcl9zdHImIzM5OywgJiMzOTtjaGFyX3N0ciYjMzk7LCAmIzM5O2NoYXJfc3RyJiMzOTssICYjMzk7Y2hhcl9zdHImIzM5OywgJiMzOTtjaGFyX3N0ciYjMzk7LCAmIzM5O2ludF9udW0mIzM5OywgJiMzOTtjaGFyX3N0ciYjMzk7LCAmIzM5O2NoYXJfc3RyJiMzOTssICYjMzk7aW50X251bSYjMzk7LCAmIzM5O2NoYXJfc3RyJiMzOTssICYjMzk7Y2hhcl9zdHImIzM5OywgJiMzOTtjaGFyX3N0ciYjMzk7LCAmIzM5O2ludF9udW0mIzM5OywgJiMzOTtjaGFyX3N0ciYjMzk7LCAmIzM5O2ludF9udW0mIzM5OywgJiMzOTtjaGFyX3N0ciYjMzk7LCAmIzM5O2NoYXJfc3RyJiMzOTtdLCBtaXNzaW5nX3ZhbHVlc19yLi4uKSI+CjxlbGxpcHNlIGZpbGw9IndoaXRlIiBzdHJva2U9ImJsYWNrIiBjeD0iMTQyLjc3IiBjeT0iLTE1NSIgcng9IjQwLjExIiByeT0iMTkuNiIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxNDIuNzciIHk9Ii0xNTguMiIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjExLjAwIj5Db21wcmVzcyYjNDU7PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxNDIuNzciIHk9Ii0xNDYuMiIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjExLjAwIj5TdHJpbmdzPC90ZXh0Pgo8L2E+CjwvZz4KPC9nPgo8IS0tIG51bXB5X2NvbHVtbl9zZWxlY3Rvcl8wJiM0NTsmZ3Q7Y29tcHJlc3Nfc3RyaW5ncyAtLT4KPGcgaWQ9ImVkZ2UxIiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5udW1weV9jb2x1bW5fc2VsZWN0b3JfMCYjNDU7Jmd0O2NvbXByZXNzX3N0cmluZ3M8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNNjYuNSwtMTU1Qzc0LjU5LC0xNTUgODMuNDYsLTE1NSA5Mi4xOSwtMTU1Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjkyLjMsLTE1OC41IDEwMi4zLC0xNTUgOTIuMywtMTUxLjUgOTIuMywtMTU4LjUiLz4KPC9nPgo8IS0tIG51bXB5X3JlcGxhY2VfbWlzc2luZ192YWx1ZXNfMCAtLT4KPGcgaWQ9Im5vZGUzIiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5udW1weV9yZXBsYWNlX21pc3NpbmdfdmFsdWVzXzA8L3RpdGxlPgo8ZyBpZD0iYV9ub2RlMyI+PGEgeGxpbms6aHJlZj0iaHR0cHM6Ly9sYWxlLnJlYWR0aGVkb2NzLmlvL2VuL2xhdGVzdC9tb2R1bGVzL2xhbGUubGliLmF1dG9haV9saWJzLm51bXB5X3JlcGxhY2VfbWlzc2luZ192YWx1ZXMuaHRtbCZxdW90OyB0YXJnZXQ9JnF1b3Q7X2JsYW5rJnF1b3Q7IHJlbD0mcXVvdDtub29wZW5lciBub3JlZmVycmVyIiB4bGluazp0aXRsZT0ibnVtcHlfcmVwbGFjZV9taXNzaW5nX3ZhbHVlc18wID0gTnVtcHlSZXBsYWNlTWlzc2luZ1ZhbHVlcyhtaXNzaW5nX3ZhbHVlcz1bXSwgZmlsbGluZ192YWx1ZXM9ZmxvYXQoJiMzOTtuYW4mIzM5OykpIj4KPGVsbGlwc2UgZmlsbD0id2hpdGUiIHN0cm9rZT0iYmxhY2siIGN4PSIyNTMuNzMiIGN5PSItMTU1IiByeD0iMzQuOCIgcnk9IjM2LjU0Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjI1My43MyIgeT0iLTE3MC4yIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPk51bXB5JiM0NTs8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjI1My43MyIgeT0iLTE1OC4yIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPlJlcGxhY2UmIzQ1OzwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjUzLjczIiB5PSItMTQ2LjIiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+TWlzc2luZyYjNDU7PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyNTMuNzMiIHk9Ii0xMzQuMiIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjExLjAwIj5WYWx1ZXM8L3RleHQ+CjwvYT4KPC9nPgo8L2c+CjwhLS0gY29tcHJlc3Nfc3RyaW5ncyYjNDU7Jmd0O251bXB5X3JlcGxhY2VfbWlzc2luZ192YWx1ZXNfMCAtLT4KPGcgaWQ9ImVkZ2UyIiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5jb21wcmVzc19zdHJpbmdzJiM0NTsmZ3Q7bnVtcHlfcmVwbGFjZV9taXNzaW5nX3ZhbHVlc18wPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTE4My4xMSwtMTU1QzE5MS40MywtMTU1IDIwMC4yNiwtMTU1IDIwOC43NCwtMTU1Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjIwOC44NSwtMTU4LjUgMjE4Ljg1LC0xNTUgMjA4Ljg1LC0xNTEuNSAyMDguODUsLTE1OC41Ii8+CjwvZz4KPCEtLSBudW1weV9yZXBsYWNlX3Vua25vd25fdmFsdWVzIC0tPgo8ZyBpZD0ibm9kZTQiIGNsYXNzPSJub2RlIj4KPHRpdGxlPm51bXB5X3JlcGxhY2VfdW5rbm93bl92YWx1ZXM8L3RpdGxlPgo8ZyBpZD0iYV9ub2RlNCI+PGEgeGxpbms6aHJlZj0iaHR0cHM6Ly9sYWxlLnJlYWR0aGVkb2NzLmlvL2VuL2xhdGVzdC9tb2R1bGVzL2xhbGUubGliLmF1dG9haV9saWJzLm51bXB5X3JlcGxhY2VfdW5rbm93bl92YWx1ZXMuaHRtbCZxdW90OyB0YXJnZXQ9JnF1b3Q7X2JsYW5rJnF1b3Q7IHJlbD0mcXVvdDtub29wZW5lciBub3JlZmVycmVyIiB4bGluazp0aXRsZT0ibnVtcHlfcmVwbGFjZV91bmtub3duX3ZhbHVlcyA9IE51bXB5UmVwbGFjZVVua25vd25WYWx1ZXMoZmlsbGluZ192YWx1ZXM9ZmxvYXQoJiMzOTtuYW4mIzM5OyksIGZpbGxpbmdfdmFsdWVzX2xpc3Q9W2Zsb2F0KCYjMzk7bmFuJiMzOTspLCBmbG9hdCgmIzM5O25hbiYjMzk7KSwgZmxvYXQoJiMzOTtuYW4mIzM5OyksIGZsb2F0KCYjMzk7bmFuJiMzOTspLCBmbG9hdCgmIzM5O25hbiYjMzk7KSwgZmxvYXQoJiMzOTtuYW4mIzM5OyksIGZsb2F0KCYjMzk7bmFuJiMzOTspLCBmbG9hdCgmIzM5O25hbiYjMzk7KSwgZmxvYXQoJiMzOTtuYW4mIzM5OyksIGZsb2F0KCYjMzk7bmFuJiMzOTspLCBmbG9hdCgmIzM5O25hbiYjMzk7KSwgZmxvYXQoJiMzOTtuYW4mIzM5OyksIGZsb2F0KCYjMzk7bmFuJiMzOTspLCBmbG9hdCgmIzM5O25hbiYjMzk7KSwgZmxvYXQoLi4uKSI+CjxlbGxpcHNlIGZpbGw9IndoaXRlIiBzdHJva2U9ImJsYWNrIiBjeD0iMzYzLjI3IiBjeT0iLTE1NSIgcng9IjM4Ljc4IiByeT0iMzYuNTQiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzYzLjI3IiB5PSItMTcwLjIiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+TnVtcHkmIzQ1OzwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzYzLjI3IiB5PSItMTU4LjIiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+UmVwbGFjZSYjNDU7PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIzNjMuMjciIHk9Ii0xNDYuMiIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjExLjAwIj5Vbmtub3duJiM0NTs8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjM2My4yNyIgeT0iLTEzNC4yIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPlZhbHVlczwvdGV4dD4KPC9hPgo8L2c+CjwvZz4KPCEtLSBudW1weV9yZXBsYWNlX21pc3NpbmdfdmFsdWVzXzAmIzQ1OyZndDtudW1weV9yZXBsYWNlX3Vua25vd25fdmFsdWVzIC0tPgo8ZyBpZD0iZWRnZTMiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPm51bXB5X3JlcGxhY2VfbWlzc2luZ192YWx1ZXNfMCYjNDU7Jmd0O251bXB5X3JlcGxhY2VfdW5rbm93bl92YWx1ZXM8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMjg4LjQ2LC0xNTVDMjk2LjYsLTE1NSAzMDUuNDcsLTE1NSAzMTQuMTMsLTE1NSIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIzMTQuMTYsLTE1OC41IDMyNC4xNiwtMTU1IDMxNC4xNiwtMTUxLjUgMzE0LjE2LC0xNTguNSIvPgo8L2c+CjwhLS0gYm9vbGVhbjJmbG9hdCAtLT4KPGcgaWQ9Im5vZGU1IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5ib29sZWFuMmZsb2F0PC90aXRsZT4KPGcgaWQ9ImFfbm9kZTUiPjxhIHhsaW5rOmhyZWY9Imh0dHBzOi8vbGFsZS5yZWFkdGhlZG9jcy5pby9lbi9sYXRlc3QvbW9kdWxlcy9sYWxlLmxpYi5hdXRvYWlfbGlicy5ib29sZWFuMmZsb2F0Lmh0bWwmcXVvdDsgdGFyZ2V0PSZxdW90O19ibGFuayZxdW90OyByZWw9JnF1b3Q7bm9vcGVuZXIgbm9yZWZlcnJlciIgeGxpbms6dGl0bGU9ImJvb2xlYW4yZmxvYXQgPSBib29sZWFuMmZsb2F0KCkiPgo8ZWxsaXBzZSBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJibGFjayIgY3g9IjQ3Ni4xMSIgY3k9Ii0xNTIiIHJ4PSIzNy45MSIgcnk9IjE4Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjQ3Ni4xMSIgeT0iLTE0OS4yIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPmJvb2xlYW4yZmxvYXQ8L3RleHQ+CjwvYT4KPC9nPgo8L2c+CjwhLS0gbnVtcHlfcmVwbGFjZV91bmtub3duX3ZhbHVlcyYjNDU7Jmd0O2Jvb2xlYW4yZmxvYXQgLS0+CjxnIGlkPSJlZGdlNCIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+bnVtcHlfcmVwbGFjZV91bmtub3duX3ZhbHVlcyYjNDU7Jmd0O2Jvb2xlYW4yZmxvYXQ8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNNDAyLjQxLC0xNTMuOTdDNDEwLjYsLTE1My43NSA0MTkuMzYsLTE1My41MSA0MjcuODUsLTE1My4yOCIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSI0MjguMTIsLTE1Ni43NyA0MzguMDIsLTE1MyA0MjcuOTMsLTE0OS43OCA0MjguMTIsLTE1Ni43NyIvPgo8L2c+CjwhLS0gY2F0X2ltcHV0ZXIgLS0+CjxnIGlkPSJub2RlNiIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+Y2F0X2ltcHV0ZXI8L3RpdGxlPgo8ZyBpZD0iYV9ub2RlNiI+PGEgeGxpbms6aHJlZj0iaHR0cHM6Ly9sYWxlLnJlYWR0aGVkb2NzLmlvL2VuL2xhdGVzdC9tb2R1bGVzL2xhbGUubGliLmF1dG9haV9saWJzLmNhdF9pbXB1dGVyLmh0bWwmcXVvdDsgdGFyZ2V0PSZxdW90O19ibGFuayZxdW90OyByZWw9JnF1b3Q7bm9vcGVuZXIgbm9yZWZlcnJlciIgeGxpbms6dGl0bGU9ImNhdF9pbXB1dGVyID0gQ2F0SW1wdXRlcihzdHJhdGVneT0mIzM5O21vc3RfZnJlcXVlbnQmIzM5OywgbWlzc2luZ192YWx1ZXM9ZmxvYXQoJiMzOTtuYW4mIzM5OyksIHNrbGVhcm5fdmVyc2lvbl9mYW1pbHk9JiMzOTsyMyYjMzk7KSI+CjxlbGxpcHNlIGZpbGw9IndoaXRlIiBzdHJva2U9ImJsYWNrIiBjeD0iNTgwLjQ3IiBjeT0iLTE1MCIgcng9IjMwLjMxIiByeT0iMTkuNiIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI1ODAuNDciIHk9Ii0xNTMuMiIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjExLjAwIj5DYXQmIzQ1OzwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNTgwLjQ3IiB5PSItMTQxLjIiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+SW1wdXRlcjwvdGV4dD4KPC9hPgo8L2c+CjwvZz4KPCEtLSBib29sZWFuMmZsb2F0JiM0NTsmZ3Q7Y2F0X2ltcHV0ZXIgLS0+CjxnIGlkPSJlZGdlNSIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+Ym9vbGVhbjJmbG9hdCYjNDU7Jmd0O2NhdF9pbXB1dGVyPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTUxNC4wNywtMTUxLjI4QzUyMi40NSwtMTUxLjExIDUzMS4zOSwtMTUwLjk0IDUzOS44OCwtMTUwLjc3Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjU0MC4wMiwtMTU0LjI3IDU0OS45NSwtMTUwLjU4IDUzOS44OCwtMTQ3LjI3IDU0MC4wMiwtMTU0LjI3Ii8+CjwvZz4KPCEtLSBjYXRfZW5jb2RlciAtLT4KPGcgaWQ9Im5vZGU3IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5jYXRfZW5jb2RlcjwvdGl0bGU+CjxnIGlkPSJhX25vZGU3Ij48YSB4bGluazpocmVmPSJodHRwczovL2xhbGUucmVhZHRoZWRvY3MuaW8vZW4vbGF0ZXN0L21vZHVsZXMvbGFsZS5saWIuYXV0b2FpX2xpYnMuY2F0X2VuY29kZXIuaHRtbCZxdW90OyB0YXJnZXQ9JnF1b3Q7X2JsYW5rJnF1b3Q7IHJlbD0mcXVvdDtub29wZW5lciBub3JlZmVycmVyIiB4bGluazp0aXRsZT0iY2F0X2VuY29kZXIgPSBDYXRFbmNvZGVyKGVuY29kaW5nPSYjMzk7b3JkaW5hbCYjMzk7LCBjYXRlZ29yaWVzPSYjMzk7YXV0byYjMzk7LCBkdHlwZT1ucC5mbG9hdDY0LCBoYW5kbGVfdW5rbm93bj0mIzM5O2Vycm9yJiMzOTssIHNrbGVhcm5fdmVyc2lvbl9mYW1pbHk9JiMzOTsyMyYjMzk7KSI+CjxlbGxpcHNlIGZpbGw9IndoaXRlIiBzdHJva2U9ImJsYWNrIiBjeD0iNjgyLjk0IiBjeT0iLTE0OSIgcng9IjMxLjY0IiByeT0iMTkuNiIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI2ODIuOTQiIHk9Ii0xNTIuMiIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjExLjAwIj5DYXQmIzQ1OzwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNjgyLjk0IiB5PSItMTQwLjIiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+RW5jb2RlcjwvdGV4dD4KPC9hPgo8L2c+CjwvZz4KPCEtLSBjYXRfaW1wdXRlciYjNDU7Jmd0O2NhdF9lbmNvZGVyIC0tPgo8ZyBpZD0iZWRnZTYiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPmNhdF9pbXB1dGVyJiM0NTsmZ3Q7Y2F0X2VuY29kZXI8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNNjExLjA3LC0xNDkuNzFDNjIwLjM1LC0xNDkuNjEgNjMwLjc3LC0xNDkuNTEgNjQwLjcsLTE0OS40MSIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSI2NDAuODQsLTE1Mi45MSA2NTAuOCwtMTQ5LjMxIDY0MC43NywtMTQ1LjkxIDY0MC44NCwtMTUyLjkxIi8+CjwvZz4KPCEtLSBmbG9hdDMyX3RyYW5zZm9ybV8wIC0tPgo8ZyBpZD0ibm9kZTgiIGNsYXNzPSJub2RlIj4KPHRpdGxlPmZsb2F0MzJfdHJhbnNmb3JtXzA8L3RpdGxlPgo8ZyBpZD0iYV9ub2RlOCI+PGEgeGxpbms6aHJlZj0iaHR0cHM6Ly9sYWxlLnJlYWR0aGVkb2NzLmlvL2VuL2xhdGVzdC9tb2R1bGVzL2xhbGUubGliLmF1dG9haV9saWJzLmZsb2F0MzJfdHJhbnNmb3JtLmh0bWwmcXVvdDsgdGFyZ2V0PSZxdW90O19ibGFuayZxdW90OyByZWw9JnF1b3Q7bm9vcGVuZXIgbm9yZWZlcnJlciIgeGxpbms6dGl0bGU9ImZsb2F0MzJfdHJhbnNmb3JtXzAgPSBmbG9hdDMyX3RyYW5zZm9ybSgpIj4KPGVsbGlwc2UgZmlsbD0id2hpdGUiIHN0cm9rZT0iYmxhY2siIGN4PSI3OTEuMDYiIGN5PSItMTQ2IiByeD0iMzYuMTIiIHJ5PSIxOS42Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9Ijc5MS4wNiIgeT0iLTE0OS4yIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPmZsb2F0MzJfJiM0NTs8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9Ijc5MS4wNiIgeT0iLTEzNy4yIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPnRyYW5zZm9ybTwvdGV4dD4KPC9hPgo8L2c+CjwvZz4KPCEtLSBjYXRfZW5jb2RlciYjNDU7Jmd0O2Zsb2F0MzJfdHJhbnNmb3JtXzAgLS0+CjxnIGlkPSJlZGdlNyIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+Y2F0X2VuY29kZXImIzQ1OyZndDtmbG9hdDMyX3RyYW5zZm9ybV8wPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTcxNC45MiwtMTQ4LjEyQzcyNC4xOCwtMTQ3Ljg2IDczNC41NCwtMTQ3LjU3IDc0NC41MywtMTQ3LjI5Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9Ijc0NC44NSwtMTUwLjc4IDc1NC43NSwtMTQ3IDc0NC42NiwtMTQzLjc4IDc0NC44NSwtMTUwLjc4Ii8+CjwvZz4KPCEtLSBjb25jYXRfZmVhdHVyZXMgLS0+CjxnIGlkPSJub2RlMTUiIGNsYXNzPSJub2RlIj4KPHRpdGxlPmNvbmNhdF9mZWF0dXJlczwvdGl0bGU+CjxnIGlkPSJhX25vZGUxNSI+PGEgeGxpbms6aHJlZj0iaHR0cHM6Ly9sYWxlLnJlYWR0aGVkb2NzLmlvL2VuL2xhdGVzdC9tb2R1bGVzL2xhbGUubGliLmxhbGUuY29uY2F0X2ZlYXR1cmVzLmh0bWwmcXVvdDsgdGFyZ2V0PSZxdW90O19ibGFuayZxdW90OyByZWw9JnF1b3Q7bm9vcGVuZXIgbm9yZWZlcnJlciIgeGxpbms6dGl0bGU9ImNvbmNhdF9mZWF0dXJlcyA9IENvbmNhdEZlYXR1cmVzKCkiPgo8ZWxsaXBzZSBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJibGFjayIgY3g9Ijg5Ni4zNiIgY3k9Ii0xMjAiIHJ4PSIzMy40NyIgcnk9IjE5LjYiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iODk2LjM2IiB5PSItMTIzLjIiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+Q29uY2F0JiM0NTs8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9Ijg5Ni4zNiIgeT0iLTExMS4yIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPkZlYXR1cmVzPC90ZXh0Pgo8L2E+CjwvZz4KPC9nPgo8IS0tIGZsb2F0MzJfdHJhbnNmb3JtXzAmIzQ1OyZndDtjb25jYXRfZmVhdHVyZXMgLS0+CjxnIGlkPSJlZGdlMTMiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPmZsb2F0MzJfdHJhbnNmb3JtXzAmIzQ1OyZndDtjb25jYXRfZmVhdHVyZXM8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNODI0LjE4LC0xMzcuOTJDODM0LjE1LC0xMzUuNDEgODQ1LjI1LC0xMzIuNjEgODU1LjY2LC0xMjkuOTkiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iODU2LjUzLC0xMzMuMzggODY1LjM4LC0xMjcuNTUgODU0LjgyLC0xMjYuNTkgODU2LjUzLC0xMzMuMzgiLz4KPC9nPgo8IS0tIG51bXB5X2NvbHVtbl9zZWxlY3Rvcl8xIC0tPgo8ZyBpZD0ibm9kZTkiIGNsYXNzPSJub2RlIj4KPHRpdGxlPm51bXB5X2NvbHVtbl9zZWxlY3Rvcl8xPC90aXRsZT4KPGcgaWQ9ImFfbm9kZTkiPjxhIHhsaW5rOmhyZWY9Imh0dHBzOi8vbGFsZS5yZWFkdGhlZG9jcy5pby9lbi9sYXRlc3QvbW9kdWxlcy9sYWxlLmxpYi5hdXRvYWlfbGlicy5udW1weV9jb2x1bW5fc2VsZWN0b3IuaHRtbCZxdW90OyB0YXJnZXQ9JnF1b3Q7X2JsYW5rJnF1b3Q7IHJlbD0mcXVvdDtub29wZW5lciBub3JlZmVycmVyIiB4bGluazp0aXRsZT0ibnVtcHlfY29sdW1uX3NlbGVjdG9yXzEgPSBOdW1weUNvbHVtblNlbGVjdG9yKGNvbHVtbnM9WzEsIDQsIDEyXSkiPgo8ZWxsaXBzZSBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJibGFjayIgY3g9IjI1My43MyIgY3k9Ii04MyIgcng9IjMzLjQ3IiByeT0iMjguMDciLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjUzLjczIiB5PSItOTIuMiIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjExLjAwIj5OdW1weSYjNDU7PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyNTMuNzMiIHk9Ii04MC4yIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPkNvbHVtbiYjNDU7PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyNTMuNzMiIHk9Ii02OC4yIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPlNlbGVjdG9yPC90ZXh0Pgo8L2E+CjwvZz4KPC9nPgo8IS0tIGZsb2F0X3N0cjJfZmxvYXQgLS0+CjxnIGlkPSJub2RlMTAiIGNsYXNzPSJub2RlIj4KPHRpdGxlPmZsb2F0X3N0cjJfZmxvYXQ8L3RpdGxlPgo8ZyBpZD0iYV9ub2RlMTAiPjxhIHhsaW5rOmhyZWY9Imh0dHBzOi8vbGFsZS5yZWFkdGhlZG9jcy5pby9lbi9sYXRlc3QvbW9kdWxlcy9sYWxlLmxpYi5hdXRvYWlfbGlicy5mbG9hdF9zdHIyX2Zsb2F0Lmh0bWwmcXVvdDsgdGFyZ2V0PSZxdW90O19ibGFuayZxdW90OyByZWw9JnF1b3Q7bm9vcGVuZXIgbm9yZWZlcnJlciIgeGxpbms6dGl0bGU9ImZsb2F0X3N0cjJfZmxvYXQgPSBGbG9hdFN0cjJGbG9hdChkdHlwZXNfbGlzdD1bJiMzOTtpbnRfbnVtJiMzOTssICYjMzk7aW50X251bSYjMzk7LCAmIzM5O2ludF9udW0mIzM5O10sIG1pc3NpbmdfdmFsdWVzX3JlZmVyZW5jZV9saXN0PVtdKSI+CjxlbGxpcHNlIGZpbGw9IndoaXRlIiBzdHJva2U9ImJsYWNrIiBjeD0iMzYzLjI3IiBjeT0iLTgzIiByeD0iMjciIHJ5PSIyOC4wNyIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIzNjMuMjciIHk9Ii05Mi4yIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPkZsb2F0JiM0NTs8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjM2My4yNyIgeT0iLTgwLjIiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+U3RyMiYjNDU7PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIzNjMuMjciIHk9Ii02OC4yIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPkZsb2F0PC90ZXh0Pgo8L2E+CjwvZz4KPC9nPgo8IS0tIG51bXB5X2NvbHVtbl9zZWxlY3Rvcl8xJiM0NTsmZ3Q7ZmxvYXRfc3RyMl9mbG9hdCAtLT4KPGcgaWQ9ImVkZ2U4IiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5udW1weV9jb2x1bW5fc2VsZWN0b3JfMSYjNDU7Jmd0O2Zsb2F0X3N0cjJfZmxvYXQ8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMjg2Ljk5LC04M0MyOTkuMjcsLTgzIDMxMy4zNCwtODMgMzI1Ljk2LC04MyIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIzMjYuMTYsLTg2LjUgMzM2LjE2LC04MyAzMjYuMTYsLTc5LjUgMzI2LjE2LC04Ni41Ii8+CjwvZz4KPCEtLSBudW1weV9yZXBsYWNlX21pc3NpbmdfdmFsdWVzXzEgLS0+CjxnIGlkPSJub2RlMTEiIGNsYXNzPSJub2RlIj4KPHRpdGxlPm51bXB5X3JlcGxhY2VfbWlzc2luZ192YWx1ZXNfMTwvdGl0bGU+CjxnIGlkPSJhX25vZGUxMSI+PGEgeGxpbms6aHJlZj0iaHR0cHM6Ly9sYWxlLnJlYWR0aGVkb2NzLmlvL2VuL2xhdGVzdC9tb2R1bGVzL2xhbGUubGliLmF1dG9haV9saWJzLm51bXB5X3JlcGxhY2VfbWlzc2luZ192YWx1ZXMuaHRtbCZxdW90OyB0YXJnZXQ9JnF1b3Q7X2JsYW5rJnF1b3Q7IHJlbD0mcXVvdDtub29wZW5lciBub3JlZmVycmVyIiB4bGluazp0aXRsZT0ibnVtcHlfcmVwbGFjZV9taXNzaW5nX3ZhbHVlc18xID0gTnVtcHlSZXBsYWNlTWlzc2luZ1ZhbHVlcyhtaXNzaW5nX3ZhbHVlcz1bXSwgZmlsbGluZ192YWx1ZXM9ZmxvYXQoJiMzOTtuYW4mIzM5OykpIj4KPGVsbGlwc2UgZmlsbD0id2hpdGUiIHN0cm9rZT0iYmxhY2siIGN4PSI0NzYuMTEiIGN5PSItODgiIHJ4PSIzNC44IiByeT0iMzYuNTQiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNDc2LjExIiB5PSItMTAzLjIiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+TnVtcHkmIzQ1OzwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNDc2LjExIiB5PSItOTEuMiIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjExLjAwIj5SZXBsYWNlJiM0NTs8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjQ3Ni4xMSIgeT0iLTc5LjIiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+TWlzc2luZyYjNDU7PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI0NzYuMTEiIHk9Ii02Ny4yIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPlZhbHVlczwvdGV4dD4KPC9hPgo8L2c+CjwvZz4KPCEtLSBmbG9hdF9zdHIyX2Zsb2F0JiM0NTsmZ3Q7bnVtcHlfcmVwbGFjZV9taXNzaW5nX3ZhbHVlc18xIC0tPgo8ZyBpZD0iZWRnZTkiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPmZsb2F0X3N0cjJfZmxvYXQmIzQ1OyZndDtudW1weV9yZXBsYWNlX21pc3NpbmdfdmFsdWVzXzE8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMzkwLjI1LC04NC4xN0M0MDIuMzksLTg0LjcyIDQxNy4xOCwtODUuMzkgNDMwLjk5LC04Ni4wMSIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSI0MzEuMTUsLTg5LjUyIDQ0MS4zLC04Ni40NyA0MzEuNDcsLTgyLjUzIDQzMS4xNSwtODkuNTIiLz4KPC9nPgo8IS0tIG51bV9pbXB1dGVyIC0tPgo8ZyBpZD0ibm9kZTEyIiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5udW1faW1wdXRlcjwvdGl0bGU+CjxnIGlkPSJhX25vZGUxMiI+PGEgeGxpbms6aHJlZj0iaHR0cHM6Ly9sYWxlLnJlYWR0aGVkb2NzLmlvL2VuL2xhdGVzdC9tb2R1bGVzL2xhbGUubGliLmF1dG9haV9saWJzLm51bV9pbXB1dGVyLmh0bWwmcXVvdDsgdGFyZ2V0PSZxdW90O19ibGFuayZxdW90OyByZWw9JnF1b3Q7bm9vcGVuZXIgbm9yZWZlcnJlciIgeGxpbms6dGl0bGU9Im51bV9pbXB1dGVyID0gTnVtSW1wdXRlcihzdHJhdGVneT0mIzM5O21lZGlhbiYjMzk7LCBtaXNzaW5nX3ZhbHVlcz1mbG9hdCgmIzM5O25hbiYjMzk7KSkiPgo8ZWxsaXBzZSBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJibGFjayIgY3g9IjU4MC40NyIgY3k9Ii05MSIgcng9IjMwLjMxIiByeT0iMTkuNiIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI1ODAuNDciIHk9Ii05NC4yIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPk51bSYjNDU7PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI1ODAuNDciIHk9Ii04Mi4yIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPkltcHV0ZXI8L3RleHQ+CjwvYT4KPC9nPgo8L2c+CjwhLS0gbnVtcHlfcmVwbGFjZV9taXNzaW5nX3ZhbHVlc18xJiM0NTsmZ3Q7bnVtX2ltcHV0ZXIgLS0+CjxnIGlkPSJlZGdlMTAiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPm51bXB5X3JlcGxhY2VfbWlzc2luZ192YWx1ZXNfMSYjNDU7Jmd0O251bV9pbXB1dGVyPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTUxMC45MSwtODguOTlDNTIwLjE1LC04OS4yNiA1MzAuMjQsLTg5LjU2IDUzOS43OCwtODkuODQiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iNTM5Ljc0LC05My4zNCA1NDkuODMsLTkwLjEzIDUzOS45NCwtODYuMzQgNTM5Ljc0LC05My4zNCIvPgo8L2c+CjwhLS0gb3B0X3N0YW5kYXJkX3NjYWxlciAtLT4KPGcgaWQ9Im5vZGUxMyIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+b3B0X3N0YW5kYXJkX3NjYWxlcjwvdGl0bGU+CjxnIGlkPSJhX25vZGUxMyI+PGEgeGxpbms6aHJlZj0iaHR0cHM6Ly9sYWxlLnJlYWR0aGVkb2NzLmlvL2VuL2xhdGVzdC9tb2R1bGVzL2xhbGUubGliLmF1dG9haV9saWJzLm9wdF9zdGFuZGFyZF9zY2FsZXIuaHRtbCZxdW90OyB0YXJnZXQ9JnF1b3Q7X2JsYW5rJnF1b3Q7IHJlbD0mcXVvdDtub29wZW5lciBub3JlZmVycmVyIiB4bGluazp0aXRsZT0ib3B0X3N0YW5kYXJkX3NjYWxlciA9IE9wdFN0YW5kYXJkU2NhbGVyKG51bV9zY2FsZXJfY29weT1Ob25lLCBudW1fc2NhbGVyX3dpdGhfbWVhbj1Ob25lLCBudW1fc2NhbGVyX3dpdGhfc3RkPU5vbmUsIHVzZV9zY2FsZXJfZmxhZz1GYWxzZSkiPgo8ZWxsaXBzZSBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJibGFjayIgY3g9IjY4Mi45NCIgY3k9Ii05MyIgcng9IjM2LjEyIiByeT0iMjguMDciLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNjgyLjk0IiB5PSItMTAyLjIiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+T3B0JiM0NTs8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjY4Mi45NCIgeT0iLTkwLjIiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+U3RhbmRhcmQmIzQ1OzwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNjgyLjk0IiB5PSItNzguMiIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjExLjAwIj5TY2FsZXI8L3RleHQ+CjwvYT4KPC9nPgo8L2c+CjwhLS0gbnVtX2ltcHV0ZXImIzQ1OyZndDtvcHRfc3RhbmRhcmRfc2NhbGVyIC0tPgo8ZyBpZD0iZWRnZTExIiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5udW1faW1wdXRlciYjNDU7Jmd0O29wdF9zdGFuZGFyZF9zY2FsZXI8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNNjExLjA3LC05MS41OUM2MTkuMTQsLTkxLjc1IDYyOC4wNywtOTEuOTMgNjM2LjgsLTkyLjEiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iNjM2LjgxLC05NS42IDY0Ni44OCwtOTIuMyA2MzYuOTUsLTg4LjYgNjM2LjgxLC05NS42Ii8+CjwvZz4KPCEtLSBmbG9hdDMyX3RyYW5zZm9ybV8xIC0tPgo8ZyBpZD0ibm9kZTE0IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5mbG9hdDMyX3RyYW5zZm9ybV8xPC90aXRsZT4KPGcgaWQ9ImFfbm9kZTE0Ij48YSB4bGluazpocmVmPSJodHRwczovL2xhbGUucmVhZHRoZWRvY3MuaW8vZW4vbGF0ZXN0L21vZHVsZXMvbGFsZS5saWIuYXV0b2FpX2xpYnMuZmxvYXQzMl90cmFuc2Zvcm0uaHRtbCZxdW90OyB0YXJnZXQ9JnF1b3Q7X2JsYW5rJnF1b3Q7IHJlbD0mcXVvdDtub29wZW5lciBub3JlZmVycmVyIiB4bGluazp0aXRsZT0iZmxvYXQzMl90cmFuc2Zvcm1fMSA9IGZsb2F0MzJfdHJhbnNmb3JtKCkiPgo8ZWxsaXBzZSBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJibGFjayIgY3g9Ijc5MS4wNiIgY3k9Ii05NyIgcng9IjM2LjEyIiByeT0iMTkuNiIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI3OTEuMDYiIHk9Ii0xMDAuMiIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjExLjAwIj5mbG9hdDMyXyYjNDU7PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI3OTEuMDYiIHk9Ii04OC4yIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPnRyYW5zZm9ybTwvdGV4dD4KPC9hPgo8L2c+CjwvZz4KPCEtLSBvcHRfc3RhbmRhcmRfc2NhbGVyJiM0NTsmZ3Q7ZmxvYXQzMl90cmFuc2Zvcm1fMSAtLT4KPGcgaWQ9ImVkZ2UxMiIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+b3B0X3N0YW5kYXJkX3NjYWxlciYjNDU7Jmd0O2Zsb2F0MzJfdHJhbnNmb3JtXzE8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNNzE4Ljk4LC05NC4zMkM3MjcuMzEsLTk0LjYzIDczNi4zMiwtOTQuOTcgNzQ1LjAzLC05NS4zIi8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9Ijc0NC45MywtOTguOCA3NTUuMDYsLTk1LjY4IDc0NS4yLC05MS44MSA3NDQuOTMsLTk4LjgiLz4KPC9nPgo8IS0tIGZsb2F0MzJfdHJhbnNmb3JtXzEmIzQ1OyZndDtjb25jYXRfZmVhdHVyZXMgLS0+CjxnIGlkPSJlZGdlMTQiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPmZsb2F0MzJfdHJhbnNmb3JtXzEmIzQ1OyZndDtjb25jYXRfZmVhdHVyZXM8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNODI0Ljc1LC0xMDQuMjhDODM0LjQxLC0xMDYuNDMgODQ1LjEsLTEwOC44MSA4NTUuMTgsLTExMS4wNSIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSI4NTQuNDcsLTExNC40OCA4NjUsLTExMy4yNCA4NTYsLTEwNy42NSA4NTQuNDcsLTExNC40OCIvPgo8L2c+CjwhLS0gbnVtcHlfcGVybXV0ZV9hcnJheSAtLT4KPGcgaWQ9Im5vZGUxNiIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+bnVtcHlfcGVybXV0ZV9hcnJheTwvdGl0bGU+CjxnIGlkPSJhX25vZGUxNiI+PGEgeGxpbms6aHJlZj0iaHR0cHM6Ly9sYWxlLnJlYWR0aGVkb2NzLmlvL2VuL2xhdGVzdC9tb2R1bGVzL2xhbGUubGliLmF1dG9haV9saWJzLm51bXB5X3Blcm11dGVfYXJyYXkuaHRtbCZxdW90OyB0YXJnZXQ9JnF1b3Q7X2JsYW5rJnF1b3Q7IHJlbD0mcXVvdDtub29wZW5lciBub3JlZmVycmVyIiB4bGluazp0aXRsZT0ibnVtcHlfcGVybXV0ZV9hcnJheSA9IE51bXB5UGVybXV0ZUFycmF5KGF4aXM9MCwgcGVybXV0YXRpb25faW5kaWNlcz1bMCwgMiwgMywgNSwgNiwgNywgOCwgOSwgMTAsIDExLCAxMywgMTQsIDE1LCAxNiwgMTcsIDE4LCAxOSwgMSwgNCwgMTJdKSI+CjxlbGxpcHNlIGZpbGw9IndoaXRlIiBzdHJva2U9ImJsYWNrIiBjeD0iMTAwMC4yNCIgY3k9Ii0xMjAiIHJ4PSIzNC44IiByeT0iMjguMDciLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTAwMC4yNCIgeT0iLTEyOS4yIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPk51bXB5JiM0NTs8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEwMDAuMjQiIHk9Ii0xMTcuMiIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjExLjAwIj5QZXJtdXRlJiM0NTs8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEwMDAuMjQiIHk9Ii0xMDUuMiIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjExLjAwIj5BcnJheTwvdGV4dD4KPC9hPgo8L2c+CjwvZz4KPCEtLSBjb25jYXRfZmVhdHVyZXMmIzQ1OyZndDtudW1weV9wZXJtdXRlX2FycmF5IC0tPgo8ZyBpZD0iZWRnZTE1IiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5jb25jYXRfZmVhdHVyZXMmIzQ1OyZndDtudW1weV9wZXJtdXRlX2FycmF5PC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTkyOS42LC0xMjBDOTM3LjgxLC0xMjAgOTQ2Ljc4LC0xMjAgOTU1LjQ2LC0xMjAiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iOTU1LjQ2LC0xMjMuNSA5NjUuNDYsLTEyMCA5NTUuNDYsLTExNi41IDk1NS40NiwtMTIzLjUiLz4KPC9nPgo8IS0tIGZlYXR1cmVfYWdnbG9tZXJhdGlvbiAtLT4KPGcgaWQ9Im5vZGUxNyIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+ZmVhdHVyZV9hZ2dsb21lcmF0aW9uPC90aXRsZT4KPGcgaWQ9ImFfbm9kZTE3Ij48YSB4bGluazpocmVmPSJodHRwczovL2xhbGUucmVhZHRoZWRvY3MuaW8vZW4vbGF0ZXN0L21vZHVsZXMvbGFsZS5saWIuc2tsZWFybi5mZWF0dXJlX2FnZ2xvbWVyYXRpb24uaHRtbCZxdW90OyB0YXJnZXQ9JnF1b3Q7X2JsYW5rJnF1b3Q7IHJlbD0mcXVvdDtub29wZW5lciBub3JlZmVycmVyIiB4bGluazp0aXRsZT0iZmVhdHVyZV9hZ2dsb21lcmF0aW9uID0gRmVhdHVyZUFnZ2xvbWVyYXRpb24oKSI+CjxlbGxpcHNlIGZpbGw9IndoaXRlIiBzdHJva2U9ImJsYWNrIiBjeD0iMTEyMy45MiIgY3k9Ii0xMjAiIHJ4PSI1My4wNyIgcnk9IjE5LjYiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTEyMy45MiIgeT0iLTEyMy4yIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPkZlYXR1cmUmIzQ1OzwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTEyMy45MiIgeT0iLTExMS4yIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPkFnZ2xvbWVyYXRpb248L3RleHQ+CjwvYT4KPC9nPgo8L2c+CjwhLS0gbnVtcHlfcGVybXV0ZV9hcnJheSYjNDU7Jmd0O2ZlYXR1cmVfYWdnbG9tZXJhdGlvbiAtLT4KPGcgaWQ9ImVkZ2UxNiIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+bnVtcHlfcGVybXV0ZV9hcnJheSYjNDU7Jmd0O2ZlYXR1cmVfYWdnbG9tZXJhdGlvbjwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0xMDM1LjE0LC0xMjBDMTA0My4wMiwtMTIwIDEwNTEuNjYsLTEyMCAxMDYwLjM1LC0xMjAiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMTA1Mi44OSwtMTIzLjUgMTA2Mi44OSwtMTIwIDEwNTIuODksLTExNi41IDEwNTIuODksLTEyMy41Ii8+CjwvZz4KPCEtLSBmczEgLS0+CjxnIGlkPSJub2RlMTgiIGNsYXNzPSJub2RlIj4KPHRpdGxlPmZzMTwvdGl0bGU+CjxnIGlkPSJhX25vZGUxOCI+PGEgeGxpbms6aHJlZj0iaHR0cHM6Ly9sYWxlLnJlYWR0aGVkb2NzLmlvL2VuL2xhdGVzdC9tb2R1bGVzL2xhbGUubGliLmF1dG9haV9saWJzLmZzMS5odG1sJnF1b3Q7IHRhcmdldD0mcXVvdDtfYmxhbmsmcXVvdDsgcmVsPSZxdW90O25vb3BlbmVyIG5vcmVmZXJyZXIiIHhsaW5rOnRpdGxlPSJmczEgPSBGUzEoY29sc19pZHNfbXVzdF9rZWVwPXJhbmdlKDAsIDIwKSwgYWRkaXRpb25hbF9jb2xfY291bnRfdG9fa2VlcD0yMCwgcHR5cGU9JiMzOTtjbGFzc2lmaWNhdGlvbiYjMzk7KSI+CjxlbGxpcHNlIGZpbGw9IndoaXRlIiBzdHJva2U9ImJsYWNrIiBjeD0iMTIzOS45NiIgY3k9Ii0xMjAiIHJ4PSIyNyIgcnk9IjE4Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMzkuOTYiIHk9Ii0xMTcuMiIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjExLjAwIj5GUzE8L3RleHQ+CjwvYT4KPC9nPgo8L2c+CjwhLS0gZmVhdHVyZV9hZ2dsb21lcmF0aW9uJiM0NTsmZ3Q7ZnMxIC0tPgo8ZyBpZD0iZWRnZTE3IiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5mZWF0dXJlX2FnZ2xvbWVyYXRpb24mIzQ1OyZndDtmczE8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMTE4NC45NiwtMTIwQzExOTAuOTYsLTEyMCAxMTk2LjkyLC0xMjAgMTIwMi41NiwtMTIwIi8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjEyMDIuNzIsLTEyMy41IDEyMTIuNzIsLTEyMCAxMjAyLjcyLC0xMTYuNSAxMjAyLjcyLC0xMjMuNSIvPgo8L2c+CjwhLS0gbHIgLS0+CjxnIGlkPSJub2RlMTkiIGNsYXNzPSJub2RlIj4KPHRpdGxlPmxyPC90aXRsZT4KPGcgaWQ9ImFfbm9kZTE5Ij48YSB4bGluazpocmVmPSJodHRwczovL2xhbGUucmVhZHRoZWRvY3MuaW8vZW4vbGF0ZXN0L21vZHVsZXMvbGFsZS5saWIuc2tsZWFybi5sb2dpc3RpY19yZWdyZXNzaW9uLmh0bWwmcXVvdDsgdGFyZ2V0PSZxdW90O19ibGFuayZxdW90OyByZWw9JnF1b3Q7bm9vcGVuZXIgbm9yZWZlcnJlciIgeGxpbms6dGl0bGU9ImxyID0gTFIiPgo8ZWxsaXBzZSBmaWxsPSIjN2VjMGVlIiBzdHJva2U9ImJsYWNrIiBjeD0iMTMyOS45NiIgY3k9Ii0xMjAiIHJ4PSIyNyIgcnk9IjE4Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEzMjkuOTYiIHk9Ii0xMTcuMiIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjExLjAwIj5MUjwvdGV4dD4KPC9hPgo8L2c+CjwvZz4KPCEtLSBmczEmIzQ1OyZndDtsciAtLT4KPGcgaWQ9ImVkZ2UxOCIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+ZnMxJiM0NTsmZ3Q7bHI8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMTI2Ny4zNiwtMTIwQzEyNzUuMzUsLTEyMCAxMjg0LjI3LC0xMjAgMTI5Mi43OCwtMTIwIi8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjEyODQuOTYsLTEyMy41IDEyOTQuOTYsLTEyMCAxMjg0Ljk2LC0xMTYuNSAxMjg0Ljk2LC0xMjMuNSIvPgo8L2c+CjwhLS0gdHJlZSAtLT4KPGcgaWQ9Im5vZGUyMCIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+dHJlZTwvdGl0bGU+CjxnIGlkPSJhX25vZGUyMCI+PGEgeGxpbms6aHJlZj0iaHR0cHM6Ly9sYWxlLnJlYWR0aGVkb2NzLmlvL2VuL2xhdGVzdC9tb2R1bGVzL2xhbGUubGliLnNrbGVhcm4uZGVjaXNpb25fdHJlZV9jbGFzc2lmaWVyLmh0bWwmcXVvdDsgdGFyZ2V0PSZxdW90O19ibGFuayZxdW90OyByZWw9JnF1b3Q7bm9vcGVuZXIgbm9yZWZlcnJlciIgeGxpbms6dGl0bGU9InRyZWUgPSBUcmVlIj4KPGVsbGlwc2UgZmlsbD0iIzdlYzBlZSIgc3Ryb2tlPSJibGFjayIgY3g9IjEzMjkuOTYiIGN5PSItNzciIHJ4PSIyNyIgcnk9IjE4Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEzMjkuOTYiIHk9Ii03NC4yIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPlRyZWU8L3RleHQ+CjwvYT4KPC9nPgo8L2c+CjwhLS0ga25uIC0tPgo8ZyBpZD0ibm9kZTIxIiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5rbm48L3RpdGxlPgo8ZyBpZD0iYV9ub2RlMjEiPjxhIHhsaW5rOmhyZWY9Imh0dHBzOi8vbGFsZS5yZWFkdGhlZG9jcy5pby9lbi9sYXRlc3QvbW9kdWxlcy9sYWxlLmxpYi5za2xlYXJuLmtfbmVpZ2hib3JzX2NsYXNzaWZpZXIuaHRtbCZxdW90OyB0YXJnZXQ9JnF1b3Q7X2JsYW5rJnF1b3Q7IHJlbD0mcXVvdDtub29wZW5lciBub3JlZmVycmVyIiB4bGluazp0aXRsZT0ia25uID0gS05OIj4KPGVsbGlwc2UgZmlsbD0iIzdlYzBlZSIgc3Ryb2tlPSJibGFjayIgY3g9IjEzMjkuOTYiIGN5PSItMzQiIHJ4PSIyNyIgcnk9IjE4Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEzMjkuOTYiIHk9Ii0zMS4yIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPktOTjwvdGV4dD4KPC9hPgo8L2c+CjwvZz4KPC9nPgo8L3N2Zz4K"/>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="New-optimizer-Hyperopt-configuration-and-training">New optimizer <code>Hyperopt</code> configuration and training<a class="anchor-link" href="#New-optimizer-Hyperopt-configuration-and-training">¶</a></h4><p>To automatically select the algorithm and tune its hyperparameters, we
-create an instance of the <code>Hyperopt</code> optimizer and <code>fit</code> it to the
-data.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
-
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">train_X</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">33</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">hyperopt</span> <span class="o">=</span> <span class="n">Hyperopt</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">new_pipeline</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">max_evals</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">'roc_auc'</span><span class="p">)</span>
-<span class="n">hyperopt_pipelines</span> <span class="o">=</span> <span class="n">hyperopt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">response_gen</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8550,633 +8131,8 @@ data.</p>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>100%|██████████| 20/20 [00:36&lt;00:00,  1.82s/trial, best loss: -0.7943909200702679]
-</pre>
+<pre> The result of (20 / 5) + (2 * 4) is 12.0.</pre>
 </div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">pipeline_model</span> <span class="o">=</span> <span class="n">hyperopt_pipelines</span><span class="o">.</span><span class="n">get_pipeline</span><span class="p">(</span><span class="n">astype</span><span class="o">=</span><span class="s1">'sklearn'</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="Save-newly-refined-pipeline">Save newly refined pipeline<a class="anchor-link" href="#Save-newly-refined-pipeline">¶</a></h4>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">joblib</span>
-
-<span class="n">model_path</span> <span class="o">=</span> <span class="s2">"refined_pipeline.pickle"</span>
-<span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">pipeline_model</span><span class="p">,</span> <span class="n">model_path</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">tarfile</span>
-
-<span class="k">with</span> <span class="n">tarfile</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">model_path</span> <span class="o">+</span> <span class="s2">".tar.gz"</span><span class="p">,</span> <span class="s2">"w:gz"</span><span class="p">)</span> <span class="k">as</span> <span class="n">tar</span><span class="p">:</span>
-    <span class="n">tar</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span>
-<span class="n">model_path</span> <span class="o">+=</span> <span class="s2">".tar.gz"</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Publish-new-version-of-the-model">Publish new version of the model<a class="anchor-link" href="#Publish-new-version-of-the-model">¶</a></h3>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="Download-current-version-of-the-model">Download current version of the model<a class="anchor-link" href="#Download-current-version-of-the-model">¶</a></h4>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">model_id</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">get_params</span><span class="p">()[</span><span class="s1">'entity'</span><span class="p">][</span><span class="s1">'asset'</span><span class="p">][</span><span class="s1">'id'</span><span class="p">]</span>
-<span class="n">deployment_id</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">get_params</span><span class="p">()[</span><span class="s1">'metadata'</span><span class="p">][</span><span class="s1">'id'</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">downloaded_model_name</span> <span class="o">=</span> <span class="s2">"current_model.zip"</span>
-<span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">model_id</span><span class="p">,</span> <span class="n">downloaded_model_name</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Successfully saved model content to file: 'current_model.zip'
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">zipfile</span>
-
-<span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">downloaded_model_name</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">zip_ref</span><span class="p">:</span>
-    <span class="n">zip_ref</span><span class="o">.</span><span class="n">extractall</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="Create-archive-containing-updated-model">Create archive containing updated model<a class="anchor-link" href="#Create-archive-containing-updated-model">¶</a></h4>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [27]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">updated_model_path</span> <span class="o">=</span> <span class="s2">"updated_model.zip"</span>
-<span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">updated_model_path</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">zip_ref</span><span class="p">:</span>
-    <span class="n">zip_ref</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span>
-    <span class="n">zip_ref</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"pipeline-model.json"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="Save-the-current-model-version">Save the current model version<a class="anchor-link" href="#Save-the-current-model-version">¶</a></h4>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">create_model_revision</span><span class="p">(</span><span class="n">model_id</span><span class="p">),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="Update-the-model">Update the model<a class="anchor-link" href="#Update-the-model">¶</a></h4>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [29]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">ModelMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s1">'AutoAI credit-risk updated model'</span>
-<span class="p">}</span>
-
-<span class="n">published_model</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">update_model</span><span class="p">(</span>
-    <span class="n">model_uid</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span>
-    <span class="n">update_model</span><span class="o">=</span><span class="n">updated_model_path</span><span class="p">,</span>
-    <span class="n">updated_meta_props</span><span class="o">=</span><span class="n">metadata</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="Save-new-model-revision-of-the-updated-model">Save new model revision of the updated model<a class="anchor-link" href="#Save-new-model-revision-of-the-updated-model">¶</a></h4>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">new_model_revision</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">create_model_revision</span><span class="p">(</span><span class="n">model_id</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">new_model_revision</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><strong>Note:</strong> Model revisions can be identified by model <code>id</code> and <code>rev</code> number.</p>
-<p>Get model <code>rev</code> number from creation details:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [31]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">rev_id</span> <span class="o">=</span> <span class="n">new_model_revision</span><span class="p">[</span><span class="s1">'metadata'</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'rev'</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="List-list-existing-revisions-of-the-model">List list existing revisions of the model<a class="anchor-link" href="#List-list-existing-revisions-of-the-model">¶</a></h4>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [32]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">list_models_revisions</span><span class="p">(</span><span class="n">model_id</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>--  --------------------------------  ------------------------
-ID  NAME                              CREATED
-2   AutoAI credit-risk updated model  2021-10-18T14:42:08.102Z
-1   P1                                2021-10-18T14:42:08.102Z
---  --------------------------------  ------------------------
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="Get-details-of-updated-model">Get details of updated model<a class="anchor-link" href="#Get-details-of-updated-model">¶</a></h4>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">get_details</span><span class="p">(</span><span class="n">model_id</span><span class="p">),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="redeploy"></a></p>
-<h2 id="6.-Redeploy-and-score-new-version-of-the-model">6. Redeploy and score new version of the model<a class="anchor-link" href="#6.-Redeploy-and-score-new-version-of-the-model">¶</a></h2><p>In this section, you'll learn how to redeploy new version of the model by using the Watson Machine Learning Client.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [34]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">ASSET</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">"id"</span><span class="p">:</span> <span class="n">model_id</span><span class="p">,</span>
-        <span class="s2">"rev"</span><span class="p">:</span> <span class="n">rev_id</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-    
-<span class="n">updated_deployment</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">deployment_id</span><span class="p">,</span> <span class="n">changes</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Since ASSET is patched, deployment with new asset id/rev is being started. Monitor the status using deployments.get_details(deployment_uid) api
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Wait for the deployment update:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [35]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
-
-<span class="n">status</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="k">while</span> <span class="n">status</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'ready'</span><span class="p">,</span> <span class="s1">'failed'</span><span class="p">]:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">'.'</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">' '</span><span class="p">)</span>
-    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">deployment_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_details</span><span class="p">(</span><span class="n">deployment_id</span><span class="p">)</span>
-    <span class="n">status</span> <span class="o">=</span> <span class="n">deployment_details</span><span class="p">[</span><span class="s1">'entity'</span><span class="p">][</span><span class="s1">'status'</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'state'</span><span class="p">)</span>
-    
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Deployment update finished with status: "</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>. . . . . . . . 
-Deployment update finished with status:  ready
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="Get-updated-deployment-details">Get updated deployment details<a class="anchor-link" href="#Get-updated-deployment-details">¶</a></h4>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_details</span><span class="p">(</span><span class="n">deployment_id</span><span class="p">),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Score-updated-model">Score updated model<a class="anchor-link" href="#Score-updated-model">¶</a></h3>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [37]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">scoring_payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"input_data"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"values"</span><span class="p">:</span> <span class="n">train_df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">'Risk'</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">5</span><span class="p">]}]}</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Use client.deployments.score() method to run scoring.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [38]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">deployment_id</span><span class="p">,</span> <span class="n">scoring_payload</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [39]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>{
-  "predictions": [
-    {
-      "fields": [
-        "prediction",
-        "probability"
-      ],
-      "values": [
-        [
-          "No Risk",
-          [
-            0.9807692307692307,
-            0.019230769230769232
-          ]
-        ],
-        [
-          "No Risk",
-          [
-            0.9807692307692307,
-            0.019230769230769232
-          ]
-        ],
-        [
-          "No Risk",
-          [
-            0.847457627118644,
-            0.15254237288135594
-          ]
-        ],
-        [
-          "No Risk",
-          [
-            0.847457627118644,
-            0.15254237288135594
-          ]
-        ],
-        [
-          "Risk",
-          [
-            0.29508196721311475,
-            0.7049180327868853
-          ]
-        ]
-      ]
-    }
-  ]
-}
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="cleanup"></a></p>
-<h2 id="7.-Clean-up">7. Clean up<a class="anchor-link" href="#7.-Clean-up">¶</a></h2>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>If you want to clean up all created assets:</p>
-<ul>
-<li>experiments</li>
-<li>trainings</li>
-<li>pipelines</li>
-<li>model definitions</li>
-<li>models</li>
-<li>functions</li>
-<li>deployments</li>
-</ul>
-<p>please follow up this sample <a href="https://github.com/IBM/watson-machine-learning-samples/blob/master/cpd4.5/notebooks/python_sdk/instance-management/Machine%20Learning%20artifacts%20management.ipynb">notebook</a>.</p>
 </div>
 </div>
 </div>
@@ -9188,7 +8144,9 @@ Deployment update finished with status:  ready
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><a id="summary"></a></p>
-<h2 id="8.-Summary-and-next-steps">8. Summary and next steps<a class="anchor-link" href="#8.-Summary-and-next-steps">¶</a></h2>
+<h2 id="Summary-and-next-steps">Summary and next steps<a class="anchor-link" href="#Summary-and-next-steps">¶</a></h2><p>You successfully completed this notebook!</p>
+<p>You learned how to build a simple agent using ReActAgent and <code>WatsonLLM</code>.</p>
+<p>Check out our <em><a href="https://ibm.github.io/watsonx-ai-python-sdk/samples.html" rel="noopener no referrer" target="_blank">Online Documentation</a></em> for more samples, tutorials, documentation, how-tos, and blog posts.</p>
 </div>
 </div>
 </div>
@@ -9199,8 +8157,7 @@ Deployment update finished with status:  ready
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>You successfully completed this notebook!<br/>
-Check out our <em><a href="https://www.ibm.com/cloud/watson-studio/autoai">Online Documentation</a></em> for more samples, tutorials, documentation, how-tos, and blog posts.</p>
+<h3 id="Author">Author<a class="anchor-link" href="#Author">¶</a></h3><p><strong>Wojciech Rębisz</strong>, Software Engineer at Watson Machine Learning.</p>
 </div>
 </div>
 </div>
@@ -9211,18 +8168,7 @@ Check out our <em><a href="https://www.ibm.com/cloud/watson-studio/autoai">Onlin
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Authors">Authors<a class="anchor-link" href="#Authors">¶</a></h3><p><strong>Jan Sołtysik</strong>, Intern</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Copyright © 2020-2026 IBM. This notebook and its source code are released under the terms of the MIT License.</p>
+<p>Copyright © 2025-2026 IBM. This notebook and its source code are released under the terms of the MIT License.</p>
 </div>
 </div>
 </div>

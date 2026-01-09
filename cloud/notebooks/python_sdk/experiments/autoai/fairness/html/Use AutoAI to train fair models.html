@@ -7581,11 +7581,11 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">wget</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="s2">"scikit-learn==1.3.0"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">ibm</span><span class="o">-</span><span class="n">watsonx</span><span class="o">-</span><span class="n">ai</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">autoai</span><span class="o">-</span><span class="n">libs</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s1">'lale[fairness]&gt;=0.8.2,&lt;0.9'</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>wget
+<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"scikit-learn==1.3.0"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>ibm-watsonx-ai<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>autoai-libs<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span><span class="s1">'lale[fairness]&gt;=0.8.2,&lt;0.9'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
 </pre></div>
 </div>
 </div>
@@ -7815,7 +7815,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
 <span class="n">url</span> <span class="o">=</span> <span class="s2">"https://github.com/IBM/watson-machine-learning-samples/raw/master/cloud/data/bias/german_credit_data_biased_training.csv"</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span> 
     <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -7980,7 +7980,7 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 <p>Examples of supported configuration:</p>
 <pre><code>fairness_info = {
             "protected_attributes": [
-                {"feature": "Age", "reference_group": [[26, 26], [30, 75]],
+                {"feature": "Age", "reference_group": [[26, 26], [30, 75]], 
                                     "monitored_group": [[18, 25], [27, 29]]}
             ],
             "favorable_labels": ["No Risk"]
@@ -7989,7 +7989,7 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 </code></pre>
 <pre><code>fairness_info = {
             "protected_attributes": [
-                {"feature": "sex", "reference_group": ['male', 'not specified'],
+                {"feature": "sex", "reference_group": ['male', 'not specified'], 
                                    "monitored_group": ['female']},
                 {"feature": "age", "reference_group": [[26, 100]], "monitored_group": [[18, 25], [27, 29]]}
             ],
@@ -8586,7 +8586,7 @@ Accuracy and disparate impact: 0.75
 <p><strong>Dorota Lączak</strong>, Software Engineer at watsonx.ai</p>
 <p><strong>Szymon Kucharczyk</strong>, Software Engineer at watsonx.ai</p>
 <p><strong>Mateusz Szewczyk</strong>, Software Engineer at watsonx.ai</p>
-<p>Copyright © 2021-2025 IBM. This notebook and its source code are released under the terms of the MIT License.</p>
+<p>Copyright © 2021-2026 IBM. This notebook and its source code are released under the terms of the MIT License.</p>
 </div>
 </div>
 </div>

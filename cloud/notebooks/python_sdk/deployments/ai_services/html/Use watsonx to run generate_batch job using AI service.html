@@ -7584,8 +7584,8 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">langchain_community</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"ibm_watsonx_ai&gt;=1.3.20"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">pip</span> install -U langchain_community | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install -U "ibm_watsonx_ai&gt;=1.3.20" | tail -n 1
 </pre></div>
 </div>
 </div>
@@ -7612,6 +7612,7 @@ a.anchor-link {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span>
 
 <span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span>
@@ -7684,10 +7685,7 @@ a.anchor-link {
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span>
 
-<span class="n">api_client</span> <span class="o">=</span> <span class="n">APIClient</span><span class="p">(</span>
-    <span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span> 
-    <span class="n">space_id</span><span class="o">=</span><span class="n">space_id</span>
-<span class="p">)</span>
+<span class="n">api_client</span> <span class="o">=</span> <span class="n">APIClient</span><span class="p">(</span><span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span> <span class="n">space_id</span><span class="o">=</span><span class="n">space_id</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7717,12 +7715,9 @@ a.anchor-link {
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Embeddings</span>
 
-<span class="n">embedding_model_id</span><span class="o">=</span><span class="s2">"ibm/slate-125m-english-rtrvr-v2"</span>
+<span class="n">embedding_model_id</span> <span class="o">=</span> <span class="s2">"ibm/slate-125m-english-rtrvr-v2"</span>
 
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">Embeddings</span><span class="p">(</span>
-    <span class="n">model_id</span><span class="o">=</span><span class="n">embedding_model_id</span><span class="p">,</span>
-    <span class="n">api_client</span><span class="o">=</span><span class="n">api_client</span>
-<span class="p">)</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">Embeddings</span><span class="p">(</span><span class="n">model_id</span><span class="o">=</span><span class="n">embedding_model_id</span><span class="p">,</span> <span class="n">api_client</span><span class="o">=</span><span class="n">api_client</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7749,10 +7744,15 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
-<span class="n">milvus_connection_id</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Provide connection asset ID in your space. Skip this, if you wish to type credentials by hand and hit enter: "</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span>
+<span class="n">milvus_connection_id</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="nb">input</span><span class="p">(</span>
+        <span class="s2">"Provide connection asset ID in your space. Skip this, if you wish to type credentials by hand and hit enter: "</span>
+    <span class="p">)</span>
+    <span class="ow">or</span> <span class="kc">None</span>
+<span class="p">)</span>
 
 <span class="k">if</span> <span class="n">milvus_connection_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">try</span><span class="p">:</span>
@@ -7774,7 +7774,11 @@ a.anchor-link {
     <span class="k">try</span><span class="p">:</span>
         <span class="n">ssl</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"SSL"</span><span class="p">]</span>
     <span class="k">except</span><span class="p">:</span>
-        <span class="n">ssl</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter ('y'/anything) if your Milvus instance has SSL enabled. Skip if it is not: "</span><span class="p">))</span>
+        <span class="n">ssl</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span>
+            <span class="nb">input</span><span class="p">(</span>
+                <span class="s2">"Please enter ('y'/anything) if your Milvus instance has SSL enabled. Skip if it is not: "</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
 
     <span class="c1"># Create connection</span>
     <span class="n">milvus_data_source_type_id</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">get_datasource_type_uid_by_name</span><span class="p">(</span>
@@ -7855,10 +7859,10 @@ a.anchor-link {
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.extensions.rag.vector_stores</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorStore</span>
 
 <span class="n">vector_store</span> <span class="o">=</span> <span class="n">VectorStore</span><span class="p">(</span>
-    <span class="n">api_client</span><span class="o">=</span><span class="n">api_client</span><span class="p">,</span> 
-    <span class="n">connection_id</span><span class="o">=</span><span class="n">milvus_connection_id</span><span class="p">,</span> 
-    <span class="n">index_name</span><span class="o">=</span><span class="n">index_name</span><span class="p">,</span> 
-    <span class="n">embeddings</span><span class="o">=</span><span class="n">embeddings</span>
+    <span class="n">api_client</span><span class="o">=</span><span class="n">api_client</span><span class="p">,</span>
+    <span class="n">connection_id</span><span class="o">=</span><span class="n">milvus_connection_id</span><span class="p">,</span>
+    <span class="n">index_name</span><span class="o">=</span><span class="n">index_name</span><span class="p">,</span>
+    <span class="n">embeddings</span><span class="o">=</span><span class="n">embeddings</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -7927,7 +7931,7 @@ a.anchor-link {
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_community.document_loaders</span><span class="w"> </span><span class="kn">import</span> <span class="n">WebBaseLoader</span>
 
-<span class="n">url</span> <span class="o">=</span> <span class="s2">"https://ibm.github.io/watsonx-ai-python-sdk/fm_model_inference.html"</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s2">"https://ibm.github.io/watsonx-ai-python-sdk/v1.3.42/fm_model_inference.html"</span>
 
 <span class="n">docs</span> <span class="o">=</span> <span class="n">WebBaseLoader</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
 <span class="n">model_inference_content</span> <span class="o">=</span> <span class="n">docs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">page_content</span>
@@ -7975,7 +7979,9 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">document_asset_details</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">document_filename</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="n">document_filename</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">document_asset_details</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="n">document_filename</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="n">document_filename</span>
+<span class="p">)</span>
 
 <span class="n">document_asset_id</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">document_asset_details</span><span class="p">)</span>
 <span class="n">document_asset_id</span>
@@ -8053,9 +8059,7 @@ SUCCESS
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 
-<span class="n">input_data_references</span> <span class="o">=</span> <span class="p">[</span>
-  <span class="n">data_connection</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
-<span class="p">]</span>
+<span class="n">input_data_references</span> <span class="o">=</span> <span class="p">[</span><span class="n">data_connection</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()]</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">input_data_references</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
 </pre></div>
@@ -8105,47 +8109,53 @@ SUCCESS
 <div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">deployable_ai_service</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">embedding_model_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">milvus_connection_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">index_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">deployable_ai_service</span><span class="p">(</span>
+    <span class="n">context</span><span class="p">,</span>
+    <span class="n">url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">embedding_model_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">milvus_connection_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">index_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 
-    <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataConnection</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.embeddings</span><span class="w"> </span><span class="kn">import</span> <span class="n">Embeddings</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.extensions.rag.vector_stores</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorStore</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span><span class="p">,</span> <span class="n">Credentials</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.data_loaders.datasets.documents</span><span class="w"> </span><span class="kn">import</span> <span class="n">DocumentsIterableDataset</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.extensions.rag.chunker.langchain_chunker</span><span class="w"> </span><span class="kn">import</span> <span class="n">LangChainChunker</span>
-    
+    <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.embeddings</span><span class="w"> </span><span class="kn">import</span> <span class="n">Embeddings</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.extensions.rag.chunker.langchain_chunker</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+        <span class="n">LangChainChunker</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.extensions.rag.vector_stores</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+        <span class="n">VectorStore</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataConnection</span>
+
     <span class="n">api_client</span> <span class="o">=</span> <span class="n">APIClient</span><span class="p">(</span>
         <span class="n">credentials</span><span class="o">=</span><span class="n">Credentials</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="n">context</span><span class="o">.</span><span class="n">generate_token</span><span class="p">()),</span>
         <span class="n">space_id</span><span class="o">=</span><span class="n">context</span><span class="o">.</span><span class="n">get_space_id</span><span class="p">(),</span>
     <span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Successfully initialized APIClient"</span><span class="p">)</span>
-    
-    <span class="n">embeddings</span> <span class="o">=</span> <span class="n">Embeddings</span><span class="p">(</span>
-        <span class="n">model_id</span><span class="o">=</span><span class="n">embedding_model_id</span><span class="p">,</span> 
-        <span class="n">api_client</span><span class="o">=</span><span class="n">api_client</span>
-    <span class="p">)</span>
+
+    <span class="n">embeddings</span> <span class="o">=</span> <span class="n">Embeddings</span><span class="p">(</span><span class="n">model_id</span><span class="o">=</span><span class="n">embedding_model_id</span><span class="p">,</span> <span class="n">api_client</span><span class="o">=</span><span class="n">api_client</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Successfully initialized Embeddings"</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">generate_batch</span><span class="p">(</span><span class="n">input_data_references</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">output_data_reference</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_batch</span><span class="p">(</span>
+        <span class="n">input_data_references</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">output_data_reference</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
         <span class="n">vector_store</span> <span class="o">=</span> <span class="n">VectorStore</span><span class="p">(</span>
-            <span class="n">api_client</span><span class="o">=</span><span class="n">api_client</span><span class="p">,</span> 
-            <span class="n">connection_id</span><span class="o">=</span><span class="n">milvus_connection_id</span><span class="p">,</span> 
-            <span class="n">index_name</span><span class="o">=</span><span class="n">index_name</span><span class="p">,</span> 
-            <span class="n">embeddings</span><span class="o">=</span><span class="n">embeddings</span>
+            <span class="n">api_client</span><span class="o">=</span><span class="n">api_client</span><span class="p">,</span>
+            <span class="n">connection_id</span><span class="o">=</span><span class="n">milvus_connection_id</span><span class="p">,</span>
+            <span class="n">index_name</span><span class="o">=</span><span class="n">index_name</span><span class="p">,</span>
+            <span class="n">embeddings</span><span class="o">=</span><span class="n">embeddings</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">"Successfully initialized VectorStore"</span><span class="p">)</span>
-        
+
         <span class="n">connections</span> <span class="o">=</span> <span class="p">[]</span>
-        
+
         <span class="k">for</span> <span class="n">input_data_reference</span> <span class="ow">in</span> <span class="n">input_data_references</span><span class="p">:</span>
             <span class="n">connections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">DataConnection</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">input_data_reference</span><span class="p">))</span>
-    
+
         <span class="n">dataset</span> <span class="o">=</span> <span class="n">DocumentsIterableDataset</span><span class="p">(</span>
-            <span class="n">connections</span><span class="o">=</span><span class="n">connections</span><span class="p">,</span> 
-            <span class="n">enable_sampling</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
-            <span class="n">api_client</span><span class="o">=</span><span class="n">api_client</span>
+            <span class="n">connections</span><span class="o">=</span><span class="n">connections</span><span class="p">,</span> <span class="n">enable_sampling</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">api_client</span><span class="o">=</span><span class="n">api_client</span>
         <span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">"Successfully initialized DocumentsIterableDataset"</span><span class="p">)</span>
 
@@ -8156,10 +8166,10 @@ SUCCESS
 
         <span class="n">documents</span> <span class="o">=</span> <span class="n">chunker</span><span class="o">.</span><span class="n">split_documents</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">"Successfully splitted documents"</span><span class="p">)</span>
-        
+
         <span class="n">vector_store</span><span class="o">.</span><span class="n">add_documents</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">"Documents added"</span><span class="p">)</span>
-        
+
         <span class="n">vector_store_count</span> <span class="o">=</span> <span class="n">vector_store</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Vector Store count: </span><span class="si">{</span><span class="n">vector_store_count</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
@@ -8194,11 +8204,11 @@ SUCCESS
 <span class="n">context</span> <span class="o">=</span> <span class="n">RuntimeContext</span><span class="p">(</span><span class="n">api_client</span><span class="o">=</span><span class="n">api_client</span><span class="p">)</span>
 
 <span class="n">generate_batch</span> <span class="o">=</span> <span class="n">deployable_ai_service</span><span class="p">(</span>
-    <span class="n">context</span><span class="p">,</span> 
-    <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="p">[</span><span class="s2">"url"</span><span class="p">],</span> 
-    <span class="n">embedding_model_id</span><span class="o">=</span><span class="n">embedding_model_id</span><span class="p">,</span> 
-    <span class="n">milvus_connection_id</span><span class="o">=</span><span class="n">milvus_connection_id</span><span class="p">,</span> 
-    <span class="n">index_name</span><span class="o">=</span><span class="n">index_name</span>
+    <span class="n">context</span><span class="p">,</span>
+    <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="p">[</span><span class="s2">"url"</span><span class="p">],</span>
+    <span class="n">embedding_model_id</span><span class="o">=</span><span class="n">embedding_model_id</span><span class="p">,</span>
+    <span class="n">milvus_connection_id</span><span class="o">=</span><span class="n">milvus_connection_id</span><span class="p">,</span>
+    <span class="n">index_name</span><span class="o">=</span><span class="n">index_name</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -8272,10 +8282,10 @@ Vector Store count: 82
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">vector_store</span> <span class="o">=</span> <span class="n">VectorStore</span><span class="p">(</span>
-    <span class="n">api_client</span><span class="o">=</span><span class="n">api_client</span><span class="p">,</span> 
-    <span class="n">connection_id</span><span class="o">=</span><span class="n">milvus_connection_id</span><span class="p">,</span> 
-    <span class="n">index_name</span><span class="o">=</span><span class="n">index_name</span><span class="p">,</span> 
-    <span class="n">embeddings</span><span class="o">=</span><span class="n">embeddings</span>
+    <span class="n">api_client</span><span class="o">=</span><span class="n">api_client</span><span class="p">,</span>
+    <span class="n">connection_id</span><span class="o">=</span><span class="n">milvus_connection_id</span><span class="p">,</span>
+    <span class="n">index_name</span><span class="o">=</span><span class="n">index_name</span><span class="p">,</span>
+    <span class="n">embeddings</span><span class="o">=</span><span class="n">embeddings</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">vector_store</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
@@ -8385,9 +8395,11 @@ Vector Store count: 82
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">meta_props</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">api_client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">AIServiceMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"AI service with generate_batch"</span><span class="p">,</span>
     <span class="n">api_client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">AIServiceMetaNames</span><span class="o">.</span><span class="n">DESCRIPTION</span><span class="p">:</span> <span class="s2">"Sample AI service with implemented generate_batch"</span><span class="p">,</span>
-    <span class="n">api_client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">AIServiceMetaNames</span><span class="o">.</span><span class="n">SOFTWARE_SPEC_ID</span><span class="p">:</span> <span class="n">sw_spec_id</span>
+    <span class="n">api_client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">AIServiceMetaNames</span><span class="o">.</span><span class="n">SOFTWARE_SPEC_ID</span><span class="p">:</span> <span class="n">sw_spec_id</span><span class="p">,</span>
 <span class="p">}</span>
-<span class="n">stored_ai_service_details</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">store_ai_service</span><span class="p">(</span><span class="n">deployable_ai_service</span><span class="p">,</span> <span class="n">meta_props</span><span class="p">)</span>
+<span class="n">stored_ai_service_details</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">store_ai_service</span><span class="p">(</span>
+    <span class="n">deployable_ai_service</span><span class="p">,</span> <span class="n">meta_props</span>
+<span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">stored_ai_service_details</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
 </pre></div>
@@ -8484,13 +8496,13 @@ Vector Store count: 82
                 <span class="s2">"url"</span><span class="p">:</span> <span class="n">credentials</span><span class="p">[</span><span class="s2">"url"</span><span class="p">],</span>
                 <span class="s2">"embedding_model_id"</span><span class="p">:</span> <span class="n">embedding_model_id</span><span class="p">,</span>
                 <span class="s2">"milvus_connection_id"</span><span class="p">:</span> <span class="n">milvus_connection_id</span><span class="p">,</span>
-                <span class="s2">"index_name"</span><span class="p">:</span> <span class="n">index_name</span>
+                <span class="s2">"index_name"</span><span class="p">:</span> <span class="n">index_name</span><span class="p">,</span>
             <span class="p">}</span>
-        <span class="p">},</span> 
+        <span class="p">},</span>
         <span class="n">api_client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">HARDWARE_SPEC</span><span class="p">:</span> <span class="p">{</span>
             <span class="s2">"id"</span><span class="p">:</span> <span class="n">api_client</span><span class="o">.</span><span class="n">hardware_specifications</span><span class="o">.</span><span class="n">get_id_by_name</span><span class="p">(</span><span class="s2">"L"</span><span class="p">)</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
+        <span class="p">},</span>
+    <span class="p">},</span>
 <span class="p">)</span>
 
 <span class="n">deployment_id</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">deployment_details</span><span class="p">)</span>
@@ -8652,10 +8664,10 @@ deployment_id='66820b23-48e2-4bde-9717-f6db689cc06e'
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">vector_store</span> <span class="o">=</span> <span class="n">VectorStore</span><span class="p">(</span>
-    <span class="n">api_client</span><span class="o">=</span><span class="n">api_client</span><span class="p">,</span> 
-    <span class="n">connection_id</span><span class="o">=</span><span class="n">milvus_connection_id</span><span class="p">,</span> 
-    <span class="n">index_name</span><span class="o">=</span><span class="n">index_name</span><span class="p">,</span> 
-    <span class="n">embeddings</span><span class="o">=</span><span class="n">embeddings</span>
+    <span class="n">api_client</span><span class="o">=</span><span class="n">api_client</span><span class="p">,</span>
+    <span class="n">connection_id</span><span class="o">=</span><span class="n">milvus_connection_id</span><span class="p">,</span>
+    <span class="n">index_name</span><span class="o">=</span><span class="n">index_name</span><span class="p">,</span>
+    <span class="n">embeddings</span><span class="o">=</span><span class="n">embeddings</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">vector_store</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
@@ -8867,7 +8879,7 @@ deployment_id='66820b23-48e2-4bde-9717-f6db689cc06e'
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Copyright © 2025 IBM. This notebook and its source code are released under the terms of the MIT License.</p>
+<p>Copyright © 2025-2026 IBM. This notebook and its source code are released under the terms of the MIT License.</p>
 </div>
 </div>
 </div>

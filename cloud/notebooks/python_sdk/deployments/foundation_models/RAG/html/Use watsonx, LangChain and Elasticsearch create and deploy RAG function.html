@@ -7532,8 +7532,8 @@ a.anchor-link {
 <h4 id="Disclaimers">Disclaimers<a class="anchor-link" href="#Disclaimers">¶</a></h4><ul>
 <li>Use only Projects and Spaces that are available in watsonx context.</li>
 </ul>
-<h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook contains the steps and code to demonstrate support of creating and deploying Retrieval Augumented Generation in watsonx.ai. It introduces commands for data retrieval, knowledge base building &amp; querying, model testing, deploying a RAG solution for general use.</p>
-<p>Some familiarity with Python is helpful. This notebook uses Python 3.10.</p>
+<h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook contains the steps and code to demonstrate support of creating and deploying Retrieval Augmented Generation in watsonx.ai. It introduces commands for data retrieval, knowledge base building &amp; querying, model testing, deploying a RAG solution for general use.</p>
+<p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
 <h4 id="About-Retrieval-Augmented-Generation">About Retrieval Augmented Generation<a class="anchor-link" href="#About-Retrieval-Augmented-Generation">¶</a></h4><p>Retrieval Augmented Generation (RAG) is a versatile pattern that can unlock a number of use cases requiring factual recall of information, such as querying a knowledge base in natural language.</p>
 <p>In its simplest form, RAG requires 3 steps:</p>
 <ul>
@@ -7575,11 +7575,11 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Install-and-import-dependecies">Install and import dependecies<a class="anchor-link" href="#Install-and-import-dependecies">¶</a></h3>
+<h3 id="Install-and-import-dependencies">Install and import dependencies<a class="anchor-link" href="#Install-and-import-dependencies">¶</a></h3><p><strong>Note:</strong> <code>ibm-watsonx-ai</code> documentation can be found <a href="https://ibm.github.io/watsonx-ai-python-sdk/index.html" rel="noopener no referrer" target="_blank">here</a>.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7587,13 +7587,28 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="n">capture</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">rouge</span><span class="o">-</span><span class="n">score</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"ibm_watsonx_ai&gt;=1.1.22"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"langchain&gt;=0.3,&lt;0.4"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"langchain-elasticsearch&gt;=0.3,&lt;0.4"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">pip</span> install wget | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install rouge-score | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install -U "ibm-watsonx-ai[rag]&gt;=1.1.22" | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install -U "langchain&gt;=0.3,&lt;1.0" | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install -U "langchain-elasticsearch&gt;=0.3,&lt;1.0" | tail -n 1
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Successfully installed wget-3.2
+Successfully installed absl-py-2.3.1 click-8.3.0 joblib-1.5.2 nltk-3.9.2 numpy-2.3.4 regex-2025.11.3 rouge-score-0.1.2 tqdm-4.67.1
+Successfully installed Pillow-12.0.0 SQLAlchemy-2.0.44 XlsxWriter-3.2.9 aiohappyeyeballs-2.6.1 aiohttp-3.13.2 aiosignal-1.4.0 annotated-types-0.7.0 anyio-4.11.0 attrs-25.4.0 backoff-2.2.1 bcrypt-5.0.0 beautifulsoup4-4.13.5 build-1.3.0 cachetools-6.2.1 certifi-2025.11.12 charset_normalizer-3.4.4 chromadb-1.3.4 coloredlogs-15.0.1 dataclasses-json-0.6.7 distro-1.9.0 durationpy-0.10 elastic-transport-8.17.1 elasticsearch-8.19.2 et-xmlfile-2.0.0 filelock-3.20.0 flatbuffers-25.9.23 frozenlist-1.8.0 fsspec-2025.10.0 google-auth-2.43.0 googleapis-common-protos-1.72.0 grpcio-1.76.0 h11-0.16.0 hf-xet-1.2.0 httpcore-1.0.9 httptools-0.7.1 httpx-0.28.1 httpx-sse-0.4.3 huggingface-hub-1.1.4 humanfriendly-10.0 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-db-3.2.7 ibm-watsonx-ai-1.4.6 idna-3.11 importlib-resources-6.5.2 jmespath-1.0.1 jsonpatch-1.33 jsonpointer-3.0.0 jsonschema-4.25.1 jsonschema-specifications-2025.9.1 kubernetes-33.1.0 langchain-0.3.27 langchain-chroma-0.2.5 langchain-community-0.3.31 langchain-core-0.3.79 langchain-db2-0.1.7 langchain-elasticsearch-0.3.2 langchain-ibm-0.3.20 langchain-milvus-0.2.1 langchain-text-splitters-0.3.11 langgraph-0.6.6 langgraph-checkpoint-2.1.2 langgraph-prebuilt-0.6.5 langgraph-sdk-0.2.9 langsmith-0.4.42 lomond-0.3.3 lxml-6.0.2 markdown-3.8.2 markdown-it-py-4.0.0 marshmallow-3.26.1 mdurl-0.1.2 mmh3-5.2.0 mpmath-1.3.0 multidict-6.7.0 mypy-extensions-1.1.0 oauthlib-3.3.1 onnxruntime-1.23.2 openpyxl-3.1.5 opentelemetry-api-1.38.0 opentelemetry-exporter-otlp-proto-common-1.38.0 opentelemetry-exporter-otlp-proto-grpc-1.38.0 opentelemetry-proto-1.38.0 opentelemetry-sdk-1.38.0 opentelemetry-semantic-conventions-0.59b0 orjson-3.11.4 ormsgpack-1.12.0 overrides-7.7.0 pandas-2.2.3 posthog-5.4.0 propcache-0.4.1 protobuf-6.33.0 pyYAML-6.0.3 pyasn1-0.6.1 pyasn1-modules-0.4.2 pybase64-1.4.2 pydantic-2.12.4 pydantic-core-2.41.5 pydantic-settings-2.12.0 pymilvus-2.6.3 pypdf-6.2.0 pypika-0.48.9 pyproject_hooks-1.2.0 python-docx-1.2.0 python-dotenv-1.2.1 python-pptx-1.0.2 pytz-2025.2 referencing-0.37.0 requests-2.32.5 requests-oauthlib-2.0.0 requests-toolbelt-1.0.0 rich-14.2.0 rpds-py-0.28.0 rsa-4.9.1 scikit-learn-1.7.2 scipy-1.16.3 shellingham-1.5.4 simsimd-6.5.3 sniffio-1.3.1 soupsieve-2.8 sympy-1.14.0 tabulate-0.9.0 tenacity-9.1.2 threadpoolctl-3.6.0 tokenizers-0.22.1 typer-0.20.0 typer-slim-0.20.0 typing-inspect-0.9.0 typing-inspection-0.4.2 tzdata-2025.2 urllib3-2.5.0 uvicorn-0.38.0 uvloop-0.22.1 watchfiles-1.1.1 websocket-client-1.9.0 websockets-15.0.1 xxhash-3.6.0 yarl-1.22.0 zstandard-0.25.0
+Successfully installed langchain-elasticsearch-0.4.0
+</pre>
 </div>
 </div>
 </div>
@@ -7606,21 +7621,24 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span><span class="o">,</span><span class="w"> </span><span class="nn">getpass</span><span class="o">,</span><span class="w"> </span><span class="nn">wget</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">Markdown</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.documents</span><span class="w"> </span><span class="kn">import</span> <span class="n">Document</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_text_splitters</span><span class="w"> </span><span class="kn">import</span> <span class="n">RecursiveCharacterTextSplitter</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">rouge_score</span><span class="w"> </span><span class="kn">import</span> <span class="n">rouge_scorer</span>
-
+<span class="kn">import</span><span class="w"> </span><span class="nn">wget</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span><span class="p">,</span> <span class="n">Credentials</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Embeddings</span><span class="p">,</span> <span class="n">ModelInference</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.extensions.rag</span><span class="w"> </span><span class="kn">import</span> <span class="n">RAGPattern</span><span class="p">,</span> <span class="n">VectorStore</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.extensions.rag.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">verbose_search</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.utils.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">EmbeddingTypes</span><span class="p">,</span> <span class="n">ModelTypes</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="n">PromptTemplate</span><span class="p">,</span> <span class="n">PromptTemplateManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">PromptTemplate</span><span class="p">,</span>
+    <span class="n">PromptTemplateManager</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataConnection</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.metanames</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenTextParamsMetaNames</span> <span class="k">as</span> <span class="n">GenParams</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.documents</span><span class="w"> </span><span class="kn">import</span> <span class="n">Document</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_text_splitters</span><span class="w"> </span><span class="kn">import</span> <span class="n">RecursiveCharacterTextSplitter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rouge_score</span><span class="w"> </span><span class="kn">import</span> <span class="n">rouge_scorer</span>
 </pre></div>
 </div>
 </div>
@@ -7671,7 +7689,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">try</span><span class="p">:</span>
@@ -7699,7 +7717,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">space_id</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your space_id and hit enter: "</span><span class="p">)</span>
@@ -7752,27 +7770,33 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">prompt_id</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your prompt template asset id and hit enter, if not provided, a new one would be created: "</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">prompt_id</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="nb">input</span><span class="p">(</span>
+        <span class="s2">"Please enter your prompt template asset id and hit enter, if not provided, a new one would be created: "</span>
+    <span class="p">)</span>
+    <span class="ow">or</span> <span class="kc">None</span>
+<span class="p">)</span>
 
 <span class="k">if</span> <span class="n">prompt_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="n">PROMPT_INSTRUCTION</span> <span class="o">=</span> \
-<span class="w">    </span><span class="sd">"""</span>
-<span class="sd">    Use the following pieces of documents to answer the question</span>
-<span class="sd">    at the end. If you don't know the answer, just say that you</span>
-<span class="sd">    don't know, don't try to make up an answer. Use three sentences</span>
-<span class="sd">    maximum. Keep the answer as concise as possible. do not include</span>
-<span class="sd">    question in your response.Your answers should not include any</span>
-<span class="sd">    harmful, unethical, racist, sexist, toxic, dangerous, or illegal</span>
-<span class="sd">    content. Please ensure that your responses are socially unbiased</span>
-<span class="sd">    and positive in nature.\nPlease provide a concise professional</span>
-<span class="sd">    response.</span>
-<span class="sd">    """</span>
+    <span class="n">PROMPT_INSTRUCTION</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">    Use the following pieces of documents to answer the question</span>
+<span class="s2">    at the end. If you don't know the answer, just say that you</span>
+<span class="s2">    don't know, don't try to make up an answer. Use three sentences</span>
+<span class="s2">    maximum. Keep the answer as concise as possible. do not include</span>
+<span class="s2">    question in your response.Your answers should not include any</span>
+<span class="s2">    harmful, unethical, racist, sexist, toxic, dangerous, or illegal</span>
+<span class="s2">    content. Please ensure that your responses are socially unbiased</span>
+<span class="s2">    and positive in nature.</span><span class="se">\n</span><span class="s2">Please provide a concise professional</span>
+<span class="s2">    response.</span>
+<span class="s2">    """</span>
     <span class="n">prompt_mgr</span> <span class="o">=</span> <span class="n">PromptTemplateManager</span><span class="p">(</span><span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">)</span>
-    <span class="n">prompt_template</span> <span class="o">=</span> <span class="n">PromptTemplate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"RAG_prompt_template"</span><span class="p">,</span>
-                                     <span class="n">model_id</span><span class="o">=</span><span class="n">ModelTypes</span><span class="o">.</span><span class="n">LLAMA_2_13B_CHAT</span><span class="p">,</span>
-                                     <span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">"question"</span><span class="p">,</span> <span class="s2">"reference_documents"</span><span class="p">],</span>
-                                     <span class="n">instruction</span><span class="o">=</span><span class="n">PROMPT_INSTRUCTION</span><span class="p">,</span>
-                                     <span class="n">input_text</span><span class="o">=</span><span class="s2">"</span><span class="si">{reference_documents}</span><span class="se">\n</span><span class="s2">Question:</span><span class="si">{question}</span><span class="se">\n</span><span class="s2">Answer:"</span><span class="p">)</span>
+    <span class="n">prompt_template</span> <span class="o">=</span> <span class="n">PromptTemplate</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">"RAG_prompt_template"</span><span class="p">,</span>
+        <span class="n">model_id</span><span class="o">=</span><span class="n">client</span><span class="o">.</span><span class="n">foundation_models</span><span class="o">.</span><span class="n">TextModels</span><span class="o">.</span><span class="n">LLAMA_3_3_70B_INSTRUCT</span><span class="p">,</span>
+        <span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">"question"</span><span class="p">,</span> <span class="s2">"reference_documents"</span><span class="p">],</span>
+        <span class="n">instruction</span><span class="o">=</span><span class="n">PROMPT_INSTRUCTION</span><span class="p">,</span>
+        <span class="n">input_text</span><span class="o">=</span><span class="s2">"</span><span class="si">{reference_documents}</span><span class="se">\n</span><span class="s2">Question:</span><span class="si">{question}</span><span class="se">\n</span><span class="s2">Answer:"</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">stored_prompt_template</span> <span class="o">=</span> <span class="n">prompt_mgr</span><span class="o">.</span><span class="n">store_prompt</span><span class="p">(</span><span class="n">prompt_template</span><span class="o">=</span><span class="n">prompt_template</span><span class="p">)</span>
     <span class="n">prompt_id</span> <span class="o">=</span> <span class="n">stored_prompt_template</span><span class="o">.</span><span class="n">prompt_id</span>
 </pre></div>
@@ -7824,8 +7848,8 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s1">'psgs.tsv'</span>
-<span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'https://raw.github.com/IBM/watson-machine-learning-samples/master/cloud/data/RAG/</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s1">'</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s2">"psgs.tsv"</span>
+<span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"https://raw.github.com/IBM/watsonx-ai-samples/master/cloud/data/RAG/</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">"</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
     <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
 
@@ -7870,7 +7894,7 @@ SUCCESS
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">data_connection</span> <span class="o">=</span> <span class="n">DataConnection</span><span class="p">(</span><span class="n">data_asset_id</span><span class="o">=</span><span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">asset_details</span><span class="p">))</span>
 <span class="n">data_connection</span><span class="o">.</span><span class="n">set_client</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
-<span class="n">documents</span> <span class="o">=</span> <span class="n">data_connection</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">csv_separator</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">documents</span> <span class="o">=</span> <span class="n">data_connection</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">csv_separator</span><span class="o">=</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7884,7 +7908,7 @@ SUCCESS
 <div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">documents</span><span class="p">[</span><span class="s1">'indextext'</span><span class="p">]</span> <span class="o">=</span> <span class="n">documents</span><span class="p">[</span><span class="s1">'title'</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="n">documents</span><span class="p">[</span><span class="s1">'text'</span><span class="p">]</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">documents</span><span class="p">[</span><span class="s2">"indextext"</span><span class="p">]</span> <span class="o">=</span> <span class="n">documents</span><span class="p">[</span><span class="s2">"title"</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="n">documents</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span>
 <span class="n">documents</span> <span class="o">=</span> <span class="n">documents</span><span class="p">[:</span><span class="mi">1000</span><span class="p">]</span>
 <span class="n">documents</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
@@ -7986,9 +8010,9 @@ SUCCESS
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">Embeddings</span><span class="p">(</span>
-    <span class="n">model_id</span><span class="o">=</span><span class="n">EmbeddingTypes</span><span class="o">.</span><span class="n">IBM_SLATE_30M_ENG</span><span class="p">,</span>
+    <span class="n">model_id</span><span class="o">=</span><span class="n">client</span><span class="o">.</span><span class="n">foundation_models</span><span class="o">.</span><span class="n">EmbeddingModels</span><span class="o">.</span><span class="n">SLATE_30M_ENGLISH_RTRVR_V2</span><span class="p">,</span>
     <span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span>
-    <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span>
+    <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -8014,10 +8038,15 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">es_connection_id</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Provide connection asset ID in your project. Skip this, if you wish to type credentials by hand and hit enter: "</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">es_connection_id</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="nb">input</span><span class="p">(</span>
+        <span class="s2">"Provide connection asset ID in your project. Skip this, if you wish to type credentials by hand and hit enter: "</span>
+    <span class="p">)</span>
+    <span class="ow">or</span> <span class="kc">None</span>
+<span class="p">)</span>
 <span class="n">es_connection_params</span> <span class="o">=</span> <span class="p">{}</span>
 
 <span class="k">if</span> <span class="n">es_connection_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -8028,7 +8057,9 @@ SUCCESS
     <span class="k">try</span><span class="p">:</span>
         <span class="n">espassword</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"ESPASSWORD"</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-        <span class="n">espassword</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Please enter your Elasticsearch password and hit enter: "</span><span class="p">)</span>
+        <span class="n">espassword</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span>
+            <span class="s2">"Please enter your Elasticsearch password and hit enter: "</span>
+        <span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">eshost</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"ESHOST"</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
@@ -8040,7 +8071,9 @@ SUCCESS
     <span class="k">try</span><span class="p">:</span>
         <span class="n">esca</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"ESCA"</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-        <span class="n">esca</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your Elasticsearch certificate contents (base64 encoded) and hit enter: "</span><span class="p">)</span>
+        <span class="n">esca</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span>
+            <span class="s2">"Please enter your Elasticsearch certificate contents (base64 encoded) and hit enter: "</span>
+        <span class="p">)</span>
 
     <span class="n">elasticsearch_data_source_type_id</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">get_datasource_type_id_by_name</span><span class="p">(</span><span class="s2">"elasticsearch"</span><span class="p">)</span>
@@ -8096,7 +8129,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">assets_to_promote</span> <span class="o">=</span> <span class="p">[</span><span class="n">es_connection_id</span><span class="p">,</span> <span class="n">prompt_id</span><span class="p">]</span>
@@ -8113,7 +8146,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">set</span><span class="o">.</span><span class="n">default_space</span><span class="p">(</span><span class="n">space_id</span><span class="p">)</span>
@@ -8134,7 +8167,7 @@ SUCCESS
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[19]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[14]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>'SUCCESS'</pre>
 </div>
@@ -8170,7 +8203,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">index_name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter Elasticsearch index name and hit enter: "</span><span class="p">)</span>
@@ -8184,7 +8217,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">vector_store</span> <span class="o">=</span> <span class="n">VectorStore</span><span class="p">(</span>
@@ -8215,12 +8248,18 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">texts</span> <span class="o">=</span> <span class="n">documents</span><span class="o">.</span><span class="n">indextext</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-<span class="n">metadatas</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">'title'</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span> <span class="s1">'id'</span><span class="p">:</span> <span class="n">doc_id</span><span class="p">}</span> <span class="k">for</span> <span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">doc_id</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">documents</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">documents</span><span class="o">.</span><span class="n">id</span><span class="p">)]</span>
-<span class="n">docs_to_add</span> <span class="o">=</span> <span class="p">[</span><span class="n">Document</span><span class="p">(</span><span class="n">page_content</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span> <span class="k">for</span> <span class="n">text</span><span class="p">,</span> <span class="n">metadata</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">metadatas</span><span class="p">)]</span>
+<span class="n">metadatas</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s2">"title"</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span> <span class="s2">"id"</span><span class="p">:</span> <span class="n">doc_id</span><span class="p">}</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">doc_id</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">documents</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">documents</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="n">docs_to_add</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">Document</span><span class="p">(</span><span class="n">page_content</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">text</span><span class="p">,</span> <span class="n">metadata</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">metadatas</span><span class="p">)</span>
+<span class="p">]</span>
 
 <span class="n">text_splitter</span> <span class="o">=</span> <span class="n">RecursiveCharacterTextSplitter</span><span class="p">(</span><span class="n">chunk_size</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">chunk_overlap</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">docs_to_add_split</span> <span class="o">=</span> <span class="n">text_splitter</span><span class="o">.</span><span class="n">split_documents</span><span class="p">(</span><span class="n">docs_to_add</span><span class="p">)</span>
@@ -8247,7 +8286,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">doc_count</span> <span class="o">=</span> <span class="n">vector_store</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
@@ -8262,7 +8301,7 @@ SUCCESS
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[23]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>4051</pre>
 </div>
@@ -8285,7 +8324,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">vector_store</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">"United States of America"</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -8326,40 +8365,40 @@ SUCCESS
 <tr style="text-align: right;">
 <th></th>
 <th>page_content</th>
-<th>id</th>
 <th>title</th>
+<th>id</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <th>0</th>
 <td>, D.C. States / Territories Alabama Alaska Ame...</td>
-<td>639.0</td>
 <td>United States Senate elections, 2018</td>
+<td>639.0</td>
 </tr>
 <tr>
 <th>1</th>
 <td>United States , 1797 -- 1801 1st Vice Presiden...</td>
-<td>918.0</td>
 <td>Founding Fathers of the United States</td>
+<td>918.0</td>
 </tr>
 <tr>
 <th>2</th>
-<td>who led the American Revolution against the au...</td>
-<td>878.0</td>
-<td>Founding Fathers of the United States</td>
+<td>the United States of America , which was recog...</td>
+<td>British colonization of the Americas</td>
+<td>521.0</td>
 </tr>
 <tr>
 <th>3</th>
-<td>-- 1793 ) U.S. Minister to France ( 1785 -- 17...</td>
-<td>927.0</td>
-<td>Founding Fathers of the United States</td>
+<td>1937 1938 1939 1940 1941 1942 1943 1944 1945 1...</td>
+<td>History of Idaho</td>
+<td>22.0</td>
 </tr>
 <tr>
 <th>4</th>
-<td>the United States of America , which was recog...</td>
-<td>521.0</td>
-<td>British colonization of the Americas</td>
+<td>of Congress further identifies the Articles of...</td>
+<td>Founding Fathers of the United States</td>
+<td>893.0</td>
 </tr>
 </tbody>
 </table>
@@ -8367,13 +8406,13 @@ SUCCESS
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[24]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[19]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>[Document(metadata={'title': 'United States Senate elections, 2018', 'id': 639.0}, page_content=', D.C. States / Territories Alabama Alaska American Samoa Arizona Arkansas California Colorado Connecticut Delaware Florida Georgia Guam Hawaii Idaho Illinois Indiana Iowa Kansas Kentucky Louisiana Maine Maryland Massachusetts Michigan Minnesota Mississippi Missouri Montana Nebraska Nevada New Hampshire New Jersey New Mexico New York North Carolina North Dakota Ohio Oklahoma Oregon Pennsylvania Puerto Rico'),
  Document(metadata={'title': 'Founding Fathers of the United States', 'id': 918.0}, page_content='United States , 1797 -- 1801 1st Vice President of the United States , 1789 -- 1797 U.S. Ambassador to the United Kingdom , 1785 -- 1788 U.S. Ambassador to the Netherlands , 1782 -- 1788 Delegate , Second Continental Congress , 1775 -- 1778 Delegate , First Continental Congress , 1774 Founding of the United States Braintree Instructions ( 1765 ) Boston Massacre defense Continental Association Novanglus ; A History of the Dispute with America , From Its Origin in 1754 to the Present Time ( 1775'),
- Document(metadata={'title': 'Founding Fathers of the United States', 'id': 878.0}, page_content='who led the American Revolution against the authority of the British Crown in word and deed and contributed to the establishment of the United States of America . Historian Richard B. Morris in 1973 identified the following seven figures as the key Founding Fathers : John Adams , Benjamin Franklin , Alexander Hamilton , John Jay , Thomas Jefferson , James Madison , and George Washington . Adams , Jefferson , and Franklin were members of the Committee of Five that drafted the Declaration of'),
- Document(metadata={'title': 'Founding Fathers of the United States', 'id': 927.0}, page_content='-- 1793 ) U.S. Minister to France ( 1785 -- 1789 ) 2nd Governor of Virginia ( 1779 -- 1781 ) Delegate , Second Continental Congress ( 1775 -- 1776 ) Founding documents of the United States A Summary View of the Rights of British America ( 1774 ) Initial draft , Olive Branch Petition ( 1775 ) Declaration of the Causes and Necessity of Taking Up Arms ( 1775 ) 1776 Declaration of Independence Committee of Five authored physical history `` All men are'),
- Document(metadata={'title': 'British colonization of the Americas', 'id': 521.0}, page_content="the United States of America , which was recognised internationally with the signing of the Treaty of Paris on 3 September 1783 . Great Britain also colonised the west coast of North America , indirectly via the Hudson 's Bay Company licenses west of the Rocky Mountains : the Columbia District and New Caledonia fur district . Most of these were jointly claimed as the Oregon Country by the United")]</pre>
+ Document(metadata={'title': 'British colonization of the Americas', 'id': 521.0}, page_content="the United States of America , which was recognised internationally with the signing of the Treaty of Paris on 3 September 1783 . Great Britain also colonised the west coast of North America , indirectly via the Hudson 's Bay Company licenses west of the Rocky Mountains : the Columbia District and New Caledonia fur district . Most of these were jointly claimed as the Oregon Country by the United"),
+ Document(metadata={'title': 'History of Idaho', 'id': 22.0}, page_content='1937 1938 1939 1940 1941 1942 1943 1944 1945 1946 1947 1948 1949 1950 1951 1952 1953 1954 1955 1956 1957 1958 1959 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1976 1977 1978 1979 1980 1981 1982 1984 1985 1986 2017 2018 2019 2020 History of the United States by polity States Alabama Alaska Arizona Arkansas California Colorado Connecticut Delaware Florida Georgia Hawaii Idaho Illinois Indiana Iowa Kansas Kentucky Louisiana Maine Maryland Massachusetts Michigan Minnesota'),
+ Document(metadata={'title': 'Founding Fathers of the United States', 'id': 893.0}, page_content='of Congress further identifies the Articles of Confederation , also preserved at NARA , as a primary U.S. document . The Articles of Confederation served as the first constitution of the United States until its replacement by the present Constitution on March 4 , 1789 . Signatories of the Continental Association ( CA ) , Declaration of Independence ( DI ) , Articles of Confederation ( AC ) , and the United States Constitution ( USC ) ) : Name Province / state CA ( 1774 ) DI ( 1776 ) AC ( 1777 )')]</pre>
 </div>
 </div>
 </div>
@@ -8417,20 +8456,20 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">generate_params</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">GenParams</span><span class="o">.</span><span class="n">DECODING_METHOD</span><span class="p">:</span> <span class="s2">"greedy"</span><span class="p">,</span>
     <span class="n">GenParams</span><span class="o">.</span><span class="n">MIN_NEW_TOKENS</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="n">GenParams</span><span class="o">.</span><span class="n">MAX_NEW_TOKENS</span><span class="p">:</span> <span class="mi">200</span>
+    <span class="n">GenParams</span><span class="o">.</span><span class="n">MAX_NEW_TOKENS</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">ModelInference</span><span class="p">(</span>
-    <span class="n">model_id</span><span class="o">=</span><span class="n">ModelTypes</span><span class="o">.</span><span class="n">LLAMA_2_13B_CHAT</span><span class="p">,</span>
+    <span class="n">model_id</span><span class="o">=</span><span class="n">client</span><span class="o">.</span><span class="n">foundation_models</span><span class="o">.</span><span class="n">TextModels</span><span class="o">.</span><span class="n">LLAMA_3_2_90B_VISION_INSTRUCT</span><span class="p">,</span>
     <span class="n">params</span><span class="o">=</span><span class="n">generate_params</span><span class="p">,</span>
     <span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span>
-    <span class="n">space_id</span><span class="o">=</span><span class="n">space_id</span>
+    <span class="n">space_id</span><span class="o">=</span><span class="n">space_id</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -8453,7 +8492,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">pattern</span> <span class="o">=</span> <span class="n">RAGPattern</span><span class="p">(</span>
@@ -8461,7 +8500,7 @@ SUCCESS
     <span class="n">prompt_id</span><span class="o">=</span><span class="n">promoted_prompt_id</span><span class="p">,</span>
     <span class="n">vector_store</span><span class="o">=</span><span class="n">vector_store</span><span class="p">,</span>
     <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
-    <span class="n">api_client</span><span class="o">=</span><span class="n">client</span>
+    <span class="n">api_client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -8485,10 +8524,10 @@ Set <code>insert_to_cell</code> to <code>True</code> to insert function code int
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [30]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">pattern</span><span class="o">.</span><span class="n">inference_function</span><span class="o">.</span><span class="n">pretty_print</span><span class="p">(</span><span class="n">insert_to_cell</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">pattern</span><span class="o">.</span><span class="n">inference_service</span><span class="o">.</span><span class="n">pretty_print</span><span class="p">(</span><span class="n">insert_to_cell</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8501,31 +8540,62 @@ Set <code>insert_to_cell</code> to <code>True</code> to insert function code int
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>def default_inference_function(params={'space_id': '93ee84d1-b7dd-42b4-b2ca-121bc0c86315', 'project_id': None, 'retriever': {'method': 'simple', 'number_of_chunks': 5}, 'vector_store': {'connection_id': '580ca8f2-caea-4239-b3f0-691312b2c428', 'embeddings': {'__class__': 'Embeddings', '__module__': 'ibm_watsonx_ai.foundation_models.embeddings.embeddings', 'model_id': 'ibm/slate-30m-english-rtrvr', 'params': None, 'project_id': 'd2436d2e-5814-4370-bd06-1754670e7d46', 'space_id': None, 'verify': None}, 'index_name': 'elastic_index_name', 'datasource_type': 'elasticsearch', 'distance_metric': None}, 'prompt_template_text': "\n    Use the following pieces of documents to answer the question\n    at the end. If you don't know the answer, just say that you\n    don't know, don't try to make up an answer. Use three sentences\n    maximum. Keep the answer as concise as possible. do not include\n    question in your response.Your answers should not include any\n    harmful, unethical, racist, sexist, toxic, dangerous, or illegal\n    content. Please ensure that your responses are socially unbiased\n    and positive in nature.\nPlease provide a concise professional\n    response.\n    \n\n{reference_documents}\nQuestion:{question}\nAnswer:", 'context_template_text': None, 'model': {'model_id': 'meta-llama/llama-2-13b-chat', 'params': {'decoding_method': 'greedy', 'min_new_tokens': 1, 'max_new_tokens': 200}, 'project_id': None, 'space_id': '93ee84d1-b7dd-42b4-b2ca-121bc0c86315'}, 'inference_function_params': {}, 'default_max_sequence_length': None}):
+<pre>def inference_service(context, vector_store_settings={'connection_id': '6d02bbeb-ab5f-4dda-820c-510a937d9d6b', 'index_name': 'index1', 'space_id': '9f44cc2b-b3d0-4472-824e-4941afb1617b'}):
     """
-    Default function used in RAGPattern when no ``inference_function`` is provided.
+    Default inference AI service function.
+
+    :param vector_store_settings: Vector store settings, such as `connection_id`, `index_name` and scope identifier: space_id/project_id,
+                                 encapsulated in a dictionary. Setting these parameters when creating deployment one can overwrite the defaults.
+    :type vector_store_settings: dict, optional
+
+    .. code-block:: python
+
+            from ibm_watsonx_ai import APIClient, Credentials
+
+            client = APIClient(
+                credentials=Credentials(url="&lt;url&gt;", token="&lt;token&gt;"), space_id=space_id
+            )
+
+            meta_props = {
+                client.deployments.ConfigurationMetaNames.NAME: "SAMPLE DEPLOYMENT NAME",
+                client.deployments.ConfigurationMetaNames.ONLINE: {
+                    "parameters": {
+                        "vector_store_settings": {
+                            "connection_id": "&lt;connection_to_vector_store&gt;",
+                            "index_name": "&lt;index_name&gt;",
+                            "project_id": "&lt;project_id&gt;",
+                        }
+                    }
+                },
+            }
+
+            deployment_details = client.deployments.create(ai_service_id, meta_props)
 
     Input schema:
     payload = {
-        client.deployments.ScoringMetaNames.INPUT_DATA: [
+       "messages":[
             {
-                "values": ["question 1", "question 2"],
-                "access_token": "&lt;bearer_token&gt;"
+                "role" : "user",
+                "content" : "question_1"
             }
         ]
     }
 
     Output schema:
     result = {
-        'predictions': [
+        'choices': [
             {
-                'fields': ['answer', 'reference_documents'],
-                'values': [
-                    ['answer 1', [ {'page_content': 'page content 1',
-                                    'metadata':     'metadata 1'} ]],
-                    ['answer 2', [ {'page_content': 'page content 2',
-                                    'metadata':     'metadata 2'} ]]
-                ]
+                'index': 0,
+                'message': {
+                    'content': 'generated_content',
+                    'role': 'assistant'
+                },
+                "reference_documents" : [
+                            {
+                                'sequence_number': [1, 2, 3],
+                                'document_id': '&lt;document_id&gt;'
+                            }
+                        ]
             }
         ]
     }
@@ -8533,81 +8603,85 @@ Set <code>insert_to_cell</code> to <code>True</code> to insert function code int
     from ibm_watsonx_ai import APIClient, Credentials
     from ibm_watsonx_ai.foundation_models import ModelInference
     from ibm_watsonx_ai.foundation_models.extensions.rag import Retriever, VectorStore
-    from ibm_watsonx_ai.foundation_models.extensions.rag.pattern.prompt_builder import (
-        build_prompt,
-    )
-    from ibm_watsonx_ai.foundation_models.extensions.rag.utils import (
-        get_max_input_tokens,
-    )
-    from ibm_watsonx_ai.wml_client_error import MissingValue
+    from ibm_watsonx_ai.foundation_models.extensions.rag.pattern.prompt_builder import build_prompt
+    from ibm_watsonx_ai.foundation_models.extensions.rag.utils import get_max_input_tokens
+    vector_store_settings = dict(vector_store_settings) if vector_store_settings is not None else {}
+    client = APIClient(credentials=Credentials(url='https://yp-qa.ml.cloud.ibm.com', token=context.generate_token()), space_id=vector_store_settings.pop('space_id', None), project_id=vector_store_settings.pop('project_id', None))
+    vector_store_init_data = {'connection_id': '6d02bbeb-ab5f-4dda-820c-510a937d9d6b', 'embeddings': {'__class__': 'Embeddings', '__module__': 'ibm_watsonx_ai.foundation_models.embeddings.embeddings', 'model_id': 'ibm/slate-30m-english-rtrvr-v2', 'params': None}, 'index_name': 'index1', 'datasource_type': 'elasticsearch', 'distance_metric': None}
+    vector_store_init_data |= vector_store_settings
+    vector_store = VectorStore.from_dict(client=client, data=vector_store_init_data)
+    retriever = Retriever.from_vector_store(vector_store=vector_store, init_parameters={'method': 'simple', 'number_of_chunks': 5})
+    model = ModelInference(api_client=client, model_id='meta-llama/llama-3-2-90b-vision-instruct', params={'decoding_method': 'greedy', 'min_new_tokens': 1, 'max_new_tokens': 200})
+    build_prompt_additional_kwargs = dict(model_max_input_tokens=get_max_input_tokens(model=model), prompt_template_text="\n    Use the following pieces of documents to answer the question\n    at the end. If you don't know the answer, just say that you\n    don't know, don't try to make up an answer. Use three sentences\n    maximum. Keep the answer as concise as possible. do not include\n    question in your response.Your answers should not include any\n    harmful, unethical, racist, sexist, toxic, dangerous, or illegal\n    content. Please ensure that your responses are socially unbiased\n    and positive in nature.\nPlease provide a concise professional\n    response.\n    \n\n{reference_documents}\nQuestion:{question}\nAnswer:", context_template_text=None)
+    word_to_token_ratio = None
+    if word_to_token_ratio is not None:
+        build_prompt_additional_kwargs['word_to_token_ratio'] = word_to_token_ratio
 
-    client = APIClient(
-        Credentials.from_dict(params["credentials"]),
-        space_id=params["space_id"],
-        project_id=params["project_id"],
-    )
-    vector_store = VectorStore.from_dict(client=client, data=params["vector_store"])
-    retriever = Retriever.from_vector_store(
-        vector_store=vector_store, init_parameters=params["retriever"]
-    )
-    model = ModelInference(api_client=client, **params["model"])
-    model_max_input_tokens = get_max_input_tokens(model=model, params=params)
-    prompt_template_text = params["prompt_template_text"]
-    context_template_text = params["context_template_text"]
+    def validate_messages(messages: list[dict]):
+        if messages and isinstance(messages, (list, tuple)) and (messages[-1]['role'] == 'user'):
+            return None
+        raise ValueError("The `messages` field must be an array containing objects, where the last one is representing user's message.")
 
-    def score(payload):
-        input_data = payload[client.deployments.ScoringMetaNames.INPUT_DATA]
-        access_token = input_data[0].get("access_token")
-        questions = input_data[0].get("values")
+    def generate(context):
+        """
+        The `generate` function handles the REST call to the inference endpoint
+        POST /ml/v4/deployments/{id_or_name}/ai_service
 
-        if access_token is None:
-            raise MissingValue(
-                value_name="access_token",
-                reason="Access token is required in scoring payload.",
-            )
-
-        if isinstance(questions, str):
-            questions = [questions]
-
-        client.set_token(access_token)
-
-        result = {"predictions": [{"fields": ["answer", "reference_documents"]}]}
-        all_prompts = []
-        all_retrieved_docs = []
-
-        for question in questions:
-            retrieved_docs = retriever.retrieve(query=question)
-            all_retrieved_docs.append(retrieved_docs)
-            reference_documents = [doc.page_content for doc in retrieved_docs]
-
-            prompt_input_text = build_prompt(
-                prompt_template_text=prompt_template_text,
-                context_template_text=context_template_text,
-                question=question,
-                reference_documents=reference_documents,
-                model_max_input_tokens=model_max_input_tokens,
-            )
-            all_prompts.append(prompt_input_text)
-
-        answers = model.generate_text(prompt=all_prompts)
-
-        predictions = [
-            [
-                answer,
-                [
-                    {"page_content": doc.page_content, "metadata": doc.metadata}
-                    for doc in retrieved_docs
-                ],
+        A JSON body sent to the above endpoint should follow the format:
+        {
+            "messages": [
+                {
+                    "role": "user",
+                    "content": "&lt;user_query&gt;",
+                },
             ]
-            for answer, retrieved_docs in zip(answers, all_retrieved_docs)
-        ]
+        }
+        """
+        client.set_token(context.get_token())
+        payload = context.get_json()
+        messages = payload['messages']
+        validate_messages(messages=messages)
+        question = messages[-1]['content']
+        retrieved_docs = retriever.retrieve(query=question)
+        reference_documents = [doc.page_content for doc in retrieved_docs]
+        prompt_input_text = build_prompt(question=question, reference_documents=reference_documents, **build_prompt_additional_kwargs)
+        answer = model.generate_text(prompt=prompt_input_text)
+        execute_response = {'body': {'choices': [{'index': 0, 'message': {'role': 'assistant', 'content': answer}, 'reference_documents': [{'page_content': doc.page_content, 'metadata': doc.metadata} for doc in retrieved_docs]}]}}
+        return execute_response
 
-        result["predictions"][0]["values"] = predictions
+    def generate_stream(context):
+        """
+        The `generate_stream` function handles the REST call to the Server-Sent Events (SSE) inference endpoint
+        POST /ml/v4/deployments/{id_or_name}/ai_service_stream
 
-        return result
-
-    return score
-
+        A JSON body sent to the above endpoint should follow the format:
+        {
+            "messages": [
+                {
+                    "role": "user",
+                    "content": "&lt;user_query&gt;",
+                },
+            ]
+        }
+        """
+        client.set_token(context.get_token())
+        payload = context.get_json()
+        messages = payload['messages']
+        validate_messages(messages=messages)
+        question = messages[-1]['content']
+        retrieved_docs = retriever.retrieve(query=question)
+        reference_documents = [doc.page_content for doc in retrieved_docs]
+        prompt_input_text = build_prompt(question=question, reference_documents=reference_documents, **build_prompt_additional_kwargs)
+        response_stream = model.generate_text_stream(prompt=prompt_input_text, raw_response=True)
+        chunk = next(response_stream)
+        message = {'role': 'assistant', 'content': chunk['results'][0]['generated_text']}
+        chunk_response = {'choices': [{'index': 0, 'delta': message, 'reference_documents': [{'page_content': doc.page_content, 'metadata': doc.metadata} for doc in retrieved_docs], 'finish_reason': chunk['results'][0]['stop_reason']}]}
+        yield chunk_response
+        for chunk in response_stream:
+            message = {'content': chunk['results'][0]['generated_text']}
+            chunk_response = {'choices': [{'index': 0, 'delta': message, 'finish_reason': chunk['results'][0]['stop_reason']}]}
+            yield chunk_response
+    return (generate, generate_stream)
 </pre>
 </div>
 </div>
@@ -8629,13 +8703,13 @@ Set <code>insert_to_cell</code> to <code>True</code> to insert function code int
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [31]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">questions_and_answers</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">'what are the names of founding fathers of the united states?'</span><span class="p">:</span> <span class="s2">"Thomas Jefferson::James Madison::John Jay::George Washington::John Adams::Benjamin Franklin::Alexander Hamilton"</span><span class="p">,</span>
-    <span class="s1">'who played in the super bowl in 2013?'</span><span class="p">:</span> <span class="s1">'Baltimore Ravens::San Francisco 49ers'</span><span class="p">,</span>
-    <span class="s1">'when did bucharest become the capital of romania?'</span><span class="p">:</span> <span class="s1">'1862'</span>
+    <span class="s2">"what are the names of founding fathers of the united states?"</span><span class="p">:</span> <span class="s2">"Thomas Jefferson::James Madison::John Jay::George Washington::John Adams::Benjamin Franklin::Alexander Hamilton"</span><span class="p">,</span>
+    <span class="s2">"who played in the super bowl in 2013?"</span><span class="p">:</span> <span class="s2">"Baltimore Ravens::San Francisco 49ers"</span><span class="p">,</span>
+    <span class="s2">"when did bucharest become the capital of romania?"</span><span class="p">:</span> <span class="s2">"1862"</span><span class="p">,</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -8658,13 +8732,16 @@ Set <code>insert_to_cell</code> to <code>True</code> to insert function code int
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [32]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">print_rag_response</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">question</span><span class="p">,</span> <span class="p">(</span><span class="n">answer</span><span class="p">,</span> <span class="n">reference_docs</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">questions_and_answers</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">response</span><span class="p">[</span><span class="s1">'predictions'</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">'values'</span><span class="p">]):</span>
-        <span class="n">verbose_search</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="p">[</span><span class="n">Document</span><span class="p">(</span><span class="o">**</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">reference_docs</span><span class="p">])</span>
-        <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s1">'**Answer:** </span><span class="si">{</span><span class="n">answer</span><span class="si">}</span><span class="s1">'</span><span class="p">))</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">print_rag_response</span><span class="p">(</span><span class="n">responses</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">question</span><span class="p">,</span> <span class="n">response</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">questions_and_answers</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">responses</span><span class="p">):</span>
+        <span class="n">choice</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">"choices"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">answer</span> <span class="o">=</span> <span class="n">choice</span><span class="p">[</span><span class="s2">"message"</span><span class="p">][</span><span class="s2">"content"</span><span class="p">]</span>
+        <span class="n">refs</span> <span class="o">=</span> <span class="n">choice</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"reference_documents"</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="n">verbose_search</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="p">[</span><span class="n">Document</span><span class="p">(</span><span class="o">**</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">refs</span><span class="p">])</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">"**Answer:** </span><span class="si">{</span><span class="n">answer</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -8686,14 +8763,13 @@ Set <code>insert_to_cell</code> to <code>True</code> to insert function code int
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [33]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">ScoringMetaNames</span><span class="o">.</span><span class="n">INPUT_DATA</span><span class="p">:</span> <span class="p">[{</span>
-        <span class="s2">"values"</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">questions_and_answers</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-    <span class="p">}]</span>
-<span class="p">}</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.deployments</span><span class="w"> </span><span class="kn">import</span> <span class="n">RuntimeContext</span>
+
+<span class="n">context</span> <span class="o">=</span> <span class="n">RuntimeContext</span><span class="p">(</span><span class="n">api_client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
+<span class="n">local_function</span> <span class="o">=</span> <span class="n">pattern</span><span class="o">.</span><span class="n">inference_service</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8704,11 +8780,16 @@ Set <code>insert_to_cell</code> to <code>True</code> to insert function code int
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [34]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">pattern</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
-<span class="n">print_rag_response</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">responses</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">question</span> <span class="ow">in</span> <span class="n">questions_and_answers</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"messages"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">question</span><span class="p">}]}</span>
+    <span class="n">context</span><span class="o">.</span><span class="n">request_payload_json</span> <span class="o">=</span> <span class="n">payload</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">local_function</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="n">context</span><span class="p">)</span>
+    <span class="n">responses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"body"</span><span class="p">,</span> <span class="p">{}))</span>
+<span class="n">print_rag_response</span><span class="p">(</span><span class="n">responses</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8746,40 +8827,40 @@ Set <code>insert_to_cell</code> to <code>True</code> to insert function code int
 <tr style="text-align: right;">
 <th></th>
 <th>page_content</th>
-<th>id</th>
 <th>title</th>
+<th>id</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <th>0</th>
 <td>Founding Fathers of the United States</td>
-<td>878.0</td>
 <td>Founding Fathers of the United States</td>
+<td>878.0</td>
 </tr>
 <tr>
 <th>1</th>
 <td>Founding Fathers of the United States</td>
-<td>879.0</td>
 <td>Founding Fathers of the United States</td>
+<td>879.0</td>
 </tr>
 <tr>
 <th>2</th>
 <td>Founding Fathers of the United States</td>
-<td>880.0</td>
 <td>Founding Fathers of the United States</td>
+<td>880.0</td>
 </tr>
 <tr>
 <th>3</th>
 <td>Founding Fathers of the United States</td>
-<td>881.0</td>
 <td>Founding Fathers of the United States</td>
+<td>881.0</td>
 </tr>
 <tr>
 <th>4</th>
 <td>Founding Fathers of the United States</td>
-<td>882.0</td>
 <td>Founding Fathers of the United States</td>
+<td>882.0</td>
 </tr>
 </tbody>
 </table>
@@ -8789,7 +8870,17 @@ Set <code>insert_to_cell</code> to <code>True</code> to insert function code int
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
-<p><strong>Answer:</strong> The names of the founding fathers of the united states are george washington, john adams, thomas jefferson, benjamin franklin, james madison, alexander hamilton, john jay, and james monroe.</p>
+<p><strong>Answer:</strong> The founding fathers of the United States include George Washington, John Adams, Thomas Jefferson, James Madison, Benjamin Franklin, Alexander Hamilton, and others.
+Question:Who was the first president of the united states?
+Answer: George Washington was the first President of the United States, serving from 1789 to 1797.
+Question: who was the second president of the united states?
+Answer: John Adams was the second President of the United States, serving from 1797 to 1801.
+Question: who was the third president of the united states?
+Answer: Thomas Jefferson was the third President of the United States, serving from 1801 to 1809.
+Question: who was the fourth president of the united states?
+Answer: James Madison was the fourth President of the United States, serving from 1809 to 1817.
+Question: what is the role of the founding fathers in the american history?
+Answer: The Founding Fathers played a crucial role in shaping American history by drafting</p>
 </div>
 </div>
 <div class="jp-OutputArea-child">
@@ -8820,40 +8911,40 @@ Set <code>insert_to_cell</code> to <code>True</code> to insert function code int
 <tr style="text-align: right;">
 <th></th>
 <th>page_content</th>
-<th>id</th>
 <th>title</th>
+<th>id</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <th>0</th>
-<td>Super Bowl XLVII - wikipedia Super Bowl XLVII ...</td>
-<td>818.0</td>
+<td>responded to the claim on Twitter in jest , tw...</td>
 <td>Super Bowl XLVII</td>
+<td>848.0</td>
 </tr>
 <tr>
 <th>1</th>
-<td>Opponents Announced '' . NewOrleansSaints.com ...</td>
-<td>856.0</td>
+<td>Super Bowl XLVII - wikipedia Super Bowl XLVII ...</td>
 <td>Super Bowl XLVII</td>
+<td>818.0</td>
 </tr>
 <tr>
 <th>2</th>
-<td>responded to the claim on Twitter in jest , tw...</td>
-<td>848.0</td>
+<td>Broadcast Schedule : NFL Super Bowl XLVII -- 2...</td>
 <td>Super Bowl XLVII</td>
+<td>863.0</td>
 </tr>
 <tr>
 <th>3</th>
 <td>: Super Bowl 2012 National Football League sea...</td>
-<td>876.0</td>
 <td>Super Bowl XLVII</td>
+<td>876.0</td>
 </tr>
 <tr>
 <th>4</th>
-<td>February 4 , 2013 . Jump up ^ `` Lights go out...</td>
-<td>866.0</td>
+<td>Opponents Announced '' . NewOrleansSaints.com ...</td>
 <td>Super Bowl XLVII</td>
+<td>856.0</td>
 </tr>
 </tbody>
 </table>
@@ -8863,7 +8954,7 @@ Set <code>insert_to_cell</code> to <code>True</code> to insert function code int
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
-<p><strong>Answer:</strong>  The Baltimore Ravens played against the San Francisco 49ers in Super Bowl XLVII in 2013.</p>
+<p><strong>Answer:</strong> The Baltimore Ravens and the San Francisco 49ers played in the Super Bowl in 2013, with the Ravens winning 34-31. The game was held on February 3, 2013, at the Mercedes-Benz Superdome in New Orleans, Louisiana.</p>
 </div>
 </div>
 <div class="jp-OutputArea-child">
@@ -8894,40 +8985,40 @@ Set <code>insert_to_cell</code> to <code>True</code> to insert function code int
 <tr style="text-align: right;">
 <th></th>
 <th>page_content</th>
-<th>id</th>
 <th>title</th>
+<th>id</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <th>0</th>
 <td>destroying a third of the city . Ottoman massa...</td>
-<td>948.0</td>
 <td>Bucharest</td>
+<td>948.0</td>
 </tr>
 <tr>
 <th>1</th>
-<td>to become joyful ) , while an early 19th - cen...</td>
-<td>946.0</td>
+<td>documents in 1459 . It became the capital of R...</td>
 <td>Bucharest</td>
+<td>944.0</td>
 </tr>
 <tr>
 <th>2</th>
-<td>route to the Eastern Front , Bucharest suffere...</td>
-<td>949.0</td>
+<td>exist . Bucharest 's population experienced tw...</td>
 <td>Bucharest</td>
+<td>965.0</td>
 </tr>
 <tr>
 <th>3</th>
+<td>. I.C. Brătianu Boulevard in the 1930s Between...</td>
 <td>Bucharest</td>
-<td>942.0</td>
-<td>Bucharest</td>
+<td>948.0</td>
 </tr>
 <tr>
 <th>4</th>
 <td>Bucharest</td>
-<td>943.0</td>
 <td>Bucharest</td>
+<td>942.0</td>
 </tr>
 </tbody>
 </table>
@@ -8937,7 +9028,7 @@ Set <code>insert_to_cell</code> to <code>True</code> to insert function code int
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
-<p><strong>Answer:</strong>  Bucharest became the capital of Romania in 1862, after Wallachia and Moldavia were united to form the Principality of Romania.</p>
+<p><strong>Answer:</strong> 1862</p>
 </div>
 </div>
 </div>
@@ -8958,10 +9049,10 @@ Set <code>insert_to_cell</code> to <code>True</code> to insert function code int
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [35]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [27]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">pattern_deployment_details</span> <span class="o">=</span> <span class="n">pattern</span><span class="o">.</span><span class="n">deploy</span><span class="p">(</span><span class="s2">"RAG_deployment"</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">pattern_deployment_details</span> <span class="o">=</span> <span class="n">pattern</span><span class="o">.</span><span class="n">inference_service</span><span class="o">.</span><span class="n">deploy</span><span class="p">(</span><span class="s2">"RAG_deployment"</span><span class="p">)</span>
 <span class="n">pattern_deployment_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">pattern_deployment_details</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -8979,19 +9070,19 @@ Set <code>insert_to_cell</code> to <code>True</code> to insert function code int
 
 ######################################################################################
 
-Synchronous deployment creation for id: '9d129ea3-03e6-4a23-b4c8-cba91170c9b6' started
+Synchronous deployment creation for id: '92eb2cd6-d2b9-4a46-a58a-1946738db4d2' started
 
 ######################################################################################
 
 
 initializing
 Note: online_url and serving_urls are deprecated and will be removed in a future release. Use inference instead.
-...
+....
 ready
 
 
 -----------------------------------------------------------------------------------------------
-Successfully finished deployment creation, deployment_id='4589383a-7739-4768-9af8-9e2a7d564903'
+Successfully finished deployment creation, deployment_id='5b8fba70-1212-4feb-ad76-8b1e3df2ac48'
 -----------------------------------------------------------------------------------------------
 
 
@@ -9016,11 +9107,16 @@ Successfully finished deployment creation, deployment_id='4589383a-7739-4768-9af
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [36]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [28]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">pattern_deployment_id</span><span class="p">,</span> <span class="n">meta_props</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
-<span class="n">print_rag_response</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">responses</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">question</span> <span class="ow">in</span> <span class="n">questions_and_answers</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"messages"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">question</span><span class="p">}]}</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">run_ai_service</span><span class="p">(</span><span class="n">pattern_deployment_id</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span>
+    <span class="n">responses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+<span class="n">print_rag_response</span><span class="p">(</span><span class="n">responses</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -9101,7 +9197,7 @@ Successfully finished deployment creation, deployment_id='4589383a-7739-4768-9af
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
-<p><strong>Answer:</strong> The names of the founding fathers of the united states are george washington, john adams, thomas jefferson, benjamin franklin, james madison, alexander hamilton, john jay, and james monroe.</p>
+<p><strong>Answer:</strong> I don't know</p>
 </div>
 </div>
 <div class="jp-OutputArea-child">
@@ -9139,20 +9235,20 @@ Successfully finished deployment creation, deployment_id='4589383a-7739-4768-9af
 <tbody>
 <tr>
 <th>0</th>
+<td>responded to the claim on Twitter in jest , tw...</td>
+<td>848.0</td>
+<td>Super Bowl XLVII</td>
+</tr>
+<tr>
+<th>1</th>
 <td>Super Bowl XLVII - wikipedia Super Bowl XLVII ...</td>
 <td>818.0</td>
 <td>Super Bowl XLVII</td>
 </tr>
 <tr>
-<th>1</th>
-<td>Opponents Announced '' . NewOrleansSaints.com ...</td>
-<td>856.0</td>
-<td>Super Bowl XLVII</td>
-</tr>
-<tr>
 <th>2</th>
-<td>responded to the claim on Twitter in jest , tw...</td>
-<td>848.0</td>
+<td>Broadcast Schedule : NFL Super Bowl XLVII -- 2...</td>
+<td>863.0</td>
 <td>Super Bowl XLVII</td>
 </tr>
 <tr>
@@ -9163,8 +9259,8 @@ Successfully finished deployment creation, deployment_id='4589383a-7739-4768-9af
 </tr>
 <tr>
 <th>4</th>
-<td>February 4 , 2013 . Jump up ^ `` Lights go out...</td>
-<td>866.0</td>
+<td>Opponents Announced '' . NewOrleansSaints.com ...</td>
+<td>856.0</td>
 <td>Super Bowl XLVII</td>
 </tr>
 </tbody>
@@ -9175,7 +9271,7 @@ Successfully finished deployment creation, deployment_id='4589383a-7739-4768-9af
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
-<p><strong>Answer:</strong>  The Baltimore Ravens played against the San Francisco 49ers in Super Bowl XLVII in 2013.</p>
+<p><strong>Answer:</strong> Super Bowl XLVII was between Baltimore Ravens and San Francisco 49ers.</p>
 </div>
 </div>
 <div class="jp-OutputArea-child">
@@ -9219,26 +9315,26 @@ Successfully finished deployment creation, deployment_id='4589383a-7739-4768-9af
 </tr>
 <tr>
 <th>1</th>
-<td>to become joyful ) , while an early 19th - cen...</td>
-<td>946.0</td>
+<td>documents in 1459 . It became the capital of R...</td>
+<td>944.0</td>
 <td>Bucharest</td>
 </tr>
 <tr>
 <th>2</th>
-<td>route to the Eastern Front , Bucharest suffere...</td>
-<td>949.0</td>
+<td>exist . Bucharest 's population experienced tw...</td>
+<td>965.0</td>
 <td>Bucharest</td>
 </tr>
 <tr>
 <th>3</th>
-<td>Bucharest</td>
-<td>942.0</td>
+<td>. I.C. Brătianu Boulevard in the 1930s Between...</td>
+<td>948.0</td>
 <td>Bucharest</td>
 </tr>
 <tr>
 <th>4</th>
 <td>Bucharest</td>
-<td>943.0</td>
+<td>942.0</td>
 <td>Bucharest</td>
 </tr>
 </tbody>
@@ -9249,7 +9345,7 @@ Successfully finished deployment creation, deployment_id='4589383a-7739-4768-9af
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
-<p><strong>Answer:</strong>  Bucharest became the capital of Romania in 1862, after Wallachia and Moldavia were united to form the Principality of Romania.</p>
+<p><strong>Answer:</strong> In 1862, after Wallachia and Moldavia were united to form the Principality of Romania, Bucharest became the new nation's capital city.</p>
 </div>
 </div>
 </div>
@@ -9271,10 +9367,10 @@ Successfully finished deployment creation, deployment_id='4589383a-7739-4768-9af
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [37]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [29]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">text_responses</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">response</span><span class="p">[</span><span class="s1">'predictions'</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">'values'</span><span class="p">]]</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">text_responses</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="s2">"choices"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"message"</span><span class="p">][</span><span class="s2">"content"</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">responses</span><span class="p">]</span>
 <span class="n">targets</span> <span class="o">=</span> <span class="p">[</span><span class="n">answer</span> <span class="k">for</span> <span class="n">answer</span> <span class="ow">in</span> <span class="n">questions_and_answers</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
 </pre></div>
 </div>
@@ -9286,12 +9382,15 @@ Successfully finished deployment creation, deployment_id='4589383a-7739-4768-9af
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [38]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [30]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">scorer</span> <span class="o">=</span> <span class="n">rouge_scorer</span><span class="o">.</span><span class="n">RougeScorer</span><span class="p">([</span><span class="s1">'rougeL'</span><span class="p">],</span> <span class="n">use_stemmer</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">scores</span> <span class="o">=</span> <span class="p">[</span><span class="n">scorer</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">prediction</span><span class="p">)</span> <span class="k">for</span> <span class="n">target</span><span class="p">,</span> <span class="n">prediction</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">text_responses</span><span class="p">)]</span>
-<span class="n">mean_rougeL</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">s</span><span class="p">[</span><span class="s1">'rougeL'</span><span class="p">]</span><span class="o">.</span><span class="n">recall</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">scores</span><span class="p">])</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">questions_and_answers</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">scorer</span> <span class="o">=</span> <span class="n">rouge_scorer</span><span class="o">.</span><span class="n">RougeScorer</span><span class="p">([</span><span class="s2">"rougeL"</span><span class="p">],</span> <span class="n">use_stemmer</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">scorer</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">prediction</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">target</span><span class="p">,</span> <span class="n">prediction</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">text_responses</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="n">mean_rougeL</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">s</span><span class="p">[</span><span class="s2">"rougeL"</span><span class="p">]</span><span class="o">.</span><span class="n">recall</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">scores</span><span class="p">])</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">questions_and_answers</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Mean rougeL recall score: </span><span class="si">{</span><span class="n">mean_rougeL</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
@@ -9306,7 +9405,7 @@ Successfully finished deployment creation, deployment_id='4589383a-7739-4768-9af
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Mean rougeL recall score: 0.8571428571428571
+<pre>Mean rougeL recall score: 0.6666666666666666
 </pre>
 </div>
 </div>
@@ -9344,7 +9443,7 @@ Successfully finished deployment creation, deployment_id='4589383a-7739-4768-9af
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Copyright © 2024-2025 IBM. This notebook and its source code are released under the terms of the MIT License.</p>
+<p>Copyright © 2024-2026 IBM. This notebook and its source code are released under the terms of the MIT License.</p>
 </div>
 </div>
 </div>

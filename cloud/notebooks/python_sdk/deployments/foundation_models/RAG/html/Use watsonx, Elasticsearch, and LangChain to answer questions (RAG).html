@@ -7532,9 +7532,9 @@ a.anchor-link {
 <h4 id="Disclaimers">Disclaimers<a class="anchor-link" href="#Disclaimers">¶</a></h4><ul>
 <li>Use only Projects and Spaces that are available in watsonx context.</li>
 </ul>
-<h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook contains the steps and code to demonstrate support of Retrieval Argumented Generation in watsonx.ai. It introduces commands for data retrieval, knowledge base building &amp; querying, and model testing.</p>
+<h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook contains the steps and code to demonstrate support of Retrieval Augmented Generation in watsonx.ai. It introduces commands for data retrieval, knowledge base building &amp; querying, and model testing.</p>
 <p>Following this, an AI service is created based on the previously constructed application.</p>
-<p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
+<p>Some familiarity with Python is helpful. This notebook uses Python 3.12.</p>
 <h4 id="About-Retrieval-Augmented-Generation">About Retrieval Augmented Generation<a class="anchor-link" href="#About-Retrieval-Augmented-Generation">¶</a></h4><p>Retrieval Augmented Generation (RAG) is a versatile pattern that can unlock a number of use cases requiring factual recall of information, such as querying a knowledge base in natural language.</p>
 <p>In its simplest form, RAG requires 3 steps:</p>
 <ul>
@@ -7580,32 +7580,11 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Install-and-import-the-datasets-and-dependencies">Install and import the <code>datasets</code> and dependencies<a class="anchor-link" href="#Install-and-import-the-datasets-and-dependencies">¶</a></h3>
+<h3 id="Install-and-import-dependencies">Install and import dependencies<a class="anchor-link" href="#Install-and-import-dependencies">¶</a></h3><p><strong>Note:</strong> <code>ibm-watsonx-ai</code> documentation can be found <a href="https://ibm.github.io/watsonx-ai-python-sdk/index.html" rel="noopener no referrer" target="_blank">here</a>.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">pandas</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">humanize</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"langchain&gt;=0.3,&lt;0.4"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"ibm_watsonx_ai&gt;=1.3.6"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"langchain_ibm&gt;=0.3,&lt;0.4"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"langchain-huggingface&gt;=0.1,&lt;0.2"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"langchain-elasticsearch&gt;=0.3,&lt;0.4"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7613,11 +7592,49 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">pip</span> install wget | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install pandas | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install humanize | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install  "ibm_watsonx_ai&gt;=1.3.6" | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install -U "langchain&gt;=0.3,&lt;1.1" "langchain_ibm&gt;=0.3,&lt;1.1" "langchain-huggingface&gt;=0.1,&lt;1.1" "langchain-elasticsearch&gt;=0.3,&lt;0.4" | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install -U sentence-transformers | tail -n 1
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Successfully installed wget-3.2
+Successfully installed numpy-2.3.4 pandas-2.3.3 pytz-2025.2 tzdata-2025.2
+Successfully installed humanize-4.14.0
+Successfully installed anyio-4.11.0 cachetools-6.2.1 certifi-2025.10.5 charset_normalizer-3.4.4 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm_watsonx_ai-1.4.5 idna-3.11 jmespath-1.0.1 lomond-0.3.3 pandas-2.2.3 requests-2.32.5 sniffio-1.3.1 tabulate-0.9.0 urllib3-2.5.0
+Successfully installed SQLAlchemy-2.0.44 annotated-types-0.7.0 click-8.3.0 elastic-transport-8.17.1 elasticsearch-8.19.2 filelock-3.20.0 fsspec-2025.10.0 hf-xet-1.2.0 huggingface-hub-1.1.2 jsonpatch-1.33 jsonpointer-3.0.0 langchain-0.3.27 langchain-core-0.3.79 langchain-elasticsearch-0.3.2 langchain-huggingface-0.3.1 langchain-text-splitters-0.3.11 langchain_ibm-0.3.19 langsmith-0.4.41 orjson-3.11.4 pydantic-2.12.4 pydantic-core-2.41.5 pyyaml-6.0.3 requests-toolbelt-1.0.0 shellingham-1.5.4 simsimd-6.5.3 tenacity-9.1.2 tokenizers-0.22.1 tqdm-4.67.1 typer-slim-0.20.0 typing-inspection-0.4.2 zstandard-0.25.0
+Successfully installed MarkupSafe-3.0.3 Pillow-12.0.0 huggingface-hub-0.36.0 jinja2-3.1.6 joblib-1.5.2 mpmath-1.3.0 networkx-3.5 regex-2025.11.3 safetensors-0.6.2 scikit-learn-1.7.2 scipy-1.16.3 sentence-transformers-5.1.2 sympy-1.14.0 threadpoolctl-3.6.0 torch-2.9.0 transformers-4.57.1
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">humanize</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 </pre></div>
 </div>
 </div>
@@ -7640,7 +7657,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span>
@@ -7680,7 +7697,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">try</span><span class="p">:</span>
@@ -7708,7 +7725,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span>
@@ -7736,22 +7753,22 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">wget</span>
 
 <span class="n">questions_test_filename</span> <span class="o">=</span> <span class="s2">"questions_test.csv"</span>
 <span class="n">questions_train_filename</span> <span class="o">=</span> <span class="s2">"questions_train.csv"</span>
-<span class="n">questions_test_url</span> <span class="o">=</span> <span class="s2">"https://raw.github.com/IBM/watson-machine-learning-samples/master/cloud/data/RAG/questions_test.csv"</span>
-<span class="n">questions_train_url</span> <span class="o">=</span> <span class="s2">"https://raw.github.com/IBM/watson-machine-learning-samples/master/cloud/data/RAG/questions_train.csv"</span>
+<span class="n">questions_test_url</span> <span class="o">=</span> <span class="s2">"https://raw.github.com/IBM/watsonx-ai-samples/master/cloud/data/RAG/questions_test.csv"</span>
+<span class="n">questions_train_url</span> <span class="o">=</span> <span class="s2">"https://raw.github.com/IBM/watsonx-ai-samples/master/cloud/data/RAG/questions_train.csv"</span>
 
 
-<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">questions_test_filename</span><span class="p">):</span> 
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">questions_test_filename</span><span class="p">):</span>
     <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">questions_test_url</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">questions_test_filename</span><span class="p">)</span>
 
 
-<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">questions_train_filename</span><span class="p">):</span> 
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">questions_train_filename</span><span class="p">):</span>
     <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">questions_train_url</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">questions_train_filename</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -7763,11 +7780,11 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">filename_test</span> <span class="o">=</span> <span class="s2">"./questions_test.csv"</span>
-<span class="n">filename_train</span> <span class="o">=</span>  <span class="s2">"./questions_train.csv"</span>
+<span class="n">filename_train</span> <span class="o">=</span> <span class="s2">"./questions_train.csv"</span>
 
 <span class="n">test_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename_test</span><span class="p">)</span>
 <span class="n">train_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename_train</span><span class="p">)</span>
@@ -7792,7 +7809,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">train_data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -7806,7 +7823,7 @@ a.anchor-link {
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
@@ -7898,35 +7915,22 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">knowledge_base_dir</span> <span class="o">=</span> <span class="s2">"./knowledge_base"</span>
 
 <span class="n">my_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span><span class="si">}</span><span class="s2">/knowledge_base"</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">my_path</span><span class="p">):</span>
-   <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">my_path</span><span class="p">)</span>
-   
-<span class="n">documents_filename</span> <span class="o">=</span> <span class="s2">"knowledge_base/psgs.tsv"</span>
-<span class="n">documents_url</span> <span class="o">=</span> <span class="s2">"https://raw.github.com/IBM/watson-machine-learning-samples/master/cloud/data/RAG/psgs.tsv"</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">my_path</span><span class="p">)</span>
 
-<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">documents_filename</span><span class="p">):</span> 
+<span class="n">documents_filename</span> <span class="o">=</span> <span class="s2">"knowledge_base/psgs.tsv"</span>
+<span class="n">documents_url</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">"https://raw.github.com/IBM/watsonx-ai-samples/master/cloud/data/RAG/psgs.tsv"</span>
+<span class="p">)</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">documents_filename</span><span class="p">):</span>
     <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">documents_url</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">documents_filename</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">documents</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">knowledge_base_dir</span><span class="si">}</span><span class="s2">/psgs.tsv"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
-<span class="n">documents</span><span class="p">[</span><span class="s2">"indextext"</span><span class="p">]</span> <span class="o">=</span> <span class="n">documents</span><span class="p">[</span><span class="s2">"title"</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="n">documents</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -7940,10 +7944,27 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">documents</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">knowledge_base_dir</span><span class="si">}</span><span class="s2">/psgs.tsv"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">1000</span>
+<span class="p">)</span>
+<span class="n">documents</span><span class="p">[</span><span class="s2">"indextext"</span><span class="p">]</span> <span class="o">=</span> <span class="n">documents</span><span class="p">[</span><span class="s2">"title"</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="n">documents</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.documents</span><span class="w"> </span><span class="kn">import</span> <span class="n">Document</span>
 
 <span class="n">lc_documents</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="n">Document</span><span class="p">(</span><span class="n">page_content</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">"id"</span><span class="p">:</span> <span class="n">doc_id</span><span class="p">})</span> 
+    <span class="n">Document</span><span class="p">(</span><span class="n">page_content</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">"id"</span><span class="p">:</span> <span class="n">doc_id</span><span class="p">})</span>
     <span class="k">for</span> <span class="n">text</span><span class="p">,</span> <span class="n">doc_id</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">documents</span><span class="p">[</span><span class="s2">"indextext"</span><span class="p">],</span> <span class="n">documents</span><span class="p">[</span><span class="s2">"id"</span><span class="p">])</span>
 <span class="p">]</span>
 </pre></div>
@@ -7967,7 +7988,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_huggingface</span><span class="w"> </span><span class="kn">import</span> <span class="n">HuggingFaceEmbeddings</span>
@@ -8006,10 +8027,10 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">text_model_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">api_client</span><span class="o">.</span><span class="n">foundation_models</span><span class="o">.</span><span class="n">TextModels</span><span class="o">.</span><span class="n">FLAN_UL2</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">text_model_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">api_client</span><span class="o">.</span><span class="n">foundation_models</span><span class="o">.</span><span class="n">TextModels</span><span class="o">.</span><span class="n">GRANITE_4_H_SMALL</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8031,16 +8052,16 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.metanames</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenTextParamsMetaNames</span> <span class="k">as</span> <span class="n">GenParams</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.utils.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecodingMethods</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.utils.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecodingMethods</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.metanames</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenTextParamsMetaNames</span> <span class="k">as</span> <span class="n">GenParams</span>
 
 <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">GenParams</span><span class="o">.</span><span class="n">DECODING_METHOD</span><span class="p">:</span> <span class="n">DecodingMethods</span><span class="o">.</span><span class="n">GREEDY</span><span class="p">,</span>
     <span class="n">GenParams</span><span class="o">.</span><span class="n">MIN_NEW_TOKENS</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="n">GenParams</span><span class="o">.</span><span class="n">MAX_NEW_TOKENS</span><span class="p">:</span> <span class="mi">50</span>
+    <span class="n">GenParams</span><span class="o">.</span><span class="n">MAX_NEW_TOKENS</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -8064,17 +8085,17 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_ibm</span><span class="w"> </span><span class="kn">import</span> <span class="n">WatsonxLLM</span>
 
 <span class="n">watsonx_llm</span> <span class="o">=</span> <span class="n">WatsonxLLM</span><span class="p">(</span>
     <span class="n">model_id</span><span class="o">=</span><span class="n">text_model_id</span><span class="p">,</span>
-    <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"url"</span><span class="p">),</span>
-    <span class="n">apikey</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"apikey"</span><span class="p">),</span>
+    <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+    <span class="n">apikey</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span>
     <span class="n">space_id</span><span class="o">=</span><span class="n">space_id</span><span class="p">,</span>
-    <span class="n">params</span><span class="o">=</span><span class="n">parameters</span>
+    <span class="n">params</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -8100,20 +8121,31 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">elasticsearch_connection_id</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Provide connection asset ID in your space. Skip this, if you wish to type credentials by hand and hit enter: "</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">elasticsearch_connection_id</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="nb">input</span><span class="p">(</span>
+        <span class="s2">"Provide connection asset ID in your space. Skip this, if you wish to type credentials by hand and hit enter: "</span>
+    <span class="p">)</span>
+    <span class="ow">or</span> <span class="kc">None</span>
+<span class="p">)</span>
 
 <span class="k">if</span> <span class="n">elasticsearch_connection_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-    
-    <span class="n">elasticsearch_url</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your Elasticsearch url name and hit enter: "</span><span class="p">)</span>
-    <span class="n">username</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your Elasticsearch user name and hit enter: "</span><span class="p">)</span>
-    <span class="n">password</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Please enter your Elasticsearch password and hit enter: "</span><span class="p">)</span>
-    <span class="n">ssl_certificate</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your Elasticsearch ssl certificate (base64) and hit enter: "</span><span class="p">)</span>
 
-    <span class="n">elasticsearch_data_source_type_id</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">get_datasource_type_uid_by_name</span><span class="p">(</span>
-        <span class="s2">"elasticsearch"</span>
+    <span class="n">elasticsearch_url</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span>
+        <span class="s2">"Please enter your Elasticsearch url name and hit enter: "</span>
+    <span class="p">)</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your Elasticsearch user name and hit enter: "</span><span class="p">)</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span>
+        <span class="s2">"Please enter your Elasticsearch password and hit enter: "</span>
+    <span class="p">)</span>
+    <span class="n">ssl_certificate</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span>
+        <span class="s2">"Please enter your Elasticsearch ssl certificate (base64) and hit enter: "</span>
+    <span class="p">)</span>
+
+    <span class="n">elasticsearch_data_source_type_id</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">api_client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">get_datasource_type_uid_by_name</span><span class="p">(</span><span class="s2">"elasticsearch"</span><span class="p">)</span>
     <span class="p">)</span>
     <span class="n">connections_details</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
         <span class="p">{</span>
@@ -8166,7 +8198,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
@@ -8183,9 +8215,9 @@ SUCCESS
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[16]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'elastic_index_2024_12_02_102325'</pre>
+<pre>'elastic_index_2025_11_06_124952'</pre>
 </div>
 </div>
 </div>
@@ -8195,10 +8227,12 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.extensions.rag.vector_stores.vector_store</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorStore</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.extensions.rag.vector_stores.vector_store</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">VectorStore</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="n">knowledge_base</span> <span class="o">=</span> <span class="n">VectorStore</span><span class="p">(</span>
     <span class="n">api_client</span><span class="p">,</span>
@@ -8230,7 +8264,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">stored_documents</span> <span class="o">=</span> <span class="n">knowledge_base</span><span class="o">.</span><span class="n">add_documents</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">lc_documents</span><span class="p">)</span>
@@ -8255,7 +8289,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="nb">dict</span><span class="p">(</span><span class="n">elasticsearch_client</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index_name</span><span class="p">))</span>
@@ -8269,22 +8303,22 @@ SUCCESS
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[19]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[20]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>{'elastic_index_2024_12_02_102325': {'aliases': {},
+<pre>{'elastic_index_2025_11_06_124952': {'aliases': {},
   'mappings': {'properties': {'metadata': {'properties': {'id': {'type': 'long'}}},
     'text': {'type': 'text',
      'fields': {'keyword': {'type': 'keyword', 'ignore_above': 256}}},
-    'vector': {'type': 'dense_vector', 'dims': 384}}},
+    'vector': {'type': 'dense_vector', 'dims': 384, 'index': False}}},
   'settings': {'index': {'routing': {'allocation': {'include': {'_tier_preference': 'data_content'}}},
     'allocation': {'max_retries': '15'},
     'number_of_shards': '1',
-    'provided_name': 'elastic_index_2024_12_02_102325',
-    'creation_date': '1733131414207',
+    'provided_name': 'elastic_index_2025_11_06_124952',
+    'creation_date': '1762429800262',
     'unassigned': {'node_left': {'delayed_timeout': '60m'}},
     'number_of_replicas': '1',
-    'uuid': 'LKyI2AYfRySDMIzZOhGf0g',
-    'version': {'created': '8070099'}}}}}</pre>
+    'uuid': 'YxrxCWHTS8eH0TMEE6i7Mw',
+    'version': {'created': '8512000'}}}}}</pre>
 </div>
 </div>
 </div>
@@ -8305,7 +8339,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">doc_count</span> <span class="o">=</span> <span class="n">knowledge_base</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
@@ -8320,7 +8354,7 @@ SUCCESS
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[20]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[21]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>1000</pre>
 </div>
@@ -8343,10 +8377,12 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">elasticsearch_client</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index_name</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"hits"</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"hits"</span><span class="p">)[</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">elasticsearch_client</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index_name</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"took"</span><span class="p">))]</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">elasticsearch_client</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index_name</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"hits"</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"hits"</span><span class="p">)[</span>
+    <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">elasticsearch_client</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index_name</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"took"</span><span class="p">))</span>
+<span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -8368,12 +8404,23 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">index_stats</span> <span class="o">=</span> <span class="n">elasticsearch_client</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">stats</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index_name</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"_all"</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"primaries"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"Index size:    "</span> <span class="o">+</span> <span class="n">humanize</span><span class="o">.</span><span class="n">naturalsize</span><span class="p">(</span><span class="n">index_stats</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"store"</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"size_in_bytes"</span><span class="p">)))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"Indexing time: "</span> <span class="o">+</span> <span class="n">humanize</span><span class="o">.</span><span class="n">precisedelta</span><span class="p">(</span><span class="n">index_stats</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"indexing"</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"index_time_in_millis"</span><span class="p">)</span><span class="o">/</span><span class="mi">1000</span><span class="p">,</span> <span class="n">minimum_unit</span><span class="o">=</span><span class="s2">"minutes"</span><span class="p">))</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">index_stats</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">elasticsearch_client</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">stats</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index_name</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"_all"</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"primaries"</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">"Index size:    "</span>
+    <span class="o">+</span> <span class="n">humanize</span><span class="o">.</span><span class="n">naturalsize</span><span class="p">(</span><span class="n">index_stats</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"store"</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"size_in_bytes"</span><span class="p">))</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">"Indexing time: "</span>
+    <span class="o">+</span> <span class="n">humanize</span><span class="o">.</span><span class="n">precisedelta</span><span class="p">(</span>
+        <span class="n">index_stats</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"indexing"</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"index_time_in_millis"</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">,</span>
+        <span class="n">minimum_unit</span><span class="o">=</span><span class="s2">"minutes"</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8386,7 +8433,7 @@ SUCCESS
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Index size:    9.4 MB
+<pre>Index size:    6.0 MB
 Indexing time: 0 minutes
 </pre>
 </div>
@@ -8421,13 +8468,13 @@ Indexing time: 0 minutes
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">questions_and_answers</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"names of founding fathers of the united states?"</span><span class="p">:</span><span class="s2">"Thomas Jefferson::James Madison::John Jay::George Washington::John Adams::Benjamin Franklin::Alexander Hamilton"</span><span class="p">,</span>
-    <span class="s2">"who played in the super bowl in 2013?"</span><span class="p">:</span><span class="s2">"Baltimore Ravens::San Francisco 49ers"</span><span class="p">,</span>
-    <span class="s2">"when did bucharest become the capital of romania?"</span><span class="p">:</span><span class="s2">"1862"</span>
+    <span class="s2">"names of founding fathers of the united states?"</span><span class="p">:</span> <span class="s2">"Thomas Jefferson::James Madison::John Jay::George Washington::John Adams::Benjamin Franklin::Alexander Hamilton"</span><span class="p">,</span>
+    <span class="s2">"who played in the super bowl in 2013?"</span><span class="p">:</span> <span class="s2">"Baltimore Ravens::San Francisco 49ers"</span><span class="p">,</span>
+    <span class="s2">"when did bucharest become the capital of romania?"</span><span class="p">:</span> <span class="s2">"1862"</span><span class="p">,</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -8450,12 +8497,17 @@ Indexing time: 0 minutes
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain.chains.retrieval_qa.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">RetrievalQA</span>
 
-<span class="n">qa</span> <span class="o">=</span> <span class="n">RetrievalQA</span><span class="o">.</span><span class="n">from_chain_type</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">watsonx_llm</span><span class="p">,</span> <span class="n">chain_type</span><span class="o">=</span><span class="s2">"stuff"</span><span class="p">,</span> <span class="n">retriever</span><span class="o">=</span><span class="n">knowledge_base</span><span class="o">.</span><span class="n">as_langchain_retriever</span><span class="p">(),</span> <span class="n">return_source_documents</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">qa</span> <span class="o">=</span> <span class="n">RetrievalQA</span><span class="o">.</span><span class="n">from_chain_type</span><span class="p">(</span>
+    <span class="n">llm</span><span class="o">=</span><span class="n">watsonx_llm</span><span class="p">,</span>
+    <span class="n">chain_type</span><span class="o">=</span><span class="s2">"stuff"</span><span class="p">,</span>
+    <span class="n">retriever</span><span class="o">=</span><span class="n">knowledge_base</span><span class="o">.</span><span class="n">as_langchain_retriever</span><span class="p">(),</span>
+    <span class="n">return_source_documents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8466,7 +8518,7 @@ Indexing time: 0 minutes
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">results_1</span> <span class="o">=</span> <span class="p">[]</span>
@@ -8495,14 +8547,17 @@ Indexing time: 0 minutes
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [27]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">results_1</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"========="</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Question = "</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="s2">"query"</span><span class="p">])</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Answer = "</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="s2">"result"</span><span class="p">])</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"Expected Answer(s) (may not be appear with exact wording in the dataset) = "</span><span class="p">,</span> <span class="n">questions_and_answers</span><span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="s2">"query"</span><span class="p">]])</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="s2">"Expected Answer(s) (may not be appear with exact wording in the dataset) = "</span><span class="p">,</span>
+        <span class="n">questions_and_answers</span><span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="s2">"query"</span><span class="p">]],</span>
+    <span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Source documents:"</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">page_content</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s2">"source_documents"</span><span class="p">]),</span> <span class="n">sep</span><span class="o">=</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
@@ -8521,7 +8576,17 @@ Indexing time: 0 minutes
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>=========
 Question =  names of founding fathers of the united states?
-Answer =  John Adams , Benjamin Franklin , Alexander Hamilton , John Jay , Thomas Jefferson , James Madison , and George Washington
+Answer =   The context lists many important figures, but it specifically identifies seven as the key Founding Fathers:
+
+John Adams
+Benjamin Franklin
+Alexander Hamilton
+John Jay
+Thomas Jefferson
+James Madison
+George Washington
+
+These men played central roles in the American Revolution
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Thomas Jefferson::James Madison::John Jay::George Washington::John Adams::Benjamin Franklin::Alexander Hamilton
 
 
@@ -8538,7 +8603,7 @@ Prior to , and during the 19th century , they were referred to as simply the `` 
 
 =========
 Question =  who played in the super bowl in 2013?
-Answer =  Baltimore Ravens
+Answer =   The San Francisco 49ers and Baltimore Ravens played in Super Bowl XLVII in 2013.
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Baltimore Ravens::San Francisco 49ers
 
 
@@ -8555,7 +8620,7 @@ MVP Award '' . Forbes.com . February 4 , 2013 . Retrieved February 6 , 2013 . Ju
 
 =========
 Question =  when did bucharest become the capital of romania?
-Answer =  1862
+Answer =   Bucharest became the capital of Romania in 1862.
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  1862
 
 
@@ -8592,18 +8657,27 @@ documents in 1459 . It became the capital of Romania in 1862 and is the centre o
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [27]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [28]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">deployable_ai_service</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="p">[</span><span class="s2">"url"</span><span class="p">],</span> <span class="n">elasticsearch_connection_id</span><span class="o">=</span><span class="n">elasticsearch_connection_id</span><span class="p">,</span> <span class="n">index_name</span><span class="o">=</span><span class="n">index_name</span><span class="p">,</span> <span class="n">text_model_id</span><span class="o">=</span><span class="n">text_model_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    
-    <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.extensions.rag.vector_stores.vector_store</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorStore</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">deployable_ai_service</span><span class="p">(</span>
+    <span class="n">context</span><span class="p">,</span>
+    <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+    <span class="n">elasticsearch_connection_id</span><span class="o">=</span><span class="n">elasticsearch_connection_id</span><span class="p">,</span>
+    <span class="n">index_name</span><span class="o">=</span><span class="n">index_name</span><span class="p">,</span>
+    <span class="n">text_model_id</span><span class="o">=</span><span class="n">text_model_id</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">):</span>
+
     <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span><span class="p">,</span> <span class="n">Credentials</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.extensions.rag.vector_stores.vector_store</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+        <span class="n">VectorStore</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.utils.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecodingMethods</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.metanames</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenTextParamsMetaNames</span> <span class="k">as</span> <span class="n">GenParams</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">langchain.chains.retrieval_qa.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">RetrievalQA</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">langchain_huggingface</span><span class="w"> </span><span class="kn">import</span> <span class="n">HuggingFaceEmbeddings</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">langchain_ibm</span><span class="w"> </span><span class="kn">import</span> <span class="n">WatsonxLLM</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.metanames</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenTextParamsMetaNames</span> <span class="k">as</span> <span class="n">GenParams</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.utils.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecodingMethods</span>
 
     <span class="n">api_client</span> <span class="o">=</span> <span class="n">APIClient</span><span class="p">(</span>
         <span class="n">credentials</span><span class="o">=</span><span class="n">Credentials</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="n">context</span><span class="o">.</span><span class="n">generate_token</span><span class="p">()),</span>
@@ -8613,13 +8687,11 @@ documents in 1459 . It became the capital of Romania in 1862 and is the centre o
     <span class="n">wx_parameters</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">GenParams</span><span class="o">.</span><span class="n">DECODING_METHOD</span><span class="p">:</span> <span class="n">DecodingMethods</span><span class="o">.</span><span class="n">GREEDY</span><span class="p">,</span>
         <span class="n">GenParams</span><span class="o">.</span><span class="n">MIN_NEW_TOKENS</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="n">GenParams</span><span class="o">.</span><span class="n">MAX_NEW_TOKENS</span><span class="p">:</span> <span class="mi">50</span>
+        <span class="n">GenParams</span><span class="o">.</span><span class="n">MAX_NEW_TOKENS</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
     <span class="p">}</span>
 
     <span class="n">watsonx_llm</span> <span class="o">=</span> <span class="n">WatsonxLLM</span><span class="p">(</span>
-        <span class="n">model_id</span><span class="o">=</span><span class="n">text_model_id</span><span class="p">,</span>
-        <span class="n">watsonx_client</span><span class="o">=</span><span class="n">api_client</span><span class="p">,</span>
-        <span class="n">params</span><span class="o">=</span><span class="n">wx_parameters</span>
+        <span class="n">model_id</span><span class="o">=</span><span class="n">text_model_id</span><span class="p">,</span> <span class="n">watsonx_client</span><span class="o">=</span><span class="n">api_client</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">wx_parameters</span>
     <span class="p">)</span>
 
     <span class="n">emb_func</span> <span class="o">=</span> <span class="n">HuggingFaceEmbeddings</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="s2">"all-MiniLM-L6-v2"</span><span class="p">)</span>
@@ -8631,29 +8703,34 @@ documents in 1459 . It became the capital of Romania in 1862 and is the centre o
         <span class="n">index_name</span><span class="o">=</span><span class="n">index_name</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="n">qa</span> <span class="o">=</span> <span class="n">RetrievalQA</span><span class="o">.</span><span class="n">from_chain_type</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">watsonx_llm</span><span class="p">,</span> <span class="n">chain_type</span><span class="o">=</span><span class="s2">"stuff"</span><span class="p">,</span> <span class="n">retriever</span><span class="o">=</span><span class="n">knowledge_base</span><span class="o">.</span><span class="n">as_langchain_retriever</span><span class="p">(),</span> <span class="n">return_source_documents</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">qa</span> <span class="o">=</span> <span class="n">RetrievalQA</span><span class="o">.</span><span class="n">from_chain_type</span><span class="p">(</span>
+        <span class="n">llm</span><span class="o">=</span><span class="n">watsonx_llm</span><span class="p">,</span>
+        <span class="n">chain_type</span><span class="o">=</span><span class="s2">"stuff"</span><span class="p">,</span>
+        <span class="n">retriever</span><span class="o">=</span><span class="n">knowledge_base</span><span class="o">.</span><span class="n">as_langchain_retriever</span><span class="p">(),</span>
+        <span class="n">return_source_documents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="n">api_client</span><span class="o">.</span><span class="n">set_token</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">get_token</span><span class="p">())</span>
-   
+
         <span class="n">payload</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
         <span class="n">questions_and_answers</span> <span class="o">=</span> <span class="n">payload</span><span class="p">[</span><span class="s2">"questions_and_answers"</span><span class="p">]</span>
         <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">question</span> <span class="ow">in</span> <span class="n">questions_and_answers</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">qa</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">"query"</span><span class="p">:</span> <span class="n">question</span><span class="p">})</span>
             <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-        
+
         <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s2">"source_documents"</span><span class="p">])):</span>
                 <span class="n">res</span><span class="p">[</span><span class="s2">"source_documents"</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">"source_documents"</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span>
-        
+
         <span class="n">response_body</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">"query"</span><span class="p">:</span> <span class="n">questions_and_answers</span><span class="p">,</span>
             <span class="s2">"result"</span><span class="p">:</span> <span class="n">results</span><span class="p">,</span>
         <span class="p">}</span>
 
         <span class="k">return</span> <span class="p">{</span><span class="s2">"body"</span><span class="p">:</span> <span class="n">response_body</span><span class="p">}</span>
-        
+
     <span class="k">return</span> <span class="n">generate</span>
 </pre></div>
 </div>
@@ -8701,7 +8778,7 @@ documents in 1459 . It became the capital of Romania in 1862 and is the centre o
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [28]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [29]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.deployments</span><span class="w"> </span><span class="kn">import</span> <span class="n">RuntimeContext</span>
@@ -8717,7 +8794,7 @@ documents in 1459 . It became the capital of Romania in 1862 and is the centre o
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [29]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [30]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">context</span><span class="o">.</span><span class="n">request_payload_json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"questions_and_answers"</span><span class="p">:</span> <span class="n">questions_and_answers</span><span class="p">}</span>
@@ -8733,17 +8810,23 @@ documents in 1459 . It became the capital of Romania in 1862 and is the centre o
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [30]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [31]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s2">"body"</span><span class="p">][</span><span class="s2">"result"</span><span class="p">]):</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"========="</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Question = "</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="s2">"query"</span><span class="p">])</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Answer = "</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="s2">"result"</span><span class="p">])</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"Expected Answer(s) (may not be appear with exact wording in the dataset) = "</span><span class="p">,</span> <span class="n">questions_and_answers</span><span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="s2">"query"</span><span class="p">]])</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="s2">"Expected Answer(s) (may not be appear with exact wording in the dataset) = "</span><span class="p">,</span>
+        <span class="n">questions_and_answers</span><span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="s2">"query"</span><span class="p">]],</span>
+    <span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Source documents:"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"kwargs"</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"page_content"</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s2">"source_documents"</span><span class="p">]),</span> <span class="n">sep</span><span class="o">=</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"kwargs"</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"page_content"</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s2">"source_documents"</span><span class="p">]),</span>
+        <span class="n">sep</span><span class="o">=</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -8759,7 +8842,17 @@ documents in 1459 . It became the capital of Romania in 1862 and is the centre o
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>=========
 Question =  names of founding fathers of the united states?
-Answer =  John Adams , Benjamin Franklin , Alexander Hamilton , John Jay , Thomas Jefferson , James Madison , and George Washington
+Answer =   The key Founding Fathers identified by historian Richard B. Morris in 1973 were:
+
+John Adams
+Benjamin Franklin
+Alexander Hamilton
+John Jay
+Thomas Jefferson
+James Madison
+George Washington
+
+Other notable individuals involved in the American Revolution and early
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Thomas Jefferson::James Madison::John Jay::George Washington::John Adams::Benjamin Franklin::Alexander Hamilton
 
 
@@ -8776,7 +8869,7 @@ Prior to , and during the 19th century , they were referred to as simply the `` 
 
 =========
 Question =  who played in the super bowl in 2013?
-Answer =  Baltimore Ravens
+Answer =   The Super Bowl XLVII in 2013 was played between the Baltimore Ravens and the San Francisco 49ers. The Ravens won the game 34-31.
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Baltimore Ravens::San Francisco 49ers
 
 
@@ -8793,7 +8886,7 @@ MVP Award '' . Forbes.com . February 4 , 2013 . Retrieved February 6 , 2013 . Ju
 
 =========
 Question =  when did bucharest become the capital of romania?
-Answer =  1862
+Answer =   Bucharest became the capital of Romania in 1862.
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  1862
 
 
@@ -8830,21 +8923,16 @@ documents in 1459 . It became the capital of Romania in 1862 and is the centre o
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [31]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [32]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">config_yml</span> <span class="o">=</span> <span class="s2">"""</span>
-<span class="s2">name: python311</span>
-<span class="s2">channels:</span>
-<span class="s2">  - empty</span>
-<span class="s2">dependencies:</span>
-<span class="s2">  - pip:</span>
-<span class="s2">    - langchain-huggingface==0.1.2</span>
-<span class="s2">prefix: /opt/anaconda3/envs/python311</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">requirements_txt</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">sentence-transformers==5.1.2</span>
+<span class="s2">langchain-huggingface==0.3.1</span>
 <span class="s2">"""</span>
 
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"config.yaml"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">config_yml</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"requirements.txt"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">requirements_txt</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8855,17 +8943,19 @@ documents in 1459 . It became the capital of Romania in 1862 and is the centre o
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [32]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [33]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">base_sw_spec_id</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">get_id_by_name</span><span class="p">(</span><span class="s2">"runtime-24.1-py3.11"</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">base_sw_spec_id</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">get_id_by_name</span><span class="p">(</span><span class="s2">"genai-A25-py3.12"</span><span class="p">)</span>
 <span class="n">meta_prop_pkg_extn</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">api_client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"langchain watsonx.ai env"</span><span class="p">,</span>
     <span class="n">api_client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DESCRIPTION</span><span class="p">:</span> <span class="s2">"Environment with langchain"</span><span class="p">,</span>
-    <span class="n">api_client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">TYPE</span><span class="p">:</span> <span class="s2">"conda_yml"</span>
+    <span class="n">api_client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">TYPE</span><span class="p">:</span> <span class="s2">"requirements_txt"</span><span class="p">,</span>
 <span class="p">}</span>
 
-<span class="n">pkg_extn_details</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">meta_props</span><span class="o">=</span><span class="n">meta_prop_pkg_extn</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="s2">"config.yaml"</span><span class="p">)</span>
+<span class="n">pkg_extn_details</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">store</span><span class="p">(</span>
+    <span class="n">meta_props</span><span class="o">=</span><span class="n">meta_prop_pkg_extn</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="s2">"requirements.txt"</span>
+<span class="p">)</span>
 <span class="n">pkg_extn_id</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">pkg_extn_details</span><span class="p">)</span>
 <span class="n">pkg_extn_id</span>
 </pre></div>
@@ -8880,15 +8970,15 @@ documents in 1459 . It became the capital of Romania in 1862 and is the centre o
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Creating package extensions
+<pre>Creating package extension
 SUCCESS
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[32]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[33]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'3cce971c-4805-4925-9776-ad484f974d06'</pre>
+<pre>'312d0a2a-4632-44b4-905f-6a13217a7bd0'</pre>
 </div>
 </div>
 </div>
@@ -8898,13 +8988,15 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [33]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [34]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">meta_prop_sw_spec</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">api_client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"AI service watsonx.ai custom software specification"</span><span class="p">,</span>
     <span class="n">api_client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DESCRIPTION</span><span class="p">:</span> <span class="s2">"Software specification for AI service deployment"</span><span class="p">,</span>
-    <span class="n">api_client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">BASE_SOFTWARE_SPECIFICATION</span><span class="p">:</span> <span class="p">{</span><span class="s2">"guid"</span><span class="p">:</span> <span class="n">base_sw_spec_id</span><span class="p">}</span>
+    <span class="n">api_client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">BASE_SOFTWARE_SPECIFICATION</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"guid"</span><span class="p">:</span> <span class="n">base_sw_spec_id</span>
+    <span class="p">},</span>
 <span class="p">}</span>
 
 <span class="n">sw_spec_details</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">meta_props</span><span class="o">=</span><span class="n">meta_prop_sw_spec</span><span class="p">)</span>
@@ -8928,9 +9020,9 @@ SUCCESS
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[33]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[34]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'a5c002e4-8022-4341-91b6-aabcf5b727de'</pre>
+<pre>'456ecb4c-0191-4e03-b7f2-e1c4e6f93356'</pre>
 </div>
 </div>
 </div>
@@ -8940,14 +9032,16 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [34]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [35]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">meta_props</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">api_client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">AIServiceMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"AI service SDK"</span><span class="p">,</span>    
-    <span class="n">api_client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">AIServiceMetaNames</span><span class="o">.</span><span class="n">SOFTWARE_SPEC_ID</span><span class="p">:</span> <span class="n">sw_spec_id</span>
+    <span class="n">api_client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">AIServiceMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"AI service SDK"</span><span class="p">,</span>
+    <span class="n">api_client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">AIServiceMetaNames</span><span class="o">.</span><span class="n">SOFTWARE_SPEC_ID</span><span class="p">:</span> <span class="n">sw_spec_id</span><span class="p">,</span>
 <span class="p">}</span>
-<span class="n">stored_ai_service_details</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">store_ai_service</span><span class="p">(</span><span class="n">deployable_ai_service</span><span class="p">,</span> <span class="n">meta_props</span><span class="p">)</span>
+<span class="n">stored_ai_service_details</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">store_ai_service</span><span class="p">(</span>
+    <span class="n">deployable_ai_service</span><span class="p">,</span> <span class="n">meta_props</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8958,7 +9052,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [35]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [36]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">ai_service_id</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">get_ai_service_id</span><span class="p">(</span><span class="n">stored_ai_service_details</span><span class="p">)</span>
@@ -8973,9 +9067,9 @@ SUCCESS
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[35]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[36]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'094b6d58-8bd4-4dfd-95da-7660636cb33b'</pre>
+<pre>'4f000687-3a56-485c-b568-9cc395ade701'</pre>
 </div>
 </div>
 </div>
@@ -8996,7 +9090,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [36]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [37]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">meta_props</span> <span class="o">=</span> <span class="p">{</span>
@@ -9021,19 +9115,19 @@ SUCCESS
 
 ######################################################################################
 
-Synchronous deployment creation for id: '094b6d58-8bd4-4dfd-95da-7660636cb33b' started
+Synchronous deployment creation for id: '4f000687-3a56-485c-b568-9cc395ade701' started
 
 ######################################################################################
 
 
 initializing
 Note: online_url and serving_urls are deprecated and will be removed in a future release. Use inference instead.
-.......
+.........................................................
 ready
 
 
 -----------------------------------------------------------------------------------------------
-Successfully finished deployment creation, deployment_id='575e0d2d-02eb-4195-bd38-b5fd94af32ee'
+Successfully finished deployment creation, deployment_id='a7daf296-c811-4a60-9614-39c0cdf53a2a'
 -----------------------------------------------------------------------------------------------
 
 
@@ -9047,7 +9141,7 @@ Successfully finished deployment creation, deployment_id='575e0d2d-02eb-4195-bd3
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [37]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [38]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">deployment_id</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">deployment_details</span><span class="p">)</span>
@@ -9073,7 +9167,7 @@ Successfully finished deployment creation, deployment_id='575e0d2d-02eb-4195-bd3
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [38]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [39]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">deployments_results</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">run_ai_service</span><span class="p">(</span>
@@ -9089,17 +9183,23 @@ Successfully finished deployment creation, deployment_id='575e0d2d-02eb-4195-bd3
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [39]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [40]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">deployments_results</span><span class="p">[</span><span class="s2">"result"</span><span class="p">]):</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"========="</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Question = "</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="s2">"query"</span><span class="p">])</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Answer = "</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="s2">"result"</span><span class="p">])</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"Expected Answer(s) (may not be appear with exact wording in the dataset) = "</span><span class="p">,</span> <span class="n">questions_and_answers</span><span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="s2">"query"</span><span class="p">]])</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="s2">"Expected Answer(s) (may not be appear with exact wording in the dataset) = "</span><span class="p">,</span>
+        <span class="n">questions_and_answers</span><span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="s2">"query"</span><span class="p">]],</span>
+    <span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Source documents:"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"kwargs"</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"page_content"</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s2">"source_documents"</span><span class="p">]),</span> <span class="n">sep</span><span class="o">=</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"kwargs"</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"page_content"</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s2">"source_documents"</span><span class="p">]),</span>
+        <span class="n">sep</span><span class="o">=</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -9115,7 +9215,17 @@ Successfully finished deployment creation, deployment_id='575e0d2d-02eb-4195-bd3
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>=========
 Question =  names of founding fathers of the united states?
-Answer =  John Adams , Benjamin Franklin , Alexander Hamilton , John Jay , Thomas Jefferson , James Madison , and George Washington
+Answer =   The seven key Founding Fathers identified by historian Richard B. Morris are:
+
+1. John Adams
+2. Benjamin Franklin
+3. Alexander Hamilton
+4. John Jay 
+5. Thomas Jefferson
+6. James Madison
+7. George Washington
+
+
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Thomas Jefferson::James Madison::John Jay::George Washington::John Adams::Benjamin Franklin::Alexander Hamilton
 
 
@@ -9132,7 +9242,7 @@ Prior to , and during the 19th century , they were referred to as simply the `` 
 
 =========
 Question =  who played in the super bowl in 2013?
-Answer =  Baltimore Ravens
+Answer =   The Baltimore Ravens played against the San Francisco 49ers in Super Bowl XLVII, which was played in 2013.
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Baltimore Ravens::San Francisco 49ers
 
 
@@ -9149,7 +9259,7 @@ MVP Award '' . Forbes.com . February 4 , 2013 . Retrieved February 6 , 2013 . Ju
 
 =========
 Question =  when did bucharest become the capital of romania?
-Answer =  1862
+Answer =   Bucharest became the capital of Romania in 1862.
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  1862
 
 
@@ -9200,7 +9310,7 @@ documents in 1459 . It became the capital of Romania in 1862 and is the centre o
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Copyright © 2024-2025 IBM. This notebook and its source code are released under the terms of the MIT License.</p>
+<p>Copyright © 2024-2026 IBM. This notebook and its source code are released under the terms of the MIT License.</p>
 </div>
 </div>
 </div>
