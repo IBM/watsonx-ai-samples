@@ -7532,7 +7532,7 @@ a.anchor-link {
 <h4 id="Disclaimers">Disclaimers<a class="anchor-link" href="#Disclaimers">¶</a></h4><ul>
 <li>Use only Projects and Spaces that are available in watsonx context.</li>
 </ul>
-<h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook contains the steps and code to demonstrate support of Retrieval Augumented Generation in watsonx.ai. It introduces commands for data retrieval, knowledge base building &amp; querying, and model testing.</p>
+<h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook contains the steps and code to demonstrate support of Retrieval Augmented Generation in watsonx.ai. It introduces commands for data retrieval, knowledge base building &amp; querying, and model testing.</p>
 <p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
 <h4 id="About-Retrieval-Augmented-Generation">About Retrieval Augmented Generation<a class="anchor-link" href="#About-Retrieval-Augmented-Generation">¶</a></h4><p>Retrieval Augmented Generation (RAG) is a versatile pattern that can unlock a number of use cases requiring factual recall of information, such as querying a knowledge base in natural language.</p>
 <p>In its simplest form, RAG requires 3 steps:</p>
@@ -7580,41 +7580,63 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Install-and-import-dependecies">Install and import dependecies<a class="anchor-link" href="#Install-and-import-dependecies">¶</a></h3>
+<h3 id="Install-and-import-dependencies">Install and import dependencies<a class="anchor-link" href="#Install-and-import-dependencies">¶</a></h3><p><strong>Note:</strong> <code>ibm-watsonx-ai</code> documentation can be found <a href="https://ibm.github.io/watsonx-ai-python-sdk/index.html" rel="noopener no referrer" target="_blank">here</a>.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="s2">"langchain==0.0.340"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">elasticsearch</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">sentence_transformers</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">pandas</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">rouge_score</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">nltk</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">evaluate</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">ibm</span><span class="o">-</span><span class="n">watsonx</span><span class="o">-</span><span class="n">ai</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">pip</span> install "langchain==0.0.340" | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install "elasticsearch&lt;9.0.0" | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install elasticsearch  | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install sentence_transformers | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install pandas | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install rouge_score | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install nltk | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install wget | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install evaluate | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install -U ibm-watsonx-ai | tail -n 1
 </pre></div>
 </div>
 </div>
 </div>
 </div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Successfully installed PyYAML-6.0.3 SQLAlchemy-2.0.44 aiohappyeyeballs-2.6.1 aiohttp-3.13.2 aiosignal-1.4.0 annotated-types-0.7.0 anyio-3.7.1 attrs-25.4.0 certifi-2025.11.12 charset_normalizer-3.4.4 dataclasses-json-0.6.7 frozenlist-1.8.0 idna-3.11 jsonpatch-1.33 jsonpointer-3.0.0 langchain-0.0.340 langsmith-0.0.92 marshmallow-3.26.1 multidict-6.7.0 mypy-extensions-1.1.0 numpy-1.26.4 propcache-0.4.1 pydantic-2.12.4 pydantic-core-2.41.5 requests-2.32.5 sniffio-1.3.1 tenacity-8.5.0 typing-inspect-0.9.0 typing-inspection-0.4.2 urllib3-2.5.0 yarl-1.22.0
+Successfully installed elastic-transport-8.17.1 elasticsearch-8.19.2
+Successfully installed MarkupSafe-3.0.3 Pillow-12.0.0 filelock-3.20.0 fsspec-2025.10.0 hf-xet-1.2.0 huggingface-hub-0.36.0 jinja2-3.1.6 joblib-1.5.2 mpmath-1.3.0 networkx-3.5 regex-2025.11.3 safetensors-0.6.2 scikit-learn-1.7.2 scipy-1.16.3 sentence_transformers-5.1.2 sympy-1.14.0 threadpoolctl-3.6.0 tokenizers-0.22.1 torch-2.9.0 tqdm-4.67.1 transformers-4.57.1
+Successfully installed pandas-2.3.3 pytz-2025.2 tzdata-2025.2
+Successfully installed absl-py-2.3.1 click-8.3.0 nltk-3.9.2 rouge_score-0.1.2
+Successfully installed wget-3.2
+Successfully installed datasets-4.4.1 dill-0.4.0 evaluate-0.4.6 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 multiprocess-0.70.18 pyarrow-22.0.0 xxhash-3.6.0
+Successfully installed cachetools-6.2.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-watsonx-ai-1.4.5 jmespath-1.0.1 lomond-0.3.3 pandas-2.2.3 tabulate-0.9.0
+</pre>
+</div>
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 </pre></div>
 </div>
@@ -7639,10 +7661,11 @@ Model inferencing.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span>
 
 <span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span>
@@ -7671,13 +7694,40 @@ Model inferencing.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">try</span><span class="p">:</span>
     <span class="n">project_id</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"PROJECT_ID"</span><span class="p">]</span>
 <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
     <span class="n">project_id</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your project_id (hit enter): "</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Create an instance of APIClient with authentication details.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span>
+
+<span class="n">api_client</span> <span class="o">=</span> <span class="n">APIClient</span><span class="p">(</span><span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7716,10 +7766,10 @@ Model inferencing.</p>
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">wget</span>
 
-<span class="n">questions_test_filename</span> <span class="o">=</span> <span class="s1">'questions_test.csv'</span>
-<span class="n">questions_train_filename</span> <span class="o">=</span> <span class="s1">'questions_train.csv'</span>
-<span class="n">questions_test_url</span> <span class="o">=</span> <span class="s1">'https://raw.github.com/IBM/watson-machine-learning-samples/master/cloud/data/RAG/questions_test.csv'</span>
-<span class="n">questions_train_url</span> <span class="o">=</span> <span class="s1">'https://raw.github.com/IBM/watson-machine-learning-samples/master/cloud/data/RAG/questions_train.csv'</span>
+<span class="n">questions_test_filename</span> <span class="o">=</span> <span class="s2">"questions_test.csv"</span>
+<span class="n">questions_train_filename</span> <span class="o">=</span> <span class="s2">"questions_train.csv"</span>
+<span class="n">questions_test_url</span> <span class="o">=</span> <span class="s2">"https://raw.github.com/IBM/watsonx-ai-samples/master/cloud/data/RAG/questions_test.csv"</span>
+<span class="n">questions_train_url</span> <span class="o">=</span> <span class="s2">"https://raw.github.com/IBM/watsonx-ai-samples/master/cloud/data/RAG/questions_train.csv"</span>
 
 
 <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">questions_test_filename</span><span class="p">):</span>
@@ -7741,8 +7791,8 @@ Model inferencing.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">filename_test</span> <span class="o">=</span> <span class="s1">'./questions_test.csv'</span>
-<span class="n">filename_train</span> <span class="o">=</span>  <span class="s1">'./questions_train.csv'</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">filename_test</span> <span class="o">=</span> <span class="s2">"./questions_test.csv"</span>
+<span class="n">filename_train</span> <span class="o">=</span> <span class="s2">"./questions_train.csv"</span>
 
 <span class="n">test_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename_test</span><span class="p">)</span>
 <span class="n">train_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename_train</span><span class="p">)</span>
@@ -7904,7 +7954,7 @@ Model inferencing.</p>
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">my_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span><span class="si">}</span><span class="s2">/knowledge_base"</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">my_path</span><span class="p">):</span>
-   <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">my_path</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">my_path</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7918,8 +7968,10 @@ Model inferencing.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">documents_filename</span> <span class="o">=</span> <span class="s1">'knowledge_base/psgs.tsv'</span>
-<span class="n">documents_url</span> <span class="o">=</span> <span class="s1">'https://raw.github.com/IBM/watson-machine-learning-samples/master/cloud/data/RAG/psgs.tsv'</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">documents_filename</span> <span class="o">=</span> <span class="s2">"knowledge_base/psgs.tsv"</span>
+<span class="n">documents_url</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">"https://raw.github.com/IBM/watsonx-ai-samples/master/cloud/data/RAG/psgs.tsv"</span>
+<span class="p">)</span>
 
 
 <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">documents_filename</span><span class="p">):</span>
@@ -7937,8 +7989,8 @@ Model inferencing.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">documents</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">knowledge_base_dir</span><span class="si">}</span><span class="s2">/psgs.tsv"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">documents</span><span class="p">[</span><span class="s1">'indextext'</span><span class="p">]</span> <span class="o">=</span> <span class="n">documents</span><span class="p">[</span><span class="s1">'title'</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="n">documents</span><span class="p">[</span><span class="s1">'text'</span><span class="p">]</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">documents</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">knowledge_base_dir</span><span class="si">}</span><span class="s2">/psgs.tsv"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">documents</span><span class="p">[</span><span class="s2">"indextext"</span><span class="p">]</span> <span class="o">=</span> <span class="n">documents</span><span class="p">[</span><span class="s2">"title"</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="n">documents</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span>
 <span class="n">documents</span> <span class="o">=</span> <span class="n">documents</span><span class="p">[:</span><span class="mi">1000</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -7961,7 +8013,7 @@ Model inferencing.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain.embeddings</span><span class="w"> </span><span class="kn">import</span> <span class="n">SentenceTransformerEmbeddings</span>
@@ -8003,9 +8055,7 @@ Model inferencing.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.utils.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelTypes</span>
-
-<span class="n">model_id</span> <span class="o">=</span> <span class="n">ModelTypes</span><span class="o">.</span><span class="n">FLAN_UL2</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">model_id</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">foundation_models</span><span class="o">.</span><span class="n">TextModels</span><span class="o">.</span><span class="n">GRANITE_4_H_SMALL</span>
 </pre></div>
 </div>
 </div>
@@ -8030,13 +8080,13 @@ Model inferencing.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.metanames</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenTextParamsMetaNames</span> <span class="k">as</span> <span class="n">GenParams</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.utils.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecodingMethods</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.utils.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecodingMethods</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.metanames</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenTextParamsMetaNames</span> <span class="k">as</span> <span class="n">GenParams</span>
 
 <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">GenParams</span><span class="o">.</span><span class="n">DECODING_METHOD</span><span class="p">:</span> <span class="n">DecodingMethods</span><span class="o">.</span><span class="n">GREEDY</span><span class="p">,</span>
     <span class="n">GenParams</span><span class="o">.</span><span class="n">MIN_NEW_TOKENS</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="n">GenParams</span><span class="o">.</span><span class="n">MAX_NEW_TOKENS</span><span class="p">:</span> <span class="mi">50</span>
+    <span class="n">GenParams</span><span class="o">.</span><span class="n">MAX_NEW_TOKENS</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -8065,10 +8115,7 @@ Model inferencing.</p>
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelInference</span>
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">ModelInference</span><span class="p">(</span>
-    <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span>
-    <span class="n">params</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
-    <span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span>
-    <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span>
+    <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -8093,7 +8140,7 @@ Model inferencing.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">try</span><span class="p">:</span>
@@ -8103,7 +8150,9 @@ Model inferencing.</p>
 <span class="k">try</span><span class="p">:</span>
     <span class="n">espassword</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"ESPASSWORD"</span><span class="p">]</span>
 <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-    <span class="n">espassword</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Please enter your Elasticsearch password (hit enter): "</span><span class="p">)</span>
+    <span class="n">espassword</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span>
+        <span class="s2">"Please enter your Elasticsearch password (hit enter): "</span>
+    <span class="p">)</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="n">eshost</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"ESHOST"</span><span class="p">]</span>
 <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
@@ -8125,7 +8174,7 @@ Model inferencing.</p>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>By default Elasticsearch will start with security features like authentication and TLS enabled. To connect to the Elasticsearch cluster you’ll need to configure the Python Elasticsearch client to use HTTPS with the generated CA certificate in order to make requests successfully. Details can be found <a href="https://www.elastic.co/guide/en/elasticsearch/client/python-api/current/connecting.html#connect-self-managed-new" rel="noopener no referrer" target="_blank">here</a>. In this notebook certificate fingerprints will be used for authentication.</p>
-<p><strong>Verifying HTTPS with certificate fingerprints (Python 3.11 or later)</strong> If you don’t have access to the generated CA file from Elasticsearch you can use the following script to output the root CA fingerprint of the Elasticsearch instance with openssl s_client <a href="https://www.elastic.co/guide/en/elasticsearch/client/python-api/current/connecting.html#_verifying_https_with_certificate_fingerprints_python_3_10_or_later" rel="noopener no referrer" target="_blank"> (docs)</a>:</p>
+<p><strong>Verifying HTTPS with certificate fingerprints</strong> If you don’t have access to the generated CA file from Elasticsearch you can use the following script to output the root CA fingerprint of the Elasticsearch instance with openssl s_client <a href="https://www.elastic.co/guide/en/elasticsearch/client/python-api/current/connecting.html#_verifying_https_with_certificate_fingerprints_python_3_10_or_later" rel="noopener no referrer" target="_blank"> (docs)</a>:</p>
 <p>The following cell retrieves the fingerprint information using a shell command and stores it in variable <code>ssl_assert_fingerprint</code>.</p>
 </div>
 </div>
@@ -8135,10 +8184,10 @@ Model inferencing.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">es_ssl_fingerprint</span> <span class="o">=</span> <span class="err">!</span><span class="n">openssl</span> <span class="n">s_client</span> <span class="o">-</span><span class="n">connect</span> <span class="err">$</span><span class="n">eshost</span><span class="p">:</span><span class="err">$</span><span class="n">esport</span>  <span class="o">-</span><span class="n">showcerts</span> <span class="o">&lt;/</span><span class="n">dev</span><span class="o">/</span><span class="n">null</span> <span class="mi">2</span><span class="o">&gt;/</span><span class="n">dev</span><span class="o">/</span><span class="n">null</span> <span class="o">|</span> <span class="n">openssl</span> <span class="n">x509</span> <span class="o">-</span><span class="n">fingerprint</span> <span class="o">-</span><span class="n">sha256</span> <span class="o">-</span><span class="n">noout</span> <span class="o">-</span><span class="ow">in</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">stdin</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">es_ssl_fingerprint</span> <span class="o">=</span> <span class="o">!</span>openssl<span class="w"> </span>s_client<span class="w"> </span>-connect<span class="w"> </span><span class="nv">$eshost</span>:<span class="nv">$esport</span><span class="w">  </span>-showcerts<span class="w"> </span>&lt;/dev/null<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-fingerprint<span class="w"> </span>-sha256<span class="w"> </span>-noout<span class="w"> </span>-in<span class="w"> </span>/dev/stdin
 <span class="n">es_ssl_fingerprint</span> <span class="o">=</span> <span class="n">es_ssl_fingerprint</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"="</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">es_ssl_fingerprint</span>
 </pre></div>
@@ -8174,15 +8223,18 @@ Model inferencing.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">elasticsearch</span><span class="w"> </span><span class="kn">import</span> <span class="n">Elasticsearch</span>
 
-<span class="n">elastic_client</span> <span class="o">=</span> <span class="n">Elasticsearch</span><span class="p">([</span><span class="sa">f</span><span class="s2">"https://</span><span class="si">{</span><span class="n">esuser</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">espassword</span><span class="si">}</span><span class="s2">@</span><span class="si">{</span><span class="n">eshost</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">esport</span><span class="si">}</span><span class="s2">"</span><span class="p">],</span>
-                              <span class="n">basic_auth</span><span class="o">=</span><span class="p">(</span><span class="n">esuser</span><span class="p">,</span> <span class="n">espassword</span><span class="p">),</span>
-                              <span class="n">request_timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                              <span class="n">ssl_assert_fingerprint</span><span class="o">=</span><span class="n">es_ssl_fingerprint</span><span class="p">)</span>
+<span class="n">elastic_client</span> <span class="o">=</span> <span class="n">Elasticsearch</span><span class="p">(</span>
+    <span class="p">[</span><span class="sa">f</span><span class="s2">"https://</span><span class="si">{</span><span class="n">esuser</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">espassword</span><span class="si">}</span><span class="s2">@</span><span class="si">{</span><span class="n">eshost</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">esport</span><span class="si">}</span><span class="s2">"</span><span class="p">],</span>
+    <span class="n">basic_auth</span><span class="o">=</span><span class="p">(</span><span class="n">esuser</span><span class="p">,</span> <span class="n">espassword</span><span class="p">),</span>
+    <span class="n">request_timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">verify_certs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">ssl_assert_fingerprint</span><span class="o">=</span><span class="n">es_ssl_fingerprint</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8249,18 +8301,16 @@ Model inferencing.</p>
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">index_name</span> <span class="o">=</span> <span class="s2">"elastic_knn_index"</span>
 <span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">"properties"</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">"text"</span><span class="p">:</span> <span class="p">{</span>
-                        <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"text"</span>
-                    <span class="p">},</span>
-                <span class="s2">"embedding"</span><span class="p">:</span> <span class="p">{</span>
-                        <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"dense_vector"</span><span class="p">,</span>
-                        <span class="s2">"dims"</span><span class="p">:</span> <span class="n">dims</span><span class="p">,</span>
-                        <span class="s2">"index"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                        <span class="s2">"similarity"</span><span class="p">:</span> <span class="s2">"l2_norm"</span>
-                    <span class="p">}</span>
-            <span class="p">}</span>
+    <span class="s2">"properties"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"text"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"text"</span><span class="p">},</span>
+        <span class="s2">"embedding"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"dense_vector"</span><span class="p">,</span>
+            <span class="s2">"dims"</span><span class="p">:</span> <span class="n">dims</span><span class="p">,</span>
+            <span class="s2">"index"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">"similarity"</span><span class="p">:</span> <span class="s2">"l2_norm"</span><span class="p">,</span>
+        <span class="p">},</span>
     <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -8271,7 +8321,7 @@ Model inferencing.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="n">elastic_client</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index_name</span><span class="p">):</span>
@@ -8288,7 +8338,7 @@ Model inferencing.</p>
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[24]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[22]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>ObjectApiResponse({'acknowledged': True, 'shards_acknowledged': True, 'index': 'elastic_knn_index'})</pre>
 </div>
@@ -8312,7 +8362,7 @@ Model inferencing.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">texts</span> <span class="o">=</span> <span class="n">documents</span><span class="o">.</span><span class="n">indextext</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
@@ -8327,18 +8377,18 @@ Model inferencing.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">elasticsearch.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">bulk</span>
 
 <span class="n">document_list</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">batch_size</span><span class="o">=</span><span class="mi">500</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">500</span>
 <span class="n">requests</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">vector</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">embedded_docs</span><span class="p">)):</span>
-    <span class="n">document</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"_id"</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span> <span class="s2">"embedding"</span><span class="p">:</span> <span class="n">vector</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">:</span> <span class="n">text</span><span class="p">}</span>
+    <span class="n">document</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"_id"</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span> <span class="s2">"embedding"</span><span class="p">:</span> <span class="n">vector</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">:</span> <span class="n">text</span><span class="p">}</span>
     <span class="n">document_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">document</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="n">batch_size</span> <span class="o">==</span> <span class="n">batch_size</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="n">batch_size</span> <span class="o">==</span> <span class="n">batch_size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">success</span><span class="p">,</span> <span class="n">failed</span> <span class="o">=</span> <span class="n">bulk</span><span class="p">(</span><span class="n">elastic_client</span><span class="p">,</span> <span class="n">document_list</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index_name</span><span class="p">)</span>
         <span class="n">document_list</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -8353,7 +8403,7 @@ Model inferencing.</p>
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[26]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[24]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>ObjectApiResponse({'_shards': {'total': 2, 'successful': 2, 'failed': 0}})</pre>
 </div>
@@ -8376,14 +8426,17 @@ Model inferencing.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [57]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">questions_and_answers</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="p">(</span><span class="s1">'names of founding fathers of the united states?'</span><span class="p">,</span> <span class="s2">"Thomas Jefferson::James Madison::John Jay::George Washington::John Adams::Benjamin Franklin::Alexander Hamilton"</span><span class="p">),</span>
-            <span class="p">(</span><span class="s1">'who played in the super bowl in 2013?'</span><span class="p">,</span> <span class="s1">'Baltimore Ravens::San Francisco 49ers'</span><span class="p">),</span>
-            <span class="p">(</span><span class="s1">'when did bucharest become the capital of romania?'</span><span class="p">,</span> <span class="s1">'1862'</span><span class="p">)</span>
-            <span class="p">]</span>
+    <span class="p">(</span>
+        <span class="s2">"names of founding fathers of the united states?"</span><span class="p">,</span>
+        <span class="s2">"Thomas Jefferson::James Madison::John Jay::George Washington::John Adams::Benjamin Franklin::Alexander Hamilton"</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="p">(</span><span class="s2">"who played in the super bowl in 2013?"</span><span class="p">,</span> <span class="s2">"Baltimore Ravens::San Francisco 49ers"</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"when did bucharest become the capital of romania?"</span><span class="p">,</span> <span class="s2">"1862"</span><span class="p">),</span>
+<span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -8406,7 +8459,7 @@ Model inferencing.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [50]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">relevant_contexts</span> <span class="o">=</span> <span class="p">[]</span>
@@ -8414,17 +8467,15 @@ Model inferencing.</p>
 <span class="k">for</span> <span class="n">question_text</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">questions_and_answers</span><span class="p">:</span>
     <span class="n">embedded_question</span> <span class="o">=</span> <span class="n">emb_func</span><span class="o">.</span><span class="n">embed_query</span><span class="p">(</span><span class="n">question_text</span><span class="p">)</span>
     <span class="n">relevant_chunks</span> <span class="o">=</span> <span class="n">elastic_client</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
-          <span class="n">index</span><span class="o">=</span><span class="n">index_name</span><span class="p">,</span>
-          <span class="n">knn</span><span class="o">=</span><span class="p">{</span>
+        <span class="n">index</span><span class="o">=</span><span class="n">index_name</span><span class="p">,</span>
+        <span class="n">knn</span><span class="o">=</span><span class="p">{</span>
             <span class="s2">"field"</span><span class="p">:</span> <span class="s2">"embedding"</span><span class="p">,</span>
             <span class="s2">"query_vector"</span><span class="p">:</span> <span class="n">embedded_question</span><span class="p">,</span>
             <span class="s2">"k"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
             <span class="s2">"num_candidates"</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
-            <span class="p">},</span>
-          <span class="n">_source</span><span class="o">=</span><span class="p">[</span>
-                    <span class="s2">"text"</span>
-                  <span class="p">],</span>
-          <span class="n">size</span><span class="o">=</span><span class="mi">5</span>
+        <span class="p">},</span>
+        <span class="n">_source</span><span class="o">=</span><span class="p">[</span><span class="s2">"text"</span><span class="p">],</span>
+        <span class="n">size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">relevant_contexts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">relevant_chunks</span><span class="p">)</span>
 </pre></div>
@@ -8437,16 +8488,16 @@ Model inferencing.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [51]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [27]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">relevant_context</span> <span class="o">=</span> <span class="n">relevant_contexts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">hits</span> <span class="o">=</span> <span class="n">relevant_context</span><span class="p">[</span><span class="s1">'hits'</span><span class="p">][</span><span class="s1">'hits'</span><span class="p">]</span>
+<span class="n">hits</span> <span class="o">=</span> <span class="n">relevant_context</span><span class="p">[</span><span class="s2">"hits"</span><span class="p">][</span><span class="s2">"hits"</span><span class="p">]</span>
 <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">hits</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"========="</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Paragraph index : "</span><span class="p">,</span> <span class="n">hit</span><span class="p">[</span><span class="s2">"_id"</span><span class="p">])</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"Paragraph : "</span><span class="p">,</span> <span class="n">hit</span><span class="p">[</span><span class="s2">"_source"</span><span class="p">][</span><span class="s1">'text'</span><span class="p">])</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"Distance : "</span><span class="p">,</span>  <span class="n">hit</span><span class="p">[</span><span class="s2">"_score"</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Paragraph : "</span><span class="p">,</span> <span class="n">hit</span><span class="p">[</span><span class="s2">"_source"</span><span class="p">][</span><span class="s2">"text"</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Distance : "</span><span class="p">,</span> <span class="n">hit</span><span class="p">[</span><span class="s2">"_score"</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -8463,22 +8514,22 @@ Model inferencing.</p>
 Paragraph index :  912
 Paragraph :  Founding Fathers of the United States
 ^ Burstein , Andrew . `` Politics and Personalities : Garry Wills takes a new look at a forgotten founder , slavery and the shaping of America '' , Chicago Tribune ( November 09 , 2003 ) : `` Forgotten founders such as Pickering and Morris made as many waves as those whose faces stare out from our currency . '' ^ Jump up to : Rafael , Ray . The Complete Idiot 's Guide to the Founding Fathers : And the Birth of Our Nation ( Penguin , 2011 ) . Jump up ^ `` Founding Fathers : Virginia '' . FindLaw Constitutional Law Center . 2008 . Retrieved 2008 - 11 - 14 . Jump up ^ Schwartz , Laurens R. Jews and the American Revolution : Haym Solomon and Others , Jefferson , North Carolina : McFarland &amp; Co. , 1987 . Jump up ^ Kendall , Joshua . The Forgotten Founding Father : Noah Webster 's Obsession and the Creation of an American Culture ( Penguin 2011 ) . Jump up ^ Wright , R.E. ( 1996 ) . `` Thomas Willing ( 1731 - 1821 ) : Philadelphia Financier and Forgotten Founding Father '' . Pennsylvania History . 63 ( 4 ) : 525 -- 560 . doi : 10.2307 / 27773931 ( inactive 2017 - 01 - 15 ) . JSTOR 27773931 . Jump up ^ `` A Patriot of Early New England '' , New York Times ( December 20 , 1931 )
-Distance :  0.6436015
-=========
-Paragraph index :  879
-Paragraph :  Founding Fathers of the United States
-Prior to , and during the 19th century , they were referred to as simply the `` Fathers '' . The term has been used to describe the founders and first settlers of the original royal colonies . Contents ( hide ) 1 Background 2 Interesting facts and commonalities 2.1 Education 2.1. 1 Colleges attended 2.1. 2 Advanced degrees and apprenticeships 2.1. 2.1 Doctors of medicine 2.1. 2.2 Theology 2.1. 2.3 Legal apprenticeships 2.1. 3 Self - taught or little formal education 2.2 Demographics 2.3 Political experience 2.4 Occupations and finances 2.5 Religion 2.6 Ownership of slaves and position on slavery 2.7 Attendance at conventions 2.8 Spouses and children 2.9 Charters of freedom and historical documents of the United States 2.10 Post-constitution life 2.11 Youth and longevity 2.12 Founders who were not signatories or delegates 3 Legacy 3.1 Institutions formed by Founders 3.2 Scholarship on the Founders 3.2. 1 Living historians whose focus is the Founding Fathers 3.2. 2 Noted collections of the Founding Fathers 3.3 In stage and film 3.4 Children 's books 4 See also 5 Notes 6 References 7 External links Background ( edit ) The Albany Congress of 1754 was a conference attended by seven colonies , which presaged later efforts at cooperation . The Stamp Act Congress of 1765 included representatives from nine colonies . The First Continental Congress met briefly in Philadelphia , Pennsylvania in 1774 , consisting of fifty - six delegates from twelve of the thirteen colonies ( excluding Georgia ) that
-Distance :  0.6386697
+Distance :  0.6409744
 =========
 Paragraph index :  939
 Paragraph :  Founding Fathers of the United States
 President of Congress Peyton Randolph New Hampshire John Sullivan Nathaniel Folsom Massachusetts Bay Thomas Cushing Samuel Adams John Adams Robert Treat Paine Rhode Island Stephen Hopkins Samuel Ward Connecticut Eliphalet Dyer Roger Sherman Silas Deane New York Isaac Low John Alsop John Jay James Duane Philip Livingston William Floyd Henry Wisner Simon Boerum New Jersey James Kinsey William Livingston Stephen Crane Richard Smith John De Hart Pennsylvania Joseph Galloway John Dickinson Charles Humphreys Thomas Mifflin Edward Biddle John Morton George Ross The Lower Counties Caesar Rodney Thomas McKean George Read Maryland Matthew Tilghman Thomas Johnson , Junr William Paca Samuel Chase Virginia Richard Henry Lee George Washington Patrick Henry , Junr Richard Bland Benjamin Harrison Edmund Pendleton North Carolina William Hooper Joseph Hewes Richard Caswell South Carolina Henry Middleton Thomas Lynch Christopher Gadsden John Rutledge Edward Rutledge See also Virginia Association First Continental Congress Carpenters ' Hall Declaration and Resolves of the First Continental Congress Retrieved from `` https://en.wikipedia.org/w/index.php?title=Founding_Fathers_of_the_United_States&amp;oldid=815247535 '' Categories : Age of Enlightenment American Revolution Articles about multiple people Patriots in the American Revolution Political leaders of the American Revolution National founders Hidden categories : Webarchive template wayback links Pages with DOIs inactive since 2017 Use mdy dates from April 2011 Talk Read Contents About Wikipedia Wikiquote Bân - lâm - gú Башҡортса Bikol Central Български Brezhoneg Català Čeština Cymraeg Deutsch Ελληνικά Español Esperanto فارسی Français 한국어 Հայերեն हिन्दी Ido Bahasa Indonesia Interlingua Íslenska Italiano עברית Latina Lietuvių Magyar Bahasa Melayu Nederlands 日本 語 Norsk Polski Português Română
-Distance :  0.6376214
+Distance :  0.63904345
 =========
 Paragraph index :  877
 Paragraph :  Founding Fathers of the United States
 Founding Fathers of the United States - wikipedia Founding Fathers of the United States Jump to : navigation , search Declaration of Independence , a painting by John Trumbull depicting the Committee of Five presenting their draft to the Congress on June 28 , 1776 Signature page of Treaty of Paris ( 1783 ) ; the treaty was negotiated by John Adams , Benjamin Franklin and John Jay . The Founding Fathers of the United States were those individuals of the Thirteen Colonies in North America who led the American Revolution against the authority of the British Crown in word and deed and contributed to the establishment of the United States of America . Historian Richard B. Morris in 1973 identified the following seven figures as the key Founding Fathers : John Adams , Benjamin Franklin , Alexander Hamilton , John Jay , Thomas Jefferson , James Madison , and George Washington . Adams , Jefferson , and Franklin were members of the Committee of Five that drafted the Declaration of Independence . Hamilton , Madison , and Jay were authors of The Federalist Papers , advocating ratification of the Constitution . The constitutions drafted by Jay and Adams for their respective states of New York ( 1777 ) and Massachusetts ( 1780 ) were heavily relied upon when creating language for the US Constitution Jay , Adams and Franklin negotiated the Treaty of Paris ( 1783 ) that would end the American Revolutionary War . Washington was Commander -
-Distance :  0.6280782
+Distance :  0.63464487
+=========
+Paragraph index :  879
+Paragraph :  Founding Fathers of the United States
+Prior to , and during the 19th century , they were referred to as simply the `` Fathers '' . The term has been used to describe the founders and first settlers of the original royal colonies . Contents ( hide ) 1 Background 2 Interesting facts and commonalities 2.1 Education 2.1. 1 Colleges attended 2.1. 2 Advanced degrees and apprenticeships 2.1. 2.1 Doctors of medicine 2.1. 2.2 Theology 2.1. 2.3 Legal apprenticeships 2.1. 3 Self - taught or little formal education 2.2 Demographics 2.3 Political experience 2.4 Occupations and finances 2.5 Religion 2.6 Ownership of slaves and position on slavery 2.7 Attendance at conventions 2.8 Spouses and children 2.9 Charters of freedom and historical documents of the United States 2.10 Post-constitution life 2.11 Youth and longevity 2.12 Founders who were not signatories or delegates 3 Legacy 3.1 Institutions formed by Founders 3.2 Scholarship on the Founders 3.2. 1 Living historians whose focus is the Founding Fathers 3.2. 2 Noted collections of the Founding Fathers 3.3 In stage and film 3.4 Children 's books 4 See also 5 Notes 6 References 7 External links Background ( edit ) The Albany Congress of 1754 was a conference attended by seven colonies , which presaged later efforts at cooperation . The Stamp Act Congress of 1765 included representatives from nine colonies . The First Continental Congress met briefly in Philadelphia , Pennsylvania in 1774 , consisting of fifty - six delegates from twelve of the thirteen colonies ( excluding Georgia ) that
+Distance :  0.62415963
 </pre>
 </div>
 </div>
@@ -8500,13 +8551,11 @@ Distance :  0.6280782
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [52]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [28]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_prompt</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">question_text</span><span class="p">):</span>
-    <span class="k">return</span> <span class="p">(</span><span class="sa">f</span><span class="s2">"Please answer the following.</span><span class="se">\n</span><span class="s2">"</span>
-          <span class="o">+</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">context</span><span class="si">}</span><span class="s2">:</span><span class="se">\n\n</span><span class="s2">"</span>
-          <span class="o">+</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">question_text</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"Please answer the following.</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">context</span><span class="si">}</span><span class="s2">:</span><span class="se">\n\n</span><span class="s2">"</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">question_text</span><span class="si">}</span><span class="s2">"</span>
 </pre></div>
 </div>
 </div>
@@ -8517,14 +8566,16 @@ Distance :  0.6280782
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [58]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [29]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">prompt_texts</span> <span class="o">=</span> <span class="p">[]</span>
 
-<span class="k">for</span> <span class="n">relevant_context</span><span class="p">,</span> <span class="p">(</span><span class="n">question_text</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">relevant_contexts</span><span class="p">,</span> <span class="n">questions_and_answers</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">relevant_context</span><span class="p">,</span> <span class="p">(</span><span class="n">question_text</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+    <span class="n">relevant_contexts</span><span class="p">,</span> <span class="n">questions_and_answers</span>
+<span class="p">):</span>
     <span class="n">hits</span> <span class="o">=</span> <span class="p">[</span><span class="n">hit</span> <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">relevant_context</span><span class="p">[</span><span class="s2">"hits"</span><span class="p">][</span><span class="s2">"hits"</span><span class="p">]]</span>
-    <span class="n">context</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\n\n\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">rel_ctx</span><span class="p">[</span><span class="s2">"_source"</span><span class="p">][</span><span class="s1">'text'</span><span class="p">]</span> <span class="k">for</span> <span class="n">rel_ctx</span> <span class="ow">in</span> <span class="n">hits</span><span class="p">])</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\n\n\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">rel_ctx</span><span class="p">[</span><span class="s2">"_source"</span><span class="p">][</span><span class="s2">"text"</span><span class="p">]</span> <span class="k">for</span> <span class="n">rel_ctx</span> <span class="ow">in</span> <span class="n">hits</span><span class="p">])</span>
     <span class="n">prompt_text</span> <span class="o">=</span> <span class="n">make_prompt</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">question_text</span><span class="p">)</span>
     <span class="n">prompt_texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prompt_text</span><span class="p">)</span>
 </pre></div>
@@ -8537,7 +8588,7 @@ Distance :  0.6280782
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [54]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [30]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">prompt_texts</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -8559,17 +8610,17 @@ Founding Fathers of the United States
 
 
 Founding Fathers of the United States
-Prior to , and during the 19th century , they were referred to as simply the `` Fathers '' . The term has been used to describe the founders and first settlers of the original royal colonies . Contents ( hide ) 1 Background 2 Interesting facts and commonalities 2.1 Education 2.1. 1 Colleges attended 2.1. 2 Advanced degrees and apprenticeships 2.1. 2.1 Doctors of medicine 2.1. 2.2 Theology 2.1. 2.3 Legal apprenticeships 2.1. 3 Self - taught or little formal education 2.2 Demographics 2.3 Political experience 2.4 Occupations and finances 2.5 Religion 2.6 Ownership of slaves and position on slavery 2.7 Attendance at conventions 2.8 Spouses and children 2.9 Charters of freedom and historical documents of the United States 2.10 Post-constitution life 2.11 Youth and longevity 2.12 Founders who were not signatories or delegates 3 Legacy 3.1 Institutions formed by Founders 3.2 Scholarship on the Founders 3.2. 1 Living historians whose focus is the Founding Fathers 3.2. 2 Noted collections of the Founding Fathers 3.3 In stage and film 3.4 Children 's books 4 See also 5 Notes 6 References 7 External links Background ( edit ) The Albany Congress of 1754 was a conference attended by seven colonies , which presaged later efforts at cooperation . The Stamp Act Congress of 1765 included representatives from nine colonies . The First Continental Congress met briefly in Philadelphia , Pennsylvania in 1774 , consisting of fifty - six delegates from twelve of the thirteen colonies ( excluding Georgia ) that
-
-
-Founding Fathers of the United States
 President of Congress Peyton Randolph New Hampshire John Sullivan Nathaniel Folsom Massachusetts Bay Thomas Cushing Samuel Adams John Adams Robert Treat Paine Rhode Island Stephen Hopkins Samuel Ward Connecticut Eliphalet Dyer Roger Sherman Silas Deane New York Isaac Low John Alsop John Jay James Duane Philip Livingston William Floyd Henry Wisner Simon Boerum New Jersey James Kinsey William Livingston Stephen Crane Richard Smith John De Hart Pennsylvania Joseph Galloway John Dickinson Charles Humphreys Thomas Mifflin Edward Biddle John Morton George Ross The Lower Counties Caesar Rodney Thomas McKean George Read Maryland Matthew Tilghman Thomas Johnson , Junr William Paca Samuel Chase Virginia Richard Henry Lee George Washington Patrick Henry , Junr Richard Bland Benjamin Harrison Edmund Pendleton North Carolina William Hooper Joseph Hewes Richard Caswell South Carolina Henry Middleton Thomas Lynch Christopher Gadsden John Rutledge Edward Rutledge See also Virginia Association First Continental Congress Carpenters ' Hall Declaration and Resolves of the First Continental Congress Retrieved from `` https://en.wikipedia.org/w/index.php?title=Founding_Fathers_of_the_United_States&amp;oldid=815247535 '' Categories : Age of Enlightenment American Revolution Articles about multiple people Patriots in the American Revolution Political leaders of the American Revolution National founders Hidden categories : Webarchive template wayback links Pages with DOIs inactive since 2017 Use mdy dates from April 2011 Talk Read Contents About Wikipedia Wikiquote Bân - lâm - gú Башҡортса Bikol Central Български Brezhoneg Català Čeština Cymraeg Deutsch Ελληνικά Español Esperanto فارسی Français 한국어 Հայերեն हिन्दी Ido Bahasa Indonesia Interlingua Íslenska Italiano עברית Latina Lietuvių Magyar Bahasa Melayu Nederlands 日本 語 Norsk Polski Português Română
 
 
 Founding Fathers of the United States
-Founding Fathers of the United States - wikipedia Founding Fathers of the United States Jump to : navigation , search Declaration of Independence , a painting by John Trumbull depicting the Committee of Five presenting their draft to the Congress on June 28 , 1776 Signature page of Treaty of Paris ( 1783 ) ; the treaty was negotiated by John Adams , Benjamin Franklin and John Jay . The Founding Fathers of the United States were those individuals of the Thirteen Colonies in North America who led the American Revolution against the authority of the British Crown in word and deed and contributed to the establishment of the United States of America . Historian Richard B. Morris in 1973 identified the following seven figures as the key Founding Fathers : John Adams , Benjamin Franklin , Alexander Hamilton , John Jay , Thomas Jefferson , James Madison , and George Washington . Adams , Jefferson , and Franklin were members of the Committee of Five that drafted the Declaration of Independence . Hamilton , Madison , and Jay were authors of The Federalist Papers , advocating ratification of the Constitution . The constitutions drafted by Jay and Adams for their respective states of New York ( 1777 ) and Massachusetts ( 1780 ) were heavily relied upon when creating language for the US Constitution Jay , Adams and Franklin negotiated the Treaty of Paris ( 1783 ) that would end the American Revolutionary War . Washington was Commander -:
+Founding Fathers of the United States - wikipedia Founding Fathers of the United States Jump to : navigation , search Declaration of Independence , a painting by John Trumbull depicting the Committee of Five presenting their draft to the Congress on June 28 , 1776 Signature page of Treaty of Paris ( 1783 ) ; the treaty was negotiated by John Adams , Benjamin Franklin and John Jay . The Founding Fathers of the United States were those individuals of the Thirteen Colonies in North America who led the American Revolution against the authority of the British Crown in word and deed and contributed to the establishment of the United States of America . Historian Richard B. Morris in 1973 identified the following seven figures as the key Founding Fathers : John Adams , Benjamin Franklin , Alexander Hamilton , John Jay , Thomas Jefferson , James Madison , and George Washington . Adams , Jefferson , and Franklin were members of the Committee of Five that drafted the Declaration of Independence . Hamilton , Madison , and Jay were authors of The Federalist Papers , advocating ratification of the Constitution . The constitutions drafted by Jay and Adams for their respective states of New York ( 1777 ) and Massachusetts ( 1780 ) were heavily relied upon when creating language for the US Constitution Jay , Adams and Franklin negotiated the Treaty of Paris ( 1783 ) that would end the American Revolutionary War . Washington was Commander -
 
-what are the names of founding fathers of the united states?
+
+Founding Fathers of the United States
+Prior to , and during the 19th century , they were referred to as simply the `` Fathers '' . The term has been used to describe the founders and first settlers of the original royal colonies . Contents ( hide ) 1 Background 2 Interesting facts and commonalities 2.1 Education 2.1. 1 Colleges attended 2.1. 2 Advanced degrees and apprenticeships 2.1. 2.1 Doctors of medicine 2.1. 2.2 Theology 2.1. 2.3 Legal apprenticeships 2.1. 3 Self - taught or little formal education 2.2 Demographics 2.3 Political experience 2.4 Occupations and finances 2.5 Religion 2.6 Ownership of slaves and position on slavery 2.7 Attendance at conventions 2.8 Spouses and children 2.9 Charters of freedom and historical documents of the United States 2.10 Post-constitution life 2.11 Youth and longevity 2.12 Founders who were not signatories or delegates 3 Legacy 3.1 Institutions formed by Founders 3.2 Scholarship on the Founders 3.2. 1 Living historians whose focus is the Founding Fathers 3.2. 2 Noted collections of the Founding Fathers 3.3 In stage and film 3.4 Children 's books 4 See also 5 Notes 6 References 7 External links Background ( edit ) The Albany Congress of 1754 was a conference attended by seven colonies , which presaged later efforts at cooperation . The Stamp Act Congress of 1765 included representatives from nine colonies . The First Continental Congress met briefly in Philadelphia , Pennsylvania in 1774 , consisting of fifty - six delegates from twelve of the thirteen colonies ( excluding Georgia ) that:
+
+names of founding fathers of the united states?
 </pre>
 </div>
 </div>
@@ -8591,7 +8642,7 @@ what are the names of founding fathers of the united states?
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [59]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [31]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
@@ -8608,13 +8659,16 @@ what are the names of founding fathers of the united states?
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [60]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [32]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Question = "</span><span class="p">,</span> <span class="n">questions_and_answers</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Answer = "</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"Expected Answer(s) (may not be appear with exact wording in the dataset) = "</span><span class="p">,</span>  <span class="n">questions_and_answers</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="s2">"Expected Answer(s) (may not be appear with exact wording in the dataset) = "</span><span class="p">,</span>
+        <span class="n">questions_and_answers</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+    <span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -8629,17 +8683,17 @@ what are the names of founding fathers of the united states?
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Question =  names of founding fathers of the united states?
-Answer =  John Adams Benjamin Franklin Alexander Hamilton John Jay Thomas Jefferson James Madison George Washington
+Answer =   Founding Fathers of the United States Pennsylvania Joseph Galloway John Dickinson Charles Humphreys Thomas Mifflin Edward Biddle John Morton George Ross The Lower Counties Caesar Rodney Thomas McKean George Read Maryland Matthew Tilghman Thomas Johnson , Junr
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Thomas Jefferson::James Madison::John Jay::George Washington::John Adams::Benjamin Franklin::Alexander Hamilton
 
 
 Question =  who played in the super bowl in 2013?
-Answer =  Baltimore Ravens
+Answer =   Baltimore Ravens and San Francisco 49ers.
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Baltimore Ravens::San Francisco 49ers
 
 
 Question =  when did bucharest become the capital of romania?
-Answer =  1862
+Answer =   It is the capital of Romania.
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  1862
 
 
@@ -8665,13 +8719,15 @@ Expected Answer(s) (may not be appear with exact wording in the dataset) =  1862
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [62]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [33]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">evaluate</span><span class="w"> </span><span class="kn">import</span> <span class="n">load</span>
 
-<span class="n">rouge</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s1">'rouge'</span><span class="p">)</span>
-<span class="n">scores</span> <span class="o">=</span> <span class="n">rouge</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">predictions</span><span class="o">=</span><span class="n">results</span><span class="p">,</span> <span class="n">references</span><span class="o">=</span><span class="p">[</span><span class="n">answer</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">answer</span> <span class="ow">in</span> <span class="n">questions_and_answers</span><span class="p">])</span>
+<span class="n">rouge</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s2">"rouge"</span><span class="p">)</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">rouge</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span>
+    <span class="n">predictions</span><span class="o">=</span><span class="n">results</span><span class="p">,</span> <span class="n">references</span><span class="o">=</span><span class="p">[</span><span class="n">answer</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">answer</span> <span class="ow">in</span> <span class="n">questions_and_answers</span><span class="p">]</span>
+<span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -8685,7 +8741,7 @@ Expected Answer(s) (may not be appear with exact wording in the dataset) =  1862
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>{'rouge1': 0.8571428571428572, 'rouge2': 0.38974358974358975, 'rougeL': 0.6666666666666666, 'rougeLsum': 0.6666666666666666}
+<pre>{'rouge1': 0.3563636363636364, 'rouge2': 0.22222222222222218, 'rougeL': 0.343030303030303, 'rougeLsum': 0.343030303030303}
 </pre>
 </div>
 </div>
@@ -8709,7 +8765,7 @@ Expected Answer(s) (may not be appear with exact wording in the dataset) =  1862
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Copyright © 2023-2025 IBM. This notebook and its source code are released under the terms of the MIT License.</p>
+<p>Copyright © 2023-2026 IBM. This notebook and its source code are released under the terms of the MIT License.</p>
 </div>
 </div>
 </div>

@@ -7591,13 +7591,13 @@ Compare the predicted entity labels with the  pseudo ground truth labels in the 
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">datasets</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">requests</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">ibm</span><span class="o">-</span><span class="n">cloud</span><span class="o">-</span><span class="n">sdk</span><span class="o">-</span><span class="n">core</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="s2">"scikit-learn==1.3.2"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">spacy</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">spacy</span> <span class="n">download</span> <span class="n">en_core_web_sm</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="mi">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>datasets<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>requests<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>wget<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>ibm-cloud-sdk-core<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"scikit-learn==1.3.2"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>spacy<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<span class="o">!</span>python<span class="w"> </span>-m<span class="w"> </span>spacy<span class="w"> </span>download<span class="w"> </span>en_core_web_sm<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-1
 </pre></div>
 </div>
 </div>
@@ -9085,10 +9085,10 @@ Raw results from LLM model:
             <span class="n">pc</span><span class="o">+=</span><span class="mi">1</span>
         <span class="k">if</span> <span class="s1">'label_'</span> <span class="ow">in</span> <span class="n">w</span><span class="p">:</span>
             <span class="n">lc</span><span class="o">+=</span><span class="mi">1</span>
-    <span class="k">if</span> <span class="p">((</span><span class="n">pc</span><span class="o">==</span><span class="n">lc</span><span class="p">)</span> <span class="ow">and</span> <span class="p">((</span><span class="n">pc</span><span class="o">%</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="p">((</span><span class="n">lc</span><span class="o">%</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="p">((</span><span class="n">pc</span><span class="o">==</span><span class="n">lc</span><span class="p">)</span> <span class="ow">and</span> <span class="p">((</span><span class="n">pc</span><span class="o">%</span><span class="k">2</span>)==0) and ((lc%2)==0)):
         <span class="k">return</span> <span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="s2">"{"</span><span class="o">+</span><span class="n">s</span><span class="o">+</span><span class="s2">"}"</span><span class="p">))</span>
     
-    <span class="k">elif</span><span class="p">((</span><span class="n">pc</span><span class="o">%</span><span class="mi">2</span><span class="p">)</span><span class="o">!=</span><span class="mi">0</span> <span class="ow">or</span> <span class="p">((</span><span class="n">lc</span><span class="o">%</span><span class="mi">2</span><span class="p">)</span><span class="o">!=</span><span class="mi">0</span><span class="p">)):</span>
+    <span class="k">elif</span><span class="p">((</span><span class="n">pc</span><span class="o">%</span><span class="k">2</span>)!=0 or ((lc%2)!=0)):
        
         <span class="n">lim</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">pc</span><span class="p">,</span><span class="n">lc</span><span class="p">)</span>
         <span class="n">wlim</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">lim</span>
@@ -10229,7 +10229,7 @@ weighted avg       1.00      1.00      1.00         4
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Copyright © 2023-2025 IBM. This notebook and its source code are released under the terms of the MIT License.</p>
+<p>Copyright © 2023-2026 IBM. This notebook and its source code are released under the terms of the MIT License.</p>
 </div>
 </div>
 </div>

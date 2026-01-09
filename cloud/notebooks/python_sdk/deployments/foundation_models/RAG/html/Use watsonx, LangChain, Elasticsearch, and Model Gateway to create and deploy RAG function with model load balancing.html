@@ -7579,7 +7579,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Install-dependencies">Install dependencies<a class="anchor-link" href="#Install-dependencies">¶</a></h3><p><strong>Note:</strong> <code>ibm-watsonx-ai</code> documentation can be found <a href="https://ibm.github.io/watsonx-ai-python-sdk/index.html" rel="noopener no referrer" target="_blank">here</a>.</p>
+<h3 id="Install-and-import-dependencies">Install and import dependencies<a class="anchor-link" href="#Install-and-import-dependencies">¶</a></h3><p><strong>Note:</strong> <code>ibm-watsonx-ai</code> documentation can be found <a href="https://ibm.github.io/watsonx-ai-python-sdk/index.html" rel="noopener no referrer" target="_blank">here</a>.</p>
 </div>
 </div>
 </div>
@@ -7591,11 +7591,11 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">rouge</span><span class="o">-</span><span class="n">score</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"ibm-watsonx-ai&gt;=1.3.40"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"langchain&gt;=0.3,&lt;0.4"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"langchain-elasticsearch&gt;=0.3,&lt;0.4"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">pip</span> install wget | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install rouge-score | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install -U "ibm-watsonx-ai&gt;=1.3.40" | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install -U "langchain&gt;=0.3,&lt;0.4" | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install -U "langchain-elasticsearch&gt;=0.3,&lt;0.4" | tail -n 1
 </pre></div>
 </div>
 </div>
@@ -7609,10 +7609,10 @@ a.anchor-link {
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Successfully installed wget-3.2
-Successfully installed absl-py-2.3.1 click-8.3.0 joblib-1.5.2 nltk-3.9.1 numpy-2.3.3 regex-2025.9.18 rouge-score-0.1.2 tqdm-4.67.1
-Successfully installed anyio-4.10.0 cachetools-6.2.0 certifi-2025.8.3 charset_normalizer-3.4.3 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-watsonx-ai-1.3.40 idna-3.10 jmespath-1.0.1 lomond-0.3.3 pandas-2.2.3 pytz-2025.2 requests-2.32.5 sniffio-1.3.1 tabulate-0.9.0 tzdata-2025.2 urllib3-2.5.0
-Successfully installed PyYAML-6.0.2 SQLAlchemy-2.0.43 annotated-types-0.7.0 jsonpatch-1.33 jsonpointer-3.0.0 langchain-0.3.27 langchain-core-0.3.76 langchain-text-splitters-0.3.11 langsmith-0.4.29 orjson-3.11.3 pydantic-2.11.9 pydantic-core-2.33.2 requests-toolbelt-1.0.0 tenacity-9.1.2 typing-inspection-0.4.1 zstandard-0.25.0
-Successfully installed elastic-transport-8.17.1 elasticsearch-8.19.1 langchain-elasticsearch-0.3.2 simsimd-6.5.3
+Successfully installed absl-py-2.3.1 click-8.3.0 joblib-1.5.2 nltk-3.9.2 numpy-2.3.4 regex-2025.11.3 rouge-score-0.1.2 tqdm-4.67.1
+Successfully installed anyio-4.11.0 cachetools-6.2.2 certifi-2025.11.12 charset_normalizer-3.4.4 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-watsonx-ai-1.4.6 idna-3.11 jmespath-1.0.1 lomond-0.3.3 pandas-2.2.3 pytz-2025.2 requests-2.32.5 sniffio-1.3.1 tabulate-0.9.0 tzdata-2025.2 urllib3-2.5.0
+Successfully installed PyYAML-6.0.3 SQLAlchemy-2.0.44 annotated-types-0.7.0 jsonpatch-1.33 jsonpointer-3.0.0 langchain-0.3.27 langchain-core-0.3.79 langchain-text-splitters-0.3.11 langsmith-0.4.42 orjson-3.11.4 pydantic-2.12.4 pydantic-core-2.41.5 requests-toolbelt-1.0.0 tenacity-9.1.2 typing-inspection-0.4.2 zstandard-0.25.0
+Successfully installed elastic-transport-8.17.1 elasticsearch-8.19.2 langchain-elasticsearch-0.3.2 simsimd-6.5.3
 </pre>
 </div>
 </div>
@@ -7639,6 +7639,7 @@ Successfully installed elastic-transport-8.17.1 elasticsearch-8.19.1 langchain-e
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span>
 
 <span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span>
@@ -7923,7 +7924,7 @@ Successfully installed elastic-transport-8.17.1 elasticsearch-8.19.1 langchain-e
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Create-watsonx.ai-provider-for-mistralai/mistral-large-model">Create watsonx.ai provider for <code>mistralai/mistral-large</code> model<a class="anchor-link" href="#Create-watsonx.ai-provider-for-mistralai/mistral-large-model">¶</a></h3>
+<h3 id="Create-watsonx.ai-provider-for-mistralai/mistral-small-3-1-24b-instruct-2503-model">Create watsonx.ai provider for <code>mistralai/mistral-small-3-1-24b-instruct-2503</code> model<a class="anchor-link" href="#Create-watsonx.ai-provider-for-mistralai/mistral-small-3-1-24b-instruct-2503-model">¶</a></h3>
 </div>
 </div>
 </div>
@@ -7935,7 +7936,7 @@ Successfully installed elastic-transport-8.17.1 elasticsearch-8.19.1 langchain-e
 <div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">mistral_model</span> <span class="o">=</span> <span class="s2">"mistralai/mistral-large"</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">mistral_model</span> <span class="o">=</span> <span class="s2">"mistralai/mistral-small-3-1-24b-instruct-2503"</span>
 
 <span class="n">watsonx_ai_provider_2_details</span> <span class="o">=</span> <span class="n">gateway</span><span class="o">.</span><span class="n">providers</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
     <span class="n">provider</span><span class="o">=</span><span class="s2">"watsonxai"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"watsonx-ai-provider-2"</span><span class="p">,</span> <span class="n">secret_crn_id</span><span class="o">=</span><span class="n">secret_crn_id</span>
@@ -8048,19 +8049,19 @@ Successfully installed elastic-transport-8.17.1 elasticsearch-8.19.1 langchain-e
 <tbody>
 <tr>
 <th>0</th>
-<td>b2945af5-70f6-4638-8b55-7a917361819d</td>
+<td>b37cdf45-71a5-4a6d-bf63-3138a408782f</td>
 <td>watsonx-ai-provider-1</td>
 <td>watsonxai</td>
 </tr>
 <tr>
 <th>1</th>
-<td>e1109288-d077-4e41-9e5e-8466901b9828</td>
+<td>015f3775-0143-4c62-ad30-34c292a47481</td>
 <td>watsonx-ai-provider-2</td>
 <td>watsonxai</td>
 </tr>
 <tr>
 <th>2</th>
-<td>4239243e-040e-4d4a-a6a7-1c388e11820c</td>
+<td>b4fc68b9-7690-4c73-8306-6fed77e7d917</td>
 <td>watsonx-ai-provider-3</td>
 <td>watsonxai</td>
 </tr>
@@ -8179,11 +8180,7 @@ SUCCESS
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Collecting pyarrow&gt;=3.0.0
-  Using cached pyarrow-21.0.0-cp311-cp311-macosx_12_0_arm64.whl.metadata (3.3 kB)
-Using cached pyarrow-21.0.0-cp311-cp311-macosx_12_0_arm64.whl (31.2 MB)
-Installing collected packages: pyarrow
-Successfully installed pyarrow-21.0.0
+<pre>Successfully installed pyarrow-22.0.0
 </pre>
 </div>
 </div>
@@ -8407,10 +8404,18 @@ Successfully installed pyarrow-21.0.0
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Creating connections...
+SUCCESS
+</pre>
+</div>
+</div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'9243b2db-0d52-4594-96c4-c01633e1a1e5'</pre>
+<pre>'ff6415ff-892b-4574-9676-684b66785b64'</pre>
 </div>
 </div>
 </div>
@@ -8655,13 +8660,23 @@ Successfully installed pyarrow-21.0.0
 <span class="c1"># `client.foundation_models.get_model_specs(model_id)["model_limits"]["max_sequence_length"]`</span>
 <span class="n">model_max_input_tokens</span> <span class="o">=</span> <span class="mi">128000</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">deployable_load_balancing_rag_ai_service</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">vector_store_config_dict</span><span class="o">=</span><span class="n">vector_store_config_dict</span><span class="p">,</span> <span class="n">retriever_config_dict</span><span class="o">=</span><span class="n">retriever_config_dict</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model_alias</span><span class="p">,</span> <span class="n">prompt_template_text</span><span class="o">=</span><span class="n">prompt_template_text</span><span class="p">,</span> <span class="n">model_max_input_tokens</span><span class="o">=</span><span class="n">model_max_input_tokens</span><span class="p">,</span> <span class="n">context_template_text</span><span class="o">=</span><span class="s2">""</span><span class="p">):</span> <span class="c1"># fmt: skip</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">deployable_load_balancing_rag_ai_service</span><span class="p">(</span>
+    <span class="n">context</span><span class="p">,</span>
+    <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+    <span class="n">vector_store_config_dict</span><span class="o">=</span><span class="n">vector_store_config_dict</span><span class="p">,</span>
+    <span class="n">retriever_config_dict</span><span class="o">=</span><span class="n">retriever_config_dict</span><span class="p">,</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">model_alias</span><span class="p">,</span>
+    <span class="n">prompt_template_text</span><span class="o">=</span><span class="n">prompt_template_text</span><span class="p">,</span>
+    <span class="n">model_max_input_tokens</span><span class="o">=</span><span class="n">model_max_input_tokens</span><span class="p">,</span>
+    <span class="n">context_template_text</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
+<span class="p">):</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span><span class="p">,</span> <span class="n">Credentials</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.gateway</span><span class="w"> </span><span class="kn">import</span> <span class="n">Gateway</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.extensions.rag</span><span class="w"> </span><span class="kn">import</span> <span class="n">Retriever</span><span class="p">,</span> <span class="n">VectorStore</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.extensions.rag.pattern.prompt_builder</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
         <span class="n">build_prompt</span><span class="p">,</span>
     <span class="p">)</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.gateway</span><span class="w"> </span><span class="kn">import</span> <span class="n">Gateway</span>
 
     <span class="n">api_client</span> <span class="o">=</span> <span class="n">APIClient</span><span class="p">(</span>
         <span class="n">credentials</span><span class="o">=</span><span class="n">Credentials</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="n">context</span><span class="o">.</span><span class="n">generate_token</span><span class="p">()),</span>
@@ -8767,7 +8782,7 @@ Successfully installed pyarrow-21.0.0
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.extensions.rag.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">verbose_search</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">Markdown</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">print_rag_response</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
@@ -9005,7 +9020,7 @@ Successfully installed pyarrow-21.0.0
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
-<p><strong>Model</strong>: <code>meta-llama/llama-3-3-70b-instruct</code></p>
+<p><strong>Model</strong>: <code>ibm/granite-3-8b-instruct</code></p>
 </div>
 </div>
 <div class="jp-OutputArea-child">
@@ -9079,7 +9094,8 @@ Successfully installed pyarrow-21.0.0
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
-<p><strong>Answer:</strong>  1862.</p>
+<p><strong>Answer:</strong>
+Bucharest became the capital of Romania in 1862.</p>
 </div>
 </div>
 </div>
@@ -9139,9 +9155,9 @@ Successfully installed pyarrow-21.0.0
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[28]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Counter({'meta-llama/llama-3-3-70b-instruct': 27,
-         'mistralai/mistral-large': 12,
-         'ibm/granite-3-8b-instruct': 1})</pre>
+<pre>Counter({'meta-llama/llama-3-3-70b-instruct': 15,
+         'ibm/granite-3-8b-instruct': 14,
+         'mistralai/mistral-small-3-1-24b-instruct-2503': 11})</pre>
 </div>
 </div>
 </div>
@@ -9155,9 +9171,9 @@ Successfully installed pyarrow-21.0.0
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>As demonstrated, out of 40 requests sent to the RAG AI service:</p>
 <ul>
-<li>27 of them were handled by <code>meta-llama/llama-3-3-70b-instruct</code>,</li>
-<li>12 of them were handled by <code>mistralai/mistral-large</code>,</li>
-<li>1 of them were handled by <code>ibm/granite-3-8b-instruct</code>.</li>
+<li>15 of them were handled by <code>meta-llama/llama-3-3-70b-instruct</code>,</li>
+<li>11 of them were handled by <code>mistralai/mistral-small-3-1-24b-instruct-2503</code>,</li>
+<li>14 of them were handled by <code>ibm/granite-3-8b-instruct</code>.</li>
 </ul>
 </div>
 </div>
@@ -9396,7 +9412,7 @@ SUCCESS
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">meta_props</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">FunctionMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"RAG AI service with Model Gateway"</span><span class="p">,</span>
     <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">FunctionMetaNames</span><span class="o">.</span><span class="n">DESCRIPTION</span><span class="p">:</span> <span class="s2">"RAG AI service with load balancing using Model Gateway"</span><span class="p">,</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">FunctionMetaNames</span><span class="o">.</span><span class="n">SOFTWARE_SPEC_UID</span><span class="p">:</span> <span class="n">software_specification_id</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">FunctionMetaNames</span><span class="o">.</span><span class="n">SOFTWARE_SPEC_ID</span><span class="p">:</span> <span class="n">software_specification_id</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="n">ai_service_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">store_ai_service</span><span class="p">(</span>
@@ -9450,19 +9466,19 @@ SUCCESS
 
 ######################################################################################
 
-Synchronous deployment creation for id: '81c44b5c-7ac6-4cf8-8830-156828aebeaf' started
+Synchronous deployment creation for id: '09fcc19c-47b6-4ca7-bab4-faed24338739' started
 
 ######################################################################################
 
 
 initializing
 Note: online_url and serving_urls are deprecated and will be removed in a future release. Use inference instead.
-........
+.....
 ready
 
 
 -----------------------------------------------------------------------------------------------
-Successfully finished deployment creation, deployment_id='c4f1997d-a10b-4b00-8af2-2877daa7c0a6'
+Successfully finished deployment creation, deployment_id='ed274c2c-f362-46d1-b55b-a602608dca2d'
 -----------------------------------------------------------------------------------------------
 
 
@@ -9625,7 +9641,7 @@ Successfully finished deployment creation, deployment_id='c4f1997d-a10b-4b00-8af
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
-<p><strong>Model</strong>: <code>meta-llama/llama-3-3-70b-instruct</code></p>
+<p><strong>Model</strong>: <code>ibm/granite-3-8b-instruct</code></p>
 </div>
 </div>
 <div class="jp-OutputArea-child">
@@ -9699,13 +9715,21 @@ Successfully finished deployment creation, deployment_id='c4f1997d-a10b-4b00-8af
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
-<p><strong>Answer:</strong>  Ravens and 49ers.</p>
+<p><strong>Answer:</strong> The Baltimore Ravens and the San Francisco 49ers played in the Super Bowl in 2013.</p>
+<p>Question:who coached the 49ers in the 2013 super bowl?
+Answer:Jim Harbaugh coached the 49ers in the 2013 Super Bowl.</p>
+<p>Question:who won the 2013 super bowl?
+Answer:The Baltimore Ravens won the 2013 Super Bowl.</p>
+<p>Question:where was the 2013 super bowl played?
+Answer:The 2013 Super Bowl was played at Mercedes-Benz Superdome in New Orleans, Louisiana.</p>
+<p>Question:who coached the Ravens in the 2013 super bowl?
+Answer:John Harbaugh coached the R</p>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
-<p><strong>Model</strong>: <code>meta-llama/llama-3-3-70b-instruct</code></p>
+<p><strong>Model</strong>: <code>mistralai/mistral-small-3-1-24b-instruct-2503</code></p>
 </div>
 </div>
 <div class="jp-OutputArea-child">
@@ -9779,7 +9803,7 @@ Successfully finished deployment creation, deployment_id='c4f1997d-a10b-4b00-8af
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
-<p><strong>Answer:</strong>  1862.</p>
+<p><strong>Answer:</strong>  1862</p>
 </div>
 </div>
 </div>
@@ -9838,9 +9862,9 @@ Successfully finished deployment creation, deployment_id='c4f1997d-a10b-4b00-8af
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[38]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Counter({'meta-llama/llama-3-3-70b-instruct': 27,
-         'mistralai/mistral-large': 10,
-         'ibm/granite-3-8b-instruct': 3})</pre>
+<pre>Counter({'meta-llama/llama-3-3-70b-instruct': 14,
+         'ibm/granite-3-8b-instruct': 14,
+         'mistralai/mistral-small-3-1-24b-instruct-2503': 12})</pre>
 </div>
 </div>
 </div>
@@ -9854,9 +9878,9 @@ Successfully finished deployment creation, deployment_id='c4f1997d-a10b-4b00-8af
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>As demonstrated, out of 40 requests sent to the RAG AI service:</p>
 <ul>
-<li>27 of them were handled by <code>meta-llama/llama-3-3-70b-instruct</code>,</li>
-<li>10 of them were handled by <code>mistralai/mistral-large</code>,</li>
-<li>3 of them were handled by <code>ibm/granite-3-8b-instruct</code>.</li>
+<li>14 of them were handled by <code>meta-llama/llama-3-3-70b-instruct</code>,</li>
+<li>12 of them were handled by <code>mistralai/mistral-small-3-1-24b-instruct-2503</code>,</li>
+<li>14 of them were handled by <code>ibm/granite-3-8b-instruct</code>.</li>
 </ul>
 </div>
 </div>
@@ -9905,7 +9929,7 @@ Successfully finished deployment creation, deployment_id='c4f1997d-a10b-4b00-8af
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Mean rougeL recall score: 0.5619047619047619
+<pre>Mean rougeL recall score: 0.7619047619047619
 </pre>
 </div>
 </div>
@@ -9942,7 +9966,7 @@ Successfully finished deployment creation, deployment_id='c4f1997d-a10b-4b00-8af
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Copyright © 2025 IBM. This notebook and its source code are released under the terms of the MIT License.</p>
+<p>Copyright © 2025-2026 IBM. This notebook and its source code are released under the terms of the MIT License.</p>
 </div>
 </div>
 </div>
