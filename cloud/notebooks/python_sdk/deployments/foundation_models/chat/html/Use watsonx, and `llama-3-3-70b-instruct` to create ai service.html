@@ -7570,7 +7570,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Install-and-import-the-datasets-and-dependencies">Install and import the <code>datasets</code> and dependencies<a class="anchor-link" href="#Install-and-import-the-datasets-and-dependencies">¶</a></h3>
+<h3 id="Install-dependencies">Install dependencies<a class="anchor-link" href="#Install-dependencies">¶</a></h3><p><strong>Note:</strong> <code>ibm-watsonx-ai</code> documentation can be found <a href="https://ibm.github.io/watsonx-ai-python-sdk/index.html" rel="noopener no referrer" target="_blank">here</a>.</p>
 </div>
 </div>
 </div>
@@ -7582,9 +7582,9 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">pip</span> install -U "langgraph&gt;0.2,&lt;0.3" | tail -n 1
-<span class="o">%</span><span class="k">pip</span> install -U "ibm_watsonx_ai&gt;=1.3.6" | tail -n 1
-<span class="o">%</span><span class="k">pip</span> install -U "langchain_ibm&gt;=0.3,&lt;0.4" | tail -n 1
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"langgraph&gt;0.2,&lt;0.3"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"ibm_watsonx_ai&gt;=1.3.6"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"langchain_ibm&gt;=0.3,&lt;0.4"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -7597,9 +7597,9 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Successfully installed PyYAML-6.0.2 annotated-types-0.7.0 anyio-4.9.0 certifi-2025.1.31 charset-normalizer-3.4.1 h11-0.14.0 httpcore-1.0.8 httpx-0.28.1 idna-3.10 jsonpatch-1.33 jsonpointer-3.0.0 langchain-core-0.3.55 langgraph-0.2.76 langgraph-checkpoint-2.0.24 langgraph-sdk-0.1.63 langsmith-0.3.33 orjson-3.10.16 ormsgpack-1.9.1 pydantic-2.11.3 pydantic-core-2.33.1 requests-2.32.3 requests-toolbelt-1.0.0 sniffio-1.3.1 tenacity-9.1.2 typing-inspection-0.4.0 urllib3-2.4.0 zstandard-0.23.0
-Successfully installed ibm-cos-sdk-2.14.0 ibm-cos-sdk-core-2.14.0 ibm-cos-sdk-s3transfer-2.14.0 ibm_watsonx_ai-1.3.11 jmespath-1.0.1 lomond-0.3.3 numpy-2.2.5 pandas-2.2.3 pytz-2025.2 requests-2.32.2 tabulate-0.9.0 tzdata-2025.2
-Successfully installed langchain_ibm-0.3.10
+<pre>Successfully installed PyYAML-6.0.3 annotated-types-0.7.0 anyio-4.11.0 certifi-2025.10.5 charset_normalizer-3.4.4 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 idna-3.11 jsonpatch-1.33 jsonpointer-3.0.0 langchain-core-0.3.79 langgraph-0.2.76 langgraph-checkpoint-2.1.2 langgraph-sdk-0.1.74 langsmith-0.4.38 orjson-3.11.4 ormsgpack-1.11.0 pydantic-2.12.3 pydantic-core-2.41.4 requests-2.32.5 requests-toolbelt-1.0.0 sniffio-1.3.1 tenacity-9.1.2 typing-inspection-0.4.2 urllib3-2.5.0 zstandard-0.25.0
+Successfully installed cachetools-6.2.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm_watsonx_ai-1.4.2 jmespath-1.0.1 lomond-0.3.3 numpy-2.3.4 pandas-2.2.3 pytz-2025.2 tabulate-0.9.0 tzdata-2025.2
+Successfully installed langchain_ibm-0.3.19
 </pre>
 </div>
 </div>
@@ -7626,6 +7626,7 @@ Successfully installed langchain_ibm-0.3.10
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span>
 
 <span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span>
@@ -7751,10 +7752,10 @@ Successfully installed langchain_ibm-0.3.10
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">deployable_ai_service</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="p">[</span><span class="s2">"url"</span><span class="p">],</span> <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    
+
     <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span><span class="p">,</span> <span class="n">Credentials</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">langchain_ibm</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatWatsonx</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">tool</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">langchain_ibm</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatWatsonx</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">langgraph.prebuilt</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_react_agent</span>
 
     <span class="n">api_client</span> <span class="o">=</span> <span class="n">APIClient</span><span class="p">(</span>
@@ -7763,11 +7764,9 @@ Successfully installed langchain_ibm-0.3.10
     <span class="p">)</span>
 
     <span class="n">chat</span> <span class="o">=</span> <span class="n">ChatWatsonx</span><span class="p">(</span>
-        <span class="n">watsonx_client</span><span class="o">=</span><span class="n">api_client</span><span class="p">,</span>
-        <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span>
-        <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">"temperature"</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">}</span>
+        <span class="n">watsonx_client</span><span class="o">=</span><span class="n">api_client</span><span class="p">,</span> <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">"temperature"</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">}</span>
     <span class="p">)</span>
-    
+
     <span class="nd">@tool</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Add a and b."""</span>
@@ -7789,34 +7788,36 @@ Successfully installed langchain_ibm-0.3.10
         <span class="k">return</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span>
 
     <span class="n">tools</span> <span class="o">=</span> <span class="p">[</span><span class="n">add</span><span class="p">,</span> <span class="n">subtract</span><span class="p">,</span> <span class="n">multiply</span><span class="p">,</span> <span class="n">divide</span><span class="p">]</span>
-    
+
     <span class="n">graph</span> <span class="o">=</span> <span class="n">create_react_agent</span><span class="p">(</span><span class="n">chat</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="n">tools</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="n">api_client</span><span class="o">.</span><span class="n">set_token</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">get_token</span><span class="p">())</span>
-   
+
         <span class="n">payload</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
         <span class="n">question</span> <span class="o">=</span> <span class="n">payload</span><span class="p">[</span><span class="s2">"question"</span><span class="p">]</span>
-        
+
         <span class="n">response</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">"messages"</span><span class="p">:</span> <span class="p">[(</span><span class="s2">"user"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">question</span><span class="si">}</span><span class="s2">"</span><span class="p">)]})</span>
-        
+
         <span class="n">json_messages</span> <span class="o">=</span> <span class="p">[</span><span class="n">msg</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span> <span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">response</span><span class="p">[</span><span class="s2">"messages"</span><span class="p">]]</span>
-        
+
         <span class="n">response</span><span class="p">[</span><span class="s2">"messages"</span><span class="p">]</span> <span class="o">=</span> <span class="n">json_messages</span>
-        
+
         <span class="k">return</span> <span class="p">{</span><span class="s2">"body"</span><span class="p">:</span> <span class="n">response</span><span class="p">}</span>
-    
+
     <span class="k">def</span><span class="w"> </span><span class="nf">generate_stream</span><span class="p">(</span><span class="n">context</span><span class="p">):</span>
         <span class="n">api_client</span><span class="o">.</span><span class="n">set_token</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">get_token</span><span class="p">())</span>
-   
+
         <span class="n">payload</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
         <span class="n">question</span> <span class="o">=</span> <span class="n">payload</span><span class="p">[</span><span class="s2">"question"</span><span class="p">]</span>
-        
-        <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">stream</span><span class="p">({</span><span class="s2">"messages"</span><span class="p">:</span> <span class="p">[(</span><span class="s2">"user"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">question</span><span class="si">}</span><span class="s2">"</span><span class="p">)]},</span> <span class="n">stream_mode</span><span class="o">=</span><span class="s2">"values"</span><span class="p">):</span>
+
+        <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span>
+            <span class="p">{</span><span class="s2">"messages"</span><span class="p">:</span> <span class="p">[(</span><span class="s2">"user"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">question</span><span class="si">}</span><span class="s2">"</span><span class="p">)]},</span> <span class="n">stream_mode</span><span class="o">=</span><span class="s2">"values"</span>
+        <span class="p">):</span>
             <span class="n">json_messages</span> <span class="o">=</span> <span class="p">[</span><span class="n">msg</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span> <span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">el</span><span class="p">[</span><span class="s2">"messages"</span><span class="p">]]</span>
             <span class="n">el</span><span class="p">[</span><span class="s2">"messages"</span><span class="p">]</span> <span class="o">=</span> <span class="n">json_messages</span>
             <span class="k">yield</span> <span class="n">el</span>
-        
+
     <span class="k">return</span> <span class="n">generate</span><span class="p">,</span> <span class="n">generate_stream</span>
 </pre></div>
 </div>
@@ -7844,18 +7845,19 @@ Successfully installed langchain_ibm-0.3.10
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 
+
 <span class="k">def</span><span class="w"> </span><span class="nf">print_message</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
     <span class="n">last_message_id</span> <span class="o">=</span> <span class="n">message</span><span class="p">[</span><span class="s2">"id"</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">" ===== </span><span class="si">{</span><span class="n">last_message_id</span><span class="si">}</span><span class="s2"> ====="</span><span class="p">)</span>
 
     <span class="k">match</span> <span class="n">last_message_id</span><span class="p">:</span>
         <span class="k">case</span> <span class="s2">"AIMessage"</span><span class="p">:</span>
-            <span class="n">content</span> <span class="o">=</span> <span class="n">message</span><span class="p">[</span><span class="s2">"kwargs"</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"additional_kwargs"</span><span class="p">,</span> <span class="n">message</span><span class="p">[</span><span class="s2">"kwargs"</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"content"</span><span class="p">))</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="n">message</span><span class="p">[</span><span class="s2">"kwargs"</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s2">"additional_kwargs"</span><span class="p">,</span> <span class="n">message</span><span class="p">[</span><span class="s2">"kwargs"</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"content"</span><span class="p">)</span>
+            <span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span>
-                <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
-                <span class="k">else</span> <span class="n">content</span><span class="p">,</span>
-                <span class="n">end</span><span class="o">=</span><span class="s2">"</span><span class="se">\n\n</span><span class="s2">"</span>
+                <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="n">content</span><span class="p">,</span>
+                <span class="n">end</span><span class="o">=</span><span class="s2">"</span><span class="se">\n\n</span><span class="s2">"</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">case</span> <span class="s2">"ToolMessage"</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="p">[</span><span class="s2">"kwargs"</span><span class="p">][</span><span class="s2">"name"</span><span class="p">])</span>
@@ -7946,7 +7948,13 @@ Successfully installed langchain_ibm-0.3.10
 <div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">context</span><span class="o">.</span><span class="n">request_payload_json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"question"</span><span class="p">:</span> <span class="s2">"What is the total sum of the numbers 11, 13, and 20? Remember to always return the final result using the last tool message."</span><span class="p">}</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">context</span><span class="o">.</span><span class="n">request_payload_json</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"question"</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">"What is the total sum of the numbers 11, 13, and 20? "</span>
+        <span class="s2">"Perform you calculations step by step. "</span>
+        <span class="s2">"Remember to always return the final result using the last tool message."</span>
+    <span class="p">)</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -7999,13 +8007,13 @@ Successfully installed langchain_ibm-0.3.10
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre> ===== HumanMessage =====
-What is the total sum of the numbers 11, 13, and 20? Remember to always return the final result using the last tool message.
+What is the total sum of the numbers 11, 13, and 20? Perform you calculations step by step. Remember to always return the final result using the last tool message.
 
  ===== AIMessage =====
 {
   "tool_calls": [
     {
-      "id": "chatcmpl-tool-bbb5debdbeae4b52a802c8b4388a6be8",
+      "id": "chatcmpl-tool-cfead002a0bf413e877270037bb55635",
       "type": "function",
       "function": {
         "name": "add",
@@ -8023,7 +8031,7 @@ add
 {
   "tool_calls": [
     {
-      "id": "chatcmpl-tool-119c5403f34a48699e8fa8a287c87597",
+      "id": "chatcmpl-tool-06eab9507b224ad8acd06aacaadb3701",
       "type": "function",
       "function": {
         "name": "add",
@@ -8038,7 +8046,7 @@ add
 44.0
 
  ===== AIMessage =====
-The total sum of the numbers 11, 13, and 20 is 44.
+The total sum of the numbers 11, 13, and 20 is 44.0.
 
 </pre>
 </div>
@@ -8092,13 +8100,13 @@ The total sum of the numbers 11, 13, and 20 is 44.
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre> ===== HumanMessage =====
-What is the total sum of the numbers 11, 13, and 20? Remember to always return the final result using the last tool message.
+What is the total sum of the numbers 11, 13, and 20? Perform you calculations step by step. Remember to always return the final result using the last tool message.
 
  ===== AIMessage =====
 {
   "tool_calls": [
     {
-      "id": "chatcmpl-tool-15fe65ce15814c66af5149a821fcb753",
+      "id": "chatcmpl-tool-76c0167f71ff40fb8b12cc87e5e7629d",
       "type": "function",
       "function": {
         "name": "add",
@@ -8116,7 +8124,7 @@ add
 {
   "tool_calls": [
     {
-      "id": "chatcmpl-tool-cd95606a2c1947a492a77342162311a7",
+      "id": "chatcmpl-tool-2c868234afdc4493be495de2ea5c069e",
       "type": "function",
       "function": {
         "name": "add",
@@ -8131,7 +8139,7 @@ add
 44.0
 
  ===== AIMessage =====
-The total sum of the numbers 11, 13, and 20 is 44.
+The total sum of the numbers 11, 13, and 20 is 44.0.
 
 </pre>
 </div>
@@ -8158,18 +8166,10 @@ The total sum of the numbers 11, 13, and 20 is 44.
 <div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">config_yml</span> <span class="o">=</span> <span class="s2">"""</span>
-<span class="s2">name: python311</span>
-<span class="s2">channels:</span>
-<span class="s2">  - empty</span>
-<span class="s2">dependencies:</span>
-<span class="s2">  - pip:</span>
-<span class="s2">    - langgraph==0.2.44</span>
-<span class="s2">prefix: /opt/anaconda3/envs/python311</span>
-<span class="s2">"""</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">requirements_txt</span> <span class="o">=</span> <span class="s2">"langgraph==0.2.44"</span>
 
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"config.yaml"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">config_yml</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"requirements.txt"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">requirements_txt</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8183,14 +8183,18 @@ The total sum of the numbers 11, 13, and 20 is 44.
 <div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">base_sw_spec_id</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">get_id_by_name</span><span class="p">(</span><span class="s2">"runtime-24.1-py3.11"</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">base_sw_spec_id</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">get_id_by_name</span><span class="p">(</span>
+    <span class="s2">"runtime-24.1-py3.11"</span>
+<span class="p">)</span>
 <span class="n">meta_prop_pkg_extn</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">api_client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"watsonx.ai env with langgraph"</span><span class="p">,</span>
     <span class="n">api_client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DESCRIPTION</span><span class="p">:</span> <span class="s2">"Environment with langgraph"</span><span class="p">,</span>
-    <span class="n">api_client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">TYPE</span><span class="p">:</span> <span class="s2">"conda_yml"</span>
+    <span class="n">api_client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">TYPE</span><span class="p">:</span> <span class="s2">"requirements_txt"</span><span class="p">,</span>
 <span class="p">}</span>
 
-<span class="n">pkg_extn_details</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">meta_props</span><span class="o">=</span><span class="n">meta_prop_pkg_extn</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="s2">"config.yaml"</span><span class="p">)</span>
+<span class="n">pkg_extn_details</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">store</span><span class="p">(</span>
+    <span class="n">meta_props</span><span class="o">=</span><span class="n">meta_prop_pkg_extn</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="s2">"requirements.txt"</span>
+<span class="p">)</span>
 <span class="n">pkg_extn_id</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">pkg_extn_details</span><span class="p">)</span>
 <span class="n">pkg_extn_id</span>
 </pre></div>
@@ -8205,7 +8209,7 @@ The total sum of the numbers 11, 13, and 20 is 44.
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Creating package extensions
+<pre>Creating package extension
 SUCCESS
 </pre>
 </div>
@@ -8213,7 +8217,7 @@ SUCCESS
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[16]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'c46cf395-08e6-4716-a7e4-69954ec617d0'</pre>
+<pre>'74d3cf45-23a1-4082-9278-072384a277be'</pre>
 </div>
 </div>
 </div>
@@ -8229,7 +8233,9 @@ SUCCESS
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">meta_prop_sw_spec</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">api_client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"AI service watsonx.ai custom software specification with langgraph"</span><span class="p">,</span>
     <span class="n">api_client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DESCRIPTION</span><span class="p">:</span> <span class="s2">"Software specification for AI service deployment"</span><span class="p">,</span>
-    <span class="n">api_client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">BASE_SOFTWARE_SPECIFICATION</span><span class="p">:</span> <span class="p">{</span><span class="s2">"guid"</span><span class="p">:</span> <span class="n">base_sw_spec_id</span><span class="p">}</span>
+    <span class="n">api_client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">BASE_SOFTWARE_SPECIFICATION</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"guid"</span><span class="p">:</span> <span class="n">base_sw_spec_id</span>
+    <span class="p">},</span>
 <span class="p">}</span>
 
 <span class="n">sw_spec_details</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">meta_props</span><span class="o">=</span><span class="n">meta_prop_sw_spec</span><span class="p">)</span>
@@ -8255,7 +8261,7 @@ SUCCESS
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'3148eb5d-1e8f-49ce-9a78-40297a36f5d6'</pre>
+<pre>'ba391528-aa70-4b94-952c-06ce18ea3a28'</pre>
 </div>
 </div>
 </div>
@@ -8280,10 +8286,12 @@ SUCCESS
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">meta_props</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">api_client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">AIServiceMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"AI service SDK with langgraph"</span><span class="p">,</span>    
-    <span class="n">api_client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">AIServiceMetaNames</span><span class="o">.</span><span class="n">SOFTWARE_SPEC_ID</span><span class="p">:</span> <span class="n">sw_spec_id</span>
+    <span class="n">api_client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">AIServiceMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"AI service SDK with langgraph"</span><span class="p">,</span>
+    <span class="n">api_client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">AIServiceMetaNames</span><span class="o">.</span><span class="n">SOFTWARE_SPEC_ID</span><span class="p">:</span> <span class="n">sw_spec_id</span><span class="p">,</span>
 <span class="p">}</span>
-<span class="n">stored_ai_service_details</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">store_ai_service</span><span class="p">(</span><span class="n">deployable_ai_service</span><span class="p">,</span> <span class="n">meta_props</span><span class="p">)</span>
+<span class="n">stored_ai_service_details</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">store_ai_service</span><span class="p">(</span>
+    <span class="n">deployable_ai_service</span><span class="p">,</span> <span class="n">meta_props</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8311,7 +8319,7 @@ SUCCESS
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[19]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'aa61f29d-58f0-4437-bfa0-71a007c31cff'</pre>
+<pre>'d324b8e1-40e4-4c0f-93a2-be3ea84bcb8f'</pre>
 </div>
 </div>
 </div>
@@ -8357,19 +8365,19 @@ SUCCESS
 
 ######################################################################################
 
-Synchronous deployment creation for id: 'aa61f29d-58f0-4437-bfa0-71a007c31cff' started
+Synchronous deployment creation for id: 'd324b8e1-40e4-4c0f-93a2-be3ea84bcb8f' started
 
 ######################################################################################
 
 
 initializing
 Note: online_url and serving_urls are deprecated and will be removed in a future release. Use inference instead.
-...........
+.....
 ready
 
 
 -----------------------------------------------------------------------------------------------
-Successfully finished deployment creation, deployment_id='68885a4b-024f-4a3c-82e0-0a1e9e711da0'
+Successfully finished deployment creation, deployment_id='8073e144-e6e1-4511-ba4f-2fa8ca456e43'
 -----------------------------------------------------------------------------------------------
 
 
@@ -8423,7 +8431,11 @@ Successfully finished deployment creation, deployment_id='68885a4b-024f-4a3c-82e
 <div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">question</span> <span class="o">=</span> <span class="s2">"What is the total sum of the numbers 11, 13, and 20? Remember to always return the final result using the last tool message."</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">question</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">"What is the total sum of the numbers 11, 13, and 20? "</span>
+    <span class="s2">"Perform you calculations step by step. "</span>
+    <span class="s2">"Remember to always return the final result using the last tool message."</span>
+<span class="p">)</span>
 
 <span class="n">deployments_results</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">run_ai_service</span><span class="p">(</span>
     <span class="n">deployment_id</span><span class="p">,</span> <span class="p">{</span><span class="s2">"question"</span><span class="p">:</span> <span class="n">question</span><span class="p">}</span>
@@ -8455,7 +8467,7 @@ Successfully finished deployment creation, deployment_id='68885a4b-024f-4a3c-82e
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre> ===== HumanMessage =====
-What is the total sum of the numbers 11, 13, and 20? Remember to always return the final result using the last tool message.
+What is the total sum of the numbers 11, 13, and 20? Perform you calculations step by step. Remember to always return the final result using the last tool message.
 
  ===== AIMessage =====
 {
@@ -8465,7 +8477,7 @@ What is the total sum of the numbers 11, 13, and 20? Remember to always return t
         "arguments": "{\"a\": \"11\", \"b\": \"13\"}",
         "name": "add"
       },
-      "id": "chatcmpl-tool-fc6325e1513b4c859f9bb0e475283379",
+      "id": "chatcmpl-tool-bffec521e4b846519dc62e8413ecdf01",
       "type": "function"
     }
   ]
@@ -8483,7 +8495,7 @@ add
         "arguments": "{\"a\": \"24\", \"b\": \"20\"}",
         "name": "add"
       },
-      "id": "chatcmpl-tool-73d51dcb931e417ebb2acc304f80d604",
+      "id": "chatcmpl-tool-d62e2a73ff554ac182b54050babc983e",
       "type": "function"
     }
   ]
@@ -8494,7 +8506,7 @@ add
 44.0
 
  ===== AIMessage =====
-The total sum of the numbers 11, 13, and 20 is 44.
+The total sum of the numbers 11, 13, and 20 is 44.0.
 
 </pre>
 </div>
@@ -8520,7 +8532,11 @@ The total sum of the numbers 11, 13, and 20 is 44.
 <div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">question</span> <span class="o">=</span> <span class="s2">"Add 2 to 5. Result multiply by 3? Result divided by 10. Always return the value from the last message to the user."</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">question</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">"Add 2 to 5. Result multiply by 3. Result divide by 10. "</span>
+    <span class="s2">"Perform you calculations step by step. "</span>
+    <span class="s2">"Always return the value from the last message to the user."</span>
+<span class="p">)</span>
 
 <span class="n">deployments_results</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">run_ai_service_stream</span><span class="p">(</span>
     <span class="n">deployment_id</span><span class="p">,</span> <span class="p">{</span><span class="s2">"question"</span><span class="p">:</span> <span class="n">question</span><span class="p">}</span>
@@ -8552,17 +8568,17 @@ The total sum of the numbers 11, 13, and 20 is 44.
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre> ===== HumanMessage =====
-Add 2 to 5. Result multiply by 3? Result divided by 10. Always return the value from the last message to the user.
+Add 2 to 5. Result multiply by 3. Result divide by 10. Perform you calculations step by step. Always return the value from the last message to the user.
 
  ===== AIMessage =====
 {
   "tool_calls": [
     {
-      "id": "chatcmpl-tool-e4f52be3a3f64b12a5e0db1de4264c51",
+      "id": "chatcmpl-tool-a5e00d5e5ea64cd796d4fc2cdeecad9c",
       "type": "function",
       "function": {
         "name": "add",
-        "arguments": "{\"a\": \"2\", \"b\": \"5\"}"
+        "arguments": "{\"a\": \"5\", \"b\": \"2\"}"
       }
     }
   ]
@@ -8576,7 +8592,7 @@ add
 {
   "tool_calls": [
     {
-      "id": "chatcmpl-tool-018e388f7ea849b3867b434301d1a4ee",
+      "id": "chatcmpl-tool-07abf166ac8941feb6cdb4b7fc224c23",
       "type": "function",
       "function": {
         "name": "multiply",
@@ -8594,7 +8610,7 @@ multiply
 {
   "tool_calls": [
     {
-      "id": "chatcmpl-tool-ba046ab67c2d48ee9b1c28f21bde39a4",
+      "id": "chatcmpl-tool-5715971ff0704a868ea27845d6f87190",
       "type": "function",
       "function": {
         "name": "divide",
@@ -8609,7 +8625,7 @@ divide
 2.1
 
  ===== AIMessage =====
-The result of the operations is 2.1.
+The result of the calculations is 2.1.
 
 </pre>
 </div>

@@ -7534,7 +7534,7 @@ a.anchor-link {
 </ul>
 <h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook contains the steps and code to demonstrate Sequential Chain using langchain integration with watsonx models.</p>
 <p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
-<h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The goal of this notebook is to demonstrate how to chain <code>google/flan-ul2</code> and <code>google/flan-t5-xxl</code> models to generate a sequence of creating a random question on a given topic and an answer to that question and also to make the user friends with LangChain framework, using simple chain (LLMChain) and the extended chain (SequentialChain) with the WatsonxLLM.</p>
+<h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The goal of this notebook is to demonstrate how to chain <code>mistral-small-3-1-24b-instruct-2503</code> and <code>mistral-medium-2505</code> models to generate a sequence of creating a random question on a given topic and an answer to that question and also to make the user friends with LangChain framework, using simple chain (LLMChain) and the extended chain (SequentialChain) with the WatsonxLLM.</p>
 <h2 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h2><p>This notebook contains the following parts:</p>
 <ul>
 <li><a href="#setup">Setup</a></li>
@@ -7571,21 +7571,35 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Install-and-import-the-datasets-and-dependecies">Install and import the <code>datasets</code> and dependecies<a class="anchor-link" href="#Install-and-import-the-datasets-and-dependecies">¶</a></h3>
+<h3 id="Install-and-import-dependencies">Install and import dependencies<a class="anchor-link" href="#Install-and-import-dependencies">¶</a></h3><p><strong>Note:</strong> <code>ibm-watsonx-ai</code> documentation can be found <a href="https://ibm.github.io/watsonx-ai-python-sdk/index.html" rel="noopener no referrer" target="_blank">here</a>.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span><span class="s2">"langchain&gt;=0.3,&lt;0.4"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span><span class="s2">"langchain_ibm&gt;=0.3,&lt;0.4"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"langchain&gt;=0.3,&lt;0.4"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"langchain_ibm&gt;=0.3,&lt;0.4"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Successfully installed PyYAML-6.0.3 SQLAlchemy-2.0.44 annotated-types-0.7.0 anyio-4.11.0 certifi-2025.10.5 charset_normalizer-3.4.4 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 idna-3.11 jsonpatch-1.33 jsonpointer-3.0.0 langchain-0.3.27 langchain-core-0.3.79 langchain-text-splitters-0.3.11 langsmith-0.4.40 orjson-3.11.4 pydantic-2.12.3 pydantic-core-2.41.4 requests-2.32.5 requests-toolbelt-1.0.0 sniffio-1.3.1 tenacity-9.1.2 typing-inspection-0.4.2 urllib3-2.5.0 zstandard-0.25.0
+Successfully installed cachetools-6.2.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-watsonx-ai-1.4.4 jmespath-1.0.1 langchain_ibm-0.3.19 lomond-0.3.3 numpy-2.3.4 pandas-2.2.3 pytz-2025.2 tabulate-0.9.0 tzdata-2025.2
+</pre>
 </div>
 </div>
 </div>
@@ -7611,6 +7625,7 @@ a.anchor-link {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span>
 
 <span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span>
@@ -7668,7 +7683,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span>
@@ -7707,7 +7722,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">api_client</span><span class="o">.</span><span class="n">foundation_models</span><span class="o">.</span><span class="n">TextModels</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -7723,7 +7738,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>{'MT0_XXL': 'bigscience/mt0-xxl', 'CODELLAMA_34B_INSTRUCT_HF': 'codellama/codellama-34b-instruct-hf', 'JAIS_13B_CHAT': 'core42/jais-13b-chat', 'ELYZA_JAPANESE_LLAMA_2_7B_INSTRUCT': 'elyza/elyza-japanese-llama-2-7b-instruct', 'FLAN_T5_XL': 'google/flan-t5-xl', 'FLAN_T5_XXL': 'google/flan-t5-xxl', 'FLAN_UL2': 'google/flan-ul2', 'GRANITE_13B_CHAT_V2': 'ibm/granite-13b-chat-v2', 'GRANITE_13B_INSTRUCT_V2': 'ibm/granite-13b-instruct-v2', 'GRANITE_20B_CODE_INSTRUCT': 'ibm/granite-20b-code-instruct', 'GRANITE_20B_MULTILINGUAL': 'ibm/granite-20b-multilingual', 'GRANITE_3_2B_INSTRUCT': 'ibm/granite-3-2b-instruct', 'GRANITE_3_8B_INSTRUCT': 'ibm/granite-3-8b-instruct', 'GRANITE_34B_CODE_INSTRUCT': 'ibm/granite-34b-code-instruct', 'GRANITE_3B_CODE_INSTRUCT': 'ibm/granite-3b-code-instruct', 'GRANITE_7B_LAB': 'ibm/granite-7b-lab', 'GRANITE_8B_CODE_INSTRUCT': 'ibm/granite-8b-code-instruct', 'GRANITE_8B_JAPANESE': 'ibm/granite-8b-japanese', 'GRANITE_GUARDIAN_3_2B': 'ibm/granite-guardian-3-2b', 'GRANITE_GUARDIAN_3_8B': 'ibm/granite-guardian-3-8b', 'LLAMA_2_13B_CHAT': 'meta-llama/llama-2-13b-chat', 'LLAMA_3_1_70B_INSTRUCT': 'meta-llama/llama-3-1-70b-instruct', 'LLAMA_3_1_8B_INSTRUCT': 'meta-llama/llama-3-1-8b-instruct', 'LLAMA_3_2_11B_VISION_INSTRUCT': 'meta-llama/llama-3-2-11b-vision-instruct', 'LLAMA_3_2_1B_INSTRUCT': 'meta-llama/llama-3-2-1b-instruct', 'LLAMA_3_2_3B_INSTRUCT': 'meta-llama/llama-3-2-3b-instruct', 'LLAMA_3_2_90B_VISION_INSTRUCT': 'meta-llama/llama-3-2-90b-vision-instruct', 'LLAMA_3_405B_INSTRUCT': 'meta-llama/llama-3-405b-instruct', 'LLAMA_3_70B_INSTRUCT': 'meta-llama/llama-3-70b-instruct', 'LLAMA_3_8B_INSTRUCT': 'meta-llama/llama-3-8b-instruct', 'LLAMA_GUARD_3_11B_VISION': 'meta-llama/llama-guard-3-11b-vision', 'MISTRAL_LARGE': 'mistralai/mistral-large', 'MIXTRAL_8X7B_INSTRUCT_V01': 'mistralai/mixtral-8x7b-instruct-v01', 'PIXTRAL_12B': 'mistralai/pixtral-12b', 'LLAMA2_13B_DPO_V7': 'mncai/llama2-13b-dpo-v7', 'ALLAM_1_13B_INSTRUCT': 'sdaia/allam-1-13b-instruct'}
+<pre>{'DEFENCE_GRANITE': 'ibm/defence-granite', 'GRANITE_3_2_8B_INSTRUCT': 'ibm/granite-3-2-8b-instruct', 'GRANITE_3_2B_INSTRUCT': 'ibm/granite-3-2b-instruct', 'GRANITE_3_3_8B_INSTRUCT': 'ibm/granite-3-3-8b-instruct', 'GRANITE_3_8B_INSTRUCT': 'ibm/granite-3-8b-instruct', 'GRANITE_4_H_SMALL': 'ibm/granite-4-h-small', 'GRANITE_8B_CODE_INSTRUCT': 'ibm/granite-8b-code-instruct', 'GRANITE_GUARDIAN_3_8B': 'ibm/granite-guardian-3-8b', 'GRANITE_VISION_3_2_2B': 'ibm/granite-vision-3-2-2b', 'LLAMA_3_2_11B_VISION_INSTRUCT': 'meta-llama/llama-3-2-11b-vision-instruct', 'LLAMA_3_2_90B_VISION_INSTRUCT': 'meta-llama/llama-3-2-90b-vision-instruct', 'LLAMA_3_3_70B_INSTRUCT': 'meta-llama/llama-3-3-70b-instruct', 'LLAMA_3_405B_INSTRUCT': 'meta-llama/llama-3-405b-instruct', 'LLAMA_4_MAVERICK_17B_128E_INSTRUCT_FP8': 'meta-llama/llama-4-maverick-17b-128e-instruct-fp8', 'LLAMA_GUARD_3_11B_VISION': 'meta-llama/llama-guard-3-11b-vision', 'MISTRAL_MEDIUM_2505': 'mistralai/mistral-medium-2505', 'MISTRAL_SMALL_3_1_24B_INSTRUCT_2503': 'mistralai/mistral-small-3-1-24b-instruct-2503', 'GPT_OSS_120B': 'openai/gpt-oss-120b', 'ALLAM_1_13B_INSTRUCT': 'sdaia/allam-1-13b-instruct'}
 </pre>
 </div>
 </div>
@@ -7745,11 +7760,11 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">model_id_1</span> <span class="o">=</span> <span class="s2">"google/flan-ul2"</span>
-<span class="n">model_id_2</span> <span class="o">=</span> <span class="s2">"google/flan-t5-xxl"</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">model_id_1</span> <span class="o">=</span> <span class="s2">"mistralai/mistral-small-3-1-24b-instruct-2503"</span>
+<span class="n">model_id_2</span> <span class="o">=</span> <span class="s2">"mistralai/mistral-medium-2505"</span>
 </pre></div>
 </div>
 </div>
@@ -7772,11 +7787,11 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.metanames</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenTextParamsMetaNames</span> <span class="k">as</span> <span class="n">GenParams</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.utils.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecodingMethods</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.utils.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecodingMethods</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.metanames</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenTextParamsMetaNames</span> <span class="k">as</span> <span class="n">GenParams</span>
 
 <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">GenParams</span><span class="o">.</span><span class="n">DECODING_METHOD</span><span class="p">:</span> <span class="n">DecodingMethods</span><span class="o">.</span><span class="n">SAMPLE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
@@ -7784,7 +7799,7 @@ a.anchor-link {
     <span class="n">GenParams</span><span class="o">.</span><span class="n">MIN_NEW_TOKENS</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
     <span class="n">GenParams</span><span class="o">.</span><span class="n">TEMPERATURE</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
     <span class="n">GenParams</span><span class="o">.</span><span class="n">TOP_K</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
-    <span class="n">GenParams</span><span class="o">.</span><span class="n">TOP_P</span><span class="p">:</span> <span class="mi">1</span>
+    <span class="n">GenParams</span><span class="o">.</span><span class="n">TOP_P</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -7810,24 +7825,24 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_ibm</span><span class="w"> </span><span class="kn">import</span> <span class="n">WatsonxLLM</span>
 
-<span class="n">flan_ul2_llm</span> <span class="o">=</span> <span class="n">WatsonxLLM</span><span class="p">(</span>
+<span class="n">mistral_small_llm</span> <span class="o">=</span> <span class="n">WatsonxLLM</span><span class="p">(</span>
     <span class="n">model_id</span><span class="o">=</span><span class="n">model_id_1</span><span class="p">,</span>
-    <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="p">[</span><span class="s2">"url"</span><span class="p">],</span>
-    <span class="n">apikey</span><span class="o">=</span><span class="n">credentials</span><span class="p">[</span><span class="s2">"apikey"</span><span class="p">],</span>
+    <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+    <span class="n">apikey</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span>
     <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">,</span>
-    <span class="n">params</span><span class="o">=</span><span class="n">parameters</span>
-    <span class="p">)</span>
-<span class="n">flan_t5_llm</span> <span class="o">=</span> <span class="n">WatsonxLLM</span><span class="p">(</span>
+    <span class="n">params</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">mistral_medium_llm</span> <span class="o">=</span> <span class="n">WatsonxLLM</span><span class="p">(</span>
     <span class="n">model_id</span><span class="o">=</span><span class="n">model_id_2</span><span class="p">,</span>
-    <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="p">[</span><span class="s2">"url"</span><span class="p">],</span>
-    <span class="n">apikey</span><span class="o">=</span><span class="n">credentials</span><span class="p">[</span><span class="s2">"apikey"</span><span class="p">],</span>
-    <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span>
-    <span class="p">)</span>
+    <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+    <span class="n">apikey</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span>
+    <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7849,10 +7864,10 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">flan_ul2_llm</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">mistral_small_llm</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -7863,9 +7878,9 @@ a.anchor-link {
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>{'model_id': 'google/flan-ul2',
+<pre>{'model_id': 'mistralai/mistral-small-3-1-24b-instruct-2503',
  'deployment_id': None,
  'params': {'decoding_method': 'sample',
   'max_new_tokens': 100,
@@ -7873,7 +7888,7 @@ a.anchor-link {
   'temperature': 0.5,
   'top_k': 50,
   'top_p': 1},
- 'project_id': 'd2436d2e-5814-4370-bd06-1754670e7d46',
+ 'project_id': 'eac8bfe2-a00b-43ca-846b-305af5cc6395',
  'space_id': None,
  '_type': 'IBM watsonx.ai'}</pre>
 </div>
@@ -7910,14 +7925,14 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="n">PromptTemplate</span>
 
 <span class="n">prompt_1</span> <span class="o">=</span> <span class="n">PromptTemplate</span><span class="p">(</span>
-    <span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">"topic"</span><span class="p">],</span> 
-    <span class="n">template</span><span class="o">=</span><span class="s2">"Generate a random question about </span><span class="si">{topic}</span><span class="s2">: Question: "</span>
+    <span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">"topic"</span><span class="p">],</span>
+    <span class="n">template</span><span class="o">=</span><span class="s2">"Generate a random question about </span><span class="si">{topic}</span><span class="s2">: Question: "</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">prompt_2</span> <span class="o">=</span> <span class="n">PromptTemplate</span><span class="p">(</span>
     <span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">"question"</span><span class="p">],</span>
@@ -7936,7 +7951,7 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>We would like to add functionality around language models using <code>LLMChain</code> chain.</p>
-<p><code>prompt_to_flan_ul2</code> chain formats the prompt template whose task is to generate random question, passes the formatted string to LLM and returns the LLM output.</p>
+<p><code>prompt_to_mistral_small</code> chain formats the prompt template whose task is to generate random question, passes the formatted string to LLM and returns the LLM output.</p>
 </div>
 </div>
 </div>
@@ -7945,12 +7960,14 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain.chains</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMChain</span>
 
-<span class="n">prompt_to_flan_ul2</span> <span class="o">=</span> <span class="n">LLMChain</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">flan_ul2_llm</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="n">prompt_1</span><span class="p">,</span> <span class="n">output_key</span><span class="o">=</span><span class="s1">'question'</span><span class="p">)</span>
+<span class="n">prompt_to_mistral_small</span> <span class="o">=</span> <span class="n">LLMChain</span><span class="p">(</span>
+    <span class="n">llm</span><span class="o">=</span><span class="n">mistral_small_llm</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="n">prompt_1</span><span class="p">,</span> <span class="n">output_key</span><span class="o">=</span><span class="s2">"question"</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7963,7 +7980,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><code>flan_to_t5</code> chain formats the prompt template whose task is to answer the question we got from <code>prompt_to_flan_ul2</code> chain, passes the formatted string to LLM and returns the LLM output.</p>
+<p><code>mistral_medium</code> chain formats the prompt template whose task is to answer the question we got from <code>prompt_to_mistral_small</code> chain, passes the formatted string to LLM and returns the LLM output.</p>
 </div>
 </div>
 </div>
@@ -7972,10 +7989,10 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">flan_to_t5</span> <span class="o">=</span> <span class="n">LLMChain</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">flan_t5_llm</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="n">prompt_2</span><span class="p">,</span> <span class="n">output_key</span><span class="o">=</span><span class="s1">'answer'</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">mistral_medium</span> <span class="o">=</span> <span class="n">LLMChain</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">mistral_medium_llm</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="n">prompt_2</span><span class="p">,</span> <span class="n">output_key</span><span class="o">=</span><span class="s2">"answer"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7988,7 +8005,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>This is the overall chain where we run <code>prompt_to_flan_ul2</code> and <code>flan_to_t5</code> chains in sequence.</p>
+<p>This is the overall chain where we run <code>prompt_to_mistral_small</code> and <code>mistral_medium</code> chains in sequence.</p>
 </div>
 </div>
 </div>
@@ -7997,12 +8014,17 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain.chains</span><span class="w"> </span><span class="kn">import</span> <span class="n">SequentialChain</span>
 
-<span class="n">qa</span> <span class="o">=</span> <span class="n">SequentialChain</span><span class="p">(</span><span class="n">chains</span><span class="o">=</span><span class="p">[</span><span class="n">prompt_to_flan_ul2</span><span class="p">,</span> <span class="n">flan_to_t5</span><span class="p">],</span> <span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">"topic"</span><span class="p">],</span> <span class="n">output_variables</span><span class="o">=</span><span class="p">[</span><span class="s1">'question'</span><span class="p">,</span> <span class="s1">'answer'</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">qa</span> <span class="o">=</span> <span class="n">SequentialChain</span><span class="p">(</span>
+    <span class="n">chains</span><span class="o">=</span><span class="p">[</span><span class="n">prompt_to_mistral_small</span><span class="p">,</span> <span class="n">mistral_medium</span><span class="p">],</span>
+    <span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">"topic"</span><span class="p">],</span>
+    <span class="n">output_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">"question"</span><span class="p">,</span> <span class="s2">"answer"</span><span class="p">],</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8024,7 +8046,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">qa</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">"topic"</span><span class="p">:</span> <span class="s2">"life"</span><span class="p">})</span>
@@ -8049,11 +8071,11 @@ a.anchor-link {
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[14]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>{'topic': 'life',
- 'question': 'What is the name of the largest zoo in the world?',
- 'answer': 'zoo sao paulo brazil'}</pre>
+ 'question': ' If you could have any superpower that would help improve the world, what would it be and how would you use it?\n\nAnswer: If I could have any superpower to improve the world, I would choose the ability to communicate with and understand all living beings. This power would allow me to bridge the gap between humans and other species, fostering a deeper understanding and empathy for the natural world. I would use this ability to advocate for better conservation practices, reduce conflicts between humans and wildlife, and',
+ 'answer': ' promote a more harmonious relationship between all forms of life. Additionally, understanding the needs and languages of'}</pre>
 </div>
 </div>
 </div>
@@ -8086,14 +8108,14 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">ai_params</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"url"</span><span class="p">:</span> <span class="n">credentials</span><span class="p">[</span><span class="s2">"url"</span><span class="p">],</span>
-    <span class="s2">"apikey"</span><span class="p">:</span> <span class="n">credentials</span><span class="p">[</span><span class="s2">"apikey"</span><span class="p">],</span>
+    <span class="s2">"url"</span><span class="p">:</span> <span class="n">credentials</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+    <span class="s2">"apikey"</span><span class="p">:</span> <span class="n">credentials</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span>
     <span class="s2">"project_id"</span><span class="p">:</span> <span class="n">project_id</span><span class="p">,</span>
-    <span class="s2">"generation_parameters"</span><span class="p">:</span> <span class="n">parameters</span>
+    <span class="s2">"generation_parameters"</span><span class="p">:</span> <span class="n">parameters</span><span class="p">,</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -8105,33 +8127,64 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">chain_text_generator</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">ai_params</span><span class="p">):</span>
-    
-    <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.utils.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelTypes</span>
+
     <span class="kn">from</span><span class="w"> </span><span class="nn">langchain</span><span class="w"> </span><span class="kn">import</span> <span class="n">PromptTemplate</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">langchain.chains</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMChain</span><span class="p">,</span> <span class="n">SequentialChain</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">langchain_ibm</span><span class="w"> </span><span class="kn">import</span> <span class="n">WatsonxLLM</span>
 
     <span class="n">url</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">"url"</span><span class="p">]</span>
     <span class="n">apikey</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">"apikey"</span><span class="p">]</span>
-    <span class="n">project_id</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">'project_id'</span><span class="p">]</span>
-    <span class="n">parameters</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">'generation_parameters'</span><span class="p">]</span>
-    <span class="n">flan_ul2_llm</span> <span class="o">=</span> <span class="n">WatsonxLLM</span><span class="p">(</span><span class="n">model_id</span><span class="o">=</span><span class="n">ModelTypes</span><span class="o">.</span><span class="n">FLAN_UL2</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">apikey</span><span class="o">=</span><span class="n">apikey</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span>
-    <span class="n">flan_t5_llm</span> <span class="o">=</span> <span class="n">WatsonxLLM</span><span class="p">(</span><span class="n">model_id</span><span class="o">=</span><span class="n">ModelTypes</span><span class="o">.</span><span class="n">FLAN_T5_XXL</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">apikey</span><span class="o">=</span><span class="n">apikey</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">)</span>
-    <span class="n">prompt_1</span> <span class="o">=</span> <span class="n">PromptTemplate</span><span class="p">(</span><span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">"topic"</span><span class="p">],</span> <span class="n">template</span><span class="o">=</span><span class="s2">"Generate a random question about </span><span class="si">{topic}</span><span class="s2">: Question: "</span><span class="p">)</span>
-    <span class="n">prompt_2</span> <span class="o">=</span> <span class="n">PromptTemplate</span><span class="p">(</span><span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">"question"</span><span class="p">],</span> <span class="n">template</span><span class="o">=</span><span class="s2">"Answer the following question: </span><span class="si">{question}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="n">prompt_to_flan_ul2</span> <span class="o">=</span> <span class="n">LLMChain</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">flan_ul2_llm</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="n">prompt_1</span><span class="p">,</span> <span class="n">output_key</span><span class="o">=</span><span class="s1">'question'</span><span class="p">)</span>
-    <span class="n">flan_to_t5</span> <span class="o">=</span> <span class="n">LLMChain</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">flan_t5_llm</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="n">prompt_2</span><span class="p">,</span> <span class="n">output_key</span><span class="o">=</span><span class="s1">'answer'</span><span class="p">)</span>
-    <span class="n">chain</span> <span class="o">=</span> <span class="n">SequentialChain</span><span class="p">(</span><span class="n">chains</span><span class="o">=</span><span class="p">[</span><span class="n">prompt_to_flan_ul2</span><span class="p">,</span> <span class="n">flan_to_t5</span><span class="p">],</span> <span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">"topic"</span><span class="p">],</span> <span class="n">output_variables</span><span class="o">=</span><span class="p">[</span><span class="s1">'question'</span><span class="p">,</span> <span class="s1">'answer'</span><span class="p">])</span>
+    <span class="n">project_id</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">"project_id"</span><span class="p">]</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">"generation_parameters"</span><span class="p">]</span>
+    <span class="n">mistral_small_llm</span> <span class="o">=</span> <span class="n">WatsonxLLM</span><span class="p">(</span>
+        <span class="n">model_id</span><span class="o">=</span><span class="s2">"mistralai/mistral-small-3-1-24b-instruct-2503"</span><span class="p">,</span>
+        <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+        <span class="n">apikey</span><span class="o">=</span><span class="n">apikey</span><span class="p">,</span>
+        <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">,</span>
+        <span class="n">params</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">mistral_medium_llm</span> <span class="o">=</span> <span class="n">WatsonxLLM</span><span class="p">(</span>
+        <span class="n">model_id</span><span class="o">=</span><span class="s2">"mistralai/mistral-medium-2505"</span><span class="p">,</span>
+        <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+        <span class="n">apikey</span><span class="o">=</span><span class="n">apikey</span><span class="p">,</span>
+        <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">prompt_1</span> <span class="o">=</span> <span class="n">PromptTemplate</span><span class="p">(</span>
+        <span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">"topic"</span><span class="p">],</span>
+        <span class="n">template</span><span class="o">=</span><span class="s2">"Generate a random question about </span><span class="si">{topic}</span><span class="s2">: Question: "</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">prompt_2</span> <span class="o">=</span> <span class="n">PromptTemplate</span><span class="p">(</span>
+        <span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">"question"</span><span class="p">],</span>
+        <span class="n">template</span><span class="o">=</span><span class="s2">"Answer the following question: </span><span class="si">{question}</span><span class="s2">"</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">prompt_to_mistral_small</span> <span class="o">=</span> <span class="n">LLMChain</span><span class="p">(</span>
+        <span class="n">llm</span><span class="o">=</span><span class="n">mistral_small_llm</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="n">prompt_1</span><span class="p">,</span> <span class="n">output_key</span><span class="o">=</span><span class="s2">"question"</span>
+    <span class="p">)</span>
+    <span class="n">mistral_medium</span> <span class="o">=</span> <span class="n">LLMChain</span><span class="p">(</span>
+        <span class="n">llm</span><span class="o">=</span><span class="n">mistral_medium_llm</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="n">prompt_2</span><span class="p">,</span> <span class="n">output_key</span><span class="o">=</span><span class="s2">"answer"</span>
+    <span class="p">)</span>
+    <span class="n">chain</span> <span class="o">=</span> <span class="n">SequentialChain</span><span class="p">(</span>
+        <span class="n">chains</span><span class="o">=</span><span class="p">[</span><span class="n">prompt_to_mistral_small</span><span class="p">,</span> <span class="n">mistral_medium</span><span class="p">],</span>
+        <span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">"topic"</span><span class="p">],</span>
+        <span class="n">output_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">"question"</span><span class="p">,</span> <span class="s2">"answer"</span><span class="p">],</span>
+    <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">score</span><span class="p">(</span><span class="n">payload</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">"""Generates question based on provided topic and returns the answer."""</span>
 
-        <span class="n">answer</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">"topic"</span><span class="p">:</span> <span class="n">payload</span><span class="p">[</span><span class="s2">"input_data"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">'values'</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]})</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s1">'predictions'</span><span class="p">:</span> <span class="p">[{</span><span class="s1">'fields'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'topic'</span><span class="p">,</span> <span class="s1">'question'</span><span class="p">,</span> <span class="s1">'answer'</span><span class="p">],</span> <span class="s1">'values'</span><span class="p">:</span> <span class="p">[</span><span class="n">answer</span><span class="p">[</span><span class="s1">'topic'</span><span class="p">],</span> <span class="n">answer</span><span class="p">[</span><span class="s1">'question'</span><span class="p">],</span> <span class="n">answer</span><span class="p">[</span><span class="s1">'answer'</span><span class="p">]]}]}</span>
+        <span class="n">answer</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">"topic"</span><span class="p">:</span> <span class="n">payload</span><span class="p">[</span><span class="s2">"input_data"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"values"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]})</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">"predictions"</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">"fields"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"topic"</span><span class="p">,</span> <span class="s2">"question"</span><span class="p">,</span> <span class="s2">"answer"</span><span class="p">],</span>
+                    <span class="s2">"values"</span><span class="p">:</span> <span class="p">[</span><span class="n">answer</span><span class="p">[</span><span class="s2">"topic"</span><span class="p">],</span> <span class="n">answer</span><span class="p">[</span><span class="s2">"question"</span><span class="p">],</span> <span class="n">answer</span><span class="p">[</span><span class="s2">"answer"</span><span class="p">]],</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
 
     <span class="k">return</span> <span class="n">score</span>
 </pre></div>
@@ -8155,17 +8208,10 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">sample_payload</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"input_data"</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span>
-            <span class="s2">"fields"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"topic"</span><span class="p">],</span>
-            <span class="s2">"values"</span><span class="p">:</span> <span class="p">[[</span><span class="s2">"life"</span><span class="p">]]</span>
-        <span class="p">}</span>
-    <span class="p">]</span>
-<span class="p">}</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">sample_payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"input_data"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"fields"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"topic"</span><span class="p">],</span> <span class="s2">"values"</span><span class="p">:</span> <span class="p">[[</span><span class="s2">"life"</span><span class="p">]]}]}</span>
 
 <span class="n">inference</span> <span class="o">=</span> <span class="n">chain_text_generator</span><span class="p">()</span>
 <span class="n">inference</span><span class="p">(</span><span class="n">sample_payload</span><span class="p">)</span>
@@ -8179,12 +8225,12 @@ a.anchor-link {
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[20]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>{'predictions': [{'fields': ['topic', 'question', 'answer'],
    'values': ['life',
-    'What is the term for the process of a living thing gaining nutrients from dead organisms?',
-    'decomposition']}]}</pre>
+    ' "If you could have any superpower to make the world a better place, what would it be and why?"\n\nThis question encourages reflection on personal values and the desire to make a positive impact on the world. It also allows for creative and imaginative responses, making it an engaging topic for discussion. Here are a few possible answers to get the conversation started:\n\n1. **Teleportation**: "I would choose teleportation so I could instantly travel to places in need of help, whether it',
+    '\'s delivering food to a starving village or evacuating people from a natural disaster."\n2. **']}]}</pre>
 </div>
 </div>
 </div>
@@ -8217,20 +8263,19 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">config_yml</span> <span class="o">=</span>\
-<span class="sd">"""</span>
-<span class="sd">name: python311</span>
-<span class="sd">channels:</span>
-<span class="sd">  - empty</span>
-<span class="sd">dependencies:</span>
-<span class="sd">  - pip:</span>
-<span class="sd">    - langchain_ibm==0.3.3</span>
-<span class="sd">    - langchain==0.3.7</span>
-<span class="sd">prefix: /opt/anaconda3/envs/python311</span>
-<span class="sd">"""</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">config_yml</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">name: python311</span>
+<span class="s2">channels:</span>
+<span class="s2">  - empty</span>
+<span class="s2">dependencies:</span>
+<span class="s2">  - pip:</span>
+<span class="s2">    - langchain_ibm==0.3.3</span>
+<span class="s2">    - langchain==0.3.7</span>
+<span class="s2">prefix: /opt/anaconda3/envs/python311</span>
+<span class="s2">"""</span>
 
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"config.yaml"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">config_yml</span><span class="p">)</span>
@@ -8244,10 +8289,10 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">space_id</span> <span class="o">=</span> <span class="s1">'PASTE YOUR SPACE ID HERE'</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">space_id</span> <span class="o">=</span> <span class="s2">"PASTE YOUR SPACE ID HERE"</span>
 </pre></div>
 </div>
 </div>
@@ -8269,7 +8314,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span>
@@ -8280,10 +8325,12 @@ a.anchor-link {
 <span class="n">meta_prop_pkg_extn</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"langchain watsonx.ai env"</span><span class="p">,</span>
     <span class="n">client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DESCRIPTION</span><span class="p">:</span> <span class="s2">"Environment with langchain"</span><span class="p">,</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">TYPE</span><span class="p">:</span> <span class="s2">"conda_yml"</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">TYPE</span><span class="p">:</span> <span class="s2">"conda_yml"</span><span class="p">,</span>
 <span class="p">}</span>
 
-<span class="n">pkg_extn_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">meta_props</span><span class="o">=</span><span class="n">meta_prop_pkg_extn</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="s2">"config.yaml"</span><span class="p">)</span>
+<span class="n">pkg_extn_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">store</span><span class="p">(</span>
+    <span class="n">meta_props</span><span class="o">=</span><span class="n">meta_prop_pkg_extn</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="s2">"config.yaml"</span>
+<span class="p">)</span>
 <span class="n">pkg_extn_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">pkg_extn_details</span><span class="p">)</span>
 <span class="n">pkg_extn_url</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">get_href</span><span class="p">(</span><span class="n">pkg_extn_details</span><span class="p">)</span>
 </pre></div>
@@ -8298,7 +8345,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Creating package extensions
+<pre>Creating package extension
 SUCCESS
 </pre>
 </div>
@@ -8321,13 +8368,15 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">meta_prop_sw_spec</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"langchain watsonx.ai custom software specification"</span><span class="p">,</span>
     <span class="n">client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DESCRIPTION</span><span class="p">:</span> <span class="s2">"Software specification for statsmodels"</span><span class="p">,</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">BASE_SOFTWARE_SPECIFICATION</span><span class="p">:</span> <span class="p">{</span><span class="s2">"guid"</span><span class="p">:</span> <span class="n">base_sw_spec_id</span><span class="p">}</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">BASE_SOFTWARE_SPECIFICATION</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"guid"</span><span class="p">:</span> <span class="n">base_sw_spec_id</span>
+    <span class="p">},</span>
 <span class="p">}</span>
 
 <span class="n">sw_spec_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">meta_props</span><span class="o">=</span><span class="n">meta_prop_sw_spec</span><span class="p">)</span>
@@ -8350,7 +8399,7 @@ SUCCESS
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[22]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[21]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>'SUCCESS'</pre>
 </div>
@@ -8373,15 +8422,17 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">meta_props</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">FunctionMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"SequenceChain LLM function"</span><span class="p">,</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">FunctionMetaNames</span><span class="o">.</span><span class="n">SOFTWARE_SPEC_ID</span><span class="p">:</span> <span class="n">sw_spec_id</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">FunctionMetaNames</span><span class="o">.</span><span class="n">SOFTWARE_SPEC_ID</span><span class="p">:</span> <span class="n">sw_spec_id</span><span class="p">,</span>
 <span class="p">}</span>
 
-<span class="n">function_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">store_function</span><span class="p">(</span><span class="n">meta_props</span><span class="o">=</span><span class="n">meta_props</span><span class="p">,</span> <span class="n">function</span><span class="o">=</span><span class="n">chain_text_generator</span><span class="p">)</span>
+<span class="n">function_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">store_function</span><span class="p">(</span>
+    <span class="n">meta_props</span><span class="o">=</span><span class="n">meta_props</span><span class="p">,</span> <span class="n">function</span><span class="o">=</span><span class="n">chain_text_generator</span>
+<span class="p">)</span>
 <span class="n">function_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">get_function_id</span><span class="p">(</span><span class="n">function_details</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -8404,12 +8455,12 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"Deployment of LLMs chain function"</span><span class="p">,</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">ONLINE</span><span class="p">:</span> <span class="p">{}</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">ONLINE</span><span class="p">:</span> <span class="p">{},</span>
 <span class="p">}</span>
 
 <span class="n">function_deployment</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">function_id</span><span class="p">,</span> <span class="n">meta_props</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
@@ -8429,19 +8480,19 @@ SUCCESS
 
 ######################################################################################
 
-Synchronous deployment creation for id: 'd71113c7-bcc7-4adf-ba23-fe8ea3c120c6' started
+Synchronous deployment creation for id: '268dfb43-78af-426e-8800-ac34618b76f9' started
 
 ######################################################################################
 
 
 initializing
 Note: online_url and serving_urls are deprecated and will be removed in a future release. Use inference instead.
-...........
+..........
 ready
 
 
 -----------------------------------------------------------------------------------------------
-Successfully finished deployment creation, deployment_id='8d7ec29e-51d5-40ae-813b-3d37102ded54'
+Successfully finished deployment creation, deployment_id='5f818c96-7c44-4ab7-9867-02c71f245352'
 -----------------------------------------------------------------------------------------------
 
 
@@ -8467,7 +8518,7 @@ Successfully finished deployment creation, deployment_id='8d7ec29e-51d5-40ae-813
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">deployment_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">function_deployment</span><span class="p">)</span>
@@ -8482,12 +8533,12 @@ Successfully finished deployment creation, deployment_id='8d7ec29e-51d5-40ae-813
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[25]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[24]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>{'predictions': [{'fields': ['topic', 'question', 'answer'],
    'values': ['life',
-    'What is the name of the smallest unit of life?',
-    'cell']}]}</pre>
+    " If you could live in any era of history, which one would you choose and why?\n\nThis question prompts reflection on personal values, interests, and historical periods that resonate with the individual. It encourages a deeper understanding of how different eras might align with one's aspirations, curiosities, or desired lifestyles. For example, someone might choose the Renaissance for its artistic and intellectual flourishing, while another might prefer the 1960s for its cultural and social movements.",
+    " The reasons behind the choice can reveal a lot about a person's personality, including their appreciation for certain"]}]}</pre>
 </div>
 </div>
 </div>

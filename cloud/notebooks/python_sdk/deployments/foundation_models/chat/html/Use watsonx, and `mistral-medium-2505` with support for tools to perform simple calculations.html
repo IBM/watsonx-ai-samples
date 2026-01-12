@@ -7518,7 +7518,7 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><img alt="image" src="https://raw.githubusercontent.com/IBM/watson-machine-learning-samples/master/cloud/notebooks/headers/watsonx-Prompt_Lab-Notebook.png"/></p>
-<h1 id="Use-watsonx,-and-mixtral_8x7b_instruct_v01-to-generate-code-based-on-instruction">Use watsonx, and <code>mixtral_8x7b_instruct_v01</code> to generate code based on instruction<a class="anchor-link" href="#Use-watsonx,-and-mixtral_8x7b_instruct_v01-to-generate-code-based-on-instruction">¶</a></h1>
+<h1 id="Use-watsonx,-and-mistralai/mistral-medium-2505-with-support-for-tools-to-perform-simple-calculations">Use watsonx, and <code>mistralai/mistral-medium-2505</code> with support for tools to perform simple calculations<a class="anchor-link" href="#Use-watsonx,-and-mistralai/mistral-medium-2505-with-support-for-tools-to-perform-simple-calculations">¶</a></h1>
 </div>
 </div>
 </div>
@@ -7532,15 +7532,15 @@ a.anchor-link {
 <h4 id="Disclaimers">Disclaimers<a class="anchor-link" href="#Disclaimers">¶</a></h4><ul>
 <li>Use only Projects and Spaces that are available in watsonx context.</li>
 </ul>
-<h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook contains the steps and code to demonstrate support for code generating in watsonx. It introduces commands for defining prompt and model testing.</p>
+<h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook provides a detailed demonstration of the steps and code required to showcase support for Chat models, including the integration of tools using <a href="https://langchain-ai.github.io/langgraph/">LangGraph</a> and watsonx.ai models.</p>
 <p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
-<h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The goal of this notebook is to demonstrate how to generate code using IBM <code>mixtral_8x7b_instruct_v01</code> watsonx model based on instruction provided by the user.</p>
-<h2 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h2><p>This notebook contains the following parts:</p>
+<h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The purpose of this notebook is to demonstrate how to use Chat models, e.g. <code>mistralai/mistral-medium-2505</code> using the tools available in LangGraph. LangGraph is an Agent Orchestrator with which you can build graph applications that automatically execute sequences of actions and in which the LLM is the key decision maker that determines the next step.</p>
+<h2 id="Table-of-Contents">Table of Contents<a class="anchor-link" href="#Table-of-Contents">¶</a></h2><p>This notebook contains the following parts:</p>
 <ul>
 <li><a href="#setup">Setup</a></li>
 <li><a href="#models">Foundation Models on watsonx</a></li>
-<li><a href="#generate">Generate code based on instruction</a></li>
-<li><a href="#testing">Generated code testing</a></li>
+<li><a href="#chatwatsonx">LangChain integration</a></li>
+<li><a href="#example">Example</a></li>
 <li><a href="#summary">Summary</a></li>
 </ul>
 </div>
@@ -7568,20 +7568,35 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Install-dependecies">Install dependecies<a class="anchor-link" href="#Install-dependecies">¶</a></h3>
+<h3 id="Install-dependencies">Install dependencies<a class="anchor-link" href="#Install-dependencies">¶</a></h3><p><strong>Note:</strong> <code>ibm-watsonx-ai</code> documentation can be found <a href="https://ibm.github.io/watsonx-ai-python-sdk/index.html" rel="noopener no referrer" target="_blank">here</a>.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>ibm-watsonx-ai<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"langgraph&gt;0.2,&lt;0.3"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"langchain_ibm&gt;=0.3,&lt;0.4"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Successfully installed PyYAML-6.0.3 annotated-types-0.7.0 anyio-4.11.0 certifi-2025.10.5 charset_normalizer-3.4.4 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 idna-3.11 jsonpatch-1.33 jsonpointer-3.0.0 langchain-core-0.3.79 langgraph-0.2.76 langgraph-checkpoint-2.1.2 langgraph-sdk-0.1.74 langsmith-0.4.38 orjson-3.11.4 ormsgpack-1.11.0 pydantic-2.12.3 pydantic-core-2.41.4 requests-2.32.5 requests-toolbelt-1.0.0 sniffio-1.3.1 tenacity-9.1.2 typing-inspection-0.4.2 urllib3-2.5.0 zstandard-0.25.0
+Successfully installed cachetools-6.2.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-watsonx-ai-1.4.2 jmespath-1.0.1 langchain_ibm-0.3.19 lomond-0.3.3 numpy-2.3.4 pandas-2.2.3 pytz-2025.2 tabulate-0.9.0 tzdata-2025.2
+</pre>
 </div>
 </div>
 </div>
@@ -7593,8 +7608,8 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Defining-the-watsonx.ai-credentials">Defining the watsonx.ai credentials<a class="anchor-link" href="#Defining-the-watsonx.ai-credentials">¶</a></h3><p>This cell defines the watsonx.ai credentials required to work with watsonx Foundation Model inferencing.</p>
-<p><strong>Action:</strong> Provide the IBM Cloud user API key. For details, see <a href="https://cloud.ibm.com/docs/account?topic=account-userapikey&amp;interface=ui" rel="noopener no referrer" target="_blank">documentation</a>.</p>
+<h3 id="Define-the-watsonx.ai-credentials">Define the watsonx.ai credentials<a class="anchor-link" href="#Define-the-watsonx.ai-credentials">¶</a></h3><p>Use the code cell below to define the watsonx.ai credentials that are required to work with watsonx Foundation Model inferencing.</p>
+<p><strong>Action:</strong> Provide the IBM Cloud user API key. For details, see <a href="https://cloud.ibm.com/docs/account?topic=account-userapikey&amp;interface=ui" rel="noopener no referrer" target="_blank">Managing user API keys</a>.</p>
 </div>
 </div>
 </div>
@@ -7607,11 +7622,12 @@ a.anchor-link {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span>
 
 <span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span>
     <span class="n">url</span><span class="o">=</span><span class="s2">"https://us-south.ml.cloud.ibm.com"</span><span class="p">,</span>
-    <span class="n">api_key</span><span class="o">=</span><span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Please enter your watsonx.ai api key (hit enter): "</span><span class="p">),</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Enter your watsonx.ai api key and hit enter: "</span><span class="p">),</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -7625,7 +7641,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Defining-the-project-id">Defining the project id<a class="anchor-link" href="#Defining-the-project-id">¶</a></h3><p>The Foundation Model requires project id that provides the context for the call. We will obtain the id from the project in which this notebook runs. Otherwise, please provide the project id.</p>
+<h3 id="Define-the-project-ID">Define the project ID<a class="anchor-link" href="#Define-the-project-ID">¶</a></h3><p>You need to provide the project ID to give the Foundation Model the context for the call. If you have a default project ID set in Watson Studio, the notebook obtains that project ID. Otherwise, you need to provide the project ID in the code cell below.</p>
 </div>
 </div>
 </div>
@@ -7642,7 +7658,7 @@ a.anchor-link {
 <span class="k">try</span><span class="p">:</span>
     <span class="n">project_id</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"PROJECT_ID"</span><span class="p">]</span>
 <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-    <span class="n">project_id</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your project_id (hit enter): "</span><span class="p">)</span>
+    <span class="n">project_id</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Enter your project_id and hit enter: "</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7656,7 +7672,7 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><a id="models"></a></p>
-<h2 id="Foundation-Models-on-watsonx.ai">Foundation Models on <code>watsonx.ai</code><a class="anchor-link" href="#Foundation-Models-on-watsonx.ai">¶</a></h2>
+<h2 id="Set-up-a-Foundation-Model-on-watsonx.ai">Set up a Foundation Model on <code>watsonx.ai</code><a class="anchor-link" href="#Set-up-a-Foundation-Model-on-watsonx.ai">¶</a></h2>
 </div>
 </div>
 </div>
@@ -7667,12 +7683,11 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="List-available-models">List available models<a class="anchor-link" href="#List-available-models">¶</a></h4><p>All avaliable models are presented under ModelTypes class.
-For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-sdk/fm_model.html#ibm_watsonx_ai.foundation_models.utils.enums.ModelTypes" rel="noopener no referrer" target="_blank">documentation</a>.</p>
+<p>Specify the <code>model_id</code> of the model you will use for the chat with tools.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7680,23 +7695,8 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 <div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.utils.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelTypes</span>
-
-<span class="nb">print</span><span class="p">([</span><span class="n">model</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">ModelTypes</span><span class="p">])</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">model_id</span> <span class="o">=</span> <span class="s2">"mistralai/mistral-medium-2505"</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>['FLAN_T5_XXL', 'FLAN_UL2', 'MT0_XXL', 'GPT_NEOX', 'MPT_7B_INSTRUCT2', 'STARCODER', 'LLAMA_2_70B_CHAT', 'LLAMA_2_13B_CHAT', 'GRANITE_13B_INSTRUCT', 'GRANITE_13B_CHAT', 'FLAN_T5_XL', 'GRANITE_13B_CHAT_V2', 'GRANITE_13B_INSTRUCT_V2', 'ELYZA_JAPANESE_LLAMA_2_7B_INSTRUCT', 'MIXTRAL_8X7B_INSTRUCT_V01_Q', 'CODELLAMA_34B_INSTRUCT_HF', 'GRANITE_20B_MULTILINGUAL', 'MERLINITE_7B', 'GRANITE_20B_CODE_INSTRUCT', 'GRANITE_34B_CODE_INSTRUCT', 'GRANITE_3B_CODE_INSTRUCT', 'GRANITE_7B_LAB', 'GRANITE_8B_CODE_INSTRUCT', 'LLAMA_3_70B_INSTRUCT', 'LLAMA_3_8B_INSTRUCT', 'MIXTRAL_8X7B_INSTRUCT_V01']
-</pre>
 </div>
 </div>
 </div>
@@ -7708,7 +7708,9 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>You need to specify <code>model_id</code> that will be used for inferencing:</p>
+<p><a id="chatwatsonx"></a></p>
+<h2 id="LangChain-integration">LangChain integration<a class="anchor-link" href="#LangChain-integration">¶</a></h2><p><code>ChatWatsonx</code> is a wrapper around watsonx.ai models that provides chat integration around the models.</p>
+<h3 id="Initialize-the-ChatWatsonx-class">Initialize the <code>ChatWatsonx</code> class<a class="anchor-link" href="#Initialize-the-ChatWatsonx-class">¶</a></h3>
 </div>
 </div>
 </div>
@@ -7720,7 +7722,14 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 <div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">model_id</span> <span class="o">=</span> <span class="n">ModelTypes</span><span class="o">.</span><span class="n">MIXTRAL_8X7B_INSTRUCT_V01</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_ibm</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatWatsonx</span>
+
+<span class="n">chat</span> <span class="o">=</span> <span class="n">ChatWatsonx</span><span class="p">(</span>
+    <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+    <span class="n">apikey</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+    <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span>
+    <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7733,7 +7742,7 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Defining-the-model-parameters">Defining the model parameters<a class="anchor-link" href="#Defining-the-model-parameters">¶</a></h3><p>You might need to adjust model <code>parameters</code> for different models or tasks, to do so please refer to <a href="https://ibm.github.io/watsonx-ai-python-sdk/fm_model.html#metanames.GenTextParamsMetaNames" rel="noopener no referrer" target="_blank">documentation</a>.</p>
+<p>Next, define the assistant's tools to make a calculation.</p>
 </div>
 </div>
 </div>
@@ -7745,13 +7754,34 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 <div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.metanames</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenTextParamsMetaNames</span> <span class="k">as</span> <span class="n">GenParams</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">tool</span>
 
-<span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">GenParams</span><span class="o">.</span><span class="n">DECODING_METHOD</span><span class="p">:</span> <span class="s2">"greedy"</span><span class="p">,</span>
-    <span class="n">GenParams</span><span class="o">.</span><span class="n">MAX_NEW_TOKENS</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
-    <span class="n">GenParams</span><span class="o">.</span><span class="n">STOP_SEQUENCES</span><span class="p">:</span> <span class="p">[</span><span class="s2">"&lt;end·of·code&gt;"</span><span class="p">]</span>
-<span class="p">}</span>
+
+<span class="nd">@tool</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Add a and b."""</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+
+<span class="nd">@tool</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">subtract</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Subtract a and b."""</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span>
+
+
+<span class="nd">@tool</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">multiply</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Multiply a and b."""</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+
+
+<span class="nd">@tool</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">divide</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Divide a and b."""</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span>
+
+
+<span class="n">tools</span> <span class="o">=</span> <span class="p">[</span><span class="n">add</span><span class="p">,</span> <span class="n">subtract</span><span class="p">,</span> <span class="n">multiply</span><span class="p">,</span> <span class="n">divide</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -7764,7 +7794,7 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Initialize-the-model">Initialize the model<a class="anchor-link" href="#Initialize-the-model">¶</a></h3><p>Initialize the <code>ModelInference</code> class with previous set params.</p>
+<p>Define the graph.</p>
 </div>
 </div>
 </div>
@@ -7776,13 +7806,9 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 <div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelInference</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langgraph.prebuilt</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_react_agent</span>
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">ModelInference</span><span class="p">(</span>
-    <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span> 
-    <span class="n">params</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> 
-    <span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span>
-    <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">)</span>
+<span class="n">graph</span> <span class="o">=</span> <span class="n">create_react_agent</span><span class="p">(</span><span class="n">chat</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="n">tools</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7795,7 +7821,7 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Model's-details">Model's details<a class="anchor-link" href="#Model's-details">¶</a></h3>
+<p>Visualize the graph you just created.</p>
 </div>
 </div>
 </div>
@@ -7807,7 +7833,9 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 <div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">get_details</span><span class="p">()</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">Image</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">get_graph</span><span class="p">()</span><span class="o">.</span><span class="n">draw_mermaid_png</span><span class="p">()))</span>
 </pre></div>
 </div>
 </div>
@@ -7817,37 +7845,10 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>{'model_id': 'mistralai/mixtral-8x7b-instruct-v01',
- 'label': 'mixtral-8x7b-instruct-v01',
- 'provider': 'Mistral AI',
- 'source': 'Hugging Face',
- 'functions': [{'id': 'text_generation'}],
- 'short_description': 'The Mixtral-8x7B Large Language Model (LLM) is a pretrained generative Sparse Mixture of Experts.',
- 'long_description': "This model is made with AutoGPTQ, which mainly leverages the quantization technique to 'compress' the model weights from FP16 to 4-bit INT and performs 'decompression' on-the-fly before computation (in FP16). As a result, the GPU memory, and the data transferring between GPU memory and GPU compute engine, compared to the original FP16 model, is greatly reduced. The major quantization parameters used in the process are listed below.",
- 'input_tier': 'class_1',
- 'output_tier': 'class_1',
- 'number_params': '46.7b',
- 'min_shot_size': 1,
- 'task_ids': ['summarization',
-  'retrieval_augmented_generation',
-  'classification',
-  'generation',
-  'code',
-  'extraction'],
- 'tasks': [{'id': 'summarization', 'ratings': {'quality': 4}},
-  {'id': 'retrieval_augmented_generation', 'ratings': {'quality': 3}},
-  {'id': 'classification', 'ratings': {'quality': 4}},
-  {'id': 'generation'},
-  {'id': 'code'},
-  {'id': 'extraction', 'ratings': {'quality': 4}}],
- 'model_limits': {'max_sequence_length': 32768},
- 'limits': {'lite': {'call_time': '5m0s', 'max_output_tokens': 16384},
-  'v2-professional': {'call_time': '10m0s', 'max_output_tokens': 16384},
-  'v2-standard': {'call_time': '10m0s', 'max_output_tokens': 16384}},
- 'lifecycle': [{'id': 'available', 'start_date': '2024-04-17'}]}</pre>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedImage jp-OutputArea-output" tabindex="0">
+<img alt="No description has been provided for this image" class="" src="data:image/png;base64,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"/>
 </div>
 </div>
 </div>
@@ -7859,19 +7860,7 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="generate"></a></p>
-<h2 id="Generate-code-based-on-instruction">Generate code based on instruction<a class="anchor-link" href="#Generate-code-based-on-instruction">¶</a></h2>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Define instructions for the model with at-least one example.</p>
+<p>Add a helpful function to print messages from the model.</p>
 </div>
 </div>
 </div>
@@ -7883,18 +7872,13 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 <div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">instruction</span> <span class="o">=</span> <span class="s2">"""Using the directions below, generate Python code for the given task.</span>
-
-<span class="s2">Input:</span>
-<span class="s2"># Write a Python function that prints 'Hello World!' string 'n' times.</span>
-
-<span class="s2">Output:</span>
-<span class="s2">def print_n_times(n):</span>
-<span class="s2">    for i in range(n):</span>
-<span class="s2">        print("Hello World!")</span>
-
-<span class="s2">&lt;end of code&gt;</span>
-<span class="s2">"""</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">print_stream</span><span class="p">(</span><span class="n">stream</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">stream</span><span class="p">:</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="s2">"messages"</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">message</span><span class="o">.</span><span class="n">pretty_print</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -7907,107 +7891,8 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Prepare question for the model.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">question</span> <span class="o">=</span> <span class="s2">"""Input:</span>
-<span class="s2"># Write a Python function, which generates sequence of prime numbers.</span>
-<span class="s2"># The function 'primes' will take the argument 'n', an int. It will return a list which contains all primes less than 'n'."""</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Generat-the-code-using-IBM-mixtral_8x7b_instruct_v01-model.">Generat the code using IBM <code>mixtral_8x7b_instruct_v01</code> model.<a class="anchor-link" href="#Generat-the-code-using-IBM-mixtral_8x7b_instruct_v01-model.">¶</a></h3>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Inter the model to generate the code, according to provided instruction.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate_text</span><span class="p">(</span><span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">instruction</span><span class="p">,</span> <span class="n">question</span><span class="p">]))</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Formatting the text to get the function itself</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">code_as_text</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'Output:'</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'&lt;end of code&gt;'</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="testing"></a></p>
-<h2 id="Generated-code-testing">Generated code testing<a class="anchor-link" href="#Generated-code-testing">¶</a></h2>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>The resulting code looks as below.</p>
+<p><a id="example"></a></p>
+<h2 id="Example">Example<a class="anchor-link" href="#Example">¶</a></h2><p>Run the app with an input that needs a tool call.</p>
 </div>
 </div>
 </div>
@@ -8016,10 +7901,13 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">code_as_text</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"messages"</span><span class="p">:</span> <span class="p">[(</span><span class="s2">"user"</span><span class="p">,</span> <span class="s2">"What is the total sum of the numbers 11, 13, and 20?"</span><span class="p">)]</span>
+<span class="p">}</span>
+<span class="n">print_stream</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">stream_mode</span><span class="o">=</span><span class="s2">"values"</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -8032,83 +7920,36 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-def primes(n):
-    primes = []
-    for possiblePrime in range(2, n):
-        isPrime = True
-        for num in range(2, int(possiblePrime ** 0.5) + 1):
-            if possiblePrime % num == 0:
-                isPrime = False
-                break
-        if isPrime:
-            primes.append(possiblePrime)
-    return primes
+<pre>================================<span class="ansi-bold"> Human Message </span>=================================
 
+What is the total sum of the numbers 11, 13, and 20?
+==================================<span class="ansi-bold"> Ai Message </span>==================================
+Tool Calls:
+  add (MoNulGNl0)
+ Call ID: MoNulGNl0
+  Args:
+    a: 11
+    b: 13
+=================================<span class="ansi-bold"> Tool Message </span>=================================
+Name: add
 
+24.0
+==================================<span class="ansi-bold"> Ai Message </span>==================================
+Tool Calls:
+  add (U1IIs5nbA)
+ Call ID: U1IIs5nbA
+  Args:
+    a: 24.0
+    b: 20
+=================================<span class="ansi-bold"> Tool Message </span>=================================
+Name: add
+
+44.0
+==================================<span class="ansi-bold"> Ai Message </span>==================================
+
+The total sum of the numbers 11, 13, and 20 is 44.
 </pre>
 </div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Use generated code to make it as function.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">exec</span><span class="p">(</span><span class="n">code_as_text</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Define the number 'n' for which the primes() function should process prime numbers.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">25</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Test and run the generated function.</p>
 </div>
 </div>
 </div>
@@ -8117,10 +7958,11 @@ def primes(n):
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">primes</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"messages"</span><span class="p">:</span> <span class="p">[(</span><span class="s2">"user"</span><span class="p">,</span> <span class="s2">"What is the result when 81 is subtracted from 100?"</span><span class="p">)]}</span>
+<span class="n">print_stream</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">stream_mode</span><span class="o">=</span><span class="s2">"values"</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -8130,10 +7972,196 @@ def primes(n):
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[16]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>[2, 3, 5, 7, 11, 13, 17, 19, 23]</pre>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>================================<span class="ansi-bold"> Human Message </span>=================================
+
+What is the result when 81 is subtracted from 100?
+==================================<span class="ansi-bold"> Ai Message </span>==================================
+
+Let's calculate the result when 81 is subtracted from 100.
+Tool Calls:
+  subtract (YNhbvK3Ay)
+ Call ID: YNhbvK3Ay
+  Args:
+    a: 100
+    b: 81
+=================================<span class="ansi-bold"> Tool Message </span>=================================
+Name: subtract
+
+19.0
+==================================<span class="ansi-bold"> Ai Message </span>==================================
+
+The result when 81 is subtracted from 100 is 19.
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"messages"</span><span class="p">:</span> <span class="p">[(</span><span class="s2">"user"</span><span class="p">,</span> <span class="s2">"Calculate the result of multiplying 10 by 12."</span><span class="p">)]}</span>
+<span class="n">print_stream</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">stream_mode</span><span class="o">=</span><span class="s2">"values"</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>================================<span class="ansi-bold"> Human Message </span>=================================
+
+Calculate the result of multiplying 10 by 12.
+==================================<span class="ansi-bold"> Ai Message </span>==================================
+
+To calculate the result of multiplying 10 by 12, I will use the multiplication function.
+Tool Calls:
+  multiply (64szrwa6o)
+ Call ID: 64szrwa6o
+  Args:
+    a: 10
+    b: 12
+=================================<span class="ansi-bold"> Tool Message </span>=================================
+Name: multiply
+
+120.0
+==================================<span class="ansi-bold"> Ai Message </span>==================================
+
+The result of multiplying 10 by 12 is 120.
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"messages"</span><span class="p">:</span> <span class="p">[(</span><span class="s2">"user"</span><span class="p">,</span> <span class="s2">"Determine the result of dividing 2 by 3."</span><span class="p">)]}</span>
+<span class="n">print_stream</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">stream_mode</span><span class="o">=</span><span class="s2">"values"</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>================================<span class="ansi-bold"> Human Message </span>=================================
+
+Determine the result of dividing 2 by 3.
+==================================<span class="ansi-bold"> Ai Message </span>==================================
+
+To determine the result of dividing \( 2 \) by \( 3 \), we can perform the division operation.
+
+Let's calculate \( \frac{2}{3} \).
+
+The result of dividing \( 2 \) by \( 3 \) is approximately \( 0.6667 \).
+
+So, \( \frac{2}{3} = 0.\overline{6} \) or approximately \( 0.6667 \).[TOOL_CALLS]divide{"a": 2, "b": 3}
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"messages"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">(</span>
+            <span class="s2">"user"</span><span class="p">,</span>
+            <span class="s2">"What is the result when the sum of 2 and 3 is multiplied by 6 and then divided by 10?"</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+<span class="n">print_stream</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">stream_mode</span><span class="o">=</span><span class="s2">"values"</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>================================<span class="ansi-bold"> Human Message </span>=================================
+
+What is the result when the sum of 2 and 3 is multiplied by 6 and then divided by 10?
+==================================<span class="ansi-bold"> Ai Message </span>==================================
+
+To solve the problem step-by-step, I will first add 2 and 3, then multiply the result by 6, and finally divide the result by 10.
+
+1. **Add 2 and 3**:
+   - 2 + 3 = 5
+
+2. **Multiply the result by 6**:
+   - 5 * 6 = 30
+
+3. **Divide the result by 10**:
+   - 30 / 10 = 3
+
+So, the final result is 3.
+Tool Calls:
+  add (mksTOhpie)
+ Call ID: mksTOhpie
+  Args:
+    a: 2
+    b: 3
+=================================<span class="ansi-bold"> Tool Message </span>=================================
+Name: add
+
+5.0
+==================================<span class="ansi-bold"> Ai Message </span>==================================
+
+multiply{"a": 5, "b": 6}
+Tool Calls:
+  multiply (2QF2LA9us)
+ Call ID: 2QF2LA9us
+  Args:
+    a: 5
+    b: 6
+  divide (QWxazhO2S)
+ Call ID: QWxazhO2S
+  Args:
+    a: 30
+    b: 10
+=================================<span class="ansi-bold"> Tool Message </span>=================================
+Name: divide
+
+3.0
+==================================<span class="ansi-bold"> Ai Message </span>==================================
+
+The result when the sum of 2 and 3 is multiplied by 6 and then divided by 10 is 3.
+</pre>
 </div>
 </div>
 </div>
@@ -8147,7 +8175,7 @@ def primes(n):
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><a id="summary"></a></p>
 <h2 id="Summary-and-next-steps">Summary and next steps<a class="anchor-link" href="#Summary-and-next-steps">¶</a></h2><p>You successfully completed this notebook!</p>
-<p>You learned how to generate code based on instuction with IBM <code>mixtral_8x7b_instruct_v01</code> on watsonx.</p>
+<p>You learned how to build a simple graph using LangGraph and <code>ChatWatsonx</code>.</p>
 <p>Check out our <em><a href="https://ibm.github.io/watsonx-ai-python-sdk/samples.html" rel="noopener no referrer" target="_blank">Online Documentation</a></em> for more samples, tutorials, documentation, how-tos, and blog posts.</p>
 </div>
 </div>
@@ -8159,7 +8187,7 @@ def primes(n):
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Authors:">Authors:<a class="anchor-link" href="#Authors:">¶</a></h3><p><strong>Mateusz Szewczyk</strong>, Software Engineer at watsonx.ai.</p>
+<h3 id="Author">Author<a class="anchor-link" href="#Author">¶</a></h3><p><strong>Mateusz Szewczyk</strong>, Software Engineer at watsonx.ai.</p>
 </div>
 </div>
 </div>

@@ -7567,7 +7567,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Install-dependencies">Install dependencies<a class="anchor-link" href="#Install-dependencies">¶</a></h3>
+<h3 id="Install-dependencies">Install dependencies<a class="anchor-link" href="#Install-dependencies">¶</a></h3><p><strong>Note:</strong> <code>ibm-watsonx-ai</code> documentation can be found <a href="https://ibm.github.io/watsonx-ai-python-sdk/index.html" rel="noopener no referrer" target="_blank">here</a>.</p>
 </div>
 </div>
 </div>
@@ -7579,7 +7579,7 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">pip</span> install -U ibm-watsonx-ai | tail -n 1
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"ibm-watsonx-ai"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -7592,7 +7592,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Successfully installed anyio-4.10.0 cachetools-6.2.0 certifi-2025.8.3 charset_normalizer-3.4.3 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 idna-3.10 jmespath-1.0.1 lomond-0.3.3 numpy-2.3.2 pandas-2.2.3 pytz-2025.2 requests-2.32.5 sniffio-1.3.1 tabulate-0.9.0 tzdata-2025.2 urllib3-2.5.0
+<pre>Successfully installed anyio-4.11.0 cachetools-6.2.1 certifi-2025.10.5 charset_normalizer-3.4.4 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-watsonx-ai-1.4.2 idna-3.11 jmespath-1.0.1 lomond-0.3.3 numpy-2.3.4 pandas-2.2.3 pytz-2025.2 requests-2.32.5 sniffio-1.3.1 tabulate-0.9.0 tzdata-2025.2 urllib3-2.5.0
 </pre>
 </div>
 </div>
@@ -7619,6 +7619,7 @@ a.anchor-link {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span>
 
 <span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span>
@@ -7746,7 +7747,7 @@ a.anchor-link {
 +-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | temperature           | float, NoneType                        | 0.7                                                                                                                                                                                                                                                                             |
 +-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| max_tokens            | int, NoneType                          | 100                                                                                                                                                                                                                                                                             |
+| max_tokens            | int, NoneType                          | N/A                                                                                                                                                                                                                                                                             |
 +-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | max_completion_tokens | int, NoneType                          | 512                                                                                                                                                                                                                                                                             |
 +-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -7771,6 +7772,12 @@ a.anchor-link {
 +-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | guided_json           | dict, NoneType                         | {'type': 'object', 'properties': {'sentiment': {'type': 'string'}}}                                                                                                                                                                                                             |
 +-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| chat_template_kwargs  | dict, NoneType                         | {'thinking': True}                                                                                                                                                                                                                                                              |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| reasoning_effort      | Literal, NoneType                      | high                                                                                                                                                                                                                                                                            |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| include_reasoning     | bool, NoneType                         | True                                                                                                                                                                                                                                                                            |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 </pre>
 </div>
 </div>
@@ -7784,9 +7791,7 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="n">TextChatParameters</span><span class="p">(</span>
-    <span class="n">temperature</span><span class="o">=</span><span class="mi">1</span>
-<span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="n">TextChatParameters</span><span class="p">(</span><span class="n">temperature</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7814,10 +7819,7 @@ a.anchor-link {
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelInference</span>
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">ModelInference</span><span class="p">(</span>
-    <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span>
-    <span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span>
-    <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">,</span>
-    <span class="n">params</span><span class="o">=</span><span class="n">params</span>
+    <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -7855,12 +7857,7 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">{</span>
-        <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> 
-        <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Which Formula 1 team is partnered with IBM?"</span>
-    <span class="p">}</span>
-<span class="p">]</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">messages</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Which Formula 1 team is partnered with IBM?"</span><span class="p">}]</span>
 
 <span class="n">chat_stream_response</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">chat_stream</span><span class="p">(</span><span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">)</span>
 </pre></div>
@@ -7891,7 +7888,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Scuderia Ferrari, an Italian Formula One racing team, collaborates with IBM for various technological advancements in the sport. This partnership, known as "The Race to Innovate," focuses on harnessing data and AI to enhance performance and strategy during races.</pre>
+<pre>Scuderia Ferrari is the Formula 1 racing team partnered with IBM.</pre>
 </div>
 </div>
 </div>
@@ -7916,14 +7913,8 @@ a.anchor-link {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">{</span>
-        <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"control"</span><span class="p">,</span>
-        <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"thinking"</span><span class="p">,</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> 
-        <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Tell me a joke"</span>
-    <span class="p">}</span>
+    <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"control"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"thinking"</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Tell me a joke"</span><span class="p">},</span>
 <span class="p">]</span>
 
 <span class="n">chat_stream_response</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">chat_stream</span><span class="p">(</span><span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">)</span>
@@ -7955,21 +7946,15 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>&lt;think&gt;Jokes are subjective, and what makes one person laugh might not amuse another. Here's a classic, clean joke that's widely appreciated:
+<pre>&lt;think&gt;Undoubtedly, the type of joke would greatly depend on personal preferences. For a classic, broadly appealing one-liner would be suitable. Here’s an example that's light-hearted and related to an often-discussed topic - AI:
 
-Why don't scientists trust atoms?
+Why was the computer cold? It left its Windows open.
 
-Because they make up everything!
+This joke plays on the double meaning of "left its Windows open" - both referring to a computer system vulnerability and literal means of cooling.&lt;/think&gt;&lt;response&gt;### Joke:
+Why was the computer cold? It left its Windows open.
 
-This joke plays on the double meaning of "make up": atoms physically compose all matter, and also, they are not reliable or truthful in the sense of being deceitful or untrustworthy. It's a pun that touches on scientific themes, which could be fitting given the AI context.&lt;/think&gt;&lt;response&gt;### Joke:
-
-Why don't scientists trust atoms?
-
-**Because they make up everything!**
-
-This joke works by exploiting the dual meaning of "make up" – atoms literally form the basis of all physical matter, and figuratively, they could be seen as being unreliable narrators since they're the building blocks of potentially false stories (or at least, not inherently informative about the bigger picture). 
-
-I hope this brings a smile to your face! &lt;/response&gt;</pre>
+### Explanation:
+The humor in this joke stems from a play on words. "Windows" can refer both to the computer operating system (a specific brand, here Microsoft Windows) and to the physical openings through which cool air might enter a room. It's a simple, technology-based joke that many might find relatable given the commonality of such systems.&lt;/response&gt;</pre>
 </div>
 </div>
 </div>
@@ -8005,14 +7990,8 @@ I hope this brings a smile to your face! &lt;/response&gt;</pre>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">{</span>
-        <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"control"</span><span class="p">,</span>
-        <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"length short"</span><span class="p">,</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> 
-        <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Explain torque"</span>
-    <span class="p">}</span>
+    <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"control"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"length short"</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Explain torque"</span><span class="p">},</span>
 <span class="p">]</span>
 
 <span class="n">chat_stream_response</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">chat_stream</span><span class="p">(</span><span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">)</span>
@@ -8044,7 +8023,7 @@ I hope this brings a smile to your face! &lt;/response&gt;</pre>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Torque, also known as the moment of force, is the rotational equivalent of linear force, describing the force that causes rotation around an axis. It's calculated as the product of the force applied and the lever arm (perpendicular distance from the axis to the line of force), or torque = force × distance from pivot. torque is crucial in mechanics, engineering, and physics for analyzing rotational motion.</pre>
+<pre>Torque is a measure of force that causes rotation around an axis. It's the rotation equivalent of linear force, calculated as the product of force and lever arm (distance from the axis), represented by the equation: Torque (τ) = Force (F) × Distance (r).</pre>
 </div>
 </div>
 </div>
@@ -8069,14 +8048,8 @@ I hope this brings a smile to your face! &lt;/response&gt;</pre>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">{</span>
-        <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"control"</span><span class="p">,</span>
-        <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"length long"</span><span class="p">,</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> 
-        <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Explain torque"</span>
-    <span class="p">}</span>
+    <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"control"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"length long"</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Explain torque"</span><span class="p">},</span>
 <span class="p">]</span>
 
 <span class="n">chat_stream_response</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">chat_stream</span><span class="p">(</span><span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">)</span>
@@ -8108,45 +8081,28 @@ I hope this brings a smile to your face! &lt;/response&gt;</pre>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Torque, often symbolized by the Greek letter tau (τ), is a fundamental concept in physics, specifically in the field of rotational mechanics. It's the rotational equivalent of linear force in translational (straight-line) motion. Just as linear force causes an object to accelerate in the direction of the force, torque causes an object to rotate around an axis.
+<pre>Torque, also known as the moment of force, is a fundamental concept in physics and engineering that describes the rotational effect of a force applied to an object about a specific axis. It's a measure of the force's tendency to cause an object to rotate or turn around that axis. 
 
-### Definition:
-Torque is defined as the twisting force that causes rotation about an axis. It depends on three things:
+Here are the key aspects of torque:
 
-1. **Magnitude of the force (F)**: The greater the force applied, the greater the torque, assuming all other factors remain constant.
-2. **Perpendicular distance (r) from the force's line of action to the axis of rotation**: To maximize torque, a force should be applied as far as possible from the point of rotation (this is often referred to as the moment arm).
-3. **Angle (θ) between the force vector and the moment arm**: The optimal torque is generated when the force is perpendicular to the radius (θ = 90 degrees).
+1. **Definition**: Torque (τ) is the rotational equivalent of linear force (F). Just as force causes linear acceleration (F = ma), torque causes angular acceleration (τ = Iα), where 'I' is the moment of inertia and 'α' is the angular acceleration of the body.
 
-Mathematically, torque (τ) is given by:
+2. **Formula**: The formula for torque around an axis is:
 
-\[ \tau = r \times F \times \sin(\theta) \]
+   τ = r x F
 
-where:
-- \( r \) is the distance from the axis of rotation to the point where the force is applied,
-- \( F \) is the magnitude of the force,
-- \( \theta \) is the angle between the force vector and the moment arm.
+   - Here, 'r' represents the vector from the axis of rotation to the point of force application, usually expressed in meters (m).
+   - 'F' is the force vector acting on the body, also in meters (m), and 'x' denotes the cross product of the two vectors. The cross product results in a vector that's perpendicular to both the force and displacement vectors, and its magnitude is given by rFsinθ, where θ is the angle between the vectors 'r' and 'F'.
 
-### Units:
-The SI unit for torque is the newton-meter (Nm). Other units include pound-feet (lb-ft) and dyne-centimeters (dyn cm).
+3. **Unit of Measurement**: The SI unit for torque is the newton-meter (Nm). In imperial units, torque is measured in pound-feet (lb·ft) or, occasionally, in inch-pounds (in·lb).
 
-### Importance and Applications:
-1. **Mechanical Engineering**: Torque is crucial in designing gears, levers, wheels, and engines where rotational motion is involved. For instance, understanding torque helps in sizing motors, determining gear ratios, and analyzing the performance of machinery.
+4. **Right-hand Rule**: To determine the direction of the torque vector (and thus whether the rotation is clockwise or counterclockwise), the right-hand rule is often used. If you wrap your right hand around the axis with your fingers curling in the direction of rotation, your thumb points in the direction of the torque vector.
 
-2. **Vehicle Engineering**: In automotive engineering, torque specifies the rotational force an engine produces, helping consumers and engineers evaluate a vehicle's acceleration potential.
+5. **Applications**: Torque is crucial in various mechanical systems, including engines, motors, and any rotational motion analysis. It helps in designing efficient mechanisms, like transmissions in cars, gearboxes, and even in everyday tools like wrenches and screwdrivers.
 
-3. **Robotics**: Robotic arms and manipulators rely on torque to manipulate objects, ensuring they can exert the necessary rotational force at joints to complete tasks.
+6. **Relation to Simple Machines**: Considering simple machines, torque gives insight into their efficiency. For instance, in a lever, the ratio of the torques on the two sides (τ1/τ2) is equal to the ratio of their distances from the fulcrum (d1/d2), according to the lever principle (τ1/τ2 = d2/d1).
 
-4. **Everyday Life**: Simple actions like opening a jar, turning a key in a lock, or pedaling a bicycle involve torque. Understanding torque can help improve one's mechanical efficiency in these tasks.
-
-5. **Structural Engineering**: Torque considerations are essential in designing structures and components that experience twisting forces, like the rotors in wind turbines.
-
-### Key Points to Remember:
-- Torque causes rotation, similar to how force causes linear acceleration.
-- Torque depends on force magnitude, the perpendicular distance from the force to the axis of rotation, and the angle between the force and the moment arm.
-- Maximum torque results from applying force perpendicular to the lever (θ = 90°).
-- Torque is essential in various fields, from automotive design to complex machine operations and robotics, influencing efficiency and effective usage of mechanical systems. 
-
-Understanding torque is fundamental for grasping the dynamics of rotational motion in many physical and engineering contexts.</pre>
+Understanding torque is essential for analyzing rotational dynamics and designing efficient mechanical systems. It bridges the gap between linear force concepts and rotational motion.</pre>
 </div>
 </div>
 </div>
@@ -8182,14 +8138,8 @@ Understanding torque is fundamental for grasping the dynamics of rotational moti
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">{</span>
-        <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"control"</span><span class="p">,</span>
-        <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"originality extractive"</span><span class="p">,</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> 
-        <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Mineral composition of granites"</span>
-    <span class="p">}</span>
+    <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"control"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"originality extractive"</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Mineral composition of granites"</span><span class="p">},</span>
 <span class="p">]</span>
 
 <span class="n">chat_stream_response</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">chat_stream</span><span class="p">(</span><span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">)</span>
@@ -8221,18 +8171,27 @@ Understanding torque is fundamental for grasping the dynamics of rotational moti
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Granites are igneous rocks composed primarily of quartz, feldspar, and mica minerals. The mineral composition can vary, but common minerals found in granites include:
+<pre>Granites are igneous rocks composed mainly of quartz, feldspar, and mica minerals. Here's a breakdown of their typical mineral composition:
 
-1. Quartz (SiO2): usually 20-25%
-2. Alkali feldspar (NaAlSi3O8 or KAlSi3O8): typically 15-25%
-3. Plagioclase feldspar (NaAlSi3O8-CaAl2Si2O8): constituting 35-55%
-4. Biotite (K(Mg,Fe)3AlSi3O10(OH)2): generally 3-9%
-5. Muscovite (KAl2(AlSi3O10)(OH)2): 1-6%
-6. Amphibole (such as hornblende): occasionally present
-7. Garnet (rarely, as an accessory mineral)
-8. Zircon (ZrSiO4): often found as a trace mineral
+1. **Quartz (SiO2)**: Granites are primarily silica-rich rocks, with quartz making up about 20-40% of the rock. It's often the largest mineral and is colorless, transparent, or translucent.
 
-These percentages can change depending on the specific granite type and its locale. Granites can also contain other accessory minerals, such as pyroxene, ilmenite, magnetite, and apatite, in small quantities. Given the wide variation, each granite's mineral composition is relatively unique, contributing to the diversity seen in granite outcrops worldwide.</pre>
+2. **Feldspar**: This mineral group consists of plagioclase feldspar (darker, typically black or gray in fresh samples) and alkali feldspar (lighter, often white or pink). Feldspar makes up about 55-70% of granite. Potassium feldspar (orthoclase or microcline) is the most common type in granite.
+
+3. **Mica**: These are sheet silicate minerals that include biotite (dark, usually black) and muscovite (light, typically white or pinkish). Mica comprises about 5-15% of granite.
+
+4. **Amphiboles**: These minerals, such as hornblende, are often present in smaller amounts (up to 10%). They give granite a darker hue when present.
+
+5. **Pyroxenes and Olivine**: These minerals are less common in granite but can be found in small quantities, contributing to the rock's overall feldspar-rich nature.
+
+6. **Other minerals**: Trace amounts of zircon, apatite, tourmaline, and garnet may also be present, contributing to the granite's unique appearance in any given sample.
+
+There are different granite classifications based on the proportions of these minerals, such as:
+
+- **Adamellite**: High quartz content (&gt;40%), low feldspar (mostly alkali).
+- **Syenite**: Low quartz (&lt;20%), high potassium feldspar.
+- **Granitoid**: General term for rocks similar to granite but not strictly meeting all criteria.
+
+These compositions can vary significantly, and granite's characteristic appearance comes from the interplay of its mineral constituents. The crystal size, which is generally larger than in other rocks, is also a defining feature of granite.</pre>
 </div>
 </div>
 </div>
@@ -8257,14 +8216,8 @@ These percentages can change depending on the specific granite type and its loca
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">{</span>
-        <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"control"</span><span class="p">,</span>
-        <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"originality abstractive"</span><span class="p">,</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-        <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> 
-        <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Mineral composition of granites"</span>
-    <span class="p">}</span>
+    <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"control"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"originality abstractive"</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Mineral composition of granites"</span><span class="p">},</span>
 <span class="p">]</span>
 
 <span class="n">chat_stream_response</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">chat_stream</span><span class="p">(</span><span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">)</span>
@@ -8296,26 +8249,25 @@ These percentages can change depending on the specific granite type and its loca
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Granite is an igneous rock composed mainly of quartz, feldspar (both plagioclase and alkali feldspar), and mica (biotite and muscovite). It may also contain minor amounts of other minerals such as amphiboles, pyroxenes, and garnet. The predominant feldspar in granite can occur as alkali feldspar (rich in potassium and sodium) or plagioclase feldspar (rich in calcium and sodium). Granite's specific mineral composition varies based on its origin and cooling history, leading to diverse categories of granite. 
+<pre>Granites are igneous rocks primarily composed of quartz, feldspar, and mica minerals. Here's a breakdown of their typical mineral composition:
 
-Here’s a general breakdown of its common mineral constituents (approximate amounts):
+1. **Quartz (SiO2)**: Quartz is usually the most abundant mineral in granites, making up about 20-40% of the rock. It's a hard, colorless, or white mineral.
 
-1. **Quartz**: 20-40% - Qartz is a hard, transparent to translucent mineral composed of silicon dioxide (SiO2). It often provides granite with its white, pink, or gray color.
+2. **Feldspars (K-feldspar and Plagioclase feldspar)**: Feldspars constitute around 40-70% of granite. They can be either alkali feldspar (rich in potassium, orthoclase) or plagioclase feldspar (a series of rocks ranging from calcium-rich to sodium-rich).
 
-2. **Feldspars**: 35-65% - 
-   - **Plagioclase Feldspar**: 20-50% (rich in calcium and/or sodium) - Plagioclase feldspar, specifically andesine and bytownite, gives granite a darker, often grayish or blackish, color. 
-   - **Alkali Feldspar (Orthoclase or Albite)**: 15-35% (rich in potassium and sodium) - This feldspar contributes to lighter colors in granite, sometimes including pink hues.
-   
-3. **Micas**: 5-25% - 
-   - **Biotite**: 2-10% - Biotite is a dark-colored mica (usually black or dark brown) that adds to the darker tones in granite.
-   - **Muscovite**: 1-15% - Light-colored muscovite mica can introduce white or silvery shades to granite.
+3. **Mica (Muscovite and Biotite)**: Micas make up 5-15% of granite. They are platey minerals that give granite its characteristic shiny appearance. Muscovite mica is light-colored, while biotite mica is dark-colored.
 
-4. **Other minerals (minor, generally less than 10%)**:
-   - **Amphiboles**: Such as hornblende (dark green to black)
-   - **Pyroxenes**: Like augite (dark green to black) and olivine (greenish)
-   - **Garnets**: Usually deep red
+4. **Biotite**: This is a common black mica in granites, accounting for about 3-8%.
 
-These percentages are approximate, as actual granite compositions can vary greatly. Additionally, granite can contain accessory minerals (e.g., zircon, tourmaline, apatite) in trace amounts, influencing its overall appearance and properties. Different varieties of granite, classified by their mineral compositions, exhibit a wide range of colors, from whites and pinks to grays, greens, and blacks.</pre>
+5. **Garnet**: Some granites may contain small amounts of garnet (2-5%), contributing red or pink color to the rock.
+
+6. **Amplhibole**: This mineral is less common, usually present in minor amounts (less than 5%), and can contribute to darker color variations in granite.
+
+7. **Zircon (ZrSiO4)**: Zircon is a heavy, lustrous mineral that can be present in trace amounts (up to 1%), and it plays a crucial role in radiometric dating of granites.
+
+8. **Other minerals**: Smaller quantities of other minerals like apatite, titanite, and tourmaline can also be present in granites, contributing to their varied appearances.
+
+It's important to note that the specific mineral composition and proportions can vary significantly between different types of granite, leading to a wide range of colors and textures. The percentage values given above represent approximate averages, and the actual composition will depend on the specific granite sample and its genesis.</pre>
 </div>
 </div>
 </div>
