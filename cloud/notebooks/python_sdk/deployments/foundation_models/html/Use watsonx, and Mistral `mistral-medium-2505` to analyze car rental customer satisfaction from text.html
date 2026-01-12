@@ -7518,7 +7518,7 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><img alt="image" src="https://raw.githubusercontent.com/IBM/watson-machine-learning-samples/master/cloud/notebooks/headers/watsonx-Prompt_Lab-Notebook.png"/></p>
-<h1 id="Use-watsonx,-and-ibm/granite-13b-instruct-v2-to-analyze-car-rental-customer-satisfaction-from-text">Use watsonx, and <code>ibm/granite-13b-instruct-v2</code> to analyze car rental customer satisfaction from text<a class="anchor-link" href="#Use-watsonx,-and-ibm/granite-13b-instruct-v2-to-analyze-car-rental-customer-satisfaction-from-text">¶</a></h1>
+<h1 id="Use-watsonx,-and-Mistral-mistral-medium-2505-to-analyze-car-rental-customer-satisfaction-from-text.">Use watsonx, and Mistral <code>mistral-medium-2505</code> to analyze car rental customer satisfaction from text.<a class="anchor-link" href="#Use-watsonx,-and-Mistral-mistral-medium-2505-to-analyze-car-rental-customer-satisfaction-from-text.">¶</a></h1>
 </div>
 </div>
 </div>
@@ -7534,7 +7534,7 @@ a.anchor-link {
 </ul>
 <h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook contains the steps and code to demonstrate support of text sentiment analysis in watsonx. It introduces commands for data retrieval, model testing and scoring.</p>
 <p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
-<h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The goal of this notebook is to demonstrate how to use <code>ibm/granite-13b-instruct-v2</code> model to analyze customer satisfaction from text.</p>
+<h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The goal of this notebook is to demonstrate how to use <code>mistral-medium-2505</code> model to analyze customer satisfaction from text.</p>
 <h2 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h2><p>This notebook contains the following parts:</p>
 <ul>
 <li><a href="#setup">Setup</a></li>
@@ -7569,23 +7569,39 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Install-and-import-the-datasets-and-dependecies">Install and import the <code>datasets</code> and dependecies<a class="anchor-link" href="#Install-and-import-the-datasets-and-dependecies">¶</a></h3>
+<h3 id="Install-and-import-dependencies">Install and import dependencies<a class="anchor-link" href="#Install-and-import-dependencies">¶</a></h3><p><strong>Note:</strong> <code>ibm-watsonx-ai</code> documentation can be found <a href="https://ibm.github.io/watsonx-ai-python-sdk/index.html" rel="noopener no referrer" target="_blank">here</a>.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>wget<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>datasets<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"scikit-learn==1.3.2"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>ibm-watsonx-ai<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">datasets</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="s2">"scikit-learn==1.3.2"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">ibm</span><span class="o">-</span><span class="n">watsonx</span><span class="o">-</span><span class="n">ai</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Successfully installed wget-3.2
+Successfully installed aiohappyeyeballs-2.6.1 aiohttp-3.13.2 aiosignal-1.4.0 anyio-4.11.0 attrs-25.4.0 certifi-2025.10.5 charset_normalizer-3.4.4 click-8.3.0 datasets-4.3.0 dill-0.4.0 filelock-3.20.0 frozenlist-1.8.0 fsspec-2025.9.0 h11-0.16.0 hf-xet-1.2.0 httpcore-1.0.9 httpx-0.28.1 huggingface-hub-1.0.1 idna-3.11 multidict-6.7.0 multiprocess-0.70.16 numpy-2.3.4 pandas-2.3.3 propcache-0.4.1 pyarrow-22.0.0 pytz-2025.2 pyyaml-6.0.3 requests-2.32.5 shellingham-1.5.4 sniffio-1.3.1 tqdm-4.67.1 typer-slim-0.20.0 tzdata-2025.2 urllib3-2.5.0 xxhash-3.6.0 yarl-1.22.0
+Successfully installed joblib-1.5.2 numpy-1.26.4 scikit-learn-1.3.2 scipy-1.16.3 threadpoolctl-3.6.0
+Successfully installed cachetools-6.2.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-watsonx-ai-1.4.4 jmespath-1.0.1 lomond-0.3.3 pandas-2.2.3 tabulate-0.9.0
+</pre>
 </div>
 </div>
 </div>
@@ -7598,7 +7614,8 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="Defining-the-watsonx.ai-credentials">Defining the watsonx.ai credentials<a class="anchor-link" href="#Defining-the-watsonx.ai-credentials">¶</a></h3><p>This cell defines the watsonx.ai credentials required to work with watsonx Foundation Model inferencing.</p>
-<p><strong>Action:</strong> Provide the IBM Cloud user API key. For details, see <a href="https://cloud.ibm.com/docs/account?topic=account-userapikey&amp;interface=ui" rel="noopener no referrer" target="_blank">documentation</a>.</p>
+<p><strong>Action:</strong> Provide the IBM Cloud user API key. For details, see
+<a href="https://cloud.ibm.com/docs/account?topic=account-userapikey&amp;interface=ui">documentation</a>.</p>
 </div>
 </div>
 </div>
@@ -7611,6 +7628,7 @@ a.anchor-link {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span>
 
 <span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span>
@@ -7652,6 +7670,22 @@ a.anchor-link {
 </div>
 </div>
 </div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span>
+
+<span class="n">api_client</span> <span class="o">=</span> <span class="n">APIClient</span><span class="p">(</span><span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
@@ -7680,20 +7714,21 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">wget</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">wget</span>
 
-<span class="n">filename</span> <span class="o">=</span> <span class="s1">'car_rental_training_data.csv'</span>
-<span class="n">url</span> <span class="o">=</span> <span class="s1">'https://raw.githubusercontent.com/IBM/watson-machine-learning-samples/master/cloud/data/cars-4-you/car_rental_training_data.csv'</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s2">"car_rental_training_data.csv"</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s2">"https://raw.githubusercontent.com/IBM/watsonx-ai-samples/master/cloud/data/cars-4-you/car_rental_training_data.csv"</span>
 
-<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span> 
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
     <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">filename</span><span class="p">)</span>
 
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"car_rental_training_data.csv"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">';'</span><span class="p">)</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">'Customer_Service'</span><span class="p">,</span> <span class="s1">'Satisfaction'</span><span class="p">]]</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"car_rental_training_data.csv"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">";"</span><span class="p">)</span>
+<span class="n">comments</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">Customer_Service</span><span class="p">)</span>
+<span class="n">satisfaction</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">Satisfaction</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7706,7 +7741,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Examine downloaded data.</p>
+<p>Examine donwloaded data.</p>
 </div>
 </div>
 </div>
@@ -7715,7 +7750,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -7729,7 +7764,7 @@ a.anchor-link {
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
@@ -7749,39 +7784,158 @@ a.anchor-link {
 <thead>
 <tr style="text-align: right;">
 <th></th>
+<th>ID</th>
+<th>Gender</th>
+<th>Status</th>
+<th>Children</th>
+<th>Age</th>
+<th>Customer_Status</th>
+<th>Car_Owner</th>
 <th>Customer_Service</th>
 <th>Satisfaction</th>
+<th>Business_Area</th>
+<th>Action</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <th>0</th>
+<td>83</td>
+<td>Female</td>
+<td>M</td>
+<td>2</td>
+<td>48.85</td>
+<td>Inactive</td>
+<td>Yes</td>
 <td>I thought the representative handled the initi...</td>
 <td>0</td>
+<td>Product: Availability/Variety/Size</td>
+<td>Free Upgrade</td>
 </tr>
 <tr>
 <th>1</th>
+<td>1307</td>
+<td>Female</td>
+<td>M</td>
+<td>0</td>
+<td>55.00</td>
+<td>Inactive</td>
+<td>No</td>
 <td>I have had a few recent rentals that have take...</td>
 <td>0</td>
+<td>Product: Availability/Variety/Size</td>
+<td>Voucher</td>
 </tr>
 <tr>
 <th>2</th>
+<td>1737</td>
+<td>Male</td>
+<td>M</td>
+<td>0</td>
+<td>42.35</td>
+<td>Inactive</td>
+<td>Yes</td>
 <td>car cost more because I didn't pay when I rese...</td>
 <td>0</td>
+<td>Product: Availability/Variety/Size</td>
+<td>Free Upgrade</td>
 </tr>
 <tr>
 <th>3</th>
+<td>3721</td>
+<td>Male</td>
+<td>M</td>
+<td>2</td>
+<td>61.71</td>
+<td>Inactive</td>
+<td>Yes</td>
 <td>I didn't get the car I was told would be avail...</td>
 <td>0</td>
+<td>Product: Availability/Variety/Size</td>
+<td>Free Upgrade</td>
 </tr>
 <tr>
 <th>4</th>
+<td>11</td>
+<td>Male</td>
+<td>S</td>
+<td>2</td>
+<td>56.47</td>
+<td>Active</td>
+<td>No</td>
 <td>If there was not a desired vehicle available t...</td>
 <td>1</td>
+<td>Product: Availability/Variety/Size</td>
+<td>NaN</td>
 </tr>
 </tbody>
 </table>
 </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Define label map.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">label_map</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s2">"unsatisfied"</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s2">"satisfied"</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Inspect data labels distribution.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="s2">"Satisfaction"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>Satisfaction
+1    274
+0    212
+Name: count, dtype: int64</pre>
 </div>
 </div>
 </div>
@@ -7802,14 +7956,23 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
 
-<span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
-<span class="n">comments</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">Customer_Service</span><span class="p">)</span>
-<span class="n">satisfaction</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">Satisfaction</span><span class="p">)</span>
+<span class="n">data_train</span><span class="p">,</span> <span class="n">data_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">Customer_Service</span><span class="p">,</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">Satisfaction</span><span class="p">,</span>
+    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">33</span><span class="p">,</span>
+    <span class="n">stratify</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">Satisfaction</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">data_train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data_train</span><span class="p">)</span>
+<span class="n">data_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data_test</span><span class="p">)</span>
+
+<span class="n">data_train</span><span class="p">[</span><span class="s2">"satisfaction"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">label_map</span><span class="o">.</span><span class="n">get</span><span class="p">,</span> <span class="n">y_train</span><span class="p">))</span>
+<span class="n">data_test</span><span class="p">[</span><span class="s2">"satisfaction"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">label_map</span><span class="o">.</span><span class="n">get</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -7834,8 +7997,8 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="List-available-models">List available models<a class="anchor-link" href="#List-available-models">¶</a></h4><p>All avaliable models are presented under ModelTypes class.
-For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-sdk/fm_model.html#ibm_watsonx_ai.foundation_models.utils.enums.ModelTypes" rel="noopener no referrer" target="_blank">documentation</a>.</p>
+<h4 id="List-available-models">List available models<a class="anchor-link" href="#List-available-models">¶</a></h4><p>All avaliable models are presented under TextModels class.
+For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-sdk/fm_model_inference.html#TextModels">documentation</a>.</p>
 </div>
 </div>
 </div>
@@ -7844,12 +8007,10 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.utils.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelTypes</span>
-
-<span class="nb">print</span><span class="p">([</span><span class="n">model</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">ModelTypes</span><span class="p">])</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">([</span><span class="n">model</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">api_client</span><span class="o">.</span><span class="n">foundation_models</span><span class="o">.</span><span class="n">TextModels</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -7862,7 +8023,7 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>['FLAN_T5_XXL', 'FLAN_UL2', 'MT0_XXL', 'GPT_NEOX', 'MPT_7B_INSTRUCT2', 'STARCODER', 'LLAMA_2_70B_CHAT', 'LLAMA_2_13B_CHAT', 'GRANITE_13B_INSTRUCT', 'GRANITE_13B_CHAT', 'FLAN_T5_XL', 'GRANITE_13B_CHAT_V2', 'GRANITE_13B_INSTRUCT_V2']
+<pre>['DEFENCE_GRANITE', 'GRANITE_3_2_8B_INSTRUCT', 'GRANITE_3_2B_INSTRUCT', 'GRANITE_3_3_8B_INSTRUCT', 'GRANITE_3_8B_INSTRUCT', 'GRANITE_4_H_SMALL', 'GRANITE_8B_CODE_INSTRUCT', 'GRANITE_GUARDIAN_3_8B', 'GRANITE_VISION_3_2_2B', 'LLAMA_3_2_11B_VISION_INSTRUCT', 'LLAMA_3_2_90B_VISION_INSTRUCT', 'LLAMA_3_3_70B_INSTRUCT', 'LLAMA_3_405B_INSTRUCT', 'LLAMA_4_MAVERICK_17B_128E_INSTRUCT_FP8', 'LLAMA_GUARD_3_11B_VISION', 'MISTRAL_MEDIUM_2505', 'MISTRAL_SMALL_3_1_24B_INSTRUCT_2503', 'GPT_OSS_120B', 'ALLAM_1_13B_INSTRUCT']
 </pre>
 </div>
 </div>
@@ -7884,10 +8045,10 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">model_id</span> <span class="o">=</span> <span class="n">ModelTypes</span><span class="o">.</span><span class="n">GRANITE_13B_INSTRUCT_V2</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">model_id</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">foundation_models</span><span class="o">.</span><span class="n">TextModels</span><span class="o">.</span><span class="n">MISTRAL_MEDIUM_2505</span>
 </pre></div>
 </div>
 </div>
@@ -7900,7 +8061,7 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Defining-the-model-parameters">Defining the model parameters<a class="anchor-link" href="#Defining-the-model-parameters">¶</a></h3><p>You might need to adjust model <code>parameters</code> for different models or tasks, to do so please refer to <a href="https://ibm.github.io/watsonx-ai-python-sdk/fm_model.html#metanames.GenTextParamsMetaNames" rel="noopener no referrer" target="_blank">documentation</a>.</p>
+<h3 id="Defining-the-model-parameters">Defining the model parameters<a class="anchor-link" href="#Defining-the-model-parameters">¶</a></h3><p>You might need to adjust model <code>parameters</code> for different models or tasks, to do so please refer to <a href="https://ibm.github.io/watsonx-ai-python-sdk/fm_model.html#metanames.GenTextParamsMetaNames">documentation</a>.</p>
 </div>
 </div>
 </div>
@@ -7909,18 +8070,12 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.metanames</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenTextParamsMetaNames</span> <span class="k">as</span> <span class="n">GenParams</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.utils.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecodingMethods</span>
 
-<span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">GenParams</span><span class="o">.</span><span class="n">MIN_NEW_TOKENS</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="n">GenParams</span><span class="o">.</span><span class="n">MAX_NEW_TOKENS</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="n">GenParams</span><span class="o">.</span><span class="n">DECODING_METHOD</span><span class="p">:</span> <span class="n">DecodingMethods</span><span class="o">.</span><span class="n">GREEDY</span><span class="p">,</span>
-    <span class="n">GenParams</span><span class="o">.</span><span class="n">REPETITION_PENALTY</span><span class="p">:</span> <span class="mi">1</span>
-<span class="p">}</span>
+<span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="n">GenParams</span><span class="o">.</span><span class="n">DECODING_METHOD</span><span class="p">:</span> <span class="s2">"greedy"</span><span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -7942,16 +8097,14 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelInference</span>
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">ModelInference</span><span class="p">(</span>
-    <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span> 
-    <span class="n">params</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> 
-    <span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span>
-    <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">)</span>
+    <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7968,61 +8121,16 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">get_details</span><span class="p">()</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>{'model_id': 'ibm/granite-13b-instruct-v2',
- 'label': 'granite-13b-instruct-v2',
- 'provider': 'IBM',
- 'source': 'IBM',
- 'short_description': 'The Granite model series is a family of IBM-trained, dense decoder-only models, which are particularly well-suited for generative tasks.',
- 'long_description': 'Granite models are designed to be used for a wide range of generative and non-generative tasks with appropriate prompt engineering. They employ a GPT-style decoder-only architecture, with additional innovations from IBM Research and the open community.',
- 'tier': 'class_2',
- 'number_params': '13b',
- 'min_shot_size': 0,
- 'task_ids': ['question_answering',
-  'summarization',
-  'classification',
-  'generation',
-  'extraction'],
- 'tasks': [{'id': 'question_answering',
-   'ratings': {'quality': 3},
-   'tags': ['function_prompt_tune_trainable']},
-  {'id': 'summarization',
-   'ratings': {'quality': 2},
-   'tags': ['function_prompt_tune_trainable']},
-  {'id': 'retrieval_augmented_generation',
-   'ratings': {'quality': 2},
-   'tags': ['function_prompt_tune_trainable']},
-  {'id': 'classification',
-   'ratings': {'quality': 3},
-   'tags': ['function_prompt_tune_trainable']},
-  {'id': 'generation', 'tags': ['function_prompt_tune_trainable']},
-  {'id': 'extraction',
-   'ratings': {'quality': 2},
-   'tags': ['function_prompt_tune_trainable']}],
- 'model_limits': {'max_sequence_length': 8192},
- 'limits': {'lite': {'max_output_tokens': 8192},
-  'v2-professional': {'max_output_tokens': 8192},
-  'v2-standard': {'max_output_tokens': 8192}}}</pre>
 </div>
 </div>
 </div>
@@ -8035,7 +8143,7 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><a id="predict"></a></p>
-<h2 id="Analyze-the-satisfaction">Analyze the satisfaction<a class="anchor-link" href="#Analyze-the-satisfaction">¶</a></h2>
+<h2 id="Analyze-the-sentiment">Analyze the sentiment<a class="anchor-link" href="#Analyze-the-sentiment">¶</a></h2>
 </div>
 </div>
 </div>
@@ -8046,70 +8154,11 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="Prepare-prompt-and-generate-text">Prepare prompt and generate text<a class="anchor-link" href="#Prepare-prompt-and-generate-text">¶</a></h4>
+<p>Define instructions for the model.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">instruction</span> <span class="o">=</span> <span class="s2">"""Determine if the customer was satisfied with the experience based on the comment. Return simple yes or no.</span>
-<span class="s2">Comment:The car was broken. They couldn't find a replacement. I've waster over 2 hours.</span>
-<span class="s2">Satisfied:no"""</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">prompt1</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">instruction</span><span class="p">,</span> <span class="s2">"Comment:"</span> <span class="o">+</span> <span class="n">comments</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s2">"Satisfied:"</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">prompt1</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Determine if the customer was satisfied with the experience based on the comment. Return simple yes or no.
-Comment:The car was broken. They couldn't find a replacement. I've waster over 2 hours.
-Satisfied:no
-Comment:Penalties for smoking in non-smoking cars should be more severe, and include decapitation.  Customer service was not receptive.
-Satisfied:
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Analyze the sentiment for a sample of zero-shot input from the test set.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8117,7 +8166,35 @@ Satisfied:
 <div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">generate_text</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="n">prompt1</span><span class="p">))</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">instruction</span> <span class="o">=</span> <span class="s2">"Classify the satisfaction expressed in this sentence using: satisfied, unsatisfied.</span><span class="se">\n</span><span class="s2">"</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Prepare model inputs - build zero-shot examples from the test set.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="n">zero_shot_inputs</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">"input"</span><span class="p">:</span> <span class="n">text</span><span class="p">}</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">data_test</span><span class="o">.</span><span class="n">Customer_Service</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">zero_shot_inputs</span><span class="p">[:</span><span class="mi">5</span><span class="p">],</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -8130,7 +8207,23 @@ Satisfied:
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>no
+<pre>[
+  {
+    "input": "Provide more convenient car pickup from the airport parking."
+  },
+  {
+    "input": "They could really try work harder."
+  },
+  {
+    "input": "the rep was friendly but it was so loud in there that I could not hear what she was saying. I HATE having to walk across a big lot with all of my bags in search of my car which is always in the furthest corner."
+  },
+  {
+    "input": "The agents were not friendly when I checked in initially, that was annoying because I had just spent 3 hours on a plane and wanted to be greeted with a better attitude."
+  },
+  {
+    "input": "It was not as bad as it usually is."
+  }
+]
 </pre>
 </div>
 </div>
@@ -8143,7 +8236,8 @@ Satisfied:
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Calculate-the-accuracy">Calculate the accuracy<a class="anchor-link" href="#Calculate-the-accuracy">¶</a></h3>
+<p>Prepare model inputs - build few-shot examples. To build a few-shot example few instances of training data phrases are passed together with the reference sentiment and then appended with a test data phrase.</p>
+<p>In this notebook, training phrases are stratified over all possible sentiments for each test case.</p>
 </div>
 </div>
 </div>
@@ -8152,14 +8246,37 @@ Satisfied:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">sample_size</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">prompts_batch</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">instruction</span><span class="p">,</span> <span class="s2">"Comment:"</span> <span class="o">+</span> <span class="n">comment</span><span class="p">,</span> <span class="s2">"Satisfied:"</span><span class="p">])</span> <span class="k">for</span> <span class="n">comment</span> <span class="ow">in</span> <span class="n">comments</span><span class="p">[:</span><span class="mi">10</span><span class="p">]]</span>
-<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate_text</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="n">prompts_batch</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">few_shot_inputs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">singleoutput</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">test_phrase</span> <span class="ow">in</span> <span class="n">data_test</span><span class="o">.</span><span class="n">Customer_Service</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">train_phrase</span><span class="p">,</span> <span class="n">sentiment</span> <span class="ow">in</span> <span class="p">(</span>
+        <span class="n">data_train</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"satisfaction"</span><span class="p">,</span> <span class="n">group_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+        <span class="o">.</span><span class="n">values</span>
+    <span class="p">):</span>
+        <span class="n">singleoutput</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="se">\t</span><span class="s2">sentence:</span><span class="se">\t</span><span class="si">{</span><span class="n">train_phrase</span><span class="si">}</span><span class="se">\n\t</span><span class="s2">satisfaction: </span><span class="si">{</span><span class="n">sentiment</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
+        <span class="p">)</span>
+    <span class="n">singleoutput</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\t</span><span class="s2">sentence:</span><span class="se">\t</span><span class="si">{</span><span class="n">test_phrase</span><span class="si">}</span><span class="se">\n\t</span><span class="s2">satisfaction:"</span><span class="p">)</span>
+    <span class="n">few_shot_inputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">singleoutput</span><span class="p">))</span>
+    <span class="n">singleoutput</span> <span class="o">=</span> <span class="p">[]</span>
 </pre></div>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Inspect an exemplary few-shot prompt.</p>
 </div>
 </div>
 </div>
@@ -8168,10 +8285,10 @@ Satisfied:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">prompts_batch</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">print</span><span class="p">(</span><span class="n">few_shot_inputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -8184,11 +8301,124 @@ Satisfied:
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Determine if the customer was satisfied with the experience based on the comment. Return simple yes or no.
-Comment:The car was broken. They couldn't find a replacement. I've waster over 2 hours.
-Satisfied:no
-Comment:Very satisfactory. Employees were very helpful in providing directions.
-Satisfied:
+<pre>	sentence:	Customer service was fine
+	satisfaction: satisfied
+	sentence:	they were trying to satisfy me even though my wife tells me I was being rude
+	satisfaction: satisfied
+	sentence:	I do not  understand why I have to pay additional fee if vehicle is returned without a full tank.
+	satisfaction: unsatisfied
+	sentence:	They had problem to find reservation number, so whole process took too long time.
+	satisfaction: unsatisfied
+	sentence:	Provide more convenient car pickup from the airport parking.
+	satisfaction:
+null
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Analyze-the-satisfaction-using-Google-mistral-medium-2505-model.">Analyze the satisfaction using Google <code>mistral-medium-2505</code> model.<a class="anchor-link" href="#Analyze-the-satisfaction-using-Google-mistral-medium-2505-model.">¶</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Analyze the sentiment for a sample of zero-shot inputs from the test set.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">inp</span> <span class="ow">in</span> <span class="n">zero_shot_inputs</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span>
+    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">instruction</span><span class="p">,</span> <span class="n">inp</span><span class="p">[</span><span class="s2">"input"</span><span class="p">]]))[</span><span class="s2">"results"</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Explore model output.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[
+  {
+    "generated_text": " On the other hand, the parking facility is inadequate.\"\n2 : Unsatisfied .\nConversation:\n",
+    "generated_token_count": 20,
+    "input_token_count": 26,
+    "stop_reason": "max_tokens"
+  },
+  {
+    "generated_text": " = unsatisfied.\nCreate a Syntax tree for the sentence below:\nIt's just blowing through temperature gau",
+    "generated_token_count": 20,
+    "input_token_count": 23,
+    "stop_reason": "max_tokens"
+  },
+  {
+    "generated_text": "*\n\nThe satisfaction expressed in this sentence would be classified as **unsatisfied**.\n\nThe tone of the",
+    "generated_token_count": 20,
+    "input_token_count": 66,
+    "stop_reason": "max_tokens"
+  },
+  {
+    "generated_text": " Also my room had a faint odor of smoke making it uncomfortable.\nunsatisfied.\n```",
+    "generated_token_count": 19,
+    "input_token_count": 51,
+    "stop_reason": "eos_token"
+  },
+  {
+    "generated_text": " It was not a big issue.\n\n1. satisfied\n2. unsatisfied\n\nIn my opinion the",
+    "generated_token_count": 20,
+    "input_token_count": 26,
+    "stop_reason": "max_tokens"
+  }
+]
 </pre>
 </div>
 </div>
@@ -8202,67 +8432,114 @@ Satisfied:
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><a id="score"></a></p>
-<h2 id="Score-the-model">Score the model<a class="anchor-link" href="#Score-the-model">¶</a></h2>
+<h2 id="Score-the-model">Score the model<a class="anchor-link" href="#Score-the-model">¶</a></h2><p><strong>Note:</strong> To run the Score section for model scoring on the whole car rental customer satisfaction dataset please transform following <code>markdown</code> cells to <code>code</code> cells.
+Have in mind that scoring model on the whole test set can take significant amount of time.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span>
-
-<span class="n">label_map</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s2">"no"</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s2">"yes"</span><span class="p">}</span>
-<span class="n">y_true</span> <span class="o">=</span> <span class="p">[</span><span class="n">label_map</span><span class="p">[</span><span class="n">sat</span><span class="p">]</span> <span class="k">for</span> <span class="n">sat</span> <span class="ow">in</span> <span class="n">satisfaction</span><span class="p">][:</span><span class="n">sample_size</span><span class="p">]</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s1">'accuracy_score'</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">results</span><span class="p">))</span>
-</pre></div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Get the true labels.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>accuracy_score 1.0
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">'true'</span><span class="p">,</span> <span class="n">y_true</span><span class="p">,</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">pred'</span><span class="p">,</span> <span class="n">results</span><span class="p">)</span>
-</pre></div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<pre><code>y_true = [label for label in data_test.satisfaction[:5]]
+</code></pre>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>true ['yes', 'yes', 'no', 'no', 'yes', 'yes', 'yes', 'yes', 'no', 'yes'] 
-pred ['yes', 'yes', 'no', 'no', 'yes', 'yes', 'yes', 'yes', 'no', 'yes']
-</pre>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Get the sentiment labels returned by the <code>mistral-medium-2505</code> model.</p>
 </div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<pre><code>y_pred = [res["generated_text"] for res in results]
+</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Calculate the accuracy score.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<pre><code>from sklearn.metrics import accuracy_score
+
+print(accuracy_score(y_pred, y_true))
+</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><strong>HINT:</strong> Sentiments generated using few-shot input prompts might provide better performance in terms of accuracy then the zero-shot ones.
+Following cells present test scores for zero-shot prompts received for the <code>mistral-medium-2505</code> model on the whole test set from this notebook.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>The zero-shot test accuracy score:</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<pre><code>0.9178082191780822
+</code></pre>
 </div>
 </div>
 </div>
@@ -8275,8 +8552,8 @@ pred ['yes', 'yes', 'no', 'no', 'yes', 'yes', 'yes', 'yes', 'no', 'yes']
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><a id="summary"></a></p>
 <h2 id="Summary-and-next-steps">Summary and next steps<a class="anchor-link" href="#Summary-and-next-steps">¶</a></h2><p>You successfully completed this notebook!</p>
-<p>You learned how to analyze car rental customer satisfaction with watsonx.ai foundation model.</p>
-<p>Check out our <em><a href="https://ibm.github.io/watsonx-ai-python-sdk/samples.html" rel="noopener no referrer" target="_blank">Online Documentation</a></em> for more samples, tutorials, documentation, how-tos, and blog posts.</p>
+<p>You learned how to analyze car rental customer satisfaction with Google's <code>mistral-medium-2505</code> on watsonx.</p>
+<p>Check out our <em><a href="https://ibm.github.io/watsonx-ai-python-sdk/samples.html">Online Documentation</a></em> for more samples, tutorials, documentation, how-tos, and blog posts.</p>
 </div>
 </div>
 </div>
@@ -8288,7 +8565,6 @@ pred ['yes', 'yes', 'no', 'no', 'yes', 'yes', 'yes', 'yes', 'no', 'yes']
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="Authors">Authors<a class="anchor-link" href="#Authors">¶</a></h3><p><strong>Mateusz Szewczyk</strong>, Software Engineer at watsonx.ai.</p>
-<p><strong>Lukasz Cmielowski</strong>, PhD, is an Automation Architect and Data Scientist at IBM with a track record of developing enterprise-level applications that substantially increases clients' ability to turn data into actionable knowledge.</p>
 </div>
 </div>
 </div>
