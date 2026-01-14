@@ -7517,7 +7517,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><img alt="image" src="https://raw.githubusercontent.com/IBM/watsonx-ai-samples/master/cloud/notebooks/headers/watsonx-Prompt_Lab-Notebook.png"/></p>
+<p><img alt="image" src="https://raw.githubusercontent.com/IBM/watson-machine-learning-samples/master/cloud/notebooks/headers/watsonx-Prompt_Lab-Notebook.png"/></p>
 <h1 id="Use-AutoAI-RAG-with-watsonx-Text-Extraction-service">Use AutoAI RAG with watsonx Text Extraction service<a class="anchor-link" href="#Use-AutoAI-RAG-with-watsonx-Text-Extraction-service">¶</a></h1>
 </div>
 </div>
@@ -7534,7 +7534,7 @@ a.anchor-link {
 </ul>
 <h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook demonstrates how to process data using the IBM watsonx.ai Text Extraction service and use the result in an AutoAI RAG experiment.
 The data used in this notebook is from the <a href="https://arxiv.org/pdf/2405.04324">Granite Code Models paper</a>.</p>
-<p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
+<p>Some familiarity with Python is helpful. This notebook uses Python 3.12.</p>
 <h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The learning goals of this notebook are:</p>
 <ul>
 <li>Process data using the IBM watsonx.ai Text Extraction service</li>
@@ -7579,7 +7579,7 @@ The data used in this notebook is from the <a href="https://arxiv.org/pdf/2405.0
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=375c0f64-6452-4399-9a83-6cd0c1fd1f97">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=375c0f64-6452-4399-9a83-6cd0c1fd1f97">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7587,8 +7587,28 @@ The data used in this notebook is from the <a href="https://arxiv.org/pdf/2405.0
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span><span class="s1">'ibm-watsonx-ai[rag]&gt;=1.3.13'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s1">'ibm-watsonx-ai[rag]&gt;=1.4.10'</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="s1">'wget'</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Successfully installed Pillow-12.1.0 SQLAlchemy-2.0.45 XlsxWriter-3.2.9 aiohappyeyeballs-2.6.1 aiohttp-3.13.3 aiosignal-1.4.0 annotated-types-0.7.0 anyio-4.12.1 attrs-25.4.0 backoff-2.2.1 bcrypt-5.0.0 beautifulsoup4-4.13.5 build-1.4.0 cachetools-6.2.4 certifi-2026.1.4 charset_normalizer-3.4.4 chromadb-1.4.0 click-8.3.1 coloredlogs-15.0.1 dataclasses-json-0.6.7 distro-1.9.0 durationpy-0.10 elastic-transport-8.17.1 elasticsearch-8.19.3 et-xmlfile-2.0.0 filelock-3.20.2 flatbuffers-25.12.19 frozenlist-1.8.0 fsspec-2025.12.0 google-auth-2.47.0 googleapis-common-protos-1.72.0 grpcio-1.76.0 h11-0.16.0 hf-xet-1.2.0 httpcore-1.0.9 httptools-0.7.1 httpx-0.28.1 httpx-sse-0.4.3 huggingface-hub-1.2.4 humanfriendly-10.0 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-db-3.2.8 ibm-watsonx-ai-1.4.11 idna-3.11 importlib-metadata-8.7.1 importlib-resources-6.5.2 jmespath-1.0.1 joblib-1.5.3 jsonpatch-1.33 jsonpointer-3.0.0 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 kubernetes-33.1.0 langchain-0.3.27 langchain-chroma-0.2.5 langchain-community-0.3.31 langchain-core-0.3.81 langchain-db2-0.1.7 langchain-elasticsearch-0.3.2 langchain-ibm-0.3.20 langchain-milvus-0.2.1 langchain-text-splitters-0.3.11 langgraph-0.6.11 langgraph-checkpoint-3.0.1 langgraph-prebuilt-0.6.5 langgraph-sdk-0.2.15 langsmith-0.6.1 lomond-0.3.3 lxml-6.0.2 markdown-3.8.2 markdown-it-py-4.0.0 marshmallow-3.26.2 mdurl-0.1.2 mmh3-5.2.0 mpmath-1.3.0 multidict-6.7.0 mypy-extensions-1.1.0 numpy-2.4.0 oauthlib-3.3.1 onnxruntime-1.23.2 openpyxl-3.1.5 opentelemetry-api-1.39.1 opentelemetry-exporter-otlp-proto-common-1.39.1 opentelemetry-exporter-otlp-proto-grpc-1.39.1 opentelemetry-proto-1.39.1 opentelemetry-sdk-1.39.1 opentelemetry-semantic-conventions-0.60b1 orjson-3.11.5 ormsgpack-1.12.1 overrides-7.7.0 pandas-2.2.3 posthog-5.4.0 propcache-0.4.1 protobuf-6.33.2 pyYAML-6.0.3 pyasn1-0.6.1 pyasn1-modules-0.4.2 pybase64-1.4.3 pydantic-2.12.5 pydantic-core-2.41.5 pydantic-settings-2.12.0 pymilvus-2.6.6 pypdf-6.5.0 pypika-0.48.9 pyproject_hooks-1.2.0 python-docx-1.2.0 python-dotenv-1.2.1 python-pptx-1.0.2 pytz-2025.2 referencing-0.37.0 requests-2.32.5 requests-oauthlib-2.0.0 requests-toolbelt-1.0.0 rich-14.2.0 rpds-py-0.30.0 rsa-4.9.1 scikit-learn-1.8.0 scipy-1.16.3 shellingham-1.5.4 simsimd-6.5.12 soupsieve-2.8.1 sympy-1.14.0 tabulate-0.9.0 tenacity-9.1.2 threadpoolctl-3.6.0 tokenizers-0.22.2 tqdm-4.67.1 typer-0.21.1 typer-slim-0.21.1 typing-inspect-0.9.0 typing-inspection-0.4.2 tzdata-2025.3 urllib3-2.6.3 uuid-utils-0.13.0 uvicorn-0.40.0 uvloop-0.22.1 watchfiles-1.1.1 websocket-client-1.9.0 websockets-15.0.1 xxhash-3.6.0 yarl-1.22.0 zipp-3.23.0 zstandard-0.25.0
+Note: you may need to restart the kernel to use updated packages.
+Collecting wget
+  Using cached wget-3.2-py3-none-any.whl
+Installing collected packages: wget
+Successfully installed wget-3.2
+Note: you may need to restart the kernel to use updated packages.
+</pre>
 </div>
 </div>
 </div>
@@ -7604,7 +7624,6 @@ The data used in this notebook is from the <a href="https://arxiv.org/pdf/2405.0
 <ul>
 <li><code>url</code> - url which points to your CPD instance.</li>
 <li><code>username</code> - username to your CPD instance.</li>
-<li><code>api_key</code> - api_key to your CPD instance.</li>
 </ul>
 </div>
 </div>
@@ -7614,11 +7633,10 @@ The data used in this notebook is from the <a href="https://arxiv.org/pdf/2405.0
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">"PASTE YOUR CPD INSTANCE URL HERE"</span>
-<span class="n">api_key</span> <span class="o">=</span> <span class="s2">"PASTE YOUR CPD INSTANCE API KEY HERE"</span>
 <span class="n">username</span> <span class="o">=</span> <span class="s2">"PASTE YOUR CPD INSTANCE USERNAME HERE"</span>
 </pre></div>
 </div>
@@ -7633,11 +7651,13 @@ The data used in this notebook is from the <a href="https://arxiv.org/pdf/2405.0
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span>
 
 <span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span>
     <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span>
-    <span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Enter your watsonx.ai API key and hit enter: "</span><span class="p">),</span>
     <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
     <span class="n">instance_id</span><span class="o">=</span><span class="s2">"openshift"</span><span class="p">,</span>
     <span class="n">version</span><span class="o">=</span><span class="s2">"5.3"</span><span class="p">,</span>
@@ -7655,14 +7675,65 @@ The data used in this notebook is from the <a href="https://arxiv.org/pdf/2405.0
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>Alternatively, you can use your username and password to authenticate WML services.</p>
-<pre><code>credentials = Credentials(
-    username=***,
-    password=***,
-    url=***,
-    instance_id="openshift",
-    version="5.3"
-)
-</code></pre>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=03911898">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="s2">"credentials"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">()</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">credentials</span><span class="o">.</span><span class="n">api_key</span><span class="p">:</span>
+    <span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span>
+        <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span>
+        <span class="n">password</span><span class="o">=</span><span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Enter your watsonx.ai password and hit enter: "</span><span class="p">),</span>
+        <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+        <span class="n">instance_id</span><span class="o">=</span><span class="s2">"openshift"</span><span class="p">,</span>
+        <span class="n">version</span><span class="o">=</span><span class="s2">"5.3"</span><span class="p">,</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ae327d00">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Working-with-spaces">Working with spaces<a class="anchor-link" href="#Working-with-spaces">¶</a></h3><p>First, you need to create a space for your work. If you do not have a space already created, you can use <code>{PLATFORM_URL}/ml-runtime/spaces?context=icp4data</code> to create one.</p>
+<ul>
+<li>Click <strong>New Deployment Space</strong></li>
+<li>Create an empty space</li>
+<li>Go to the space <code>Settings</code> tab</li>
+<li>Copy <code>Space GUID</code> into your env file or else enter it in the window which will show up after running below cell</li>
+</ul>
+<p><strong>Tip</strong>: You can also use SDK to prepare the space for your work. Find more information in the <a href="https://github.com/IBM/watson-machine-learning-samples/blob/master/cpd5.0/notebooks/python_sdk/instance-management/Space%20management.ipynb">Space Management sample notebook</a>.</p>
+<p><strong>Action</strong>: Assign the space ID below</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=4cebd059">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">SPACE_ID</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"SPACE_ID"</span><span class="p">]</span>
+<span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+    <span class="n">SPACE_ID</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your space_id (hit enter): "</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -7677,95 +7748,24 @@ The data used in this notebook is from the <a href="https://arxiv.org/pdf/2405.0
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=310b0043-e52b-4abc-a265-0f386e20d545">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=6191de9d36b0ea37">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span>
 
-<span class="n">client</span> <span class="o">=</span> <span class="n">APIClient</span><span class="p">(</span><span class="n">credentials</span><span class="p">)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">APIClient</span><span class="p">(</span><span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span> <span class="n">space_id</span><span class="o">=</span><span class="n">SPACE_ID</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=06727769-283c-4f94-b4ed-68ac1df87b8f">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Working-with-spaces">Working with spaces<a class="anchor-link" href="#Working-with-spaces">¶</a></h3><p>First, you need to create a space for your work. If you do not have a space already created, you can use <code>{PLATFORM_URL}/ml-runtime/spaces?context=icp4data</code> to create one.</p>
-<ul>
-<li>Click <strong>New Deployment Space</strong></li>
-<li>Create an empty space</li>
-<li>Go to the space <code>Settings</code> tab</li>
-<li>Copy the <code>space_id</code> and paste it below</li>
-</ul>
-<p><code>PLATFORM_URL</code> is the url which points to your CPD instance.</p>
-<p><strong>Tip</strong>: You can also use SDK to prepare the space for your work. Find more information in the <a href="https://github.ibm.com/WML/watsonx-ai-samples/blob/dev/cpd5.3/notebooks/python_sdk/instance-management/Space%20management.ipynb">Space Management sample notebook</a>.</p>
-<p><strong>Action</strong>: Assign the space ID below</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=4b4952e1-da3c-4d6c-8ca3-c0e0b3062869">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">space_id</span> <span class="o">=</span> <span class="s2">"PASTE YOUR SPACE ID HERE"</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c4b062fe-4231-49f6-add6-6362cb5983ad">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>To be able to interact with all resources available in Watson Machine Learning, set the space that you are using.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=b13a852b-363b-4acf-b2aa-fd8c7061a554">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">set</span><span class="o">.</span><span class="n">default_space</span><span class="p">(</span><span class="n">space_id</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'SUCCESS'</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=34328ec6-8e73-4333-9ccf-bd0129ef4df6">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1a538feb8038c56b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7776,28 +7776,17 @@ The data used in this notebook is from the <a href="https://arxiv.org/pdf/2405.0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=fc9386c2-4b2a-47d9-b834-657cd26282c6">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b292e1bcfbd5849a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Connect to the Cloud Object Storage instance for the by using the <code>ibm_boto3</code> package (for detailed explanation how to do this see <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/manage-data/conn-cos.html?context=wx">IBM Cloud Object Storage connection</a>).</p>
+<p>Connect to the default COS instance for the provided space by using the <code>ibm_boto3</code> package.</p>
 </div>
 </div>
 </div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4bfc3907-f985-4590-ab38-53f96cd0fa3d">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><strong>Action</strong>: Assign COS credentials below</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=2dab6fa2-85f5-48f9-a2ea-2c0e04eca8c3">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=1df2d93b579cdd34">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7805,32 +7794,69 @@ The data used in this notebook is from the <a href="https://arxiv.org/pdf/2405.0
 <div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">cos_bucket_name</span> <span class="o">=</span> <span class="s2">"PASTE YOUR COS BUCKET NAME HERE"</span>
-<span class="n">endpoint_url</span> <span class="o">=</span> <span class="s2">"PASTE YOUR COS BUCKET ENDPOINT HERE"</span>
-<span class="n">access_key</span> <span class="o">=</span> <span class="s2">"PASTE YOUR COS BUCKET ACCESS KEY HERE"</span>
-<span class="n">secret_access_key</span> <span class="o">=</span> <span class="s2">"PASTE YOU COS BUCKET SECRET ACCESS KEY HERE"</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">ibm_boto3</span>
+
+<span class="n">cos_credentials</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">spaces</span><span class="o">.</span><span class="n">get_details</span><span class="p">(</span><span class="n">space_id</span><span class="o">=</span><span class="n">SPACE_ID</span><span class="p">)[</span><span class="s2">"entity"</span><span class="p">][</span><span class="s2">"storage"</span><span class="p">][</span>
+    <span class="s2">"properties"</span>
+<span class="p">]</span>
+
+<span class="n">cos_client</span> <span class="o">=</span> <span class="n">ibm_boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span>
+    <span class="n">service_name</span><span class="o">=</span><span class="s2">"s3"</span><span class="p">,</span>
+    <span class="n">endpoint_url</span><span class="o">=</span><span class="n">cos_credentials</span><span class="p">[</span><span class="s2">"endpoint_url"</span><span class="p">],</span>
+    <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">cos_credentials</span><span class="p">[</span><span class="s2">"credentials"</span><span class="p">][</span><span class="s2">"editor"</span><span class="p">][</span><span class="s2">"access_key_id"</span><span class="p">],</span>
+    <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">cos_credentials</span><span class="p">[</span><span class="s2">"credentials"</span><span class="p">][</span><span class="s2">"editor"</span><span class="p">][</span><span class="s2">"secret_access_key"</span><span class="p">],</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e41acd88-19b7-4980-90df-388b845c666b">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=fb7353b94e404e69">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Initialize the connection to the created and get the connection ID.</p>
+<p>Create a new bucket.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=290425c4-d49f-4798-88f6-0d38ac1f9981">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=705245bc2f2785d6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">cos_bucket_name</span> <span class="o">=</span> <span class="s2">"autoai-rag-with-extraction-experiment"</span>
+
+<span class="n">buckets_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">bucket</span><span class="p">[</span><span class="s2">"Name"</span><span class="p">]</span> <span class="k">for</span> <span class="n">bucket</span> <span class="ow">in</span> <span class="n">cos_client</span><span class="o">.</span><span class="n">list_buckets</span><span class="p">()[</span><span class="s2">"Buckets"</span><span class="p">]]</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">cos_bucket_name</span> <span class="ow">in</span> <span class="n">buckets_names</span><span class="p">:</span>
+    <span class="n">cos_client</span><span class="o">.</span><span class="n">create_bucket</span><span class="p">(</span><span class="n">Bucket</span><span class="o">=</span><span class="n">cos_bucket_name</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=afa211d65c3f216">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Initialize the client connection to the created bucket and get the connection ID.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=17b0d8d77c8a04f8">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">connection_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
@@ -7841,10 +7867,10 @@ The data used in this notebook is from the <a href="https://arxiv.org/pdf/2405.0
         <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Connection to COS for tests"</span><span class="p">,</span>
         <span class="s2">"properties"</span><span class="p">:</span> <span class="p">{</span>
             <span class="s2">"bucket"</span><span class="p">:</span> <span class="n">cos_bucket_name</span><span class="p">,</span>
-            <span class="s2">"access_key"</span><span class="p">:</span> <span class="n">access_key</span><span class="p">,</span>
-            <span class="s2">"secret_key"</span><span class="p">:</span> <span class="n">secret_access_key</span><span class="p">,</span>
+            <span class="s2">"access_key"</span><span class="p">:</span> <span class="n">cos_credentials</span><span class="p">[</span><span class="s2">"credentials"</span><span class="p">][</span><span class="s2">"editor"</span><span class="p">][</span><span class="s2">"access_key_id"</span><span class="p">],</span>
+            <span class="s2">"secret_key"</span><span class="p">:</span> <span class="n">cos_credentials</span><span class="p">[</span><span class="s2">"credentials"</span><span class="p">][</span><span class="s2">"editor"</span><span class="p">][</span><span class="s2">"secret_access_key"</span><span class="p">],</span>
             <span class="s2">"iam_url"</span><span class="p">:</span> <span class="n">client</span><span class="o">.</span><span class="n">service_instance</span><span class="o">.</span><span class="n">_href_definitions</span><span class="o">.</span><span class="n">get_iam_token_url</span><span class="p">(),</span>
-            <span class="s2">"url"</span><span class="p">:</span> <span class="n">endpoint_url</span><span class="p">,</span>
+            <span class="s2">"url"</span><span class="p">:</span> <span class="n">cos_credentials</span><span class="p">[</span><span class="s2">"endpoint_url"</span><span class="p">],</span>
         <span class="p">},</span>
     <span class="p">}</span>
 <span class="p">)</span>
@@ -7870,7 +7896,7 @@ SUCCESS
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5a32c840-2883-43fc-8c3c-8b3529168628">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ff0a7b3c2e49edb0">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7881,20 +7907,48 @@ SUCCESS
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=91844b81-2bc6-439b-924c-e2711d21aec3">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=6986db8afa2092a0">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataConnection</span><span class="p">,</span> <span class="n">S3Location</span>
 
 <span class="n">data_url</span> <span class="o">=</span> <span class="s2">"https://arxiv.org/pdf/2405.04324"</span>
 
-<span class="n">text_extraction_input_filename</span> <span class="o">=</span> <span class="s2">"granite_code_models.pdf"</span>
-<span class="n">text_extraction_result_filename</span> <span class="o">=</span> <span class="s2">"granite_code_models.md"</span>
+<span class="n">te_input_filename</span> <span class="o">=</span> <span class="s2">"granite_code_models_paper.pdf"</span>
+<span class="n">te_result_filename</span> <span class="o">=</span> <span class="s2">"granite_code_models_paper.md"</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f69a91d41da6d94d">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Download and upload training data to the COS bucket. Then define a connection to the uploaded file.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=4d2e0021b4ccfae3">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">wget</span>
+
+<span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">data_url</span><span class="p">,</span> <span class="n">te_input_filename</span><span class="p">)</span>
+<span class="n">cos_client</span><span class="o">.</span><span class="n">upload_file</span><span class="p">(</span><span class="n">te_input_filename</span><span class="p">,</span> <span class="n">cos_bucket_name</span><span class="p">,</span> <span class="n">te_input_filename</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7907,24 +7961,21 @@ SUCCESS
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Create an input connection.</p>
+<p>Input file connection.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=6239c0c1-65c0-48f8-acb7-a3e112c1acc8">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=457123d62baee219">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">input_data_reference</span> <span class="o">=</span> <span class="n">DataConnection</span><span class="p">(</span>
     <span class="n">connection_asset_id</span><span class="o">=</span><span class="n">cos_connection_id</span><span class="p">,</span>
-    <span class="n">location</span><span class="o">=</span><span class="n">S3Location</span><span class="p">(</span>
-        <span class="n">bucket</span><span class="o">=</span><span class="n">cos_bucket_name</span><span class="p">,</span>
-        <span class="n">path</span><span class="o">=</span><span class="n">text_extraction_input_filename</span><span class="p">,</span>
-    <span class="p">),</span>
+    <span class="n">location</span><span class="o">=</span><span class="n">S3Location</span><span class="p">(</span><span class="n">bucket</span><span class="o">=</span><span class="n">cos_bucket_name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">te_input_filename</span><span class="p">),</span>
 <span class="p">)</span>
 <span class="n">input_data_reference</span><span class="o">.</span><span class="n">set_client</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
 </pre></div>
@@ -7933,39 +7984,7 @@ SUCCESS
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=88939d9a-522b-40a4-91bf-faf69f8fa6d8">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Download the document from the url and upload to the COS Bucket using created connection.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=e68473ef-424c-4d30-a1af-5551c3355168">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
-
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">data_url</span><span class="p">)</span>
-<span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">()</span> <span class="k">as</span> <span class="n">tmp</span><span class="p">:</span>
-    <span class="n">tmp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
-    <span class="n">input_data_reference</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f54eac12-7d72-4f4c-a0c4-5541433be97e">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ef0a2d3adef6dbe6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7975,17 +7994,17 @@ SUCCESS
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=e4fe36e3-4365-4a36-8c3c-289ef591be39">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=93d11d2581f5d8e6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">result_data_reference</span> <span class="o">=</span> <span class="n">DataConnection</span><span class="p">(</span>
     <span class="n">connection_asset_id</span><span class="o">=</span><span class="n">cos_connection_id</span><span class="p">,</span>
-    <span class="n">location</span><span class="o">=</span><span class="n">S3Location</span><span class="p">(</span><span class="n">bucket</span><span class="o">=</span><span class="n">cos_bucket_name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">text_extraction_result_filename</span><span class="p">),</span>
+    <span class="n">location</span><span class="o">=</span><span class="n">S3Location</span><span class="p">(</span><span class="n">bucket</span><span class="o">=</span><span class="n">cos_bucket_name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">te_result_filename</span><span class="p">),</span>
 <span class="p">)</span>
 <span class="n">result_data_reference</span><span class="o">.</span><span class="n">set_client</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
 </pre></div>
@@ -7994,35 +8013,49 @@ SUCCESS
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=200df191-779f-406d-946f-a4c1c968543b">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=9770cd3738d64e83">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><a id="run-te"></a></p>
-<h2 id="Process-data-using-the-Text-Extraction-service">Process data using the Text Extraction service<a class="anchor-link" href="#Process-data-using-the-Text-Extraction-service">¶</a></h2><p>Initialize the Text Extraction service endpoint.</p>
+<h2 id="Process-data-using-the-Text-Extraction-service">Process data using the Text Extraction service<a class="anchor-link" href="#Process-data-using-the-Text-Extraction-service">¶</a></h2>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=fb0f855f-a5aa-4eb4-b866-1b8e97623dc3">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=629b6e92699ab5f7">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Initialize the Text Extraction service endpoint.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=ec363d7dd83678fe">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.extractions</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextExtractionsV2</span>
 
-<span class="n">extraction</span> <span class="o">=</span> <span class="n">TextExtractionsV2</span><span class="p">(</span><span class="n">api_client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
+<span class="n">extraction</span> <span class="o">=</span> <span class="n">TextExtractionsV2</span><span class="p">(</span>
+    <span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span>
+    <span class="n">space_id</span><span class="o">=</span><span class="n">SPACE_ID</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3f63fb9b-ee90-4810-b220-dce80b5645c2">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3ee3d5c200c3b3dd">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8032,25 +8065,28 @@ SUCCESS
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=5716472a-85aa-43c7-8fc3-4d3f59e3e2ef">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=dcc836b68a2db40a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.extractions</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextExtractionsV2ResultFormats</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.metanames</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextExtractionsV2ParametersMetaNames</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.metanames</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextExtractionsMetaNames</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">extraction</span><span class="o">.</span><span class="n">run_job</span><span class="p">(</span>
     <span class="n">document_reference</span><span class="o">=</span><span class="n">input_data_reference</span><span class="p">,</span>
     <span class="n">results_reference</span><span class="o">=</span><span class="n">result_data_reference</span><span class="p">,</span>
     <span class="n">parameters</span><span class="o">=</span><span class="p">{</span>
-        <span class="n">TextExtractionsV2ParametersMetaNames</span><span class="o">.</span><span class="n">OCR_MODE</span><span class="p">:</span> <span class="s2">"enabled"</span><span class="p">,</span>
-        <span class="n">TextExtractionsV2ParametersMetaNames</span><span class="o">.</span><span class="n">LANGUAGES</span><span class="p">:</span> <span class="p">[</span><span class="s2">"en"</span><span class="p">],</span>
+        <span class="n">TextExtractionsMetaNames</span><span class="o">.</span><span class="n">OCR</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"process_image"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">"languages_list"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"en"</span><span class="p">],</span>
+        <span class="p">},</span>
+        <span class="n">TextExtractionsMetaNames</span><span class="o">.</span><span class="n">TABLE_PROCESSING</span><span class="p">:</span> <span class="p">{</span><span class="s2">"enabled"</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
     <span class="p">},</span>
-    <span class="n">result_formats</span><span class="o">=</span><span class="n">TextExtractionsV2ResultFormats</span><span class="o">.</span><span class="n">MARKDOWN</span><span class="p">,</span>
+    <span class="n">result_formats</span><span class="o">=</span><span class="p">[</span><span class="n">TextExtractionsV2ResultFormats</span><span class="o">.</span><span class="n">MARKDOWN</span><span class="p">],</span>
 <span class="p">)</span>
 
 <span class="n">job_id</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">"metadata"</span><span class="p">][</span><span class="s2">"id"</span><span class="p">]</span>
@@ -8060,116 +8096,7 @@ SUCCESS
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f093b49c-e9ec-4c2f-a493-e42c66180914">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Wait for the job to be complete.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=cef0c0e8-cb4e-4bbd-94a1-7b9426ea0528">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
-
-<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-    <span class="n">job_details</span> <span class="o">=</span> <span class="n">extraction</span><span class="o">.</span><span class="n">get_job_details</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
-    <span class="n">status</span> <span class="o">=</span> <span class="n">job_details</span><span class="p">[</span><span class="s2">"entity"</span><span class="p">][</span><span class="s2">"results"</span><span class="p">][</span><span class="s2">"status"</span><span class="p">]</span>
-
-    <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="s2">"completed"</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span>
-            <span class="s2">"Job completed successfully, details: </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">job_details</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
-        <span class="k">break</span>
-
-    <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="s2">"failed"</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span>
-            <span class="s2">"Job failed, details: </span><span class="si">{}</span><span class="s2">. </span><span class="se">\n</span><span class="s2"> Try to run job again."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">job_details</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
-        <span class="k">break</span>
-
-    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Job completed successfully, details: {
-  "entity": {
-    "document_reference": {
-      "connection": {
-        "id": "9a6d9083-0657-41ec-a384-17327a90c3dd"
-      },
-      "location": {
-        "bucket": "cf809fbf-8020-4c69-8435-7220aa26c522",
-        "file_name": "granite_code_models.pdf"
-      },
-      "type": "connection_asset"
-    },
-    "parameters": {
-      "create_embedded_images": "disabled",
-      "languages": [
-        "en"
-      ],
-      "mode": "standard",
-      "ocr_mode": "enabled",
-      "output_dpi": 72,
-      "output_tokens_and_bbox": true,
-      "requested_outputs": [
-        "md"
-      ]
-    },
-    "results": {
-      "completed_at": "2025-05-15T10:15:35.666Z",
-      "number_pages_processed": 28,
-      "running_at": "2025-05-15T10:14:48.293Z",
-      "status": "completed"
-    },
-    "results_reference": {
-      "connection": {
-        "id": "9a6d9083-0657-41ec-a384-17327a90c3dd"
-      },
-      "location": {
-        "bucket": "cf809fbf-8020-4c69-8435-7220aa26c522",
-        "file_name": "granite_code_models.md"
-      },
-      "type": "connection_asset"
-    }
-  },
-  "metadata": {
-    "created_at": "2025-05-15T10:14:45.638Z",
-    "id": "d465b6b7-558e-45fc-88e7-018c7b446961",
-    "modified_at": "2025-05-15T10:15:35.879Z",
-    "space_id": "6f0b87a7-ae96-4467-b023-7fb5767d4798"
-  }
-}
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=36e545b5-01e6-472c-98cd-0b032da37714">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7635ca019a2ace22">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8179,7 +8106,7 @@ SUCCESS
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=55c549f9-7836-49ba-912a-fb720a99542e">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=15359c4bd8c91558">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8189,8 +8116,11 @@ SUCCESS
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span>
 
-<span class="n">result_data_reference</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">text_extraction_result_filename</span><span class="p">)</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">text_extraction_result_filename</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="n">cos_client</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span>
+    <span class="n">Bucket</span><span class="o">=</span><span class="n">cos_bucket_name</span><span class="p">,</span> <span class="n">Key</span><span class="o">=</span><span class="n">te_result_filename</span><span class="p">,</span> <span class="n">Filename</span><span class="o">=</span><span class="n">te_result_filename</span>
+<span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">te_result_filename</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
     <span class="c1"># Display beginning of the result file</span>
     <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">((</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()[:</span><span class="mi">3000</span><span class="p">])))</span>
 </pre></div>
@@ -8206,20 +8136,18 @@ SUCCESS
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
 <h2 id="Granite-Code-Models:-A-Family-of-Open-Foundation-Models-for-Code-Intelligence">Granite Code Models: A Family of Open Foundation Models for Code Intelligence<a class="anchor-link" href="#Granite-Code-Models:-A-Family-of-Open-Foundation-Models-for-Code-Intelligence">¶</a></h2><p>Mayank Mishra⋆ Matt Stallone⋆ Gaoyuan Zhang⋆ Yikang Shen Aditya Prasad Adriana Meza Soria Michele Merler Parameswaran Selvam Saptha Surendran Shivdeep Singh Manish Sethi Xuan-Hong Dang Pengyuan Li Kun-Lung Wu Syed Zawad Andrew Coleman Matthew White Mark Lewis Raju Pavuluri Yan Koyfman Boris Lublinsky Maximilien de Bayser Ibrahim Abdelaziz Kinjal Basu Mayank Agarwal Yi Zhou Chris Johnson Aanchal Goyal Hima Patel Yousaf Shah Petros Zerfos Heiko Ludwig Asim Munawar Maxwell Crouse Pavan Kapanipathi Shweta Salaria Bob Calio Sophia Wen Seetharami Seelam Brian Belgodere Carlos Fonseca Amith Singhee Nirmit Desai David D. Cox Ruchir Puri† Rameswar Panda†</p>
-<p>IBM Research</p>
-<p>⋆Equal</p>
-<p>Contribution</p>
+<p>IBM Research ⋆Equal Contribution</p>
 <p>†Corresponding Authors ruchir@us.ibm.com, rpanda@ibm.com</p>
 <h2 id="Abstract">Abstract<a class="anchor-link" href="#Abstract">¶</a></h2><p>Large Language Models (LLMs) trained on code are revolutionizing the software development process. Increasingly, code LLMs are being inte grated into software development environments to improve the produc tivity of human programmers, and LLM-based agents are beginning to show promise for handling complex tasks autonomously. Realizing the full potential of code LLMs requires a wide range of capabilities, including code generation, fixing bugs, explaining and documenting code, maintaining repositories, and more. In this work, we introduce the Granite series of decoder-only code models for code generative tasks, trained with code written in 116 programming languages. The Granite Code models family consists of models ranging in size from 3 to 34 billion parameters, suitable for applications ranging from complex application modernization tasks to on-device memory-constrained use cases. Evaluation on a comprehensive set of tasks demonstrates that Granite Code models consistently reaches state-of-the-art performance among available open-source code LLMs. The Granite Code model family was optimized for enterprise software devel opment workflows and performs well across a range of coding tasks (e.g. code generation, fixing and explanation), making it a versatile “all around” code model. We release all our Granite Code models under an Apache 2.0 license for both research and commercial use.</p>
 <p> <a href="https://github.com/ibm-granite/granite-code-models">https://github.com/ibm-granite/granite-code-models</a></p>
 <h2 id="1-Introduction">1 Introduction<a class="anchor-link" href="#1-Introduction">¶</a></h2><p>Over the last several decades, software has been woven into the fabric of every aspect of our society. As demand for software development surges, it is more critical than ever to increase software development productivity, and LLMs provide promising path for augmenting human programmers. Prominent enterprise use cases for LLMs in software development productivity include code generation, code explanation, code fixing, unit test and documentation generation, application modernization, vulnerability detection, code translation, and more.</p>
-<p>Recent years have seen rapid progress in LLM’s ability to generate and manipulate code, and a range of models with impressive coding a</p>
+<p>Recent years have seen rapid progress in LLM’s ability to generate and manipulate code, and a range of models with impressive coding abi</p>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=56d90e9c-f131-4e80-8a27-e03a41563eec">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ce5b2ba9ba5f967">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8231,29 +8159,18 @@ SUCCESS
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=274af1ea-c353-496a-8ed0-2aca92d52565">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=63872845c85d401d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Define a connection to COS Bucket and upload a <code>json</code> file to use for benchmarking.</p>
+<p>Upload a <code>json</code> file to use for benchmarking to COS and define a connection to this file.</p>
 <p>Note: <code>correct_answer_document_ids</code> must refer to the document processed by text extraction service, not the initial document.</p>
 </div>
 </div>
 </div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5cbb07c0-4a7b-4dba-8fa8-3701d844075b">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Benchmarking data.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=d40c67cc-962c-4e41-93da-8639212fea35">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=7491bef8c96b7040">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8265,17 +8182,17 @@ SUCCESS
     <span class="p">{</span>
         <span class="s2">"question"</span><span class="p">:</span> <span class="s2">"What are the two main variants of Granite Code models?"</span><span class="p">,</span>
         <span class="s2">"correct_answer"</span><span class="p">:</span> <span class="s2">"The two main variants are Granite Code Base and Granite Code Instruct."</span><span class="p">,</span>
-        <span class="s2">"correct_answer_document_ids"</span><span class="p">:</span> <span class="p">[</span><span class="n">text_extraction_result_filename</span><span class="p">],</span>
+        <span class="s2">"correct_answer_document_ids"</span><span class="p">:</span> <span class="p">[</span><span class="n">te_result_filename</span><span class="p">],</span>
     <span class="p">},</span>
     <span class="p">{</span>
         <span class="s2">"question"</span><span class="p">:</span> <span class="s2">"What is the purpose of Granite Code Instruct models?"</span><span class="p">,</span>
         <span class="s2">"correct_answer"</span><span class="p">:</span> <span class="s2">"Granite Code Instruct models are finetuned for instruction-following tasks using datasets like CommitPack, OASST, HelpSteer, and synthetic code instruction datasets, aiming to improve reasoning and instruction-following capabilities."</span><span class="p">,</span>
-        <span class="s2">"correct_answer_document_ids"</span><span class="p">:</span> <span class="p">[</span><span class="n">text_extraction_result_filename</span><span class="p">],</span>
+        <span class="s2">"correct_answer_document_ids"</span><span class="p">:</span> <span class="p">[</span><span class="n">te_result_filename</span><span class="p">],</span>
     <span class="p">},</span>
     <span class="p">{</span>
         <span class="s2">"question"</span><span class="p">:</span> <span class="s2">"What is the licensing model for Granite Code models?"</span><span class="p">,</span>
         <span class="s2">"correct_answer"</span><span class="p">:</span> <span class="s2">"Granite Code models are released under the Apache 2.0 license, ensuring permissive and enterprise-friendly usage."</span><span class="p">,</span>
-        <span class="s2">"correct_answer_document_ids"</span><span class="p">:</span> <span class="p">[</span><span class="n">text_extraction_result_filename</span><span class="p">],</span>
+        <span class="s2">"correct_answer_document_ids"</span><span class="p">:</span> <span class="p">[</span><span class="n">te_result_filename</span><span class="p">],</span>
     <span class="p">},</span>
 <span class="p">]</span>
 </pre></div>
@@ -8283,18 +8200,7 @@ SUCCESS
 </div>
 </div>
 </div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ec901d42-9935-4dfa-8c87-aaba73361176">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Create a connection.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=535e9136-a5d7-42e3-95fb-a912589c7da0">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=c0e92e1d32467d6f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8302,30 +8208,32 @@ SUCCESS
 <div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">test_filename</span> <span class="o">=</span> <span class="s2">"granite_code_models_benchmark.json"</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
-<span class="n">test_data_reference</span> <span class="o">=</span> <span class="n">DataConnection</span><span class="p">(</span>
-    <span class="n">connection_asset_id</span><span class="o">=</span><span class="n">cos_connection_id</span><span class="p">,</span>
-    <span class="n">location</span><span class="o">=</span><span class="n">S3Location</span><span class="p">(</span><span class="n">bucket</span><span class="o">=</span><span class="n">cos_bucket_name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">test_filename</span><span class="p">),</span>
-<span class="p">)</span>
-<span class="n">test_data_reference</span><span class="o">.</span><span class="n">set_client</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+<span class="n">test_filename</span> <span class="o">=</span> <span class="s2">"benchmark.json"</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">test_filename</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">test_filename</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
+        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">benchmarking_data</span><span class="p">,</span> <span class="n">json_file</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="n">cos_client</span><span class="o">.</span><span class="n">upload_file</span><span class="p">(</span><span class="n">test_filename</span><span class="p">,</span> <span class="n">cos_bucket_name</span><span class="p">,</span> <span class="n">test_filename</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1d8828c1-1e32-401d-8f44-ef5d5655cd40">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1a15c37edb8aa736">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Upload benchmarking data to COS Bucket.</p>
+<p>Test the data connection.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=d3f95789-a5e4-44f3-b8be-eb7d430fb7bd">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=a5fd521450aa575d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8333,28 +8241,30 @@ SUCCESS
 <div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmp</span><span class="p">:</span>
-    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">benchmarking_data</span><span class="p">,</span> <span class="n">tmp</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-    <span class="n">tmp</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
-    <span class="n">tmp_path</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">name</span>
-    <span class="n">test_data_reference</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">tmp_path</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">test_data_reference</span> <span class="o">=</span> <span class="n">DataConnection</span><span class="p">(</span>
+    <span class="n">connection_asset_id</span><span class="o">=</span><span class="n">cos_connection_id</span><span class="p">,</span>
+    <span class="n">location</span><span class="o">=</span><span class="n">S3Location</span><span class="p">(</span><span class="n">bucket</span><span class="o">=</span><span class="n">cos_bucket_name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">test_filename</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">test_data_reference</span><span class="o">.</span><span class="n">set_client</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+
+<span class="n">test_data_references</span> <span class="o">=</span> <span class="p">[</span><span class="n">test_data_reference</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=95880097-3786-46b1-8908-9eccc9384326">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=bcc6c6b167fe11fd">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Define the connections to the test data and input data for the AutoAI RAG experiment, using the output of the Text Extraction job as the input connection.</p>
+<p>Use the reference to the Text Extraction job result as input for the AutoAI RAG experiment.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=12649982-9ce5-4c3d-9f23-1137b172ce77">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=4451ab741f192d94">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8363,14 +8273,13 @@ SUCCESS
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">input_data_references</span> <span class="o">=</span> <span class="p">[</span><span class="n">result_data_reference</span><span class="p">]</span>
-<span class="n">test_data_references</span> <span class="o">=</span> <span class="p">[</span><span class="n">test_data_reference</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b856cbfe-75c8-418c-9d9c-cf78d7d13072">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5af97452ce3a4da6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8387,7 +8296,7 @@ SUCCESS
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=2980d4ef-0f85-4be7-acd5-b5b6975afcde">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=619457e9a66bcc24">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8397,12 +8306,12 @@ SUCCESS
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.experiment</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoAI</span>
 
-<span class="n">experiment</span> <span class="o">=</span> <span class="n">AutoAI</span><span class="p">(</span><span class="n">credentials</span><span class="p">,</span> <span class="n">space_id</span><span class="o">=</span><span class="n">space_id</span><span class="p">)</span>
+<span class="n">experiment</span> <span class="o">=</span> <span class="n">AutoAI</span><span class="p">(</span><span class="n">credentials</span><span class="p">,</span> <span class="n">space_id</span><span class="o">=</span><span class="n">SPACE_ID</span><span class="p">)</span>
 
 <span class="n">rag_optimizer</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">rag_optimizer</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">"AutoAI RAG - Text Extraction service experiment"</span><span class="p">,</span>
     <span class="n">description</span><span class="o">=</span><span class="s2">"AutoAI RAG experiment on documents generated by text extraction service"</span><span class="p">,</span>
-    <span class="n">max_number_of_rag_patterns</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">max_number_of_rag_patterns</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
     <span class="n">optimization_metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">"answer_correctness"</span><span class="p">],</span>
 <span class="p">)</span>
 </pre></div>
@@ -8411,7 +8320,7 @@ SUCCESS
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6fa0ce2e-9848-4b8d-8199-9b7e87b01b66">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=eebec0a74b713ef7">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8425,7 +8334,7 @@ SUCCESS
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a9ee9255-b710-4e18-a486-528310f3da20">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=aa3fc7d25f0cf32f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8433,7 +8342,7 @@ SUCCESS
 <div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">rag_optimizer</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">rag_optimizer</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
     <span class="n">input_data_references</span><span class="o">=</span><span class="n">input_data_references</span><span class="p">,</span>
     <span class="n">test_data_references</span><span class="o">=</span><span class="n">test_data_references</span><span class="p">,</span>
     <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -8454,22 +8363,466 @@ SUCCESS
 
 ##############################################
 
-Running '89fff5da-8405-4aba-abd6-b21b66f8cd03'
+Running 'cae26b9b-b959-45e0-a7f8-a272bc0e6aba'
 
 ##############################################
 
 
-pending...
-running........................................................................................................................................................................................................................................................
+pending....
+running...................................
 completed
-Training of '89fff5da-8405-4aba-abd6-b21b66f8cd03' finished successfully.
+Training of 'cae26b9b-b959-45e0-a7f8-a272bc0e6aba' finished successfully.
 </pre>
 </div>
 </div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[22]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>{'entity': {'hardware_spec': {'id': 'a6c4923b-b8e4-444c-9f43-8a7ec3020110',
+   'name': 'L'},
+  'input_data_references': [{'connection': {'id': '549e8fd2-da55-4d88-b51e-56bdc6d82d49'},
+    'location': {'bucket': 'autoai-rag-with-extraction-experiment',
+     'file_name': 'granite_code_models_paper.md'},
+    'type': 'connection_asset'}],
+  'parameters': {'constraints': {'max_number_of_rag_patterns': 5},
+   'optimization': {'metrics': ['answer_correctness']},
+   'output_logs': True},
+  'results': [{'context': {'iteration': 0,
+     'max_combinations': 360,
+     'rag_pattern': {'composition_steps': ['model_selection',
+       'chunking',
+       'embeddings',
+       'retrieval',
+       'generation'],
+      'duration_seconds': 17,
+      'location': {'evaluation_results': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern1/evaluation_results.json',
+       'indexing_notebook': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern1/indexing_inference_notebook.ipynb',
+       'inference_notebook': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern1/indexing_inference_notebook.ipynb',
+       'inference_service_code': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern1/inference_ai_service.gz',
+       'inference_service_metadata': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern1/inference_service_metadata.json'},
+      'name': 'Pattern1',
+      'settings': {'agent': {'description': 'Sequential graph with single index retriever.',
+        'framework': 'langgraph',
+        'type': 'sequential'},
+       'chunking': {'chunk_overlap': 0,
+        'chunk_size': 1024,
+        'method': 'semantic'},
+       'embeddings': {'model_id': 'ibm/slate-125m-english-rtrvr-v2',
+        'truncate_input_tokens': 512,
+        'truncate_strategy': 'left'},
+       'generation': {'chat_template_messages': {'system_message_text': 'You are Granite Chat, an AI language model developed by IBM. You are a cautious assistant. You carefully follow instructions. You are helpful and harmless and you follow ethical guidelines and promote positive behaviour.',
+         'user_message_text': 'You are an AI language model designed to function as a specialized Retrieval Augmented Generation (RAG) assistant. When generating responses, prioritize correctness, i.e., ensure that your response is grounded in context and user query. Always make sure that your response is relevant to the question. \nAnswer Length: detailed\n{reference_documents}\nRespond exclusively in the language of the question, regardless of any other language used in the provided context. Ensure that your entire response is in the same language as the question.\n{question} \n\n'},
+        'context_template_text': '[Document]\n{document}\n[End]',
+        'model_id': 'ibm/granite-3-8b-instruct',
+        'parameters': {'max_completion_tokens': 2048, 'temperature': 0.2},
+        'word_to_token_ratio': 2.5418},
+       'retrieval': {'method': 'simple',
+        'number_of_chunks': 5,
+        'window_size': 0},
+       'vector_store': {'datasource_type': 'chroma',
+        'distance_metric': 'cosine',
+        'index_name': 'autoai_rag_cae26b9b_20260108203844',
+        'operation': 'upsert',
+        'schema': {'fields': [{'description': 'text chunk extracted from document',
+           'name': 'text',
+           'role': 'text',
+           'type': 'string'},
+          {'description': 'document filename',
+           'name': 'document_id',
+           'role': 'document_name',
+           'type': 'string'},
+          {'description': 'chunk starting token position in the source document',
+           'name': 'start_index',
+           'role': 'chunk_start_position',
+           'type': 'number'},
+          {'description': 'sequential chunk number, representing its position within a larger document',
+           'name': 'sequence_number',
+           'role': 'chunk_sequence_number',
+           'type': 'number'},
+          {'description': 'dense embeddings vector',
+           'name': 'vector',
+           'role': 'dense_vector_embeddings',
+           'type': 'array'}],
+         'id': 'autoai_rag_1.0.1',
+         'name': 'Document schema using open-source loaders',
+         'type': 'struct'}}},
+      'settings_importance': {'agent': [{'importance': 0.11111111,
+         'parameter': 'type'}],
+       'chunking': [{'importance': 0.11111111, 'parameter': 'chunk_size'},
+        {'importance': 0.11111111, 'parameter': 'chunk_overlap'},
+        {'importance': 0.11111111, 'parameter': 'chunking_method'}],
+       'embeddings': [{'importance': 0.11111111,
+         'parameter': 'embedding_model'}],
+       'generation': [{'importance': 0.11111111,
+         'parameter': 'foundation_model'}],
+       'retrieval': [{'importance': 0.11111111,
+         'parameter': 'retrieval_method'},
+        {'importance': 0.11111111, 'parameter': 'window_size'},
+        {'importance': 0.11111111, 'parameter': 'number_of_chunks'}]}},
+     'software_spec': {'name': 'autoai-rag_rt24.1-py3.11'}},
+    'metrics': {'test_data': [{'ci_high': 1.0,
+       'ci_low': 0.6332,
+       'mean': 0.769,
+       'metric_name': 'answer_correctness'},
+      {'ci_high': 0.8389,
+       'ci_low': 0.5254,
+       'mean': 0.7295,
+       'metric_name': 'faithfulness'},
+      {'mean': 1.0, 'metric_name': 'context_correctness'}]}},
+   {'context': {'iteration': 1,
+     'max_combinations': 360,
+     'rag_pattern': {'composition_steps': ['model_selection',
+       'chunking',
+       'embeddings',
+       'retrieval',
+       'generation'],
+      'duration_seconds': 10,
+      'location': {'evaluation_results': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern2/evaluation_results.json',
+       'indexing_notebook': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern2/indexing_inference_notebook.ipynb',
+       'inference_notebook': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern2/indexing_inference_notebook.ipynb',
+       'inference_service_code': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern2/inference_ai_service.gz',
+       'inference_service_metadata': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern2/inference_service_metadata.json'},
+      'name': 'Pattern2',
+      'settings': {'agent': {'description': 'Sequential graph with single index retriever.',
+        'framework': 'langgraph',
+        'type': 'sequential'},
+       'chunking': {'chunk_overlap': 0,
+        'chunk_size': 1024,
+        'method': 'semantic'},
+       'embeddings': {'model_id': 'ibm/slate-125m-english-rtrvr-v2',
+        'truncate_input_tokens': 512,
+        'truncate_strategy': 'left'},
+       'generation': {'chat_template_messages': {'system_message_text': 'You are Granite Chat, an AI language model developed by IBM. You are a cautious assistant. You carefully follow instructions. You are helpful and harmless and you follow ethical guidelines and promote positive behaviour.',
+         'user_message_text': 'You are an AI language model designed to function as a specialized Retrieval Augmented Generation (RAG) assistant. When generating responses, prioritize correctness, i.e., ensure that your response is grounded in context and user query. Always make sure that your response is relevant to the question. \nAnswer Length: detailed\n{reference_documents}\nRespond exclusively in the language of the question, regardless of any other language used in the provided context. Ensure that your entire response is in the same language as the question.\n{question} \n\n'},
+        'context_template_text': '[Document]\n{document}\n[End]',
+        'model_id': 'ibm/granite-4-h-small',
+        'parameters': {'max_completion_tokens': 2048, 'temperature': 0.2},
+        'word_to_token_ratio': 2.1808},
+       'retrieval': {'method': 'window',
+        'number_of_chunks': 3,
+        'window_size': 4},
+       'vector_store': {'datasource_type': 'chroma',
+        'distance_metric': 'cosine',
+        'index_name': 'autoai_rag_cae26b9b_20260108203844',
+        'operation': 'upsert',
+        'schema': {'fields': [{'description': 'text chunk extracted from document',
+           'name': 'text',
+           'role': 'text',
+           'type': 'string'},
+          {'description': 'document filename',
+           'name': 'document_id',
+           'role': 'document_name',
+           'type': 'string'},
+          {'description': 'chunk starting token position in the source document',
+           'name': 'start_index',
+           'role': 'chunk_start_position',
+           'type': 'number'},
+          {'description': 'sequential chunk number, representing its position within a larger document',
+           'name': 'sequence_number',
+           'role': 'chunk_sequence_number',
+           'type': 'number'},
+          {'description': 'dense embeddings vector',
+           'name': 'vector',
+           'role': 'dense_vector_embeddings',
+           'type': 'array'}],
+         'id': 'autoai_rag_1.0.1',
+         'name': 'Document schema using open-source loaders',
+         'type': 'struct'}}},
+      'settings_importance': {'agent': [{'importance': 0.0,
+         'parameter': 'type'}],
+       'chunking': [{'importance': 0.0, 'parameter': 'chunk_size'},
+        {'importance': 0.0, 'parameter': 'chunk_overlap'},
+        {'importance': 0.0, 'parameter': 'chunking_method'}],
+       'embeddings': [{'importance': 0.0, 'parameter': 'embedding_model'}],
+       'generation': [{'importance': 0.26923078,
+         'parameter': 'foundation_model'}],
+       'retrieval': [{'importance': 0.26923078,
+         'parameter': 'retrieval_method'},
+        {'importance': 0.23076923, 'parameter': 'window_size'},
+        {'importance': 0.23076923, 'parameter': 'number_of_chunks'}]}},
+     'software_spec': {'name': 'autoai-rag_rt24.1-py3.11'}},
+    'metrics': {'test_data': [{'ci_high': 0.9753,
+       'ci_low': 0.7857,
+       'mean': 0.9039,
+       'metric_name': 'answer_correctness'},
+      {'ci_high': 0.8862,
+       'ci_low': 0.7685,
+       'mean': 0.8456,
+       'metric_name': 'faithfulness'},
+      {'mean': 1.0, 'metric_name': 'context_correctness'}]}},
+   {'context': {'iteration': 2,
+     'max_combinations': 360,
+     'rag_pattern': {'composition_steps': ['model_selection',
+       'chunking',
+       'embeddings',
+       'retrieval',
+       'generation'],
+      'duration_seconds': 6,
+      'location': {'evaluation_results': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern3/evaluation_results.json',
+       'indexing_notebook': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern3/indexing_inference_notebook.ipynb',
+       'inference_notebook': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern3/indexing_inference_notebook.ipynb',
+       'inference_service_code': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern3/inference_ai_service.gz',
+       'inference_service_metadata': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern3/inference_service_metadata.json'},
+      'name': 'Pattern3',
+      'settings': {'agent': {'description': 'Sequential graph with single index retriever.',
+        'framework': 'langgraph',
+        'type': 'sequential'},
+       'chunking': {'chunk_overlap': 0,
+        'chunk_size': 1024,
+        'method': 'semantic'},
+       'embeddings': {'model_id': 'ibm/slate-125m-english-rtrvr-v2',
+        'truncate_input_tokens': 512,
+        'truncate_strategy': 'left'},
+       'generation': {'chat_template_messages': {'system_message_text': 'You are a helpful, respectful and honest assistant. Always answer as helpfully as possible, while being safe. Your answers should not include any harmful, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature.\nIf a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don’t know the answer to a question, please don’t share false information.\n',
+         'user_message_text': '{reference_documents}\n[conversation]: {question}. Answer with no more than 150 words. If you cannot base your answer on the given document, please state that you do not have an answer. Respond exclusively in the language of the question, regardless of any other language used in the provided context. Ensure that your entire response is in the same language as the question.\n'},
+        'context_template_text': '[document]: {document}\n',
+        'model_id': 'meta-llama/llama-3-3-70b-instruct',
+        'parameters': {'max_completion_tokens': 2048, 'temperature': 0.2},
+        'word_to_token_ratio': 2.1758},
+       'retrieval': {'method': 'window',
+        'number_of_chunks': 3,
+        'window_size': 4},
+       'vector_store': {'datasource_type': 'chroma',
+        'distance_metric': 'cosine',
+        'index_name': 'autoai_rag_cae26b9b_20260108203844',
+        'operation': 'upsert',
+        'schema': {'fields': [{'description': 'text chunk extracted from document',
+           'name': 'text',
+           'role': 'text',
+           'type': 'string'},
+          {'description': 'document filename',
+           'name': 'document_id',
+           'role': 'document_name',
+           'type': 'string'},
+          {'description': 'chunk starting token position in the source document',
+           'name': 'start_index',
+           'role': 'chunk_start_position',
+           'type': 'number'},
+          {'description': 'sequential chunk number, representing its position within a larger document',
+           'name': 'sequence_number',
+           'role': 'chunk_sequence_number',
+           'type': 'number'},
+          {'description': 'dense embeddings vector',
+           'name': 'vector',
+           'role': 'dense_vector_embeddings',
+           'type': 'array'}],
+         'id': 'autoai_rag_1.0.1',
+         'name': 'Document schema using open-source loaders',
+         'type': 'struct'}}},
+      'settings_importance': {'agent': [{'importance': 0.0,
+         'parameter': 'type'}],
+       'chunking': [{'importance': 0.0, 'parameter': 'chunk_size'},
+        {'importance': 0.0, 'parameter': 'chunk_overlap'},
+        {'importance': 0.0, 'parameter': 'chunking_method'}],
+       'embeddings': [{'importance': 0.0, 'parameter': 'embedding_model'}],
+       'generation': [{'importance': 0.57723254,
+         'parameter': 'foundation_model'}],
+       'retrieval': [{'importance': 0.18197195,
+         'parameter': 'retrieval_method'},
+        {'importance': 0.10824008, 'parameter': 'window_size'},
+        {'importance': 0.13255541, 'parameter': 'number_of_chunks'}]}},
+     'software_spec': {'name': 'autoai-rag_rt24.1-py3.11'}},
+    'metrics': {'test_data': [{'ci_high': 1.0,
+       'ci_low': 0.6296,
+       'mean': 0.8051,
+       'metric_name': 'answer_correctness'},
+      {'ci_high': 0.955,
+       'ci_low': 0.8261,
+       'mean': 0.912,
+       'metric_name': 'faithfulness'},
+      {'mean': 1.0, 'metric_name': 'context_correctness'}]}},
+   {'context': {'iteration': 3,
+     'max_combinations': 360,
+     'rag_pattern': {'composition_steps': ['model_selection',
+       'chunking',
+       'embeddings',
+       'retrieval',
+       'generation'],
+      'duration_seconds': 6,
+      'location': {'evaluation_results': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern4/evaluation_results.json',
+       'indexing_notebook': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern4/indexing_inference_notebook.ipynb',
+       'inference_notebook': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern4/indexing_inference_notebook.ipynb',
+       'inference_service_code': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern4/inference_ai_service.gz',
+       'inference_service_metadata': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern4/inference_service_metadata.json'},
+      'name': 'Pattern4',
+      'settings': {'agent': {'description': 'Sequential graph with single index retriever.',
+        'framework': 'langgraph',
+        'type': 'sequential'},
+       'chunking': {'chunk_overlap': 512,
+        'chunk_size': 1024,
+        'method': 'recursive'},
+       'embeddings': {'model_id': 'intfloat/multilingual-e5-large',
+        'truncate_input_tokens': 512,
+        'truncate_strategy': 'left'},
+       'generation': {'chat_template_messages': {'system_message_text': 'You are a helpful, respectful and honest assistant. Always answer as helpfully as possible, while being safe. Your answers should not include any harmful, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature.\nIf a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don’t know the answer to a question, please don’t share false information.\n',
+         'user_message_text': '{reference_documents}\n[conversation]: {question}. Answer with no more than 150 words. If you cannot base your answer on the given document, please state that you do not have an answer. Respond exclusively in the language of the question, regardless of any other language used in the provided context. Ensure that your entire response is in the same language as the question.\n'},
+        'context_template_text': '[document]: {document}\n',
+        'model_id': 'meta-llama/llama-3-3-70b-instruct',
+        'parameters': {'max_completion_tokens': 2048, 'temperature': 0.2},
+        'word_to_token_ratio': 2.1758},
+       'retrieval': {'method': 'window',
+        'number_of_chunks': 3,
+        'window_size': 4},
+       'vector_store': {'datasource_type': 'chroma',
+        'distance_metric': 'cosine',
+        'index_name': 'autoai_rag_cae26b9b_20260108203943',
+        'operation': 'upsert',
+        'schema': {'fields': [{'description': 'text chunk extracted from document',
+           'name': 'text',
+           'role': 'text',
+           'type': 'string'},
+          {'description': 'document filename',
+           'name': 'document_id',
+           'role': 'document_name',
+           'type': 'string'},
+          {'description': 'chunk starting token position in the source document',
+           'name': 'start_index',
+           'role': 'chunk_start_position',
+           'type': 'number'},
+          {'description': 'sequential chunk number, representing its position within a larger document',
+           'name': 'sequence_number',
+           'role': 'chunk_sequence_number',
+           'type': 'number'},
+          {'description': 'dense embeddings vector',
+           'name': 'vector',
+           'role': 'dense_vector_embeddings',
+           'type': 'array'}],
+         'id': 'autoai_rag_1.0.1',
+         'name': 'Document schema using open-source loaders',
+         'type': 'struct'}}},
+      'settings_importance': {'agent': [{'importance': 0.0,
+         'parameter': 'type'}],
+       'chunking': [{'importance': 0.0, 'parameter': 'chunk_size'},
+        {'importance': 0.01746858, 'parameter': 'chunk_overlap'},
+        {'importance': 0.025077363, 'parameter': 'chunking_method'}],
+       'embeddings': [{'importance': 0.12082204,
+         'parameter': 'embedding_model'}],
+       'generation': [{'importance': 0.64422536,
+         'parameter': 'foundation_model'}],
+       'retrieval': [{'importance': 0.11813643,
+         'parameter': 'retrieval_method'},
+        {'importance': 0.030871479, 'parameter': 'window_size'},
+        {'importance': 0.043398753, 'parameter': 'number_of_chunks'}]}},
+     'software_spec': {'name': 'autoai-rag_rt24.1-py3.11'}},
+    'metrics': {'test_data': [{'ci_high': 1.0,
+       'ci_low': 0.6825,
+       'mean': 0.7937,
+       'metric_name': 'answer_correctness'},
+      {'ci_high': 1.0,
+       'ci_low': 0.7933,
+       'mean': 0.8689,
+       'metric_name': 'faithfulness'},
+      {'mean': 1.0, 'metric_name': 'context_correctness'}]}},
+   {'context': {'iteration': 4,
+     'max_combinations': 360,
+     'rag_pattern': {'composition_steps': ['model_selection',
+       'chunking',
+       'embeddings',
+       'retrieval',
+       'generation'],
+      'duration_seconds': 9,
+      'location': {'evaluation_results': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern5/evaluation_results.json',
+       'indexing_notebook': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern5/indexing_inference_notebook.ipynb',
+       'inference_notebook': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern5/indexing_inference_notebook.ipynb',
+       'inference_service_code': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern5/inference_ai_service.gz',
+       'inference_service_metadata': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern5/inference_service_metadata.json'},
+      'name': 'Pattern5',
+      'settings': {'agent': {'description': 'Sequential graph with single index retriever.',
+        'framework': 'langgraph',
+        'type': 'sequential'},
+       'chunking': {'chunk_overlap': 0,
+        'chunk_size': 1024,
+        'method': 'semantic'},
+       'embeddings': {'model_id': 'ibm/slate-125m-english-rtrvr-v2',
+        'truncate_input_tokens': 512,
+        'truncate_strategy': 'left'},
+       'generation': {'chat_template_messages': {'system_message_text': 'You are Granite Chat, an AI language model developed by IBM. You are a cautious assistant. You carefully follow instructions. You are helpful and harmless and you follow ethical guidelines and promote positive behaviour.',
+         'user_message_text': 'You are an AI language model designed to function as a specialized Retrieval Augmented Generation (RAG) assistant. When generating responses, prioritize correctness, i.e., ensure that your response is grounded in context and user query. Always make sure that your response is relevant to the question. \nAnswer Length: detailed\n{reference_documents}\nRespond exclusively in the language of the question, regardless of any other language used in the provided context. Ensure that your entire response is in the same language as the question.\n{question} \n\n'},
+        'context_template_text': '[Document]\n{document}\n[End]',
+        'model_id': 'ibm/granite-4-h-small',
+        'parameters': {'max_completion_tokens': 2048, 'temperature': 0.2},
+        'word_to_token_ratio': 2.1808},
+       'retrieval': {'method': 'window',
+        'number_of_chunks': 3,
+        'window_size': 4},
+       'vector_store': {'datasource_type': 'chroma',
+        'distance_metric': 'cosine',
+        'index_name': 'autoai_rag_cae26b9b_20260108203844',
+        'operation': 'upsert',
+        'schema': {'fields': [{'description': 'text chunk extracted from document',
+           'name': 'text',
+           'role': 'text',
+           'type': 'string'},
+          {'description': 'document filename',
+           'name': 'document_id',
+           'role': 'document_name',
+           'type': 'string'},
+          {'description': 'chunk starting token position in the source document',
+           'name': 'start_index',
+           'role': 'chunk_start_position',
+           'type': 'number'},
+          {'description': 'sequential chunk number, representing its position within a larger document',
+           'name': 'sequence_number',
+           'role': 'chunk_sequence_number',
+           'type': 'number'},
+          {'description': 'dense embeddings vector',
+           'name': 'vector',
+           'role': 'dense_vector_embeddings',
+           'type': 'array'}],
+         'id': 'autoai_rag_1.0.1',
+         'name': 'Document schema using open-source loaders',
+         'type': 'struct'}}},
+      'settings_importance': {'agent': [{'importance': 0.0,
+         'parameter': 'type'}],
+       'chunking': [{'importance': 0.0, 'parameter': 'chunk_size'},
+        {'importance': 0.013629469, 'parameter': 'chunk_overlap'},
+        {'importance': 0.0232029, 'parameter': 'chunking_method'}],
+       'embeddings': [{'importance': 0.01514347,
+         'parameter': 'embedding_model'}],
+       'generation': [{'importance': 0.8251883,
+         'parameter': 'foundation_model'}],
+       'retrieval': [{'importance': 0.048145466,
+         'parameter': 'retrieval_method'},
+        {'importance': 0.0019693195, 'parameter': 'window_size'},
+        {'importance': 0.07272107, 'parameter': 'number_of_chunks'}]}},
+     'software_spec': {'name': 'autoai-rag_rt24.1-py3.11'}},
+    'metrics': {'test_data': [{'ci_high': 1.0,
+       'ci_low': 0.7857,
+       'mean': 0.8915,
+       'metric_name': 'answer_correctness'},
+      {'ci_high': 0.8464,
+       'ci_low': 0.7692,
+       'mean': 0.8161,
+       'metric_name': 'faithfulness'},
+      {'mean': 1.0, 'metric_name': 'context_correctness'}]}}],
+  'results_reference': {'location': {'path': 'default_autoai_rag_out',
+    'training': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba',
+    'training_status': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/training-status.json',
+    'training_log': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/output.log',
+    'assets_path': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/assets'},
+   'type': 'container'},
+  'status': {'completed_at': '2026-01-08T20:40:14.725Z',
+   'message': {'level': 'info', 'text': 'AutoAI RAG execution completed.'},
+   'running_at': '2026-01-08T20:40:14.000Z',
+   'state': 'completed',
+   'step': 'generation'},
+  'test_data_references': [{'connection': {'id': '549e8fd2-da55-4d88-b51e-56bdc6d82d49'},
+    'location': {'bucket': 'autoai-rag-with-extraction-experiment',
+     'file_name': 'benchmark.json'},
+    'type': 'connection_asset'}],
+  'timestamp': '2026-01-08T20:40:14.978Z'},
+ 'metadata': {'created_at': '2026-01-08T20:36:15.207Z',
+  'description': 'AutoAI RAG experiment on documents generated by text extraction service',
+  'id': 'cae26b9b-b959-45e0-a7f8-a272bc0e6aba',
+  'modified_at': '2026-01-08T20:40:14.752Z',
+  'name': 'AutoAI RAG - Text Extraction service experiment',
+  'space_id': '9f44cc2b-b3d0-4472-824e-4941afb1617b'}}</pre>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=fab3418b-6fe1-42b3-8896-d2a56959c53e">
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4563ecfaed85b633">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8480,7 +8833,7 @@ Training of '89fff5da-8405-4aba-abd6-b21b66f8cd03' finished successfully.
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f7eaaf5e-18a4-4c79-81b2-20e109199c1d">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=dc2a28877f1459e6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8521,8 +8874,6 @@ Training of '89fff5da-8405-4aba-abd6-b21b66f8cd03' finished successfully.
 <tr style="text-align: right;">
 <th></th>
 <th>mean_answer_correctness</th>
-<th>mean_faithfulness</th>
-<th>mean_context_correctness</th>
 <th>chunking.method</th>
 <th>chunking.chunk_size</th>
 <th>chunking.chunk_overlap</th>
@@ -8531,10 +8882,10 @@ Training of '89fff5da-8405-4aba-abd6-b21b66f8cd03' finished successfully.
 <th>retrieval.method</th>
 <th>retrieval.number_of_chunks</th>
 <th>generation.model_id</th>
+<th>agent.type</th>
 </tr>
 <tr>
 <th>Pattern_Name</th>
-<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -8549,60 +8900,69 @@ Training of '89fff5da-8405-4aba-abd6-b21b66f8cd03' finished successfully.
 </thead>
 <tbody>
 <tr>
-<th>Pattern1</th>
-<td>0.7937</td>
-<td>0.5730</td>
-<td>1.0</td>
-<td>recursive</td>
-<td>512</td>
-<td>128</td>
-<td>intfloat/multilingual-e5-large</td>
+<th>Pattern2</th>
+<td>0.9039</td>
+<td>semantic</td>
+<td>1024</td>
+<td>0</td>
+<td>ibm/slate-125m-english-rtrvr-v2</td>
 <td>cosine</td>
 <td>window</td>
-<td>5</td>
-<td>ibm/granite-3-8b-instruct</td>
+<td>3</td>
+<td>ibm/granite-4-h-small</td>
+<td>sequential</td>
+</tr>
+<tr>
+<th>Pattern5</th>
+<td>0.8915</td>
+<td>semantic</td>
+<td>1024</td>
+<td>0</td>
+<td>ibm/slate-125m-english-rtrvr-v2</td>
+<td>cosine</td>
+<td>window</td>
+<td>3</td>
+<td>ibm/granite-4-h-small</td>
+<td>sequential</td>
 </tr>
 <tr>
 <th>Pattern3</th>
+<td>0.8051</td>
+<td>semantic</td>
+<td>1024</td>
+<td>0</td>
+<td>ibm/slate-125m-english-rtrvr-v2</td>
+<td>cosine</td>
+<td>window</td>
+<td>3</td>
+<td>meta-llama/llama-3-3-70b-instruct</td>
+<td>sequential</td>
+</tr>
+<tr>
+<th>Pattern4</th>
 <td>0.7937</td>
-<td>0.8994</td>
-<td>1.0</td>
 <td>recursive</td>
 <td>1024</td>
 <td>512</td>
 <td>intfloat/multilingual-e5-large</td>
 <td>cosine</td>
 <td>window</td>
-<td>5</td>
-<td>mistralai/mistral-large</td>
-</tr>
-<tr>
-<th>Pattern4</th>
-<td>0.6287</td>
-<td>0.7439</td>
-<td>1.0</td>
-<td>recursive</td>
-<td>512</td>
-<td>256</td>
-<td>ibm/slate-125m-english-rtrvr-lm</td>
-<td>cosine</td>
-<td>window</td>
 <td>3</td>
-<td>mistralai/mistral-large</td>
+<td>meta-llama/llama-3-3-70b-instruct</td>
+<td>sequential</td>
 </tr>
 <tr>
-<th>Pattern2</th>
-<td>0.5687</td>
-<td>0.5961</td>
-<td>1.0</td>
-<td>recursive</td>
-<td>512</td>
-<td>256</td>
+<th>Pattern1</th>
+<td>0.7690</td>
+<td>semantic</td>
+<td>1024</td>
+<td>0</td>
 <td>ibm/slate-125m-english-rtrvr-v2</td>
 <td>cosine</td>
 <td>simple</td>
-<td>3</td>
-<td>ibm/granite-13b-instruct-v2</td>
+<td>5</td>
+<td>ibm/granite-3-8b-instruct</td>
+<td>sequential</td>
 </tr>
 </tbody>
 </table>
@@ -8612,7 +8972,7 @@ Training of '89fff5da-8405-4aba-abd6-b21b66f8cd03' finished successfully.
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=99df89b2-f553-407d-8986-45ca402e8756">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=dd2f1b669bfa61df">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8622,7 +8982,7 @@ Training of '89fff5da-8405-4aba-abd6-b21b66f8cd03' finished successfully.
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=e6facc27-fbbb-4d6e-824f-c62b14bb492d">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=e423064a26b8f02e">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8646,14 +9006,108 @@ Training of '89fff5da-8405-4aba-abd6-b21b66f8cd03' finished successfully.
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Best pattern is: Pattern1
+<pre>Best pattern is: Pattern2
+Collecting pyarrow&gt;=3.0.0
+  Using cached pyarrow-22.0.0-cp312-cp312-macosx_12_0_arm64.whl.metadata (3.2 kB)
+Using cached pyarrow-22.0.0-cp312-cp312-macosx_12_0_arm64.whl (34.2 MB)
+Installing collected packages: pyarrow
+Successfully installed pyarrow-22.0.0
 </pre>
 </div>
 </div>
 </div>
 </div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=4cb7325de0524ebc">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e1d0e52c-a7d7-4847-ac56-cc6aca44d1b7">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">rag_optimizer</span><span class="o">.</span><span class="n">get_pattern_details</span><span class="p">(</span><span class="n">pattern_name</span><span class="o">=</span><span class="n">best_pattern_name</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[25]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>{'composition_steps': ['model_selection',
+  'chunking',
+  'embeddings',
+  'retrieval',
+  'generation'],
+ 'duration_seconds': 10,
+ 'location': {'evaluation_results': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern2/evaluation_results.json',
+  'indexing_notebook': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern2/indexing_inference_notebook.ipynb',
+  'inference_notebook': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern2/indexing_inference_notebook.ipynb',
+  'inference_service_code': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern2/inference_ai_service.gz',
+  'inference_service_metadata': 'default_autoai_rag_out/cae26b9b-b959-45e0-a7f8-a272bc0e6aba/Pattern2/inference_service_metadata.json'},
+ 'name': 'Pattern2',
+ 'settings': {'agent': {'description': 'Sequential graph with single index retriever.',
+   'framework': 'langgraph',
+   'type': 'sequential'},
+  'chunking': {'chunk_overlap': 0, 'chunk_size': 1024, 'method': 'semantic'},
+  'embeddings': {'model_id': 'ibm/slate-125m-english-rtrvr-v2',
+   'truncate_input_tokens': 512,
+   'truncate_strategy': 'left'},
+  'generation': {'chat_template_messages': {'system_message_text': 'You are Granite Chat, an AI language model developed by IBM. You are a cautious assistant. You carefully follow instructions. You are helpful and harmless and you follow ethical guidelines and promote positive behaviour.',
+    'user_message_text': 'You are an AI language model designed to function as a specialized Retrieval Augmented Generation (RAG) assistant. When generating responses, prioritize correctness, i.e., ensure that your response is grounded in context and user query. Always make sure that your response is relevant to the question. \nAnswer Length: detailed\n{reference_documents}\nRespond exclusively in the language of the question, regardless of any other language used in the provided context. Ensure that your entire response is in the same language as the question.\n{question} \n\n'},
+   'context_template_text': '[Document]\n{document}\n[End]',
+   'model_id': 'ibm/granite-4-h-small',
+   'parameters': {'max_completion_tokens': 2048, 'temperature': 0.2},
+   'word_to_token_ratio': 2.1808},
+  'retrieval': {'method': 'window', 'number_of_chunks': 3, 'window_size': 4},
+  'vector_store': {'datasource_type': 'chroma',
+   'distance_metric': 'cosine',
+   'index_name': 'autoai_rag_cae26b9b_20260108203844',
+   'operation': 'upsert',
+   'schema': {'fields': [{'description': 'text chunk extracted from document',
+      'name': 'text',
+      'role': 'text',
+      'type': 'string'},
+     {'description': 'document filename',
+      'name': 'document_id',
+      'role': 'document_name',
+      'type': 'string'},
+     {'description': 'chunk starting token position in the source document',
+      'name': 'start_index',
+      'role': 'chunk_start_position',
+      'type': 'number'},
+     {'description': 'sequential chunk number, representing its position within a larger document',
+      'name': 'sequence_number',
+      'role': 'chunk_sequence_number',
+      'type': 'number'},
+     {'description': 'dense embeddings vector',
+      'name': 'vector',
+      'role': 'dense_vector_embeddings',
+      'type': 'array'}],
+    'id': 'autoai_rag_1.0.1',
+    'name': 'Document schema using open-source loaders',
+    'type': 'struct'}}},
+ 'settings_importance':                                    importance
+ setting_category parameter                   
+ generation       foundation_model    0.269231
+ retrieval        retrieval_method    0.269231
+                  window_size         0.230769
+                  number_of_chunks    0.230769
+ agent            type                0.000000
+ chunking         chunk_size          0.000000
+                  chunk_overlap       0.000000
+                  chunking_method     0.000000
+ embeddings       embedding_model     0.000000}</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3717292bbd09cd99">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8663,12 +9117,12 @@ Training of '89fff5da-8405-4aba-abd6-b21b66f8cd03' finished successfully.
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=aba19879-5cdf-4ac0-92c8-ec6d85e2ac65">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=e3fa414e">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [27]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.deployments</span><span class="w"> </span><span class="kn">import</span> <span class="n">RuntimeContext</span>
@@ -8680,21 +9134,34 @@ Training of '89fff5da-8405-4aba-abd6-b21b66f8cd03' finished successfully.
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=4f786ff9-ac3d-45f5-b237-cbb1805251ec">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=592456e149f2e372">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [37]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">question</span> <span class="o">=</span> <span class="s2">"What training objectives are used for the models?"</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">question</span> <span class="o">=</span> <span class="s2">"Which industry players are mentioned as IBM’s strategic partners?"</span>
 
 <span class="n">context</span> <span class="o">=</span> <span class="n">RuntimeContext</span><span class="p">(</span>
     <span class="n">api_client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
     <span class="n">request_payload_json</span><span class="o">=</span><span class="p">{</span><span class="s2">"messages"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">question</span><span class="p">}]},</span>
 <span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">inference_service_function</span><span class="p">(</span><span class="n">context</span><span class="p">)[</span><span class="s2">"body"</span><span class="p">][</span><span class="s2">"choices"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"message"</span><span class="p">][</span><span class="s2">"content"</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=6a9c4abbcb4d316b">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [29]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">inference_service_function</span><span class="p">(</span><span class="n">context</span><span class="p">)[</span><span class="s2">"body"</span><span class="p">][</span><span class="s2">"choices"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"message"</span><span class="p">][</span><span class="s2">"content"</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -8707,44 +9174,50 @@ Training of '89fff5da-8405-4aba-abd6-b21b66f8cd03' finished successfully.
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-The models are trained using the causal language modeling objective and the Fill-In the-Middle (FIM) objective. The FIM objective is designed to predict inserted tokens given a context and subsequent text. The models are trained to work with both PSM (Prefix-Suffix-Middle) and SPM (Suffix-Prefix-Middle) modes, using relevant formatting control tokens. The overall loss is computed as a weighted combination of the two objectives, with α empirically set to 0.5 during training. The FIM objective is only used during pretraining, and is dropped during instruction finetuning.
+<pre>Based on the provided context, the following industry players are mentioned as IBM's strategic partners:
 
-Reference(s):
-Document
-4.2 Training Objective
-For training of all our models, we use the causal language modeling objective and Fill-In the-Middle (FIM) (Bavarian et al., 2022) objective. The FIM objective is tasked to predict inserted tokens with the given context and subsequent text. We train our models to work with both PSM (Prefix-Suffix-Middle) and SPM (Suffix-Prefix-Middle) modes, with relevant formatting control tokens, same as StarCoder (Li et al., 2023a). The overall loss is computed as a weighted combination of the 2 objectives:
-L = αLCLM + (1 − α)LF IM (1)
-We emperically set α = 0.5 during training and find that this works well in practice leading to SOTA performance on both code completion and code infilling tasks. It should be noted that the FIM objective is only used during pretraining, however we drop it during instruction finetuning i.e we set α = 1.
+1. Meta - IBM collaborated with Meta on the Llama 3 model card.
 
-Is there anything else you would like to know?
+2. Cohere - IBM mentions Cohere's Command R+ model.
+
+3. Databricks - IBM references Databricks' DBRX model.
+
+4. Mistral AI - IBM cites Mistral AI's Mixtral 8x22B model.
+
+5. OpenAssistant - IBM acknowledges OpenAssistant's work on democratizing large language model alignment.
+
+6. StarCoder - IBM mentions StarCoder and StarCoder 2 models.
+
+7. The Stack - IBM refers to the Stack v2 dataset used for training code models.
+
+So in summary, the key industry partners mentioned are Meta, Cohere, Databricks, Mistral AI, OpenAssistant, and the organizations behind the StarCoder and Stack projects.
 </pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=39cb08bc-52cb-4a42-8385-39bc99c5401f">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6f2d80de4b2b1d60">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Deploy-the-RAGPattern">Deploy the RAGPattern<a class="anchor-link" href="#Deploy-the-RAGPattern">¶</a></h3><p>To deploy the RAGPattern, store the defined RAG function and then create a deployed asset.</p>
+<h3 id="Deploy-the-RAGPattern">Deploy the RAGPattern<a class="anchor-link" href="#Deploy-the-RAGPattern">¶</a></h3><p>Store the defined RAG function and create a deployed asset to deploy the RAGPattern.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=0885815b-db43-4b6b-b090-2e7ff8e13ecb">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=85769eb45d41892f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [27]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [30]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">deployment_details</span> <span class="o">=</span> <span class="n">best_pattern</span><span class="o">.</span><span class="n">inference_service</span><span class="o">.</span><span class="n">deploy</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">"AutoAI RAG with Text Extraction service - test deployment"</span><span class="p">,</span>
-    <span class="n">space_id</span><span class="o">=</span><span class="n">space_id</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"AutoAI RAG deployment - ibm_watsonx_ai documentataion"</span><span class="p">,</span>
+    <span class="n">space_id</span><span class="o">=</span><span class="n">SPACE_ID</span><span class="p">,</span>
     <span class="n">deploy_params</span><span class="o">=</span><span class="p">{</span><span class="s2">"tags"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"wx-autoai-rag"</span><span class="p">]},</span>
 <span class="p">)</span>
 </pre></div>
@@ -8763,7 +9236,7 @@ Is there anything else you would like to know?
 
 ######################################################################################
 
-Synchronous deployment creation for id: '5f644c35-e6cf-43cb-ad04-7b0b13e67601' started
+Synchronous deployment creation for id: '6d10fba7-1421-42de-9929-d2b033fa72d6' started
 
 ######################################################################################
 
@@ -8775,7 +9248,7 @@ ready
 
 
 -----------------------------------------------------------------------------------------------
-Successfully finished deployment creation, deployment_id='8cabd997-4968-4675-a3e0-a48c4b6df6fb'
+Successfully finished deployment creation, deployment_id='c581e15d-ae4f-4f09-af92-c4d728ed5109'
 -----------------------------------------------------------------------------------------------
 
 
@@ -8785,49 +9258,66 @@ Successfully finished deployment creation, deployment_id='8cabd997-4968-4675-a3e
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d6cdba91-8784-4b8d-add1-49645cf175c0">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1ba0e83cfdbf9fa8">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Test-the-deployed-function">Test the deployed function<a class="anchor-link" href="#Test-the-deployed-function">¶</a></h3><p>The RAG service is now deployed in our space. To test the solution, run the cell below. Questions have to be provided in the payload. Their format is provided below.</p>
+<h3 id="Test-the-deployed-function">Test the deployed function<a class="anchor-link" href="#Test-the-deployed-function">¶</a></h3><p>The RAG service is now deployed in the space. To test the solution, run the cell below. Questions have to be provided in the payload. Their format is provided below.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=cf9080da-4938-4944-824e-d6f9e2ac1e03">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ddf657bac40a25f0">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [28]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [31]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">deployment_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">deployment_details</span><span class="p">)</span>
 
 <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"messages"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">question</span><span class="p">}]}</span>
 <span class="n">score_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">run_ai_service</span><span class="p">(</span><span class="n">deployment_id</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span>
+<span class="n">score_response</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f38a1e7d-23d8-4f4f-984b-7688e6f2b3f6">
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[31]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>{'choices': [{'index': 0,
+   'message': {'content': "Based on the provided context, the following industry players are mentioned as IBM's strategic partners:\n\n- Meta (AI@Meta)\n- Cohere (Cohere Command r+)\n- Databricks (Databricks introducing dbrx)\n- Mistral AI (Mistral 7B)\n- OpenAssistant (OpenAssistant conversations)\n- IBM Research (IBM Research leaders mentioned in acknowledgments)\n\nThe context does not explicitly list IBM's strategic partners, but these are some of the companies and organizations that are mentioned in relation to IBM in the given text.",
+    'role': 'system'},
+   'reference_documents': [{'metadata': {'document_id': 'granite_code_models_paper.md',
+      'sequence_number': [57, 58, 59, 60, 61, 62, 63, 64, 65]},
+     'page_content': 'We also compare Granite-8B-Code with CodeLlama-7B in Figure 5 and find that Granite-8B-Code-Instruct beats CodeLlama-7B-Instruct by 22%, 14% and 12% on AST Summary, Execution Summary and Overall accuracy respectively. Additionally, Figure 5 shows that instruction tuning consistently improves performance of both base models, with more noticeable improvements in Granite Code models. E.g., +17.88% in overall accuracy from Granite-8B-Code-Base to Granite-8B-Code-Instruct, indicating the effectiveness of our well-curated data mixture in finetuning base models.\n6.7 Model Robustness\nWhile the performance on canonical code generative tasks is essential, we argue that the evaluation of practical robustness is also necessary to characterize different models system atically. We therefore consider benchmarking the robustness of code synthesis, one of the most representative downstream tasks of source code. ReCode (Wang et al., 2022) provides 30 different general perturbations on docstrings, function names, and codes to evaluate the robustness of code-generation models. We use the perturbed version of the HumanEval benchmark using greedy generation with 5 seeds, as recommended in (Wang et al., 2022).\nTable 16 shows the worst-case RP@1 of different models for each perturbation category. While Granite-3B-Code-Base consistently outperforms CodeGemma-2B, Granite-8B-Code Base lags behind CodeGemma-7B on all categories. Granite Code models obtains much better performance compared to CodeLlama models, showing its generalization in a robust way at every sizes. Our largest model, Granite-34B-Code-Base consistently outperforms CodeLlama-34B on all four categories. This indicates that Granite-34B-Code-Base has more capacity to deal with unseen instances and perturbations. In general, we also observe higher RP@1 for larger models within the Granite Code family (e.g., improved from 40.1% to 52.0% for Granite-3B-Code-Base to Granite-34B-Code-Base on average across all perturbations), showing that larger model helps improve worst-case robustness.\nTable 16: RP@1 performance on the Recode benchmark. Following (Wang et al., 2022), we use the perturbed version of the HumanEval benchmark with greedy sampling for all the models to eliminate randomness effect and enable fair comparison.\n| Model |Docstring |Function |Syntax |Format |\n| --- | --- | --- | --- | --- |\n| StarCoderBase-3B |12.3 |11.4 |17.2 |24.2 |\n| StableCode-3B |22.8 |25.8 |37.1 |46.4 |\n| StarCoder2-3B |28.6 |29.7 |49.6 |57.6 |\n| CodeGemma-2B |12.3 |11.4 |17.2 |24.2 |\n| Granite-3B-Code-Base |28.2 |30.0 |45.8 |56.3 |\n| StarCoderBase-7B |23.7 |25.3 |38.2 |47.1 |\n| CodeLlama-7B |24.7 |27.6 |43.0 |53.1 |\n| StarCoder2-7B |27.6 |30.4 |45.8 |57.5 |\n| CodeGemma-7B |32.3 |37.8 |55.3 |64.3 |\n| Granite-8B-Code-Base |25.5 |30.9 |49.9 |60.5 |\n| StarCoderBase-15B |26.6 |30.7 |44.3 |52.2 |\n| CodeLlama-13B |25.8 |29.7 |50.6 |60.3 |\n| StarCoder2-15B |36.9 |43.9 |60.4 |70.2 |\n| Granite-20B-Code-Base |35.2 |43.0 |55.1 |63.5 |\n| CodeLlama-34B |33.1 |38.0 |54.7 |64.4 |\n| Granite-34B-Code-Base |36.3 |44.4 |59.2 |68.2 |\n7 Conclusion We presented a family of decoder-only Granite Code models ranging in size from 3 to 34 bil lion parameters that are highly versatile in their ability to accomplish a wide range of tasks from code generation to fixing bugs, explaining and documenting code, maintaining reposi tories, and more. These models have proven to be suitable for applications ranging from complex application modernization tasks (IBM, 2023) to on-device memory-constrained use cases. Extensive evaluation demonstrates that Granite Code models consistently reach state-of-the-art performance among open-source code LLMs, matching or exceeding the performance of recently released CodeGemma, StarCoder2, and Llama3 models on aver age performance across various code-related tasks of code generation, explanation, and bug fixing in a variety of popular programming languages. Our experience and results demonstrate that Granite Code models have a proven ability to better handle different tasks in enterprise software development workflows. We release all our Granite Code models under an Apache 2.0 license for both research and commercial use. We plan to continuously release updates to these models to improve their performance, e.g. leveraging the CodeNet instruction dataset (Puri et al., 2021), and in the near future we plan to release long-context as well as Python- and Java-specialized model variants.\nAcknowledgments\nWe would like to acknowledge the efforts of numerous teams at IBM Research AI and Hybrid Cloud Platform, IBM AI Infrastructure team, IBM WatsonX Code Assistant and platform team. Special thanks to IBM Research leaders - Dario Gil, Sriram Raghavan, Mukesh Khare, Danny Barnett, Talia Gershon, Priya Nagpurkar, Nicholas Fuller for their support. Thanks and acknowledgement to Trent Gray-Donald, Keri Olson, Alvin Tan, Hillery Hunter, Dakshi Agrawal, Xuan Liu, Mudhakar Srivatsa, Raghu Kiran Ganti, Carlos Costa, Darrell Reimer, Maja Vukovic, Dinesh Garg, Akash Srivastava, Abhishek Bhandwaldar, Aldo Pareja, Shiv Sudalairaj, Atin Sood, Sandeep Gopisetty, Nick Hill, Ray Rose, Tulio Coppola, Allysson ´ Oliveira, Aadarsh Sahoo, Apoorve Mohan, Yuan Chi Chang, Jitendra Singh, Yuya Ong, Eric Butler, David Brotherton, Rakesh Mohan, David Kung, Dinesh Khandelwal, Naigang Wang, Nelson Mimura Gonzalez, Olivier Tardieu, Tuan Hoang Trong, Luis Angel Bathen, Kevin O’Connor, Christopher Laibinis, Tatsuhiro Chiba, Sunyanan Choochotkaew, Robert Walkup, Antoni Viros i Martin, Adnan Hoque, Davis Wertheimer and Marquita Ellis.\nReferences Wasi Uddin Ahmad, Md Golam Rahman Tushar, Saikat Chakraborty, and Kai-Wei Chang. Avatar: A parallel corpus for java-python program translation. arXiv preprint arXiv:2108.11590, 2021. AI@Meta. Llama 3 model card. 2024. URL https://github.com/meta-llama/llama3/blob/ main/MODEL CARD.md. Joshua Ainslie, James Lee-Thorp, Michiel de Jong, Yury Zemlyanskiy, Federico Lebron, ´ and Sumit Sanghai. Gqa: Training generalized multi-query transformer models from multi-head checkpoints, 2023. Loubna Ben Allal, Raymond Li, Denis Kocetkov, Chenghao Mou, Christopher Akiki, Car los Munoz Ferrandis, Niklas Muennighoff, Mayank Mishra, Alex Gu, Manan Dey, et al. Santacoder: don’t reach for the stars! arXiv preprint arXiv:2301.03988, 2023. Jacob Austin, Augustus Odena, Maxwell Nye, Maarten Bosma, Henryk Michalewski, David Dohan, Ellen Jiang, Carrie Cai, Michael Terry, Quoc Le, and Charles Sutton. Program synthesis with large language models, 2021. Zhangir Azerbayev, Hailey Schoelkopf, Keiran Paster, Marco Dos Santos, Stephen McAleer, Albert Q Jiang, Jia Deng, Stella Biderman, and Sean Welleck. Llemma: An open language model for mathematics. arXiv preprint arXiv:2310.10631, 2023. Jimmy Lei Ba, Jamie Ryan Kiros, and Geoffrey E. Hinton. Layer normalization, 2016. Kinjal Basu, Ibrahim Abdelaziz, Subhajit Chaudhury, Soham Dan, Maxwell Crouse, Asim Munawar, Sadhana Kumaravel, Vinod Muthusamy, Pavan Kapanipathi, and Luis A Lastras. Api-blend: A comprehensive corpora for training and benchmarking api llms. arXiv preprint arXiv:2402.15491, 2024. Mohammad Bavarian, Heewoo Jun, Nikolas Tezak, John Schulman, Christine McLeavey, Jerry Tworek, and Mark Chen. Efficient training of language models to fill in the middle, 2022. Federico Cassano, John Gouwar, Daniel Nguyen, Sydney Nguyen, Luna Phipps-Costin, Donald Pinckney, Ming-Ho Yee, Yangtian Zi, Carolyn Jane Anderson, Molly Q Feldman, et al. Multipl-e: a scalable and polyglot approach to benchmarking neural code generation. IEEE Transactions on Software Engineering, 2023. Federico Cassano, Luisa Li, Akul Sethi, Noah Shinn, Abby Brennan-Jones, Jacob Ginesin, Edward Berman, George Chakhnashvili, Anton Lozhkov, Carolyn Jane Anderson, and Arjun Guha. Can it edit? evaluating the ability of large language models to follow code editing instructions, 2024. Mark Chen, Jerry Tworek, Heewoo Jun, Qiming Yuan, Henrique Ponde de Oliveira Pinto, Jared Kaplan, Harri Edwards, Yuri Burda, Nicholas Joseph, Greg Brockman, Alex Ray, Raul Puri, Gretchen Krueger, Michael Petrov, Heidy Khlaaf, Girish Sastry, Pamela Mishkin, Brooke Chan, Scott Gray, Nick Ryder, Mikhail Pavlov, Alethea Power, Lukasz Kaiser, Mo hammad Bavarian, Clemens Winter, Philippe Tillet, Felipe Petroski Such, Dave Cummings, Matthias Plappert, Fotios Chantzis, Elizabeth Barnes, Ariel Herbert-Voss, William Hebgen Guss, Alex Nichol, Alex Paino, Nikolas Tezak, Jie Tang, Igor Babuschkin, Suchir Balaji, Shantanu Jain, William Saunders, Christopher Hesse, Andrew N. Carr, Jan Leike, Josh Achiam, Vedant Misra, Evan Morikawa, Alec Radford, Matthew Knight, Miles Brundage, Mira Murati, Katie Mayer, Peter Welinder, Bob McGrew, Dario Amodei, Sam McCandlish, Ilya Sutskever, and Wojciech Zaremba. Evaluating large language models trained on code, 2021. Karl Cobbe, Vineet Kosaraju, Mohammad Bavarian, Mark Chen, Heewoo Jun, Lukasz Kaiser, Matthias Plappert, Jerry Tworek, Jacob Hilton, Reiichiro Nakano, et al. Training verifiers to solve math word problems. arXiv preprint arXiv:2110.14168, 2021. CodeGemma Team, Ale Jakse Hartman, Andrea Hu, Christopher A. Choquette-Choo, Heri Zhao, Jane Fine, Jeffrey Hui, Jingyue Shen, Joe Kelley, Joshua Howland, Kshitij Bansal, Luke Vilnis, Mateo Wirth, Nam Nguyen, Paul Michel, Peter Choy, Pratik Joshi, Ravin Kumar, Sarmad Hashmi, Shubham Agrawal, Siqi Zuo, Tris Warkentin, and Zhitao et al. Gong. Codegemma: Open code models based on gemma. 2024. URL https: //goo.gle/codegemma. Cohere. Command r+. https://docs.cohere.com/docs/command-r-plus.\nTri Dao. Flashattention-2: Faster attention with better parallelism and work partitioning, 2023. ´ Flashatten- Tri Dao, Dan Fu, Stefano Ermon, Atri Rudra, and Christopher Re. tion: Fast and memory-efficient exact attention with io-awareness. In S. Koyejo, S. Mohamed, A. Agarwal, D. Belgrave, K. Cho, and A. Oh (eds.), Advances in Neural Information Processing Systems, volume 35, pp. 16344–16359. Curran Asso ciates, Inc., 2022. URL https://proceedings.neurips.cc/paper files/paper/2022/file/ 67d57c32e20fd0a7a302cb81d36e40d5-Paper-Conference.pdf. Databricks. Introducing dbrx: A new state-of-the-art open llm — databricks blog. https: //www.databricks.com/blog/introducing-dbrx-new-state-art-open-llm. Yangruibo Ding, Zijian Wang, Wasi Uddin Ahmad, Hantian Ding, Ming Tan, Nihal Jain, Murali Krishna Ramanathan, Ramesh Nallapati, Parminder Bhatia, Dan Roth, and Bing Xiang. Crosscodeeval: A diverse and multilingual benchmark for cross-file code com pletion. In Thirty-seventh Conference on Neural Information Processing Systems Datasets and Benchmarks Track, 2023. URL https://openreview.net/forum?id=wgDcbBMSfh. Yangruibo Ding, Zijian Wang, Wasi Ahmad, Hantian Ding, Ming Tan, Nihal Jain, Murali Kr ishna Ramanathan, Ramesh Nallapati, Parminder Bhatia, Dan Roth, et al. Crosscodeeval: A diverse and multilingual benchmark for cross-file code completion. Advances in Neural Information Processing Systems, 36, 2024. Leo Gao, Jonathan Tow, Baber Abbasi, Stella Biderman, Sid Black, Anthony DiPofi, Charles Foster, Laurence Golding, Jeffrey Hsu, Alain Le Noac’h, Haonan Li, Kyle McDonell, Niklas Muennighoff, Chris Ociepa, Jason Phang, Laria Reynolds, Hailey Schoelkopf, Aviya Skowron, Lintang Sutawika, Eric Tang, Anish Thite, Ben Wang, Kevin Wang, and Andy Zou. A framework for few-shot language model evaluation, 12 2023. URL https://zenodo.org/records/10256836. Gemma-Team, Thomas Mesnard, Cassidy Hardin, Robert Dadashi, Surya Bhupatiraju, Shreya Pathak, Laurent Sifre, Morgane Riviere, Mihir Sanjay Kale, Juliette Love, Pouya ` Tafti, Leonard Hussenot, Pier Giuseppe Sessa, Aakanksha Chowdhery, Adam Roberts, ´ Aditya Barua, Alex Botev, Alex Castro-Ros, Ambrose Slone, Amelie H ´ eliou, Andrea ´ Tacchetti, Anna Bulanova, Antonia Paterson, Beth Tsai, Bobak Shahriari, Charline Le Lan, Christopher A.'},
+    {'metadata': {'document_id': 'granite_code_models_paper.md',
+      'sequence_number': [62, 63, 64, 65, 66, 67, 68, 69, 70]},
+     'page_content': 'Wasi Uddin Ahmad, Md Golam Rahman Tushar, Saikat Chakraborty, and Kai-Wei Chang. Avatar: A parallel corpus for java-python program translation. arXiv preprint arXiv:2108.11590, 2021. AI@Meta. Llama 3 model card. 2024. URL https://github.com/meta-llama/llama3/blob/ main/MODEL CARD.md. Joshua Ainslie, James Lee-Thorp, Michiel de Jong, Yury Zemlyanskiy, Federico Lebron, ´ and Sumit Sanghai. Gqa: Training generalized multi-query transformer models from multi-head checkpoints, 2023. Loubna Ben Allal, Raymond Li, Denis Kocetkov, Chenghao Mou, Christopher Akiki, Car los Munoz Ferrandis, Niklas Muennighoff, Mayank Mishra, Alex Gu, Manan Dey, et al. Santacoder: don’t reach for the stars! arXiv preprint arXiv:2301.03988, 2023. Jacob Austin, Augustus Odena, Maxwell Nye, Maarten Bosma, Henryk Michalewski, David Dohan, Ellen Jiang, Carrie Cai, Michael Terry, Quoc Le, and Charles Sutton. Program synthesis with large language models, 2021. Zhangir Azerbayev, Hailey Schoelkopf, Keiran Paster, Marco Dos Santos, Stephen McAleer, Albert Q Jiang, Jia Deng, Stella Biderman, and Sean Welleck. Llemma: An open language model for mathematics. arXiv preprint arXiv:2310.10631, 2023. Jimmy Lei Ba, Jamie Ryan Kiros, and Geoffrey E. Hinton. Layer normalization, 2016. Kinjal Basu, Ibrahim Abdelaziz, Subhajit Chaudhury, Soham Dan, Maxwell Crouse, Asim Munawar, Sadhana Kumaravel, Vinod Muthusamy, Pavan Kapanipathi, and Luis A Lastras. Api-blend: A comprehensive corpora for training and benchmarking api llms. arXiv preprint arXiv:2402.15491, 2024. Mohammad Bavarian, Heewoo Jun, Nikolas Tezak, John Schulman, Christine McLeavey, Jerry Tworek, and Mark Chen. Efficient training of language models to fill in the middle, 2022. Federico Cassano, John Gouwar, Daniel Nguyen, Sydney Nguyen, Luna Phipps-Costin, Donald Pinckney, Ming-Ho Yee, Yangtian Zi, Carolyn Jane Anderson, Molly Q Feldman, et al. Multipl-e: a scalable and polyglot approach to benchmarking neural code generation. IEEE Transactions on Software Engineering, 2023. Federico Cassano, Luisa Li, Akul Sethi, Noah Shinn, Abby Brennan-Jones, Jacob Ginesin, Edward Berman, George Chakhnashvili, Anton Lozhkov, Carolyn Jane Anderson, and Arjun Guha. Can it edit? evaluating the ability of large language models to follow code editing instructions, 2024. Mark Chen, Jerry Tworek, Heewoo Jun, Qiming Yuan, Henrique Ponde de Oliveira Pinto, Jared Kaplan, Harri Edwards, Yuri Burda, Nicholas Joseph, Greg Brockman, Alex Ray, Raul Puri, Gretchen Krueger, Michael Petrov, Heidy Khlaaf, Girish Sastry, Pamela Mishkin, Brooke Chan, Scott Gray, Nick Ryder, Mikhail Pavlov, Alethea Power, Lukasz Kaiser, Mo hammad Bavarian, Clemens Winter, Philippe Tillet, Felipe Petroski Such, Dave Cummings, Matthias Plappert, Fotios Chantzis, Elizabeth Barnes, Ariel Herbert-Voss, William Hebgen Guss, Alex Nichol, Alex Paino, Nikolas Tezak, Jie Tang, Igor Babuschkin, Suchir Balaji, Shantanu Jain, William Saunders, Christopher Hesse, Andrew N. Carr, Jan Leike, Josh Achiam, Vedant Misra, Evan Morikawa, Alec Radford, Matthew Knight, Miles Brundage, Mira Murati, Katie Mayer, Peter Welinder, Bob McGrew, Dario Amodei, Sam McCandlish, Ilya Sutskever, and Wojciech Zaremba. Evaluating large language models trained on code, 2021. Karl Cobbe, Vineet Kosaraju, Mohammad Bavarian, Mark Chen, Heewoo Jun, Lukasz Kaiser, Matthias Plappert, Jerry Tworek, Jacob Hilton, Reiichiro Nakano, et al. Training verifiers to solve math word problems. arXiv preprint arXiv:2110.14168, 2021. CodeGemma Team, Ale Jakse Hartman, Andrea Hu, Christopher A. Choquette-Choo, Heri Zhao, Jane Fine, Jeffrey Hui, Jingyue Shen, Joe Kelley, Joshua Howland, Kshitij Bansal, Luke Vilnis, Mateo Wirth, Nam Nguyen, Paul Michel, Peter Choy, Pratik Joshi, Ravin Kumar, Sarmad Hashmi, Shubham Agrawal, Siqi Zuo, Tris Warkentin, and Zhitao et al. Gong. Codegemma: Open code models based on gemma. 2024. URL https: //goo.gle/codegemma. Cohere. Command r+. https://docs.cohere.com/docs/command-r-plus.\nTri Dao. Flashattention-2: Faster attention with better parallelism and work partitioning, 2023. ´ Flashatten- Tri Dao, Dan Fu, Stefano Ermon, Atri Rudra, and Christopher Re. tion: Fast and memory-efficient exact attention with io-awareness. In S. Koyejo, S. Mohamed, A. Agarwal, D. Belgrave, K. Cho, and A. Oh (eds.), Advances in Neural Information Processing Systems, volume 35, pp. 16344–16359. Curran Asso ciates, Inc., 2022. URL https://proceedings.neurips.cc/paper files/paper/2022/file/ 67d57c32e20fd0a7a302cb81d36e40d5-Paper-Conference.pdf. Databricks. Introducing dbrx: A new state-of-the-art open llm — databricks blog. https: //www.databricks.com/blog/introducing-dbrx-new-state-art-open-llm. Yangruibo Ding, Zijian Wang, Wasi Uddin Ahmad, Hantian Ding, Ming Tan, Nihal Jain, Murali Krishna Ramanathan, Ramesh Nallapati, Parminder Bhatia, Dan Roth, and Bing Xiang. Crosscodeeval: A diverse and multilingual benchmark for cross-file code com pletion. In Thirty-seventh Conference on Neural Information Processing Systems Datasets and Benchmarks Track, 2023. URL https://openreview.net/forum?id=wgDcbBMSfh. Yangruibo Ding, Zijian Wang, Wasi Ahmad, Hantian Ding, Ming Tan, Nihal Jain, Murali Kr ishna Ramanathan, Ramesh Nallapati, Parminder Bhatia, Dan Roth, et al. Crosscodeeval: A diverse and multilingual benchmark for cross-file code completion. Advances in Neural Information Processing Systems, 36, 2024. Leo Gao, Jonathan Tow, Baber Abbasi, Stella Biderman, Sid Black, Anthony DiPofi, Charles Foster, Laurence Golding, Jeffrey Hsu, Alain Le Noac’h, Haonan Li, Kyle McDonell, Niklas Muennighoff, Chris Ociepa, Jason Phang, Laria Reynolds, Hailey Schoelkopf, Aviya Skowron, Lintang Sutawika, Eric Tang, Anish Thite, Ben Wang, Kevin Wang, and Andy Zou. A framework for few-shot language model evaluation, 12 2023. URL https://zenodo.org/records/10256836. Gemma-Team, Thomas Mesnard, Cassidy Hardin, Robert Dadashi, Surya Bhupatiraju, Shreya Pathak, Laurent Sifre, Morgane Riviere, Mihir Sanjay Kale, Juliette Love, Pouya ` Tafti, Leonard Hussenot, Pier Giuseppe Sessa, Aakanksha Chowdhery, Adam Roberts, ´ Aditya Barua, Alex Botev, Alex Castro-Ros, Ambrose Slone, Amelie H ´ eliou, Andrea ´ Tacchetti, Anna Bulanova, Antonia Paterson, Beth Tsai, Bobak Shahriari, Charline Le Lan, Christopher A. Choquette-Choo, Clement Crepy, Daniel Cer, Daphne Ippolito, David Reid, ´ Elena Buchatskaya, Eric Ni, Eric Noland, Geng Yan, George Tucker, George-Christian Muraru, Grigory Rozhdestvenskiy, Henryk Michalewski, Ian Tenney, Ivan Grishchenko, Jacob Austin, James Keeling, Jane Labanowski, Jean-Baptiste Lespiau, Jeff Stanway, Jenny Brennan, Jeremy Chen, Johan Ferret, Justin Chiu, Justin Mao-Jones, Katherine Lee, Kathy Yu, Katie Millican, Lars Lowe Sjoesund, Lisa Lee, Lucas Dixon, Machel Reid, Maciej Mikuła, Mateo Wirth, Michael Sharman, Nikolai Chinaev, Nithum Thain, Olivier Bachem, Oscar Chang, Oscar Wahltinez, Paige Bailey, Paul Michel, Petko Yotov, Rahma Chaabouni, Ramona Comanescu, Reena Jana, Rohan Anil, Ross McIlroy, Ruibo Liu, Ryan Mullins, Samuel L Smith, Sebastian Borgeaud, Sertan Girgin, Sholto Douglas, Shree Pandya, Siamak Shakeri, Soham De, Ted Klimenko, Tom Hennigan, Vlad Feinberg, Wojciech Stokowiec, Yu hui Chen, Zafarali Ahmed, Zhitao Gong, Tris Warkentin, Ludovic Peran, Minh Giang, Clement Farabet, Oriol Vinyals, Jeff Dean, Koray Kavukcuoglu, Demis ´ Hassabis, Zoubin Ghahramani, Douglas Eck, Joelle Barral, Fernando Pereira, Eli Collins, Armand Joulin, Noah Fiedel, Evan Senter, Alek Andreev, and Kathleen Kenealy. Gemma: Open models based on gemini research and technology, 2024. Alex Gu, Baptiste Roziere, Hugh Leather, Armando Solar-Lezama, Gabriel Synnaeve, and ` Sida I. Wang. Cruxeval: A benchmark for code reasoning, understanding and execution. arXiv preprint arXiv:2401.03065, 2024. Dan Hendrycks and Kevin Gimpel. Gaussian error linear units (gelus), 2023. Dan Hendrycks, Collin Burns, Saurav Kadavath, Akul Arora, Steven Basart, Eric Tang, Dawn Song, and Jacob Steinhardt. Measuring mathematical problem solving with the math dataset. NeurIPS, 2021. Shengding Hu, Yuge Tu, Xu Han, Chaoqun He, Ganqu Cui, Xiang Long, Zhi Zheng, Yewei Fang, Yuxiang Huang, Weilin Zhao, et al. Minicpm: Unveiling the potential of small language models with scalable training strategies. arXiv preprint arXiv:2404.06395, 2024. IBM. watsonx code assistant, 2023. URL https://www.ibm.com/products/ watsonx-code-assistant. Neel Jain, Ping yeh Chiang, Yuxin Wen, John Kirchenbauer, Hong-Min Chu, Gowthami Somepalli, Brian R. Bartoldson, Bhavya Kailkhura, Avi Schwarzschild, Aniruddha Saha, Micah Goldblum, Jonas Geiping, and Tom Goldstein. Neftune: Noisy embeddings improve instruction finetuning, 2023. Albert Q Jiang, Alexandre Sablayrolles, Arthur Mensch, Chris Bamford, Devendra Singh Chaplot, Diego de las Casas, Florian Bressand, Gianna Lengyel, Guillaume Lample, Lucile Saulnier, et al. Mistral 7b. arXiv preprint arXiv:2310.06825, 2023a. Albert Q. Jiang, Alexandre Sablayrolles, Arthur Mensch, Chris Bamford, Devendra Singh Chaplot, Diego de las Casas, Florian Bressand, Gianna Lengyel, Guillaume Lample, Lucile Saulnier, Lelio Renard Lavaud, Marie-Anne Lachaux, Pierre Stock, Teven Le Scao, Thibaut ´ Lavril, Thomas Wang, Timothee Lacroix, and William El Sayed. Mistral 7b, 2023b. ´ Dhiraj Kalamkar, Dheevatsa Mudigere, Naveen Mellempudi, Dipankar Das, Kunal Banerjee, Sasikanth Avancha, Dharma Teja Vooturi, Nataraj Jammalamadaka, Jianyu Huang, Hector Yuen, Jiyan Yang, Jongsoo Park, Alexander Heinecke, Evangelos Georganas, Sudarshan Srinivasan, Abhisek Kundu, Misha Smelyanskiy, Bharat Kaul, and Pradeep Dubey. A study of bfloat16 for deep learning training, 2019. Dahyun Kim, Chanjun Park, Sanghoon Kim, Wonsung Lee, Wonho Song, Yunsu Kim, Hyeonwoo Kim, Yungi Kim, Hyeonju Lee, Jihoo Kim, Changbae Ahn, Seonghoon Yang, Sukyung Lee, Hyunbyung Park, Gyoungjin Gim, Mikyoung Cha, Hwalsuk Lee, and Sunghun Kim. Solar 10.7b: Scaling large language models with simple yet effective depth up-scaling, 2024. Diederik P. Kingma and Jimmy Ba. Adam: A method for stochastic optimization, 2017. Vijay Anand Korthikanti, Jared Casper, Sangkug Lym, Lawrence McAfee, Michael Andersch, Mohammad Shoeybi, and Bryan Catanzaro. Reducing activation re computation in large transformer models. Proceedings of Machine Learning and Systems, 5, 2023. URL https://proceedings.mlsys.org/paper files/paper/2023/hash/ e851ca7b43815718fbbac8afb2246bf8-Abstract-mlsys2023.html. Andreas Kopf, Yannic Kilcher, Dimitri von R ¨ utte, Sotiris Anagnostidis, Zhi-Rui Tam, Keith ¨ Stevens, Abdullah Barhoum, Nguyen Minh Duc, Oliver Stanley, Richard Nagyfi, Shahul ´ ES, Sameer Suri, David Glushkov, Arnav Dantuluri, Andrew Maguire, Christoph Schuh mann, Huu Nguyen, and Alexander Mattick. Openassistant conversations – democratiz ing large language model alignment, 2023. Yuhang Lai, Chengxi Li, Yiming Wang, Tianyi Zhang, Ruiqi Zhong, Luke Zettlemoyer, Wen tau Yih, Daniel Fried, Sida Wang, and Tao Yu. Ds-1000: A natural and reliable benchmark for data science code generation. In International Conference on Machine Learning, pp. 18319–18345. PMLR, 2023. Ariel N. Lee, Cole J. Hunter, and Nataniel Ruiz. Platypus: Quick, cheap, and powerful refinement of llms. 2023. Aitor Lewkowycz, Anders Andreassen, David Dohan, Ethan Dyer, Henryk Michalewski, Vinay Ramasesh, Ambrose Slone, Cem Anil, Imanol Schlag, Theo Gutman-Solo, et al. Solving quantitative reasoning problems with language models. Advances in Neural Information Processing Systems, 35:3843–3857, 2022. Raymond Li, Loubna Ben Allal, Yangtian Zi, Niklas Muennighoff, Denis Kocetkov, Cheng hao Mou, Marc Marone, Christopher Akiki, Jia Li, Jenny Chim, Qian Liu, Evgenii Zheltonozhskii, Terry Yue Zhuo, Thomas Wang, Olivier Dehaene, Mishig Davaadorj, Joel Lamy-Poirier, Joao Monteiro, Oleh Shliazhko, Nicolas Gontier, Nicholas Meade, ˜ Armel Zebaze, Ming-Ho Yee, Logesh Kumar Umapathi, Jian Zhu, Benjamin Lipkin, Muh tasham Oblokulov, Zhiruo Wang, Rudra Murthy, Jason Stillerman, Siva Sankalp Patel, Dmitry Abulkhanov, Marco Zocca, Manan Dey, Zhihan Zhang, Nour Fahmy, Urvashi Bhattacharyya, Wenhao Yu, Swayam Singh, Sasha Luccioni, Paulo Villegas, Maxim Ku nakov, Fedor Zhdanov, Manuel Romero, Tony Lee, Nadav Timor, Jennifer Ding, Claire Schlesinger, Hailey Schoelkopf, Jan Ebert, Tri Dao, Mayank Mishra, Alex Gu, Jennifer Robinson, Carolyn Jane Anderson, Brendan Dolan-Gavitt, Danish Contractor, Siva Reddy, Daniel Fried, Dzmitry Bahdanau, Yacine Jernite, Carlos Munoz Ferrandis, Sean Hughes, ˜ Thomas Wolf, Arjun Guha, Leandro von Werra, and Harm de Vries. Starcoder: may the source be with you!, 2023a. Raymond Li, Loubna Ben Allal, Yangtian Zi, Niklas Muennighoff, Denis Kocetkov, Cheng hao Mou, Marc Marone, Christopher Akiki, Jia Li, Jenny Chim, et al. Starcoder: may the source be with you!'},
+    {'metadata': {'document_id': 'granite_code_models_paper.md',
+      'sequence_number': [65, 66, 67, 68, 69, 70, 71, 72, 73]},
+     'page_content': 'https://docs.cohere.com/docs/command-r-plus.\nTri Dao. Flashattention-2: Faster attention with better parallelism and work partitioning, 2023. ´ Flashatten- Tri Dao, Dan Fu, Stefano Ermon, Atri Rudra, and Christopher Re. tion: Fast and memory-efficient exact attention with io-awareness. In S. Koyejo, S. Mohamed, A. Agarwal, D. Belgrave, K. Cho, and A. Oh (eds.), Advances in Neural Information Processing Systems, volume 35, pp. 16344–16359. Curran Asso ciates, Inc., 2022. URL https://proceedings.neurips.cc/paper files/paper/2022/file/ 67d57c32e20fd0a7a302cb81d36e40d5-Paper-Conference.pdf. Databricks. Introducing dbrx: A new state-of-the-art open llm — databricks blog. https: //www.databricks.com/blog/introducing-dbrx-new-state-art-open-llm. Yangruibo Ding, Zijian Wang, Wasi Uddin Ahmad, Hantian Ding, Ming Tan, Nihal Jain, Murali Krishna Ramanathan, Ramesh Nallapati, Parminder Bhatia, Dan Roth, and Bing Xiang. Crosscodeeval: A diverse and multilingual benchmark for cross-file code com pletion. In Thirty-seventh Conference on Neural Information Processing Systems Datasets and Benchmarks Track, 2023. URL https://openreview.net/forum?id=wgDcbBMSfh. Yangruibo Ding, Zijian Wang, Wasi Ahmad, Hantian Ding, Ming Tan, Nihal Jain, Murali Kr ishna Ramanathan, Ramesh Nallapati, Parminder Bhatia, Dan Roth, et al. Crosscodeeval: A diverse and multilingual benchmark for cross-file code completion. Advances in Neural Information Processing Systems, 36, 2024. Leo Gao, Jonathan Tow, Baber Abbasi, Stella Biderman, Sid Black, Anthony DiPofi, Charles Foster, Laurence Golding, Jeffrey Hsu, Alain Le Noac’h, Haonan Li, Kyle McDonell, Niklas Muennighoff, Chris Ociepa, Jason Phang, Laria Reynolds, Hailey Schoelkopf, Aviya Skowron, Lintang Sutawika, Eric Tang, Anish Thite, Ben Wang, Kevin Wang, and Andy Zou. A framework for few-shot language model evaluation, 12 2023. URL https://zenodo.org/records/10256836. Gemma-Team, Thomas Mesnard, Cassidy Hardin, Robert Dadashi, Surya Bhupatiraju, Shreya Pathak, Laurent Sifre, Morgane Riviere, Mihir Sanjay Kale, Juliette Love, Pouya ` Tafti, Leonard Hussenot, Pier Giuseppe Sessa, Aakanksha Chowdhery, Adam Roberts, ´ Aditya Barua, Alex Botev, Alex Castro-Ros, Ambrose Slone, Amelie H ´ eliou, Andrea ´ Tacchetti, Anna Bulanova, Antonia Paterson, Beth Tsai, Bobak Shahriari, Charline Le Lan, Christopher A. Choquette-Choo, Clement Crepy, Daniel Cer, Daphne Ippolito, David Reid, ´ Elena Buchatskaya, Eric Ni, Eric Noland, Geng Yan, George Tucker, George-Christian Muraru, Grigory Rozhdestvenskiy, Henryk Michalewski, Ian Tenney, Ivan Grishchenko, Jacob Austin, James Keeling, Jane Labanowski, Jean-Baptiste Lespiau, Jeff Stanway, Jenny Brennan, Jeremy Chen, Johan Ferret, Justin Chiu, Justin Mao-Jones, Katherine Lee, Kathy Yu, Katie Millican, Lars Lowe Sjoesund, Lisa Lee, Lucas Dixon, Machel Reid, Maciej Mikuła, Mateo Wirth, Michael Sharman, Nikolai Chinaev, Nithum Thain, Olivier Bachem, Oscar Chang, Oscar Wahltinez, Paige Bailey, Paul Michel, Petko Yotov, Rahma Chaabouni, Ramona Comanescu, Reena Jana, Rohan Anil, Ross McIlroy, Ruibo Liu, Ryan Mullins, Samuel L Smith, Sebastian Borgeaud, Sertan Girgin, Sholto Douglas, Shree Pandya, Siamak Shakeri, Soham De, Ted Klimenko, Tom Hennigan, Vlad Feinberg, Wojciech Stokowiec, Yu hui Chen, Zafarali Ahmed, Zhitao Gong, Tris Warkentin, Ludovic Peran, Minh Giang, Clement Farabet, Oriol Vinyals, Jeff Dean, Koray Kavukcuoglu, Demis ´ Hassabis, Zoubin Ghahramani, Douglas Eck, Joelle Barral, Fernando Pereira, Eli Collins, Armand Joulin, Noah Fiedel, Evan Senter, Alek Andreev, and Kathleen Kenealy. Gemma: Open models based on gemini research and technology, 2024. Alex Gu, Baptiste Roziere, Hugh Leather, Armando Solar-Lezama, Gabriel Synnaeve, and ` Sida I. Wang. Cruxeval: A benchmark for code reasoning, understanding and execution. arXiv preprint arXiv:2401.03065, 2024. Dan Hendrycks and Kevin Gimpel. Gaussian error linear units (gelus), 2023. Dan Hendrycks, Collin Burns, Saurav Kadavath, Akul Arora, Steven Basart, Eric Tang, Dawn Song, and Jacob Steinhardt. Measuring mathematical problem solving with the math dataset. NeurIPS, 2021. Shengding Hu, Yuge Tu, Xu Han, Chaoqun He, Ganqu Cui, Xiang Long, Zhi Zheng, Yewei Fang, Yuxiang Huang, Weilin Zhao, et al. Minicpm: Unveiling the potential of small language models with scalable training strategies. arXiv preprint arXiv:2404.06395, 2024. IBM. watsonx code assistant, 2023. URL https://www.ibm.com/products/ watsonx-code-assistant. Neel Jain, Ping yeh Chiang, Yuxin Wen, John Kirchenbauer, Hong-Min Chu, Gowthami Somepalli, Brian R. Bartoldson, Bhavya Kailkhura, Avi Schwarzschild, Aniruddha Saha, Micah Goldblum, Jonas Geiping, and Tom Goldstein. Neftune: Noisy embeddings improve instruction finetuning, 2023. Albert Q Jiang, Alexandre Sablayrolles, Arthur Mensch, Chris Bamford, Devendra Singh Chaplot, Diego de las Casas, Florian Bressand, Gianna Lengyel, Guillaume Lample, Lucile Saulnier, et al. Mistral 7b. arXiv preprint arXiv:2310.06825, 2023a. Albert Q. Jiang, Alexandre Sablayrolles, Arthur Mensch, Chris Bamford, Devendra Singh Chaplot, Diego de las Casas, Florian Bressand, Gianna Lengyel, Guillaume Lample, Lucile Saulnier, Lelio Renard Lavaud, Marie-Anne Lachaux, Pierre Stock, Teven Le Scao, Thibaut ´ Lavril, Thomas Wang, Timothee Lacroix, and William El Sayed. Mistral 7b, 2023b. ´ Dhiraj Kalamkar, Dheevatsa Mudigere, Naveen Mellempudi, Dipankar Das, Kunal Banerjee, Sasikanth Avancha, Dharma Teja Vooturi, Nataraj Jammalamadaka, Jianyu Huang, Hector Yuen, Jiyan Yang, Jongsoo Park, Alexander Heinecke, Evangelos Georganas, Sudarshan Srinivasan, Abhisek Kundu, Misha Smelyanskiy, Bharat Kaul, and Pradeep Dubey. A study of bfloat16 for deep learning training, 2019. Dahyun Kim, Chanjun Park, Sanghoon Kim, Wonsung Lee, Wonho Song, Yunsu Kim, Hyeonwoo Kim, Yungi Kim, Hyeonju Lee, Jihoo Kim, Changbae Ahn, Seonghoon Yang, Sukyung Lee, Hyunbyung Park, Gyoungjin Gim, Mikyoung Cha, Hwalsuk Lee, and Sunghun Kim. Solar 10.7b: Scaling large language models with simple yet effective depth up-scaling, 2024. Diederik P. Kingma and Jimmy Ba. Adam: A method for stochastic optimization, 2017. Vijay Anand Korthikanti, Jared Casper, Sangkug Lym, Lawrence McAfee, Michael Andersch, Mohammad Shoeybi, and Bryan Catanzaro. Reducing activation re computation in large transformer models. Proceedings of Machine Learning and Systems, 5, 2023. URL https://proceedings.mlsys.org/paper files/paper/2023/hash/ e851ca7b43815718fbbac8afb2246bf8-Abstract-mlsys2023.html. Andreas Kopf, Yannic Kilcher, Dimitri von R ¨ utte, Sotiris Anagnostidis, Zhi-Rui Tam, Keith ¨ Stevens, Abdullah Barhoum, Nguyen Minh Duc, Oliver Stanley, Richard Nagyfi, Shahul ´ ES, Sameer Suri, David Glushkov, Arnav Dantuluri, Andrew Maguire, Christoph Schuh mann, Huu Nguyen, and Alexander Mattick. Openassistant conversations – democratiz ing large language model alignment, 2023. Yuhang Lai, Chengxi Li, Yiming Wang, Tianyi Zhang, Ruiqi Zhong, Luke Zettlemoyer, Wen tau Yih, Daniel Fried, Sida Wang, and Tao Yu. Ds-1000: A natural and reliable benchmark for data science code generation. In International Conference on Machine Learning, pp. 18319–18345. PMLR, 2023. Ariel N. Lee, Cole J. Hunter, and Nataniel Ruiz. Platypus: Quick, cheap, and powerful refinement of llms. 2023. Aitor Lewkowycz, Anders Andreassen, David Dohan, Ethan Dyer, Henryk Michalewski, Vinay Ramasesh, Ambrose Slone, Cem Anil, Imanol Schlag, Theo Gutman-Solo, et al. Solving quantitative reasoning problems with language models. Advances in Neural Information Processing Systems, 35:3843–3857, 2022. Raymond Li, Loubna Ben Allal, Yangtian Zi, Niklas Muennighoff, Denis Kocetkov, Cheng hao Mou, Marc Marone, Christopher Akiki, Jia Li, Jenny Chim, Qian Liu, Evgenii Zheltonozhskii, Terry Yue Zhuo, Thomas Wang, Olivier Dehaene, Mishig Davaadorj, Joel Lamy-Poirier, Joao Monteiro, Oleh Shliazhko, Nicolas Gontier, Nicholas Meade, ˜ Armel Zebaze, Ming-Ho Yee, Logesh Kumar Umapathi, Jian Zhu, Benjamin Lipkin, Muh tasham Oblokulov, Zhiruo Wang, Rudra Murthy, Jason Stillerman, Siva Sankalp Patel, Dmitry Abulkhanov, Marco Zocca, Manan Dey, Zhihan Zhang, Nour Fahmy, Urvashi Bhattacharyya, Wenhao Yu, Swayam Singh, Sasha Luccioni, Paulo Villegas, Maxim Ku nakov, Fedor Zhdanov, Manuel Romero, Tony Lee, Nadav Timor, Jennifer Ding, Claire Schlesinger, Hailey Schoelkopf, Jan Ebert, Tri Dao, Mayank Mishra, Alex Gu, Jennifer Robinson, Carolyn Jane Anderson, Brendan Dolan-Gavitt, Danish Contractor, Siva Reddy, Daniel Fried, Dzmitry Bahdanau, Yacine Jernite, Carlos Munoz Ferrandis, Sean Hughes, ˜ Thomas Wolf, Arjun Guha, Leandro von Werra, and Harm de Vries. Starcoder: may the source be with you!, 2023a. Raymond Li, Loubna Ben Allal, Yangtian Zi, Niklas Muennighoff, Denis Kocetkov, Cheng hao Mou, Marc Marone, Christopher Akiki, Jia Li, Jenny Chim, et al. Starcoder: may the source be with you! arXiv preprint arXiv:2305.06161, 2023b. Jiawei Liu, Chunqiu Steven Xia, Yuyao Wang, and Lingming Zhang. Is your code generated by chatGPT really correct? rigorous evaluation of large language models for code gener ation. In Thirty-seventh Conference on Neural Information Processing Systems, 2023a. URL https://openreview.net/forum?id=1qvx610Cu7. Tianyang Liu, Canwen Xu, and Julian McAuley. Repobench: Benchmarking repository-level code auto-completion systems. arXiv preprint arXiv:2306.03091, 2023b. Shayne Longpre, Le Hou, Tu Vu, Albert Webson, Hyung Won Chung, Yi Tay, Denny Zhou, Quoc V Le, Barret Zoph, Jason Wei, et al. The flan collection: Designing data and methods for effective instruction tuning. In International Conference on Machine Learning, pp. 22631– 22648. PMLR, 2023. Anton Lozhkov, Raymond Li, Loubna Ben Allal, Federico Cassano, Joel Lamy-Poirier, Nouamane Tazi, Ao Tang, Dmytro Pykhtar, Jiawei Liu, Yuxiang Wei, et al. Starcoder 2 and the stack v2: The next generation. arXiv preprint arXiv:2402.19173, 2024. Paulius Micikevicius, Sharan Narang, Jonah Alben, Gregory Diamos, Erich Elsen, David Garcia, Boris Ginsburg, Michael Houston, Oleksii Kuchaiev, Ganesh Venkatesh, and Hao Wu. Mixed precision training. In International Conference on Learning Representations, 2018. URL https://openreview.net/forum?id=r1gs9JgRZ. MistralAI. Mixtral 8x22b. https://mistral.ai/news/mixtral-8x22b/. Niklas Muennighoff, Qian Liu, Armel Zebaze, Qinkai Zheng, Binyuan Hui, Terry Yue Zhuo, Swayam Singh, Xiangru Tang, Leandro von Werra, and Shayne Longpre. Octopack: Instruction tuning code large language models, 2023. Deepak Narayanan, Mohammad Shoeybi, Jared Casper, Patrick LeGresley, Mostofa Patwary, Vijay Korthikanti, Dmitri Vainbrand, Prethvi Kashinkunti, Julie Bernauer, Bryan Catan zaro, Amar Phanishayee, and Matei Zaharia. Efficient large-scale language model training on gpu clusters using megatron-lm. In Proceedings of the International Conference for High Per formance Computing, Networking, Storage and Analysis, SC ’21, New York, NY, USA, 2021. As sociation for Computing Machinery. ISBN 9781450384421. doi: 10.1145/3458817.3476209. URL https://doi.org/10.1145/3458817.3476209. Erik Nijkamp, Bo Pang, Hiroaki Hayashi, Lifu Tu, Huan Wang, Yingbo Zhou, Silvio Savarese, and Caiming Xiong. Codegen: An open large language model for code with multi-turn program synthesis, 2023. Rangeet Pan, Ali Reza Ibrahimzada, Rahul Krishna, Divya Sankar, Lambert Pouguem Wassi, Michele Merler, Boris Sobolev, Raju Pavuluri, Saurabh Sinha, and Reyhaneh Jabbarvand. Lost in translation: A study of bugs introduced by large language models while translating code. In Proceedings of the IEEE/ACM 46th International Conference on Software Engineering, ICSE ’24. Association for Computing Machinery, 2024. Keiran Paster, Marco Dos Santos, Zhangir Azerbayev, and Jimmy Ba. Openwebmath: An open dataset of high-quality mathematical web text. arXiv preprint arXiv:2310.06786, 2023. Nikhil Pinnaparaju, Reshinth Adithyan, Duy Phung, Jonathan Tow, James Baicoianu, Ashish Datta, Maksym Zhuravinskyi, Dakota Mahan, Marco Bellagente, Carlos Riquelme, et al. Stable code technical report. arXiv preprint arXiv:2404.01226, 2024. Ruchir Puri, David S. Kung, Geert Janssen, Wei Zhang, Giacomo Domeniconi, Vladimir Zolotov, Julian Dolby, Jie Chen, Mihir Choudhury, Lindsey Decker, Veronika Thost, Luca Buratti, Saurabh Pujar, Shyam Ramji, Ulrich Finkler, Susan Malaika, and Frederick Reiss. Codenet: A large-scale ai for code dataset for learning a diversity of coding tasks. NeurIPS, 2021. Prajit Ramachandran, Barret Zoph, and Quoc V.'}]}]}</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=db6e9ab2b9cd65d8">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [29]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [32]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.extensions.rag.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">verbose_search</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.documents</span><span class="w"> </span><span class="kn">import</span> <span class="n">Document</span>
-
-<span class="n">reference_docs</span> <span class="o">=</span> <span class="n">score_response</span><span class="p">[</span><span class="s2">"choices"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"reference_documents"</span><span class="p">]</span>
-<span class="n">answer</span> <span class="o">=</span> <span class="n">score_response</span><span class="p">[</span><span class="s2">"choices"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"message"</span><span class="p">][</span><span class="s2">"content"</span><span class="p">]</span>
-<span class="n">verbose_search</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="p">[</span><span class="n">Document</span><span class="p">(</span><span class="o">**</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">reference_docs</span><span class="p">])</span>
-<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">"**Answer:** </span><span class="si">{</span><span class="n">answer</span><span class="si">}</span><span class="s2">"</span><span class="p">))</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">score_response</span><span class="p">[</span><span class="s2">"choices"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"message"</span><span class="p">][</span><span class="s2">"content"</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -8839,90 +9329,24 @@ Successfully finished deployment creation, deployment_id='8cabd997-4968-4675-a3e
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
-<p><strong>Question:</strong> What training objectives are used for the models?</p>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Based on the provided context, the following industry players are mentioned as IBM's strategic partners:
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
+- Meta (AI@Meta)
+- Cohere (Cohere Command r+)
+- Databricks (Databricks introducing dbrx)
+- Mistral AI (Mistral 7B)
+- OpenAssistant (OpenAssistant conversations)
+- IBM Research (IBM Research leaders mentioned in acknowledgments)
 
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>page_content</th>
-<th>sequence_number</th>
-<th>document_id</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>0</th>
-<td>remove final 8 layers from the original model ...</td>
-<td>[55, 56, 57, 58, 59]</td>
-<td>granite_code_models.md</td>
-</tr>
-<tr>
-<th>1</th>
-<td>Phase 1 (code only training): During phase 1, ...</td>
-<td>[59, 60, 61, 62, 63]</td>
-<td>granite_code_models.md</td>
-</tr>
-<tr>
-<th>2</th>
-<td>5 Instruction Tuning Finetuning code LLMs on a...</td>
-<td>[72, 73, 74, 75, 76]</td>
-<td>granite_code_models.md</td>
-</tr>
-<tr>
-<th>3</th>
-<td>Here, we present Granite Code models, a series...</td>
-<td>[18, 19, 20, 21, 22]</td>
-<td>granite_code_models.md</td>
-</tr>
-<tr>
-<th>4</th>
-<td>languages, there is no single model that is be...</td>
-<td>[141, 142, 143, 144, 145]</td>
-<td>granite_code_models.md</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
-<p><strong>Answer:</strong>
-The models are trained using the causal language modeling objective and the Fill-In the-Middle (FIM) objective. The FIM objective is designed to predict inserted tokens given a context and subsequent text. The models are trained to work with both PSM (Prefix-Suffix-Middle) and SPM (Suffix-Prefix-Middle) modes, using relevant formatting control tokens. The overall loss is computed as a weighted combination of the two objectives, with α empirically set to 0.5 during training. The FIM objective is only used during pretraining, and is dropped during instruction finetuning.</p>
-<p>Reference(s):
-Document
-4.2 Training Objective
-For training of all our models, we use the causal language modeling objective and Fill-In the-Middle (FIM) (Bavarian et al., 2022) objective. The FIM objective is tasked to predict inserted tokens with the given context and subsequent text. We train our models to work with both PSM (Prefix-Suffix-Middle) and SPM (Suffix-Prefix-Middle) modes, with relevant formatting control tokens, same as StarCoder (Li et al., 2023a). The overall loss is computed as a weighted combination of the 2 objectives:
-L = αLCLM + (1 − α)LF IM (1)
-We emperically set α = 0.5 during training and find that this works well in practice leading to SOTA performance on both code completion and code infilling tasks. It should be noted that the FIM objective is only used during pretraining, however we drop it during instruction finetuning i.e we set α = 1.</p>
-<p>Is there anything else you would like to know?</p>
+The context does not explicitly list IBM's strategic partners, but these are some of the companies and organizations that are mentioned in relation to IBM in the given text.
+</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b19c8e71-27ba-432d-a821-357416fcd125">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f7bfe92044e177db">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8936,18 +9360,18 @@ We emperically set α = 0.5 during training and find that this works well in pra
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a23242d0-83b2-4b67-ac49-5968fcdc6158">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3fc6379584dc38f4">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Author:">Author:<a class="anchor-link" href="#Author:">¶</a></h3><p><strong>Witold Nowogórski</strong>, Software Engineer at watsonx.ai.</p>
+<h3 id="Author:">Author:<a class="anchor-link" href="#Author:">¶</a></h3><p><strong>Paweł Kocur</strong>, Software Engineer at watsonx.ai.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d6b352c4-b197-41a1-83b4-d616354d6c27">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8cc73dddba1afbbd">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
