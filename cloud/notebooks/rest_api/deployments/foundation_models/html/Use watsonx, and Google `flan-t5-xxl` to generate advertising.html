@@ -7529,6 +7529,21 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<hr/>
+<p><strong>⚠️ DEPRECATION NOTICE</strong></p>
+<p>This notebook is deprecated and has been updated. Please use the updated version:</p>
+<p><a href="https://github.com/IBM/watsonx-ai-samples/blob/master/cloud/notebooks/rest_api/deployments/foundation_models/Use%20watsonx%20to%20generate%20advertising.ipynb">Use watsonx to generate advertising.ipynb</a></p>
+<hr/>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h4 id="Disclaimers">Disclaimers<a class="anchor-link" href="#Disclaimers">¶</a></h4><ul>
 <li>Use only Projects and Spaces that are available in watsonx context.</li>
 </ul>
@@ -7580,10 +7595,10 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>requests<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>wget<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>ibm-cloud-sdk-core<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>wget<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">requests</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">ibm</span><span class="o">-</span><span class="n">cloud</span><span class="o">-</span><span class="n">sdk</span><span class="o">-</span><span class="n">core</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -7597,7 +7612,10 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span><span class="o">,</span><span class="w"> </span><span class="nn">getpass</span><span class="o">,</span><span class="w"> </span><span class="nn">json</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_cloud_sdk_core</span><span class="w"> </span><span class="kn">import</span> <span class="n">IAMTokenManager</span>
 </pre></div>
@@ -7674,13 +7692,13 @@ from the API call is returned as the cell output.</p>
         <span class="n">Headers</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">"Authorization"</span><span class="p">:</span> <span class="s2">"Bearer "</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">access_token</span><span class="p">,</span>
             <span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
-            <span class="s2">"Accept"</span><span class="p">:</span> <span class="s2">"application/json"</span>
+            <span class="s2">"Accept"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">"model_id"</span><span class="p">:</span> <span class="n">model_id</span><span class="p">,</span>
             <span class="s2">"input"</span><span class="p">:</span> <span class="nb">input</span><span class="p">,</span>
             <span class="s2">"parameters"</span><span class="p">:</span> <span class="n">parameters</span><span class="p">,</span>
-            <span class="s2">"project_id"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_id</span>
+            <span class="s2">"project_id"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_id</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">wml_url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">Headers</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
@@ -7714,8 +7732,8 @@ Model inferencing.</p>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">access_token</span> <span class="o">=</span> <span class="n">IAMTokenManager</span><span class="p">(</span>
-    <span class="n">apikey</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Please enter your watsonx.ai api key (hit enter): "</span><span class="p">),</span>
-    <span class="n">url</span> <span class="o">=</span> <span class="s2">"https://iam.cloud.ibm.com/identity/token"</span>
+    <span class="n">apikey</span><span class="o">=</span><span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Please enter your watsonx.ai api key (hit enter): "</span><span class="p">),</span>
+    <span class="n">url</span><span class="o">=</span><span class="s2">"https://iam.cloud.ibm.com/identity/token"</span><span class="p">,</span>
 <span class="p">)</span><span class="o">.</span><span class="n">get_token</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -7820,7 +7838,9 @@ the id from the project in which this notebook runs. Otherwise, please provide t
 <div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">ads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Generate banking advertising mail of a saving account with 8 percent interest."</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">ads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+    <span class="s2">"Generate banking advertising mail of a saving account with 8 percent interest."</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7870,7 +7890,9 @@ the id from the project in which this notebook runs. Otherwise, please provide t
 <div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">ads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Generate advertising mail of paid (10$ a month) photo editing software for professionals."</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">ads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+    <span class="s2">"Generate advertising mail of paid (10$ a month) photo editing software for professionals."</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7932,13 +7954,15 @@ the id from the project in which this notebook runs. Otherwise, please provide t
 <div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">models_json</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">endpoint_url</span> <span class="o">+</span> <span class="s1">'/ml/v1/foundation_model_specs?version=2024-03-19&amp;limit=50'</span><span class="p">,</span>
-                           <span class="n">headers</span><span class="o">=</span><span class="p">{</span>
-                                    <span class="s1">'Authorization'</span><span class="p">:</span> <span class="sa">f</span><span class="s1">'Bearer </span><span class="si">{</span><span class="n">access_token</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span>
-                                    <span class="s1">'Content-Type'</span><span class="p">:</span> <span class="s1">'application/json'</span><span class="p">,</span>
-                                    <span class="s1">'Accept'</span><span class="p">:</span> <span class="s1">'application/json'</span>
-                            <span class="p">})</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-<span class="n">models_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="p">[</span><span class="s1">'model_id'</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">models_json</span><span class="p">[</span><span class="s1">'resources'</span><span class="p">]]</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">models_json</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+    <span class="n">endpoint_url</span> <span class="o">+</span> <span class="s2">"/ml/v1/foundation_model_specs?version=2024-03-19&amp;limit=50"</span><span class="p">,</span>
+    <span class="n">headers</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="n">access_token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
+        <span class="s2">"Accept"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="n">models_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="p">[</span><span class="s2">"model_id"</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">models_json</span><span class="p">[</span><span class="s2">"resources"</span><span class="p">]]</span>
 <span class="n">models_ids</span>
 </pre></div>
 </div>
@@ -8029,14 +8053,15 @@ result:</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">parameters</span> <span class="o">=</span>  <span class="p">{</span><span class="s2">"decoding_method"</span><span class="p">:</span> <span class="s2">"sample"</span><span class="p">,</span>
-               <span class="s2">"temperature"</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span>
-               <span class="s2">"top_p"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-               <span class="s2">"top_k"</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
-               <span class="s2">"random_seed"</span><span class="p">:</span> <span class="mi">33</span><span class="p">,</span>
-               <span class="s2">"repetition_penalty"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-               <span class="s2">"min_new_tokens"</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
-               <span class="s2">"max_new_tokens"</span><span class="p">:</span> <span class="mi">1024</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"decoding_method"</span><span class="p">:</span> <span class="s2">"sample"</span><span class="p">,</span>
+    <span class="s2">"temperature"</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span>
+    <span class="s2">"top_p"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">"top_k"</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="s2">"random_seed"</span><span class="p">:</span> <span class="mi">33</span><span class="p">,</span>
+    <span class="s2">"repetition_penalty"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s2">"min_new_tokens"</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="s2">"max_new_tokens"</span><span class="p">:</span> <span class="mi">1024</span><span class="p">,</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -8201,14 +8226,15 @@ result:</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">parameters_temp</span> <span class="o">=</span>  <span class="p">{</span><span class="s2">"decoding_method"</span><span class="p">:</span> <span class="s2">"sample"</span><span class="p">,</span>
-                    <span class="s2">"temperature"</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
-                    <span class="s2">"top_p"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-                    <span class="s2">"top_k"</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
-                    <span class="s2">"random_seed"</span><span class="p">:</span> <span class="mi">33</span><span class="p">,</span>
-                    <span class="s2">"repetition_penalty"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-                    <span class="s2">"min_new_tokens"</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
-                    <span class="s2">"max_new_tokens"</span><span class="p">:</span> <span class="mi">1024</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">parameters_temp</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"decoding_method"</span><span class="p">:</span> <span class="s2">"sample"</span><span class="p">,</span>
+    <span class="s2">"temperature"</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="s2">"top_p"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">"top_k"</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="s2">"random_seed"</span><span class="p">:</span> <span class="mi">33</span><span class="p">,</span>
+    <span class="s2">"repetition_penalty"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s2">"min_new_tokens"</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="s2">"max_new_tokens"</span><span class="p">:</span> <span class="mi">1024</span><span class="p">,</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -8226,7 +8252,9 @@ result:</p>
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">results_high_temperature</span> <span class="o">=</span> <span class="p">[]</span>
 
 <span class="k">for</span> <span class="n">instruction</span> <span class="ow">in</span> <span class="n">ads</span><span class="p">:</span>
-    <span class="n">results_high_temperature</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prompt</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">instruction</span><span class="p">,</span> <span class="n">model_id</span><span class="p">,</span> <span class="n">parameters_temp</span><span class="p">))</span>
+    <span class="n">results_high_temperature</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">prompt</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">instruction</span><span class="p">,</span> <span class="n">model_id</span><span class="p">,</span> <span class="n">parameters_temp</span><span class="p">)</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8339,14 +8367,15 @@ result:</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">parameters_photo</span> <span class="o">=</span>  <span class="p">{</span><span class="s2">"decoding_method"</span><span class="p">:</span> <span class="s2">"sample"</span><span class="p">,</span>
-                    <span class="s2">"temperature"</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
-                    <span class="s2">"top_p"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-                    <span class="s2">"top_k"</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
-                    <span class="s2">"random_seed"</span><span class="p">:</span> <span class="mi">33</span><span class="p">,</span>
-                    <span class="s2">"repetition_penalty"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-                    <span class="s2">"min_new_tokens"</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
-                    <span class="s2">"max_new_tokens"</span><span class="p">:</span> <span class="mi">1024</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">parameters_photo</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"decoding_method"</span><span class="p">:</span> <span class="s2">"sample"</span><span class="p">,</span>
+    <span class="s2">"temperature"</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="s2">"top_p"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">"top_k"</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="s2">"random_seed"</span><span class="p">:</span> <span class="mi">33</span><span class="p">,</span>
+    <span class="s2">"repetition_penalty"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s2">"min_new_tokens"</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="s2">"max_new_tokens"</span><span class="p">:</span> <span class="mi">1024</span><span class="p">,</span>
 <span class="p">}</span>
 </pre></div>
 </div>
