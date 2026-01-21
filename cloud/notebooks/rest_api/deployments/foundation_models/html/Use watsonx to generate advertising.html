@@ -7518,22 +7518,7 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><img alt="image" src="https://raw.githubusercontent.com/IBM/watson-machine-learning-samples/master/cloud/notebooks/headers/watsonx-Prompt_Lab-Notebook.png"/></p>
-<h1 id="Use-watsonx,-and-Google-flan-ul2-to-summarize-Cybersecurity-documents">Use watsonx, and Google <code>flan-ul2</code> to summarize Cybersecurity documents<a class="anchor-link" href="#Use-watsonx,-and-Google-flan-ul2-to-summarize-Cybersecurity-documents">¶</a></h1>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<hr/>
-<p><strong>⚠️ DEPRECATION NOTICE</strong></p>
-<p>This notebook is deprecated and has been updated. Please use the updated version:</p>
-<p><a href="https://github.com/IBM/watsonx-ai-samples/blob/master/cloud/notebooks/rest_api/deployments/foundation_models/Use%20watsonx%20to%20summarize%20Cybersecurity%20documents.ipynb">Use watsonx to summarize Cybersecurity documents.ipynb</a></p>
-<hr/>
+<h1 id="Use-watsonx-to-generate-advertising">Use watsonx to generate advertising<a class="anchor-link" href="#Use-watsonx-to-generate-advertising">¶</a></h1>
 </div>
 </div>
 </div>
@@ -7547,17 +7532,15 @@ a.anchor-link {
 <h4 id="Disclaimers">Disclaimers<a class="anchor-link" href="#Disclaimers">¶</a></h4><ul>
 <li>Use only Projects and Spaces that are available in watsonx context.</li>
 </ul>
-<h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook contains the steps and code to demonstrate support of text summarization in watsonx. It introduces commands for data retrieval and model testing.</p>
-<p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
-<h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The goal of this notebook is to demonstrate how to use <code>ul2</code> model to summarize cybersecurity: SPEC5G Cellular Network Protocol.</p>
-<h2 id="Use-case-&amp;-dataset">Use case &amp; dataset<a class="anchor-link" href="#Use-case-&amp;-dataset">¶</a></h2><p>5G is the 5th generation cellular network protocol. It is the state-of-the-art global wireless standard that enables an advanced kind of network designed to connect virtually everyone and everything with increased speed and reduced latency. Therefore, its development, analysis, and security are critical. However, all approaches to the 5G protocol development and security analysis, e.g., property extraction, protocol summarization, and semantic analysis of the protocol specifications and implementations are completely manual. To reduce such manual effort,foundation model are used to summarize the paragraphs automitically. The dataset that is used in this notebook has two columns which are paragraph and simplification(summary).</p>
+<h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook contains the steps and code to demonstrate support of text generation in watsonx. It introduces commands for data generation and model testing.</p>
+<p>Some familiarity with Python is helpful. This notebook uses Python 3.12.</p>
+<h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The goal of this notebook is to demonstrate how to use <code>watsonx.ai</code> model to generate mail advertising</p>
 <h2 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h2><p>This notebook contains the following parts:</p>
 <ul>
 <li><a href="#setup">Setup</a></li>
 <li><a href="#data">Data loading</a></li>
 <li><a href="#models">Foundation Models on watsonx</a></li>
 <li><a href="#predict">Model testing</a></li>
-<li><a href="#score">Score</a></li>
 <li><a href="#summary">Summary</a></li>
 </ul>
 </div>
@@ -7597,12 +7580,9 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">datasets</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">requests</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">ibm</span><span class="o">-</span><span class="n">cloud</span><span class="o">-</span><span class="n">sdk</span><span class="o">-</span><span class="n">core</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="s2">"scikit-learn==1.3.2"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">rouge</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">httpx</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">ibm</span><span class="o">-</span><span class="n">cloud</span><span class="o">-</span><span class="n">sdk</span><span class="o">-</span><span class="n">core</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -7613,18 +7593,15 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">wget</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">httpx</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_cloud_sdk_core</span><span class="w"> </span><span class="kn">import</span> <span class="n">IAMTokenManager</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">read_csv</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">rouge</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rouge</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span>
 </pre></div>
 </div>
 </div>
@@ -7661,7 +7638,7 @@ from the API call is returned as the cell output.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">endpoint_url</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your watsonx.ai Runtime endpoint url (hit enter): "</span><span class="p">)</span>
@@ -7686,32 +7663,37 @@ from the API call is returned as the cell output.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Prompt</span><span class="p">:</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">access_token</span><span class="p">,</span> <span class="n">project_id</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">access_token</span> <span class="o">=</span> <span class="n">access_token</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">PromptClient</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">access_token</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">project_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">endpoint_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">project_id</span> <span class="o">=</span> <span class="n">project_id</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">model_id</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
-        <span class="n">wml_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">endpoint_url</span><span class="si">}</span><span class="s2">/ml/v1/text/generation?version=2024-03-19"</span>
-        <span class="n">Headers</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">"Authorization"</span><span class="p">:</span> <span class="s2">"Bearer "</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">access_token</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">endpoint_url</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">'/'</span><span class="p">)</span><span class="si">}</span><span class="s2">/ml/v1/text/chat"</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="n">access_token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
             <span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
-            <span class="s2">"Accept"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
         <span class="p">}</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">chat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">messages</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">**</span><span class="n">params</span><span class="p">):</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">"model_id"</span><span class="p">:</span> <span class="n">model_id</span><span class="p">,</span>
-            <span class="s2">"input"</span><span class="p">:</span> <span class="nb">input</span><span class="p">,</span>
-            <span class="s2">"parameters"</span><span class="p">:</span> <span class="n">parameters</span><span class="p">,</span>
+            <span class="s2">"messages"</span><span class="p">:</span> <span class="n">messages</span><span class="p">,</span>
             <span class="s2">"project_id"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_id</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">params</span><span class="p">,</span>
         <span class="p">}</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">wml_url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">Headers</span><span class="p">)</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">httpx</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">"version"</span><span class="p">:</span> <span class="s2">"2024-03-19"</span><span class="p">},</span>
+            <span class="n">json</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">"results"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7735,7 +7717,7 @@ Model inferencing.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">access_token</span> <span class="o">=</span> <span class="n">IAMTokenManager</span><span class="p">(</span>
@@ -7755,7 +7737,7 @@ Model inferencing.</p>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="Defining-the-project-id">Defining the project id<a class="anchor-link" href="#Defining-the-project-id">¶</a></h3><p>The API requires project id that provides the context for the call. We will obtain
-the id from the project in which this notebook runs:</p>
+the id from the project in which this notebook runs. Otherwise, please provide the project id.</p>
 </div>
 </div>
 </div>
@@ -7764,13 +7746,13 @@ the id from the project in which this notebook runs:</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">try</span><span class="p">:</span>
     <span class="n">project_id</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"PROJECT_ID"</span><span class="p">]</span>
 <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-    <span class="n">project_id</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your project_id (hit enter): "</span><span class="p">)</span>
+    <span class="n">project_id</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Please enter your project_id (hit enter): "</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7784,7 +7766,7 @@ the id from the project in which this notebook runs:</p>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><a id="data"></a></p>
-<h2 id="Data-loading">Data loading<a class="anchor-link" href="#Data-loading">¶</a></h2>
+<h2 id="Advertising-prompts">Advertising prompts<a class="anchor-link" href="#Advertising-prompts">¶</a></h2>
 </div>
 </div>
 </div>
@@ -7795,7 +7777,18 @@ the id from the project in which this notebook runs:</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Download the <code>cybersecurity: SPEC5G Cellular Network Protocol</code> dataset.</p>
+<h4 id="Prepare-advertising-prompts.">Prepare advertising prompts.<a class="anchor-link" href="#Prepare-advertising-prompts.">¶</a></h4>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Prepare credit card with cashback advertising.</p>
 </div>
 </div>
 </div>
@@ -7804,106 +7797,17 @@ the id from the project in which this notebook runs:</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s2">"Data_Cyber.csv"</span>
-<span class="n">url</span> <span class="o">=</span> <span class="s2">"https://raw.githubusercontent.com/IBM/watson-machine-learning-samples/master/cloud/data/spec5g/spec5g.csv"</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-    <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">filename</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Read the data.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">read_csv</span><span class="p">(</span><span class="s2">"Data_Cyber.csv"</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">ads</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">ads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Generate banking advertising mail of a credit card with 10</span><span class="si">% c</span><span class="s2">ashback."</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>Paragraph</th>
-<th>Simplification</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>0</th>
-<td>In 5G NR, for the procedures such as handover ...</td>
-<td>In 5G NR, signal strength or signal quality ma...</td>
-</tr>
-<tr>
-<th>1</th>
-<td>5G NR has introduced cell signal measurement b...</td>
-<td>5G NR measures cell signal with SS/PBCH Block ...</td>
-</tr>
-<tr>
-<th>2</th>
-<td>New Radio (NR) is the wireless standard and fo...</td>
-<td>New Radio (NR) is the wireless standard and fo...</td>
-</tr>
-<tr>
-<th>3</th>
-<td>Current regulations in the U.S. allow a device...</td>
-<td>Current literature and presentations at variou...</td>
-</tr>
-<tr>
-<th>4</th>
-<td>In general, it is  very critical for a UE to c...</td>
-<td>It is important for UE to consider the certain...</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
-</div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
@@ -7911,33 +7815,11 @@ the id from the project in which this notebook runs:</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Inspect data sample.</p>
+<p>Prepare savings account advertising.</p>
 </div>
 </div>
 </div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="Check-the-sample-text-and-summary-length.">Check the sample text and summary length.<a class="anchor-link" href="#Check-the-sample-text-and-summary-length.">¶</a></h4>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>The original text lenght statistics.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7945,28 +7827,10 @@ the id from the project in which this notebook runs:</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">Paragraph</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">()))</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">ads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+    <span class="s2">"Generate banking advertising mail of a saving account with 8 percent interest."</span>
+<span class="p">)</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>count    713.000000
-mean     101.632539
-std       34.300754
-min       35.000000
-25%       78.000000
-50%       98.000000
-75%      121.000000
-max      266.000000
-Name: Paragraph, dtype: float64</pre>
 </div>
 </div>
 </div>
@@ -7978,11 +7842,11 @@ Name: Paragraph, dtype: float64</pre>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>The reference summary lenght statistics.</p>
+<p>Prepare educational course advertising.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7990,28 +7854,8 @@ Name: Paragraph, dtype: float64</pre>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">Simplification</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">()))</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">ads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Generate advertising mail of an online JAVA programming course."</span><span class="p">)</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>count    713.000000
-mean      43.927069
-std       24.889311
-min        8.000000
-25%       28.000000
-50%       38.000000
-75%       53.000000
-max      249.000000
-Name: Simplification, dtype: float64</pre>
 </div>
 </div>
 </div>
@@ -8023,7 +7867,7 @@ Name: Simplification, dtype: float64</pre>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Split data to train and test</p>
+<p>Prepare photo editing software advertising.</p>
 </div>
 </div>
 </div>
@@ -8035,14 +7879,34 @@ Name: Simplification, dtype: float64</pre>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">data_train</span><span class="p">,</span> <span class="n">data_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
-    <span class="n">data</span><span class="p">[</span><span class="s2">"Paragraph"</span><span class="p">],</span>
-    <span class="n">data</span><span class="p">[</span><span class="s2">"Simplification"</span><span class="p">],</span>
-    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
-    <span class="n">random_state</span><span class="o">=</span><span class="mi">33</span><span class="p">,</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">ads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+    <span class="s2">"Generate advertising mail of paid (10$ a month) photo editing software for professionals."</span>
 <span class="p">)</span>
-<span class="n">data_train</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">data_train</span><span class="p">)</span>
-<span class="n">data_test</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">data_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Prepare healthy food catering advertising.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">ads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Generate advertising mail of healthy food catering with a free first meal."</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8067,7 +7931,7 @@ Name: Simplification, dtype: float64</pre>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="List-available-models">List available models<a class="anchor-link" href="#List-available-models">¶</a></h4>
+<h4 id="List-available-chat-models">List available chat models<a class="anchor-link" href="#List-available-chat-models">¶</a></h4>
 </div>
 </div>
 </div>
@@ -8076,17 +7940,23 @@ Name: Simplification, dtype: float64</pre>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">models_json</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-    <span class="n">endpoint_url</span> <span class="o">+</span> <span class="s2">"/ml/v1/foundation_model_specs?version=2024-03-19&amp;limit=50"</span><span class="p">,</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">models_json</span> <span class="o">=</span> <span class="n">httpx</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+    <span class="n">endpoint_url</span> <span class="o">+</span> <span class="s2">"/ml/v1/foundation_model_specs"</span><span class="p">,</span>
     <span class="n">headers</span><span class="o">=</span><span class="p">{</span>
         <span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="n">access_token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
         <span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
         <span class="s2">"Accept"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
     <span class="p">},</span>
+    <span class="n">params</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">"limit"</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+        <span class="s2">"version"</span><span class="p">:</span> <span class="s2">"2024-03-19"</span><span class="p">,</span>
+        <span class="s2">"filters"</span><span class="p">:</span> <span class="s2">"function_text_chat,!lifecycle_withdrawn:and"</span><span class="p">,</span>
+    <span class="p">},</span>
 <span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
 <span class="n">models_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="p">[</span><span class="s2">"model_id"</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">models_json</span><span class="p">[</span><span class="s2">"resources"</span><span class="p">]]</span>
 <span class="n">models_ids</span>
 </pre></div>
@@ -8099,24 +7969,24 @@ Name: Simplification, dtype: float64</pre>
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[11]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>['bigcode/starcoder',
- 'bigscience/mt0-xxl',
- 'codellama/codellama-34b-instruct-hf',
- 'eleutherai/gpt-neox-20b',
- 'google/flan-t5-xl',
- 'google/flan-t5-xxl',
- 'google/flan-ul2',
- 'ibm-mistralai/mixtral-8x7b-instruct-v01-q',
- 'ibm/granite-13b-chat-v1',
- 'ibm/granite-13b-chat-v2',
- 'ibm/granite-13b-instruct-v1',
- 'ibm/granite-13b-instruct-v2',
- 'ibm/granite-20b-multilingual',
- 'ibm/mpt-7b-instruct2',
- 'meta-llama/llama-2-13b-chat',
- 'meta-llama/llama-2-70b-chat']</pre>
+<pre>['ibm/granite-3-2-8b-instruct',
+ 'ibm/granite-3-3-8b-instruct',
+ 'ibm/granite-3-3-8b-instruct-np',
+ 'ibm/granite-3-8b-instruct',
+ 'ibm/granite-4-h-small',
+ 'ibm/granite-guardian-3-8b',
+ 'meta-llama/llama-3-2-11b-vision-instruct',
+ 'meta-llama/llama-3-2-90b-vision-instruct',
+ 'meta-llama/llama-3-3-70b-instruct',
+ 'meta-llama/llama-3-405b-instruct',
+ 'meta-llama/llama-4-maverick-17b-128e-instruct-fp8',
+ 'meta-llama/llama-guard-3-11b-vision',
+ 'mistral-large-2512',
+ 'mistralai/mistral-medium-2505',
+ 'mistralai/mistral-small-3-1-24b-instruct-2503',
+ 'openai/gpt-oss-120b']</pre>
 </div>
 </div>
 </div>
@@ -8137,10 +8007,10 @@ Name: Simplification, dtype: float64</pre>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">model_id</span> <span class="o">=</span> <span class="s2">"google/flan-ul2"</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">model_id</span> <span class="o">=</span> <span class="s2">"ibm/granite-3-3-8b-instruct"</span>
 </pre></div>
 </div>
 </div>
@@ -8154,7 +8024,7 @@ Name: Simplification, dtype: float64</pre>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><a id="predict"></a></p>
-<h2 id="Generate-document-summary">Generate document summary<a class="anchor-link" href="#Generate-document-summary">¶</a></h2>
+<h2 id="Generate-mail-advertising">Generate mail advertising<a class="anchor-link" href="#Generate-mail-advertising">¶</a></h2>
 </div>
 </div>
 </div>
@@ -8165,37 +8035,23 @@ Name: Simplification, dtype: float64</pre>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Define instructions for the model.</p>
+<h3 id="Generate-mail-advertising-using-watsonx.ai-model.">Generate mail advertising using <code>watsonx.ai</code> model.<a class="anchor-link" href="#Generate-mail-advertising-using-watsonx.ai-model.">¶</a></h3><p><strong>Note:</strong> You might need to adjust model parameters for different models or tasks, to do so please refer to <a href="https://cloud.ibm.com/apidocs/watsonx-ai#text-chat" rel="Infer text params" target="_blank">documentation</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Initialize the <code>PromptClient</code> class.</p>
+<p><strong>Hint:</strong> Your authentication token might expire, if so please regenerate the <code>access_token</code> and reinitialize the <code>PromptClient</code> class.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">instruction</span> <span class="o">=</span> <span class="s2">"""</span>
-<span class="s2">Extract the key outline of the "Original text" similar to the Simplification according to the examples."""</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Prepare model inputs for zero-shot example, use below zero_shot_inputs.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8203,198 +8059,7 @@ Name: Simplification, dtype: float64</pre>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">zero_shot_inputs</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">"input"</span><span class="p">:</span> <span class="n">text</span><span class="p">}</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">data_test</span><span class="p">[</span><span class="s2">"Paragraph"</span><span class="p">]]</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The sentence example </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> is:</span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">zero_shot_inputs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">'input'</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>The sentence example 1 is:
- UE A can then prompt the user to initiate a voice call to UE B 6a(Successful case). The RAB Assignment Request message is sent from MSC B to the RNC B, requesting the establishment of a RAB for a Video Call.
- The radio bearer is established between the RNC B and UE B.
- RNC B responds to MSC B with a RAB Assignment Response message.
- Following the allocation of the radio resources, UE B sends an Alerting message to 6b (Failure case). The video call fails because of lack of radio resources on the B side.
- 
-
-The sentence example 2 is:
- As a network option, the operator may refuse to provide the requested information. When gsmSCF processing is complete the call control is returned to the GMSC server .
- The GMSC server interrogates the HLR in order to determine his current location.
- The HLR shall create an HLR interrogation record. The GMSC server routes the call to the VPLMN in which subscriber "B" is currently located.
- The GMSC server shall create an outgoing gateway record for accounting purposes.
- The GMSC server shall also create a roaming record.
- 
-
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Prepare model inputs for few-shot examples, use below few_shot_inputs.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">data_train_and_labels</span> <span class="o">=</span> <span class="n">data_train</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">data_train_and_labels</span><span class="p">[</span><span class="s2">"Simplification"</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_train</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">train_samples</span> <span class="o">=</span> <span class="n">data_train_and_labels</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">few_shot_example</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">examples</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">train_samples</span><span class="p">)):</span>
-    <span class="n">examples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">"</span><span class="se">\t</span><span class="s2">sentence:</span><span class="se">\t</span><span class="si">{</span><span class="n">train_samples</span><span class="p">[</span><span class="s1">'Paragraph'</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">s</span><span class="p">]</span><span class="si">}</span><span class="se">\n\t</span><span class="s2">Simplification: </span><span class="si">{</span><span class="n">train_samples</span><span class="p">[</span><span class="s1">'Simplification'</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">s</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
-    <span class="p">)</span>
-<span class="n">few_shot_examples</span> <span class="o">=</span> <span class="p">[</span><span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">examples</span><span class="p">)]</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">few_shot_inputs_</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">"input"</span><span class="p">:</span> <span class="n">text</span><span class="p">}</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">data_test</span><span class="p">[</span><span class="s2">"Paragraph"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The sentence example </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> is:</span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">few_shot_inputs_</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">'input'</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>The sentence example 1 is:
- UE A can then prompt the user to initiate a voice call to UE B 6a(Successful case). The RAB Assignment Request message is sent from MSC B to the RNC B, requesting the establishment of a RAB for a Video Call.
- The radio bearer is established between the RNC B and UE B.
- RNC B responds to MSC B with a RAB Assignment Response message.
- Following the allocation of the radio resources, UE B sends an Alerting message to 6b (Failure case). The video call fails because of lack of radio resources on the B side.
- 
-
-The sentence example 2 is:
- As a network option, the operator may refuse to provide the requested information. When gsmSCF processing is complete the call control is returned to the GMSC server .
- The GMSC server interrogates the HLR in order to determine his current location.
- The HLR shall create an HLR interrogation record. The GMSC server routes the call to the VPLMN in which subscriber "B" is currently located.
- The GMSC server shall create an outgoing gateway record for accounting purposes.
- The GMSC server shall also create a roaming record.
- 
-
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Defining-the-model-parameters">Defining the model parameters<a class="anchor-link" href="#Defining-the-model-parameters">¶</a></h3><p>We need to provide a set of model parameters that will influence the
-result. Based on decoding strategy that ww have for the models, the parameters can change.</p>
-<p>There are two decoding strategies: <code>greedy</code> and <code>sampling</code>.</p>
-<p>We usually use <code>greedy</code> for complaint classification, extraction and Q&amp;A.</p>
-<p>We usually use <code>sampling</code> for content generation and summarization.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"decoding_method"</span><span class="p">:</span> <span class="s2">"greedy"</span><span class="p">,</span>
-    <span class="s2">"random_seed"</span><span class="p">:</span> <span class="mi">33</span><span class="p">,</span>
-    <span class="s2">"repetition_penalty"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="s2">"min_new_tokens"</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
-    <span class="s2">"max_new_tokens"</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Generate-the-cybersecurity:-SPEC5G-Cellular-Network-Protocol-summary-using-ul2-model.">Generate the cybersecurity: SPEC5G Cellular Network Protocol summary using <code>ul2</code> model.<a class="anchor-link" href="#Generate-the-cybersecurity:-SPEC5G-Cellular-Network-Protocol-summary-using-ul2-model.">¶</a></h3><p><strong>Note:</strong> You might need to adjust model <code>parameters</code> for different models or tasks, to do so please refer to <a href="https://ibm.github.io/watsonx-ai-python-sdk/fm_model.html#metanames.GenTextParamsMetaNames" rel="GenTextParamsMetaNames params" target="_blank">documentation</a>.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Initialize the <code>Prompt</code> class.</p>
-<p><strong>Hint:</strong> Your authentication token might expire, if so please regenerate the <code>access_token</code> reinitialize the <code>Prompt</code> class.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">prompt</span> <span class="o">=</span> <span class="n">Prompt</span><span class="p">(</span><span class="n">access_token</span><span class="p">,</span> <span class="n">project_id</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">prompt_client</span> <span class="o">=</span> <span class="n">PromptClient</span><span class="p">(</span><span class="n">access_token</span><span class="p">,</span> <span class="n">project_id</span><span class="p">,</span> <span class="n">endpoint_url</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8416,16 +8081,19 @@ result. Based on decoding strategy that ww have for the models, the parameters c
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">inp</span> <span class="ow">in</span> <span class="n">few_shot_inputs_</span><span class="p">[:</span><span class="mi">2</span><span class="p">]:</span>
-    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-        <span class="n">prompt</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
-            <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">instruction</span> <span class="o">+</span> <span class="n">few_shot_examples</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">inp</span><span class="p">[</span><span class="s2">"input"</span><span class="p">]]),</span>
-            <span class="n">model_id</span><span class="p">,</span>
-            <span class="n">parameters</span><span class="p">,</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">results_low_temperature</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">instruction</span> <span class="ow">in</span> <span class="n">ads</span><span class="p">:</span>
+    <span class="n">results_low_temperature</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">prompt_client</span><span class="o">.</span><span class="n">chat</span><span class="p">(</span>
+            <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span>
+            <span class="n">messages</span><span class="o">=</span><span class="p">[</span>
+                <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">instruction</span><span class="p">},</span>
+            <span class="p">],</span>
+            <span class="n">temperature</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="p">)</span>
 </pre></div>
@@ -8440,7 +8108,536 @@ result. Based on decoding strategy that ww have for the models, the parameters c
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Explore model output.</p>
+<p>Explore model outputs.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">ads</span><span class="p">,</span> <span class="n">results_low_temperature</span><span class="p">),</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">resp</span><span class="p">[</span><span class="s2">"choices"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"message"</span><span class="p">][</span><span class="s2">"content"</span><span class="p">]</span>
+
+    <span class="n">safe_content</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"---"</span><span class="p">,</span> <span class="s2">"—"</span><span class="p">)</span>
+
+    <span class="n">display</span><span class="p">(</span>
+        <span class="n">Markdown</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"""</span>
+<span class="s2">## 🧠 Prompt </span><span class="si">{</span><span class="n">i</span><span class="si">}</span>
+<span class="s2">&gt; </span><span class="si">{</span><span class="n">prompt</span><span class="si">}</span>
+
+<span class="s2">#### ✉️ Generated Content</span>
+<span class="si">{</span><span class="n">safe_content</span><span class="si">}</span>
+<span class="s2">"""</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
+<h2 id="%F0%9F%A7%A0-Prompt-1">🧠 Prompt 1<a class="anchor-link" href="#%F0%9F%A7%A0-Prompt-1">¶</a></h2><blockquote>
+<p>Generate banking advertising mail of a credit card with 10% cashback.</p>
+</blockquote>
+<h4 id="%E2%9C%89%EF%B8%8F-Generated-Content">✉️ Generated Content<a class="anchor-link" href="#%E2%9C%89%EF%B8%8F-Generated-Content">¶</a></h4><p>📧 Subject: Unleash the Power of 10% Cashback with Our Premium Credit Card! 💳</p>
+<p>Dear [Customer's Name],</p>
+<p>We hope this message finds you well! We're thrilled to introduce our exclusive Premium Credit Card, designed to reward your everyday spending with an unbeatable 10% cashback on all purchases.</p>
+<p>🌟 Here's what you can expect:</p>
+<ol>
+<li><p><strong>10% Cashback on All Spend</strong>: Earn a 10% cashback on every purchase you make using our Premium Credit Card. This means for every $100 you spend, you'll receive $10 back in your account.</p>
+</li>
+<li><p><strong>No Annual Fee</strong>: Enjoy the benefits without any annual fees, making it an affordable way to maximize your savings.</p>
+</li>
+<li><p><strong>Secure Transactions</strong>: Your security is our top priority. Our card comes with advanced fraud protection and chip technology for safe and secure transactions.</p>
+</li>
+<li><p><strong>Easy Cashback Redemption</strong>: Redeem your cashback easily through our mobile app or online banking portal. You can choose to have the cashback credited to your account or used towards your next purchase.</p>
+</li>
+<li><p><strong>Additional Perks</strong>: Enjoy additional benefits like complimentary travel insurance, extended warranty on products, and exclusive discounts at popular retailers.</p>
+</li>
+</ol>
+<p>Don't miss out on this opportunity to turn your everyday spending into significant savings. Apply for our Premium Credit Card today and start enjoying 10% cashback on all your purchases!</p>
+<p>To apply, simply visit our website [insert link] or contact our customer service team at [insert contact details].</p>
+<p>Thank you for choosing us for your banking needs. We look forward to serving you better with our Premium Credit Card.</p>
+<p>Best Regards,</p>
+<p>[Your Name]
+[Your Position]
+[Bank's Name]</p>
+<p>📞 Contact Us: [Insert Contact Details] | Website: [Insert Bank's Website] | Email: [Insert Bank's Email]</p>
+<p>*Please note: The 10% cashback is capped at a certain amount per month/quarter, as per the card's terms and conditions. For detailed terms, please refer to the card agreement available at the time of application.</p>
+<p>🔒 Secure Your Finances: Apply Now for Our Premium Credit Card with 10% Cashback! 🔒</p>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
+<h2 id="%F0%9F%A7%A0-Prompt-2">🧠 Prompt 2<a class="anchor-link" href="#%F0%9F%A7%A0-Prompt-2">¶</a></h2><blockquote>
+<p>Generate banking advertising mail of a saving account with 8 percent interest.</p>
+</blockquote>
+<h4 id="%E2%9C%89%EF%B8%8F-Generated-Content">✉️ Generated Content<a class="anchor-link" href="#%E2%9C%89%EF%B8%8F-Generated-Content">¶</a></h4><p>📧 Subject: Unlock Your Savings Potential with Our High-Yield Savings Account! 🔑</p>
+<p>Dear [Customer's Name],</p>
+<p>We hope this message finds you well! We're excited to introduce our new High-Yield Savings Account, designed to help you grow your savings with an impressive 8% annual interest rate.</p>
+<p>🌟 Why choose our High-Yield Savings Account?</p>
+<ol>
+<li><p><strong>Competitive Interest Rate</strong>: Earn 8% annual interest on your savings, significantly higher than the national average.</p>
+</li>
+<li><p><strong>Low Minimum Balance</strong>: No need to maintain a large balance to enjoy this attractive rate.</p>
+</li>
+<li><p><strong>FDIC Insured</strong>: Your savings are protected by the Federal Deposit Insurance Corporation (FDIC) up to $250,000.</p>
+</li>
+<li><p><strong>Easy Access</strong>: With online and mobile banking, managing your account is a breeze.</p>
+</li>
+<li><p><strong>No Monthly Maintenance Fees</strong>: We believe in keeping your money where it belongs – in your account, not in fees.</p>
+</li>
+</ol>
+<p>🌟 How to Open an Account:</p>
+<ol>
+<li>Visit our website or download our mobile app.</li>
+<li>Click on 'Open an Account' and select 'High-Yield Savings Account'.</li>
+<li>Follow the simple steps to provide your information and submit your application.</li>
+</ol>
+<p>Don't miss out on this opportunity to maximize your savings. Open your High-Yield Savings Account today and let your money work harder for you!</p>
+<p>If you have any questions or need assistance, please don't hesitate to contact our dedicated customer service team at [Support Email] or [Support Phone Number].</p>
+<p>Thank you for choosing our bank for your financial needs. We look forward to helping you grow your savings!</p>
+<p>Best regards,</p>
+<p>[Your Name]
+[Your Position]
+[Bank's Name]</p>
+<p>Disclaimer: The 8% annual interest rate is variable and subject to change based on market conditions. The rate displayed is accurate as of [Date]. Please refer to our website or contact our customer service for the most current rate.</p>
+<p><em>This is a fictional advertisement and does not represent a specific bank's current offerings. Always verify details with your bank before making financial decisions.</em></p>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
+<h2 id="%F0%9F%A7%A0-Prompt-3">🧠 Prompt 3<a class="anchor-link" href="#%F0%9F%A7%A0-Prompt-3">¶</a></h2><blockquote>
+<p>Generate advertising mail of an online JAVA programming course.</p>
+</blockquote>
+<h4 id="%E2%9C%89%EF%B8%8F-Generated-Content">✉️ Generated Content<a class="anchor-link" href="#%E2%9C%89%EF%B8%8F-Generated-Content">¶</a></h4><p>📣 Exciting News: Unlock Your Java Mastery with Our Online Course! 📚</p>
+<p>Are you ready to elevate your programming skills and become a Java expert? Look no further! Our comprehensive online Java programming course is designed to take you from beginner to professional in no time.</p>
+<p>🌟 What You'll Learn:</p>
+<ul>
+<li>Java fundamentals: syntax, data types, variables, and control structures</li>
+<li>Object-oriented programming concepts: classes, objects, inheritance, and polymorphism</li>
+<li>Advanced Java topics: exception handling, file I/O, and multithreading</li>
+<li>Java frameworks: Spring and Hibernate</li>
+<li>Real-world projects to solidify your skills</li>
+</ul>
+<p>🎯 Why Choose Us:</p>
+<ul>
+<li>Expert instructors: Learn from experienced Java developers who have worked on large-scale projects</li>
+<li>Flexible learning: Study at your own pace, anytime, anywhere</li>
+<li>Hands-on approach: Gain practical experience with coding exercises and projects</li>
+<li>Lifetime access: Review lessons and materials whenever you want</li>
+<li>Certificate of completion: Showcase your new skills to potential employers</li>
+</ul>
+<p>📅 Don't miss out on this opportunity to become a sought-after Java programmer! Enroll today and start your journey to success.</p>
+<p>👉 Click here to enroll: [Insert Enrollment Link]</p>
+<p>Join our community of successful Java developers and transform your career. See you in class! 🚀</p>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
+<h2 id="%F0%9F%A7%A0-Prompt-4">🧠 Prompt 4<a class="anchor-link" href="#%F0%9F%A7%A0-Prompt-4">¶</a></h2><blockquote>
+<p>Generate advertising mail of paid (10$ a month) photo editing software for professionals.</p>
+</blockquote>
+<h4 id="%E2%9C%89%EF%B8%8F-Generated-Content">✉️ Generated Content<a class="anchor-link" href="#%E2%9C%89%EF%B8%8F-Generated-Content">¶</a></h4><p>📷 <strong>Unleash Your Creativity with ProPhoto Master!</strong> 📷</p>
+<p>Are you a professional photographer or editor seeking the perfect tool to elevate your work? Look no further! Introducing ProPhoto Master – the ultimate photo editing software designed specifically for professionals like you.</p>
+<p><strong>Why Choose ProPhoto Master?</strong></p>
+<ol>
+<li><p><strong>Advanced Editing Tools</strong>: Harness the power of professional-grade tools, including layer-based editing, customizable brushes, and intelligent selection refinement.</p>
+</li>
+<li><p><strong>Batch Processing</strong>: Save time with our efficient batch processing feature, allowing you to apply edits to multiple images simultaneously.</p>
+</li>
+<li><p><strong>HDR Merge &amp; Toning</strong>: Create stunning HDR images with our intuitive merge and toning tools, ensuring perfect exposure and detail in every shot.</p>
+</li>
+<li><p><strong>Lens Correction &amp; Perspective Control</strong>: Correct lens distortions and adjust perspective with ease, ensuring your images are always perfectly aligned.</p>
+</li>
+<li><p><strong>Color Grading &amp; Matching</strong>: Achieve consistent color grading across your portfolio with our advanced color matching tools.</p>
+</li>
+<li><p><strong>Regular Updates &amp; Support</strong>: Stay ahead of the curve with regular updates and priority customer support, ensuring you always have access to the latest features and assistance.</p>
+</li>
+</ol>
+<p><strong>Special Offer: Just $10/month!</strong></p>
+<p>For a limited time, we're offering ProPhoto Master at an unbeatable price of just $10 per month. Subscribe now and experience the difference in quality and efficiency that ProPhoto Master brings to your photo editing workflow.</p>
+<p><strong>Upgrade Your Workflow Today!</strong></p>
+<p>Don't miss out on this incredible opportunity to enhance your professional photo editing skills. Sign up for ProPhoto Master now and start creating breathtaking images that stand out from the crowd.</p>
+<p>Visit our website or click the link below to start your 7-day free trial and experience the power of ProPhoto Master firsthand:</p>
+<p><a href="www.prophotomaster.com/subscribe">Subscribe Now</a></p>
+<p><em>ProPhoto Master – Empowering professionals to create, edit, and share their best work.</em></p>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
+<h2 id="%F0%9F%A7%A0-Prompt-5">🧠 Prompt 5<a class="anchor-link" href="#%F0%9F%A7%A0-Prompt-5">¶</a></h2><blockquote>
+<p>Generate advertising mail of healthy food catering with a free first meal.</p>
+</blockquote>
+<h4 id="%E2%9C%89%EF%B8%8F-Generated-Content">✉️ Generated Content<a class="anchor-link" href="#%E2%9C%89%EF%B8%8F-Generated-Content">¶</a></h4><p>📩 Subject: 🌱 Discover a Healthier You with Our Delicious Catering - Enjoy Your First Meal on Us! 🍽️</p>
+<p>Dear [Customer's Name],</p>
+<p>Are you looking to embrace a healthier lifestyle without compromising on taste? Look no further! We're thrilled to introduce our premium healthy food catering service, designed to nourish your body and delight your taste buds.</p>
+<p>🌟 Why Choose Us?</p>
+<ol>
+<li><p><strong>Nutritious &amp; Delicious</strong>: Our menu is packed with wholesome, organic ingredients, ensuring you get the best of both worlds - taste and nutrition.</p>
+</li>
+<li><p><strong>Customizable Options</strong>: We cater to various dietary preferences and restrictions, including vegan, gluten-free, and paleo options.</p>
+</li>
+<li><p><strong>Expert Chefs</strong>: Our team of experienced chefs crafts each meal with care, ensuring every bite is a culinary masterpiece.</p>
+</li>
+<li><p><strong>Convenient Delivery</strong>: We understand your time is valuable. That's why we offer flexible delivery options to suit your schedule.</p>
+</li>
+</ol>
+<p>🎁 Special Offer for You:</p>
+<p>To help you kickstart your health journey, we're excited to offer a FREE first meal with any of our catering plans! Simply choose your preferred plan, and we'll take care of the rest.</p>
+<p>👉 Don't miss out on this opportunity to experience the difference our healthy catering can make. Visit our website [insert website link] or call us at [insert phone number] to place your order today.</p>
+<p>Remember, every healthy choice you make is a step towards a happier, more vibrant you. Let us be a part of your journey.</p>
+<p>Warm Regards,</p>
+<p>[Your Name]
+[Your Position]
+[Company Name]</p>
+<p>P.S. This offer is valid for a limited time only. Hurry and claim your free first meal today! 🍽️🌱</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>You might also try to change model parameters to see whether it provides better ads. In following cell we changed the model temperature to 1.0 to let the model select words more creatively.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">results_high_temperature</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">instruction</span> <span class="ow">in</span> <span class="n">ads</span><span class="p">:</span>
+    <span class="n">results_high_temperature</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">prompt_client</span><span class="o">.</span><span class="n">chat</span><span class="p">(</span>
+            <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span>
+            <span class="n">messages</span><span class="o">=</span><span class="p">[</span>
+                <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">instruction</span><span class="p">},</span>
+            <span class="p">],</span>
+            <span class="n">temperature</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Explore model outputs.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">ads</span><span class="p">,</span> <span class="n">results_high_temperature</span><span class="p">),</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">resp</span><span class="p">[</span><span class="s2">"choices"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"message"</span><span class="p">][</span><span class="s2">"content"</span><span class="p">]</span>
+
+    <span class="n">safe_content</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"---"</span><span class="p">,</span> <span class="s2">"—"</span><span class="p">)</span>
+
+    <span class="n">display</span><span class="p">(</span>
+        <span class="n">Markdown</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"""</span>
+<span class="s2">## 🧠 Prompt </span><span class="si">{</span><span class="n">i</span><span class="si">}</span>
+<span class="s2">&gt; </span><span class="si">{</span><span class="n">prompt</span><span class="si">}</span>
+
+<span class="s2">#### ✉️ Generated Content</span>
+<span class="si">{</span><span class="n">safe_content</span><span class="si">}</span>
+<span class="s2">"""</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
+<h2 id="%F0%9F%A7%A0-Prompt-1">🧠 Prompt 1<a class="anchor-link" href="#%F0%9F%A7%A0-Prompt-1">¶</a></h2><blockquote>
+<p>Generate banking advertising mail of a credit card with 10% cashback.</p>
+</blockquote>
+<h4 id="%E2%9C%89%EF%B8%8F-Generated-Content">✉️ Generated Content<a class="anchor-link" href="#%E2%9C%89%EF%B8%8F-Generated-Content">¶</a></h4><p>📩 Subject: Unleash the Power of 10% Cashback with Our Premium Credit Card! 🔥</p>
+<p>Dear [Customer's Name],</p>
+<p>Are you tired of missing out on valuable rewards with your current credit card? 💳 It's time to upgrade to our Premium Credit Card, designed to offer you an unbeatable 10% cashback on all your eligible purchases! ⚡</p>
+<p>With our card, you'll enjoy:</p>
+<ol>
+<li><p>🔥 10% Cashback on Eligible Purchases 🔥</p>
+<ul>
+<li>Earn 10% cashback on your everyday spending at grocery stores, gas stations, and even dining outlets. The more you spend, the more you earn!</li>
+</ul>
+</li>
+<li><p>🏆 Earn Rewards Faster 🤩</p>
+<ul>
+<li>With no limits on the amount of cashback you can earn, watch your savings grow effortlessly. There's no cap, so the more you use your card, the more you'll reap the benefits!</li>
+</ul>
+</li>
+<li><p>👑 Premium Benefits &amp; Perks 👑</p>
+<ul>
+<li>Access exclusive member-only discounts, special financing offers, and worldwide acceptance for seamless shopping experiences, both online and in-store.</li>
+</ul>
+</li>
+<li><p>🔒 Secure &amp; Convenient 🔒</p>
+<ul>
+<li>Invest in safe transactions and fraud protection with our state-of-the-art security features, ensuring your peace of mind during every purchase.</li>
+</ul>
+</li>
+</ol>
+<p>Apply now and experience the ultimate in convenience, savings, and rewards! 🚀</p>
+<p>[Call-to-Action Button: Apply for Your Premium Credit Card Today! 🏧]</p>
+<p>Don't miss out on this fantastic opportunity to maximize your savings. Simply click the button below and complete your application in minutes!</p>
+<p>👉 [Apply Now] 👈</p>
+<p>*T&amp;Cs apply. Cashback is credited monthly to your card statement. Eligible purchases are subject to terms and exclusions mentioned in the cardholder agreement.</p>
+<p>Best regards,</p>
+<p>[Your Name]
+[Your Position]
+[Bank Name]</p>
+<p>P.S. Spread the word and share this offer with your friends and family. They'll thank you for introducing them to an exceptional credit card experience! 📝👍</p>
+<p>—</p>
+<p>Disclaimer: This generated text is an example of a banking advertising mail for a credit card offering 10% cashback. Make sure to customize it according to your bank's branding, policies, and legal requirements before using. Always abide by data privacy and security protocols.</p>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
+<h2 id="%F0%9F%A7%A0-Prompt-2">🧠 Prompt 2<a class="anchor-link" href="#%F0%9F%A7%A0-Prompt-2">¶</a></h2><blockquote>
+<p>Generate banking advertising mail of a saving account with 8 percent interest.</p>
+</blockquote>
+<h4 id="%E2%9C%89%EF%B8%8F-Generated-Content">✉️ Generated Content<a class="anchor-link" href="#%E2%9C%89%EF%B8%8F-Generated-Content">¶</a></h4><p>💌 <strong>Unlock Your Financial Future with Our High-Yield Savings Account!</strong> 💌</p>
+<p>Dear [Customer's Name],</p>
+<p>Are you looking for a secure and rewarding way to grow your savings? Look no further! We're excited to introduce our High-Yield Savings Account, offering an attractive 8% annual interest rate on your deposits.</p>
+<p>🌟 <strong>Why Choose Our High-Yield Savings Account?</strong></p>
+<ol>
+<li><p><strong>Competitive Interest Rate</strong>: Earn 8% interest on your savings, significantly outpacing the national average. Your money works harder for you, growing faster than ever before.</p>
+</li>
+<li><p><strong>Safety and Security</strong>: Your deposits are protected by FDIC insurance, giving you peace of mind and ensuring that your savings are always secure.</p>
+</li>
+<li><p><strong>Flexibility</strong>: With no minimum balance requirements and low minimum opening deposit, you can easily manage your funds without worrying about penalty fees.</p>
+</li>
+<li><p><strong>Easy Access</strong>: Access your money when you need it with free online and mobile banking, including transfers, bill payments, and more.</p>
+</li>
+<li><p><strong>Automatic Savings Plan</strong>: Set up a recurring transfer from your checking to your savings account, making saving effortless and consistent.</p>
+</li>
+</ol>
+<p>🌟 <strong>How to Open an Account</strong>:</p>
+<p>Opening an account is simple and quick. You can:</p>
+<ol>
+<li>Visit our nearest branch.</li>
+<li>Call our dedicated account specialists at [Phone Number].</li>
+<li>Apply online through our secure website.</li>
+</ol>
+<p>💡 <strong>Start Saving for Your Dreams Today!</strong> 💡</p>
+<p>Don't let your hard-earned money sit idle. Open our High-Yield Savings Account and watch your savings grow with our competitive 8% interest rate. It's time to take control of your financial future.</p>
+<p>Click here [Insert Link] to apply now or visit our website to learn more about our High-Yield Savings Account.</p>
+<p>Thank you for choosing our bank as your trusted partner in building a prosperous future.</p>
+<p>Best Regards,</p>
+<p>[Your Name]
+[Your Title]
+[Bank Name]</p>
+<p>*Please note: The 8% annual percentage yield (APY) is effective as of [Date] and may change at any time without prior notice. For detailed terms and conditions, visit our website or contact our customer service team.</p>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
+<h2 id="%F0%9F%A7%A0-Prompt-3">🧠 Prompt 3<a class="anchor-link" href="#%F0%9F%A7%A0-Prompt-3">¶</a></h2><blockquote>
+<p>Generate advertising mail of an online JAVA programming course.</p>
+</blockquote>
+<h4 id="%E2%9C%89%EF%B8%8F-Generated-Content">✉️ Generated Content<a class="anchor-link" href="#%E2%9C%89%EF%B8%8F-Generated-Content">¶</a></h4><p>📢 <strong>Unlock Your JAVA Mastery with Our Online Course!</strong> 📢</p>
+<p>🎯 <strong>Why Choose Our JAVA Programming Course?</strong></p>
+<ol>
+<li><strong>Expert Instructors</strong>: Learn from experienced JAVA developers who have real-world experience.</li>
+<li><strong>Comprehensive Curriculum</strong>: From basics to advanced topics, we cover it all.</li>
+<li><strong>Flexible Learning</strong>: Study at your own pace, anytime, anywhere.</li>
+<li><strong>Practical Projects</strong>: Apply your skills with hands-on projects.</li>
+<li><strong>Lifetime Access</strong>: Revisit lessons and materials anytime you want.</li>
+</ol>
+<p>💻 <strong>What You'll Learn:</strong></p>
+<ul>
+<li>JAVA Fundamentals: Variables, Operators, Control Structures, Looping Constructs</li>
+<li>Object-Oriented Programming with JAVA: Classes, Objects, Inheritance, Polymorphism</li>
+<li>Exception Handling and Multithreading</li>
+<li>JAVA Development Tools: IDEs, Debugging, Version Control</li>
+<li>Building JAVA Applications: Desktop and Web Applications</li>
+</ul>
+<p>🌟 <strong>Who This Course Is For:</strong></p>
+<ul>
+<li>Beginners interested in learning JAVA programming.</li>
+<li>Developers looking to expand their skillset.</li>
+<li>Students preparing for JAVA-based interviews or certifications.</li>
+</ul>
+<p>🔗 <strong>Enroll Now and Start Your JAVA Journey!</strong></p>
+<p>[Button: ENROLL NOW]</p>
+<p><em>Terms and Conditions Apply. Discount codes not applicable on bulk purchase.</em></p>
+<p>📸 <strong>Student Testimonials:</strong></p>
+<blockquote>
+<p>"The course was excellent! The instructors were very knowledgeable and the practical projects helped solidify my understanding." - John D.</p>
+<p>"This course transformed my JAVA skills. The pace was perfect for someone coming from a non-programming background." - Sarah K.</p>
+</blockquote>
+<p>🔐 <strong>Secure Payment &amp; Data Privacy:</strong> We ensure all transactions are secure and your data is protected.</p>
+<p>📅 <strong>Limited Time Offer!</strong> Enroll now and get a <strong>20% discount</strong> on our JAVA programming course. Use code JAVA20 at checkout.</p>
+<p><em>Hurry, offer valid only for the first 100 enrollments.</em></p>
+<p>📝 <strong>Still have questions? Contact us at support@javaprogrammingcourse.com</strong></p>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
+<h2 id="%F0%9F%A7%A0-Prompt-4">🧠 Prompt 4<a class="anchor-link" href="#%F0%9F%A7%A0-Prompt-4">¶</a></h2><blockquote>
+<p>Generate advertising mail of paid (10$ a month) photo editing software for professionals.</p>
+</blockquote>
+<h4 id="%E2%9C%89%EF%B8%8F-Generated-Content">✉️ Generated Content<a class="anchor-link" href="#%E2%9C%89%EF%B8%8F-Generated-Content">¶</a></h4><p>📩 Subject: elevate your photo editing game with ProEdit Pro - just $10/month! ⚡</p>
+<p>Dear [Professional Photographer's Name],</p>
+<p>Are you still relying on basic editing tools that restrict your creative potential? It's time to unlock your full artistic vision with ProEdit Pro – the ultimate photo editing software designed specifically for professionals like you!</p>
+<p>🌟 Unleash unmatched precision and control:</p>
+<ul>
+<li>Advanced color grading &amp; correction tools for flawless skin tones, vibrant colors, and stunning visuals.</li>
+<li>360-degree editing capabilities for immersive panoramic images.</li>
+<li>Intelligent layer management for seamless compositing and masking.</li>
+<li>Professional-grade noise reduction and sharpening algorithms to bring out the intricate details in every shot.</li>
+</ul>
+<p>🎯 Why settle for generic editing solutions when you deserve the best? With ProEdit Pro, you get:</p>
+<ul>
+<li>Exclusive access to a library of professional presets for various photo styles and genres, saving you hours in post-production.</li>
+<li>Seamless integration with popular camera brands and RAW file formats, ensuring the highest quality results.</li>
+<li>Cross-platform compatibility: Effortlessly work on Windows, macOS, and even Linux for ultimate flexibility.</li>
+<li>Regular updates and dedicated support for a smooth user experience.</li>
+</ul>
+<p>🔒 Your investment in ProEdit Pro is not just a software purchase, but a commitment to your professional growth and elevated client satisfaction. For a limited time, unlock the full potential of your photography with an irresistible offer:</p>
+<p>🔥 Just $10/month, with no long-term contracts! 🌟</p>
+<p>Don't miss out on this opportunity to refine and elevate your photo editing process. Try ProEdit Pro risk-free with our 7-day money-back guarantee. Click here to get started today: [Insert Link]</p>
+<p>We can't wait for you to experience the difference ProEdit Pro makes in your workflow!</p>
+<p>Warm regards,</p>
+<p>[Your Name]
+[Your Position]
+ProEdit Pro Team</p>
+<p>P.S. - As a valued professional photographer, you'll receive a special 10% discount during signup. Use code PHOTOPRO10 at checkout.</p>
+<p>—</p>
+<p>This ad copy aims to present ProEdit Pro as a must-have, affordable solution tailored for professional photographers, highlighting its advanced features, seamless integration, and cross-platform accessibility. The enticing price point and the risk-free trial offer are key points to encourage immediate action.</p>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
+<h2 id="%F0%9F%A7%A0-Prompt-5">🧠 Prompt 5<a class="anchor-link" href="#%F0%9F%A7%A0-Prompt-5">¶</a></h2><blockquote>
+<p>Generate advertising mail of healthy food catering with a free first meal.</p>
+</blockquote>
+<h4 id="%E2%9C%89%EF%B8%8F-Generated-Content">✉️ Generated Content<a class="anchor-link" href="#%E2%9C%89%EF%B8%8F-Generated-Content">¶</a></h4><p>📩 Subject: 🌿 Treat Your Taste Buds &amp; Health with Our Free First Meal Offer! 🍽️</p>
+<p>Dear [Customer's Name],</p>
+<p>Are you constantly seeking delicious, nutritious meals that fuel your body and mind? Look no further! We're thrilled to introduce our premium healthy food catering service, designed to cater to your unique nutritional needs while satisfying your cravings.</p>
+<p>🔥 <strong>Exclusive Offer Just for You:</strong> ☑️ We're excited to present our special promotion: A <strong>FREE FIRST MEAL</strong> on us!</p>
+<p>🌱 <strong>Why Choose Our Healthy Food Catering?</strong></p>
+<ol>
+<li><p><strong>100% Natural &amp; Organic Ingredients:</strong> We source high-quality, fresh produce from trusted local farmers, ensuring you receive nothing but the best.</p>
+</li>
+<li><p><strong>Customizable Meal Plans:</strong> Our professional dietitians work closely with you to create tailored meal plans that cater to your dietary preferences, restrictions, and goals (vegan, gluten-free, low-carb, etc.).</p>
+</li>
+<li><p><strong>Expertly Prepared Delicious Meals:</strong> Our in-house chefs craft your meals with love and precision, balancing flavors and textures to create mouthwatering dishes that are as healthy as they are delightful.</p>
+</li>
+<li><p><strong>Convenient &amp; Time-Saving:</strong> Let us handle your meal prep, so you can focus on what truly matters. Our efficient delivery system ensures fresh meals arrive right at your doorstep.</p>
+</li>
+</ol>
+<p>🎁 <strong>Claim Your Free First Meal Today:</strong></p>
+<p>To celebrate our partnership and introduce you to our exceptional service, we're offering a COMPLImentary first meal! Simply follow this link to select your preferred meal and enjoy a scrumptious treat on the house: [Insert Link]</p>
+<p>🌟 <strong>Testimonials:</strong></p>
+<p>"I've never felt better! Their customized meal plans have helped me reach my fitness goals while ensuring I don't compromise on taste." – Sarah M.</p>
+<p>"Healthy food doesn't have to be boring. Their meals are so flavorful and satisfying. I can't imagine going back to my old eating habits." – John D.</p>
+<p>📅 <strong>Don't miss out on this limited-time offer!</strong> Claim your free first meal today and embark on a journey towards optimal health and happiness. Contact us at support@healthyfoodcatering.com or call us at (123) 456-7890 to learn more.</p>
+<p>We can't wait to nourish your body with our wholesome creations!</p>
+<p>Warmest Regards,</p>
+<p>[Your Name]
+[Your Position]
+[Healthy Food Catering Company Name]</p>
+<p>*Please note: This promotion is valid for first-time customers only and cannot be combined with any other offers. Terms and conditions apply.</p>
+<p>—</p>
+<p>Don't hesitate – embrace a healthier lifestyle with our mouthwatering, nutrient-packed meals! Your body &amp; taste buds will thank you. 🌿🍽️</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>You can also try changing the prompt and/or parameters to generate more detailed advertising. In the next cell, the photo editing software advertising prompt was transformed to provide more accurate results.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">photo_software_prompt</span> <span class="o">=</span> <span class="s2">"Write an advertising e-mail of paid (9$ a month, first month free) photo editing software COOLSOFTWARE targeted for early professionals."</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">results_photo_soft</span> <span class="o">=</span> <span class="n">prompt_client</span><span class="o">.</span><span class="n">chat</span><span class="p">(</span>
+    <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span>
+    <span class="n">messages</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">photo_software_prompt</span><span class="p">},</span>
+    <span class="p">],</span>
+    <span class="n">temperature</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -8452,7 +8649,18 @@ result. Based on decoding strategy that ww have for the models, the parameters c
 <div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">results</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">content</span> <span class="o">=</span> <span class="n">results_photo_soft</span><span class="p">[</span><span class="s2">"choices"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"message"</span><span class="p">][</span><span class="s2">"content"</span><span class="p">]</span>
+
+<span class="n">safe_content</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"---"</span><span class="p">,</span> <span class="s2">"—"</span><span class="p">)</span>
+
+<span class="n">display</span><span class="p">(</span>
+    <span class="n">Markdown</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">"""</span>
+<span class="s2">### ✉️ Generated Content</span>
+<span class="si">{</span><span class="n">safe_content</span><span class="si">}</span>
+<span class="s2">"""</span>
+    <span class="p">)</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8462,175 +8670,40 @@ result. Based on decoding strategy that ww have for the models, the parameters c
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[21]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>[{'generated_text': 'Simplification: UE A can then prompt the user to initiate a voice call to UE B 6a(Successful case). The RAB Assignment Request message is sent from MSC B to the RNC B, requesting the establishment of a RAB for a Video Call. The radio bearer is established between the RNC B and UE B. RNC B responds to MSC B with a RAB Assignment Response message. Following the allocation of the radio resources, UE B sends an Alerting message to',
-  'generated_token_count': 118,
-  'input_token_count': 471,
-  'stop_reason': 'eos_token'},
- {'generated_text': 'Simplification: The GMSC server interrogates the HLR in order to determine his current location. The GMSC server routes the call to the VPLMN in which subscriber "B" is currently located. The GMSC server shall create an outgoing gateway record for accounting purposes. The GMSC server shall also create a roaming record.',
-  'generated_token_count': 78,
-  'input_token_count': 459,
-  'stop_reason': 'eos_token'}]</pre>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
+<h3 id="%E2%9C%89%EF%B8%8F-Generated-Content">✉️ Generated Content<a class="anchor-link" href="#%E2%9C%89%EF%B8%8F-Generated-Content">¶</a></h3><p>📩 Subject: Unleash Your Creativity with COOLSOFTWARE - First Month FREE! 🌟</p>
+<p>Hello Early Career Professionals,</p>
+<p>Are you ready to elevate your photo editing skills and stand out in your field? Look no further than COOLSOFTWARE, the all-in-one photo editing solution designed to empower you with professional-grade tools.</p>
+<p>🌟 Why choose COOLSOFTWARE? 🌟</p>
+<ol>
+<li><p><strong>User-Friendly Interface</strong>: COOLSOFTWARE boasts an intuitive design, making it easy for beginners to navigate while still offering advanced features for seasoned editors.</p>
+</li>
+<li><p><strong>Powerful Editing Tools</strong>: From basic adjustments to complex layer management, our software provides an extensive range of tools to help you bring your vision to life.</p>
+</li>
+<li><p><strong>Time-Saving Shortcuts</strong>: Streamline your workflow with customizable shortcuts and batch processing, ensuring you spend less time editing and more time creating.</p>
+</li>
+<li><p><strong>Seamless Integration</strong>: COOLSOFTWARE works flawlessly with popular cameras, lenses, and other software, making it the perfect companion for your existing setup.</p>
+</li>
+<li><p><strong>Collaboration Features</strong>: Share projects with team members, solicit feedback, and maintain version control – all within the COOLSOFTWARE ecosystem.</p>
+</li>
+</ol>
+<p>For a limited time, we're offering early career professionals like you a chance to experience the magic of COOLSOFTWARE with a FREE first month! After that, it's just $9 a month – an investment in your creative growth that'll pay off tenfold.</p>
+<p>💻 Get Started Today:</p>
+<ol>
+<li>Visit <a href="http://coolsoftware.com/subscribe">coolsoftware.com/subscribe</a></li>
+<li>Choose your preferred subscription plan (just $9 a month, billed annually)</li>
+<li>Enjoy your FREE first month!</li>
+</ol>
+<p>Don't miss out on this opportunity to refine your skills and impress clients with stunning visuals. COOLSOFTWARE is your secret weapon for standing out in a competitive world.</p>
+<p>🤝 We can't wait to see what you create!</p>
+<p>Best regards,</p>
+<p>[Your Name]
+[Your Job Title]
+COOLSOFTWARE Team</p>
+<p>P.S. Remember, your first month is on us! No credit card required – simply sign up and start editing right away. 🚀</p>
 </div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="score"></a></p>
-<h2 id="Score-the-model">Score the model<a class="anchor-link" href="#Score-the-model">¶</a></h2><h4 id="Cosine-Similarity">Cosine Similarity<a class="anchor-link" href="#Cosine-Similarity">¶</a></h4><p><strong>Note:</strong> To run the Score section for model scoring on the cybersecurity dataset please transform following <code>markdown</code> cells to <code>code</code> cells.
-Have in mind that scoring model on the whole test set can take significant amount of time.</p>
-<p>In this sample notebook <code>spacy</code> implementation of cosine similarity for <code>en_core_web_md</code>  corpus was used for cosine similarity calculation.</p>
-<p><strong>Tip:</strong> You might consider using bigger language corpus, different word embeddings and distance metrics for output summary scoring against the reference summary.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Get the true labels.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<pre><code>y_true = y_test.values[:2]
-print(y_true)
-</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Get the prediction labels.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<pre><code>y_pred = [result['generated_text'] for result in results]
-y_pred
-</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Use <code>spacy</code> and <code>en_core_web_md</code> corpus to calculate cosine similarity of generated and reference summaries.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<pre><code>!pip install -U spacy | tail -1
-!python -m spacy download en_core_web_md | tail -1
-</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<pre><code>import spacy
-import en_core_web_md
-nlp = en_core_web_md.load()
-</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<pre><code>for truth, pred in zip(y_true, y_pred):
-    t = nlp(truth)
-    p = nlp(pred)
-    print("Reference summary similarity with the predicted summary", t.similarity(p))
-</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="Rouge-Metric">Rouge Metric<a class="anchor-link" href="#Rouge-Metric">¶</a></h4>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Note: Rouge (Recall-Oriented Understudy for Gisting Evaluation) metric is a set of evaluation measures used in natural language processing (NLP) and specifically in text summarization tasks. Please refer to below link for more information:
-<a href="https://torchmetrics.readthedocs.io/en/stable/text/rouge_score.html" rel="noopener no referrer" target="_blank">torchmetrics</a></p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<pre><code>rouge = Rouge()
-scores=[]
-for i in range(len(y_true)):
-    
-    score = rouge.get_scores(y_true[i], y_pred[i])
-    scores.append(score)
-scores
-</code></pre>
 </div>
 </div>
 </div>
@@ -8643,9 +8716,8 @@ scores
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><a id="summary"></a></p>
 <h2 id="Summary-and-next-steps">Summary and next steps<a class="anchor-link" href="#Summary-and-next-steps">¶</a></h2><p>You successfully completed this notebook!</p>
-<p>You learned how to generate documents summaries with Google's <code>flan-ul2</code> on watsonx.</p>
+<p>You learned how to generate mail advertising with LLM's on watsonx.</p>
 <p>Check out our <a href="https://ibm.github.io/watsonx-ai-python-sdk/samples.html" rel="Online Documentation" target="_blank">Online Documentation</a> for more samples, tutorials, documentation, how-tos, and blog posts.</p>
-<p><strong>Author: Kahila Mokhtari</strong></p>
 </div>
 </div>
 </div>
@@ -8656,7 +8728,18 @@ scores
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Copyright © 2023-2026 IBM. This notebook and its source code are released under the terms of the MIT License.</p>
+<h3 id="Authors">Authors<a class="anchor-link" href="#Authors">¶</a></h3><p><strong>Mateusz Szewczyk</strong>, Software Engineer at watsonx.ai.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Copyright © 2026 IBM. This notebook and its source code are released under the terms of the MIT License.</p>
 </div>
 </div>
 </div>

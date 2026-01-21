@@ -7518,22 +7518,7 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><img alt="image" src="https://raw.githubusercontent.com/IBM/watson-machine-learning-samples/master/cloud/notebooks/headers/watsonx-Prompt_Lab-Notebook.png"/></p>
-<h1 id="Use-watsonx,-and-Google-flan-ul2-to-summarize-Cybersecurity-documents">Use watsonx, and Google <code>flan-ul2</code> to summarize Cybersecurity documents<a class="anchor-link" href="#Use-watsonx,-and-Google-flan-ul2-to-summarize-Cybersecurity-documents">¶</a></h1>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<hr/>
-<p><strong>⚠️ DEPRECATION NOTICE</strong></p>
-<p>This notebook is deprecated and has been updated. Please use the updated version:</p>
-<p><a href="https://github.com/IBM/watsonx-ai-samples/blob/master/cloud/notebooks/rest_api/deployments/foundation_models/Use%20watsonx%20to%20summarize%20Cybersecurity%20documents.ipynb">Use watsonx to summarize Cybersecurity documents.ipynb</a></p>
-<hr/>
+<h1 id="Use-watsonx-to-summarize-Cybersecurity-documents">Use watsonx to summarize Cybersecurity documents<a class="anchor-link" href="#Use-watsonx-to-summarize-Cybersecurity-documents">¶</a></h1>
 </div>
 </div>
 </div>
@@ -7548,8 +7533,8 @@ a.anchor-link {
 <li>Use only Projects and Spaces that are available in watsonx context.</li>
 </ul>
 <h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook contains the steps and code to demonstrate support of text summarization in watsonx. It introduces commands for data retrieval and model testing.</p>
-<p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
-<h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The goal of this notebook is to demonstrate how to use <code>ul2</code> model to summarize cybersecurity: SPEC5G Cellular Network Protocol.</p>
+<p>Some familiarity with Python is helpful. This notebook uses Python 3.12.</p>
+<h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The goal of this notebook is to demonstrate how to use <code>watsonx.ai</code> model to summarize cybersecurity: SPEC5G Cellular Network Protocol.</p>
 <h2 id="Use-case-&amp;-dataset">Use case &amp; dataset<a class="anchor-link" href="#Use-case-&amp;-dataset">¶</a></h2><p>5G is the 5th generation cellular network protocol. It is the state-of-the-art global wireless standard that enables an advanced kind of network designed to connect virtually everyone and everything with increased speed and reduced latency. Therefore, its development, analysis, and security are critical. However, all approaches to the 5G protocol development and security analysis, e.g., property extraction, protocol summarization, and semantic analysis of the protocol specifications and implementations are completely manual. To reduce such manual effort,foundation model are used to summarize the paragraphs automitically. The dataset that is used in this notebook has two columns which are paragraph and simplification(summary).</p>
 <h2 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h2><p>This notebook contains the following parts:</p>
 <ul>
@@ -7597,12 +7582,13 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">datasets</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">requests</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">ibm</span><span class="o">-</span><span class="n">cloud</span><span class="o">-</span><span class="n">sdk</span><span class="o">-</span><span class="n">core</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="s2">"scikit-learn==1.3.2"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">rouge</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">rouge</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">httpx</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">pandas</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">datasets</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">ibm</span><span class="o">-</span><span class="n">cloud</span><span class="o">-</span><span class="n">sdk</span><span class="o">-</span><span class="n">core</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="s2">"scikit-learn==1.6.1"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -7617,13 +7603,13 @@ a.anchor-link {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">httpx</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">wget</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_cloud_sdk_core</span><span class="w"> </span><span class="kn">import</span> <span class="n">IAMTokenManager</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">read_csv</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">rouge</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rouge</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
 </pre></div>
 </div>
@@ -7677,7 +7663,7 @@ from the API call is returned as the cell output.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Define a <code>Prompt</code> class for prompts generation.</p>
+<p>Define a <code>PromptClient</code> class for prompts generation.</p>
 </div>
 </div>
 </div>
@@ -7689,29 +7675,34 @@ from the API call is returned as the cell output.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Prompt</span><span class="p">:</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">access_token</span><span class="p">,</span> <span class="n">project_id</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">access_token</span> <span class="o">=</span> <span class="n">access_token</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">PromptClient</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">access_token</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">project_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">endpoint_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">project_id</span> <span class="o">=</span> <span class="n">project_id</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">model_id</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
-        <span class="n">wml_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">endpoint_url</span><span class="si">}</span><span class="s2">/ml/v1/text/generation?version=2024-03-19"</span>
-        <span class="n">Headers</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">"Authorization"</span><span class="p">:</span> <span class="s2">"Bearer "</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">access_token</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">endpoint_url</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">'/'</span><span class="p">)</span><span class="si">}</span><span class="s2">/ml/v1/text/chat"</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="n">access_token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
             <span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
-            <span class="s2">"Accept"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
         <span class="p">}</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">chat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">messages</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">**</span><span class="n">params</span><span class="p">):</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">"model_id"</span><span class="p">:</span> <span class="n">model_id</span><span class="p">,</span>
-            <span class="s2">"input"</span><span class="p">:</span> <span class="nb">input</span><span class="p">,</span>
-            <span class="s2">"parameters"</span><span class="p">:</span> <span class="n">parameters</span><span class="p">,</span>
+            <span class="s2">"messages"</span><span class="p">:</span> <span class="n">messages</span><span class="p">,</span>
             <span class="s2">"project_id"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_id</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">params</span><span class="p">,</span>
         <span class="p">}</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">wml_url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">Headers</span><span class="p">)</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">httpx</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">"version"</span><span class="p">:</span> <span class="s2">"2024-03-19"</span><span class="p">},</span>
+            <span class="n">json</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">"results"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7808,7 +7799,7 @@ the id from the project in which this notebook runs:</p>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s2">"Data_Cyber.csv"</span>
-<span class="n">url</span> <span class="o">=</span> <span class="s2">"https://raw.githubusercontent.com/IBM/watson-machine-learning-samples/master/cloud/data/spec5g/spec5g.csv"</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s2">"https://raw.githubusercontent.com/IBM/watsonx-ai-samples/master/cloud/data/spec5g/spec5g.csv"</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
     <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">filename</span><span class="p">)</span>
 </pre></div>
@@ -8067,7 +8058,7 @@ Name: Simplification, dtype: float64</pre>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="List-available-models">List available models<a class="anchor-link" href="#List-available-models">¶</a></h4>
+<h4 id="List-available-chat-models">List available chat models<a class="anchor-link" href="#List-available-chat-models">¶</a></h4>
 </div>
 </div>
 </div>
@@ -8079,14 +8070,20 @@ Name: Simplification, dtype: float64</pre>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">models_json</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-    <span class="n">endpoint_url</span> <span class="o">+</span> <span class="s2">"/ml/v1/foundation_model_specs?version=2024-03-19&amp;limit=50"</span><span class="p">,</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">models_json</span> <span class="o">=</span> <span class="n">httpx</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+    <span class="n">endpoint_url</span> <span class="o">+</span> <span class="s2">"/ml/v1/foundation_model_specs"</span><span class="p">,</span>
     <span class="n">headers</span><span class="o">=</span><span class="p">{</span>
         <span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="n">access_token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
         <span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
         <span class="s2">"Accept"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
     <span class="p">},</span>
+    <span class="n">params</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">"limit"</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+        <span class="s2">"version"</span><span class="p">:</span> <span class="s2">"2024-03-19"</span><span class="p">,</span>
+        <span class="s2">"filters"</span><span class="p">:</span> <span class="s2">"function_text_chat,!lifecycle_withdrawn:and"</span><span class="p">,</span>
+    <span class="p">},</span>
 <span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
 <span class="n">models_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="p">[</span><span class="s2">"model_id"</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">models_json</span><span class="p">[</span><span class="s2">"resources"</span><span class="p">]]</span>
 <span class="n">models_ids</span>
 </pre></div>
@@ -8101,22 +8098,22 @@ Name: Simplification, dtype: float64</pre>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[11]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>['bigcode/starcoder',
- 'bigscience/mt0-xxl',
- 'codellama/codellama-34b-instruct-hf',
- 'eleutherai/gpt-neox-20b',
- 'google/flan-t5-xl',
- 'google/flan-t5-xxl',
- 'google/flan-ul2',
- 'ibm-mistralai/mixtral-8x7b-instruct-v01-q',
- 'ibm/granite-13b-chat-v1',
- 'ibm/granite-13b-chat-v2',
- 'ibm/granite-13b-instruct-v1',
- 'ibm/granite-13b-instruct-v2',
- 'ibm/granite-20b-multilingual',
- 'ibm/mpt-7b-instruct2',
- 'meta-llama/llama-2-13b-chat',
- 'meta-llama/llama-2-70b-chat']</pre>
+<pre>['ibm/granite-3-2-8b-instruct',
+ 'ibm/granite-3-3-8b-instruct',
+ 'ibm/granite-3-3-8b-instruct-np',
+ 'ibm/granite-3-8b-instruct',
+ 'ibm/granite-4-h-small',
+ 'ibm/granite-guardian-3-8b',
+ 'meta-llama/llama-3-2-11b-vision-instruct',
+ 'meta-llama/llama-3-2-90b-vision-instruct',
+ 'meta-llama/llama-3-3-70b-instruct',
+ 'meta-llama/llama-3-405b-instruct',
+ 'meta-llama/llama-4-maverick-17b-128e-instruct-fp8',
+ 'meta-llama/llama-guard-3-11b-vision',
+ 'mistral-large-2512',
+ 'mistralai/mistral-medium-2505',
+ 'mistralai/mistral-small-3-1-24b-instruct-2503',
+ 'openai/gpt-oss-120b']</pre>
 </div>
 </div>
 </div>
@@ -8140,7 +8137,7 @@ Name: Simplification, dtype: float64</pre>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">model_id</span> <span class="o">=</span> <span class="s2">"google/flan-ul2"</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">model_id</span> <span class="o">=</span> <span class="s2">"meta-llama/llama-3-3-70b-instruct"</span>
 </pre></div>
 </div>
 </div>
@@ -8177,8 +8174,7 @@ Name: Simplification, dtype: float64</pre>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">instruction</span> <span class="o">=</span> <span class="s2">"""</span>
-<span class="s2">Extract the key outline of the "Original text" similar to the Simplification according to the examples."""</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">instruction</span> <span class="o">=</span> <span class="s2">"""Extract the key outline of the "Original text" similar to the Simplification according to the examples."""</span>
 </pre></div>
 </div>
 </div>
@@ -8203,9 +8199,9 @@ Name: Simplification, dtype: float64</pre>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">zero_shot_inputs</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">"input"</span><span class="p">:</span> <span class="n">text</span><span class="p">}</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">data_test</span><span class="p">[</span><span class="s2">"Paragraph"</span><span class="p">]]</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">zero_shot_inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">text</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">data_test</span><span class="p">[</span><span class="s2">"Paragraph"</span><span class="p">]]</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The sentence example </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> is:</span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">zero_shot_inputs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">'input'</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The sentence example </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> is:</span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">zero_shot_inputs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8293,9 +8289,9 @@ The sentence example 2 is:
 <div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">few_shot_inputs_</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">"input"</span><span class="p">:</span> <span class="n">text</span><span class="p">}</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">data_test</span><span class="p">[</span><span class="s2">"Paragraph"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">few_shot_inputs_</span> <span class="o">=</span> <span class="p">[</span><span class="n">text</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">data_test</span><span class="p">[</span><span class="s2">"Paragraph"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The sentence example </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> is:</span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">few_shot_inputs_</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">'input'</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The sentence example </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> is:</span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">few_shot_inputs_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8335,11 +8331,19 @@ The sentence example 2 is:
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Defining-the-model-parameters">Defining the model parameters<a class="anchor-link" href="#Defining-the-model-parameters">¶</a></h3><p>We need to provide a set of model parameters that will influence the
-result. Based on decoding strategy that ww have for the models, the parameters can change.</p>
-<p>There are two decoding strategies: <code>greedy</code> and <code>sampling</code>.</p>
-<p>We usually use <code>greedy</code> for complaint classification, extraction and Q&amp;A.</p>
-<p>We usually use <code>sampling</code> for content generation and summarization.</p>
+<h3 id="Generate-the-cybersecurity:-SPEC5G-Cellular-Network-Protocol-summary-using-watsonx.ai-model.">Generate the cybersecurity: SPEC5G Cellular Network Protocol summary using <code>watsonx.ai</code> model.<a class="anchor-link" href="#Generate-the-cybersecurity:-SPEC5G-Cellular-Network-Protocol-summary-using-watsonx.ai-model.">¶</a></h3><p><strong>Note:</strong> You might need to adjust model parameters for different models or tasks, to do so please refer to <a href="https://cloud.ibm.com/apidocs/watsonx-ai#text-chat" rel="Infer text params" target="_blank">documentation</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Initialize the <code>PromptClient</code> class.</p>
+<p><strong>Hint:</strong> Your authentication token might expire, if so please regenerate the <code>access_token</code> and reinitialize the <code>PromptClient</code> class.</p>
 </div>
 </div>
 </div>
@@ -8351,50 +8355,7 @@ result. Based on decoding strategy that ww have for the models, the parameters c
 <div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"decoding_method"</span><span class="p">:</span> <span class="s2">"greedy"</span><span class="p">,</span>
-    <span class="s2">"random_seed"</span><span class="p">:</span> <span class="mi">33</span><span class="p">,</span>
-    <span class="s2">"repetition_penalty"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="s2">"min_new_tokens"</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
-    <span class="s2">"max_new_tokens"</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Generate-the-cybersecurity:-SPEC5G-Cellular-Network-Protocol-summary-using-ul2-model.">Generate the cybersecurity: SPEC5G Cellular Network Protocol summary using <code>ul2</code> model.<a class="anchor-link" href="#Generate-the-cybersecurity:-SPEC5G-Cellular-Network-Protocol-summary-using-ul2-model.">¶</a></h3><p><strong>Note:</strong> You might need to adjust model <code>parameters</code> for different models or tasks, to do so please refer to <a href="https://ibm.github.io/watsonx-ai-python-sdk/fm_model.html#metanames.GenTextParamsMetaNames" rel="GenTextParamsMetaNames params" target="_blank">documentation</a>.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Initialize the <code>Prompt</code> class.</p>
-<p><strong>Hint:</strong> Your authentication token might expire, if so please regenerate the <code>access_token</code> reinitialize the <code>Prompt</code> class.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">prompt</span> <span class="o">=</span> <span class="n">Prompt</span><span class="p">(</span><span class="n">access_token</span><span class="p">,</span> <span class="n">project_id</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">prompt_client</span> <span class="o">=</span> <span class="n">PromptClient</span><span class="p">(</span><span class="n">access_token</span><span class="p">,</span> <span class="n">project_id</span><span class="p">,</span> <span class="n">endpoint_url</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8416,16 +8377,19 @@ result. Based on decoding strategy that ww have for the models, the parameters c
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+
 <span class="k">for</span> <span class="n">inp</span> <span class="ow">in</span> <span class="n">few_shot_inputs_</span><span class="p">[:</span><span class="mi">2</span><span class="p">]:</span>
     <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-        <span class="n">prompt</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
-            <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">instruction</span> <span class="o">+</span> <span class="n">few_shot_examples</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">inp</span><span class="p">[</span><span class="s2">"input"</span><span class="p">]]),</span>
-            <span class="n">model_id</span><span class="p">,</span>
-            <span class="n">parameters</span><span class="p">,</span>
+        <span class="n">prompt_client</span><span class="o">.</span><span class="n">chat</span><span class="p">(</span>
+            <span class="n">messages</span><span class="o">=</span><span class="p">[</span>
+                <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"system"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">instruction</span> <span class="o">+</span> <span class="n">few_shot_examples</span><span class="p">[</span><span class="mi">0</span><span class="p">]},</span>
+                <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">inp</span><span class="p">},</span>
+            <span class="p">],</span>
+            <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="p">)</span>
 </pre></div>
@@ -8449,10 +8413,10 @@ result. Based on decoding strategy that ww have for the models, the parameters c
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">results</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -8462,17 +8426,98 @@ result. Based on decoding strategy that ww have for the models, the parameters c
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[21]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>[{'generated_text': 'Simplification: UE A can then prompt the user to initiate a voice call to UE B 6a(Successful case). The RAB Assignment Request message is sent from MSC B to the RNC B, requesting the establishment of a RAB for a Video Call. The radio bearer is established between the RNC B and UE B. RNC B responds to MSC B with a RAB Assignment Response message. Following the allocation of the radio resources, UE B sends an Alerting message to',
-  'generated_token_count': 118,
-  'input_token_count': 471,
-  'stop_reason': 'eos_token'},
- {'generated_text': 'Simplification: The GMSC server interrogates the HLR in order to determine his current location. The GMSC server routes the call to the VPLMN in which subscriber "B" is currently located. The GMSC server shall create an outgoing gateway record for accounting purposes. The GMSC server shall also create a roaming record.',
-  'generated_token_count': 78,
-  'input_token_count': 459,
-  'stop_reason': 'eos_token'}]</pre>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[
+  {
+    "id": "chatcmpl-b6f7aaa1348a47ff2c88c44fea8f21a9---c3b2a57a-1ac3-4c25-b65f-0a2d480c8be1",
+    "object": "chat.completion",
+    "model_id": "meta-llama/llama-3-3-70b-instruct",
+    "model": "meta-llama/llama-3-3-70b-instruct",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "Here is a simplified outline of the text:\n\n1. UE A initiates a voice call to UE B.\n2. MSC B requests a RAB (Radio Access Bearer) for the call.\n3. A radio bearer is established between RNC B and UE B.\n4. RNC B responds to MSC B with a confirmation.\n5. Two possible outcomes:\n   a. Successful case: UE B receives the call.\n   b. Failure case: The call fails due to lack of radio resources on UE B's side."
+        },
+        "finish_reason": "stop"
+      }
+    ],
+    "created": 1768917381,
+    "model_version": "3.3.0",
+    "created_at": "2026-01-20T13:56:25.112Z",
+    "usage": {
+      "completion_tokens": 108,
+      "prompt_tokens": 850,
+      "total_tokens": 958
+    },
+    "system": {
+      "warnings": [
+        {
+          "message": "This model is a Non-IBM Product governed by a third-party license that may impose use restrictions and other obligations. By using this model you agree to its terms as identified in the following URL.",
+          "id": "disclaimer_warning",
+          "more_info": "https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/fm-models.html?context=wx"
+        },
+        {
+          "message": "The value of 'max_tokens' for this model was set to value 1024",
+          "id": "unspecified_max_token",
+          "additional_properties": {
+            "limit": 0,
+            "new_value": 1024,
+            "parameter": "max_tokens",
+            "value": 0
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "chatcmpl-8ed78a89354e18e3ca3c0e1983d3a2fe---23a03e59-372a-4f8e-8928-ea19e60cfbb0",
+    "object": "chat.completion",
+    "model_id": "meta-llama/llama-3-3-70b-instruct",
+    "model": "meta-llama/llama-3-3-70b-instruct",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "Here is a simplified version of the text:\n\nThe operator may refuse to provide requested information. After gsmSCF processing, call control returns to the GMSC server. The GMSC server checks the HLR for the subscriber's location. The HLR creates a record, and the GMSC server routes the call to the subscriber's current location. The GMSC server also creates records for accounting and roaming purposes. \n\nHere is a key outline of the original text:\n\n1. The operator may refuse to provide information.\n2. The GMSC server takes control after gsmSCF processing.\n3. The GMSC server checks the HLR for the subscriber's location.\n4. The HLR creates an interrogation record.\n5. The GMSC server routes the call to the subscriber's location.\n6. The GMSC server creates records for accounting and roaming."
+        },
+        "finish_reason": "stop"
+      }
+    ],
+    "created": 1768917385,
+    "model_version": "3.3.0",
+    "created_at": "2026-01-20T13:56:30.872Z",
+    "usage": {
+      "completion_tokens": 174,
+      "prompt_tokens": 840,
+      "total_tokens": 1014
+    },
+    "system": {
+      "warnings": [
+        {
+          "message": "This model is a Non-IBM Product governed by a third-party license that may impose use restrictions and other obligations. By using this model you agree to its terms as identified in the following URL.",
+          "id": "disclaimer_warning",
+          "more_info": "https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/fm-models.html?context=wx"
+        },
+        {
+          "message": "The value of 'max_tokens' for this model was set to value 1024",
+          "id": "unspecified_max_token",
+          "additional_properties": {
+            "limit": 0,
+            "new_value": 1024,
+            "parameter": "max_tokens",
+            "value": 0
+          }
+        }
+      ]
+    }
+  }
+]
+</pre>
 </div>
 </div>
 </div>
@@ -8487,7 +8532,7 @@ result. Based on decoding strategy that ww have for the models, the parameters c
 <p><a id="score"></a></p>
 <h2 id="Score-the-model">Score the model<a class="anchor-link" href="#Score-the-model">¶</a></h2><h4 id="Cosine-Similarity">Cosine Similarity<a class="anchor-link" href="#Cosine-Similarity">¶</a></h4><p><strong>Note:</strong> To run the Score section for model scoring on the cybersecurity dataset please transform following <code>markdown</code> cells to <code>code</code> cells.
 Have in mind that scoring model on the whole test set can take significant amount of time.</p>
-<p>In this sample notebook <code>spacy</code> implementation of cosine similarity for <code>en_core_web_md</code>  corpus was used for cosine similarity calculation.</p>
+<p>In this sample notebook <code>spacy</code> implementation of cosine similarity for <code>en_core_web_md</code> corpus was used for cosine similarity calculation.</p>
 <p><strong>Tip:</strong> You might consider using bigger language corpus, different word embeddings and distance metrics for output summary scoring against the reference summary.</p>
 </div>
 </div>
@@ -8510,9 +8555,9 @@ Have in mind that scoring model on the whole test set can take significant amoun
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<pre><code>y_true = y_test.values[:2]
-print(y_true)
-</code></pre>
+<div class="highlight"><pre><span></span><span class="n">y_true</span> <span class="o">=</span> <span class="n">y_test</span><span class="o">.</span><span class="n">values</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y_true</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
 </div>
@@ -8534,9 +8579,9 @@ print(y_true)
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<pre><code>y_pred = [result['generated_text'] for result in results]
-y_pred
-</code></pre>
+<div class="highlight"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="p">[</span><span class="n">res</span><span class="p">[</span><span class="s2">"choices"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"message"</span><span class="p">][</span><span class="s2">"content"</span><span class="p">]</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">results</span><span class="p">]</span>
+<span class="n">y_pred</span>
+</pre></div>
 </div>
 </div>
 </div>
@@ -8558,9 +8603,9 @@ y_pred
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<pre><code>!pip install -U spacy | tail -1
-!python -m spacy download en_core_web_md | tail -1
-</code></pre>
+<div class="highlight"><pre><span></span>!pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>spacy<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-1
+!python<span class="w"> </span>-m<span class="w"> </span>spacy<span class="w"> </span>download<span class="w"> </span>en_core_web_md<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-1
+</pre></div>
 </div>
 </div>
 </div>
@@ -8571,10 +8616,10 @@ y_pred
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<pre><code>import spacy
-import en_core_web_md
-nlp = en_core_web_md.load()
-</code></pre>
+<div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">spacy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">en_core_web_md</span>
+<span class="n">nlp</span> <span class="o">=</span> <span class="n">en_core_web_md</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+</pre></div>
 </div>
 </div>
 </div>
@@ -8585,11 +8630,11 @@ nlp = en_core_web_md.load()
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<pre><code>for truth, pred in zip(y_true, y_pred):
-    t = nlp(truth)
-    p = nlp(pred)
-    print("Reference summary similarity with the predicted summary", t.similarity(p))
-</code></pre>
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">truth</span><span class="p">,</span> <span class="n">pred</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="n">truth</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Reference summary similarity with the predicted summary"</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">similarity</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+</pre></div>
 </div>
 </div>
 </div>
@@ -8623,14 +8668,16 @@ nlp = en_core_web_md.load()
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<pre><code>rouge = Rouge()
-scores=[]
-for i in range(len(y_true)):
-    
-    score = rouge.get_scores(y_true[i], y_pred[i])
-    scores.append(score)
-scores
-</code></pre>
+<div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rouge</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rouge</span>
+
+<span class="n">rouge</span> <span class="o">=</span> <span class="n">Rouge</span><span class="p">()</span>
+<span class="n">scores</span><span class="o">=</span><span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y_true</span><span class="p">)):</span>
+
+    <span class="n">score</span> <span class="o">=</span> <span class="n">rouge</span><span class="o">.</span><span class="n">get_scores</span><span class="p">(</span><span class="n">y_true</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">y_pred</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+<span class="n">scores</span>
+</pre></div>
 </div>
 </div>
 </div>
@@ -8643,7 +8690,7 @@ scores
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><a id="summary"></a></p>
 <h2 id="Summary-and-next-steps">Summary and next steps<a class="anchor-link" href="#Summary-and-next-steps">¶</a></h2><p>You successfully completed this notebook!</p>
-<p>You learned how to generate documents summaries with Google's <code>flan-ul2</code> on watsonx.</p>
+<p>You learned how to generate documents summaries with LLM on watsonx.</p>
 <p>Check out our <a href="https://ibm.github.io/watsonx-ai-python-sdk/samples.html" rel="Online Documentation" target="_blank">Online Documentation</a> for more samples, tutorials, documentation, how-tos, and blog posts.</p>
 <p><strong>Author: Kahila Mokhtari</strong></p>
 </div>
@@ -8656,7 +8703,7 @@ scores
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Copyright © 2023-2026 IBM. This notebook and its source code are released under the terms of the MIT License.</p>
+<p>Copyright © 2026 IBM. This notebook and its source code are released under the terms of the MIT License.</p>
 </div>
 </div>
 </div>

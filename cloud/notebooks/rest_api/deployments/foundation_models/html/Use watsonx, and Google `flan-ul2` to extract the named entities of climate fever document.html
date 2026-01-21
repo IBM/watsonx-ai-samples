@@ -7529,6 +7529,21 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<hr/>
+<p><strong>⚠️ DEPRECATION NOTICE</strong></p>
+<p>This notebook is deprecated and has been updated. Please use the updated version:</p>
+<p><a href="https://github.com/IBM/watsonx-ai-samples/blob/master/cloud/notebooks/rest_api/deployments/foundation_models/Use%20watsonx%20to%20extract%20the%20named%20entities%20of%20climate%20fever%20document.ipynb">Use watsonx to extract the named entities of climate fever document.ipynb</a></p>
+<hr/>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>This notebook contains the steps and code to demonstrate support of named entity extraction in watsonx. It introduces commands for data retrieval and model testing.</p>
 <p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
 <h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">¶</a></h2><p>The objective is to explore and utilize the Google Flan-UL2 model for entity extraction.Google Flan-UL2 is a pre-trained language model which can be used for token-level entity extraction tasks. Entity extraction, also known as Named Entity Recognition (NER), involves identifying and classifying named entities (such as persons, organizations, locations, dates, etc.) from unstructured text.</p>
@@ -7591,13 +7606,13 @@ Compare the predicted entity labels with the  pseudo ground truth labels in the 
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>datasets<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>requests<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>wget<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>ibm-cloud-sdk-core<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"scikit-learn==1.3.2"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>spacy<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
-<span class="o">!</span>python<span class="w"> </span>-m<span class="w"> </span>spacy<span class="w"> </span>download<span class="w"> </span>en_core_web_sm<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-1
+<div class="highlight hl-ipython3"><pre><span></span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">datasets</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">requests</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">ibm</span><span class="o">-</span><span class="n">cloud</span><span class="o">-</span><span class="n">sdk</span><span class="o">-</span><span class="n">core</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="s2">"scikit-learn==1.3.2"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">spacy</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="err">!</span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">spacy</span> <span class="n">download</span> <span class="n">en_core_web_sm</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -7611,20 +7626,25 @@ Compare the predicted entity labels with the  pseudo ground truth labels in the 
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span><span class="o">,</span><span class="w"> </span><span class="nn">getpass</span><span class="o">,</span><span class="w"> </span><span class="nn">wget</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">spacy</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">'ignore'</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">wget</span>
+
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_cloud_sdk_core</span><span class="w"> </span><span class="kn">import</span> <span class="n">IAMTokenManager</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_csv</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">classification_report</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_cloud_sdk_core</span><span class="w"> </span><span class="kn">import</span> <span class="n">IAMTokenManager</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">'en_core_web_sm'</span><span class="p">)</span>
+
+<span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">"en_core_web_sm"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7664,7 +7684,9 @@ from the API call is returned as the cell output.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">endpoint_url</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Please enter your watsonx.ai Runtime endpoint url (hit enter): "</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">endpoint_url</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span>
+    <span class="s2">"Please enter your watsonx.ai Runtime endpoint url (hit enter): "</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7699,20 +7721,19 @@ from the API call is returned as the cell output.</p>
         <span class="n">Headers</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">"Authorization"</span><span class="p">:</span> <span class="s2">"Bearer "</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">access_token</span><span class="p">,</span>
             <span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
-            <span class="s2">"Accept"</span><span class="p">:</span> <span class="s2">"application/json"</span>
+            <span class="s2">"Accept"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">"model_id"</span><span class="p">:</span> <span class="n">model_id</span><span class="p">,</span>
             <span class="s2">"input"</span><span class="p">:</span> <span class="nb">input</span><span class="p">,</span>
             <span class="s2">"parameters"</span><span class="p">:</span> <span class="n">parameters</span><span class="p">,</span>
-            <span class="s2">"project_id"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_id</span>
+            <span class="s2">"project_id"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_id</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">wml_url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">Headers</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">"results"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span>
-        
 </pre></div>
 </div>
 </div>
@@ -7740,8 +7761,8 @@ Model inferencing.</p>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">access_token</span> <span class="o">=</span> <span class="n">IAMTokenManager</span><span class="p">(</span>
-    <span class="n">apikey</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Please enter your watsonx.ai api key (hit enter): "</span><span class="p">),</span>
-    <span class="n">url</span> <span class="o">=</span> <span class="s2">"https://iam.cloud.ibm.com/identity/token"</span>
+    <span class="n">apikey</span><span class="o">=</span><span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Please enter your watsonx.ai api key (hit enter): "</span><span class="p">),</span>
+    <span class="n">url</span><span class="o">=</span><span class="s2">"https://iam.cloud.ibm.com/identity/token"</span><span class="p">,</span>
 <span class="p">)</span><span class="o">.</span><span class="n">get_token</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -7808,9 +7829,10 @@ the id from the project in which this notebook runs:</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s1">'data_clm_fever.csv'</span>
-<span class="n">url</span> <span class="o">=</span> <span class="s1">'https://raw.githubusercontent.com/kmokht1/Datasets/main/data_clm_fever.csv'</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span> <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">filename</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s2">"data_clm_fever.csv"</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s2">"https://raw.githubusercontent.com/kmokht1/Datasets/main/data_clm_fever.csv"</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">filename</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7835,8 +7857,8 @@ the id from the project in which this notebook runs:</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="o">=</span> <span class="n">read_csv</span><span class="p">(</span><span class="s2">"data_clm_fever.csv"</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="c1">#data=data[['narrative','product']]</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">read_csv</span><span class="p">(</span><span class="s2">"data_clm_fever.csv"</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="c1"># data=data[['narrative','product']]</span>
 <span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -7918,11 +7940,12 @@ the id from the project in which this notebook runs:</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">data_train</span><span class="p">,</span> <span class="n">data_test</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">'claim'</span><span class="p">],</span> 
-                                                    <span class="n">data</span><span class="p">[</span><span class="s1">'claim'</span><span class="p">],</span>
-                                                    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
-                                                    <span class="n">random_state</span><span class="o">=</span><span class="mi">33</span><span class="p">,</span>
-                                             <span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">data_train</span><span class="p">,</span> <span class="n">data_test</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">"claim"</span><span class="p">],</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">"claim"</span><span class="p">],</span>
+    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">33</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7947,7 +7970,9 @@ the id from the project in which this notebook runs:</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">data_sample</span><span class="o">=</span><span class="n">data_train</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_train</span><span class="p">)),</span> <span class="mi">10</span><span class="p">)]</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">data_sample</span> <span class="o">=</span> <span class="n">data_train</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span>
+    <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_train</span><span class="p">)),</span> <span class="mi">10</span><span class="p">)</span>
+<span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">data_sample</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -8008,13 +8033,15 @@ Name: claim, dtype: object
 <div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">models_json</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">endpoint_url</span> <span class="o">+</span> <span class="s1">'/ml/v1/foundation_model_specs?version=2024-03-19&amp;limit=50'</span><span class="p">,</span>
-                           <span class="n">headers</span><span class="o">=</span><span class="p">{</span>
-                                    <span class="s1">'Authorization'</span><span class="p">:</span> <span class="sa">f</span><span class="s1">'Bearer </span><span class="si">{</span><span class="n">access_token</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span>
-                                    <span class="s1">'Content-Type'</span><span class="p">:</span> <span class="s1">'application/json'</span><span class="p">,</span>
-                                    <span class="s1">'Accept'</span><span class="p">:</span> <span class="s1">'application/json'</span>
-                            <span class="p">})</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-<span class="n">models_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="p">[</span><span class="s1">'model_id'</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">models_json</span><span class="p">[</span><span class="s1">'resources'</span><span class="p">]]</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">models_json</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+    <span class="n">endpoint_url</span> <span class="o">+</span> <span class="s2">"/ml/v1/foundation_model_specs?version=2024-03-19&amp;limit=50"</span><span class="p">,</span>
+    <span class="n">headers</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="n">access_token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
+        <span class="s2">"Accept"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="n">models_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="p">[</span><span class="s2">"model_id"</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">models_json</span><span class="p">[</span><span class="s2">"resources"</span><span class="p">]]</span>
 <span class="n">models_ids</span>
 </pre></div>
 </div>
@@ -8241,19 +8268,19 @@ The sentence example 5 is:
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Process each document in the dataset</span>
-<span class="n">example_dic</span> <span class="o">=</span><span class="p">{}</span>
-<span class="n">example_dic_list</span><span class="o">=</span><span class="p">[]</span>
+<span class="n">example_dic</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">example_dic_list</span> <span class="o">=</span> <span class="p">[]</span>
 
 <span class="k">for</span> <span class="n">document</span> <span class="ow">in</span> <span class="n">data_sample</span><span class="p">:</span>
-    
+
     <span class="n">doc</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="n">document</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>  <span class="c1"># Process the document with spacy NLP pipeline</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">ents</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
-        <span class="n">example_dic</span> <span class="o">=</span><span class="p">{}</span>
-        <span class="n">example_dic</span><span class="p">[</span><span class="s1">'document'</span><span class="p">]</span><span class="o">=</span><span class="n">document</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">ents</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">example_dic</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">example_dic</span><span class="p">[</span><span class="s2">"document"</span><span class="p">]</span> <span class="o">=</span> <span class="n">document</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ent</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">ents</span><span class="p">):</span>
-            <span class="n">example_dic</span><span class="p">[</span><span class="sa">f</span><span class="s1">'phrase_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">'</span><span class="p">]</span><span class="o">=</span><span class="n">ent</span><span class="o">.</span><span class="n">text</span>
-            <span class="n">example_dic</span><span class="p">[</span><span class="sa">f</span><span class="s1">'label_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">'</span><span class="p">]</span><span class="o">=</span><span class="n">ent</span><span class="o">.</span><span class="n">label_</span>
-            
+            <span class="n">example_dic</span><span class="p">[</span><span class="sa">f</span><span class="s2">"phrase_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">ent</span><span class="o">.</span><span class="n">text</span>
+            <span class="n">example_dic</span><span class="p">[</span><span class="sa">f</span><span class="s2">"label_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">ent</span><span class="o">.</span><span class="n">label_</span>
+
         <span class="n">example_dic_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">example_dic</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -8340,15 +8367,15 @@ The sentence example 5 is:
 <div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">examples</span><span class="o">=</span><span class="p">[]</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">examples</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">example_dic_list</span><span class="p">)):</span>
-    <span class="n">examples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'document: </span><span class="se">\n</span><span class="s1">'</span><span class="o">+</span><span class="n">example_dic_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">'document'</span><span class="p">]</span><span class="o">+</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
-    <span class="n">di</span><span class="o">=</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">example_dic_list</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-    <span class="k">del</span> <span class="n">di</span><span class="p">[</span><span class="s1">'document'</span><span class="p">]</span>
-    <span class="n">examples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+    <span class="n">examples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"document: </span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="n">example_dic_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">"document"</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">di</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">example_dic_list</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="k">del</span> <span class="n">di</span><span class="p">[</span><span class="s2">"document"</span><span class="p">]</span>
+    <span class="n">examples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
     <span class="n">examples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">di</span><span class="p">))</span>
-    <span class="n">examples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'</span><span class="se">\n\n\n</span><span class="s1">'</span><span class="p">)</span>
-<span class="n">examples_input</span><span class="o">=</span><span class="s1">''</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">examples</span><span class="p">)</span>
+    <span class="n">examples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"</span><span class="se">\n\n\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">examples_input</span> <span class="o">=</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">examples</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8443,11 +8470,11 @@ result:Based on decoding strategy that we have for the models, the parameters ca
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># GREEDY PAREMETER CONFIGURATION</span>
 
 <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
-         <span class="s2">"decoding_method"</span><span class="p">:</span> <span class="s2">"greedy"</span><span class="p">,</span>
-         <span class="s2">"random_seed"</span><span class="p">:</span> <span class="mi">33</span><span class="p">,</span>
-         <span class="s2">"repetition_penalty"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span>
-         <span class="s2">"min_new_tokens"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-         <span class="s2">"max_new_tokens"</span><span class="p">:</span> <span class="mi">150</span>
+    <span class="s2">"decoding_method"</span><span class="p">:</span> <span class="s2">"greedy"</span><span class="p">,</span>
+    <span class="s2">"random_seed"</span><span class="p">:</span> <span class="mi">33</span><span class="p">,</span>
+    <span class="s2">"repetition_penalty"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">"min_new_tokens"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">"max_new_tokens"</span><span class="p">:</span> <span class="mi">150</span><span class="p">,</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -8510,7 +8537,7 @@ result:Based on decoding strategy that we have for the models, the parameters ca
 <div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">list_of_NERS</span><span class="o">=</span><span class="n">nlp</span><span class="o">.</span><span class="n">get_pipe</span><span class="p">(</span><span class="s1">'ner'</span><span class="p">)</span><span class="o">.</span><span class="n">labels</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">list_of_NERS</span> <span class="o">=</span> <span class="n">nlp</span><span class="o">.</span><span class="n">get_pipe</span><span class="p">(</span><span class="s2">"ner"</span><span class="p">)</span><span class="o">.</span><span class="n">labels</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">list_of_NERS</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -8549,7 +8576,7 @@ result:Based on decoding strategy that we have for the models, the parameters ca
 <div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">instruction</span><span class="o">=</span><span class="s2">"""</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">instruction</span> <span class="o">=</span> <span class="s2">"""</span>
 <span class="s2">Accurately identify and classify named entities in text. The list of possible labels are:['CARDINAL','DATE','EVENT','FAC','GPE','LANGUAGE','LAW',</span>
 <span class="s2">'LOC','MONEY','NORP','ORDINAL','ORG','PERCENT','PERSON','PRODUCT','QUANTITY','TIME','WORK_OF_ART'].</span>
 
@@ -8610,7 +8637,13 @@ Use the following training examples as follows:
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">inp</span> <span class="ow">in</span> <span class="n">few_shot_inputs_</span><span class="p">[:</span><span class="mi">40</span><span class="p">]:</span>
-    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prompt</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">instruction</span><span class="o">+</span><span class="n">examples_input</span><span class="o">+</span> <span class="s2">"document:"</span> <span class="o">+</span><span class="n">inp</span><span class="p">[</span><span class="s1">'input'</span><span class="p">]]),</span> <span class="n">model_id</span><span class="p">,</span> <span class="n">parameters</span><span class="p">))</span>
+    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">prompt</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
+            <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">instruction</span> <span class="o">+</span> <span class="n">examples_input</span> <span class="o">+</span> <span class="s2">"document:"</span> <span class="o">+</span> <span class="n">inp</span><span class="p">[</span><span class="s2">"input"</span><span class="p">]]),</span>
+            <span class="n">model_id</span><span class="p">,</span>
+            <span class="n">parameters</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8689,10 +8722,10 @@ Use the following training examples as follows:
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">'--------------------------------------------------'</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"--------------------------------------------------"</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Document #</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="si">{</span><span class="n">few_shot_inputs_</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">'input'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Raw results from LLM model:</span><span class="se">\n</span><span class="s1"> '</span><span class="p">,</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">'generated_text'</span><span class="p">])</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">'--------------------------------------------------'</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Raw results from LLM model:</span><span class="se">\n</span><span class="s2"> "</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">"generated_text"</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"--------------------------------------------------"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8981,19 +9014,18 @@ Raw results from LLM model:
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Process each document in the few_shot_inputs_</span>
-<span class="n">fsi</span> <span class="o">=</span><span class="p">{}</span>
-<span class="n">fsi_list_for_ground_truth</span><span class="o">=</span><span class="p">[]</span>
+<span class="n">fsi</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">fsi_list_for_ground_truth</span> <span class="o">=</span> <span class="p">[]</span>
 
 <span class="k">for</span> <span class="n">document</span> <span class="ow">in</span> <span class="n">few_shot_inputs_</span><span class="p">[:</span><span class="mi">40</span><span class="p">]:</span>
-    <span class="n">doc</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="n">document</span><span class="p">[</span><span class="s1">'input'</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>  <span class="c1"># Process the document with spacy NLP pipeline</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">ents</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
-        <span class="n">fsi</span> <span class="o">=</span><span class="p">{}</span>
-        <span class="n">fsi</span><span class="p">[</span><span class="s1">'document'</span><span class="p">]</span><span class="o">=</span><span class="n">document</span><span class="p">[</span><span class="s1">'input'</span><span class="p">]</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="n">document</span><span class="p">[</span><span class="s2">"input"</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>  <span class="c1"># Process the document with spacy NLP pipeline</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">ents</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">fsi</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">fsi</span><span class="p">[</span><span class="s2">"document"</span><span class="p">]</span> <span class="o">=</span> <span class="n">document</span><span class="p">[</span><span class="s2">"input"</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ent</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">ents</span><span class="p">):</span>
-            <span class="n">fsi</span><span class="p">[</span><span class="sa">f</span><span class="s1">'phrase_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">'</span><span class="p">]</span><span class="o">=</span><span class="n">ent</span><span class="o">.</span><span class="n">text</span>
-            <span class="n">fsi</span><span class="p">[</span><span class="sa">f</span><span class="s1">'label_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">'</span><span class="p">]</span><span class="o">=</span><span class="n">ent</span><span class="o">.</span><span class="n">label_</span>
-        
-            
+            <span class="n">fsi</span><span class="p">[</span><span class="sa">f</span><span class="s2">"phrase_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">ent</span><span class="o">.</span><span class="n">text</span>
+            <span class="n">fsi</span><span class="p">[</span><span class="sa">f</span><span class="s2">"label_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">ent</span><span class="o">.</span><span class="n">label_</span>
+
         <span class="n">fsi_list_for_ground_truth</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fsi</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">fsi_list_for_ground_truth</span><span class="o">.</span><span class="n">append</span><span class="p">({})</span>
@@ -9075,25 +9107,24 @@ Raw results from LLM model:
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">extract_dictionary_from_results</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-    
-    <span class="n">ss2</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">', '</span><span class="p">)</span>
-    
-    <span class="n">pc</span><span class="o">=</span><span class="mi">0</span>
-    <span class="n">lc</span><span class="o">=</span><span class="mi">0</span>
+
+    <span class="n">ss2</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">", "</span><span class="p">)</span>
+
+    <span class="n">pc</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">lc</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">ss2</span><span class="p">:</span>
-        <span class="k">if</span> <span class="s1">'phrase_'</span> <span class="ow">in</span> <span class="n">w</span><span class="p">:</span>
-            <span class="n">pc</span><span class="o">+=</span><span class="mi">1</span>
-        <span class="k">if</span> <span class="s1">'label_'</span> <span class="ow">in</span> <span class="n">w</span><span class="p">:</span>
-            <span class="n">lc</span><span class="o">+=</span><span class="mi">1</span>
-    <span class="k">if</span> <span class="p">((</span><span class="n">pc</span><span class="o">==</span><span class="n">lc</span><span class="p">)</span> <span class="ow">and</span> <span class="p">((</span><span class="n">pc</span><span class="o">%</span><span class="k">2</span>)==0) and ((lc%2)==0)):
-        <span class="k">return</span> <span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="s2">"{"</span><span class="o">+</span><span class="n">s</span><span class="o">+</span><span class="s2">"}"</span><span class="p">))</span>
-    
-    <span class="k">elif</span><span class="p">((</span><span class="n">pc</span><span class="o">%</span><span class="k">2</span>)!=0 or ((lc%2)!=0)):
-       
-        <span class="n">lim</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">pc</span><span class="p">,</span><span class="n">lc</span><span class="p">)</span>
-        <span class="n">wlim</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">lim</span>
-        <span class="k">return</span> <span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="s1">'{'</span><span class="o">+</span><span class="s1">','</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ss2</span><span class="p">[:</span><span class="n">wlim</span><span class="p">])</span><span class="o">+</span><span class="s1">'}'</span><span class="p">))</span>
-        
+        <span class="k">if</span> <span class="s2">"phrase_"</span> <span class="ow">in</span> <span class="n">w</span><span class="p">:</span>
+            <span class="n">pc</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="s2">"label_"</span> <span class="ow">in</span> <span class="n">w</span><span class="p">:</span>
+            <span class="n">lc</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">pc</span> <span class="o">==</span> <span class="n">lc</span><span class="p">)</span> <span class="ow">and</span> <span class="p">((</span><span class="n">pc</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="p">((</span><span class="n">lc</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">eval</span><span class="p">(</span><span class="s2">"{"</span> <span class="o">+</span> <span class="n">s</span> <span class="o">+</span> <span class="s2">"}"</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="p">(</span><span class="n">pc</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="p">((</span><span class="n">lc</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+
+        <span class="n">lim</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">pc</span><span class="p">,</span> <span class="n">lc</span><span class="p">)</span>
+        <span class="n">wlim</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">lim</span>
+        <span class="k">return</span> <span class="nb">eval</span><span class="p">(</span><span class="s2">"{"</span> <span class="o">+</span> <span class="s2">","</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ss2</span><span class="p">[:</span><span class="n">wlim</span><span class="p">])</span> <span class="o">+</span> <span class="s2">"}"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -9148,9 +9179,9 @@ Raw results from LLM model:
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">drop_words</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
-    <span class="n">words_to_drop</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'the'</span><span class="p">,</span> <span class="s1">'a'</span><span class="p">]</span>
-    <span class="n">pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">'\b(?:</span><span class="si">{}</span><span class="s1">)\b'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">'|'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words_to_drop</span><span class="p">))</span>
-    <span class="n">cleaned_string</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="s1">''</span><span class="p">,</span> <span class="n">string</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+    <span class="n">words_to_drop</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"the"</span><span class="p">,</span> <span class="s2">"a"</span><span class="p">]</span>
+    <span class="n">pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"\b(?:</span><span class="si">{}</span><span class="s2">)\b"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">"|"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words_to_drop</span><span class="p">))</span>
+    <span class="n">cleaned_string</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">string</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">cleaned_string</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -9177,28 +9208,28 @@ Raw results from LLM model:
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">polish_results</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
-    
-    <span class="n">sp</span><span class="o">=</span><span class="n">r</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">','</span><span class="p">)</span>
-    
-    <span class="n">nw</span><span class="o">=</span><span class="p">[]</span>
-    <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">sp</span><span class="p">:</span>
-        <span class="n">b</span><span class="o">=</span><span class="s1">''</span>
-        <span class="n">b</span><span class="o">=</span><span class="n">w</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'"'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"'"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
-        <span class="n">nw</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-    
-    <span class="n">msl</span><span class="o">=</span><span class="p">[]</span>
-    <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">nw</span><span class="p">:</span>
-        <span class="n">ns</span><span class="o">=</span><span class="n">w</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">":"</span><span class="p">)</span>
-        <span class="n">nss</span><span class="o">=</span><span class="p">[]</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ns</span><span class="p">)):</span>
-            <span class="n">ns</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">ns</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()</span>
-        <span class="n">nss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"'"</span><span class="o">+</span><span class="n">ns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s2">"'"</span><span class="o">+</span><span class="s1">':'</span><span class="o">+</span><span class="s2">"'"</span><span class="o">+</span><span class="n">ns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="s2">"'"</span><span class="p">)</span>
 
-        <span class="n">ms</span><span class="o">=</span><span class="s1">''</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">nss</span><span class="p">)</span>
+    <span class="n">sp</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span>
+
+    <span class="n">nw</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">sp</span><span class="p">:</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="s2">""</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'"'</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"'"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+        <span class="n">nw</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+
+    <span class="n">msl</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">nw</span><span class="p">:</span>
+        <span class="n">ns</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">":"</span><span class="p">)</span>
+        <span class="n">nss</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ns</span><span class="p">)):</span>
+            <span class="n">ns</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ns</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()</span>
+        <span class="n">nss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"'"</span> <span class="o">+</span> <span class="n">ns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"'"</span> <span class="o">+</span> <span class="s2">":"</span> <span class="o">+</span> <span class="s2">"'"</span> <span class="o">+</span> <span class="n">ns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"'"</span><span class="p">)</span>
+
+        <span class="n">ms</span> <span class="o">=</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">nss</span><span class="p">)</span>
         <span class="n">msl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ms</span><span class="p">)</span>
 
-    <span class="n">res</span><span class="o">=</span><span class="s1">','</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">msl</span><span class="p">)</span>
-    
+    <span class="n">res</span> <span class="o">=</span> <span class="s2">","</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">msl</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">res</span>
 </pre></div>
 </div>
@@ -9224,60 +9255,76 @@ Raw results from LLM model:
 <div class="jp-InputPrompt jp-InputArea-prompt">In [33]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">y_true</span><span class="o">=</span><span class="p">[]</span>
-<span class="n">y_pred</span><span class="o">=</span><span class="p">[]</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">y_true</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="p">[]</span>
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fsi_list_for_ground_truth</span><span class="p">)):</span>
-    
+
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">keys</span><span class="o">=</span><span class="n">fsi_list_for_ground_truth</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">!=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="n">fsi_list_for_ground_truth</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">temp_s</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">fsi_list_for_ground_truth</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-            <span class="k">del</span> <span class="n">temp_s</span><span class="p">[</span><span class="s1">'document'</span><span class="p">]</span>
-            
-            
+            <span class="k">del</span> <span class="n">temp_s</span><span class="p">[</span><span class="s2">"document"</span><span class="p">]</span>
+
             <span class="n">ground_truth_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">temp_s</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
             <span class="n">ground_truth_values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">temp_s</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
-            
-            <span class="n">model_results</span><span class="o">=</span><span class="n">extract_dictionary_from_results</span><span class="p">(</span><span class="n">polish_results</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">'generated_text'</span><span class="p">]))</span>
-            
-            <span class="n">model_res_keys</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">model_results</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-            <span class="n">model_res_values</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">model_results</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
-            
-          
-            
+
+            <span class="n">model_results</span> <span class="o">=</span> <span class="n">extract_dictionary_from_results</span><span class="p">(</span>
+                <span class="n">polish_results</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">"generated_text"</span><span class="p">])</span>
+            <span class="p">)</span>
+
+            <span class="n">model_res_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">model_results</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="n">model_res_values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">model_results</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
             <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ground_truth_keys</span><span class="p">:</span>
-                <span class="k">if</span> <span class="p">(</span><span class="s1">'phrase_'</span> <span class="ow">in</span> <span class="n">k</span><span class="p">):</span>
-                    
-                    <span class="n">phrase</span><span class="o">=</span><span class="n">temp_s</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
-                    
+                <span class="k">if</span> <span class="s2">"phrase_"</span> <span class="ow">in</span> <span class="n">k</span><span class="p">:</span>
+
+                    <span class="n">phrase</span> <span class="o">=</span> <span class="n">temp_s</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+
                     <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">model_res_values</span><span class="p">:</span>
-                        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">find_common_words</span><span class="p">(</span><span class="n">drop_words</span><span class="p">(</span><span class="n">phrase</span><span class="p">),</span><span class="n">drop_words</span><span class="p">(</span><span class="n">v</span><span class="p">)))</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">phrase</span><span class="o">.</span><span class="n">split</span><span class="p">())</span><span class="o">&gt;</span><span class="mf">0.5</span><span class="p">):</span>
-                            <span class="n">ground_truth_label</span> <span class="o">=</span> <span class="n">temp_s</span><span class="p">[</span><span class="s1">'label_'</span><span class="o">+</span><span class="p">(</span><span class="n">ground_truth_keys</span><span class="p">[</span><span class="n">ground_truth_values</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">phrase</span><span class="p">)]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">'phrase_'</span><span class="p">))]</span>
-                            <span class="n">model_res_label</span><span class="o">=</span><span class="n">model_results</span><span class="p">[</span><span class="s1">'label_'</span><span class="o">+</span><span class="p">(</span><span class="n">model_res_keys</span><span class="p">[</span><span class="n">model_res_values</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">v</span><span class="p">)]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">'phrase_'</span><span class="p">))]</span>
-                            
-                            <span class="k">if</span> <span class="p">(</span><span class="n">model_res_label</span><span class="o">==</span><span class="n">ground_truth_label</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="p">(</span>
+                            <span class="nb">len</span><span class="p">(</span><span class="n">find_common_words</span><span class="p">(</span><span class="n">drop_words</span><span class="p">(</span><span class="n">phrase</span><span class="p">),</span> <span class="n">drop_words</span><span class="p">(</span><span class="n">v</span><span class="p">)))</span>
+                            <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">phrase</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+                            <span class="o">&gt;</span> <span class="mf">0.5</span>
+                        <span class="p">):</span>
+                            <span class="n">ground_truth_label</span> <span class="o">=</span> <span class="n">temp_s</span><span class="p">[</span>
+                                <span class="s2">"label_"</span>
+                                <span class="o">+</span> <span class="p">(</span>
+                                    <span class="n">ground_truth_keys</span><span class="p">[</span>
+                                        <span class="n">ground_truth_values</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">phrase</span><span class="p">)</span>
+                                    <span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">"phrase_"</span><span class="p">)</span>
+                                <span class="p">)</span>
+                            <span class="p">]</span>
+                            <span class="n">model_res_label</span> <span class="o">=</span> <span class="n">model_results</span><span class="p">[</span>
+                                <span class="s2">"label_"</span>
+                                <span class="o">+</span> <span class="p">(</span>
+                                    <span class="n">model_res_keys</span><span class="p">[</span><span class="n">model_res_values</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">v</span><span class="p">)]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span>
+                                        <span class="s2">"phrase_"</span>
+                                    <span class="p">)</span>
+                                <span class="p">)</span>
+                            <span class="p">]</span>
+
+                            <span class="k">if</span> <span class="n">model_res_label</span> <span class="o">==</span> <span class="n">ground_truth_label</span><span class="p">:</span>
                                 <span class="n">y_true</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
                                 <span class="n">y_pred</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
                             <span class="k">else</span><span class="p">:</span>
                                 <span class="n">y_true</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
                                 <span class="n">y_pred</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-                            
+
     <span class="k">except</span><span class="p">:</span>
         <span class="k">pass</span>
-        
-        
+
+
 <span class="n">len_y_true</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_true</span><span class="p">)</span>
 <span class="n">len_y_pred</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
 
-<span class="n">fsi_ners</span><span class="o">=</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">fsi_list_for_ground_truth</span><span class="p">)</span>
+<span class="n">fsi_ners</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">fsi_list_for_ground_truth</span><span class="p">)</span>
 
 <span class="k">try</span><span class="p">:</span>
-    <span class="k">del</span> <span class="n">fsi_ners</span><span class="p">[</span><span class="s1">'document'</span><span class="p">]</span>
-    
+    <span class="k">del</span> <span class="n">fsi_ners</span><span class="p">[</span><span class="s2">"document"</span><span class="p">]</span>
+
 <span class="k">except</span><span class="p">:</span>
     <span class="k">pass</span>
-        
 </pre></div>
 </div>
 </div>
@@ -9295,17 +9342,15 @@ Raw results from LLM model:
 <span class="n">len_y_pred</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fsi_list_for_ground_truth</span><span class="p">)):</span>
-    <span class="n">fsi_ners</span><span class="o">=</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">fsi_list_for_ground_truth</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">fsi_ners</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">fsi_list_for_ground_truth</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">del</span> <span class="n">fsi_ners</span><span class="p">[</span><span class="s1">'document'</span><span class="p">]</span>
-       
-        
-        <span class="n">model_ners</span><span class="o">=</span><span class="n">extract_dictionary_from_results</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">'generated_text'</span><span class="p">])</span>
-       
-        
-        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fsi_ners</span><span class="p">)</span><span class="o">&gt;</span><span class="nb">len</span><span class="p">(</span><span class="n">model_ners</span><span class="p">)):</span>
-            <span class="n">diff</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fsi_ners</span><span class="p">)</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">model_ners</span><span class="p">)</span>
-            
+        <span class="k">del</span> <span class="n">fsi_ners</span><span class="p">[</span><span class="s2">"document"</span><span class="p">]</span>
+
+        <span class="n">model_ners</span> <span class="o">=</span> <span class="n">extract_dictionary_from_results</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">"generated_text"</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fsi_ners</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">model_ners</span><span class="p">):</span>
+            <span class="n">diff</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fsi_ners</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">model_ners</span><span class="p">)</span>
+
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">diff</span><span class="p">)):</span>
                 <span class="n">y_true</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
                 <span class="n">y_pred</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -9378,7 +9423,7 @@ Raw results from LLM model:
 <div class="jp-InputPrompt jp-InputArea-prompt">In [37]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span><span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">))</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -9436,8 +9481,8 @@ weighted avg       1.00      0.47      0.64        15
 <div class="jp-InputPrompt jp-InputArea-prompt">In [38]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">specific_label</span> <span class="o">=</span> <span class="s1">'LOC'</span>
-<span class="n">desc</span> <span class="o">=</span> <span class="s1">'location'</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">specific_label</span> <span class="o">=</span> <span class="s2">"LOC"</span>
+<span class="n">desc</span> <span class="o">=</span> <span class="s2">"location"</span>
 </pre></div>
 </div>
 </div>
@@ -9451,7 +9496,7 @@ weighted avg       1.00      0.47      0.64        15
 <div class="jp-InputPrompt jp-InputArea-prompt">In [39]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">label_replacement_dictionary</span><span class="o">=</span><span class="p">{</span><span class="s1">'GPE'</span><span class="p">:</span><span class="s1">'LOC'</span><span class="p">}</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">label_replacement_dictionary</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"GPE"</span><span class="p">:</span> <span class="s2">"LOC"</span><span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -9465,7 +9510,7 @@ weighted avg       1.00      0.47      0.64        15
 <div class="jp-InputPrompt jp-InputArea-prompt">In [40]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">instruction</span><span class="o">=</span><span class="sa">f</span><span class="s2">"""</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">instruction</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"""</span>
 <span class="s2">Accurately identify and classify the </span>
 <span class="s2">NERs of type </span><span class="si">{</span><span class="n">desc</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">specific_label</span><span class="si">}</span><span class="s2">).</span>
 
@@ -9539,15 +9584,15 @@ Use the following training examples as follows:
 <div class="jp-InputPrompt jp-InputArea-prompt">In [42]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">replace_label_values</span><span class="p">(</span><span class="n">examples</span><span class="p">,</span><span class="n">label_replacement_dictionary</span><span class="p">):</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">replace_label_values</span><span class="p">(</span><span class="n">examples</span><span class="p">,</span> <span class="n">label_replacement_dictionary</span><span class="p">):</span>
     <span class="n">examples_cp</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">examples</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">examples_cp</span><span class="p">)):</span>
         <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">examples_cp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
-            <span class="k">if</span> <span class="s1">'label_'</span> <span class="ow">in</span> <span class="n">k</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">"label_"</span> <span class="ow">in</span> <span class="n">k</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">rl</span> <span class="ow">in</span> <span class="n">label_replacement_dictionary</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                    <span class="k">if</span> <span class="p">(</span><span class="n">examples_cp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">==</span> <span class="n">rl</span><span class="p">):</span>
-                        <span class="n">examples_cp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">=</span><span class="n">label_replacement_dictionary</span><span class="p">[</span><span class="n">rl</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">examples_cp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">==</span> <span class="n">rl</span><span class="p">:</span>
+                        <span class="n">examples_cp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">label_replacement_dictionary</span><span class="p">[</span><span class="n">rl</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">examples_cp</span>
 </pre></div>
 </div>
@@ -9562,7 +9607,9 @@ Use the following training examples as follows:
 <div class="jp-InputPrompt jp-InputArea-prompt">In [43]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">post_processed_examples</span> <span class="o">=</span> <span class="n">replace_label_values</span><span class="p">(</span><span class="n">example_dic_list</span><span class="p">,</span><span class="n">label_replacement_dictionary</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">post_processed_examples</span> <span class="o">=</span> <span class="n">replace_label_values</span><span class="p">(</span>
+    <span class="n">example_dic_list</span><span class="p">,</span> <span class="n">label_replacement_dictionary</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -9638,22 +9685,22 @@ Use the following training examples as follows:
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">keep_only_certain_labels</span><span class="p">(</span><span class="n">examples</span><span class="p">,</span> <span class="n">specific_label</span><span class="p">):</span>
-    <span class="n">list_of_modified_examples</span><span class="o">=</span><span class="p">[]</span>
+    <span class="n">list_of_modified_examples</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">examples</span><span class="p">:</span>
         <span class="n">e_cp</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
         <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">e_cp</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-        
+
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
-            <span class="k">if</span> <span class="s1">'label_'</span> <span class="ow">in</span> <span class="n">k</span><span class="p">:</span>
-                <span class="n">numeric_val</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'label_'</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-                <span class="c1">#print('NV=',numeric_val)</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">e_cp</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">!=</span><span class="n">specific_label</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s2">"label_"</span> <span class="ow">in</span> <span class="n">k</span><span class="p">:</span>
+                <span class="n">numeric_val</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"label_"</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="c1"># print('NV=',numeric_val)</span>
+                <span class="k">if</span> <span class="n">e_cp</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">!=</span> <span class="n">specific_label</span><span class="p">:</span>
                     <span class="k">del</span> <span class="n">e_cp</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
-                    <span class="k">del</span> <span class="n">e_cp</span><span class="p">[</span><span class="s1">'phrase_'</span><span class="o">+</span><span class="n">numeric_val</span><span class="p">]</span>
-        
-        <span class="k">if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">e_cp</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">):</span>
+                    <span class="k">del</span> <span class="n">e_cp</span><span class="p">[</span><span class="s2">"phrase_"</span> <span class="o">+</span> <span class="n">numeric_val</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">e_cp</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">list_of_modified_examples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e_cp</span><span class="p">)</span>
-    
+
     <span class="k">return</span> <span class="n">list_of_modified_examples</span>
 </pre></div>
 </div>
@@ -9668,7 +9715,9 @@ Use the following training examples as follows:
 <div class="jp-InputPrompt jp-InputArea-prompt">In [46]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">modified_examples_list</span> <span class="o">=</span> <span class="n">keep_only_certain_labels</span><span class="p">(</span><span class="n">post_processed_examples</span><span class="p">,</span> <span class="n">specific_label</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">modified_examples_list</span> <span class="o">=</span> <span class="n">keep_only_certain_labels</span><span class="p">(</span>
+    <span class="n">post_processed_examples</span><span class="p">,</span> <span class="n">specific_label</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -9731,7 +9780,7 @@ Use the following training examples as follows:
 <div class="jp-InputPrompt jp-InputArea-prompt">In [48]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">examples</span><span class="o">=</span><span class="p">[]</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">examples</span> <span class="o">=</span> <span class="p">[]</span>
 </pre></div>
 </div>
 </div>
@@ -9746,12 +9795,12 @@ Use the following training examples as follows:
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">modified_examples_list</span><span class="p">)):</span>
-    <span class="n">examples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'document: </span><span class="se">\n</span><span class="s1">'</span><span class="o">+</span><span class="n">modified_examples_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">'document'</span><span class="p">]</span><span class="o">+</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
-    <span class="n">di</span><span class="o">=</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">modified_examples_list</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-    <span class="k">del</span> <span class="n">di</span><span class="p">[</span><span class="s1">'document'</span><span class="p">]</span>
-    <span class="n">examples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+    <span class="n">examples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"document: </span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="n">modified_examples_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">"document"</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">di</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">modified_examples_list</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="k">del</span> <span class="n">di</span><span class="p">[</span><span class="s2">"document"</span><span class="p">]</span>
+    <span class="n">examples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
     <span class="n">examples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">di</span><span class="p">))</span>
-    <span class="n">examples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'</span><span class="se">\n\n\n</span><span class="s1">'</span><span class="p">)</span>
+    <span class="n">examples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"</span><span class="se">\n\n\n</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -9765,7 +9814,7 @@ Use the following training examples as follows:
 <div class="jp-InputPrompt jp-InputArea-prompt">In [50]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">examples_input</span><span class="o">=</span><span class="s1">''</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">examples</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">examples_input</span> <span class="o">=</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">examples</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -9832,7 +9881,13 @@ the world is barely half a degree Celsius (0.9 degrees Fahrenheit) warmer than i
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">inp</span> <span class="ow">in</span> <span class="n">few_shot_inputs_</span><span class="p">[:</span><span class="mi">40</span><span class="p">]:</span>
-    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prompt</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">instruction</span><span class="o">+</span><span class="n">examples_input</span><span class="o">+</span> <span class="s2">"document:"</span> <span class="o">+</span><span class="n">inp</span><span class="p">[</span><span class="s1">'input'</span><span class="p">]]),</span> <span class="n">model_id</span><span class="p">,</span> <span class="n">parameters</span><span class="p">))</span>
+    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">prompt</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
+            <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">instruction</span> <span class="o">+</span> <span class="n">examples_input</span> <span class="o">+</span> <span class="s2">"document:"</span> <span class="o">+</span> <span class="n">inp</span><span class="p">[</span><span class="s2">"input"</span><span class="p">]]),</span>
+            <span class="n">model_id</span><span class="p">,</span>
+            <span class="n">parameters</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -9900,28 +9955,28 @@ the world is barely half a degree Celsius (0.9 degrees Fahrenheit) warmer than i
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">polish_results</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
-    
-    <span class="n">sp</span><span class="o">=</span><span class="n">r</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">','</span><span class="p">)</span>
-    
-    <span class="n">nw</span><span class="o">=</span><span class="p">[]</span>
-    <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">sp</span><span class="p">:</span>
-        <span class="n">b</span><span class="o">=</span><span class="s1">''</span>
-        <span class="n">b</span><span class="o">=</span><span class="n">w</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'"'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"'"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
-        <span class="n">nw</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-        
-    <span class="n">msl</span><span class="o">=</span><span class="p">[]</span>
-    <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">nw</span><span class="p">:</span>
-        <span class="n">ns</span><span class="o">=</span><span class="n">w</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">":"</span><span class="p">)</span>
-        <span class="n">nss</span><span class="o">=</span><span class="p">[]</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ns</span><span class="p">)):</span>
-            <span class="n">ns</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">ns</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()</span>
-        <span class="n">nss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"'"</span><span class="o">+</span><span class="n">ns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s2">"'"</span><span class="o">+</span><span class="s1">':'</span><span class="o">+</span><span class="s2">"'"</span><span class="o">+</span><span class="n">ns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="s2">"'"</span><span class="p">)</span>
 
-        <span class="n">ms</span><span class="o">=</span><span class="s1">''</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">nss</span><span class="p">)</span>
+    <span class="n">sp</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span>
+
+    <span class="n">nw</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">sp</span><span class="p">:</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="s2">""</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'"'</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"'"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+        <span class="n">nw</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+
+    <span class="n">msl</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">nw</span><span class="p">:</span>
+        <span class="n">ns</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">":"</span><span class="p">)</span>
+        <span class="n">nss</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ns</span><span class="p">)):</span>
+            <span class="n">ns</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ns</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()</span>
+        <span class="n">nss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"'"</span> <span class="o">+</span> <span class="n">ns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"'"</span> <span class="o">+</span> <span class="s2">":"</span> <span class="o">+</span> <span class="s2">"'"</span> <span class="o">+</span> <span class="n">ns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"'"</span><span class="p">)</span>
+
+        <span class="n">ms</span> <span class="o">=</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">nss</span><span class="p">)</span>
         <span class="n">msl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ms</span><span class="p">)</span>
 
-    <span class="n">res</span><span class="o">=</span><span class="s1">','</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">msl</span><span class="p">)</span>
-    
+    <span class="n">res</span> <span class="o">=</span> <span class="s2">","</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">msl</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">res</span>
 </pre></div>
 </div>
@@ -9936,7 +9991,7 @@ the world is barely half a degree Celsius (0.9 degrees Fahrenheit) warmer than i
 <div class="jp-InputPrompt jp-InputArea-prompt">In [55]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">polish_results</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s1">'generated_text'</span><span class="p">]))</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">polish_results</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">"generated_text"</span><span class="p">]))</span>
 </pre></div>
 </div>
 </div>
@@ -9963,7 +10018,7 @@ the world is barely half a degree Celsius (0.9 degrees Fahrenheit) warmer than i
 <div class="jp-InputPrompt jp-InputArea-prompt">In [56]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">extract_dictionary_from_results</span><span class="p">(</span><span class="n">polish_results</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s1">'generated_text'</span><span class="p">])))</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">extract_dictionary_from_results</span><span class="p">(</span><span class="n">polish_results</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">"generated_text"</span><span class="p">])))</span>
 </pre></div>
 </div>
 </div>
@@ -9990,7 +10045,7 @@ the world is barely half a degree Celsius (0.9 degrees Fahrenheit) warmer than i
 <div class="jp-InputPrompt jp-InputArea-prompt">In [57]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">extract_dictionary_from_results</span><span class="p">(</span><span class="n">polish_results</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'generated_text'</span><span class="p">])))</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">extract_dictionary_from_results</span><span class="p">(</span><span class="n">polish_results</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">"generated_text"</span><span class="p">])))</span>
 </pre></div>
 </div>
 </div>
@@ -10017,41 +10072,58 @@ the world is barely half a degree Celsius (0.9 degrees Fahrenheit) warmer than i
 <div class="jp-InputPrompt jp-InputArea-prompt">In [58]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">y_true</span><span class="o">=</span><span class="p">[]</span>
-<span class="n">y_pred</span><span class="o">=</span><span class="p">[]</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">y_true</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="p">[]</span>
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fsi_list_for_ground_truth</span><span class="p">)):</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">keys</span><span class="o">=</span><span class="n">fsi_list_for_ground_truth</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">!=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="n">fsi_list_for_ground_truth</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">temp_s</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">fsi_list_for_ground_truth</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-            <span class="k">del</span> <span class="n">temp_s</span><span class="p">[</span><span class="s1">'document'</span><span class="p">]</span>
-      
-            
+            <span class="k">del</span> <span class="n">temp_s</span><span class="p">[</span><span class="s2">"document"</span><span class="p">]</span>
+
             <span class="n">ground_truth_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">temp_s</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
             <span class="n">ground_truth_values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">temp_s</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
-            
-            <span class="n">model_results</span><span class="o">=</span><span class="n">extract_dictionary_from_results</span><span class="p">(</span><span class="n">polish_results</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">'generated_text'</span><span class="p">]))</span>
-            
-            <span class="n">model_res_keys</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">model_results</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-            <span class="n">model_res_values</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">model_results</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
-            
-            
-            
+
+            <span class="n">model_results</span> <span class="o">=</span> <span class="n">extract_dictionary_from_results</span><span class="p">(</span>
+                <span class="n">polish_results</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">"generated_text"</span><span class="p">])</span>
+            <span class="p">)</span>
+
+            <span class="n">model_res_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">model_results</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="n">model_res_values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">model_results</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
             <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ground_truth_keys</span><span class="p">:</span>
-                <span class="k">if</span> <span class="p">(</span><span class="s1">'phrase_'</span> <span class="ow">in</span> <span class="n">k</span><span class="p">):</span>
-                  
-                    <span class="n">phrase</span><span class="o">=</span><span class="n">temp_s</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
-                   
+                <span class="k">if</span> <span class="s2">"phrase_"</span> <span class="ow">in</span> <span class="n">k</span><span class="p">:</span>
+
+                    <span class="n">phrase</span> <span class="o">=</span> <span class="n">temp_s</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+
                     <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">model_res_values</span><span class="p">:</span>
-                        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">find_common_words</span><span class="p">(</span><span class="n">drop_words</span><span class="p">(</span><span class="n">phrase</span><span class="p">),</span><span class="n">drop_words</span><span class="p">(</span><span class="n">v</span><span class="p">)))</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">phrase</span><span class="o">.</span><span class="n">split</span><span class="p">())</span><span class="o">&gt;</span><span class="mf">0.5</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="p">(</span>
+                            <span class="nb">len</span><span class="p">(</span><span class="n">find_common_words</span><span class="p">(</span><span class="n">drop_words</span><span class="p">(</span><span class="n">phrase</span><span class="p">),</span> <span class="n">drop_words</span><span class="p">(</span><span class="n">v</span><span class="p">)))</span>
+                            <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">phrase</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+                            <span class="o">&gt;</span> <span class="mf">0.5</span>
+                        <span class="p">):</span>
 
-                            <span class="n">ground_truth_label</span> <span class="o">=</span> <span class="n">temp_s</span><span class="p">[</span><span class="s1">'label_'</span><span class="o">+</span><span class="p">(</span><span class="n">ground_truth_keys</span><span class="p">[</span><span class="n">ground_truth_values</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">phrase</span><span class="p">)]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">'phrase_'</span><span class="p">))]</span>
-                            
-                            <span class="k">if</span> <span class="p">(</span><span class="n">ground_truth_label</span><span class="o">==</span><span class="n">specific_label</span><span class="p">):</span>
-                                <span class="n">model_res_label</span><span class="o">=</span><span class="n">model_results</span><span class="p">[</span><span class="s1">'label_'</span><span class="o">+</span><span class="p">(</span><span class="n">model_res_keys</span><span class="p">[</span><span class="n">model_res_values</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">v</span><span class="p">)]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">'phrase_'</span><span class="p">))]</span>
+                            <span class="n">ground_truth_label</span> <span class="o">=</span> <span class="n">temp_s</span><span class="p">[</span>
+                                <span class="s2">"label_"</span>
+                                <span class="o">+</span> <span class="p">(</span>
+                                    <span class="n">ground_truth_keys</span><span class="p">[</span>
+                                        <span class="n">ground_truth_values</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">phrase</span><span class="p">)</span>
+                                    <span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">"phrase_"</span><span class="p">)</span>
+                                <span class="p">)</span>
+                            <span class="p">]</span>
 
-                                <span class="k">if</span> <span class="p">(</span><span class="n">model_res_label</span><span class="o">==</span><span class="n">ground_truth_label</span><span class="p">):</span>
+                            <span class="k">if</span> <span class="n">ground_truth_label</span> <span class="o">==</span> <span class="n">specific_label</span><span class="p">:</span>
+                                <span class="n">model_res_label</span> <span class="o">=</span> <span class="n">model_results</span><span class="p">[</span>
+                                    <span class="s2">"label_"</span>
+                                    <span class="o">+</span> <span class="p">(</span>
+                                        <span class="n">model_res_keys</span><span class="p">[</span><span class="n">model_res_values</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">v</span><span class="p">)]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span>
+                                            <span class="s2">"phrase_"</span>
+                                        <span class="p">)</span>
+                                    <span class="p">)</span>
+                                <span class="p">]</span>
+
+                                <span class="k">if</span> <span class="n">model_res_label</span> <span class="o">==</span> <span class="n">ground_truth_label</span><span class="p">:</span>
                                     <span class="n">y_true</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
                                     <span class="n">y_pred</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
                                 <span class="k">else</span><span class="p">:</span>
@@ -10060,19 +10132,18 @@ the world is barely half a degree Celsius (0.9 degrees Fahrenheit) warmer than i
 
     <span class="k">except</span><span class="p">:</span>
         <span class="k">pass</span>
-        
-        
+
+
 <span class="n">len_y_true</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_true</span><span class="p">)</span>
 <span class="n">len_y_pred</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
 
-<span class="n">fsi_ners</span><span class="o">=</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">fsi_list_for_ground_truth</span><span class="p">)</span>
+<span class="n">fsi_ners</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">fsi_list_for_ground_truth</span><span class="p">)</span>
 
 <span class="k">try</span><span class="p">:</span>
-    <span class="k">del</span> <span class="n">fsi_ners</span><span class="p">[</span><span class="s1">'document'</span><span class="p">]</span>
-    
+    <span class="k">del</span> <span class="n">fsi_ners</span><span class="p">[</span><span class="s2">"document"</span><span class="p">]</span>
+
 <span class="k">except</span><span class="p">:</span>
     <span class="k">pass</span>
-        
 </pre></div>
 </div>
 </div>
@@ -10090,17 +10161,15 @@ the world is barely half a degree Celsius (0.9 degrees Fahrenheit) warmer than i
 <span class="n">len_y_pred</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fsi_list_for_ground_truth</span><span class="p">)):</span>
-    <span class="n">fsi_ners</span><span class="o">=</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">fsi_list_for_ground_truth</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">fsi_ners</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">fsi_list_for_ground_truth</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">del</span> <span class="n">fsi_ners</span><span class="p">[</span><span class="s1">'document'</span><span class="p">]</span>
-        
-        
-        <span class="n">model_ners</span><span class="o">=</span><span class="n">extract_dictionary_from_results</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">'generated_text'</span><span class="p">])</span>
-       
-        
-        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fsi_ners</span><span class="p">)</span><span class="o">&gt;</span><span class="nb">len</span><span class="p">(</span><span class="n">model_ners</span><span class="p">)):</span>
-            <span class="n">diff</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fsi_ners</span><span class="p">)</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">model_ners</span><span class="p">)</span>
-            
+        <span class="k">del</span> <span class="n">fsi_ners</span><span class="p">[</span><span class="s2">"document"</span><span class="p">]</span>
+
+        <span class="n">model_ners</span> <span class="o">=</span> <span class="n">extract_dictionary_from_results</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">"generated_text"</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fsi_ners</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">model_ners</span><span class="p">):</span>
+            <span class="n">diff</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fsi_ners</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">model_ners</span><span class="p">)</span>
+
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">diff</span><span class="p">)):</span>
                 <span class="n">y_true</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
                 <span class="n">y_pred</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -10171,7 +10240,7 @@ the world is barely half a degree Celsius (0.9 degrees Fahrenheit) warmer than i
 <div class="jp-InputPrompt jp-InputArea-prompt">In [62]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span><span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">))</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
