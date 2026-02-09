@@ -7332,7 +7332,12 @@ a.anchor-link {
     if (!diagrams.length) {
       return;
     }
-    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs")).default;
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.0/mermaid.esm.min.mjs")).default;
+    const elkUrl = "https://cdnjs.cloudflare.com/ajax/libs/mermaid-layout-elk/0.1.9/mermaid-layout-elk.esm.min.mjs";
+    if(elkUrl) {
+      const elkLayouts = (await import(elkUrl)).default;
+      mermaid.registerLayoutLoaders(elkLayouts);
+    }
     const parser = new DOMParser();
 
     mermaid.initialize({
@@ -7429,7 +7434,8 @@ a.anchor-link {
      * Post-process to ensure mermaid diagrams contain only valid SVG and XHTML.
      */
     function cleanMermaidSvg(svg) {
-      return svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      svg = svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      return `${SVG_XML_HEADER}${svg}`;
     }
 
 
@@ -7455,6 +7461,285 @@ a.anchor-link {
       }
       return `<${tag} ${rest}>`;
     }
+
+
+  /**
+   * Named HTML entities with their decimal equivalent codes.
+   *
+   * @see https://www.w3.org/TR/WD-html40-970708/sgml/entities.html
+   * */
+  const HTML_ENTITIES = `<!ENTITY Aacute "&#193;">
+<!ENTITY aacute "&#225;">
+<!ENTITY Acirc "&#194;">
+<!ENTITY acirc "&#226;">
+<!ENTITY acute "&#180;">
+<!ENTITY AElig "&#198;">
+<!ENTITY aelig "&#230;">
+<!ENTITY Agrave "&#192;">
+<!ENTITY agrave "&#224;">
+<!ENTITY alefsym "&#8501;">
+<!ENTITY Alpha "&#913;">
+<!ENTITY alpha "&#945;">
+<!ENTITY amp "&#38;">
+<!ENTITY and "&#8869;">
+<!ENTITY ang "&#8736;">
+<!ENTITY Aring "&#197;">
+<!ENTITY aring "&#229;">
+<!ENTITY asymp "&#8776;">
+<!ENTITY Atilde "&#195;">
+<!ENTITY atilde "&#227;">
+<!ENTITY Auml "&#196;">
+<!ENTITY auml "&#228;">
+<!ENTITY bdquo "&#8222;">
+<!ENTITY Beta "&#914;">
+<!ENTITY beta "&#946;">
+<!ENTITY brvbar "&#166;">
+<!ENTITY bull "&#8226;">
+<!ENTITY cap "&#8745;">
+<!ENTITY Ccedil "&#199;">
+<!ENTITY ccedil "&#231;">
+<!ENTITY cedil "&#184;">
+<!ENTITY cent "&#162;">
+<!ENTITY Chi "&#935;">
+<!ENTITY chi "&#967;">
+<!ENTITY circ "&#710;">
+<!ENTITY clubs "&#9827;">
+<!ENTITY cong "&#8773;">
+<!ENTITY copy "&#169;">
+<!ENTITY crarr "&#8629;">
+<!ENTITY cup "&#8746;">
+<!ENTITY curren "&#164;">
+<!ENTITY dagger "&#8224;">
+<!ENTITY Dagger "&#8225;">
+<!ENTITY darr "&#8595;">
+<!ENTITY dArr "&#8659;">
+<!ENTITY deg "&#176;">
+<!ENTITY Delta "&#916;">
+<!ENTITY delta "&#948;">
+<!ENTITY diams "&#9830;">
+<!ENTITY divide "&#247;">
+<!ENTITY Eacute "&#201;">
+<!ENTITY eacute "&#233;">
+<!ENTITY Ecirc "&#202;">
+<!ENTITY ecirc "&#234;">
+<!ENTITY Egrave "&#200;">
+<!ENTITY egrave "&#232;">
+<!ENTITY empty "&#8709;">
+<!ENTITY emsp "&#8195;">
+<!ENTITY ensp "&#8194;">
+<!ENTITY epsilon "&#949;">
+<!ENTITY Epsilon "&#917;">
+<!ENTITY equiv "&#8801;">
+<!ENTITY Eta "&#919;">
+<!ENTITY eta "&#951;">
+<!ENTITY ETH "&#208;">
+<!ENTITY eth "&#240;">
+<!ENTITY Euml "&#203;">
+<!ENTITY euml "&#235;">
+<!ENTITY exist "&#8707;">
+<!ENTITY fnof "&#402;">
+<!ENTITY forall "&#8704;">
+<!ENTITY frac12 "&#189;">
+<!ENTITY frac14 "&#188;">
+<!ENTITY frac34 "&#190;">
+<!ENTITY frasl "&#8260;">
+<!ENTITY Gamma "&#915;">
+<!ENTITY gamma "&#947;">
+<!ENTITY ge "&#8805;">
+<!ENTITY gt "&#62;">
+<!ENTITY harr "&#8596;">
+<!ENTITY hArr "&#8660;">
+<!ENTITY hearts "&#9829;">
+<!ENTITY hellip "&#8230;">
+<!ENTITY Iacute "&#205;">
+<!ENTITY iacute "&#237;">
+<!ENTITY Icirc "&#206;">
+<!ENTITY icirc "&#238;">
+<!ENTITY iexcl "&#161;">
+<!ENTITY Igrave "&#204;">
+<!ENTITY igrave "&#236;">
+<!ENTITY image "&#8465;">
+<!ENTITY infin "&#8734;">
+<!ENTITY int "&#8747;">
+<!ENTITY Iota "&#921;">
+<!ENTITY iota "&#953;">
+<!ENTITY iquest "&#191;">
+<!ENTITY isin "&#8712;">
+<!ENTITY Iuml "&#207;">
+<!ENTITY iuml "&#239;">
+<!ENTITY Kappa "&#922;">
+<!ENTITY kappa "&#954;">
+<!ENTITY Lambda "&#923;">
+<!ENTITY lambda "&#955;">
+<!ENTITY lang "&#9001;">
+<!ENTITY laquo "&#171;">
+<!ENTITY larr "&#8592;">
+<!ENTITY lArr "&#8656;">
+<!ENTITY lceil "&#8968;">
+<!ENTITY ldquo "&#8220;">
+<!ENTITY le "&#8804;">
+<!ENTITY lfloor "&#8970;">
+<!ENTITY lowast "&#8727;">
+<!ENTITY loz "&#9674;">
+<!ENTITY lrm "&#8206;">
+<!ENTITY lsaquo "&#8249;">
+<!ENTITY lsquo "&#8216;">
+<!ENTITY lt "&#60;">
+<!ENTITY macr "&#175;">
+<!ENTITY mdash "&#8212;">
+<!ENTITY micro "&#181;">
+<!ENTITY middot "&#183;">
+<!ENTITY minus "&#8722;">
+<!ENTITY Mu "&#924;">
+<!ENTITY mu "&#956;">
+<!ENTITY nabla "&#8711;">
+<!ENTITY nbsp "&#160;">
+<!ENTITY ndash "&#8211;">
+<!ENTITY ne "&#8800;">
+<!ENTITY ni "&#8715;">
+<!ENTITY not "&#172;">
+<!ENTITY notin "&#8713;">
+<!ENTITY nsub "&#8836;">
+<!ENTITY Ntilde "&#209;">
+<!ENTITY ntilde "&#241;">
+<!ENTITY Nu "&#925;">
+<!ENTITY nu "&#957;">
+<!ENTITY Oacute "&#211;">
+<!ENTITY oacute "&#243;">
+<!ENTITY Ocirc "&#212;">
+<!ENTITY ocirc "&#244;">
+<!ENTITY OElig "&#338;">
+<!ENTITY oelig "&#339;">
+<!ENTITY Ograve "&#210;">
+<!ENTITY ograve "&#242;">
+<!ENTITY oline "&#8254;">
+<!ENTITY Omega "&#937;">
+<!ENTITY omega "&#969;">
+<!ENTITY Omicron "&#927;">
+<!ENTITY omicron "&#959;">
+<!ENTITY oplus "&#8853;">
+<!ENTITY or "&#8870;">
+<!ENTITY ordf "&#170;">
+<!ENTITY ordm "&#186;">
+<!ENTITY Oslash "&#216;">
+<!ENTITY oslash "&#248;">
+<!ENTITY Otilde "&#213;">
+<!ENTITY otilde "&#245;">
+<!ENTITY otimes "&#8855;">
+<!ENTITY Ouml "&#214;">
+<!ENTITY ouml "&#246;">
+<!ENTITY para "&#182;">
+<!ENTITY part "&#8706;">
+<!ENTITY permil "&#8240;">
+<!ENTITY perp "&#8869;">
+<!ENTITY Phi "&#934;">
+<!ENTITY phi "&#966;">
+<!ENTITY Pi "&#928;">
+<!ENTITY pi "&#960;">
+<!ENTITY piv "&#982;">
+<!ENTITY plusmn "&#177;">
+<!ENTITY pound "&#163;">
+<!ENTITY prime "&#8242;">
+<!ENTITY Prime "&#8243;">
+<!ENTITY prod "&#8719;">
+<!ENTITY prop "&#8733;">
+<!ENTITY Psi "&#936;">
+<!ENTITY psi "&#968;">
+<!ENTITY quot "&#34;">
+<!ENTITY radic "&#8730;">
+<!ENTITY rang "&#9002;">
+<!ENTITY raquo "&#187;">
+<!ENTITY rarr "&#8594;">
+<!ENTITY rArr "&#8658;">
+<!ENTITY rceil "&#8969;">
+<!ENTITY rdquo "&#8221;">
+<!ENTITY real "&#8476;">
+<!ENTITY reg "&#174;">
+<!ENTITY rfloor "&#8971;">
+<!ENTITY Rho "&#929;">
+<!ENTITY rho "&#961;">
+<!ENTITY rlm "&#8207;">
+<!ENTITY rsaquo "&#8250;">
+<!ENTITY rsquo "&#8217;">
+<!ENTITY sbquo "&#8218;">
+<!ENTITY Scaron "&#352;">
+<!ENTITY scaron "&#353;">
+<!ENTITY sdot "&#8901;">
+<!ENTITY sect "&#167;">
+<!ENTITY shy "&#173;">
+<!ENTITY Sigma "&#931;">
+<!ENTITY sigma "&#963;">
+<!ENTITY sigmaf "&#962;">
+<!ENTITY sim "&#8764;">
+<!ENTITY spades "&#9824;">
+<!ENTITY sub "&#8834;">
+<!ENTITY sube "&#8838;">
+<!ENTITY sum "&#8721;">
+<!ENTITY sup "&#8835;">
+<!ENTITY sup1 "&#185;">
+<!ENTITY sup2 "&#178;">
+<!ENTITY sup3 "&#179;">
+<!ENTITY supe "&#8839;">
+<!ENTITY szlig "&#223;">
+<!ENTITY Tau "&#932;">
+<!ENTITY tau "&#964;">
+<!ENTITY there4 "&#8756;">
+<!ENTITY Theta "&#920;">
+<!ENTITY theta "&#952;">
+<!ENTITY thetasym "&#977;">
+<!ENTITY thinsp "&#8201;">
+<!ENTITY THORN "&#222;">
+<!ENTITY thorn "&#254;">
+<!ENTITY tilde "&#732;">
+<!ENTITY times "&#215;">
+<!ENTITY trade "&#8482;">
+<!ENTITY Uacute "&#218;">
+<!ENTITY uacute "&#250;">
+<!ENTITY uarr "&#8593;">
+<!ENTITY uArr "&#8657;">
+<!ENTITY Ucirc "&#219;">
+<!ENTITY ucirc "&#251;">
+<!ENTITY Ugrave "&#217;">
+<!ENTITY ugrave "&#249;">
+<!ENTITY uml "&#168;">
+<!ENTITY upsih "&#978;">
+<!ENTITY Upsilon "&#933;">
+<!ENTITY upsilon "&#965;">
+<!ENTITY Uuml "&#220;">
+<!ENTITY uuml "&#252;">
+<!ENTITY weierp "&#8472;">
+<!ENTITY Xi "&#926;">
+<!ENTITY xi "&#958;">
+<!ENTITY Yacute "&#221;">
+<!ENTITY yacute "&#253;">
+<!ENTITY yen "&#165;">
+<!ENTITY Yuml "&#376;">
+<!ENTITY yuml "&#255;">
+<!ENTITY Zeta "&#918;">
+<!ENTITY zeta "&#950;">
+<!ENTITY zwj "&#8205;">
+<!ENTITY zwnj "&#8204;">`.replace(/\n/g, ' ');
+
+  /**
+   * A reasonably strict xml declaration.
+   */
+  const XML_DECL = '<?xml version="1.0" standalone="no"?>';
+
+  /**
+   * The beginning of the XML doctype declaration.
+   */
+  const DOCTYPE_START = `<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [`;
+
+  /**
+   * The end of the XML docype declaration.
+   */
+  const DOCTYPE_END = ']>';
+
+  /**
+   * A full header for an SVG XML document.
+   */
+  const SVG_XML_HEADER = `${XML_DECL}
+    ${DOCTYPE_START}${HTML_ENTITIES}${DOCTYPE_END}`;
 
     void Promise.all([...diagrams].map(renderOneMarmaid));
   });
@@ -7533,7 +7818,7 @@ a.anchor-link {
 <li>Use only Projects and Spaces that are available in watsonx context.</li>
 </ul>
 <h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook provides a detailed demonstration of the steps and code required to showcase support for watsonx.ai AI service.</p>
-<p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
+<p>Some familiarity with Python is helpful. This notebook uses Python 3.12.</p>
 <h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The primary objective of this notebook is to illustrate how to utilize watsonx.ai AI services to execute a <code>generate_batch</code> job, facilitating the ingestion of documents into a Milvus vector database.</p>
 <h2 id="Table-of-Contents">Table of Contents<a class="anchor-link" href="#Table-of-Contents">¶</a></h2><p>This notebook contains the following parts:</p>
 <ul>
@@ -7576,17 +7861,33 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=8662f762">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=8662f762">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">pip</span> install -U langchain_community | tail -n 1
-<span class="o">%</span><span class="k">pip</span> install -U "ibm_watsonx_ai&gt;=1.3.20" | tail -n 1
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"langchain&gt;=0.3.27,&lt;1"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"langchain_community&lt;0.3.29"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"ibm_watsonx_ai[rag]&gt;=1.3.20"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Successfully installed PyYAML-6.0.3 SQLAlchemy-2.0.45 annotated-types-0.7.0 anyio-4.12.1 certifi-2026.1.4 charset_normalizer-3.4.4 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 idna-3.11 jsonpatch-1.33 jsonpointer-3.0.0 langchain-0.3.27 langchain-core-0.3.83 langchain-text-splitters-0.3.11 langsmith-0.6.2 orjson-3.11.5 pydantic-2.12.5 pydantic-core-2.41.5 requests-2.32.5 requests-toolbelt-1.0.0 tenacity-9.1.2 typing-extensions-4.15.0 typing-inspection-0.4.2 urllib3-2.6.3 uuid-utils-0.13.0 zstandard-0.25.0
+Successfully installed aiohappyeyeballs-2.6.1 aiohttp-3.13.3 aiosignal-1.4.0 attrs-25.4.0 dataclasses-json-0.6.7 frozenlist-1.8.0 httpx-sse-0.4.3 langchain_community-0.3.28 marshmallow-3.26.2 multidict-6.7.0 mypy-extensions-1.1.0 numpy-2.4.1 propcache-0.4.1 pydantic-settings-2.12.0 python-dotenv-1.2.1 typing-inspect-0.9.0 yarl-1.22.0
+Successfully installed Pillow-12.1.0 XlsxWriter-3.2.9 backoff-2.2.1 bcrypt-5.0.0 beautifulsoup4-4.13.5 build-1.4.0 cachetools-6.2.4 chromadb-1.4.0 click-8.3.1 coloredlogs-15.0.1 distro-1.9.0 durationpy-0.10 elastic-transport-8.17.1 elasticsearch-8.19.3 et-xmlfile-2.0.0 filelock-3.20.3 flatbuffers-25.12.19 fsspec-2026.1.0 google-auth-2.47.0 googleapis-common-protos-1.72.0 grpcio-1.76.0 hf-xet-1.2.0 httptools-0.7.1 huggingface-hub-1.3.2 humanfriendly-10.0 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-db-3.2.8 ibm_watsonx_ai-1.5.0 importlib-metadata-8.7.1 importlib-resources-6.5.2 jmespath-1.0.1 joblib-1.5.3 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 kubernetes-33.1.0 langchain-chroma-0.2.5 langchain-db2-0.1.7 langchain-elasticsearch-0.3.2 langchain-ibm-0.3.20 langchain-milvus-0.2.1 langgraph-0.6.11 langgraph-checkpoint-3.0.1 langgraph-prebuilt-0.6.5 langgraph-sdk-0.2.15 lomond-0.3.3 lxml-6.0.2 markdown-3.8.2 markdown-it-py-4.0.0 mdurl-0.1.2 mmh3-5.2.0 mpmath-1.3.0 oauthlib-3.3.1 onnxruntime-1.23.2 openpyxl-3.1.5 opentelemetry-api-1.39.1 opentelemetry-exporter-otlp-proto-common-1.39.1 opentelemetry-exporter-otlp-proto-grpc-1.39.1 opentelemetry-proto-1.39.1 opentelemetry-sdk-1.39.1 opentelemetry-semantic-conventions-0.60b1 ormsgpack-1.12.1 overrides-7.7.0 pandas-2.2.3 posthog-5.4.0 protobuf-6.33.4 pyasn1-0.6.1 pyasn1-modules-0.4.2 pybase64-1.4.3 pymilvus-2.6.6 pypdf-6.6.0 pypika-0.50.0 pyproject_hooks-1.2.0 python-docx-1.2.0 python-pptx-1.0.2 pytz-2025.2 referencing-0.37.0 requests-oauthlib-2.0.0 rich-14.2.0 rpds-py-0.30.0 rsa-4.9.1 scikit-learn-1.8.0 scipy-1.17.0 setuptools-80.9.0 shellingham-1.5.4 simsimd-6.5.12 soupsieve-2.8.1 sympy-1.14.0 tabulate-0.9.0 threadpoolctl-3.6.0 tokenizers-0.22.2 tqdm-4.67.1 typer-0.21.1 typer-slim-0.21.1 tzdata-2025.3 uvicorn-0.40.0 uvloop-0.22.1 watchfiles-1.1.1 websocket-client-1.9.0 websockets-16.0 xxhash-3.6.0 zipp-3.23.0
+</pre>
 </div>
 </div>
 </div>
@@ -7608,7 +7909,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
@@ -7650,7 +7951,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
@@ -7680,7 +7981,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span>
@@ -7710,7 +8011,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Embeddings</span>
@@ -7741,7 +8042,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
@@ -7759,21 +8060,25 @@ a.anchor-link {
         <span class="n">username</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"USERNAME"</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="n">username</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your Milvus user name and hit enter: "</span><span class="p">)</span>
+
     <span class="k">try</span><span class="p">:</span>
         <span class="n">password</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"PASSWORD"</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="n">password</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Please enter your Milvus password and hit enter: "</span><span class="p">)</span>
+
     <span class="k">try</span><span class="p">:</span>
         <span class="n">host</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"HOST"</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="n">host</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your Milvus hostname and hit enter: "</span><span class="p">)</span>
+
     <span class="k">try</span><span class="p">:</span>
         <span class="n">port</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"PORT"</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="n">port</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your Milvus port number and hit enter: "</span><span class="p">)</span>
+
     <span class="k">try</span><span class="p">:</span>
         <span class="n">ssl</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"SSL"</span><span class="p">]</span>
-    <span class="k">except</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="n">ssl</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span>
             <span class="nb">input</span><span class="p">(</span>
                 <span class="s2">"Please enter ('y'/anything) if your Milvus instance has SSL enabled. Skip if it is not: "</span>
@@ -7824,7 +8129,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">index_name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter Milvus index name and hit enter: "</span><span class="p">)</span>
@@ -7842,7 +8147,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>index_name='example_milvus_index_name'
+<pre>index_name='generate_batch_job_index'
 </pre>
 </div>
 </div>
@@ -7853,7 +8158,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.extensions.rag.vector_stores</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorStore</span>
@@ -7888,7 +8193,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">vector_store</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
@@ -7902,7 +8207,7 @@ a.anchor-link {
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>0</pre>
 </div>
@@ -7926,7 +8231,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_community.document_loaders</span><span class="w"> </span><span class="kn">import</span> <span class="n">WebBaseLoader</span>
@@ -7945,7 +8250,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
@@ -7976,7 +8281,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">document_asset_details</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
@@ -8003,9 +8308,9 @@ SUCCESS
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[11]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'45f7c1e3-0b04-439a-940e-c642e498213a'</pre>
+<pre>'227cf8df-7f3c-412e-9dd8-caa0d08dff98'</pre>
 </div>
 </div>
 </div>
@@ -8026,7 +8331,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataConnection</span>
@@ -8054,7 +8359,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
@@ -8074,16 +8379,7 @@ SUCCESS
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[
-  {
-    "type": "data_asset",
-    "location": {
-      "href": "/v2/assets/45f7c1e3-0b04-439a-940e-c642e498213a?space_id=9f44cc2b-b3d0-4472-824e-4941afb1617b",
-      "id": "45f7c1e3-0b04-439a-940e-c642e498213a"
-    }
-  }
-]
-</pre>
+<pre></pre>
 </div>
 </div>
 </div>
@@ -8106,7 +8402,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">deployable_ai_service</span><span class="p">(</span>
@@ -8196,7 +8492,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.deployments</span><span class="w"> </span><span class="kn">import</span> <span class="n">RuntimeContext</span>
@@ -8234,7 +8530,7 @@ Successfully initialized Embeddings
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">generate_batch</span><span class="p">(</span><span class="n">input_data_references</span><span class="p">)</span>
@@ -8253,9 +8549,20 @@ Successfully initialized Embeddings
 <pre>Successfully initialized VectorStore
 Successfully initialized DocumentsIterableDataset
 Successfully initialized LangChainChunker
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Collecting pyarrow&gt;=3.0.0
+  Using cached pyarrow-22.0.0-cp312-cp312-macosx_12_0_arm64.whl.metadata (3.2 kB)
+Using cached pyarrow-22.0.0-cp312-cp312-macosx_12_0_arm64.whl (34.2 MB)
+Installing collected packages: pyarrow
+Successfully installed pyarrow-22.0.0
 Successfully splitted documents
 Documents added
-Vector Store count: 82
+Vector Store count: 93
 </pre>
 </div>
 </div>
@@ -8278,7 +8585,7 @@ Vector Store count: 82
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">vector_store</span> <span class="o">=</span> <span class="n">VectorStore</span><span class="p">(</span>
@@ -8299,9 +8606,9 @@ Vector Store count: 82
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>82</pre>
+<pre>93</pre>
 </div>
 </div>
 </div>
@@ -8322,7 +8629,7 @@ Vector Store count: 82
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">vector_store</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
@@ -8337,7 +8644,7 @@ Vector Store count: 82
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[19]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>0</pre>
 </div>
@@ -8361,10 +8668,10 @@ Vector Store count: 82
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">sw_spec_id</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">get_id_by_name</span><span class="p">(</span><span class="s2">"runtime-24.1-py3.11"</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">sw_spec_id</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">get_id_by_name</span><span class="p">(</span><span class="s2">"genai-A25-py3.12"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">sw_spec_id</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -8378,7 +8685,7 @@ Vector Store count: 82
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>sw_spec_id='45f12dfe-aa78-5b8d-9f38-0ee223c47309'
+<pre>sw_spec_id='60ddf4d9-65ac-562d-aa8d-9f26da5dfc76'
 </pre>
 </div>
 </div>
@@ -8389,7 +8696,7 @@ Vector Store count: 82
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">meta_props</span> <span class="o">=</span> <span class="p">{</span>
@@ -8414,28 +8721,7 @@ Vector Store count: 82
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>{
-  "entity": {
-    "code_type": "python",
-    "software_spec": {
-      "id": "45f12dfe-aa78-5b8d-9f38-0ee223c47309",
-      "name": "runtime-24.1-py3.11"
-    }
-  },
-  "metadata": {
-    "created_at": "2025-05-27T08:01:26.399Z",
-    "description": "Sample AI service with implemented generate_batch",
-    "id": "ea282d35-57d6-4e27-9cfa-e1c496832b56",
-    "modified_at": "2025-05-27T08:01:26.399Z",
-    "name": "AI service with generate_batch",
-    "owner": "IBMid-55000091VC",
-    "space_id": "9f44cc2b-b3d0-4472-824e-4941afb1617b"
-  },
-  "system": {
-    "warnings": []
-  }
-}
-</pre>
+<pre></pre>
 </div>
 </div>
 </div>
@@ -8462,7 +8748,7 @@ Vector Store count: 82
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>ai_service_id='ea282d35-57d6-4e27-9cfa-e1c496832b56'
+<pre>ai_service_id='8fce49c5-d694-49eb-981d-4f42552abdd2'
 </pre>
 </div>
 </div>
@@ -8523,7 +8809,7 @@ Vector Store count: 82
 
 ######################################################################################
 
-Synchronous deployment creation for id: 'ea282d35-57d6-4e27-9cfa-e1c496832b56' started
+Synchronous deployment creation for id: '8fce49c5-d694-49eb-981d-4f42552abdd2' started
 
 ######################################################################################
 
@@ -8532,11 +8818,11 @@ ready.
 
 
 -----------------------------------------------------------------------------------------------
-Successfully finished deployment creation, deployment_id='66820b23-48e2-4bde-9717-f6db689cc06e'
+Successfully finished deployment creation, deployment_id='2cb23a1e-367c-4a0b-872d-1d6c6f856a64'
 -----------------------------------------------------------------------------------------------
 
 
-deployment_id='66820b23-48e2-4bde-9717-f6db689cc06e'
+deployment_id='2cb23a1e-367c-4a0b-872d-1d6c6f856a64'
 </pre>
 </div>
 </div>
@@ -8604,7 +8890,7 @@ deployment_id='66820b23-48e2-4bde-9717-f6db689cc06e'
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>job_id='f5337ad8-b78f-454b-a6e4-6e54be26dc1e'
+<pre>job_id='f2725469-7557-48ee-92dd-c93f9788c303'
 </pre>
 </div>
 </div>
@@ -8634,10 +8920,22 @@ deployment_id='66820b23-48e2-4bde-9717-f6db689cc06e'
 <pre>{'completed_at': '', 'running_at': '', 'state': 'queued'}
 {'completed_at': '', 'running_at': '', 'state': 'queued'}
 {'completed_at': '', 'running_at': '', 'state': 'queued'}
-{'completed_at': '', 'running_at': '2025-05-27T08:02:24.619Z', 'state': 'running'}
-{'completed_at': '', 'running_at': '2025-05-27T08:02:24.619Z', 'state': 'running'}
-{'completed_at': '', 'running_at': '2025-05-27T08:02:24.619Z', 'state': 'running'}
-{'completed_at': '2025-05-27T08:02:44.115706Z', 'running_at': '2025-05-27T08:02:24.552221Z', 'state': 'completed'}
+{'completed_at': '', 'running_at': '', 'state': 'queued'}
+{'completed_at': '', 'running_at': '', 'state': 'queued'}
+{'completed_at': '', 'running_at': '', 'state': 'queued'}
+{'completed_at': '', 'running_at': '', 'state': 'queued'}
+{'completed_at': '', 'running_at': '', 'state': 'queued'}
+{'completed_at': '', 'running_at': '', 'state': 'queued'}
+{'completed_at': '', 'running_at': '', 'state': 'queued'}
+{'completed_at': '', 'running_at': '', 'state': 'queued'}
+{'completed_at': '', 'running_at': '', 'state': 'queued'}
+{'completed_at': '', 'running_at': '', 'state': 'queued'}
+{'completed_at': '', 'running_at': '', 'state': 'running'}
+{'completed_at': '', 'running_at': '', 'state': 'running'}
+{'completed_at': '', 'running_at': '', 'state': 'running'}
+{'completed_at': '', 'running_at': '', 'state': 'running'}
+{'completed_at': '2026-01-14T14:28:06.035865Z', 'running_at': '2026-01-14T14:27:42.445805Z', 'state': 'running'}
+{'completed_at': '2026-01-14T14:28:06.035865Z', 'running_at': '2026-01-14T14:27:42.445805Z', 'state': 'completed'}
 </pre>
 </div>
 </div>
@@ -8683,7 +8981,7 @@ deployment_id='66820b23-48e2-4bde-9717-f6db689cc06e'
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[27]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>82</pre>
+<pre>93</pre>
 </div>
 </div>
 </div>

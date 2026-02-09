@@ -7332,7 +7332,12 @@ a.anchor-link {
     if (!diagrams.length) {
       return;
     }
-    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs")).default;
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.0/mermaid.esm.min.mjs")).default;
+    const elkUrl = "https://cdnjs.cloudflare.com/ajax/libs/mermaid-layout-elk/0.1.9/mermaid-layout-elk.esm.min.mjs";
+    if(elkUrl) {
+      const elkLayouts = (await import(elkUrl)).default;
+      mermaid.registerLayoutLoaders(elkLayouts);
+    }
     const parser = new DOMParser();
 
     mermaid.initialize({
@@ -7429,7 +7434,8 @@ a.anchor-link {
      * Post-process to ensure mermaid diagrams contain only valid SVG and XHTML.
      */
     function cleanMermaidSvg(svg) {
-      return svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      svg = svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      return `${SVG_XML_HEADER}${svg}`;
     }
 
 
@@ -7455,6 +7461,285 @@ a.anchor-link {
       }
       return `<${tag} ${rest}>`;
     }
+
+
+  /**
+   * Named HTML entities with their decimal equivalent codes.
+   *
+   * @see https://www.w3.org/TR/WD-html40-970708/sgml/entities.html
+   * */
+  const HTML_ENTITIES = `<!ENTITY Aacute "&#193;">
+<!ENTITY aacute "&#225;">
+<!ENTITY Acirc "&#194;">
+<!ENTITY acirc "&#226;">
+<!ENTITY acute "&#180;">
+<!ENTITY AElig "&#198;">
+<!ENTITY aelig "&#230;">
+<!ENTITY Agrave "&#192;">
+<!ENTITY agrave "&#224;">
+<!ENTITY alefsym "&#8501;">
+<!ENTITY Alpha "&#913;">
+<!ENTITY alpha "&#945;">
+<!ENTITY amp "&#38;">
+<!ENTITY and "&#8869;">
+<!ENTITY ang "&#8736;">
+<!ENTITY Aring "&#197;">
+<!ENTITY aring "&#229;">
+<!ENTITY asymp "&#8776;">
+<!ENTITY Atilde "&#195;">
+<!ENTITY atilde "&#227;">
+<!ENTITY Auml "&#196;">
+<!ENTITY auml "&#228;">
+<!ENTITY bdquo "&#8222;">
+<!ENTITY Beta "&#914;">
+<!ENTITY beta "&#946;">
+<!ENTITY brvbar "&#166;">
+<!ENTITY bull "&#8226;">
+<!ENTITY cap "&#8745;">
+<!ENTITY Ccedil "&#199;">
+<!ENTITY ccedil "&#231;">
+<!ENTITY cedil "&#184;">
+<!ENTITY cent "&#162;">
+<!ENTITY Chi "&#935;">
+<!ENTITY chi "&#967;">
+<!ENTITY circ "&#710;">
+<!ENTITY clubs "&#9827;">
+<!ENTITY cong "&#8773;">
+<!ENTITY copy "&#169;">
+<!ENTITY crarr "&#8629;">
+<!ENTITY cup "&#8746;">
+<!ENTITY curren "&#164;">
+<!ENTITY dagger "&#8224;">
+<!ENTITY Dagger "&#8225;">
+<!ENTITY darr "&#8595;">
+<!ENTITY dArr "&#8659;">
+<!ENTITY deg "&#176;">
+<!ENTITY Delta "&#916;">
+<!ENTITY delta "&#948;">
+<!ENTITY diams "&#9830;">
+<!ENTITY divide "&#247;">
+<!ENTITY Eacute "&#201;">
+<!ENTITY eacute "&#233;">
+<!ENTITY Ecirc "&#202;">
+<!ENTITY ecirc "&#234;">
+<!ENTITY Egrave "&#200;">
+<!ENTITY egrave "&#232;">
+<!ENTITY empty "&#8709;">
+<!ENTITY emsp "&#8195;">
+<!ENTITY ensp "&#8194;">
+<!ENTITY epsilon "&#949;">
+<!ENTITY Epsilon "&#917;">
+<!ENTITY equiv "&#8801;">
+<!ENTITY Eta "&#919;">
+<!ENTITY eta "&#951;">
+<!ENTITY ETH "&#208;">
+<!ENTITY eth "&#240;">
+<!ENTITY Euml "&#203;">
+<!ENTITY euml "&#235;">
+<!ENTITY exist "&#8707;">
+<!ENTITY fnof "&#402;">
+<!ENTITY forall "&#8704;">
+<!ENTITY frac12 "&#189;">
+<!ENTITY frac14 "&#188;">
+<!ENTITY frac34 "&#190;">
+<!ENTITY frasl "&#8260;">
+<!ENTITY Gamma "&#915;">
+<!ENTITY gamma "&#947;">
+<!ENTITY ge "&#8805;">
+<!ENTITY gt "&#62;">
+<!ENTITY harr "&#8596;">
+<!ENTITY hArr "&#8660;">
+<!ENTITY hearts "&#9829;">
+<!ENTITY hellip "&#8230;">
+<!ENTITY Iacute "&#205;">
+<!ENTITY iacute "&#237;">
+<!ENTITY Icirc "&#206;">
+<!ENTITY icirc "&#238;">
+<!ENTITY iexcl "&#161;">
+<!ENTITY Igrave "&#204;">
+<!ENTITY igrave "&#236;">
+<!ENTITY image "&#8465;">
+<!ENTITY infin "&#8734;">
+<!ENTITY int "&#8747;">
+<!ENTITY Iota "&#921;">
+<!ENTITY iota "&#953;">
+<!ENTITY iquest "&#191;">
+<!ENTITY isin "&#8712;">
+<!ENTITY Iuml "&#207;">
+<!ENTITY iuml "&#239;">
+<!ENTITY Kappa "&#922;">
+<!ENTITY kappa "&#954;">
+<!ENTITY Lambda "&#923;">
+<!ENTITY lambda "&#955;">
+<!ENTITY lang "&#9001;">
+<!ENTITY laquo "&#171;">
+<!ENTITY larr "&#8592;">
+<!ENTITY lArr "&#8656;">
+<!ENTITY lceil "&#8968;">
+<!ENTITY ldquo "&#8220;">
+<!ENTITY le "&#8804;">
+<!ENTITY lfloor "&#8970;">
+<!ENTITY lowast "&#8727;">
+<!ENTITY loz "&#9674;">
+<!ENTITY lrm "&#8206;">
+<!ENTITY lsaquo "&#8249;">
+<!ENTITY lsquo "&#8216;">
+<!ENTITY lt "&#60;">
+<!ENTITY macr "&#175;">
+<!ENTITY mdash "&#8212;">
+<!ENTITY micro "&#181;">
+<!ENTITY middot "&#183;">
+<!ENTITY minus "&#8722;">
+<!ENTITY Mu "&#924;">
+<!ENTITY mu "&#956;">
+<!ENTITY nabla "&#8711;">
+<!ENTITY nbsp "&#160;">
+<!ENTITY ndash "&#8211;">
+<!ENTITY ne "&#8800;">
+<!ENTITY ni "&#8715;">
+<!ENTITY not "&#172;">
+<!ENTITY notin "&#8713;">
+<!ENTITY nsub "&#8836;">
+<!ENTITY Ntilde "&#209;">
+<!ENTITY ntilde "&#241;">
+<!ENTITY Nu "&#925;">
+<!ENTITY nu "&#957;">
+<!ENTITY Oacute "&#211;">
+<!ENTITY oacute "&#243;">
+<!ENTITY Ocirc "&#212;">
+<!ENTITY ocirc "&#244;">
+<!ENTITY OElig "&#338;">
+<!ENTITY oelig "&#339;">
+<!ENTITY Ograve "&#210;">
+<!ENTITY ograve "&#242;">
+<!ENTITY oline "&#8254;">
+<!ENTITY Omega "&#937;">
+<!ENTITY omega "&#969;">
+<!ENTITY Omicron "&#927;">
+<!ENTITY omicron "&#959;">
+<!ENTITY oplus "&#8853;">
+<!ENTITY or "&#8870;">
+<!ENTITY ordf "&#170;">
+<!ENTITY ordm "&#186;">
+<!ENTITY Oslash "&#216;">
+<!ENTITY oslash "&#248;">
+<!ENTITY Otilde "&#213;">
+<!ENTITY otilde "&#245;">
+<!ENTITY otimes "&#8855;">
+<!ENTITY Ouml "&#214;">
+<!ENTITY ouml "&#246;">
+<!ENTITY para "&#182;">
+<!ENTITY part "&#8706;">
+<!ENTITY permil "&#8240;">
+<!ENTITY perp "&#8869;">
+<!ENTITY Phi "&#934;">
+<!ENTITY phi "&#966;">
+<!ENTITY Pi "&#928;">
+<!ENTITY pi "&#960;">
+<!ENTITY piv "&#982;">
+<!ENTITY plusmn "&#177;">
+<!ENTITY pound "&#163;">
+<!ENTITY prime "&#8242;">
+<!ENTITY Prime "&#8243;">
+<!ENTITY prod "&#8719;">
+<!ENTITY prop "&#8733;">
+<!ENTITY Psi "&#936;">
+<!ENTITY psi "&#968;">
+<!ENTITY quot "&#34;">
+<!ENTITY radic "&#8730;">
+<!ENTITY rang "&#9002;">
+<!ENTITY raquo "&#187;">
+<!ENTITY rarr "&#8594;">
+<!ENTITY rArr "&#8658;">
+<!ENTITY rceil "&#8969;">
+<!ENTITY rdquo "&#8221;">
+<!ENTITY real "&#8476;">
+<!ENTITY reg "&#174;">
+<!ENTITY rfloor "&#8971;">
+<!ENTITY Rho "&#929;">
+<!ENTITY rho "&#961;">
+<!ENTITY rlm "&#8207;">
+<!ENTITY rsaquo "&#8250;">
+<!ENTITY rsquo "&#8217;">
+<!ENTITY sbquo "&#8218;">
+<!ENTITY Scaron "&#352;">
+<!ENTITY scaron "&#353;">
+<!ENTITY sdot "&#8901;">
+<!ENTITY sect "&#167;">
+<!ENTITY shy "&#173;">
+<!ENTITY Sigma "&#931;">
+<!ENTITY sigma "&#963;">
+<!ENTITY sigmaf "&#962;">
+<!ENTITY sim "&#8764;">
+<!ENTITY spades "&#9824;">
+<!ENTITY sub "&#8834;">
+<!ENTITY sube "&#8838;">
+<!ENTITY sum "&#8721;">
+<!ENTITY sup "&#8835;">
+<!ENTITY sup1 "&#185;">
+<!ENTITY sup2 "&#178;">
+<!ENTITY sup3 "&#179;">
+<!ENTITY supe "&#8839;">
+<!ENTITY szlig "&#223;">
+<!ENTITY Tau "&#932;">
+<!ENTITY tau "&#964;">
+<!ENTITY there4 "&#8756;">
+<!ENTITY Theta "&#920;">
+<!ENTITY theta "&#952;">
+<!ENTITY thetasym "&#977;">
+<!ENTITY thinsp "&#8201;">
+<!ENTITY THORN "&#222;">
+<!ENTITY thorn "&#254;">
+<!ENTITY tilde "&#732;">
+<!ENTITY times "&#215;">
+<!ENTITY trade "&#8482;">
+<!ENTITY Uacute "&#218;">
+<!ENTITY uacute "&#250;">
+<!ENTITY uarr "&#8593;">
+<!ENTITY uArr "&#8657;">
+<!ENTITY Ucirc "&#219;">
+<!ENTITY ucirc "&#251;">
+<!ENTITY Ugrave "&#217;">
+<!ENTITY ugrave "&#249;">
+<!ENTITY uml "&#168;">
+<!ENTITY upsih "&#978;">
+<!ENTITY Upsilon "&#933;">
+<!ENTITY upsilon "&#965;">
+<!ENTITY Uuml "&#220;">
+<!ENTITY uuml "&#252;">
+<!ENTITY weierp "&#8472;">
+<!ENTITY Xi "&#926;">
+<!ENTITY xi "&#958;">
+<!ENTITY Yacute "&#221;">
+<!ENTITY yacute "&#253;">
+<!ENTITY yen "&#165;">
+<!ENTITY Yuml "&#376;">
+<!ENTITY yuml "&#255;">
+<!ENTITY Zeta "&#918;">
+<!ENTITY zeta "&#950;">
+<!ENTITY zwj "&#8205;">
+<!ENTITY zwnj "&#8204;">`.replace(/\n/g, ' ');
+
+  /**
+   * A reasonably strict xml declaration.
+   */
+  const XML_DECL = '<?xml version="1.0" standalone="no"?>';
+
+  /**
+   * The beginning of the XML doctype declaration.
+   */
+  const DOCTYPE_START = `<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [`;
+
+  /**
+   * The end of the XML docype declaration.
+   */
+  const DOCTYPE_END = ']>';
+
+  /**
+   * A full header for an SVG XML document.
+   */
+  const SVG_XML_HEADER = `${XML_DECL}
+    ${DOCTYPE_START}${HTML_ENTITIES}${DOCTYPE_END}`;
 
     void Promise.all([...diagrams].map(renderOneMarmaid));
   });
@@ -7533,7 +7818,7 @@ a.anchor-link {
 <li>Use only Projects and Spaces that are available in watsonx context.</li>
 </ul>
 <h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook provides a detailed demonstration of the steps and code required to showcase support for watsonx.ai Model Gateway.</p>
-<p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
+<p>Some familiarity with Python is helpful. This notebook uses Python 3.12.</p>
 <h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The learning goal for your notebook is to leverage Model Gateway to create AI services using provided model from OpenAI compatible provider. You will also learn how to achieve model load balancing inside the AI service.</p>
 <h2 id="Table-of-Contents">Table of Contents<a class="anchor-link" href="#Table-of-Contents">¶</a></h2><p>This notebook contains the following parts:</p>
 <ul>
@@ -7581,7 +7866,7 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">pip</span> install -U "ibm_watsonx_ai&gt;=1.3.40" | tail -n 1
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"ibm_watsonx_ai&gt;=1.3.40"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -7594,7 +7879,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Successfully installed anyio-4.10.0 cachetools-6.2.0 certifi-2025.8.3 charset_normalizer-3.4.3 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm_watsonx_ai-1.3.40 idna-3.10 jmespath-1.0.1 lomond-0.3.3 numpy-2.3.3 pandas-2.2.3 pytz-2025.2 requests-2.32.5 sniffio-1.3.1 tabulate-0.9.0 tzdata-2025.2 urllib3-2.5.0
+<pre>Successfully installed anyio-4.12.1 cachetools-6.2.4 certifi-2026.1.4 charset_normalizer-3.4.4 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm_watsonx_ai-1.5.0 idna-3.11 jmespath-1.0.1 lomond-0.3.3 numpy-2.4.1 pandas-2.2.3 pytz-2025.2 requests-2.32.5 tabulate-0.9.0 typing_extensions-4.15.0 tzdata-2025.3 urllib3-2.6.3
 </pre>
 </div>
 </div>
@@ -7884,7 +8169,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'c18a1610-b2fa-47bb-a986-02bceff805d8'</pre>
+<pre>'e7dcd646-5bc5-44ce-8d3c-7aea165d1374'</pre>
 </div>
 </div>
 </div>
@@ -7976,47 +8261,37 @@ a.anchor-link {
 </tr>
 <tr>
 <th>1</th>
-<td>ibm/granite-embedding-107m-multilingual</td>
-<td>IBM</td>
-</tr>
-<tr>
-<th>2</th>
 <td>ibm/granite-embedding-278m-multilingual</td>
 <td>IBM</td>
 </tr>
 <tr>
-<th>3</th>
+<th>2</th>
 <td>ibm/slate-125m-english-rtrvr-v2</td>
 <td>IBM</td>
 </tr>
 <tr>
-<th>4</th>
+<th>3</th>
 <td>ibm/slate-30m-english-rtrvr-v2</td>
 <td>IBM</td>
 </tr>
 <tr>
-<th>5</th>
+<th>4</th>
 <td>intfloat/multilingual-e5-large</td>
 <td>intfloat</td>
 </tr>
 <tr>
-<th>6</th>
+<th>5</th>
 <td>meta-llama/llama-3-2-11b-vision-instruct</td>
 <td>Meta:Hugging Face</td>
 </tr>
 <tr>
-<th>7</th>
+<th>6</th>
 <td>meta-llama/llama-3-3-70b-instruct</td>
 <td>Meta:Hugging Face</td>
 </tr>
 <tr>
-<th>8</th>
-<td>mistralai/mistral-large</td>
-<td>Mistral AI:Mistral</td>
-</tr>
-<tr>
-<th>9</th>
-<td>mistralai/pixtral-12b</td>
+<th>7</th>
+<td>mistralai/mistral-small-3-1-24b-instruct-2503</td>
 <td>Mistral AI:Hugging Face</td>
 </tr>
 </tbody>
@@ -8118,187 +8393,14 @@ a.anchor-link {
 <tbody>
 <tr>
 <th>0</th>
-<td>65ce9f6c-0aa6-4052-b84e-87b59a59586b</td>
+<td>6e3bca4d-0ab9-48da-a16a-92e20f49217b</td>
 <td>ibm/granite-3-8b-instruct</td>
-<td>2025-09-22 12:46:13</td>
+<td>2026-01-15 10:02:58</td>
 <td>watsonxai:watsonx-ai-provider</td>
 </tr>
 </tbody>
 </table>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Create-custom-software-specification-containing-a-custom-version-of-ibm-watsonx-ai-SDK">Create custom software specification containing a custom version of <code>ibm-watsonx-ai</code> SDK<a class="anchor-link" href="#Create-custom-software-specification-containing-a-custom-version-of-ibm-watsonx-ai-SDK">¶</a></h3>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Define <code>requirements.txt</code> file for package extension</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">requirements_txt</span> <span class="o">=</span> <span class="s2">"ibm_watsonx_ai&gt;=1.3.40"</span>
-
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"requirements.txt"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
-    <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">requirements_txt</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Get the ID of base software specification</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">base_software_specification_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">get_id_by_name</span><span class="p">(</span>
-    <span class="s2">"runtime-24.1-py3.11"</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Store the package extension</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">meta_props</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"Model Gateway extension"</span><span class="p">,</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DESCRIPTION</span><span class="p">:</span> <span class="s2">"Package extension with Model Gateway functionality enabled in ibm-watsonx-ai"</span><span class="p">,</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">TYPE</span><span class="p">:</span> <span class="s2">"requirements_txt"</span><span class="p">,</span>
-<span class="p">}</span>
-
-<span class="n">package_extension_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">store</span><span class="p">(</span>
-    <span class="n">meta_props</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="s2">"requirements.txt"</span>
-<span class="p">)</span>
-<span class="n">package_extension_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">package_extension_details</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Creating package extension
-SUCCESS
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Create a new software specification with the created package extension</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">meta_props</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"Model Gateway software specification"</span><span class="p">,</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DESCRIPTION</span><span class="p">:</span> <span class="s2">"Software specification for Model Gateway"</span><span class="p">,</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">BASE_SOFTWARE_SPECIFICATION</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">"guid"</span><span class="p">:</span> <span class="n">base_software_specification_id</span>
-    <span class="p">},</span>
-<span class="p">}</span>
-
-<span class="n">software_specification_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">meta_props</span><span class="p">)</span>
-<span class="n">software_specification_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span>
-    <span class="n">software_specification_details</span>
-<span class="p">)</span>
-
-<span class="n">client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">add_package_extension</span><span class="p">(</span>
-    <span class="n">software_specification_id</span><span class="p">,</span> <span class="n">package_extension_id</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>SUCCESS
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[16]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'SUCCESS'</pre>
 </div>
 </div>
 </div>
@@ -8319,10 +8421,10 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">deployable_ai_service</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">model_id</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">deployable_ai_service</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">model_id</span><span class="o">=</span><span class="n">model</span><span class="p">):</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span><span class="p">,</span> <span class="n">Credentials</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.gateway</span><span class="w"> </span><span class="kn">import</span> <span class="n">Gateway</span>
 
@@ -8372,7 +8474,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.deployments</span><span class="w"> </span><span class="kn">import</span> <span class="n">RuntimeContext</span>
@@ -8400,7 +8502,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">context</span><span class="o">.</span><span class="n">request_payload_json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"prompt"</span><span class="p">:</span> <span class="s2">"What is a tram?"</span><span class="p">}</span>
@@ -8425,7 +8527,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
@@ -8446,18 +8548,16 @@ SUCCESS
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>{
   "body": {
-    "id": "chatcmpl-02cb6edd-f726-478e-83dc-cd349a0e165c---163b0e4e57a9a9f02762f431f165f083---f96564ae-b29c-406c-8d02-e208035e8c5e",
+    "id": "chatcmpl-49145e45eedf3f5a5bb14f1dbcbe13d0---18ed289b-98d9-4174-8830-2ab3d11c1ca4",
     "object": "chat.completion",
-    "created": 1758538027,
+    "created": 1768467790,
     "model": "ibm/granite-3-8b-instruct",
     "choices": [
       {
         "index": 0,
         "message": {
           "role": "assistant",
-          "content": "A tram, also known as streetcar or trolley, is a rail-based public transport vehicle that operates on tracks laid in public right-of-way, usually in urban settings. Trams can be motorized or horse-drawn, but modern trams are typically electrically powered and run on dedicated lanes or shared streets. They are capable of carrying a moderate number of passengers and are often integrated into a city\u2019s existing public transport system. Trams are distinguished from light rail vehicles (LRVs) by their higher frequency of service, shorter headways, and operation in mixed traffic, whereas light rail vehicles usually run in separated rights-of-way.",
-          "refusal": "",
-          "tool_calls": null
+          "content": "A tram, also known as streetcar or light rail, is a type of rail vehicle that operates on a network of tracks running through city streets. Trams are typically smaller and lighter than traditional railway trains, allowing them to navigate urban environments and stop more frequently. They are often used for public transportation within cities, maximizing accessibility and providing a connection for pedestrians. Tram systems have been in operation since the 19th century and continue to be a popular means of urban transit due to their capacity to alleviate traffic congestion and reduce carbon emissions. Modern trams often run on electricity, which makes them a more environmentally friendly transportation option."
         },
         "finish_reason": "stop",
         "logprobs": null
@@ -8465,11 +8565,11 @@ SUCCESS
     ],
     "usage": {
       "prompt_tokens": 65,
-      "completion_tokens": 152,
-      "total_tokens": 217
+      "completion_tokens": 153,
+      "total_tokens": 218
     },
     "service_tier": null,
-    "system_fingerprint": "",
+    "system_fingerprint": null,
     "cached": false
   }
 }
@@ -8505,10 +8605,14 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">meta_props</span> <span class="o">=</span> <span class="p">{</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">software_specification_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">get_id_by_name</span><span class="p">(</span>
+    <span class="s2">"genai-A25-py3.12"</span>
+<span class="p">)</span>
+
+<span class="n">meta_props</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">AIServiceMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"Model Gateway AI service with SDK"</span><span class="p">,</span>
     <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">AIServiceMetaNames</span><span class="o">.</span><span class="n">SOFTWARE_SPEC_ID</span><span class="p">:</span> <span class="n">software_specification_id</span><span class="p">,</span>
 <span class="p">}</span>
@@ -8526,7 +8630,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">ai_service_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">get_ai_service_id</span><span class="p">(</span><span class="n">stored_ai_service_details</span><span class="p">)</span>
@@ -8541,9 +8645,9 @@ SUCCESS
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[22]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'d0ab4ac0-347a-41b6-b392-6cff948cea57'</pre>
+<pre>'2f78e9cc-8413-487c-a444-d60b4996cd13'</pre>
 </div>
 </div>
 </div>
@@ -8564,7 +8668,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">meta_props</span> <span class="o">=</span> <span class="p">{</span>
@@ -8589,19 +8693,19 @@ SUCCESS
 
 ######################################################################################
 
-Synchronous deployment creation for id: 'd0ab4ac0-347a-41b6-b392-6cff948cea57' started
+Synchronous deployment creation for id: '2f78e9cc-8413-487c-a444-d60b4996cd13' started
 
 ######################################################################################
 
 
 initializing
 Note: online_url and serving_urls are deprecated and will be removed in a future release. Use inference instead.
-......
+..
 ready
 
 
 -----------------------------------------------------------------------------------------------
-Successfully finished deployment creation, deployment_id='c7741b7d-78f0-4fbb-b968-73afb56909a5'
+Successfully finished deployment creation, deployment_id='e10f1241-59ab-4e7e-bff6-d2c14e39ebc4'
 -----------------------------------------------------------------------------------------------
 
 
@@ -8626,7 +8730,7 @@ Successfully finished deployment creation, deployment_id='c7741b7d-78f0-4fbb-b96
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">deployment_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">deployment_details</span><span class="p">)</span>
@@ -8651,7 +8755,7 @@ Successfully finished deployment creation, deployment_id='c7741b7d-78f0-4fbb-b96
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">question</span> <span class="o">=</span> <span class="s2">"Summarize core values of IBM"</span>
@@ -8669,7 +8773,7 @@ Successfully finished deployment creation, deployment_id='c7741b7d-78f0-4fbb-b96
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
@@ -8695,23 +8799,21 @@ Successfully finished deployment creation, deployment_id='c7741b7d-78f0-4fbb-b96
       "index": 0,
       "logprobs": null,
       "message": {
-        "content": "IBM's core values are encapsulated in its \"Values at Work\" program, which consists of eight distinct principles:\n\n1. Dedication to delivering superior value to all stakeholders\n2. Innovation that matters for our company and our customers\n3. Integrity by earning trust through ethical and respectful behavior\n4. Inclusion and diversity - it's a core strength and a vital ingredient for innovation and growth\n5. Collaboration across the enterprise to best serve our customers\n6. Accountability for results in a results-driven culture\n7. Empowerment to act as one, including taking calculated risks and learning from mistakes\n8. Respect for the individual and the planet\n\nThese values guide the behavior and decision-making processes of IBM and its employees, promoting a strong organizational culture based on ethics, innovation, diversity, and teamwork.",
-        "refusal": "",
-        "role": "assistant",
-        "tool_calls": null
+        "content": "IBM, an abbreviation for International Business Machines Corporation, has a set of core values that guide its operations and culture. These values, often referred to as \"IBM Values,\" are integral to their global brand identity. The key values include:\n\n1. **Innovation**: IBM consistently seeks to invent new technologies and revolutionize existing ones to drive growth and meet the needs of their clients.\n\n2. **Client Service**: IBM places a strong focus on understanding client needs and delivering top-tier service. They aim to be the trusted advisor to businesses, governments, and other organizations across the globe.\n\n3. **Integrity**: Honesty, transparency, and respect from employees to clients and colleagues are essential in all of IBM's operations and interactions.\n\n4. **Diversity and Inclusion**: IBM celebrates the variety of ideas, perspectives, and experiences that their workforce brings. The company promotes an inclusive environment where everyone feels valued and empowered to succeed.\n\n5. **Respect for the Individual**: IBM believes in nurturing employees' talents, investing in their development, and fostering an open environment where everyone's contributions are recognized.\n\n6. **Driving Towards Greater Sustainability**: IBM commits to operating in an environmentally responsible and sustainable manner, while contributing to the development of innovative solutions for its clients in this area.\n\nThese core values reflect IBM's mission to \"Let's put smart to work\" and to leverage its expertise, resources, and technology to address complex challenges faced by organizations around the world.",
+        "role": "assistant"
       }
     }
   ],
-  "created": 1758538087,
-  "id": "chatcmpl-594f638d-91ed-48e3-b7c6-d38d6320c7ce---d07a82c3ca291d7a1e6be924b2aee31d---ba00df6c-d1e0-44ee-b7ef-6c71a762e035",
+  "created": 1768467830,
+  "id": "chatcmpl-481fed6a13df479ccc9128fc4e11d669---f856ad28-6e41-4343-8d7a-7230d89574ec",
   "model": "ibm/granite-3-8b-instruct",
   "object": "chat.completion",
   "service_tier": null,
-  "system_fingerprint": "",
+  "system_fingerprint": null,
   "usage": {
-    "completion_tokens": 192,
+    "completion_tokens": 353,
     "prompt_tokens": 66,
-    "total_tokens": 258
+    "total_tokens": 419
   }
 }
 </pre>
@@ -8741,25 +8843,27 @@ Successfully finished deployment creation, deployment_id='c7741b7d-78f0-4fbb-b96
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="Create-models-using-Model-Gateway-with-the-same-alias-on-different-providers">Create models using Model Gateway with the same alias on different providers<a class="anchor-link" href="#Create-models-using-Model-Gateway-with-the-same-alias-on-different-providers">¶</a></h3><p>In this sample we will use the <code>ibm/granite-3-8b-instruct</code>, <code>meta-llama/llama-3-2-11b-vision-instruct</code>, and <code>meta-llama/llama-3-3-70b-instruct</code> models in the same datacenter.</p>
 <p><strong>Tip:</strong> It is also possible to perform load balancing across datacenters in different regions. In order to achieve it, when creating your providers you should use credentials for separate datacenters. See the example below:</p>
-</div>
-</div>
-</div>
-</div>watsonx_ai_provider_ca_tor_details = gateway.providers.create(
-    provider="watsonxai",
-    name="watsonx-ai-provider-ca-tor",
-    secret_crn_id="&lt;secret-crn-id-for-ca-tor&gt;",
-)
+<div class="highlight"><pre><span></span><span class="n">watsonx_ai_provider_ca_tor_details</span> <span class="o">=</span> <span class="n">gateway</span><span class="o">.</span><span class="n">providers</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">provider</span><span class="o">=</span><span class="s2">"watsonxai"</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"watsonx-ai-provider-ca-tor"</span><span class="p">,</span>
+    <span class="n">secret_crn_id</span><span class="o">=</span><span class="s2">"&lt;secret-crn-id-for-ca-tor&gt;"</span><span class="p">,</span>
+<span class="p">)</span>
 
-watsonx_ai_provider_au_syd_details = gateway.providers.create(
-    provider="watsonxai",
-    name="watsonx-ai-provider-au-syd",
-    secret_crn_id="&lt;secret-crn-id-for-au-syd&gt;",
-)<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<span class="n">watsonx_ai_provider_au_syd_details</span> <span class="o">=</span> <span class="n">gateway</span><span class="o">.</span><span class="n">providers</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">provider</span><span class="o">=</span><span class="s2">"watsonxai"</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"watsonx-ai-provider-au-syd"</span><span class="p">,</span>
+    <span class="n">secret_crn_id</span><span class="o">=</span><span class="s2">"&lt;secret-crn-id-for-au-syd&gt;"</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [27]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">model_alias</span> <span class="o">=</span> <span class="s2">"load-balancing-models"</span>
@@ -8784,7 +8888,7 @@ watsonx_ai_provider_au_syd_details = gateway.providers.create(
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [28]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">granite_3_model</span> <span class="o">=</span> <span class="s2">"ibm/granite-3-8b-instruct"</span>
@@ -8821,7 +8925,7 @@ watsonx_ai_provider_au_syd_details = gateway.providers.create(
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [29]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">llama_3_2_model</span> <span class="o">=</span> <span class="s2">"meta-llama/llama-3-2-11b-vision-instruct"</span>
@@ -8858,7 +8962,7 @@ watsonx_ai_provider_au_syd_details = gateway.providers.create(
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [30]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">llama_3_3_model</span> <span class="o">=</span> <span class="s2">"meta-llama/llama-3-3-70b-instruct"</span>
@@ -8895,7 +8999,7 @@ watsonx_ai_provider_au_syd_details = gateway.providers.create(
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [31]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [27]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">gateway</span><span class="o">.</span><span class="n">providers</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
@@ -8909,7 +9013,7 @@ watsonx_ai_provider_au_syd_details = gateway.providers.create(
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[31]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[27]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
@@ -8937,26 +9041,26 @@ watsonx_ai_provider_au_syd_details = gateway.providers.create(
 <tbody>
 <tr>
 <th>0</th>
-<td>c18a1610-b2fa-47bb-a986-02bceff805d8</td>
+<td>e7dcd646-5bc5-44ce-8d3c-7aea165d1374</td>
 <td>watsonx-ai-provider</td>
 <td>watsonxai</td>
 </tr>
 <tr>
 <th>1</th>
-<td>ae732127-fd4e-4fa6-8ee3-14a385d09e63</td>
+<td>1eb15ab3-67aa-481b-8f6c-1a77c940ec26</td>
 <td>watsonx-ai-provider-1</td>
 <td>watsonxai</td>
 </tr>
 <tr>
 <th>2</th>
-<td>1d433374-5bff-46ea-8f9d-a920fa3e214c</td>
-<td>watsonx-ai-provider-3</td>
+<td>d9b5f0f5-a5cf-4924-8185-5088859aad48</td>
+<td>watsonx-ai-provider-2</td>
 <td>watsonxai</td>
 </tr>
 <tr>
 <th>3</th>
-<td>a6acebaf-0028-483a-9751-a13694b1eade</td>
-<td>watsonx-ai-provider-2</td>
+<td>63b620f1-11cc-4f34-ae89-3694b0f77339</td>
+<td>watsonx-ai-provider-3</td>
 <td>watsonxai</td>
 </tr>
 </tbody>
@@ -8982,7 +9086,7 @@ watsonx_ai_provider_au_syd_details = gateway.providers.create(
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [32]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [28]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">gateway</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
@@ -8996,7 +9100,7 @@ watsonx_ai_provider_au_syd_details = gateway.providers.create(
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[32]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[28]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
@@ -9025,30 +9129,30 @@ watsonx_ai_provider_au_syd_details = gateway.providers.create(
 <tbody>
 <tr>
 <th>0</th>
-<td>bb8a37bc-ff47-40b8-9603-95db80aae2fd</td>
+<td>7729c013-e236-4957-a288-58ae2e0e771e</td>
 <td>load-balancing-models</td>
-<td>2025-09-22 12:48:42</td>
+<td>2026-01-15 10:04:10</td>
 <td>watsonxai:watsonx-ai-provider-3</td>
 </tr>
 <tr>
 <th>1</th>
-<td>ffeb2f2f-9ef3-4e3e-8b34-20c2e9e22dde</td>
+<td>8f60ab56-4a4c-4483-810f-308af28fd199</td>
 <td>load-balancing-models</td>
-<td>2025-09-22 12:48:33</td>
+<td>2026-01-15 10:04:04</td>
 <td>watsonxai:watsonx-ai-provider-2</td>
 </tr>
 <tr>
 <th>2</th>
-<td>10911f1f-01ce-402c-ba1e-0fb36a0dae22</td>
+<td>a6e58181-98aa-4865-9458-8d16df58a150</td>
 <td>load-balancing-models</td>
-<td>2025-09-22 12:48:30</td>
+<td>2026-01-15 10:04:01</td>
 <td>watsonxai:watsonx-ai-provider-1</td>
 </tr>
 <tr>
 <th>3</th>
-<td>65ce9f6c-0aa6-4052-b84e-87b59a59586b</td>
+<td>6e3bca4d-0ab9-48da-a16a-92e20f49217b</td>
 <td>ibm/granite-3-8b-instruct</td>
-<td>2025-09-22 12:46:13</td>
+<td>2026-01-15 10:02:58</td>
 <td>watsonxai:watsonx-ai-provider</td>
 </tr>
 </tbody>
@@ -9074,11 +9178,11 @@ watsonx_ai_provider_au_syd_details = gateway.providers.create(
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [33]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [29]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">deployable_load_balancing_ai_service</span><span class="p">(</span>
-    <span class="n">context</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">model_alias</span><span class="o">=</span><span class="n">model_alias</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="n">context</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">model_alias</span><span class="o">=</span><span class="n">model_alias</span>
 <span class="p">):</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span><span class="p">,</span> <span class="n">Credentials</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.gateway</span><span class="w"> </span><span class="kn">import</span> <span class="n">Gateway</span>
@@ -9129,7 +9233,7 @@ watsonx_ai_provider_au_syd_details = gateway.providers.create(
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [34]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [30]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.deployments</span><span class="w"> </span><span class="kn">import</span> <span class="n">RuntimeContext</span>
@@ -9157,7 +9261,7 @@ watsonx_ai_provider_au_syd_details = gateway.providers.create(
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [35]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [31]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">context</span><span class="o">.</span><span class="n">request_payload_json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"prompt"</span><span class="p">:</span> <span class="s2">"Explain what IBM is"</span><span class="p">}</span>
@@ -9182,7 +9286,7 @@ watsonx_ai_provider_au_syd_details = gateway.providers.create(
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [36]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [32]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
@@ -9216,11 +9320,11 @@ watsonx_ai_provider_au_syd_details = gateway.providers.create(
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[36]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[32]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Counter({'ibm/granite-3-8b-instruct': 13,
-         'meta-llama/llama-3-2-11b-vision-instruct': 7,
-         'meta-llama/llama-3-3-70b-instruct': 5})</pre>
+<pre>Counter({'ibm/granite-3-8b-instruct': 10,
+         'meta-llama/llama-3-3-70b-instruct': 8,
+         'meta-llama/llama-3-2-11b-vision-instruct': 7})</pre>
 </div>
 </div>
 </div>
@@ -9234,9 +9338,9 @@ watsonx_ai_provider_au_syd_details = gateway.providers.create(
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>As demonstrated, out of 25 requests sent to Model Gateway:</p>
 <ul>
-<li>13 of them were handled by <code>ibm/granite-3-8b-instruct</code>,</li>
-<li>7 of them were handled by <code>meta-llama/llama-3-2-11b-vision-instruct</code>,</li>
-<li>5 of them were handled by <code>meta-llama/llama-3-3-70b-instruct</code>.</li>
+<li>10 of them were handled by <code>ibm/granite-3-8b-instruct</code>,</li>
+<li>8 of them were handled by <code>meta-llama/llama-3-3-70b-instruct</code>,</li>
+<li>7 of them were handled by <code>meta-llama/llama-3-2-11b-vision-instruct</code>.</li>
 </ul>
 </div>
 </div>
@@ -9268,7 +9372,7 @@ watsonx_ai_provider_au_syd_details = gateway.providers.create(
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [37]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [33]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">meta_props</span> <span class="o">=</span> <span class="p">{</span>
@@ -9289,7 +9393,7 @@ watsonx_ai_provider_au_syd_details = gateway.providers.create(
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [38]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [34]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">ai_service_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">get_ai_service_id</span><span class="p">(</span><span class="n">stored_ai_service_details</span><span class="p">)</span>
@@ -9304,9 +9408,9 @@ watsonx_ai_provider_au_syd_details = gateway.providers.create(
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[38]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[34]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'baaa36d4-88bf-4983-8ae3-3cbd27be4f3a'</pre>
+<pre>'5fc89f75-6a80-4dc5-95ac-8ef8cfa50949'</pre>
 </div>
 </div>
 </div>
@@ -9327,7 +9431,7 @@ watsonx_ai_provider_au_syd_details = gateway.providers.create(
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [39]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [35]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">meta_props</span> <span class="o">=</span> <span class="p">{</span>
@@ -9352,19 +9456,19 @@ watsonx_ai_provider_au_syd_details = gateway.providers.create(
 
 ######################################################################################
 
-Synchronous deployment creation for id: 'baaa36d4-88bf-4983-8ae3-3cbd27be4f3a' started
+Synchronous deployment creation for id: '5fc89f75-6a80-4dc5-95ac-8ef8cfa50949' started
 
 ######################################################################################
 
 
 initializing
 Note: online_url and serving_urls are deprecated and will be removed in a future release. Use inference instead.
-.....
+..
 ready
 
 
 -----------------------------------------------------------------------------------------------
-Successfully finished deployment creation, deployment_id='a9571c6e-befc-4dff-9e5c-858bd47294a7'
+Successfully finished deployment creation, deployment_id='ff47c05e-b555-4f8e-887b-cb64b5154fa3'
 -----------------------------------------------------------------------------------------------
 
 
@@ -9389,7 +9493,7 @@ Successfully finished deployment creation, deployment_id='a9571c6e-befc-4dff-9e5
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [40]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [36]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">deployment_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">deployment_details</span><span class="p">)</span>
@@ -9414,7 +9518,7 @@ Successfully finished deployment creation, deployment_id='a9571c6e-befc-4dff-9e5
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [41]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [37]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send_requests</span><span class="p">(</span><span class="n">question</span><span class="p">):</span>
@@ -9445,11 +9549,11 @@ Successfully finished deployment creation, deployment_id='a9571c6e-befc-4dff-9e5
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[41]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[37]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>Counter({'ibm/granite-3-8b-instruct': 12,
-         'meta-llama/llama-3-2-11b-vision-instruct': 10,
-         'meta-llama/llama-3-3-70b-instruct': 3})</pre>
+<pre>Counter({'ibm/granite-3-8b-instruct': 10,
+         'meta-llama/llama-3-2-11b-vision-instruct': 9,
+         'meta-llama/llama-3-3-70b-instruct': 6})</pre>
 </div>
 </div>
 </div>
@@ -9463,9 +9567,9 @@ Successfully finished deployment creation, deployment_id='a9571c6e-befc-4dff-9e5
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>As demonstrated, out of 25 requests sent to AI Service:</p>
 <ul>
-<li>12 of them were handled by <code>ibm/granite-3-8b-instruct</code>,</li>
 <li>10 of them were handled by <code>meta-llama/llama-3-2-11b-vision-instruct</code>,</li>
-<li>3 of them were handled by <code>meta-llama/llama-3-3-70b-instruct</code>.</li>
+<li>9 of them were handled by <code>meta-llama/llama-3-3-70b-instruct</code>,</li>
+<li>6 of them were handled by <code>ibm/granite-3-8b-instruct</code>.</li>
 </ul>
 </div>
 </div>
@@ -9491,7 +9595,7 @@ Successfully finished deployment creation, deployment_id='a9571c6e-befc-4dff-9e5
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Author">Author<a class="anchor-link" href="#Author">¶</a></h3><p><strong>Rafał Chrzanowski</strong>, Software Engineer Intern at watsonx.ai.</p>
+<h3 id="Author">Author<a class="anchor-link" href="#Author">¶</a></h3><p><strong>Rafał Chrzanowski</strong>, Software Engineer at watsonx.ai.</p>
 </div>
 </div>
 </div>

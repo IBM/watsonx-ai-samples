@@ -7332,7 +7332,12 @@ a.anchor-link {
     if (!diagrams.length) {
       return;
     }
-    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs")).default;
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.0/mermaid.esm.min.mjs")).default;
+    const elkUrl = "https://cdnjs.cloudflare.com/ajax/libs/mermaid-layout-elk/0.1.9/mermaid-layout-elk.esm.min.mjs";
+    if(elkUrl) {
+      const elkLayouts = (await import(elkUrl)).default;
+      mermaid.registerLayoutLoaders(elkLayouts);
+    }
     const parser = new DOMParser();
 
     mermaid.initialize({
@@ -7429,7 +7434,8 @@ a.anchor-link {
      * Post-process to ensure mermaid diagrams contain only valid SVG and XHTML.
      */
     function cleanMermaidSvg(svg) {
-      return svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      svg = svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      return `${SVG_XML_HEADER}${svg}`;
     }
 
 
@@ -7455,6 +7461,285 @@ a.anchor-link {
       }
       return `<${tag} ${rest}>`;
     }
+
+
+  /**
+   * Named HTML entities with their decimal equivalent codes.
+   *
+   * @see https://www.w3.org/TR/WD-html40-970708/sgml/entities.html
+   * */
+  const HTML_ENTITIES = `<!ENTITY Aacute "&#193;">
+<!ENTITY aacute "&#225;">
+<!ENTITY Acirc "&#194;">
+<!ENTITY acirc "&#226;">
+<!ENTITY acute "&#180;">
+<!ENTITY AElig "&#198;">
+<!ENTITY aelig "&#230;">
+<!ENTITY Agrave "&#192;">
+<!ENTITY agrave "&#224;">
+<!ENTITY alefsym "&#8501;">
+<!ENTITY Alpha "&#913;">
+<!ENTITY alpha "&#945;">
+<!ENTITY amp "&#38;">
+<!ENTITY and "&#8869;">
+<!ENTITY ang "&#8736;">
+<!ENTITY Aring "&#197;">
+<!ENTITY aring "&#229;">
+<!ENTITY asymp "&#8776;">
+<!ENTITY Atilde "&#195;">
+<!ENTITY atilde "&#227;">
+<!ENTITY Auml "&#196;">
+<!ENTITY auml "&#228;">
+<!ENTITY bdquo "&#8222;">
+<!ENTITY Beta "&#914;">
+<!ENTITY beta "&#946;">
+<!ENTITY brvbar "&#166;">
+<!ENTITY bull "&#8226;">
+<!ENTITY cap "&#8745;">
+<!ENTITY Ccedil "&#199;">
+<!ENTITY ccedil "&#231;">
+<!ENTITY cedil "&#184;">
+<!ENTITY cent "&#162;">
+<!ENTITY Chi "&#935;">
+<!ENTITY chi "&#967;">
+<!ENTITY circ "&#710;">
+<!ENTITY clubs "&#9827;">
+<!ENTITY cong "&#8773;">
+<!ENTITY copy "&#169;">
+<!ENTITY crarr "&#8629;">
+<!ENTITY cup "&#8746;">
+<!ENTITY curren "&#164;">
+<!ENTITY dagger "&#8224;">
+<!ENTITY Dagger "&#8225;">
+<!ENTITY darr "&#8595;">
+<!ENTITY dArr "&#8659;">
+<!ENTITY deg "&#176;">
+<!ENTITY Delta "&#916;">
+<!ENTITY delta "&#948;">
+<!ENTITY diams "&#9830;">
+<!ENTITY divide "&#247;">
+<!ENTITY Eacute "&#201;">
+<!ENTITY eacute "&#233;">
+<!ENTITY Ecirc "&#202;">
+<!ENTITY ecirc "&#234;">
+<!ENTITY Egrave "&#200;">
+<!ENTITY egrave "&#232;">
+<!ENTITY empty "&#8709;">
+<!ENTITY emsp "&#8195;">
+<!ENTITY ensp "&#8194;">
+<!ENTITY epsilon "&#949;">
+<!ENTITY Epsilon "&#917;">
+<!ENTITY equiv "&#8801;">
+<!ENTITY Eta "&#919;">
+<!ENTITY eta "&#951;">
+<!ENTITY ETH "&#208;">
+<!ENTITY eth "&#240;">
+<!ENTITY Euml "&#203;">
+<!ENTITY euml "&#235;">
+<!ENTITY exist "&#8707;">
+<!ENTITY fnof "&#402;">
+<!ENTITY forall "&#8704;">
+<!ENTITY frac12 "&#189;">
+<!ENTITY frac14 "&#188;">
+<!ENTITY frac34 "&#190;">
+<!ENTITY frasl "&#8260;">
+<!ENTITY Gamma "&#915;">
+<!ENTITY gamma "&#947;">
+<!ENTITY ge "&#8805;">
+<!ENTITY gt "&#62;">
+<!ENTITY harr "&#8596;">
+<!ENTITY hArr "&#8660;">
+<!ENTITY hearts "&#9829;">
+<!ENTITY hellip "&#8230;">
+<!ENTITY Iacute "&#205;">
+<!ENTITY iacute "&#237;">
+<!ENTITY Icirc "&#206;">
+<!ENTITY icirc "&#238;">
+<!ENTITY iexcl "&#161;">
+<!ENTITY Igrave "&#204;">
+<!ENTITY igrave "&#236;">
+<!ENTITY image "&#8465;">
+<!ENTITY infin "&#8734;">
+<!ENTITY int "&#8747;">
+<!ENTITY Iota "&#921;">
+<!ENTITY iota "&#953;">
+<!ENTITY iquest "&#191;">
+<!ENTITY isin "&#8712;">
+<!ENTITY Iuml "&#207;">
+<!ENTITY iuml "&#239;">
+<!ENTITY Kappa "&#922;">
+<!ENTITY kappa "&#954;">
+<!ENTITY Lambda "&#923;">
+<!ENTITY lambda "&#955;">
+<!ENTITY lang "&#9001;">
+<!ENTITY laquo "&#171;">
+<!ENTITY larr "&#8592;">
+<!ENTITY lArr "&#8656;">
+<!ENTITY lceil "&#8968;">
+<!ENTITY ldquo "&#8220;">
+<!ENTITY le "&#8804;">
+<!ENTITY lfloor "&#8970;">
+<!ENTITY lowast "&#8727;">
+<!ENTITY loz "&#9674;">
+<!ENTITY lrm "&#8206;">
+<!ENTITY lsaquo "&#8249;">
+<!ENTITY lsquo "&#8216;">
+<!ENTITY lt "&#60;">
+<!ENTITY macr "&#175;">
+<!ENTITY mdash "&#8212;">
+<!ENTITY micro "&#181;">
+<!ENTITY middot "&#183;">
+<!ENTITY minus "&#8722;">
+<!ENTITY Mu "&#924;">
+<!ENTITY mu "&#956;">
+<!ENTITY nabla "&#8711;">
+<!ENTITY nbsp "&#160;">
+<!ENTITY ndash "&#8211;">
+<!ENTITY ne "&#8800;">
+<!ENTITY ni "&#8715;">
+<!ENTITY not "&#172;">
+<!ENTITY notin "&#8713;">
+<!ENTITY nsub "&#8836;">
+<!ENTITY Ntilde "&#209;">
+<!ENTITY ntilde "&#241;">
+<!ENTITY Nu "&#925;">
+<!ENTITY nu "&#957;">
+<!ENTITY Oacute "&#211;">
+<!ENTITY oacute "&#243;">
+<!ENTITY Ocirc "&#212;">
+<!ENTITY ocirc "&#244;">
+<!ENTITY OElig "&#338;">
+<!ENTITY oelig "&#339;">
+<!ENTITY Ograve "&#210;">
+<!ENTITY ograve "&#242;">
+<!ENTITY oline "&#8254;">
+<!ENTITY Omega "&#937;">
+<!ENTITY omega "&#969;">
+<!ENTITY Omicron "&#927;">
+<!ENTITY omicron "&#959;">
+<!ENTITY oplus "&#8853;">
+<!ENTITY or "&#8870;">
+<!ENTITY ordf "&#170;">
+<!ENTITY ordm "&#186;">
+<!ENTITY Oslash "&#216;">
+<!ENTITY oslash "&#248;">
+<!ENTITY Otilde "&#213;">
+<!ENTITY otilde "&#245;">
+<!ENTITY otimes "&#8855;">
+<!ENTITY Ouml "&#214;">
+<!ENTITY ouml "&#246;">
+<!ENTITY para "&#182;">
+<!ENTITY part "&#8706;">
+<!ENTITY permil "&#8240;">
+<!ENTITY perp "&#8869;">
+<!ENTITY Phi "&#934;">
+<!ENTITY phi "&#966;">
+<!ENTITY Pi "&#928;">
+<!ENTITY pi "&#960;">
+<!ENTITY piv "&#982;">
+<!ENTITY plusmn "&#177;">
+<!ENTITY pound "&#163;">
+<!ENTITY prime "&#8242;">
+<!ENTITY Prime "&#8243;">
+<!ENTITY prod "&#8719;">
+<!ENTITY prop "&#8733;">
+<!ENTITY Psi "&#936;">
+<!ENTITY psi "&#968;">
+<!ENTITY quot "&#34;">
+<!ENTITY radic "&#8730;">
+<!ENTITY rang "&#9002;">
+<!ENTITY raquo "&#187;">
+<!ENTITY rarr "&#8594;">
+<!ENTITY rArr "&#8658;">
+<!ENTITY rceil "&#8969;">
+<!ENTITY rdquo "&#8221;">
+<!ENTITY real "&#8476;">
+<!ENTITY reg "&#174;">
+<!ENTITY rfloor "&#8971;">
+<!ENTITY Rho "&#929;">
+<!ENTITY rho "&#961;">
+<!ENTITY rlm "&#8207;">
+<!ENTITY rsaquo "&#8250;">
+<!ENTITY rsquo "&#8217;">
+<!ENTITY sbquo "&#8218;">
+<!ENTITY Scaron "&#352;">
+<!ENTITY scaron "&#353;">
+<!ENTITY sdot "&#8901;">
+<!ENTITY sect "&#167;">
+<!ENTITY shy "&#173;">
+<!ENTITY Sigma "&#931;">
+<!ENTITY sigma "&#963;">
+<!ENTITY sigmaf "&#962;">
+<!ENTITY sim "&#8764;">
+<!ENTITY spades "&#9824;">
+<!ENTITY sub "&#8834;">
+<!ENTITY sube "&#8838;">
+<!ENTITY sum "&#8721;">
+<!ENTITY sup "&#8835;">
+<!ENTITY sup1 "&#185;">
+<!ENTITY sup2 "&#178;">
+<!ENTITY sup3 "&#179;">
+<!ENTITY supe "&#8839;">
+<!ENTITY szlig "&#223;">
+<!ENTITY Tau "&#932;">
+<!ENTITY tau "&#964;">
+<!ENTITY there4 "&#8756;">
+<!ENTITY Theta "&#920;">
+<!ENTITY theta "&#952;">
+<!ENTITY thetasym "&#977;">
+<!ENTITY thinsp "&#8201;">
+<!ENTITY THORN "&#222;">
+<!ENTITY thorn "&#254;">
+<!ENTITY tilde "&#732;">
+<!ENTITY times "&#215;">
+<!ENTITY trade "&#8482;">
+<!ENTITY Uacute "&#218;">
+<!ENTITY uacute "&#250;">
+<!ENTITY uarr "&#8593;">
+<!ENTITY uArr "&#8657;">
+<!ENTITY Ucirc "&#219;">
+<!ENTITY ucirc "&#251;">
+<!ENTITY Ugrave "&#217;">
+<!ENTITY ugrave "&#249;">
+<!ENTITY uml "&#168;">
+<!ENTITY upsih "&#978;">
+<!ENTITY Upsilon "&#933;">
+<!ENTITY upsilon "&#965;">
+<!ENTITY Uuml "&#220;">
+<!ENTITY uuml "&#252;">
+<!ENTITY weierp "&#8472;">
+<!ENTITY Xi "&#926;">
+<!ENTITY xi "&#958;">
+<!ENTITY Yacute "&#221;">
+<!ENTITY yacute "&#253;">
+<!ENTITY yen "&#165;">
+<!ENTITY Yuml "&#376;">
+<!ENTITY yuml "&#255;">
+<!ENTITY Zeta "&#918;">
+<!ENTITY zeta "&#950;">
+<!ENTITY zwj "&#8205;">
+<!ENTITY zwnj "&#8204;">`.replace(/\n/g, ' ');
+
+  /**
+   * A reasonably strict xml declaration.
+   */
+  const XML_DECL = '<?xml version="1.0" standalone="no"?>';
+
+  /**
+   * The beginning of the XML doctype declaration.
+   */
+  const DOCTYPE_START = `<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [`;
+
+  /**
+   * The end of the XML docype declaration.
+   */
+  const DOCTYPE_END = ']>';
+
+  /**
+   * A full header for an SVG XML document.
+   */
+  const SVG_XML_HEADER = `${XML_DECL}
+    ${DOCTYPE_START}${HTML_ENTITIES}${DOCTYPE_END}`;
 
     void Promise.all([...diagrams].map(renderOneMarmaid));
   });
@@ -7533,7 +7818,7 @@ a.anchor-link {
 <li>Use only Projects and Spaces that are available in watsonx context.</li>
 </ul>
 <h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook provides a detailed demonstration of the steps and code required to showcase support for watsonx.ai AI service.</p>
-<p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
+<p>Some familiarity with Python is helpful. This notebook uses Python 3.12.</p>
 <h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The learning goal for your notebook is to leverage AI services to generate accurate and contextually relevant responses based on a given image and a related question.</p>
 <h2 id="Table-of-Contents">Table of Contents<a class="anchor-link" href="#Table-of-Contents">¶</a></h2><p>This notebook contains the following parts:</p>
 <ul>
@@ -7569,7 +7854,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Install-and-import-the-datasets-and-dependencies">Install and import the <code>datasets</code> and dependencies<a class="anchor-link" href="#Install-and-import-the-datasets-and-dependencies">¶</a></h3>
+<h3 id="Install-and-import-the-ibm-watsonx-ai-and-dependencies">Install and import the <code>ibm-watsonx-ai</code> and dependencies<a class="anchor-link" href="#Install-and-import-the-ibm-watsonx-ai-and-dependencies">¶</a></h3><p><strong>Note:</strong> <code>ibm-watsonx-ai</code> documentation can be found <a href="https://ibm.github.io/watsonx-ai-python-sdk/index.html" rel="noopener no referrer" target="_blank">here</a>.</p>
 </div>
 </div>
 </div>
@@ -7581,7 +7866,7 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">pip</span> install -U "ibm_watsonx_ai&gt;=1.3.6" | tail -n 1
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"ibm_watsonx_ai&gt;=1.3.6"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -7594,7 +7879,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Successfully installed anyio-4.9.0 certifi-2025.1.31 charset-normalizer-3.4.1 h11-0.14.0 httpcore-1.0.8 httpx-0.28.1 ibm-cos-sdk-2.14.0 ibm-cos-sdk-core-2.14.0 ibm-cos-sdk-s3transfer-2.14.0 ibm_watsonx_ai-1.3.11 idna-3.10 jmespath-1.0.1 lomond-0.3.3 numpy-2.2.5 pandas-2.2.3 pytz-2025.2 requests-2.32.2 sniffio-1.3.1 tabulate-0.9.0 tzdata-2025.2 urllib3-2.4.0
+<pre>Successfully installed anyio-4.12.1 cachetools-6.2.4 certifi-2026.1.4 charset_normalizer-3.4.4 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm_watsonx_ai-1.5.0 idna-3.11 jmespath-1.0.1 lomond-0.3.3 numpy-2.4.1 pandas-2.2.3 pytz-2025.2 requests-2.32.5 tabulate-0.9.0 typing_extensions-4.15.0 tzdata-2025.3 urllib3-2.6.3
 </pre>
 </div>
 </div>
@@ -7621,6 +7906,7 @@ a.anchor-link {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span>
 
 <span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span>
@@ -7745,10 +8031,12 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">deployable_ai_service</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="p">[</span><span class="s2">"url"</span><span class="p">],</span> <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">"temperature"</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">deployable_ai_service</span><span class="p">(</span>
+    <span class="n">context</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="p">[</span><span class="s2">"url"</span><span class="p">],</span> <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">"temperature"</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+<span class="p">):</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
 
     <span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
-    <span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span><span class="p">,</span> <span class="n">Credentials</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelInference</span>
 
@@ -7778,18 +8066,18 @@ a.anchor-link {
             <span class="p">{</span>
                 <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span>
                 <span class="s2">"content"</span><span class="p">:</span> <span class="p">[</span>
-                <span class="p">{</span>
-                    <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"text"</span><span class="p">,</span>
-                    <span class="s2">"text"</span><span class="p">:</span> <span class="n">question</span>
-                <span class="p">},</span>
-                <span class="p">{</span>
-                    <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"image_url"</span><span class="p">,</span>
-                    <span class="s2">"image_url"</span><span class="p">:</span> <span class="p">{</span>
-                        <span class="s2">"url"</span><span class="p">:</span> <span class="s2">"data:image/jpeg;base64,"</span> <span class="o">+</span> <span class="n">base64_image</span><span class="p">,</span>
-                        <span class="s2">"detail"</span><span class="p">:</span> <span class="s2">"auto"</span>
-                    <span class="p">}</span>
-                <span class="p">}</span>
-                <span class="p">]</span>
+                    <span class="p">{</span>
+                        <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"text"</span><span class="p">,</span>
+                        <span class="s2">"text"</span><span class="p">:</span> <span class="n">question</span><span class="p">,</span>
+                    <span class="p">},</span>
+                    <span class="p">{</span>
+                        <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"image_url"</span><span class="p">,</span>
+                        <span class="s2">"image_url"</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s2">"url"</span><span class="p">:</span> <span class="s2">"data:image/jpeg;base64,"</span> <span class="o">+</span> <span class="n">base64_image</span><span class="p">,</span>
+                            <span class="s2">"detail"</span><span class="p">:</span> <span class="s2">"auto"</span><span class="p">,</span>
+                        <span class="p">},</span>
+                    <span class="p">},</span>
+                <span class="p">],</span>
             <span class="p">}</span>
         <span class="p">]</span>
 
@@ -7814,16 +8102,16 @@ a.anchor-link {
                 <span class="s2">"content"</span><span class="p">:</span> <span class="p">[</span>
                     <span class="p">{</span>
                         <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"text"</span><span class="p">,</span>
-                        <span class="s2">"text"</span><span class="p">:</span> <span class="n">question</span>
+                        <span class="s2">"text"</span><span class="p">:</span> <span class="n">question</span><span class="p">,</span>
                     <span class="p">},</span>
                     <span class="p">{</span>
                         <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"image_url"</span><span class="p">,</span>
                         <span class="s2">"image_url"</span><span class="p">:</span> <span class="p">{</span>
                             <span class="s2">"url"</span><span class="p">:</span> <span class="s2">"data:image/jpeg;base64,"</span> <span class="o">+</span> <span class="n">base64_image</span><span class="p">,</span>
-                            <span class="s2">"detail"</span><span class="p">:</span> <span class="s2">"auto"</span>
-                        <span class="p">}</span>
-                    <span class="p">}</span>
-                <span class="p">]</span>
+                            <span class="s2">"detail"</span><span class="p">:</span> <span class="s2">"auto"</span><span class="p">,</span>
+                        <span class="p">},</span>
+                    <span class="p">},</span>
+                <span class="p">],</span>
             <span class="p">}</span>
         <span class="p">]</span>
 
@@ -7899,7 +8187,9 @@ a.anchor-link {
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
 
-<span class="n">image_url</span> <span class="o">=</span> <span class="s2">"https://raw.github.com/IBM/watson-machine-learning-samples/master/cloud/data/logo/ibm_logo.jpg"</span>
+<span class="n">image_url</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">"https://raw.github.com/IBM/watsonx-ai-samples/master/cloud/data/logo/ibm_logo.jpg"</span>
+<span class="p">)</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">image_url</span><span class="p">)</span>
 
@@ -7916,7 +8206,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
-<img alt="No description has been provided for this image" src="https://raw.github.com/IBM/watson-machine-learning-samples/master/cloud/data/logo/ibm_logo.jpg" width="600"/>
+<img alt="No description has been provided for this image" src="https://raw.github.com/IBM/watsonx-ai-samples/master/cloud/data/logo/ibm_logo.jpg" width="600"/>
 </div>
 </div>
 </div>
@@ -7940,7 +8230,10 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">context</span><span class="o">.</span><span class="n">request_payload_json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"question"</span><span class="p">:</span> <span class="s2">"Describe the image"</span><span class="p">,</span> <span class="s2">"image_url"</span><span class="p">:</span> <span class="n">image_url</span><span class="p">}</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">context</span><span class="o">.</span><span class="n">request_payload_json</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"question"</span><span class="p">:</span> <span class="s2">"Describe the image"</span><span class="p">,</span>
+    <span class="s2">"image_url"</span><span class="p">:</span> <span class="n">image_url</span><span class="p">,</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -7979,19 +8272,20 @@ a.anchor-link {
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[11]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>{'body': {'id': 'chatcmpl-fd71df10-514d-46bf-b716-f9841c764321---89261ca18b0c50363ec5340d39cac781',
+<pre>{'body': {'id': 'chatcmpl-4b3587fb90f161761d8c473a9b81863e---e50e85b7-57c9-44a7-b9f1-3c3173f3af1c',
+  'object': 'chat.completion',
   'model_id': 'meta-llama/llama-3-2-11b-vision-instruct',
   'model': 'meta-llama/llama-3-2-11b-vision-instruct',
   'choices': [{'index': 0,
     'message': {'role': 'assistant',
-     'content': 'The image presents the IBM logo, a well-known and iconic symbol of the technology company. The logo is prominently displayed in the center of the image, with the word "IBM" written in blue stripes against a white background.\n\n* **Logo:**\n\t+ The logo features the word "IBM" in blue stripes.\n\t+ The stripes are arranged in a horizontal manner, with each letter consisting of multiple horizontal lines.\n\t+ The lines vary in width, creating a sense of depth and dimensionality.\n* **Color Scheme:**\n\t+ The logo\'s color scheme is primarily blue, with white serving as the background.\n\t+ The blue tone used is a deep, rich shade that provides good contrast against the white background.\n* **Background:**\n\t+ The background of the image is a clean and simple white.\n\t+ This allows the logo to take center stage and draws attention to its design and typography.\n\nOverall, the IBM logo is a distinctive and recognizable symbol of the company\'s brand identity. Its simple yet effective design has become synonymous with innovation and technology, and it continues to be an important part of the company\'s visual identity.'},
+     'content': 'The image presents the IBM logo, a distinctive and iconic symbol of the technology company. The logo is centered in the image and features the letters "IBM" in a stylized font, with each letter comprising horizontal lines of varying lengths. The lines are arranged in a way that creates a sense of movement and energy, conveying the company\'s innovative and dynamic approach to technology.\n\nHere is a detailed description of the image:\n\n* **Logo**\n\t+ Font: Stylized, with horizontal lines of varying lengths\n\t+ Color: Blue\n\t+ Arrangement: Centered in the image\n* **Background**\n\t+ Color: White\n\t+ Texture: Smooth, solid color\n* **Additional Elements**\n\t+ Registered trademark symbol (®) in the bottom-right corner of the image\n\nIn summary, the image showcases the IBM logo in a clean and simple design, with a focus on the stylized font and the use of blue color. The logo is centered in the image, with a white background and a registered trademark symbol in the bottom-right corner.'},
     'finish_reason': 'stop'}],
-  'created': 1745402649,
+  'created': 1768401797,
   'model_version': '3.2.0',
-  'created_at': '2025-04-23T10:04:13.523Z',
-  'usage': {'completion_tokens': 231,
+  'created_at': '2026-01-14T14:43:19.832Z',
+  'usage': {'completion_tokens': 215,
    'prompt_tokens': 6418,
-   'total_tokens': 6649},
+   'total_tokens': 6633},
   'system': {'warnings': [{'message': 'This model is a Non-IBM Product governed by a third-party license that may impose use restrictions and other obligations. By using this model you agree to its terms as identified in the following URL.',
      'id': 'disclaimer_warning',
      'more_info': 'https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/fm-models.html?context=wx'},
@@ -8053,7 +8347,20 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>The image presents the IBM logo, a registered trademark of the International Business Machines Corporation.</pre>
+<pre>The image is a blue logo for IBM, featuring the company name in a stylized font with horizontal lines and rectangles. The logo is set against a white background.
+
+Here are the key features of the image:
+
+* **Logo:**
+	+ The logo is in a blue color.
+	+ It features the company name "IBM" in a stylized font.
+	+ The font has horizontal lines and rectangles.
+* **Background:**
+	+ The background is a solid white color.
+* **Watermark:**
+	+ There is a watermark of a registered trademark symbol (R) in the bottom-right corner of the image.
+
+Overall, the image presents a clean and simple design for the IBM logo, with a focus on the company name and its distinctive font style.</pre>
 </div>
 </div>
 </div>
@@ -8089,7 +8396,7 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">sw_spec_id</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">get_id_by_name</span><span class="p">(</span><span class="s2">"runtime-24.1-py3.11"</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">sw_spec_id</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">get_id_by_name</span><span class="p">(</span><span class="s2">"genai-A25-py3.12"</span><span class="p">)</span>
 <span class="n">sw_spec_id</span>
 </pre></div>
 </div>
@@ -8103,7 +8410,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[14]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'45f12dfe-aa78-5b8d-9f38-0ee223c47309'</pre>
+<pre>'60ddf4d9-65ac-562d-aa8d-9f26da5dfc76'</pre>
 </div>
 </div>
 </div>
@@ -8118,9 +8425,11 @@ a.anchor-link {
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">meta_props</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">api_client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">AIServiceMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"AI service with SDK"</span><span class="p">,</span>
-    <span class="n">api_client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">AIServiceMetaNames</span><span class="o">.</span><span class="n">SOFTWARE_SPEC_ID</span><span class="p">:</span> <span class="n">sw_spec_id</span>
+    <span class="n">api_client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">AIServiceMetaNames</span><span class="o">.</span><span class="n">SOFTWARE_SPEC_ID</span><span class="p">:</span> <span class="n">sw_spec_id</span><span class="p">,</span>
 <span class="p">}</span>
-<span class="n">stored_ai_service_details</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">store_ai_service</span><span class="p">(</span><span class="n">deployable_ai_service</span><span class="p">,</span> <span class="n">meta_props</span><span class="p">)</span>
+<span class="n">stored_ai_service_details</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">store_ai_service</span><span class="p">(</span>
+    <span class="n">deployable_ai_service</span><span class="p">,</span> <span class="n">meta_props</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8148,7 +8457,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[16]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'755be541-49e7-49a0-90fc-fe4ba510c6d1'</pre>
+<pre>'8678a424-0fa7-4025-8894-9ce109e3803a'</pre>
 </div>
 </div>
 </div>
@@ -8194,19 +8503,19 @@ a.anchor-link {
 
 ######################################################################################
 
-Synchronous deployment creation for id: '755be541-49e7-49a0-90fc-fe4ba510c6d1' started
+Synchronous deployment creation for id: '8678a424-0fa7-4025-8894-9ce109e3803a' started
 
 ######################################################################################
 
 
 initializing
 Note: online_url and serving_urls are deprecated and will be removed in a future release. Use inference instead.
-...
+............
 ready
 
 
 -----------------------------------------------------------------------------------------------
-Successfully finished deployment creation, deployment_id='3e7aac9b-5a8b-4b1a-8c3c-0afd6971edaa'
+Successfully finished deployment creation, deployment_id='45b7454d-76c3-41d2-b506-c0a495815341'
 -----------------------------------------------------------------------------------------------
 
 
@@ -8299,17 +8608,18 @@ Successfully finished deployment creation, deployment_id='3e7aac9b-5a8b-4b1a-8c3
       "finish_reason": "stop",
       "index": 0,
       "message": {
-        "content": "The image features the IBM logo, a blue graphic of the company's initials \"IBM\" against a white background. The logo is composed of 13 horizontal lines and 2 vertical lines, with the first and last lines being thicker than the others.\n\n*   **Logo Design:**\n    *   The IBM logo is a distinctive and recognizable design that has been used by the company for many years.\n    *   The use of horizontal and vertical lines creates a sense of balance and harmony, reflecting the company's commitment to innovation and stability.\n*   **Color Scheme:**\n    *   The blue color of the logo is a nod to the company's heritage and tradition of using blue in their branding.\n    *   The choice of blue also evokes feelings of trust, reliability, and professionalism, which are all key values associated with the IBM brand.\n*   **Typography:**\n    *   The sans-serif font used for the logo is clean and modern, conveying a sense of simplicity and ease of use.\n    *   The bold lines and sharp edges of the font give the logo a dynamic and energetic feel, suggesting a company that is always moving forward.\n*   **Trademark Symbol:**\n    *   The registered trademark symbol (R) that appears next to the logo indicates that the logo is a protected trademark and cannot be used without permission.\n    *   This symbol reinforces the idea that the IBM brand is valuable and worthy of protection.\n\nOverall, the IBM logo is a powerful symbol of the company's history, values, and commitment to innovation. Its distinctive design and clean typography make it instantly recognizable, while the use of blue conveys a sense of trust and professionalism.",
+        "content": "The image presents the IBM logo, a prominent and recognizable symbol of the multinational technology company IBM (International Business Machines Corporation). The logo is displayed in a blue color scheme on a white background.\n\n*   **Logo Design**\n    *   The logo features the letters \"IBM\" in large, blue, block capital letters.\n    *   Each letter is composed of horizontal lines of varying lengths, creating a visually striking effect.\n    *   The lines are evenly spaced and aligned, giving the logo a sense of balance and harmony.\n    *   The font used for the logo is sans-serif, which contributes to its modern and sleek appearance.\n*   **Color Scheme**\n    *   The logo is presented in a bold blue color, which is one of IBM's primary brand colors.\n    *   The blue hue is a deep, rich shade that evokes feelings of trust, stability, and professionalism.\n    *   The contrast between the blue logo and the white background creates a clear and legible visual effect.\n*   **Background**\n    *   The background of the image is a plain white color, which helps to highlight the logo and create a clean and simple visual composition.\n    *   The white background also provides a neutral backdrop that allows the viewer to focus on the logo itself.\n*   **Registration Mark**\n    *   In the bottom-right corner of the image, there is a small registration mark (\u00ae) symbol.\n    *   The registration mark indicates that the IBM logo is a registered trademark, signifying that it is a protected brand identity owned by the company.\n\nIn summary, the IBM logo is a well-designed and iconic symbol that effectively represents the company's brand identity. The use of blue as the primary color, combined with the clean and simple design of the logo, creates a professional and trustworthy image that is instantly recognizable.",
         "role": "assistant"
       }
     }
   ],
-  "created": 1745402691,
-  "created_at": "2025-04-23T10:04:57.497Z",
-  "id": "chatcmpl-43724fe5-90b5-4ea1-991e-a41a988a2004---1eab7ee4010482d7267cf3fd7a8c5520",
+  "created": 1768401941,
+  "created_at": "2026-01-14T14:45:46.896Z",
+  "id": "chatcmpl-d0bab4c1b78b9f53da20cff3b3aaf0df---e0dec40d-61b5-431c-90c8-93fc1c514800",
   "model": "meta-llama/llama-3-2-11b-vision-instruct",
   "model_id": "meta-llama/llama-3-2-11b-vision-instruct",
   "model_version": "3.2.0",
+  "object": "chat.completion",
   "system": {
     "warnings": [
       {
@@ -8330,9 +8640,9 @@ Successfully finished deployment creation, deployment_id='3e7aac9b-5a8b-4b1a-8c3
     ]
   },
   "usage": {
-    "completion_tokens": 338,
+    "completion_tokens": 371,
     "prompt_tokens": 6418,
-    "total_tokens": 6756
+    "total_tokens": 6789
   }
 }
 </pre>
@@ -8395,16 +8705,18 @@ Successfully finished deployment creation, deployment_id='3e7aac9b-5a8b-4b1a-8c3
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>The image presents the IBM logo, which is a stylized representation of the company's name in blue lettering on a white background.
+<pre>The image displays the IBM logo, which is a stylized representation of the company's name in blue text against a white background. The logo features the letters "IBM" in large, blue, blocky text, with each letter containing horizontal lines that vary in length and width. The lines are arranged in a way that creates a sense of movement and fluidity, giving the logo a dynamic feel.
 
-* The letters "IBM" are written in a stylized font, with each letter featuring a unique design.
-	+ The "I" is composed of three horizontal lines.
-	+ The "B" consists of two curved lines that intersect in the middle.
-	+ The "M" is formed by a combination of vertical and horizontal lines.
-* The logo also features a registered trademark symbol (®) to the right of the letters.
-* The entire logo is set against a plain white background, providing a clean and simple visual representation of the brand identity.
+**Key Features:**
 
-Overall, the IBM logo is a distinctive and recognizable symbol that represents the company's values and mission. The use of a stylized font and a registered trademark symbol emphasizes the brand's commitment to innovation and quality.</pre>
+* **Logo Design:** The logo is designed to be simple yet distinctive, making it easily recognizable as the IBM brand.
+* **Color Scheme:** The use of blue for the text creates a sense of trust, reliability, and professionalism, which are all values associated with the IBM brand.
+* **Background:** The white background provides a clean and neutral backdrop that allows the logo to take center stage.
+* **Trademark Symbol:** A small trademark symbol (R) is located in the bottom-right corner of the image, indicating that the logo is a registered trademark of IBM.
+
+**Overall Impression:**
+
+The image effectively communicates the IBM brand identity through its simple yet distinctive design. The use of blue and the dynamic arrangement of horizontal lines create a sense of movement and energy, conveying the company's commitment to innovation and progress. The trademark symbol adds an extra layer of authenticity and protection for the brand.</pre>
 </div>
 </div>
 </div>

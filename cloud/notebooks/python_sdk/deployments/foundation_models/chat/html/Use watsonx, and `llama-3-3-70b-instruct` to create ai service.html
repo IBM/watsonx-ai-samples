@@ -7332,7 +7332,12 @@ a.anchor-link {
     if (!diagrams.length) {
       return;
     }
-    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs")).default;
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.0/mermaid.esm.min.mjs")).default;
+    const elkUrl = "https://cdnjs.cloudflare.com/ajax/libs/mermaid-layout-elk/0.1.9/mermaid-layout-elk.esm.min.mjs";
+    if(elkUrl) {
+      const elkLayouts = (await import(elkUrl)).default;
+      mermaid.registerLayoutLoaders(elkLayouts);
+    }
     const parser = new DOMParser();
 
     mermaid.initialize({
@@ -7429,7 +7434,8 @@ a.anchor-link {
      * Post-process to ensure mermaid diagrams contain only valid SVG and XHTML.
      */
     function cleanMermaidSvg(svg) {
-      return svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      svg = svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      return `${SVG_XML_HEADER}${svg}`;
     }
 
 
@@ -7455,6 +7461,285 @@ a.anchor-link {
       }
       return `<${tag} ${rest}>`;
     }
+
+
+  /**
+   * Named HTML entities with their decimal equivalent codes.
+   *
+   * @see https://www.w3.org/TR/WD-html40-970708/sgml/entities.html
+   * */
+  const HTML_ENTITIES = `<!ENTITY Aacute "&#193;">
+<!ENTITY aacute "&#225;">
+<!ENTITY Acirc "&#194;">
+<!ENTITY acirc "&#226;">
+<!ENTITY acute "&#180;">
+<!ENTITY AElig "&#198;">
+<!ENTITY aelig "&#230;">
+<!ENTITY Agrave "&#192;">
+<!ENTITY agrave "&#224;">
+<!ENTITY alefsym "&#8501;">
+<!ENTITY Alpha "&#913;">
+<!ENTITY alpha "&#945;">
+<!ENTITY amp "&#38;">
+<!ENTITY and "&#8869;">
+<!ENTITY ang "&#8736;">
+<!ENTITY Aring "&#197;">
+<!ENTITY aring "&#229;">
+<!ENTITY asymp "&#8776;">
+<!ENTITY Atilde "&#195;">
+<!ENTITY atilde "&#227;">
+<!ENTITY Auml "&#196;">
+<!ENTITY auml "&#228;">
+<!ENTITY bdquo "&#8222;">
+<!ENTITY Beta "&#914;">
+<!ENTITY beta "&#946;">
+<!ENTITY brvbar "&#166;">
+<!ENTITY bull "&#8226;">
+<!ENTITY cap "&#8745;">
+<!ENTITY Ccedil "&#199;">
+<!ENTITY ccedil "&#231;">
+<!ENTITY cedil "&#184;">
+<!ENTITY cent "&#162;">
+<!ENTITY Chi "&#935;">
+<!ENTITY chi "&#967;">
+<!ENTITY circ "&#710;">
+<!ENTITY clubs "&#9827;">
+<!ENTITY cong "&#8773;">
+<!ENTITY copy "&#169;">
+<!ENTITY crarr "&#8629;">
+<!ENTITY cup "&#8746;">
+<!ENTITY curren "&#164;">
+<!ENTITY dagger "&#8224;">
+<!ENTITY Dagger "&#8225;">
+<!ENTITY darr "&#8595;">
+<!ENTITY dArr "&#8659;">
+<!ENTITY deg "&#176;">
+<!ENTITY Delta "&#916;">
+<!ENTITY delta "&#948;">
+<!ENTITY diams "&#9830;">
+<!ENTITY divide "&#247;">
+<!ENTITY Eacute "&#201;">
+<!ENTITY eacute "&#233;">
+<!ENTITY Ecirc "&#202;">
+<!ENTITY ecirc "&#234;">
+<!ENTITY Egrave "&#200;">
+<!ENTITY egrave "&#232;">
+<!ENTITY empty "&#8709;">
+<!ENTITY emsp "&#8195;">
+<!ENTITY ensp "&#8194;">
+<!ENTITY epsilon "&#949;">
+<!ENTITY Epsilon "&#917;">
+<!ENTITY equiv "&#8801;">
+<!ENTITY Eta "&#919;">
+<!ENTITY eta "&#951;">
+<!ENTITY ETH "&#208;">
+<!ENTITY eth "&#240;">
+<!ENTITY Euml "&#203;">
+<!ENTITY euml "&#235;">
+<!ENTITY exist "&#8707;">
+<!ENTITY fnof "&#402;">
+<!ENTITY forall "&#8704;">
+<!ENTITY frac12 "&#189;">
+<!ENTITY frac14 "&#188;">
+<!ENTITY frac34 "&#190;">
+<!ENTITY frasl "&#8260;">
+<!ENTITY Gamma "&#915;">
+<!ENTITY gamma "&#947;">
+<!ENTITY ge "&#8805;">
+<!ENTITY gt "&#62;">
+<!ENTITY harr "&#8596;">
+<!ENTITY hArr "&#8660;">
+<!ENTITY hearts "&#9829;">
+<!ENTITY hellip "&#8230;">
+<!ENTITY Iacute "&#205;">
+<!ENTITY iacute "&#237;">
+<!ENTITY Icirc "&#206;">
+<!ENTITY icirc "&#238;">
+<!ENTITY iexcl "&#161;">
+<!ENTITY Igrave "&#204;">
+<!ENTITY igrave "&#236;">
+<!ENTITY image "&#8465;">
+<!ENTITY infin "&#8734;">
+<!ENTITY int "&#8747;">
+<!ENTITY Iota "&#921;">
+<!ENTITY iota "&#953;">
+<!ENTITY iquest "&#191;">
+<!ENTITY isin "&#8712;">
+<!ENTITY Iuml "&#207;">
+<!ENTITY iuml "&#239;">
+<!ENTITY Kappa "&#922;">
+<!ENTITY kappa "&#954;">
+<!ENTITY Lambda "&#923;">
+<!ENTITY lambda "&#955;">
+<!ENTITY lang "&#9001;">
+<!ENTITY laquo "&#171;">
+<!ENTITY larr "&#8592;">
+<!ENTITY lArr "&#8656;">
+<!ENTITY lceil "&#8968;">
+<!ENTITY ldquo "&#8220;">
+<!ENTITY le "&#8804;">
+<!ENTITY lfloor "&#8970;">
+<!ENTITY lowast "&#8727;">
+<!ENTITY loz "&#9674;">
+<!ENTITY lrm "&#8206;">
+<!ENTITY lsaquo "&#8249;">
+<!ENTITY lsquo "&#8216;">
+<!ENTITY lt "&#60;">
+<!ENTITY macr "&#175;">
+<!ENTITY mdash "&#8212;">
+<!ENTITY micro "&#181;">
+<!ENTITY middot "&#183;">
+<!ENTITY minus "&#8722;">
+<!ENTITY Mu "&#924;">
+<!ENTITY mu "&#956;">
+<!ENTITY nabla "&#8711;">
+<!ENTITY nbsp "&#160;">
+<!ENTITY ndash "&#8211;">
+<!ENTITY ne "&#8800;">
+<!ENTITY ni "&#8715;">
+<!ENTITY not "&#172;">
+<!ENTITY notin "&#8713;">
+<!ENTITY nsub "&#8836;">
+<!ENTITY Ntilde "&#209;">
+<!ENTITY ntilde "&#241;">
+<!ENTITY Nu "&#925;">
+<!ENTITY nu "&#957;">
+<!ENTITY Oacute "&#211;">
+<!ENTITY oacute "&#243;">
+<!ENTITY Ocirc "&#212;">
+<!ENTITY ocirc "&#244;">
+<!ENTITY OElig "&#338;">
+<!ENTITY oelig "&#339;">
+<!ENTITY Ograve "&#210;">
+<!ENTITY ograve "&#242;">
+<!ENTITY oline "&#8254;">
+<!ENTITY Omega "&#937;">
+<!ENTITY omega "&#969;">
+<!ENTITY Omicron "&#927;">
+<!ENTITY omicron "&#959;">
+<!ENTITY oplus "&#8853;">
+<!ENTITY or "&#8870;">
+<!ENTITY ordf "&#170;">
+<!ENTITY ordm "&#186;">
+<!ENTITY Oslash "&#216;">
+<!ENTITY oslash "&#248;">
+<!ENTITY Otilde "&#213;">
+<!ENTITY otilde "&#245;">
+<!ENTITY otimes "&#8855;">
+<!ENTITY Ouml "&#214;">
+<!ENTITY ouml "&#246;">
+<!ENTITY para "&#182;">
+<!ENTITY part "&#8706;">
+<!ENTITY permil "&#8240;">
+<!ENTITY perp "&#8869;">
+<!ENTITY Phi "&#934;">
+<!ENTITY phi "&#966;">
+<!ENTITY Pi "&#928;">
+<!ENTITY pi "&#960;">
+<!ENTITY piv "&#982;">
+<!ENTITY plusmn "&#177;">
+<!ENTITY pound "&#163;">
+<!ENTITY prime "&#8242;">
+<!ENTITY Prime "&#8243;">
+<!ENTITY prod "&#8719;">
+<!ENTITY prop "&#8733;">
+<!ENTITY Psi "&#936;">
+<!ENTITY psi "&#968;">
+<!ENTITY quot "&#34;">
+<!ENTITY radic "&#8730;">
+<!ENTITY rang "&#9002;">
+<!ENTITY raquo "&#187;">
+<!ENTITY rarr "&#8594;">
+<!ENTITY rArr "&#8658;">
+<!ENTITY rceil "&#8969;">
+<!ENTITY rdquo "&#8221;">
+<!ENTITY real "&#8476;">
+<!ENTITY reg "&#174;">
+<!ENTITY rfloor "&#8971;">
+<!ENTITY Rho "&#929;">
+<!ENTITY rho "&#961;">
+<!ENTITY rlm "&#8207;">
+<!ENTITY rsaquo "&#8250;">
+<!ENTITY rsquo "&#8217;">
+<!ENTITY sbquo "&#8218;">
+<!ENTITY Scaron "&#352;">
+<!ENTITY scaron "&#353;">
+<!ENTITY sdot "&#8901;">
+<!ENTITY sect "&#167;">
+<!ENTITY shy "&#173;">
+<!ENTITY Sigma "&#931;">
+<!ENTITY sigma "&#963;">
+<!ENTITY sigmaf "&#962;">
+<!ENTITY sim "&#8764;">
+<!ENTITY spades "&#9824;">
+<!ENTITY sub "&#8834;">
+<!ENTITY sube "&#8838;">
+<!ENTITY sum "&#8721;">
+<!ENTITY sup "&#8835;">
+<!ENTITY sup1 "&#185;">
+<!ENTITY sup2 "&#178;">
+<!ENTITY sup3 "&#179;">
+<!ENTITY supe "&#8839;">
+<!ENTITY szlig "&#223;">
+<!ENTITY Tau "&#932;">
+<!ENTITY tau "&#964;">
+<!ENTITY there4 "&#8756;">
+<!ENTITY Theta "&#920;">
+<!ENTITY theta "&#952;">
+<!ENTITY thetasym "&#977;">
+<!ENTITY thinsp "&#8201;">
+<!ENTITY THORN "&#222;">
+<!ENTITY thorn "&#254;">
+<!ENTITY tilde "&#732;">
+<!ENTITY times "&#215;">
+<!ENTITY trade "&#8482;">
+<!ENTITY Uacute "&#218;">
+<!ENTITY uacute "&#250;">
+<!ENTITY uarr "&#8593;">
+<!ENTITY uArr "&#8657;">
+<!ENTITY Ucirc "&#219;">
+<!ENTITY ucirc "&#251;">
+<!ENTITY Ugrave "&#217;">
+<!ENTITY ugrave "&#249;">
+<!ENTITY uml "&#168;">
+<!ENTITY upsih "&#978;">
+<!ENTITY Upsilon "&#933;">
+<!ENTITY upsilon "&#965;">
+<!ENTITY Uuml "&#220;">
+<!ENTITY uuml "&#252;">
+<!ENTITY weierp "&#8472;">
+<!ENTITY Xi "&#926;">
+<!ENTITY xi "&#958;">
+<!ENTITY Yacute "&#221;">
+<!ENTITY yacute "&#253;">
+<!ENTITY yen "&#165;">
+<!ENTITY Yuml "&#376;">
+<!ENTITY yuml "&#255;">
+<!ENTITY Zeta "&#918;">
+<!ENTITY zeta "&#950;">
+<!ENTITY zwj "&#8205;">
+<!ENTITY zwnj "&#8204;">`.replace(/\n/g, ' ');
+
+  /**
+   * A reasonably strict xml declaration.
+   */
+  const XML_DECL = '<?xml version="1.0" standalone="no"?>';
+
+  /**
+   * The beginning of the XML doctype declaration.
+   */
+  const DOCTYPE_START = `<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [`;
+
+  /**
+   * The end of the XML docype declaration.
+   */
+  const DOCTYPE_END = ']>';
+
+  /**
+   * A full header for an SVG XML document.
+   */
+  const SVG_XML_HEADER = `${XML_DECL}
+    ${DOCTYPE_START}${HTML_ENTITIES}${DOCTYPE_END}`;
 
     void Promise.all([...diagrams].map(renderOneMarmaid));
   });
@@ -7533,7 +7818,7 @@ a.anchor-link {
 <li>Use only Projects and Spaces that are available in watsonx context.</li>
 </ul>
 <h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook provides a detailed demonstration of the steps and code required to showcase support for watsonx.ai AI service.</p>
-<p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
+<p>Some familiarity with Python is helpful. This notebook uses Python 3.12.</p>
 <h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>This notebook aims to demonstrate the application of Chat models, such as <code>meta-llama/llama-3-3-70b-instruct</code>, using the tools provided by LangGraph. LangGraph serves as an Agent Orchestrator, enabling the development of graph-based applications that autonomously execute sequences of actions. In these applications, the Large Language Model (LLM) functions as the primary decision-maker, determining the subsequent steps.</p>
 <p>Following this, an AI service is created based on the previously constructed application.</p>
 <h2 id="Table-of-Contents">Table of Contents<a class="anchor-link" href="#Table-of-Contents">¶</a></h2><p>This notebook contains the following parts:</p>
@@ -7597,9 +7882,9 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Successfully installed PyYAML-6.0.3 annotated-types-0.7.0 anyio-4.11.0 certifi-2025.10.5 charset_normalizer-3.4.4 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 idna-3.11 jsonpatch-1.33 jsonpointer-3.0.0 langchain-core-0.3.79 langgraph-0.2.76 langgraph-checkpoint-2.1.2 langgraph-sdk-0.1.74 langsmith-0.4.38 orjson-3.11.4 ormsgpack-1.11.0 pydantic-2.12.3 pydantic-core-2.41.4 requests-2.32.5 requests-toolbelt-1.0.0 sniffio-1.3.1 tenacity-9.1.2 typing-inspection-0.4.2 urllib3-2.5.0 zstandard-0.25.0
-Successfully installed cachetools-6.2.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm_watsonx_ai-1.4.2 jmespath-1.0.1 lomond-0.3.3 numpy-2.3.4 pandas-2.2.3 pytz-2025.2 tabulate-0.9.0 tzdata-2025.2
-Successfully installed langchain_ibm-0.3.19
+<pre>Successfully installed PyYAML-6.0.3 annotated-types-0.7.0 anyio-4.12.1 certifi-2026.1.4 charset_normalizer-3.4.4 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 idna-3.11 jsonpatch-1.33 jsonpointer-3.0.0 langchain-core-0.3.83 langgraph-0.2.76 langgraph-checkpoint-2.1.2 langgraph-sdk-0.1.74 langsmith-0.6.4 orjson-3.11.5 ormsgpack-1.12.1 pydantic-2.12.5 pydantic-core-2.41.5 requests-2.32.5 requests-toolbelt-1.0.0 tenacity-9.1.2 typing-extensions-4.15.0 typing-inspection-0.4.2 urllib3-2.6.3 uuid-utils-0.13.0 zstandard-0.25.0
+Successfully installed cachetools-6.2.4 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm_watsonx_ai-1.5.0 jmespath-1.0.1 lomond-0.3.3 numpy-2.4.1 pandas-2.2.3 pytz-2025.2 tabulate-0.9.0 tzdata-2025.3
+Successfully installed langchain_ibm-0.3.20
 </pre>
 </div>
 </div>
@@ -7738,7 +8023,7 @@ Successfully installed langchain_ibm-0.3.19
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><a id="ai_service"></a></p>
-<h2 id="Create-AI-service">Create AI service<a class="anchor-link" href="#Create-AI-service">¶</a></h2><p>The content of this notebook is derived from and based on the material presented in the <a href="https://github.com/IBM/watson-machine-learning-samples/blob/master/cloud/notebooks/python_sdk/deployments/foundation_models/chat/Use%20watsonx%2C%20and%20%60mistral-large%60%20with%20support%20for%20tools%20to%20perform%20simple%20calculations.ipynb">Use watsonx, and <code>mistralai/mistral-large</code> with support for tools to perform simple calculations</a> notebook.</p>
+<h2 id="Create-AI-service">Create AI service<a class="anchor-link" href="#Create-AI-service">¶</a></h2><p>The content of this notebook is derived from and based on the material presented in the <a href="https://github.com/IBM/watsonx-ai-samples/blob/master/cloud/notebooks/python_sdk/deployments/foundation_models/chat/Use%20watsonx%2C%20and%20%60mistral-medium-2505%60%20to%20make%20simple%20chat%20conversation%20and%20tool%20calls.ipynb">Use watsonx, and <code>mistral-medium-2505</code> to make simple chat conversation and tool calls</a> notebook.</p>
 <p>Prepare function which will be deployed using AI service.</p>
 </div>
 </div>
@@ -7751,7 +8036,7 @@ Successfully installed langchain_ibm-0.3.19
 <div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">deployable_ai_service</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="p">[</span><span class="s2">"url"</span><span class="p">],</span> <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">deployable_ai_service</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="p">[</span><span class="s2">"url"</span><span class="p">],</span> <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">):</span>
 
     <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span><span class="p">,</span> <span class="n">Credentials</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">tool</span>
@@ -8013,7 +8298,7 @@ What is the total sum of the numbers 11, 13, and 20? Perform you calculations st
 {
   "tool_calls": [
     {
-      "id": "chatcmpl-tool-cfead002a0bf413e877270037bb55635",
+      "id": "chatcmpl-tool-45a8ed778e4547fa8d291b2e2b465580",
       "type": "function",
       "function": {
         "name": "add",
@@ -8031,7 +8316,7 @@ add
 {
   "tool_calls": [
     {
-      "id": "chatcmpl-tool-06eab9507b224ad8acd06aacaadb3701",
+      "id": "chatcmpl-tool-6314b63c796a415399e92e555b284c1b",
       "type": "function",
       "function": {
         "name": "add",
@@ -8106,7 +8391,7 @@ What is the total sum of the numbers 11, 13, and 20? Perform you calculations st
 {
   "tool_calls": [
     {
-      "id": "chatcmpl-tool-76c0167f71ff40fb8b12cc87e5e7629d",
+      "id": "chatcmpl-tool-d576102534ea448aa7905c1efd75a823",
       "type": "function",
       "function": {
         "name": "add",
@@ -8124,7 +8409,7 @@ add
 {
   "tool_calls": [
     {
-      "id": "chatcmpl-tool-2c868234afdc4493be495de2ea5c069e",
+      "id": "chatcmpl-tool-e222da3a0a8a409c9493744d33b44acc",
       "type": "function",
       "function": {
         "name": "add",
@@ -8154,7 +8439,18 @@ The total sum of the numbers 11, 13, and 20 is 44.0.
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><a id="deploy"></a></p>
-<h2 id="Deploy-AI-service">Deploy AI service<a class="anchor-link" href="#Deploy-AI-service">¶</a></h2><p>Prepare a configuration file for defining a custom software specification.</p>
+<h2 id="Deploy-AI-service">Deploy AI service<a class="anchor-link" href="#Deploy-AI-service">¶</a></h2>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Store the AI service</p>
 </div>
 </div>
 </div>
@@ -8166,126 +8462,9 @@ The total sum of the numbers 11, 13, and 20 is 44.0.
 <div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">requirements_txt</span> <span class="o">=</span> <span class="s2">"langgraph==0.2.44"</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">sw_spec_id</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">get_id_by_name</span><span class="p">(</span><span class="s2">"genai-A25-py3.12"</span><span class="p">)</span>
 
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"requirements.txt"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">requirements_txt</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">base_sw_spec_id</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">get_id_by_name</span><span class="p">(</span>
-    <span class="s2">"runtime-24.1-py3.11"</span>
-<span class="p">)</span>
-<span class="n">meta_prop_pkg_extn</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">api_client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"watsonx.ai env with langgraph"</span><span class="p">,</span>
-    <span class="n">api_client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DESCRIPTION</span><span class="p">:</span> <span class="s2">"Environment with langgraph"</span><span class="p">,</span>
-    <span class="n">api_client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">TYPE</span><span class="p">:</span> <span class="s2">"requirements_txt"</span><span class="p">,</span>
-<span class="p">}</span>
-
-<span class="n">pkg_extn_details</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">store</span><span class="p">(</span>
-    <span class="n">meta_props</span><span class="o">=</span><span class="n">meta_prop_pkg_extn</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="s2">"requirements.txt"</span>
-<span class="p">)</span>
-<span class="n">pkg_extn_id</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">package_extensions</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">pkg_extn_details</span><span class="p">)</span>
-<span class="n">pkg_extn_id</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Creating package extension
-SUCCESS
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[16]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'74d3cf45-23a1-4082-9278-072384a277be'</pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">meta_prop_sw_spec</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">api_client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"AI service watsonx.ai custom software specification with langgraph"</span><span class="p">,</span>
-    <span class="n">api_client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DESCRIPTION</span><span class="p">:</span> <span class="s2">"Software specification for AI service deployment"</span><span class="p">,</span>
-    <span class="n">api_client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">BASE_SOFTWARE_SPECIFICATION</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">"guid"</span><span class="p">:</span> <span class="n">base_sw_spec_id</span>
-    <span class="p">},</span>
-<span class="p">}</span>
-
-<span class="n">sw_spec_details</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">meta_props</span><span class="o">=</span><span class="n">meta_prop_sw_spec</span><span class="p">)</span>
-<span class="n">sw_spec_id</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">sw_spec_details</span><span class="p">)</span>
-<span class="n">api_client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">add_package_extension</span><span class="p">(</span><span class="n">sw_spec_id</span><span class="p">,</span> <span class="n">pkg_extn_id</span><span class="p">)</span>
-<span class="n">sw_spec_id</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>SUCCESS
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'ba391528-aa70-4b94-952c-06ce18ea3a28'</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Store AI service with previous created custom software specifications.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">meta_props</span> <span class="o">=</span> <span class="p">{</span>
+<span class="n">meta_props</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">api_client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">AIServiceMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"AI service SDK with langgraph"</span><span class="p">,</span>
     <span class="n">api_client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">AIServiceMetaNames</span><span class="o">.</span><span class="n">SOFTWARE_SPEC_ID</span><span class="p">:</span> <span class="n">sw_spec_id</span><span class="p">,</span>
 <span class="p">}</span>
@@ -8297,12 +8476,23 @@ SUCCESS
 </div>
 </div>
 </div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Get AI service ID</p>
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">ai_service_id</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">get_ai_service_id</span><span class="p">(</span><span class="n">stored_ai_service_details</span><span class="p">)</span>
@@ -8317,9 +8507,9 @@ SUCCESS
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[19]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[16]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'d324b8e1-40e4-4c0f-93a2-be3ea84bcb8f'</pre>
+<pre>'99041ace-b951-4796-8d67-b7776c434856'</pre>
 </div>
 </div>
 </div>
@@ -8340,7 +8530,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">meta_props</span> <span class="o">=</span> <span class="p">{</span>
@@ -8365,19 +8555,19 @@ SUCCESS
 
 ######################################################################################
 
-Synchronous deployment creation for id: 'd324b8e1-40e4-4c0f-93a2-be3ea84bcb8f' started
+Synchronous deployment creation for id: '99041ace-b951-4796-8d67-b7776c434856' started
 
 ######################################################################################
 
 
 initializing
 Note: online_url and serving_urls are deprecated and will be removed in a future release. Use inference instead.
-.....
+...............
 ready
 
 
 -----------------------------------------------------------------------------------------------
-Successfully finished deployment creation, deployment_id='8073e144-e6e1-4511-ba4f-2fa8ca456e43'
+Successfully finished deployment creation, deployment_id='7943e6ac-ed1f-45d8-a9c1-5e3084112583'
 -----------------------------------------------------------------------------------------------
 
 
@@ -8402,7 +8592,7 @@ Successfully finished deployment creation, deployment_id='8073e144-e6e1-4511-ba4
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">deployment_id</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">deployment_details</span><span class="p">)</span>
@@ -8428,7 +8618,7 @@ Successfully finished deployment creation, deployment_id='8073e144-e6e1-4511-ba4
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">question</span> <span class="o">=</span> <span class="p">(</span>
@@ -8450,7 +8640,7 @@ Successfully finished deployment creation, deployment_id='8073e144-e6e1-4511-ba4
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">ai_services_pretty_print</span><span class="p">(</span><span class="n">deployments_results</span><span class="p">)</span>
@@ -8477,7 +8667,7 @@ What is the total sum of the numbers 11, 13, and 20? Perform you calculations st
         "arguments": "{\"a\": \"11\", \"b\": \"13\"}",
         "name": "add"
       },
-      "id": "chatcmpl-tool-bffec521e4b846519dc62e8413ecdf01",
+      "id": "chatcmpl-tool-8245dc666101419e88405844160fe811",
       "type": "function"
     }
   ]
@@ -8495,7 +8685,7 @@ add
         "arguments": "{\"a\": \"24\", \"b\": \"20\"}",
         "name": "add"
       },
-      "id": "chatcmpl-tool-d62e2a73ff554ac182b54050babc983e",
+      "id": "chatcmpl-tool-bcd11cc2949a4218a06637465d8668e4",
       "type": "function"
     }
   ]
@@ -8529,7 +8719,7 @@ The total sum of the numbers 11, 13, and 20 is 44.0.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">question</span> <span class="o">=</span> <span class="p">(</span>
@@ -8551,7 +8741,7 @@ The total sum of the numbers 11, 13, and 20 is 44.0.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">ai_services_pretty_print_stream</span><span class="p">(</span><span class="n">deployments_results</span><span class="p">)</span>
@@ -8574,7 +8764,7 @@ Add 2 to 5. Result multiply by 3. Result divide by 10. Perform you calculations 
 {
   "tool_calls": [
     {
-      "id": "chatcmpl-tool-a5e00d5e5ea64cd796d4fc2cdeecad9c",
+      "id": "chatcmpl-tool-6e2ae10c4b2f4108a597f3c2c44e5653",
       "type": "function",
       "function": {
         "name": "add",
@@ -8592,11 +8782,11 @@ add
 {
   "tool_calls": [
     {
-      "id": "chatcmpl-tool-07abf166ac8941feb6cdb4b7fc224c23",
+      "id": "chatcmpl-tool-6610f8879a7f4688ac85bcd057e2461d",
       "type": "function",
       "function": {
         "name": "multiply",
-        "arguments": "{\"a\": \"7\", \"b\": \"3\"}"
+        "arguments": "{\"a\": \"7.0\", \"b\": \"3\"}"
       }
     }
   ]
@@ -8610,11 +8800,11 @@ multiply
 {
   "tool_calls": [
     {
-      "id": "chatcmpl-tool-5715971ff0704a868ea27845d6f87190",
+      "id": "chatcmpl-tool-2023726f5ad24d49a092fc33b596dd35",
       "type": "function",
       "function": {
         "name": "divide",
-        "arguments": "{\"a\": \"21\", \"b\": \"10\"}"
+        "arguments": "{\"a\": \"21.0\", \"b\": \"10\"}"
       }
     }
   ]

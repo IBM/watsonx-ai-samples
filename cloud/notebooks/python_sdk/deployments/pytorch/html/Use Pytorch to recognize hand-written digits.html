@@ -7332,7 +7332,12 @@ a.anchor-link {
     if (!diagrams.length) {
       return;
     }
-    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs")).default;
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.0/mermaid.esm.min.mjs")).default;
+    const elkUrl = "https://cdnjs.cloudflare.com/ajax/libs/mermaid-layout-elk/0.1.9/mermaid-layout-elk.esm.min.mjs";
+    if(elkUrl) {
+      const elkLayouts = (await import(elkUrl)).default;
+      mermaid.registerLayoutLoaders(elkLayouts);
+    }
     const parser = new DOMParser();
 
     mermaid.initialize({
@@ -7429,7 +7434,8 @@ a.anchor-link {
      * Post-process to ensure mermaid diagrams contain only valid SVG and XHTML.
      */
     function cleanMermaidSvg(svg) {
-      return svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      svg = svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      return `${SVG_XML_HEADER}${svg}`;
     }
 
 
@@ -7455,6 +7461,285 @@ a.anchor-link {
       }
       return `<${tag} ${rest}>`;
     }
+
+
+  /**
+   * Named HTML entities with their decimal equivalent codes.
+   *
+   * @see https://www.w3.org/TR/WD-html40-970708/sgml/entities.html
+   * */
+  const HTML_ENTITIES = `<!ENTITY Aacute "&#193;">
+<!ENTITY aacute "&#225;">
+<!ENTITY Acirc "&#194;">
+<!ENTITY acirc "&#226;">
+<!ENTITY acute "&#180;">
+<!ENTITY AElig "&#198;">
+<!ENTITY aelig "&#230;">
+<!ENTITY Agrave "&#192;">
+<!ENTITY agrave "&#224;">
+<!ENTITY alefsym "&#8501;">
+<!ENTITY Alpha "&#913;">
+<!ENTITY alpha "&#945;">
+<!ENTITY amp "&#38;">
+<!ENTITY and "&#8869;">
+<!ENTITY ang "&#8736;">
+<!ENTITY Aring "&#197;">
+<!ENTITY aring "&#229;">
+<!ENTITY asymp "&#8776;">
+<!ENTITY Atilde "&#195;">
+<!ENTITY atilde "&#227;">
+<!ENTITY Auml "&#196;">
+<!ENTITY auml "&#228;">
+<!ENTITY bdquo "&#8222;">
+<!ENTITY Beta "&#914;">
+<!ENTITY beta "&#946;">
+<!ENTITY brvbar "&#166;">
+<!ENTITY bull "&#8226;">
+<!ENTITY cap "&#8745;">
+<!ENTITY Ccedil "&#199;">
+<!ENTITY ccedil "&#231;">
+<!ENTITY cedil "&#184;">
+<!ENTITY cent "&#162;">
+<!ENTITY Chi "&#935;">
+<!ENTITY chi "&#967;">
+<!ENTITY circ "&#710;">
+<!ENTITY clubs "&#9827;">
+<!ENTITY cong "&#8773;">
+<!ENTITY copy "&#169;">
+<!ENTITY crarr "&#8629;">
+<!ENTITY cup "&#8746;">
+<!ENTITY curren "&#164;">
+<!ENTITY dagger "&#8224;">
+<!ENTITY Dagger "&#8225;">
+<!ENTITY darr "&#8595;">
+<!ENTITY dArr "&#8659;">
+<!ENTITY deg "&#176;">
+<!ENTITY Delta "&#916;">
+<!ENTITY delta "&#948;">
+<!ENTITY diams "&#9830;">
+<!ENTITY divide "&#247;">
+<!ENTITY Eacute "&#201;">
+<!ENTITY eacute "&#233;">
+<!ENTITY Ecirc "&#202;">
+<!ENTITY ecirc "&#234;">
+<!ENTITY Egrave "&#200;">
+<!ENTITY egrave "&#232;">
+<!ENTITY empty "&#8709;">
+<!ENTITY emsp "&#8195;">
+<!ENTITY ensp "&#8194;">
+<!ENTITY epsilon "&#949;">
+<!ENTITY Epsilon "&#917;">
+<!ENTITY equiv "&#8801;">
+<!ENTITY Eta "&#919;">
+<!ENTITY eta "&#951;">
+<!ENTITY ETH "&#208;">
+<!ENTITY eth "&#240;">
+<!ENTITY Euml "&#203;">
+<!ENTITY euml "&#235;">
+<!ENTITY exist "&#8707;">
+<!ENTITY fnof "&#402;">
+<!ENTITY forall "&#8704;">
+<!ENTITY frac12 "&#189;">
+<!ENTITY frac14 "&#188;">
+<!ENTITY frac34 "&#190;">
+<!ENTITY frasl "&#8260;">
+<!ENTITY Gamma "&#915;">
+<!ENTITY gamma "&#947;">
+<!ENTITY ge "&#8805;">
+<!ENTITY gt "&#62;">
+<!ENTITY harr "&#8596;">
+<!ENTITY hArr "&#8660;">
+<!ENTITY hearts "&#9829;">
+<!ENTITY hellip "&#8230;">
+<!ENTITY Iacute "&#205;">
+<!ENTITY iacute "&#237;">
+<!ENTITY Icirc "&#206;">
+<!ENTITY icirc "&#238;">
+<!ENTITY iexcl "&#161;">
+<!ENTITY Igrave "&#204;">
+<!ENTITY igrave "&#236;">
+<!ENTITY image "&#8465;">
+<!ENTITY infin "&#8734;">
+<!ENTITY int "&#8747;">
+<!ENTITY Iota "&#921;">
+<!ENTITY iota "&#953;">
+<!ENTITY iquest "&#191;">
+<!ENTITY isin "&#8712;">
+<!ENTITY Iuml "&#207;">
+<!ENTITY iuml "&#239;">
+<!ENTITY Kappa "&#922;">
+<!ENTITY kappa "&#954;">
+<!ENTITY Lambda "&#923;">
+<!ENTITY lambda "&#955;">
+<!ENTITY lang "&#9001;">
+<!ENTITY laquo "&#171;">
+<!ENTITY larr "&#8592;">
+<!ENTITY lArr "&#8656;">
+<!ENTITY lceil "&#8968;">
+<!ENTITY ldquo "&#8220;">
+<!ENTITY le "&#8804;">
+<!ENTITY lfloor "&#8970;">
+<!ENTITY lowast "&#8727;">
+<!ENTITY loz "&#9674;">
+<!ENTITY lrm "&#8206;">
+<!ENTITY lsaquo "&#8249;">
+<!ENTITY lsquo "&#8216;">
+<!ENTITY lt "&#60;">
+<!ENTITY macr "&#175;">
+<!ENTITY mdash "&#8212;">
+<!ENTITY micro "&#181;">
+<!ENTITY middot "&#183;">
+<!ENTITY minus "&#8722;">
+<!ENTITY Mu "&#924;">
+<!ENTITY mu "&#956;">
+<!ENTITY nabla "&#8711;">
+<!ENTITY nbsp "&#160;">
+<!ENTITY ndash "&#8211;">
+<!ENTITY ne "&#8800;">
+<!ENTITY ni "&#8715;">
+<!ENTITY not "&#172;">
+<!ENTITY notin "&#8713;">
+<!ENTITY nsub "&#8836;">
+<!ENTITY Ntilde "&#209;">
+<!ENTITY ntilde "&#241;">
+<!ENTITY Nu "&#925;">
+<!ENTITY nu "&#957;">
+<!ENTITY Oacute "&#211;">
+<!ENTITY oacute "&#243;">
+<!ENTITY Ocirc "&#212;">
+<!ENTITY ocirc "&#244;">
+<!ENTITY OElig "&#338;">
+<!ENTITY oelig "&#339;">
+<!ENTITY Ograve "&#210;">
+<!ENTITY ograve "&#242;">
+<!ENTITY oline "&#8254;">
+<!ENTITY Omega "&#937;">
+<!ENTITY omega "&#969;">
+<!ENTITY Omicron "&#927;">
+<!ENTITY omicron "&#959;">
+<!ENTITY oplus "&#8853;">
+<!ENTITY or "&#8870;">
+<!ENTITY ordf "&#170;">
+<!ENTITY ordm "&#186;">
+<!ENTITY Oslash "&#216;">
+<!ENTITY oslash "&#248;">
+<!ENTITY Otilde "&#213;">
+<!ENTITY otilde "&#245;">
+<!ENTITY otimes "&#8855;">
+<!ENTITY Ouml "&#214;">
+<!ENTITY ouml "&#246;">
+<!ENTITY para "&#182;">
+<!ENTITY part "&#8706;">
+<!ENTITY permil "&#8240;">
+<!ENTITY perp "&#8869;">
+<!ENTITY Phi "&#934;">
+<!ENTITY phi "&#966;">
+<!ENTITY Pi "&#928;">
+<!ENTITY pi "&#960;">
+<!ENTITY piv "&#982;">
+<!ENTITY plusmn "&#177;">
+<!ENTITY pound "&#163;">
+<!ENTITY prime "&#8242;">
+<!ENTITY Prime "&#8243;">
+<!ENTITY prod "&#8719;">
+<!ENTITY prop "&#8733;">
+<!ENTITY Psi "&#936;">
+<!ENTITY psi "&#968;">
+<!ENTITY quot "&#34;">
+<!ENTITY radic "&#8730;">
+<!ENTITY rang "&#9002;">
+<!ENTITY raquo "&#187;">
+<!ENTITY rarr "&#8594;">
+<!ENTITY rArr "&#8658;">
+<!ENTITY rceil "&#8969;">
+<!ENTITY rdquo "&#8221;">
+<!ENTITY real "&#8476;">
+<!ENTITY reg "&#174;">
+<!ENTITY rfloor "&#8971;">
+<!ENTITY Rho "&#929;">
+<!ENTITY rho "&#961;">
+<!ENTITY rlm "&#8207;">
+<!ENTITY rsaquo "&#8250;">
+<!ENTITY rsquo "&#8217;">
+<!ENTITY sbquo "&#8218;">
+<!ENTITY Scaron "&#352;">
+<!ENTITY scaron "&#353;">
+<!ENTITY sdot "&#8901;">
+<!ENTITY sect "&#167;">
+<!ENTITY shy "&#173;">
+<!ENTITY Sigma "&#931;">
+<!ENTITY sigma "&#963;">
+<!ENTITY sigmaf "&#962;">
+<!ENTITY sim "&#8764;">
+<!ENTITY spades "&#9824;">
+<!ENTITY sub "&#8834;">
+<!ENTITY sube "&#8838;">
+<!ENTITY sum "&#8721;">
+<!ENTITY sup "&#8835;">
+<!ENTITY sup1 "&#185;">
+<!ENTITY sup2 "&#178;">
+<!ENTITY sup3 "&#179;">
+<!ENTITY supe "&#8839;">
+<!ENTITY szlig "&#223;">
+<!ENTITY Tau "&#932;">
+<!ENTITY tau "&#964;">
+<!ENTITY there4 "&#8756;">
+<!ENTITY Theta "&#920;">
+<!ENTITY theta "&#952;">
+<!ENTITY thetasym "&#977;">
+<!ENTITY thinsp "&#8201;">
+<!ENTITY THORN "&#222;">
+<!ENTITY thorn "&#254;">
+<!ENTITY tilde "&#732;">
+<!ENTITY times "&#215;">
+<!ENTITY trade "&#8482;">
+<!ENTITY Uacute "&#218;">
+<!ENTITY uacute "&#250;">
+<!ENTITY uarr "&#8593;">
+<!ENTITY uArr "&#8657;">
+<!ENTITY Ucirc "&#219;">
+<!ENTITY ucirc "&#251;">
+<!ENTITY Ugrave "&#217;">
+<!ENTITY ugrave "&#249;">
+<!ENTITY uml "&#168;">
+<!ENTITY upsih "&#978;">
+<!ENTITY Upsilon "&#933;">
+<!ENTITY upsilon "&#965;">
+<!ENTITY Uuml "&#220;">
+<!ENTITY uuml "&#252;">
+<!ENTITY weierp "&#8472;">
+<!ENTITY Xi "&#926;">
+<!ENTITY xi "&#958;">
+<!ENTITY Yacute "&#221;">
+<!ENTITY yacute "&#253;">
+<!ENTITY yen "&#165;">
+<!ENTITY Yuml "&#376;">
+<!ENTITY yuml "&#255;">
+<!ENTITY Zeta "&#918;">
+<!ENTITY zeta "&#950;">
+<!ENTITY zwj "&#8205;">
+<!ENTITY zwnj "&#8204;">`.replace(/\n/g, ' ');
+
+  /**
+   * A reasonably strict xml declaration.
+   */
+  const XML_DECL = '<?xml version="1.0" standalone="no"?>';
+
+  /**
+   * The beginning of the XML doctype declaration.
+   */
+  const DOCTYPE_START = `<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [`;
+
+  /**
+   * The end of the XML docype declaration.
+   */
+  const DOCTYPE_END = ']>';
+
+  /**
+   * A full header for an SVG XML document.
+   */
+  const SVG_XML_HEADER = `${XML_DECL}
+    ${DOCTYPE_START}${HTML_ENTITIES}${DOCTYPE_END}`;
 
     void Promise.all([...diagrams].map(renderOneMarmaid));
   });
@@ -7518,7 +7803,7 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1 id="Use-Pytorch-to-recognize-hand-written-digits-with-ibm-watsonx-ai">Use Pytorch to recognize hand-written digits with <code>ibm-watsonx-ai</code><a class="anchor-link" href="#Use-Pytorch-to-recognize-hand-written-digits-with-ibm-watsonx-ai">¶</a></h1><p>This notebook facilitates Pytorch ML library in watsonx.ai Runtime service. It contains steps and code to work with <a href="https://pypi.python.org/pypi/ibm-watsonx-ai">ibm-watsonx-ai</a> library available in PyPI repository. It also introduces commands for getting model and training data, persisting model, deploying model and scoring it.</p>
-<p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
+<p>Some familiarity with Python is helpful. This notebook uses Python 3.12.</p>
 </div>
 </div>
 </div>
@@ -7574,17 +7859,33 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>wget
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>ibm-watsonx-ai<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">matplotlib</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">ibm</span><span class="o">-</span><span class="n">watsonx</span><span class="o">-</span><span class="n">ai</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Successfully installed wget-3.2
+Successfully installed contourpy-1.3.3 cycler-0.12.1 fonttools-4.61.1 kiwisolver-1.4.9 matplotlib-3.10.8 numpy-2.4.1 pillow-12.1.0 pyparsing-3.3.1
+Successfully installed anyio-4.12.1 cachetools-6.2.4 certifi-2026.1.4 charset_normalizer-3.4.4 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-watsonx-ai-1.5.0 idna-3.11 jmespath-1.0.1 lomond-0.3.3 pandas-2.2.3 pytz-2025.2 requests-2.32.5 tabulate-0.9.0 typing_extensions-4.15.0 tzdata-2025.3 urllib3-2.6.3
+</pre>
 </div>
 </div>
 </div>
@@ -7620,7 +7921,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><strong>Tip</strong>: Your <code>Cloud API key</code> can be generated by going to the <a href="https://cloud.ibm.com/iam#/users"><strong>Users</strong> section of the Cloud console</a>. From that page, click your name, scroll down to the <strong>API Keys</strong> section, and click <strong>Create an IBM Cloud API key</strong>. Give your key a name and click <strong>Create</strong>, then copy the created key and paste it below. You can also get a service specific url by going to the <a href="https://cloud.ibm.com/apidocs/machine-learning"><strong>Endpoint URLs</strong> section of the watsonx.ai Runtime docs</a>.  You can check your instance location in your  <a href="https://cloud.ibm.com/catalog/services/watsonxai-runtime" rel="noopener no referrer" target="_blank">watsonx.ai Runtime Service</a> instance details.</p>
 <p>You can also get service specific apikey by going to the <a href="https://cloud.ibm.com/iam/serviceids"><strong>Service IDs</strong> section of the Cloud Console</a>.  From that page, click <strong>Create</strong>, then copy the created key and paste it below.</p>
-<p><strong>Action</strong>: Enter your <code>api_key</code> and <code>location</code> in the following cell.</p>
+<p><strong>Action</strong>: Enter your <code>url</code> and <code>api_key</code> in the following cell.</p>
 </div>
 </div>
 </div>
@@ -7629,29 +7930,16 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [29]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">api_key</span> <span class="o">=</span> <span class="s1">'PASTE YOUR PLATFORM API KEY HERE'</span>
-<span class="n">location</span> <span class="o">=</span> <span class="s1">'PASTE YOUR INSTANCE LOCATION HERE'</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span>
 
 <span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span>
-    <span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span>
-    <span class="n">url</span><span class="o">=</span><span class="s1">'https://'</span> <span class="o">+</span> <span class="n">location</span> <span class="o">+</span> <span class="s1">'.ml.cloud.ibm.com'</span>
+    <span class="n">url</span><span class="o">=</span><span class="s2">"https://us-south.ml.cloud.ibm.com"</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Please enter your watsonx.ai api key (hit enter): "</span><span class="p">),</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -7663,7 +7951,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span>
@@ -7699,10 +7987,10 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">space_id</span> <span class="o">=</span> <span class="s1">'PASTE YOUR SPACE ID HERE'</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">space_id</span> <span class="o">=</span> <span class="s2">"PASTE YOUR SPACE ID HERE"</span>
 </pre></div>
 </div>
 </div>
@@ -7749,7 +8037,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">set</span><span class="o">.</span><span class="n">default_space</span><span class="p">(</span><span class="n">space_id</span><span class="p">)</span>
@@ -7763,7 +8051,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[4]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>'SUCCESS'</pre>
 </div>
@@ -7787,42 +8075,23 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">wget</span>
-
-<span class="n">data_dir</span> <span class="o">=</span> <span class="s1">'MNIST_DATA'</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">data_dir</span><span class="p">):</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">data_dir</span><span class="p">)</span>
-    
-<span class="n">model_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="s1">'mnist_pytorch.tar.gz'</span><span class="p">)</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">model_path</span><span class="p">):</span>
-    <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">'https://github.com/IBM/watson-machine-learning-samples/raw/master/cloud/models/pytorch/mnist_pytorch.tar.gz'</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">data_dir</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">wget</span>
 
-<span class="n">data_dir</span> <span class="o">=</span> <span class="s1">'MNIST_DATA'</span>
+<span class="n">data_dir</span> <span class="o">=</span> <span class="s2">"MNIST_DATA"</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">data_dir</span><span class="p">):</span>
     <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">data_dir</span><span class="p">)</span>
-    
-<span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="s1">'mnist.npz'</span><span class="p">)</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-    <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">'https://s3.amazonaws.com/img-datasets/mnist.npz'</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">data_dir</span><span class="p">)</span>  
+
+<span class="n">model_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="s2">"mnist_pytorch.tar.gz"</span><span class="p">)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">model_path</span><span class="p">):</span>
+    <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span>
+        <span class="s2">"https://github.com/IBM/watsonx-ai-samples/raw/master/cloud/models/pytorch/mnist_pytorch.tar.gz"</span><span class="p">,</span>
+        <span class="n">out</span><span class="o">=</span><span class="n">data_dir</span><span class="p">,</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7836,10 +8105,34 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">wget</span>
+
+<span class="n">data_dir</span> <span class="o">=</span> <span class="s2">"MNIST_DATA"</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">data_dir</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">data_dir</span><span class="p">)</span>
+
+<span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="s2">"mnist.npz"</span><span class="p">)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s2">"https://s3.amazonaws.com/img-datasets/mnist.npz"</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">data_dir</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-<span class="n">x_test</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="s1">'x_test'</span><span class="p">]</span>
+<span class="n">x_test</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="s2">"x_test"</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -7890,26 +8183,15 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div>
 </div>
 </div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Define model name, autor name and email.</p>
-</div>
-</div>
-</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">sofware_spec_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">get_id_by_name</span><span class="p">(</span><span class="s2">"runtime-24.1-py3.11"</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">software_spec_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">get_id_by_name</span><span class="p">(</span><span class="s2">"onnxruntime_opset_19"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7920,18 +8202,16 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">ModelMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s1">'External pytorch model'</span><span class="p">,</span>
-            <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">ModelMetaNames</span><span class="o">.</span><span class="n">TYPE</span><span class="p">:</span> <span class="s1">'pytorch-onnx_2.1'</span><span class="p">,</span>
-            <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">ModelMetaNames</span><span class="o">.</span><span class="n">SOFTWARE_SPEC_ID</span><span class="p">:</span> <span class="n">sofware_spec_id</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">ModelMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"External pytorch model"</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">ModelMetaNames</span><span class="o">.</span><span class="n">TYPE</span><span class="p">:</span> <span class="s2">"onnxruntime_1.16"</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">ModelMetaNames</span><span class="o">.</span><span class="n">SOFTWARE_SPEC_ID</span><span class="p">:</span> <span class="n">software_spec_id</span><span class="p">,</span>
 <span class="p">}</span>
 
-<span class="n">published_model</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">store_model</span><span class="p">(</span>
-    <span class="n">model</span><span class="o">=</span><span class="n">model_path</span><span class="p">,</span>
-    <span class="n">meta_props</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
+<span class="n">published_model</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">store_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model_path</span><span class="p">,</span> <span class="n">meta_props</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7953,7 +8233,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
@@ -7974,25 +8254,29 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>{
-  "entity": {
-    "hybrid_pipeline_software_specs": [],
-    "software_spec": {
-      "id": "336b29df-e0e1-5e7d-b6a5-f6ab722625b2",
-      "name": "runtime-23.1-py3.10"
-    },
-    "type": "pytorch-onnx_2.0"
-  },
   "metadata": {
-    "created_at": "2024-03-06T13:07:08.463Z",
-    "id": "a2aeb6f4-e2cf-4358-8460-793ede32149d",
-    "modified_at": "2024-03-06T13:07:18.370Z",
     "name": "External pytorch model",
-    "owner": "IBMid-55000091VC",
-    "resource_key": "d038c6cc-de01-4121-a564-66cb2e90fe56",
-    "space_id": "93ee84d1-b7dd-42b4-b2ca-121bc0c86315"
+    "space_id": "fb3d528a-bf16-460e-bcf6-06f05d8ba57c",
+    "resource_key": "81e97481-3737-4f9a-b08f-d25ea0d5e71e",
+    "id": "34c59e42-c4a4-40d1-83a8-667cbc72e4e1",
+    "created_at": "2026-01-14T13:03:35Z",
+    "rov": {
+      "member_roles": {
+        "IBMid-696000GJGB": {
+          "user_iam_id": "IBMid-696000GJGB",
+          "roles": [
+            "OWNER"
+          ]
+        }
+      }
+    },
+    "owner": "IBMid-696000GJGB"
   },
-  "system": {
-    "warnings": []
+  "entity": {
+    "software_spec": {
+      "id": "368d2795-aaa7-59a0-834c-248c64a5a99e"
+    },
+    "type": "onnxruntime_1.16"
   }
 }
 </pre>
@@ -8016,7 +8300,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">models_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">list_models</span><span class="p">()</span>
@@ -8075,12 +8359,12 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"Deployment of external pytorch model"</span><span class="p">,</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">ONLINE</span><span class="p">:</span> <span class="p">{}</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">ONLINE</span><span class="p">:</span> <span class="p">{},</span>
 <span class="p">}</span>
 
 <span class="n">created_deployment</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">published_model_id</span><span class="p">,</span> <span class="n">meta_props</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
@@ -8098,22 +8382,22 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
 
-#######################################################################################
+######################################################################################
 
-Synchronous deployment creation for uid: 'a2aeb6f4-e2cf-4358-8460-793ede32149d' started
+Synchronous deployment creation for id: '34c59e42-c4a4-40d1-83a8-667cbc72e4e1' started
 
-#######################################################################################
+######################################################################################
 
 
 initializing
 Note: online_url and serving_urls are deprecated and will be removed in a future release. Use inference instead.
-
+....
 ready
 
 
-------------------------------------------------------------------------------------------------
-Successfully finished deployment creation, deployment_uid='8062b683-26c3-43b8-ae4b-f488f14015e8'
-------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------
+Successfully finished deployment creation, deployment_id='e619a075-54b8-4d7c-873b-c10a4585cd97'
+-----------------------------------------------------------------------------------------------
 
 
 </pre>
@@ -8137,7 +8421,7 @@ Successfully finished deployment creation, deployment_uid='8062b683-26c3-43b8-ae
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">deployment_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">created_deployment</span><span class="p">)</span>
@@ -8162,7 +8446,7 @@ Successfully finished deployment creation, deployment_uid='8062b683-26c3-43b8-ae
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">scoring_endpoint</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_scoring_href</span><span class="p">(</span><span class="n">created_deployment</span><span class="p">)</span>
@@ -8183,16 +8467,68 @@ Successfully finished deployment creation, deployment_uid='8062b683-26c3-43b8-ae
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[16]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>ID</th>
+<th>NAME</th>
+<th>STATE</th>
+<th>CREATED</th>
+<th>ARTIFACT_TYPE</th>
+<th>SPEC_STATE</th>
+<th>SPEC_REPLACEMENT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>e619a075-54b8-4d7c-873b-c10a4585cd97</td>
+<td>Deployment of external pytorch model</td>
+<td>ready</td>
+<td>2026-01-14T13:03:47.841Z</td>
+<td>model</td>
+<td>supported</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 </div>
@@ -8213,7 +8549,7 @@ Successfully finished deployment creation, deployment_uid='8062b683-26c3-43b8-ae
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_details</span><span class="p">(</span><span class="n">deployment_id</span><span class="p">)</span>
@@ -8261,10 +8597,10 @@ Successfully finished deployment creation, deployment_uid='8062b683-26c3-43b8-ae
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 </pre></div>
 </div>
@@ -8276,13 +8612,13 @@ Successfully finished deployment creation, deployment_uid='8062b683-26c3-43b8-ae
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">image</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="n">x_test</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x_test</span><span class="p">[</span><span class="mi">1</span><span class="p">]]):</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray_r</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">'nearest'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">"off"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray_r</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">"nearest"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8295,7 +8631,7 @@ Successfully finished deployment creation, deployment_uid='8062b683-26c3-43b8-ae
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedImage jp-OutputArea-output" tabindex="0">
-<img alt="No description has been provided for this image" class="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAcoAAAC8CAYAAAD4kO60AAAAOXRFWHRTb2Z0d2FyZQBNYXRwbG90bGliIHZlcnNpb24zLjguMywgaHR0cHM6Ly9tYXRwbG90bGliLm9yZy/H5lhTAAAACXBIWXMAAA9hAAAPYQGoP6dpAAAIV0lEQVR4nO3d32vV9R8HcFcNR80sSWyCG9FgM2zuQpBFsH5dLLEwxQxEvOgqL7zooovhjSZqueiivKo/YNCiGsMUHAgNiTaQCiZ4YS2QUWQjuhhO43yv+/r6vOozz9k5c4/H5ZPx/ryu9uQNL96nqVKpVFYBAKH76j0AADQyRQkACUUJAAlFCQAJRQkACUUJAAlFCQAJRQkACUUJAAlFCQAJRQkACUUJAAlFCQAJRQkACUUJAAlFCQAJRQkACUUJAAlFCQAJRQkACUUJAAlFCQAJRQkACUUJAAlFCQAJRQkACUUJAIkH6j0AwL1kaGgozOfn58P8hx9+CPORkZFS333rrbfCvK+vL8wPHDhQ6vyVzI0SABKKEgASihIAEooSABKKEgASTZVKpVLvIQCWm3379oX5Z599tsST5Do7O8P8woULYd7e3l7LcZYlN0oASChKAEgoSgBIKEoASChKAEjYegVI1Hq7tbu7O8wHBgbC/Nq1a2E+Ojpa6rvHjx8P88HBwVLnrARulACQUJQAkFCUAJBQlACQUJQAkHig3gMANIKpqakw/+KLL0qds2XLljAv2kp97LHHwry1tTXMFxYWwnz79u1h/v3334f5jRs3wpw7uVECQEJRAkBCUQJAQlECQEJRAkBi2W69joyMhPknn3wS5hs3bgzzlpaWMN+/f3+YP/7442Fe9CviwPIwOzsb5kXPYRdtt54/fz7M29raFjfY/xkaGgrzK1eulDpn586d1RhnRXCjBICEogSAhKIEgISiBICEogSARFOlaKWrwT3xxBNh/vPPP9f0uw8//HCYP/XUUzX9bq1t2rQpzN95550w37ZtWy3HgYYxMzMT5mvWrAnzdevW1XKcVVu3bg3zH3/8sdQ54+PjYf7888+Xnule50YJAAlFCQAJRQkACUUJAAlFCQCJZfvW66effhrmRb/mXbSVOj09HeaXL18O84sXL4b5t99+G+bt7e1h/ssvv4R5Wc3NzWFe9KvpRe9ZFs1ftA1r65WVoqOjoy7fPX36dJhfvXq11Dnbt28vlXMnN0oASChKAEgoSgBIKEoASChKAEgs27de62Vubi7Mi7Zki7ZDJycnqzLP6tWrw7yrqyvMu7u7w/yPP/4I8zNnzoT5oUOH/sN0wL8ZGxsL871794b5zZs3w3zDhg1hPjw8HOb9/f3/YTpWrXKjBICUogSAhKIEgISiBICEogSAxLJ967VeHn300TB/4YUXSp3z4osvVmOcQp9//nmYF23t9vT0hPkbb7xRtZmAO01NTYV50XZrkX379oW57da750YJAAlFCQAJRQkACUUJAAlFCQAJb70uc7/99luYP/3006X+fmRkJMz37NmzuMGAf9i1a1eYnz9/PsyLtl4PHjwY5h999FGYt7a2/vtwpNwoASChKAEgoSgBIKEoASChKAEg4a3XZe7MmTNhXrTd+sgjj4R5V1dXtUaCFW12djbML126FOZF263r168P8yNHjoS57dbacaMEgISiBICEogSAhKIEgISiBICErddlYmJiIsxPnTpV6pyvvvoqzLds2VJ6JuBOu3fvDvPff/+91Dn79+8P8yeffLL0TNwdN0oASChKAEgoSgBIKEoASChKAEjYel0mzp49G+YLCwth/tJLL4V5X19f1WaClWx0dDTML1++XOqc5557LsyPHTtWdiRqxI0SABKKEgASihIAEooSABKKEgAStl4bzPz8fJifO3cuzFevXh3mR48eDfPm5ubFDQYr1I0bN8L8xIkTYV60iV6kt7c3zFtbW0udQ+24UQJAQlECQEJRAkBCUQJAQlECQMLWa4M5ffp0mBe9H/nyyy+H+TPPPFO1mWAl++CDD8L8u+++K3XOrl27wtybro3PjRIAEooSABKKEgASihIAEooSABJNlUqlUu8hVqKxsbEwf+2118L8oYceCvOvv/46zPv6+hY3GPAPLS0tYV72Tdfr16+HeVtbW+mZWFpulACQUJQAkFCUAJBQlACQUJQAkPDWa40V/Tr64cOHw/z27dthvmPHjjC33QrLQ9H/gubm5pp+d+3ataW+e+vWrTD/888/S313bm4uzD/88MNS5xS5//77w/y9994L8wcffHDR33KjBICEogSAhKIEgISiBICEogSAhK3XKvn777/DfGBgIMx/+umnMO/s7Azzd999d3GDAQ2hp6enLt99/fXXw7zojdlff/01zIeHh6s2Uy1t2LAhzI8cObLoM90oASChKAEgoSgBIKEoASChKAEg0VSpVCr1HuJecPXq1TDv6uoqdc7o6GiYv/LKK6VnAu7e7t27w/zLL79c2kEaVNGbsffdV+4e9uqrr4b5tm3bSp3z7LPPhvndvIvtRgkACUUJAAlFCQAJRQkACUUJAAlbryXNzMyEeX9/f6m/HxoaCvO33347zJuamv7DdMBSef/998N8YWGhKudPT0+HebXeXH3zzTfDvKOjo9Q5e/bsCfPNmzeXnqlRuVECQEJRAkBCUQJAQlECQEJRAkDC1mtJg4ODYX7y5MlS50xOToZ52XcNAagtN0oASChKAEgoSgBIKEoASChKAEg8UO8BGtU333wT5h9//PESTwJAPblRAkBCUQJAQlECQEJRAkBCUQJAwtZrgYmJiTD/66+/Sp3T2dkZ5q2traVnAmDpuVECQEJRAkBCUQJAQlECQEJRAkDC1muV9Pb2hvn4+HiYr1u3robTAFAtbpQAkFCUAJBQlACQUJQAkFCUAJBoqlQqlXoPAQCNyo0SABKKEgASihIAEooSABKKEgASihIAEooSABKKEgASihIAEooSABKKEgASihIAEooSABKKEgASihIAEv8DF8x/rDHGGawAAAAASUVORK5CYII="/>
+<img alt="No description has been provided for this image" class="" src="data:image/png;base64,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"/>
 </div>
 </div>
 </div>
@@ -8316,7 +8652,7 @@ Successfully finished deployment creation, deployment_uid='8062b683-26c3-43b8-ae
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">score_0</span> <span class="o">=</span> <span class="p">[</span><span class="n">x_test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
@@ -8331,7 +8667,7 @@ Successfully finished deployment creation, deployment_uid='8062b683-26c3-43b8-ae
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">scoring_payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"input_data"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"values"</span><span class="p">:</span> <span class="p">[</span><span class="n">score_0</span><span class="p">,</span> <span class="n">score_1</span><span class="p">]}]}</span>
@@ -8356,7 +8692,7 @@ Successfully finished deployment creation, deployment_uid='8062b683-26c3-43b8-ae
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [27]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">deployment_id</span><span class="p">,</span> <span class="n">scoring_payload</span><span class="p">)</span>
@@ -8381,7 +8717,7 @@ Successfully finished deployment creation, deployment_uid='8062b683-26c3-43b8-ae
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [28]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
@@ -8400,30 +8736,31 @@ Successfully finished deployment creation, deployment_uid='8062b683-26c3-43b8-ae
 <pre>{
   "predictions": [
     {
+      "id": "output",
       "values": [
         [
-          2.9382650407717056e-39,
-          2.9382650407717056e-39,
-          2.9382650407717056e-39,
-          2.9382650407717056e-39,
-          2.9382650407717056e-39,
-          2.9382650407717056e-39,
-          2.9382650407717056e-39,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
           1.0,
-          2.9382650407717056e-39,
-          2.9382650407717056e-39
+          0.0,
+          0.0
         ],
         [
-          2.9382650407717056e-39,
-          2.9382650407717056e-39,
+          0.0,
+          0.0,
           1.0,
-          2.9382650407717056e-39,
-          2.9382650407717056e-39,
-          2.9382650407717056e-39,
-          2.9382650407717056e-39,
-          2.9382650407717056e-39,
-          2.9382650407717056e-39,
-          2.9382650407717056e-39
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
         ]
       ]
     }
