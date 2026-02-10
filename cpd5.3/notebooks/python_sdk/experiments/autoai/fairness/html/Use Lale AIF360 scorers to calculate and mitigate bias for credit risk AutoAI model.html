@@ -7332,7 +7332,12 @@ a.anchor-link {
     if (!diagrams.length) {
       return;
     }
-    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs")).default;
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.0/mermaid.esm.min.mjs")).default;
+    const elkUrl = "https://cdnjs.cloudflare.com/ajax/libs/mermaid-layout-elk/0.1.9/mermaid-layout-elk.esm.min.mjs";
+    if(elkUrl) {
+      const elkLayouts = (await import(elkUrl)).default;
+      mermaid.registerLayoutLoaders(elkLayouts);
+    }
     const parser = new DOMParser();
 
     mermaid.initialize({
@@ -7429,7 +7434,8 @@ a.anchor-link {
      * Post-process to ensure mermaid diagrams contain only valid SVG and XHTML.
      */
     function cleanMermaidSvg(svg) {
-      return svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      svg = svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      return `${SVG_XML_HEADER}${svg}`;
     }
 
 
@@ -7455,6 +7461,285 @@ a.anchor-link {
       }
       return `<${tag} ${rest}>`;
     }
+
+
+  /**
+   * Named HTML entities with their decimal equivalent codes.
+   *
+   * @see https://www.w3.org/TR/WD-html40-970708/sgml/entities.html
+   * */
+  const HTML_ENTITIES = `<!ENTITY Aacute "&#193;">
+<!ENTITY aacute "&#225;">
+<!ENTITY Acirc "&#194;">
+<!ENTITY acirc "&#226;">
+<!ENTITY acute "&#180;">
+<!ENTITY AElig "&#198;">
+<!ENTITY aelig "&#230;">
+<!ENTITY Agrave "&#192;">
+<!ENTITY agrave "&#224;">
+<!ENTITY alefsym "&#8501;">
+<!ENTITY Alpha "&#913;">
+<!ENTITY alpha "&#945;">
+<!ENTITY amp "&#38;">
+<!ENTITY and "&#8869;">
+<!ENTITY ang "&#8736;">
+<!ENTITY Aring "&#197;">
+<!ENTITY aring "&#229;">
+<!ENTITY asymp "&#8776;">
+<!ENTITY Atilde "&#195;">
+<!ENTITY atilde "&#227;">
+<!ENTITY Auml "&#196;">
+<!ENTITY auml "&#228;">
+<!ENTITY bdquo "&#8222;">
+<!ENTITY Beta "&#914;">
+<!ENTITY beta "&#946;">
+<!ENTITY brvbar "&#166;">
+<!ENTITY bull "&#8226;">
+<!ENTITY cap "&#8745;">
+<!ENTITY Ccedil "&#199;">
+<!ENTITY ccedil "&#231;">
+<!ENTITY cedil "&#184;">
+<!ENTITY cent "&#162;">
+<!ENTITY Chi "&#935;">
+<!ENTITY chi "&#967;">
+<!ENTITY circ "&#710;">
+<!ENTITY clubs "&#9827;">
+<!ENTITY cong "&#8773;">
+<!ENTITY copy "&#169;">
+<!ENTITY crarr "&#8629;">
+<!ENTITY cup "&#8746;">
+<!ENTITY curren "&#164;">
+<!ENTITY dagger "&#8224;">
+<!ENTITY Dagger "&#8225;">
+<!ENTITY darr "&#8595;">
+<!ENTITY dArr "&#8659;">
+<!ENTITY deg "&#176;">
+<!ENTITY Delta "&#916;">
+<!ENTITY delta "&#948;">
+<!ENTITY diams "&#9830;">
+<!ENTITY divide "&#247;">
+<!ENTITY Eacute "&#201;">
+<!ENTITY eacute "&#233;">
+<!ENTITY Ecirc "&#202;">
+<!ENTITY ecirc "&#234;">
+<!ENTITY Egrave "&#200;">
+<!ENTITY egrave "&#232;">
+<!ENTITY empty "&#8709;">
+<!ENTITY emsp "&#8195;">
+<!ENTITY ensp "&#8194;">
+<!ENTITY epsilon "&#949;">
+<!ENTITY Epsilon "&#917;">
+<!ENTITY equiv "&#8801;">
+<!ENTITY Eta "&#919;">
+<!ENTITY eta "&#951;">
+<!ENTITY ETH "&#208;">
+<!ENTITY eth "&#240;">
+<!ENTITY Euml "&#203;">
+<!ENTITY euml "&#235;">
+<!ENTITY exist "&#8707;">
+<!ENTITY fnof "&#402;">
+<!ENTITY forall "&#8704;">
+<!ENTITY frac12 "&#189;">
+<!ENTITY frac14 "&#188;">
+<!ENTITY frac34 "&#190;">
+<!ENTITY frasl "&#8260;">
+<!ENTITY Gamma "&#915;">
+<!ENTITY gamma "&#947;">
+<!ENTITY ge "&#8805;">
+<!ENTITY gt "&#62;">
+<!ENTITY harr "&#8596;">
+<!ENTITY hArr "&#8660;">
+<!ENTITY hearts "&#9829;">
+<!ENTITY hellip "&#8230;">
+<!ENTITY Iacute "&#205;">
+<!ENTITY iacute "&#237;">
+<!ENTITY Icirc "&#206;">
+<!ENTITY icirc "&#238;">
+<!ENTITY iexcl "&#161;">
+<!ENTITY Igrave "&#204;">
+<!ENTITY igrave "&#236;">
+<!ENTITY image "&#8465;">
+<!ENTITY infin "&#8734;">
+<!ENTITY int "&#8747;">
+<!ENTITY Iota "&#921;">
+<!ENTITY iota "&#953;">
+<!ENTITY iquest "&#191;">
+<!ENTITY isin "&#8712;">
+<!ENTITY Iuml "&#207;">
+<!ENTITY iuml "&#239;">
+<!ENTITY Kappa "&#922;">
+<!ENTITY kappa "&#954;">
+<!ENTITY Lambda "&#923;">
+<!ENTITY lambda "&#955;">
+<!ENTITY lang "&#9001;">
+<!ENTITY laquo "&#171;">
+<!ENTITY larr "&#8592;">
+<!ENTITY lArr "&#8656;">
+<!ENTITY lceil "&#8968;">
+<!ENTITY ldquo "&#8220;">
+<!ENTITY le "&#8804;">
+<!ENTITY lfloor "&#8970;">
+<!ENTITY lowast "&#8727;">
+<!ENTITY loz "&#9674;">
+<!ENTITY lrm "&#8206;">
+<!ENTITY lsaquo "&#8249;">
+<!ENTITY lsquo "&#8216;">
+<!ENTITY lt "&#60;">
+<!ENTITY macr "&#175;">
+<!ENTITY mdash "&#8212;">
+<!ENTITY micro "&#181;">
+<!ENTITY middot "&#183;">
+<!ENTITY minus "&#8722;">
+<!ENTITY Mu "&#924;">
+<!ENTITY mu "&#956;">
+<!ENTITY nabla "&#8711;">
+<!ENTITY nbsp "&#160;">
+<!ENTITY ndash "&#8211;">
+<!ENTITY ne "&#8800;">
+<!ENTITY ni "&#8715;">
+<!ENTITY not "&#172;">
+<!ENTITY notin "&#8713;">
+<!ENTITY nsub "&#8836;">
+<!ENTITY Ntilde "&#209;">
+<!ENTITY ntilde "&#241;">
+<!ENTITY Nu "&#925;">
+<!ENTITY nu "&#957;">
+<!ENTITY Oacute "&#211;">
+<!ENTITY oacute "&#243;">
+<!ENTITY Ocirc "&#212;">
+<!ENTITY ocirc "&#244;">
+<!ENTITY OElig "&#338;">
+<!ENTITY oelig "&#339;">
+<!ENTITY Ograve "&#210;">
+<!ENTITY ograve "&#242;">
+<!ENTITY oline "&#8254;">
+<!ENTITY Omega "&#937;">
+<!ENTITY omega "&#969;">
+<!ENTITY Omicron "&#927;">
+<!ENTITY omicron "&#959;">
+<!ENTITY oplus "&#8853;">
+<!ENTITY or "&#8870;">
+<!ENTITY ordf "&#170;">
+<!ENTITY ordm "&#186;">
+<!ENTITY Oslash "&#216;">
+<!ENTITY oslash "&#248;">
+<!ENTITY Otilde "&#213;">
+<!ENTITY otilde "&#245;">
+<!ENTITY otimes "&#8855;">
+<!ENTITY Ouml "&#214;">
+<!ENTITY ouml "&#246;">
+<!ENTITY para "&#182;">
+<!ENTITY part "&#8706;">
+<!ENTITY permil "&#8240;">
+<!ENTITY perp "&#8869;">
+<!ENTITY Phi "&#934;">
+<!ENTITY phi "&#966;">
+<!ENTITY Pi "&#928;">
+<!ENTITY pi "&#960;">
+<!ENTITY piv "&#982;">
+<!ENTITY plusmn "&#177;">
+<!ENTITY pound "&#163;">
+<!ENTITY prime "&#8242;">
+<!ENTITY Prime "&#8243;">
+<!ENTITY prod "&#8719;">
+<!ENTITY prop "&#8733;">
+<!ENTITY Psi "&#936;">
+<!ENTITY psi "&#968;">
+<!ENTITY quot "&#34;">
+<!ENTITY radic "&#8730;">
+<!ENTITY rang "&#9002;">
+<!ENTITY raquo "&#187;">
+<!ENTITY rarr "&#8594;">
+<!ENTITY rArr "&#8658;">
+<!ENTITY rceil "&#8969;">
+<!ENTITY rdquo "&#8221;">
+<!ENTITY real "&#8476;">
+<!ENTITY reg "&#174;">
+<!ENTITY rfloor "&#8971;">
+<!ENTITY Rho "&#929;">
+<!ENTITY rho "&#961;">
+<!ENTITY rlm "&#8207;">
+<!ENTITY rsaquo "&#8250;">
+<!ENTITY rsquo "&#8217;">
+<!ENTITY sbquo "&#8218;">
+<!ENTITY Scaron "&#352;">
+<!ENTITY scaron "&#353;">
+<!ENTITY sdot "&#8901;">
+<!ENTITY sect "&#167;">
+<!ENTITY shy "&#173;">
+<!ENTITY Sigma "&#931;">
+<!ENTITY sigma "&#963;">
+<!ENTITY sigmaf "&#962;">
+<!ENTITY sim "&#8764;">
+<!ENTITY spades "&#9824;">
+<!ENTITY sub "&#8834;">
+<!ENTITY sube "&#8838;">
+<!ENTITY sum "&#8721;">
+<!ENTITY sup "&#8835;">
+<!ENTITY sup1 "&#185;">
+<!ENTITY sup2 "&#178;">
+<!ENTITY sup3 "&#179;">
+<!ENTITY supe "&#8839;">
+<!ENTITY szlig "&#223;">
+<!ENTITY Tau "&#932;">
+<!ENTITY tau "&#964;">
+<!ENTITY there4 "&#8756;">
+<!ENTITY Theta "&#920;">
+<!ENTITY theta "&#952;">
+<!ENTITY thetasym "&#977;">
+<!ENTITY thinsp "&#8201;">
+<!ENTITY THORN "&#222;">
+<!ENTITY thorn "&#254;">
+<!ENTITY tilde "&#732;">
+<!ENTITY times "&#215;">
+<!ENTITY trade "&#8482;">
+<!ENTITY Uacute "&#218;">
+<!ENTITY uacute "&#250;">
+<!ENTITY uarr "&#8593;">
+<!ENTITY uArr "&#8657;">
+<!ENTITY Ucirc "&#219;">
+<!ENTITY ucirc "&#251;">
+<!ENTITY Ugrave "&#217;">
+<!ENTITY ugrave "&#249;">
+<!ENTITY uml "&#168;">
+<!ENTITY upsih "&#978;">
+<!ENTITY Upsilon "&#933;">
+<!ENTITY upsilon "&#965;">
+<!ENTITY Uuml "&#220;">
+<!ENTITY uuml "&#252;">
+<!ENTITY weierp "&#8472;">
+<!ENTITY Xi "&#926;">
+<!ENTITY xi "&#958;">
+<!ENTITY Yacute "&#221;">
+<!ENTITY yacute "&#253;">
+<!ENTITY yen "&#165;">
+<!ENTITY Yuml "&#376;">
+<!ENTITY yuml "&#255;">
+<!ENTITY Zeta "&#918;">
+<!ENTITY zeta "&#950;">
+<!ENTITY zwj "&#8205;">
+<!ENTITY zwnj "&#8204;">`.replace(/\n/g, ' ');
+
+  /**
+   * A reasonably strict xml declaration.
+   */
+  const XML_DECL = '<?xml version="1.0" standalone="no"?>';
+
+  /**
+   * The beginning of the XML doctype declaration.
+   */
+  const DOCTYPE_START = `<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [`;
+
+  /**
+   * The end of the XML docype declaration.
+   */
+  const DOCTYPE_END = ']>';
+
+  /**
+   * A full header for an SVG XML document.
+   */
+  const SVG_XML_HEADER = `${XML_DECL}
+    ${DOCTYPE_START}${HTML_ENTITIES}${DOCTYPE_END}`;
 
     void Promise.all([...diagrams].map(renderOneMarmaid));
   });
@@ -7602,15 +7887,13 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">pip</span> install -U wget | tail -n 1
-<span class="o">%</span><span class="k">pip</span> install "scikit-learn==1.6.1" | tail -n 1
-<span class="o">%</span><span class="k">pip</span> install -U ibm-watsonx-ai | tail -n 1
-<span class="o">%</span><span class="k">pip</span> install -U autoai-libs | tail -n 1
-<span class="o">%</span><span class="k">pip</span> install -U "lale[fairness]" | tail -n 1
-<span class="o">%</span><span class="k">pip</span> install -U aif360 | tail -n 1
-<span class="o">%</span><span class="k">pip</span> install -U liac-arff | tail -n 1
-<span class="o">%</span><span class="k">pip</span> install -U cvxpy | tail -n 1
-<span class="o">%</span><span class="k">pip</span> install -U fairlearn | tail -n 1
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="s2">"scikit-learn==1.6.1"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">ibm</span><span class="o">-</span><span class="n">watsonx</span><span class="o">-</span><span class="n">ai</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">autoai</span><span class="o">-</span><span class="n">libs</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"lale[fairness]"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">cvxpy</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">fairlearn</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -7624,14 +7907,12 @@ a.anchor-link {
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Successfully installed wget-3.2
-Requirement already satisfied: threadpoolctl&gt;=3.1.0 in /opt/user-env/pyt6/lib64/python3.12/site-packages (from scikit-learn==1.6.1) (3.6.0)
-Successfully installed ibm-watsonx-ai-1.3.20
-Successfully installed autoai-libs-3.0.3
-Successfully installed BlackBoxAuditing-0.1.54 aif360-0.6.1 imbalanced-learn-0.13.0 klepto-0.2.7 liac-arff-2.5.0 mystic-0.4.4 pox-0.3.6 sklearn-compat-0.1.3
-Requirement already satisfied: six&gt;=1.5 in /opt/user-env/pyt6/lib64/python3.12/site-packages (from python-dateutil&gt;=2.8.2-&gt;pandas&gt;=0.24.0-&gt;aif360) (1.17.0)
-Requirement already satisfied: liac-arff in /opt/user-env/pyt6/lib64/python3.12/site-packages (2.5.0)
-Successfully installed clarabel-0.10.0 cvxpy-1.6.5 osqp-1.0.4 scs-3.2.7.post2
-Successfully installed fairlearn-0.12.0
+Successfully installed joblib-1.5.3 numpy-2.4.2 scikit-learn-1.6.1 scipy-1.17.0 threadpoolctl-3.6.0
+Successfully installed anyio-4.12.1 cachetools-7.0.0 certifi-2026.1.4 charset_normalizer-3.4.4 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-watsonx-ai-1.5.1 idna-3.11 jmespath-1.0.1 lomond-0.3.3 pandas-2.3.3 pytz-2025.2 requests-2.32.5 tabulate-0.9.0 typing_extensions-4.15.0 tzdata-2025.3 urllib3-2.6.3
+Successfully installed attrs-25.3.0 autoai-libs-3.0.10 black-26.1.0 click-8.3.1 cloudpickle-3.1.2 future-1.0.0 greenery-3.3.3 hyperopt-0.2.7 jsonref-1.1.0 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 jsonsubschema-0.0.7 lale-0.9.2 mypy-extensions-1.1.0 networkx-3.6.1 numpy-2.0.2 pandas-2.2.3 parameterized-0.9.0 pathspec-1.0.4 portion-2.6.1 protobuf-6.33.5 py4j-0.10.9.9 pytokens-0.4.1 referencing-0.37.0 rpds-py-0.30.0 sortedcontainers-2.4.0 tqdm-4.67.3 xgboost-2.1.4
+Successfully installed BlackBoxAuditing-0.1.54 aif360-0.6.1 contourpy-1.3.3 cycler-0.12.1 dill-0.4.1 fonttools-4.61.1 imbalanced-learn-0.14.1 kiwisolver-1.4.9 klepto-0.2.8 liac-arff-2.5.0 matplotlib-3.10.8 mpmath-1.3.0 mystic-0.4.5 pillow-12.1.0 pox-0.3.7 pyparsing-3.3.2 sklearn-compat-0.1.5 sympy-1.14.0
+Successfully installed MarkupSafe-3.0.3 cffi-2.0.0 clarabel-0.11.1 cvxpy-1.8.1 highspy-1.13.0 jinja2-3.1.6 osqp-1.1.0 pycparser-3.0 scs-3.2.11
+Successfully installed fairlearn-0.13.0 narwhals-2.16.0 scipy-1.15.3
 </pre>
 </div>
 </div>
@@ -7709,7 +7990,7 @@ Successfully installed fairlearn-0.12.0
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7730,19 +8011,6 @@ Successfully installed fairlearn-0.12.0
         <span class="n">version</span><span class="o">=</span><span class="s2">"5.3"</span><span class="p">,</span>
     <span class="p">)</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Enter your watsonx.ai password and hit enter:  ········
-</pre>
 </div>
 </div>
 </div>
@@ -7922,7 +8190,7 @@ Successfully installed fairlearn-0.12.0
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
@@ -7952,7 +8220,7 @@ Successfully installed fairlearn-0.12.0
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[ ]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
@@ -7998,23 +8266,23 @@ Successfully installed fairlearn-0.12.0
 <tbody>
 <tr>
 <th>0</th>
-<td>0_to_200</td>
-<td>31</td>
-<td>credits_paid_to_date</td>
-<td>other</td>
-<td>1889</td>
-<td>100_to_500</td>
+<td>less_0</td>
+<td>9</td>
+<td>all_credits_paid_back</td>
+<td>education</td>
+<td>481</td>
+<td>less_100</td>
 <td>less_1</td>
-<td>3</td>
-<td>female</td>
+<td>2</td>
+<td>male</td>
 <td>none</td>
 <td>...</td>
 <td>savings_insurance</td>
-<td>32</td>
+<td>25</td>
 <td>none</td>
-<td>own</td>
+<td>rent</td>
 <td>1</td>
-<td>skilled</td>
+<td>management_self-employed</td>
 <td>1</td>
 <td>none</td>
 <td>yes</td>
@@ -8022,22 +8290,22 @@ Successfully installed fairlearn-0.12.0
 </tr>
 <tr>
 <th>1</th>
-<td>less_0</td>
-<td>18</td>
-<td>credits_paid_to_date</td>
-<td>car_new</td>
-<td>462</td>
+<td>no_checking</td>
+<td>29</td>
+<td>all_credits_paid_back</td>
+<td>furniture</td>
+<td>3891</td>
 <td>less_100</td>
-<td>1_to_4</td>
-<td>2</td>
+<td>less_1</td>
+<td>3</td>
 <td>female</td>
 <td>none</td>
 <td>...</td>
 <td>savings_insurance</td>
-<td>37</td>
+<td>32</td>
 <td>stores</td>
 <td>own</td>
-<td>2</td>
+<td>1</td>
 <td>skilled</td>
 <td>1</td>
 <td>none</td>
@@ -8046,75 +8314,75 @@ Successfully installed fairlearn-0.12.0
 </tr>
 <tr>
 <th>2</th>
-<td>less_0</td>
-<td>15</td>
-<td>prior_payments_delayed</td>
-<td>furniture</td>
+<td>0_to_200</td>
+<td>13</td>
+<td>credits_paid_to_date</td>
+<td>car_new</td>
 <td>250</td>
 <td>less_100</td>
-<td>1_to_4</td>
+<td>4_to_7</td>
 <td>2</td>
 <td>male</td>
 <td>none</td>
 <td>...</td>
 <td>real_estate</td>
-<td>28</td>
+<td>19</td>
 <td>none</td>
 <td>own</td>
-<td>2</td>
+<td>1</td>
 <td>skilled</td>
 <td>1</td>
+<td>none</td>
 <td>yes</td>
-<td>no</td>
 <td>No Risk</td>
 </tr>
 <tr>
 <th>3</th>
-<td>0_to_200</td>
-<td>28</td>
-<td>credits_paid_to_date</td>
-<td>retraining</td>
-<td>3693</td>
-<td>less_100</td>
-<td>greater_7</td>
-<td>3</td>
+<td>less_0</td>
+<td>4</td>
+<td>prior_payments_delayed</td>
+<td>car_new</td>
+<td>250</td>
+<td>500_to_1000</td>
+<td>less_1</td>
+<td>2</td>
 <td>male</td>
 <td>none</td>
 <td>...</td>
-<td>savings_insurance</td>
-<td>32</td>
-<td>none</td>
-<td>own</td>
+<td>car_other</td>
+<td>41</td>
+<td>bank</td>
+<td>rent</td>
 <td>1</td>
-<td>skilled</td>
+<td>unemployed</td>
 <td>1</td>
-<td>none</td>
+<td>yes</td>
 <td>yes</td>
 <td>No Risk</td>
 </tr>
 <tr>
 <th>4</th>
-<td>no_checking</td>
-<td>28</td>
-<td>prior_payments_delayed</td>
-<td>education</td>
-<td>6235</td>
-<td>500_to_1000</td>
-<td>greater_7</td>
-<td>3</td>
+<td>less_0</td>
+<td>8</td>
+<td>all_credits_paid_back</td>
+<td>car_used</td>
+<td>250</td>
+<td>100_to_500</td>
+<td>unemployed</td>
+<td>1</td>
 <td>male</td>
 <td>none</td>
 <td>...</td>
-<td>unknown</td>
-<td>57</td>
-<td>none</td>
-<td>own</td>
-<td>2</td>
-<td>skilled</td>
+<td>real_estate</td>
+<td>20</td>
+<td>bank</td>
+<td>rent</td>
+<td>1</td>
+<td>unemployed</td>
 <td>1</td>
 <td>none</td>
 <td>yes</td>
-<td>Risk</td>
+<td>No Risk</td>
 </tr>
 </tbody>
 </table>
@@ -8166,12 +8434,12 @@ SUCCESS
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>{'metadata': {'space_id': '9c4eb218-96e8-41e0-8cd5-f783504a11ea',
-  'usage': {'last_updated_at': '2025-05-23T14:19:52Z',
+<pre>{'metadata': {'space_id': '64f7bc2f-186e-49ae-b3af-d6d73fbe80a0',
+  'usage': {'last_updated_at': '2026-02-09T10:15:49Z',
    'last_updater_id': '1000331001',
-   'last_update_time': 1748009992882,
-   'last_accessed_at': '2025-05-23T14:19:52Z',
-   'last_access_time': 1748009992882,
+   'last_update_time': 1770632149568,
+   'last_accessed_at': '2026-02-09T10:15:49Z',
+   'last_access_time': 1770632149568,
    'last_accessor_id': '1000331001',
    'access_count': 0},
   'rov': {'mode': 0,
@@ -8186,21 +8454,22 @@ SUCCESS
   'resource_key': 'german_credit_data_biased_training.csv',
   'rating': 0.0,
   'total_ratings': 0,
-  'catalog_id': '32c875f2-f104-4801-9d5f-a0987098790c',
-  'created': 1748009992882,
-  'created_at': '2025-05-23T14:19:52Z',
+  'catalog_id': '830d5212-6140-4e9f-9262-8a59ea12cfbd',
+  'created': 1770632149568,
+  'created_at': '2026-02-09T10:15:49Z',
   'owner_id': '1000331001',
   'size': 0,
   'version': 2.0,
   'asset_state': 'available',
   'asset_attributes': ['data_asset'],
-  'asset_id': '685b9917-9836-41a6-a0b0-76c9da72cdbe',
+  'asset_id': '7ec07b63-6857-42f3-a4bd-7deb072bedcd',
   'asset_category': 'USER',
   'creator_id': '1000331001',
   'is_branched': True,
-  'guid': '685b9917-9836-41a6-a0b0-76c9da72cdbe',
-  'href': '/v2/assets/685b9917-9836-41a6-a0b0-76c9da72cdbe?space_id=9c4eb218-96e8-41e0-8cd5-f783504a11ea',
-  'last_updated_at': '2025-05-23T14:19:52Z'},
+  'is_managed_asset': False,
+  'guid': '7ec07b63-6857-42f3-a4bd-7deb072bedcd',
+  'href': '/v2/assets/7ec07b63-6857-42f3-a4bd-7deb072bedcd?space_id=64f7bc2f-186e-49ae-b3af-d6d73fbe80a0',
+  'last_updated_at': '2026-02-09T10:15:49Z'},
  'entity': {'data_asset': {'mime_type': 'text/csv'}}}</pre>
 </div>
 </div>
@@ -8304,7 +8573,7 @@ SUCCESS
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Training job 6331d3d1-a4e0-4a84-bbb0-2c7ab1a664ed completed: 100%|████████| [02:13&lt;00:00,  1.34s/it]
+<pre>Training job 52645a58-b72a-4a64-a9aa-40ec68983089 completed: 100%|████████| [01:34&lt;00:00,  1.06it/s]
 </pre>
 </div>
 </div>
@@ -8431,109 +8700,109 @@ the form of a Pandas DataFrame by calling the <code>summary()</code> method.</p>
 </thead>
 <tbody>
 <tr>
-<th>Pipeline_2</th>
-<td>HPO</td>
-<td>XGBClassifier</td>
-<td>0.857982</td>
-<td>0.479641</td>
-<td>0.422134</td>
-<td>0.809573</td>
-<td>0.815429</td>
-<td>0.756301</td>
-<td>0.865137</td>
-<td>0.809249</td>
-<td>0.920145</td>
-<td>0.422384</td>
-<td>0.936455</td>
-<td>0.819500</td>
-<td>0.810690</td>
-<td>0.748227</td>
-<td>0.916295</td>
-<td>0.868217</td>
-</tr>
-<tr>
 <th>Pipeline_3</th>
 <td>HPO, FE</td>
 <td>XGBClassifier</td>
-<td>0.860278</td>
-<td>0.486580</td>
-<td>0.445699</td>
-<td>0.805854</td>
-<td>0.813478</td>
-<td>0.751840</td>
-<td>0.862570</td>
-<td>0.797143</td>
-<td>0.921724</td>
-<td>0.421039</td>
-<td>0.933110</td>
-<td>0.816658</td>
-<td>0.797327</td>
-<td>0.729889</td>
-<td>0.914062</td>
-<td>0.859784</td>
+<td>0.839524</td>
+<td>0.467994</td>
+<td>0.381692</td>
+<td>0.795428</td>
+<td>0.848971</td>
+<td>0.743800</td>
+<td>0.853887</td>
+<td>0.807190</td>
+<td>0.906830</td>
+<td>0.456598</td>
+<td>0.925094</td>
+<td>0.808406</td>
+<td>0.804455</td>
+<td>0.747218</td>
+<td>0.904921</td>
+<td>0.862129</td>
 </tr>
 <tr>
 <th>Pipeline_4</th>
 <td>HPO, FE, HPO</td>
 <td>XGBClassifier</td>
-<td>0.861740</td>
-<td>0.488660</td>
-<td>0.454268</td>
-<td>0.802384</td>
-<td>0.812676</td>
-<td>0.747935</td>
-<td>0.860119</td>
-<td>0.793003</td>
-<td>0.922392</td>
-<td>0.420921</td>
-<td>0.909699</td>
-<td>0.814289</td>
-<td>0.781737</td>
-<td>0.718183</td>
-<td>0.911458</td>
-<td>0.847352</td>
+<td>0.848313</td>
+<td>0.468728</td>
+<td>0.389262</td>
+<td>0.795154</td>
+<td>0.848356</td>
+<td>0.739661</td>
+<td>0.854782</td>
+<td>0.803922</td>
+<td>0.912608</td>
+<td>0.440996</td>
+<td>0.921348</td>
+<td>0.803740</td>
+<td>0.799505</td>
+<td>0.741696</td>
+<td>0.912845</td>
+<td>0.858639</td>
 </tr>
 <tr>
 <th>Pipeline_5</th>
 <td>HPO, FE, HPO, Ensemble</td>
 <td>BatchedTreeEnsembleClassifier(XGBClassifier)</td>
-<td>0.861740</td>
-<td>0.488660</td>
-<td>0.454268</td>
-<td>0.802384</td>
-<td>0.812676</td>
-<td>0.747935</td>
-<td>0.860119</td>
-<td>0.793003</td>
-<td>0.922392</td>
-<td>0.420921</td>
-<td>0.909699</td>
-<td>0.814289</td>
-<td>0.781737</td>
-<td>0.718183</td>
-<td>0.911458</td>
-<td>0.847352</td>
+<td>0.848313</td>
+<td>0.468728</td>
+<td>0.389262</td>
+<td>0.795154</td>
+<td>0.848356</td>
+<td>0.739661</td>
+<td>0.854782</td>
+<td>0.803922</td>
+<td>0.912608</td>
+<td>0.440996</td>
+<td>0.921348</td>
+<td>0.803740</td>
+<td>0.799505</td>
+<td>0.741696</td>
+<td>0.912845</td>
+<td>0.858639</td>
 </tr>
 <tr>
 <th>Pipeline_1</th>
 <td></td>
 <td>XGBClassifier</td>
-<td>0.851228</td>
-<td>0.466459</td>
-<td>0.358376</td>
-<td>0.798416</td>
-<td>0.810301</td>
-<td>0.748859</td>
-<td>0.855829</td>
-<td>0.839763</td>
-<td>0.916677</td>
-<td>0.435632</td>
-<td>0.946488</td>
-<td>0.817915</td>
-<td>0.844098</td>
-<td>0.793244</td>
-<td>0.897693</td>
-<td>0.889937</td>
+<td>0.839686</td>
+<td>0.455921</td>
+<td>0.315927</td>
+<td>0.791847</td>
+<td>0.846551</td>
+<td>0.745409</td>
+<td>0.849614</td>
+<td>0.836120</td>
+<td>0.904648</td>
+<td>0.454975</td>
+<td>0.936330</td>
+<td>0.812543</td>
+<td>0.836634</td>
+<td>0.789333</td>
+<td>0.890326</td>
+<td>0.883392</td>
+</tr>
+<tr>
+<th>Pipeline_2</th>
+<td>HPO</td>
+<td>XGBClassifier</td>
+<td>0.839686</td>
+<td>0.455921</td>
+<td>0.315927</td>
+<td>0.791847</td>
+<td>0.846551</td>
+<td>0.745409</td>
+<td>0.849614</td>
+<td>0.836120</td>
+<td>0.904648</td>
+<td>0.454975</td>
+<td>0.936330</td>
+<td>0.812543</td>
+<td>0.836634</td>
+<td>0.789333</td>
+<td>0.890326</td>
+<td>0.883392</td>
 </tr>
 </tbody>
 </table>
@@ -8673,9 +8942,9 @@ The third calculated metric takes the disparate impact into account along with a
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>accuracy 79.2%
-disparate impact 0.77
-accuracy and disparate impact metric 0.78
+<pre>accuracy 81.1%
+disparate impact 0.72
+accuracy and disparate impact metric 0.77
 </pre>
 </div>
 </div>
@@ -9151,7 +9420,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   background-color: var(--sklearn-color-fitted-level-3);
 }
 </style><div class="sk-top-container" id="sk-container-id-1"><div class="sk-text-repr-fallback"><pre>Pipeline(steps=[('featureunion',
-                 FeatureUnion(transformer_list=[('float32_transform_140136462740672',
+                 FeatureUnion(transformer_list=[('float32_transform_5135791120',
                                                  Pipeline(steps=[('numpycolumnselector',
                                                                   NumpyColumnSelector(columns=[0,
                                                                                                1,
@@ -9175,27 +9444,16 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                  ('compressstrings',
                                                                   CompressStrings(compress_type='hash',
                                                                                   dtypes_list=['char_str',
-                                                                                               'float_int_num',
+                                                                                               'int_num',
                                                                                                'char_str',
                                                                                                'char_str',
                                                                                                'char_str',
-                                                                                               'c...
-                                                                 ('numpyreplacemissingvalues',
-                                                                  NumpyReplaceMissingValues(missing_values=[])),
-                                                                 ('numimputer',
-                                                                  NumImputer(missing_values=nan,
-                                                                             strategy='median')),
-                                                                 ('optstandardscaler',
-                                                                  OptStandardScaler(use_scaler_flag=False)),
-                                                                 ('float32_transform',
-                                                                  float32_transform())]))])),
-                ('numpypermutearray',
-                 NumpyPermuteArray(axis=0,
-                                   permutation_indices=[0, 1, 2, 3, 5, 6, 7, 8,
-                                                        9, 10, 11, 12, 13, 14,
-                                                        15, 16, 17, 18, 19,
-                                                        4]))])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br/>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-1"><div><div>Pipeline</div></div><div><a class="sk-estimator-doc-link fitted" href="https://scikit-learn.org/1.6/modules/generated/sklearn.pipeline.Pipeline.html" rel="noreferrer" target="_blank">?<span>Documentation for Pipeline</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[('featureunion',
-                 FeatureUnion(transformer_list=[('float32_transform_140136462740672',
+                                                                                               'char_str',
+                                                                                               'i...
+                 autoai_libs.cognito.transforms.transform_utils.TA2(fun = numpy.add, name = 'sum', datatypes1 = ['intc', 'intp', 'int_', 'uint8', 'uint16', 'uint32', 'uint64', 'int8', 'int16', 'int32', 'int64', 'short', 'long', 'longlong', 'float16', 'float32', 'float64'], feat_constraints1 = [&lt;cyfunction is_not_categorical at 0x1284a29c0&gt;], datatypes2 = ['intc', 'intp', 'int_', 'uint8', 'uint16', 'uint32', 'uint64', 'int8', 'int16', 'int32', 'int64', 'short', 'long', 'longlong', 'float16', 'float32', 'float64'], feat_constraints2 = [&lt;cyfunction is_not_categorical at 0x1284a29c0&gt;], tgraph = None, apply_all = True, col_names = ['CheckingStatus', 'LoanDuration', 'CreditHistory', 'LoanPurpose', 'LoanAmount', 'ExistingSavings', 'EmploymentDuration', 'InstallmentPercent', 'Sex', 'OthersOnLoan', 'CurrentResidenceDuration', 'OwnsProperty', 'Age', 'InstallmentPlans', 'Housing', 'ExistingCreditsCount', 'Job', 'Dependents', 'Telephone', 'ForeignWorker'], col_dtypes = [dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32')], col_as_json_objects = None)),
+                ('fs1',
+                 autoai_libs.cognito.transforms.transform_utils.FS1(cols_ids_must_keep = range(0, 20), additional_col_count_to_keep = 20, ptype = 'classification'))])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br/>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-1"><div><div>Pipeline</div></div><div><a class="sk-estimator-doc-link fitted" href="https://scikit-learn.org/1.6/modules/generated/sklearn.pipeline.Pipeline.html" rel="noreferrer" target="_blank">?<span>Documentation for Pipeline</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[('featureunion',
+                 FeatureUnion(transformer_list=[('float32_transform_5135791120',
                                                  Pipeline(steps=[('numpycolumnselector',
                                                                   NumpyColumnSelector(columns=[0,
                                                                                                1,
@@ -9219,26 +9477,15 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                  ('compressstrings',
                                                                   CompressStrings(compress_type='hash',
                                                                                   dtypes_list=['char_str',
-                                                                                               'float_int_num',
+                                                                                               'int_num',
                                                                                                'char_str',
                                                                                                'char_str',
                                                                                                'char_str',
-                                                                                               'c...
-                                                                 ('numpyreplacemissingvalues',
-                                                                  NumpyReplaceMissingValues(missing_values=[])),
-                                                                 ('numimputer',
-                                                                  NumImputer(missing_values=nan,
-                                                                             strategy='median')),
-                                                                 ('optstandardscaler',
-                                                                  OptStandardScaler(use_scaler_flag=False)),
-                                                                 ('float32_transform',
-                                                                  float32_transform())]))])),
-                ('numpypermutearray',
-                 NumpyPermuteArray(axis=0,
-                                   permutation_indices=[0, 1, 2, 3, 5, 6, 7, 8,
-                                                        9, 10, 11, 12, 13, 14,
-                                                        15, 16, 17, 18, 19,
-                                                        4]))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-2"><div><div>featureunion: FeatureUnion</div></div><div><a class="sk-estimator-doc-link fitted" href="https://scikit-learn.org/1.6/modules/generated/sklearn.pipeline.FeatureUnion.html" rel="noreferrer" target="_blank">?<span>Documentation for featureunion: FeatureUnion</span></a></div></label><div class="sk-toggleable__content fitted"><pre>FeatureUnion(transformer_list=[('float32_transform_140136462740672',
+                                                                                               'char_str',
+                                                                                               'i...
+                 autoai_libs.cognito.transforms.transform_utils.TA2(fun = numpy.add, name = 'sum', datatypes1 = ['intc', 'intp', 'int_', 'uint8', 'uint16', 'uint32', 'uint64', 'int8', 'int16', 'int32', 'int64', 'short', 'long', 'longlong', 'float16', 'float32', 'float64'], feat_constraints1 = [&lt;cyfunction is_not_categorical at 0x1284a29c0&gt;], datatypes2 = ['intc', 'intp', 'int_', 'uint8', 'uint16', 'uint32', 'uint64', 'int8', 'int16', 'int32', 'int64', 'short', 'long', 'longlong', 'float16', 'float32', 'float64'], feat_constraints2 = [&lt;cyfunction is_not_categorical at 0x1284a29c0&gt;], tgraph = None, apply_all = True, col_names = ['CheckingStatus', 'LoanDuration', 'CreditHistory', 'LoanPurpose', 'LoanAmount', 'ExistingSavings', 'EmploymentDuration', 'InstallmentPercent', 'Sex', 'OthersOnLoan', 'CurrentResidenceDuration', 'OwnsProperty', 'Age', 'InstallmentPlans', 'Housing', 'ExistingCreditsCount', 'Job', 'Dependents', 'Telephone', 'ForeignWorker'], col_dtypes = [dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32')], col_as_json_objects = None)),
+                ('fs1',
+                 autoai_libs.cognito.transforms.transform_utils.FS1(cols_ids_must_keep = range(0, 20), additional_col_count_to_keep = 20, ptype = 'classification'))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-2"><div><div>featureunion: FeatureUnion</div></div><div><a class="sk-estimator-doc-link fitted" href="https://scikit-learn.org/1.6/modules/generated/sklearn.pipeline.FeatureUnion.html" rel="noreferrer" target="_blank">?<span>Documentation for featureunion: FeatureUnion</span></a></div></label><div class="sk-toggleable__content fitted"><pre>FeatureUnion(transformer_list=[('float32_transform_5135791120',
                                 Pipeline(steps=[('numpycolumnselector',
                                                  NumpyColumnSelector(columns=[0,
                                                                               1,
@@ -9262,16 +9509,18 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                 ('compressstrings',
                                                  CompressStrings(compress_type='hash',
                                                                  dtypes_list=['char_str',
-                                                                              'float_int_num',
+                                                                              'int_num',
                                                                               'char_str',
                                                                               'char_str',
                                                                               'char_str',
                                                                               'char_str',
-                                                                              'float_int_num',
-                                                                              'char_s...
+                                                                              'int_num',
+                                                                              'char_str',
+                                                                              'char_str',
+                                                                              'i...
                                                  NumpyColumnSelector(columns=[4])),
                                                 ('floatstr2float',
-                                                 FloatStr2Float(dtypes_list=['float_int_num'],
+                                                 FloatStr2Float(dtypes_list=['int_num'],
                                                                 missing_values_reference_list=[])),
                                                 ('numpyreplacemissingvalues',
                                                  NumpyReplaceMissingValues(missing_values=[])),
@@ -9281,40 +9530,39 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                 ('optstandardscaler',
                                                  OptStandardScaler(use_scaler_flag=False)),
                                                 ('float32_transform',
-                                                 float32_transform())]))])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><label>float32_transform_140136462740672</label></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-3" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-3"><div><div>NumpyColumnSelector</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyColumnSelector(columns=[0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+                                                 float32_transform())]))])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><label>float32_transform_5135791120</label></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-3" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-3"><div><div>NumpyColumnSelector</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyColumnSelector(columns=[0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
                              16, 17, 18, 19])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-4" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-4"><div><div>CompressStrings</div></div></label><div class="sk-toggleable__content fitted"><pre>CompressStrings(compress_type='hash',
-                dtypes_list=['char_str', 'float_int_num', 'char_str',
-                             'char_str', 'char_str', 'char_str',
-                             'float_int_num', 'char_str', 'char_str',
-                             'float_int_num', 'char_str', 'float_int_num',
-                             'char_str', 'char_str', 'float_int_num',
-                             'char_str', 'float_int_num', 'char_str',
-                             'char_str'],
+                dtypes_list=['char_str', 'int_num', 'char_str', 'char_str',
+                             'char_str', 'char_str', 'int_num', 'char_str',
+                             'char_str', 'int_num', 'char_str', 'int_num',
+                             'char_str', 'char_str', 'int_num', 'char_str',
+                             'int_num', 'char_str', 'char_str'],
                 missing_values_reference_list=['', '-', '?', nan],
                 misslist_list=[[], [], [], [], [], [], [], [], [], [], [], [],
                                [], [], [], [], [], [], []])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-5" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-5"><div><div>NumpyReplaceMissingValues</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyReplaceMissingValues(missing_values=[])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-6" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-6"><div><div>NumpyReplaceUnknownValues</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyReplaceUnknownValues(filling_values=nan,
-                          filling_values_list=[nan, 100001, nan, nan, nan, nan,
-                                               100001, nan, nan, 100001, nan,
-                                               100001, nan, nan, 100001, nan,
-                                               100001, nan, nan],
+                          filling_values_list=[nan, nan, nan, nan, nan, nan,
+                                               nan, nan, nan, nan, nan, nan,
+                                               nan, nan, nan, nan, nan, nan,
+                                               nan],
                           known_values_list=[[227259264688753646810077375790908286508,
                                               253732214910815238134509288111402486722,
                                               303819144345098626554456011496217223575,
                                               280353606872939388614315901186094326949],
-                                             [4.0, 5.0...
+                                             [4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
+                                              1...
                                              [328286527295663582663365503319902632676,
                                               119641707607939038914465000864290288880,
                                               283364312271660996400883763491949419861,
                                               27741019508977055807423991753468819528],
-                                             [1.0, 2.0],
+                                             [1, 2],
                                              [68186749286663113704472210246844540664,
                                               220736790854050750400968561922076059550],
                                              [169662019754859674907370307324476606919,
                                               220736790854050750400968561922076059550]],
                           missing_values_reference_list=['', '-', '?', nan])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-7" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-7"><div><div>boolean2float</div></div></label><div class="sk-toggleable__content fitted"><pre>boolean2float()</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-8" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-8"><div><div>CatImputer</div></div></label><div class="sk-toggleable__content fitted"><pre>CatImputer(missing_values=nan, strategy='most_frequent')</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-9" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-9"><div><div>CatEncoder</div></div></label><div class="sk-toggleable__content fitted"><pre>CatEncoder(categories='auto', dtype=&lt;class 'numpy.float64'&gt;, encoding='ordinal',
-           handle_unknown='error')</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-10" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-10"><div><div>float32_transform</div></div></label><div class="sk-toggleable__content fitted"><pre>float32_transform()</pre></div> </div></div></div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><label>float32_transform_140136462743168</label></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-11" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-11"><div><div>NumpyColumnSelector</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyColumnSelector(columns=[4])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-12" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-12"><div><div>FloatStr2Float</div></div></label><div class="sk-toggleable__content fitted"><pre>FloatStr2Float(dtypes_list=['float_int_num'], missing_values_reference_list=[])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-13" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-13"><div><div>NumpyReplaceMissingValues</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyReplaceMissingValues(missing_values=[])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-14" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-14"><div><div>NumImputer</div></div></label><div class="sk-toggleable__content fitted"><pre>NumImputer(missing_values=nan, strategy='median')</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-15" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-15"><div><div>OptStandardScaler</div></div></label><div class="sk-toggleable__content fitted"><pre>OptStandardScaler(use_scaler_flag=False)</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-16" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-16"><div><div>float32_transform</div></div></label><div class="sk-toggleable__content fitted"><pre>float32_transform()</pre></div> </div></div></div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-17" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-17"><div><div>NumpyPermuteArray</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyPermuteArray(axis=0,
+           handle_unknown='error')</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-10" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-10"><div><div>float32_transform</div></div></label><div class="sk-toggleable__content fitted"><pre>float32_transform()</pre></div> </div></div></div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><label>float32_transform_5135793520</label></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-11" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-11"><div><div>NumpyColumnSelector</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyColumnSelector(columns=[4])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-12" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-12"><div><div>FloatStr2Float</div></div></label><div class="sk-toggleable__content fitted"><pre>FloatStr2Float(dtypes_list=['int_num'], missing_values_reference_list=[])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-13" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-13"><div><div>NumpyReplaceMissingValues</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyReplaceMissingValues(missing_values=[])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-14" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-14"><div><div>NumImputer</div></div></label><div class="sk-toggleable__content fitted"><pre>NumImputer(missing_values=nan, strategy='median')</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-15" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-15"><div><div>OptStandardScaler</div></div></label><div class="sk-toggleable__content fitted"><pre>OptStandardScaler(use_scaler_flag=False)</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-16" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-16"><div><div>float32_transform</div></div></label><div class="sk-toggleable__content fitted"><pre>float32_transform()</pre></div> </div></div></div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-17" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-17"><div><div>NumpyPermuteArray</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyPermuteArray(axis=0,
                   permutation_indices=[0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12,
-                                       13, 14, 15, 16, 17, 18, 19, 4])</pre></div> </div></div></div></div></div></div>
+                                       13, 14, 15, 16, 17, 18, 19, 4])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-18" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-18"><div><div>TA2</div></div></label><div class="sk-toggleable__content fitted"><pre>autoai_libs.cognito.transforms.transform_utils.TA2(fun = numpy.add, name = 'sum', datatypes1 = ['intc', 'intp', 'int_', 'uint8', 'uint16', 'uint32', 'uint64', 'int8', 'int16', 'int32', 'int64', 'short', 'long', 'longlong', 'float16', 'float32', 'float64'], feat_constraints1 = [&lt;cyfunction is_not_categorical at 0x1284a29c0&gt;], datatypes2 = ['intc', 'intp', 'int_', 'uint8', 'uint16', 'uint32', 'uint64', 'int8', 'int16', 'int32', 'int64', 'short', 'long', 'longlong', 'float16', 'float32', 'float64'], feat_constraints2 = [&lt;cyfunction is_not_categorical at 0x1284a29c0&gt;], tgraph = None, apply_all = True, col_names = ['CheckingStatus', 'LoanDuration', 'CreditHistory', 'LoanPurpose', 'LoanAmount', 'ExistingSavings', 'EmploymentDuration', 'InstallmentPercent', 'Sex', 'OthersOnLoan', 'CurrentResidenceDuration', 'OwnsProperty', 'Age', 'InstallmentPlans', 'Housing', 'ExistingCreditsCount', 'Job', 'Dependents', 'Telephone', 'ForeignWorker'], col_dtypes = [dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32')], col_as_json_objects = None)</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-19" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-19"><div><div>FS1</div></div></label><div class="sk-toggleable__content fitted"><pre>autoai_libs.cognito.transforms.transform_utils.FS1(cols_ids_must_keep = range(0, 20), additional_col_count_to_keep = 20, ptype = 'classification')</pre></div> </div></div></div></div></div></div>
 </div>
 </div>
 </div>
@@ -9351,9 +9599,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>100%|██████████| 10/10 [00:13&lt;00:00,  1.37s/trial, best loss: 0.15957762152193744]
-1 out of 10 trials failed, call summary() for details.
-Run with verbose=True to see per-trial exceptions.
+<pre>100%|██████████| 10/10 [00:07&lt;00:00,  1.29trial/s, best loss: 0.1560982673534994]
 </pre>
 </div>
 </div>
@@ -9399,9 +9645,9 @@ Run with verbose=True to see per-trial exceptions.
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>accuracy 73.0%
-disparate impact 0.99
-accuracy and disparate impact metric 0.86
+<pre>accuracy 74.9%
+disparate impact 0.92
+accuracy and disparate impact metric 0.83
 </pre>
 </div>
 </div>
@@ -9824,7 +10070,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   background-color: var(--sklearn-color-fitted-level-3);
 }
 </style><div class="sk-top-container" id="sk-container-id-2"><div class="sk-text-repr-fallback"><pre>Pipeline(steps=[('featureunion',
-                 FeatureUnion(transformer_list=[('float32_transform_140136454738944',
+                 FeatureUnion(transformer_list=[('float32_transform_5153935232',
                                                  Pipeline(steps=[('numpycolumnselector',
                                                                   NumpyColumnSelector(columns=[0,
                                                                                                1,
@@ -9848,26 +10094,22 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                  ('compressstrings',
                                                                   CompressStrings(compress_type='hash',
                                                                                   dtypes_list=['char_str',
-                                                                                               'float_int_num',
+                                                                                               'int_num',
                                                                                                'char_str',
                                                                                                'char_str',
                                                                                                'char_str',
-                                                                                               'c...
-                                                                  NumImputer(missing_values=nan,
-                                                                             strategy='median')),
-                                                                 ('optstandardscaler',
-                                                                  OptStandardScaler(use_scaler_flag=False)),
-                                                                 ('float32_transform',
-                                                                  float32_transform())]))])),
-                ('numpypermutearray',
-                 NumpyPermuteArray(axis=0,
-                                   permutation_indices=[0, 1, 2, 3, 5, 6, 7, 8,
-                                                        9, 10, 11, 12, 13, 14,
-                                                        15, 16, 17, 18, 19,
-                                                        4])),
-                ('kneighborsclassifier',
-                 KNeighborsClassifier(n_neighbors=86, weights='distance'))])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br/>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-18" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-18"><div><div>Pipeline</div></div><div><a class="sk-estimator-doc-link fitted" href="https://scikit-learn.org/1.6/modules/generated/sklearn.pipeline.Pipeline.html" rel="noreferrer" target="_blank">?<span>Documentation for Pipeline</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[('featureunion',
-                 FeatureUnion(transformer_list=[('float32_transform_140136454738944',
+                                                                                               'char_str',
+                                                                                               'i...
+                 autoai_libs.cognito.transforms.transform_utils.TA2(fun = numpy.add, name = 'sum', datatypes1 = ['intc', 'intp', 'int_', 'uint8', 'uint16', 'uint32', 'uint64', 'int8', 'int16', 'int32', 'int64', 'short', 'long', 'longlong', 'float16', 'float32', 'float64'], feat_constraints1 = [&lt;cyfunction is_not_categorical at 0x1284a29c0&gt;], datatypes2 = ['intc', 'intp', 'int_', 'uint8', 'uint16', 'uint32', 'uint64', 'int8', 'int16', 'int32', 'int64', 'short', 'long', 'longlong', 'float16', 'float32', 'float64'], feat_constraints2 = [&lt;cyfunction is_not_categorical at 0x1284a29c0&gt;], tgraph = None, apply_all = True, col_names = ['CheckingStatus', 'LoanDuration', 'CreditHistory', 'LoanPurpose', 'LoanAmount', 'ExistingSavings', 'EmploymentDuration', 'InstallmentPercent', 'Sex', 'OthersOnLoan', 'CurrentResidenceDuration', 'OwnsProperty', 'Age', 'InstallmentPlans', 'Housing', 'ExistingCreditsCount', 'Job', 'Dependents', 'Telephone', 'ForeignWorker'], col_dtypes = [dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32')], col_as_json_objects = None)),
+                ('fs1',
+                 autoai_libs.cognito.transforms.transform_utils.FS1(cols_ids_must_keep = range(0, 20), additional_col_count_to_keep = 20, ptype = 'classification')),
+                ('decisiontreeclassifier',
+                 DecisionTreeClassifier(criterion='entropy',
+                                        max_features='sqrt',
+                                        min_samples_leaf=0.16848986962255413,
+                                        min_samples_split=0.3765375287505964,
+                                        splitter='random'))])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br/>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-20" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-20"><div><div>Pipeline</div></div><div><a class="sk-estimator-doc-link fitted" href="https://scikit-learn.org/1.6/modules/generated/sklearn.pipeline.Pipeline.html" rel="noreferrer" target="_blank">?<span>Documentation for Pipeline</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[('featureunion',
+                 FeatureUnion(transformer_list=[('float32_transform_5153935232',
                                                  Pipeline(steps=[('numpycolumnselector',
                                                                   NumpyColumnSelector(columns=[0,
                                                                                                1,
@@ -9891,25 +10133,21 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                  ('compressstrings',
                                                                   CompressStrings(compress_type='hash',
                                                                                   dtypes_list=['char_str',
-                                                                                               'float_int_num',
+                                                                                               'int_num',
                                                                                                'char_str',
                                                                                                'char_str',
                                                                                                'char_str',
-                                                                                               'c...
-                                                                  NumImputer(missing_values=nan,
-                                                                             strategy='median')),
-                                                                 ('optstandardscaler',
-                                                                  OptStandardScaler(use_scaler_flag=False)),
-                                                                 ('float32_transform',
-                                                                  float32_transform())]))])),
-                ('numpypermutearray',
-                 NumpyPermuteArray(axis=0,
-                                   permutation_indices=[0, 1, 2, 3, 5, 6, 7, 8,
-                                                        9, 10, 11, 12, 13, 14,
-                                                        15, 16, 17, 18, 19,
-                                                        4])),
-                ('kneighborsclassifier',
-                 KNeighborsClassifier(n_neighbors=86, weights='distance'))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-19" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-19"><div><div>featureunion: FeatureUnion</div></div><div><a class="sk-estimator-doc-link fitted" href="https://scikit-learn.org/1.6/modules/generated/sklearn.pipeline.FeatureUnion.html" rel="noreferrer" target="_blank">?<span>Documentation for featureunion: FeatureUnion</span></a></div></label><div class="sk-toggleable__content fitted"><pre>FeatureUnion(transformer_list=[('float32_transform_140136454738944',
+                                                                                               'char_str',
+                                                                                               'i...
+                 autoai_libs.cognito.transforms.transform_utils.TA2(fun = numpy.add, name = 'sum', datatypes1 = ['intc', 'intp', 'int_', 'uint8', 'uint16', 'uint32', 'uint64', 'int8', 'int16', 'int32', 'int64', 'short', 'long', 'longlong', 'float16', 'float32', 'float64'], feat_constraints1 = [&lt;cyfunction is_not_categorical at 0x1284a29c0&gt;], datatypes2 = ['intc', 'intp', 'int_', 'uint8', 'uint16', 'uint32', 'uint64', 'int8', 'int16', 'int32', 'int64', 'short', 'long', 'longlong', 'float16', 'float32', 'float64'], feat_constraints2 = [&lt;cyfunction is_not_categorical at 0x1284a29c0&gt;], tgraph = None, apply_all = True, col_names = ['CheckingStatus', 'LoanDuration', 'CreditHistory', 'LoanPurpose', 'LoanAmount', 'ExistingSavings', 'EmploymentDuration', 'InstallmentPercent', 'Sex', 'OthersOnLoan', 'CurrentResidenceDuration', 'OwnsProperty', 'Age', 'InstallmentPlans', 'Housing', 'ExistingCreditsCount', 'Job', 'Dependents', 'Telephone', 'ForeignWorker'], col_dtypes = [dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32')], col_as_json_objects = None)),
+                ('fs1',
+                 autoai_libs.cognito.transforms.transform_utils.FS1(cols_ids_must_keep = range(0, 20), additional_col_count_to_keep = 20, ptype = 'classification')),
+                ('decisiontreeclassifier',
+                 DecisionTreeClassifier(criterion='entropy',
+                                        max_features='sqrt',
+                                        min_samples_leaf=0.16848986962255413,
+                                        min_samples_split=0.3765375287505964,
+                                        splitter='random'))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-21" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-21"><div><div>featureunion: FeatureUnion</div></div><div><a class="sk-estimator-doc-link fitted" href="https://scikit-learn.org/1.6/modules/generated/sklearn.pipeline.FeatureUnion.html" rel="noreferrer" target="_blank">?<span>Documentation for featureunion: FeatureUnion</span></a></div></label><div class="sk-toggleable__content fitted"><pre>FeatureUnion(transformer_list=[('float32_transform_5153935232',
                                 Pipeline(steps=[('numpycolumnselector',
                                                  NumpyColumnSelector(columns=[0,
                                                                               1,
@@ -9933,16 +10171,18 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                 ('compressstrings',
                                                  CompressStrings(compress_type='hash',
                                                                  dtypes_list=['char_str',
-                                                                              'float_int_num',
+                                                                              'int_num',
                                                                               'char_str',
                                                                               'char_str',
                                                                               'char_str',
                                                                               'char_str',
-                                                                              'float_int_num',
-                                                                              'char_s...
+                                                                              'int_num',
+                                                                              'char_str',
+                                                                              'char_str',
+                                                                              'i...
                                                  NumpyColumnSelector(columns=[4])),
                                                 ('floatstr2float',
-                                                 FloatStr2Float(dtypes_list=['float_int_num'],
+                                                 FloatStr2Float(dtypes_list=['int_num'],
                                                                 missing_values_reference_list=[])),
                                                 ('numpyreplacemissingvalues',
                                                  NumpyReplaceMissingValues(missing_values=[])),
@@ -9952,40 +10192,41 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                 ('optstandardscaler',
                                                  OptStandardScaler(use_scaler_flag=False)),
                                                 ('float32_transform',
-                                                 float32_transform())]))])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><label>float32_transform_140136454738944</label></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-20" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-20"><div><div>NumpyColumnSelector</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyColumnSelector(columns=[0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
-                             16, 17, 18, 19])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-21" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-21"><div><div>CompressStrings</div></div></label><div class="sk-toggleable__content fitted"><pre>CompressStrings(compress_type='hash',
-                dtypes_list=['char_str', 'float_int_num', 'char_str',
-                             'char_str', 'char_str', 'char_str',
-                             'float_int_num', 'char_str', 'char_str',
-                             'float_int_num', 'char_str', 'float_int_num',
-                             'char_str', 'char_str', 'float_int_num',
-                             'char_str', 'float_int_num', 'char_str',
-                             'char_str'],
+                                                 float32_transform())]))])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><label>float32_transform_5153935232</label></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-22" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-22"><div><div>NumpyColumnSelector</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyColumnSelector(columns=[0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+                             16, 17, 18, 19])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-23" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-23"><div><div>CompressStrings</div></div></label><div class="sk-toggleable__content fitted"><pre>CompressStrings(compress_type='hash',
+                dtypes_list=['char_str', 'int_num', 'char_str', 'char_str',
+                             'char_str', 'char_str', 'int_num', 'char_str',
+                             'char_str', 'int_num', 'char_str', 'int_num',
+                             'char_str', 'char_str', 'int_num', 'char_str',
+                             'int_num', 'char_str', 'char_str'],
                 missing_values_reference_list=['', '-', '?', nan],
                 misslist_list=[[], [], [], [], [], [], [], [], [], [], [], [],
-                               [], [], [], [], [], [], []])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-22" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-22"><div><div>NumpyReplaceMissingValues</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyReplaceMissingValues(missing_values=[])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-23" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-23"><div><div>NumpyReplaceUnknownValues</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyReplaceUnknownValues(filling_values=nan,
-                          filling_values_list=[nan, 100001, nan, nan, nan, nan,
-                                               100001, nan, nan, 100001, nan,
-                                               100001, nan, nan, 100001, nan,
-                                               100001, nan, nan],
+                               [], [], [], [], [], [], []])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-24" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-24"><div><div>NumpyReplaceMissingValues</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyReplaceMissingValues(missing_values=[])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-25" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-25"><div><div>NumpyReplaceUnknownValues</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyReplaceUnknownValues(filling_values=nan,
+                          filling_values_list=[nan, nan, nan, nan, nan, nan,
+                                               nan, nan, nan, nan, nan, nan,
+                                               nan, nan, nan, nan, nan, nan,
+                                               nan],
                           known_values_list=[[227259264688753646810077375790908286508,
                                               253732214910815238134509288111402486722,
                                               303819144345098626554456011496217223575,
                                               280353606872939388614315901186094326949],
-                                             [4.0, 5.0...
+                                             [4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
+                                              1...
                                              [328286527295663582663365503319902632676,
                                               119641707607939038914465000864290288880,
                                               283364312271660996400883763491949419861,
                                               27741019508977055807423991753468819528],
-                                             [1.0, 2.0],
+                                             [1, 2],
                                              [68186749286663113704472210246844540664,
                                               220736790854050750400968561922076059550],
                                              [169662019754859674907370307324476606919,
                                               220736790854050750400968561922076059550]],
-                          missing_values_reference_list=['', '-', '?', nan])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-24" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-24"><div><div>boolean2float</div></div></label><div class="sk-toggleable__content fitted"><pre>boolean2float()</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-25" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-25"><div><div>CatImputer</div></div></label><div class="sk-toggleable__content fitted"><pre>CatImputer(missing_values=nan, strategy='most_frequent')</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-26" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-26"><div><div>CatEncoder</div></div></label><div class="sk-toggleable__content fitted"><pre>CatEncoder(categories='auto', dtype=&lt;class 'numpy.float64'&gt;, encoding='ordinal',
-           handle_unknown='error')</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-27" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-27"><div><div>float32_transform</div></div></label><div class="sk-toggleable__content fitted"><pre>float32_transform()</pre></div> </div></div></div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><label>float32_transform_140136379973760</label></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-28" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-28"><div><div>NumpyColumnSelector</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyColumnSelector(columns=[4])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-29" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-29"><div><div>FloatStr2Float</div></div></label><div class="sk-toggleable__content fitted"><pre>FloatStr2Float(dtypes_list=['float_int_num'], missing_values_reference_list=[])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-30" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-30"><div><div>NumpyReplaceMissingValues</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyReplaceMissingValues(missing_values=[])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-31" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-31"><div><div>NumImputer</div></div></label><div class="sk-toggleable__content fitted"><pre>NumImputer(missing_values=nan, strategy='median')</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-32" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-32"><div><div>OptStandardScaler</div></div></label><div class="sk-toggleable__content fitted"><pre>OptStandardScaler(use_scaler_flag=False)</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-33" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-33"><div><div>float32_transform</div></div></label><div class="sk-toggleable__content fitted"><pre>float32_transform()</pre></div> </div></div></div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-34" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-34"><div><div>NumpyPermuteArray</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyPermuteArray(axis=0,
+                          missing_values_reference_list=['', '-', '?', nan])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-26" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-26"><div><div>boolean2float</div></div></label><div class="sk-toggleable__content fitted"><pre>boolean2float()</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-27" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-27"><div><div>CatImputer</div></div></label><div class="sk-toggleable__content fitted"><pre>CatImputer(missing_values=nan, strategy='most_frequent')</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-28" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-28"><div><div>CatEncoder</div></div></label><div class="sk-toggleable__content fitted"><pre>CatEncoder(categories='auto', dtype=&lt;class 'numpy.float64'&gt;, encoding='ordinal',
+           handle_unknown='error')</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-29" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-29"><div><div>float32_transform</div></div></label><div class="sk-toggleable__content fitted"><pre>float32_transform()</pre></div> </div></div></div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><label>float32_transform_5153774608</label></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-30" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-30"><div><div>NumpyColumnSelector</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyColumnSelector(columns=[4])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-31" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-31"><div><div>FloatStr2Float</div></div></label><div class="sk-toggleable__content fitted"><pre>FloatStr2Float(dtypes_list=['int_num'], missing_values_reference_list=[])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-32" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-32"><div><div>NumpyReplaceMissingValues</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyReplaceMissingValues(missing_values=[])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-33" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-33"><div><div>NumImputer</div></div></label><div class="sk-toggleable__content fitted"><pre>NumImputer(missing_values=nan, strategy='median')</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-34" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-34"><div><div>OptStandardScaler</div></div></label><div class="sk-toggleable__content fitted"><pre>OptStandardScaler(use_scaler_flag=False)</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-35" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-35"><div><div>float32_transform</div></div></label><div class="sk-toggleable__content fitted"><pre>float32_transform()</pre></div> </div></div></div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-36" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-36"><div><div>NumpyPermuteArray</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyPermuteArray(axis=0,
                   permutation_indices=[0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12,
-                                       13, 14, 15, 16, 17, 18, 19, 4])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-35" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-35"><div><div>KNeighborsClassifier</div></div><div><a class="sk-estimator-doc-link fitted" href="https://scikit-learn.org/1.6/modules/generated/sklearn.neighbors.KNeighborsClassifier.html" rel="noreferrer" target="_blank">?<span>Documentation for KNeighborsClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>KNeighborsClassifier(n_neighbors=86, weights='distance')</pre></div> </div></div></div></div></div></div>
+                                       13, 14, 15, 16, 17, 18, 19, 4])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-37" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-37"><div><div>TA2</div></div></label><div class="sk-toggleable__content fitted"><pre>autoai_libs.cognito.transforms.transform_utils.TA2(fun = numpy.add, name = 'sum', datatypes1 = ['intc', 'intp', 'int_', 'uint8', 'uint16', 'uint32', 'uint64', 'int8', 'int16', 'int32', 'int64', 'short', 'long', 'longlong', 'float16', 'float32', 'float64'], feat_constraints1 = [&lt;cyfunction is_not_categorical at 0x1284a29c0&gt;], datatypes2 = ['intc', 'intp', 'int_', 'uint8', 'uint16', 'uint32', 'uint64', 'int8', 'int16', 'int32', 'int64', 'short', 'long', 'longlong', 'float16', 'float32', 'float64'], feat_constraints2 = [&lt;cyfunction is_not_categorical at 0x1284a29c0&gt;], tgraph = None, apply_all = True, col_names = ['CheckingStatus', 'LoanDuration', 'CreditHistory', 'LoanPurpose', 'LoanAmount', 'ExistingSavings', 'EmploymentDuration', 'InstallmentPercent', 'Sex', 'OthersOnLoan', 'CurrentResidenceDuration', 'OwnsProperty', 'Age', 'InstallmentPlans', 'Housing', 'ExistingCreditsCount', 'Job', 'Dependents', 'Telephone', 'ForeignWorker'], col_dtypes = [dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32')], col_as_json_objects = None)</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-38" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-38"><div><div>FS1</div></div></label><div class="sk-toggleable__content fitted"><pre>autoai_libs.cognito.transforms.transform_utils.FS1(cols_ids_must_keep = range(0, 20), additional_col_count_to_keep = 20, ptype = 'classification')</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-39" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-39"><div><div>DecisionTreeClassifier</div></div><div><a class="sk-estimator-doc-link fitted" href="https://scikit-learn.org/1.6/modules/generated/sklearn.tree.DecisionTreeClassifier.html" rel="noreferrer" target="_blank">?<span>Documentation for DecisionTreeClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>DecisionTreeClassifier(criterion='entropy', max_features='sqrt',
+                       min_samples_leaf=0.16848986962255413,
+                       min_samples_split=0.3765375287505964, splitter='random')</pre></div> </div></div></div></div></div></div>
 </div>
 </div>
 </div>
@@ -10044,10 +10285,10 @@ has picked and tuned a classifier. These results may vary by dataset and search 
 <span class="n">compress_strings</span> <span class="o">=</span> <span class="n">CompressStrings</span><span class="p">(</span>
     <span class="n">compress_type</span><span class="o">=</span><span class="s2">"hash"</span><span class="p">,</span>
     <span class="n">dtypes_list</span><span class="o">=</span><span class="p">[</span>
-        <span class="s2">"char_str"</span><span class="p">,</span> <span class="s2">"float_int_num"</span><span class="p">,</span> <span class="s2">"char_str"</span><span class="p">,</span> <span class="s2">"char_str"</span><span class="p">,</span> <span class="s2">"char_str"</span><span class="p">,</span>
-        <span class="s2">"char_str"</span><span class="p">,</span> <span class="s2">"float_int_num"</span><span class="p">,</span> <span class="s2">"char_str"</span><span class="p">,</span> <span class="s2">"char_str"</span><span class="p">,</span> <span class="s2">"float_int_num"</span><span class="p">,</span>
-        <span class="s2">"char_str"</span><span class="p">,</span> <span class="s2">"float_int_num"</span><span class="p">,</span> <span class="s2">"char_str"</span><span class="p">,</span> <span class="s2">"char_str"</span><span class="p">,</span> <span class="s2">"float_int_num"</span><span class="p">,</span>
-        <span class="s2">"char_str"</span><span class="p">,</span> <span class="s2">"float_int_num"</span><span class="p">,</span> <span class="s2">"char_str"</span><span class="p">,</span> <span class="s2">"char_str"</span><span class="p">,</span>
+        <span class="s2">"char_str"</span><span class="p">,</span> <span class="s2">"int_num"</span><span class="p">,</span> <span class="s2">"char_str"</span><span class="p">,</span> <span class="s2">"char_str"</span><span class="p">,</span> <span class="s2">"char_str"</span><span class="p">,</span> <span class="s2">"char_str"</span><span class="p">,</span>
+        <span class="s2">"int_num"</span><span class="p">,</span> <span class="s2">"char_str"</span><span class="p">,</span> <span class="s2">"char_str"</span><span class="p">,</span> <span class="s2">"int_num"</span><span class="p">,</span> <span class="s2">"char_str"</span><span class="p">,</span> <span class="s2">"int_num"</span><span class="p">,</span>
+        <span class="s2">"char_str"</span><span class="p">,</span> <span class="s2">"char_str"</span><span class="p">,</span> <span class="s2">"int_num"</span><span class="p">,</span> <span class="s2">"char_str"</span><span class="p">,</span> <span class="s2">"int_num"</span><span class="p">,</span> <span class="s2">"char_str"</span><span class="p">,</span>
+        <span class="s2">"char_str"</span><span class="p">,</span>
     <span class="p">],</span>
     <span class="n">missing_values_reference_list</span><span class="o">=</span><span class="p">[</span><span class="s2">""</span><span class="p">,</span> <span class="s2">"-"</span><span class="p">,</span> <span class="s2">"?"</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">)],</span>
     <span class="n">misslist_list</span><span class="o">=</span><span class="p">[</span>
@@ -10061,10 +10302,10 @@ has picked and tuned a classifier. These results may vary by dataset and search 
 <span class="n">numpy_replace_unknown_values</span> <span class="o">=</span> <span class="n">NumpyReplaceUnknownValues</span><span class="p">(</span>
     <span class="n">filling_values</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span>
     <span class="n">filling_values_list</span><span class="o">=</span><span class="p">[</span>
-        <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="mi">100001</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span>
-        <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="mi">100001</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="mi">100001</span><span class="p">,</span>
-        <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="mi">100001</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="mi">100001</span><span class="p">,</span>
-        <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="mi">100001</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span>
+        <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span>
+        <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span>
+        <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span>
+        <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span>
     <span class="p">],</span>
     <span class="n">missing_values_reference_list</span><span class="o">=</span><span class="p">[</span><span class="s2">""</span><span class="p">,</span> <span class="s2">"-"</span><span class="p">,</span> <span class="s2">"?"</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">)],</span>
 <span class="p">)</span>
@@ -10082,7 +10323,7 @@ has picked and tuned a classifier. These results may vary by dataset and search 
 <span class="p">)</span>
 <span class="n">numpy_column_selector_1</span> <span class="o">=</span> <span class="n">NumpyColumnSelector</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
 <span class="n">float_str2_float</span> <span class="o">=</span> <span class="n">FloatStr2Float</span><span class="p">(</span>
-    <span class="n">dtypes_list</span><span class="o">=</span><span class="p">[</span><span class="s2">"float_int_num"</span><span class="p">],</span> <span class="n">missing_values_reference_list</span><span class="o">=</span><span class="p">[]</span>
+    <span class="n">dtypes_list</span><span class="o">=</span><span class="p">[</span><span class="s2">"int_num"</span><span class="p">],</span> <span class="n">missing_values_reference_list</span><span class="o">=</span><span class="p">[]</span>
 <span class="p">)</span>
 <span class="n">numpy_replace_missing_values_1</span> <span class="o">=</span> <span class="n">NumpyReplaceMissingValues</span><span class="p">(</span>
     <span class="n">filling_values</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="n">missing_values</span><span class="o">=</span><span class="p">[]</span>
@@ -10095,7 +10336,51 @@ has picked and tuned a classifier. These results may vary by dataset and search 
         <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span>
     <span class="p">],</span>
 <span class="p">)</span>
-<span class="n">knn</span> <span class="o">=</span> <span class="n">KNN</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">86</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="s2">"distance"</span><span class="p">)</span>
+<span class="n">ta2</span> <span class="o">=</span> <span class="n">TA2</span><span class="p">(</span>
+    <span class="n">fun</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"sum"</span><span class="p">,</span>
+    <span class="n">datatypes1</span><span class="o">=</span><span class="p">[</span>
+        <span class="s2">"intc"</span><span class="p">,</span> <span class="s2">"intp"</span><span class="p">,</span> <span class="s2">"int_"</span><span class="p">,</span> <span class="s2">"uint8"</span><span class="p">,</span> <span class="s2">"uint16"</span><span class="p">,</span> <span class="s2">"uint32"</span><span class="p">,</span> <span class="s2">"uint64"</span><span class="p">,</span> <span class="s2">"int8"</span><span class="p">,</span>
+        <span class="s2">"int16"</span><span class="p">,</span> <span class="s2">"int32"</span><span class="p">,</span> <span class="s2">"int64"</span><span class="p">,</span> <span class="s2">"short"</span><span class="p">,</span> <span class="s2">"long"</span><span class="p">,</span> <span class="s2">"longlong"</span><span class="p">,</span> <span class="s2">"float16"</span><span class="p">,</span>
+        <span class="s2">"float32"</span><span class="p">,</span> <span class="s2">"float64"</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">feat_constraints1</span><span class="o">=</span><span class="p">[</span><span class="n">autoai_libs</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">fc_methods</span><span class="o">.</span><span class="n">is_not_categorical</span><span class="p">],</span>
+    <span class="n">datatypes2</span><span class="o">=</span><span class="p">[</span>
+        <span class="s2">"intc"</span><span class="p">,</span> <span class="s2">"intp"</span><span class="p">,</span> <span class="s2">"int_"</span><span class="p">,</span> <span class="s2">"uint8"</span><span class="p">,</span> <span class="s2">"uint16"</span><span class="p">,</span> <span class="s2">"uint32"</span><span class="p">,</span> <span class="s2">"uint64"</span><span class="p">,</span> <span class="s2">"int8"</span><span class="p">,</span>
+        <span class="s2">"int16"</span><span class="p">,</span> <span class="s2">"int32"</span><span class="p">,</span> <span class="s2">"int64"</span><span class="p">,</span> <span class="s2">"short"</span><span class="p">,</span> <span class="s2">"long"</span><span class="p">,</span> <span class="s2">"longlong"</span><span class="p">,</span> <span class="s2">"float16"</span><span class="p">,</span>
+        <span class="s2">"float32"</span><span class="p">,</span> <span class="s2">"float64"</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">feat_constraints2</span><span class="o">=</span><span class="p">[</span><span class="n">autoai_libs</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">fc_methods</span><span class="o">.</span><span class="n">is_not_categorical</span><span class="p">],</span>
+    <span class="n">col_names</span><span class="o">=</span><span class="p">[</span>
+        <span class="s2">"CheckingStatus"</span><span class="p">,</span> <span class="s2">"LoanDuration"</span><span class="p">,</span> <span class="s2">"CreditHistory"</span><span class="p">,</span> <span class="s2">"LoanPurpose"</span><span class="p">,</span>
+        <span class="s2">"LoanAmount"</span><span class="p">,</span> <span class="s2">"ExistingSavings"</span><span class="p">,</span> <span class="s2">"EmploymentDuration"</span><span class="p">,</span>
+        <span class="s2">"InstallmentPercent"</span><span class="p">,</span> <span class="s2">"Sex"</span><span class="p">,</span> <span class="s2">"OthersOnLoan"</span><span class="p">,</span>
+        <span class="s2">"CurrentResidenceDuration"</span><span class="p">,</span> <span class="s2">"OwnsProperty"</span><span class="p">,</span> <span class="s2">"Age"</span><span class="p">,</span> <span class="s2">"InstallmentPlans"</span><span class="p">,</span>
+        <span class="s2">"Housing"</span><span class="p">,</span> <span class="s2">"ExistingCreditsCount"</span><span class="p">,</span> <span class="s2">"Job"</span><span class="p">,</span> <span class="s2">"Dependents"</span><span class="p">,</span> <span class="s2">"Telephone"</span><span class="p">,</span>
+        <span class="s2">"ForeignWorker"</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">col_dtypes</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"float32"</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"float32"</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"float32"</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"float32"</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"float32"</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"float32"</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"float32"</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"float32"</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"float32"</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"float32"</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"float32"</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"float32"</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"float32"</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"float32"</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"float32"</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"float32"</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"float32"</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"float32"</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"float32"</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"float32"</span><span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<span class="n">fs1</span> <span class="o">=</span> <span class="n">FS1</span><span class="p">(</span>
+    <span class="n">cols_ids_must_keep</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
+    <span class="n">additional_col_count_to_keep</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">ptype</span><span class="o">=</span><span class="s2">"classification"</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">tree</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span>
+    <span class="n">criterion</span><span class="o">=</span><span class="s2">"entropy"</span><span class="p">,</span>
+    <span class="n">max_features</span><span class="o">=</span><span class="s2">"sqrt"</span><span class="p">,</span>
+    <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mf">0.16848986962255413</span><span class="p">,</span>
+    <span class="n">min_samples_split</span><span class="o">=</span><span class="mf">0.3765375287505964</span><span class="p">,</span>
+    <span class="n">splitter</span><span class="o">=</span><span class="s2">"random"</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="p">(</span>
     <span class="p">(</span>
         <span class="p">(</span>
@@ -10119,7 +10404,9 @@ has picked and tuned a classifier. These results may vary by dataset and search 
     <span class="p">)</span>
     <span class="o">&gt;&gt;</span> <span class="n">ConcatFeatures</span><span class="p">()</span>
     <span class="o">&gt;&gt;</span> <span class="n">numpy_permute_array</span>
-    <span class="o">&gt;&gt;</span> <span class="n">knn</span>
+    <span class="o">&gt;&gt;</span> <span class="n">ta2</span>
+    <span class="o">&gt;&gt;</span> <span class="n">fs1</span>
+    <span class="o">&gt;&gt;</span> <span class="n">tree</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -10256,7 +10543,7 @@ has picked and tuned a classifier. These results may vary by dataset and search 
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Creating package extensions
+<pre>Creating package extension
 SUCCESS
 </pre>
 </div>
@@ -10430,19 +10717,19 @@ SUCCESS
 
 ######################################################################################
 
-Synchronous deployment creation for id: '9bcbf6d8-c916-4124-a0c8-69d8861126b5' started
+Synchronous deployment creation for id: '929469af-6cb2-4717-b245-2ffbcbad1c8b' started
 
 ######################################################################################
 
 
 initializing
 Note: online_url is deprecated and will be removed in a future release. Use serving_urls instead.
-......
+................
 ready
 
 
 -----------------------------------------------------------------------------------------------
-Successfully finished deployment creation, deployment_id='e39d4142-4ef7-4b9d-b76b-9767e5857afa'
+Successfully finished deployment creation, deployment_id='3799f93a-2cd9-4c74-a444-335af3854eb4'
 -----------------------------------------------------------------------------------------------
 
 
@@ -10526,11 +10813,11 @@ Successfully finished deployment creation, deployment_id='e39d4142-4ef7-4b9d-b76
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[33]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>{'predictions': [{'fields': ['prediction', 'probability'],
-   'values': [['No Risk', [0.8500537872314453, 0.1499462127685547]],
-    ['No Risk', [0.8045833110809326, 0.1954166740179062]],
-    ['No Risk', [0.8392647504806519, 0.16073521971702576]],
-    ['No Risk', [0.806576132774353, 0.19342388212680817]],
-    ['No Risk', [0.8146058917045593, 0.18539410829544067]]]}]}</pre>
+   'values': [['No Risk', [0.7908338308334351, 0.20916615426540375]],
+    ['No Risk', [0.9558196067810059, 0.04418037459254265]],
+    ['No Risk', [0.957951009273529, 0.04204897955060005]],
+    ['No Risk', [0.7908338308334351, 0.20916615426540375]],
+    ['Risk', [0.43006688356399536, 0.5699331164360046]]]}]}</pre>
 </div>
 </div>
 </div>

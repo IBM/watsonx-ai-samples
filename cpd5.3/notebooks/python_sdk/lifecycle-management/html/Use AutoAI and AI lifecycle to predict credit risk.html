@@ -7332,7 +7332,12 @@ a.anchor-link {
     if (!diagrams.length) {
       return;
     }
-    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs")).default;
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.0/mermaid.esm.min.mjs")).default;
+    const elkUrl = "https://cdnjs.cloudflare.com/ajax/libs/mermaid-layout-elk/0.1.9/mermaid-layout-elk.esm.min.mjs";
+    if(elkUrl) {
+      const elkLayouts = (await import(elkUrl)).default;
+      mermaid.registerLayoutLoaders(elkLayouts);
+    }
     const parser = new DOMParser();
 
     mermaid.initialize({
@@ -7429,7 +7434,8 @@ a.anchor-link {
      * Post-process to ensure mermaid diagrams contain only valid SVG and XHTML.
      */
     function cleanMermaidSvg(svg) {
-      return svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      svg = svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      return `${SVG_XML_HEADER}${svg}`;
     }
 
 
@@ -7455,6 +7461,285 @@ a.anchor-link {
       }
       return `<${tag} ${rest}>`;
     }
+
+
+  /**
+   * Named HTML entities with their decimal equivalent codes.
+   *
+   * @see https://www.w3.org/TR/WD-html40-970708/sgml/entities.html
+   * */
+  const HTML_ENTITIES = `<!ENTITY Aacute "&#193;">
+<!ENTITY aacute "&#225;">
+<!ENTITY Acirc "&#194;">
+<!ENTITY acirc "&#226;">
+<!ENTITY acute "&#180;">
+<!ENTITY AElig "&#198;">
+<!ENTITY aelig "&#230;">
+<!ENTITY Agrave "&#192;">
+<!ENTITY agrave "&#224;">
+<!ENTITY alefsym "&#8501;">
+<!ENTITY Alpha "&#913;">
+<!ENTITY alpha "&#945;">
+<!ENTITY amp "&#38;">
+<!ENTITY and "&#8869;">
+<!ENTITY ang "&#8736;">
+<!ENTITY Aring "&#197;">
+<!ENTITY aring "&#229;">
+<!ENTITY asymp "&#8776;">
+<!ENTITY Atilde "&#195;">
+<!ENTITY atilde "&#227;">
+<!ENTITY Auml "&#196;">
+<!ENTITY auml "&#228;">
+<!ENTITY bdquo "&#8222;">
+<!ENTITY Beta "&#914;">
+<!ENTITY beta "&#946;">
+<!ENTITY brvbar "&#166;">
+<!ENTITY bull "&#8226;">
+<!ENTITY cap "&#8745;">
+<!ENTITY Ccedil "&#199;">
+<!ENTITY ccedil "&#231;">
+<!ENTITY cedil "&#184;">
+<!ENTITY cent "&#162;">
+<!ENTITY Chi "&#935;">
+<!ENTITY chi "&#967;">
+<!ENTITY circ "&#710;">
+<!ENTITY clubs "&#9827;">
+<!ENTITY cong "&#8773;">
+<!ENTITY copy "&#169;">
+<!ENTITY crarr "&#8629;">
+<!ENTITY cup "&#8746;">
+<!ENTITY curren "&#164;">
+<!ENTITY dagger "&#8224;">
+<!ENTITY Dagger "&#8225;">
+<!ENTITY darr "&#8595;">
+<!ENTITY dArr "&#8659;">
+<!ENTITY deg "&#176;">
+<!ENTITY Delta "&#916;">
+<!ENTITY delta "&#948;">
+<!ENTITY diams "&#9830;">
+<!ENTITY divide "&#247;">
+<!ENTITY Eacute "&#201;">
+<!ENTITY eacute "&#233;">
+<!ENTITY Ecirc "&#202;">
+<!ENTITY ecirc "&#234;">
+<!ENTITY Egrave "&#200;">
+<!ENTITY egrave "&#232;">
+<!ENTITY empty "&#8709;">
+<!ENTITY emsp "&#8195;">
+<!ENTITY ensp "&#8194;">
+<!ENTITY epsilon "&#949;">
+<!ENTITY Epsilon "&#917;">
+<!ENTITY equiv "&#8801;">
+<!ENTITY Eta "&#919;">
+<!ENTITY eta "&#951;">
+<!ENTITY ETH "&#208;">
+<!ENTITY eth "&#240;">
+<!ENTITY Euml "&#203;">
+<!ENTITY euml "&#235;">
+<!ENTITY exist "&#8707;">
+<!ENTITY fnof "&#402;">
+<!ENTITY forall "&#8704;">
+<!ENTITY frac12 "&#189;">
+<!ENTITY frac14 "&#188;">
+<!ENTITY frac34 "&#190;">
+<!ENTITY frasl "&#8260;">
+<!ENTITY Gamma "&#915;">
+<!ENTITY gamma "&#947;">
+<!ENTITY ge "&#8805;">
+<!ENTITY gt "&#62;">
+<!ENTITY harr "&#8596;">
+<!ENTITY hArr "&#8660;">
+<!ENTITY hearts "&#9829;">
+<!ENTITY hellip "&#8230;">
+<!ENTITY Iacute "&#205;">
+<!ENTITY iacute "&#237;">
+<!ENTITY Icirc "&#206;">
+<!ENTITY icirc "&#238;">
+<!ENTITY iexcl "&#161;">
+<!ENTITY Igrave "&#204;">
+<!ENTITY igrave "&#236;">
+<!ENTITY image "&#8465;">
+<!ENTITY infin "&#8734;">
+<!ENTITY int "&#8747;">
+<!ENTITY Iota "&#921;">
+<!ENTITY iota "&#953;">
+<!ENTITY iquest "&#191;">
+<!ENTITY isin "&#8712;">
+<!ENTITY Iuml "&#207;">
+<!ENTITY iuml "&#239;">
+<!ENTITY Kappa "&#922;">
+<!ENTITY kappa "&#954;">
+<!ENTITY Lambda "&#923;">
+<!ENTITY lambda "&#955;">
+<!ENTITY lang "&#9001;">
+<!ENTITY laquo "&#171;">
+<!ENTITY larr "&#8592;">
+<!ENTITY lArr "&#8656;">
+<!ENTITY lceil "&#8968;">
+<!ENTITY ldquo "&#8220;">
+<!ENTITY le "&#8804;">
+<!ENTITY lfloor "&#8970;">
+<!ENTITY lowast "&#8727;">
+<!ENTITY loz "&#9674;">
+<!ENTITY lrm "&#8206;">
+<!ENTITY lsaquo "&#8249;">
+<!ENTITY lsquo "&#8216;">
+<!ENTITY lt "&#60;">
+<!ENTITY macr "&#175;">
+<!ENTITY mdash "&#8212;">
+<!ENTITY micro "&#181;">
+<!ENTITY middot "&#183;">
+<!ENTITY minus "&#8722;">
+<!ENTITY Mu "&#924;">
+<!ENTITY mu "&#956;">
+<!ENTITY nabla "&#8711;">
+<!ENTITY nbsp "&#160;">
+<!ENTITY ndash "&#8211;">
+<!ENTITY ne "&#8800;">
+<!ENTITY ni "&#8715;">
+<!ENTITY not "&#172;">
+<!ENTITY notin "&#8713;">
+<!ENTITY nsub "&#8836;">
+<!ENTITY Ntilde "&#209;">
+<!ENTITY ntilde "&#241;">
+<!ENTITY Nu "&#925;">
+<!ENTITY nu "&#957;">
+<!ENTITY Oacute "&#211;">
+<!ENTITY oacute "&#243;">
+<!ENTITY Ocirc "&#212;">
+<!ENTITY ocirc "&#244;">
+<!ENTITY OElig "&#338;">
+<!ENTITY oelig "&#339;">
+<!ENTITY Ograve "&#210;">
+<!ENTITY ograve "&#242;">
+<!ENTITY oline "&#8254;">
+<!ENTITY Omega "&#937;">
+<!ENTITY omega "&#969;">
+<!ENTITY Omicron "&#927;">
+<!ENTITY omicron "&#959;">
+<!ENTITY oplus "&#8853;">
+<!ENTITY or "&#8870;">
+<!ENTITY ordf "&#170;">
+<!ENTITY ordm "&#186;">
+<!ENTITY Oslash "&#216;">
+<!ENTITY oslash "&#248;">
+<!ENTITY Otilde "&#213;">
+<!ENTITY otilde "&#245;">
+<!ENTITY otimes "&#8855;">
+<!ENTITY Ouml "&#214;">
+<!ENTITY ouml "&#246;">
+<!ENTITY para "&#182;">
+<!ENTITY part "&#8706;">
+<!ENTITY permil "&#8240;">
+<!ENTITY perp "&#8869;">
+<!ENTITY Phi "&#934;">
+<!ENTITY phi "&#966;">
+<!ENTITY Pi "&#928;">
+<!ENTITY pi "&#960;">
+<!ENTITY piv "&#982;">
+<!ENTITY plusmn "&#177;">
+<!ENTITY pound "&#163;">
+<!ENTITY prime "&#8242;">
+<!ENTITY Prime "&#8243;">
+<!ENTITY prod "&#8719;">
+<!ENTITY prop "&#8733;">
+<!ENTITY Psi "&#936;">
+<!ENTITY psi "&#968;">
+<!ENTITY quot "&#34;">
+<!ENTITY radic "&#8730;">
+<!ENTITY rang "&#9002;">
+<!ENTITY raquo "&#187;">
+<!ENTITY rarr "&#8594;">
+<!ENTITY rArr "&#8658;">
+<!ENTITY rceil "&#8969;">
+<!ENTITY rdquo "&#8221;">
+<!ENTITY real "&#8476;">
+<!ENTITY reg "&#174;">
+<!ENTITY rfloor "&#8971;">
+<!ENTITY Rho "&#929;">
+<!ENTITY rho "&#961;">
+<!ENTITY rlm "&#8207;">
+<!ENTITY rsaquo "&#8250;">
+<!ENTITY rsquo "&#8217;">
+<!ENTITY sbquo "&#8218;">
+<!ENTITY Scaron "&#352;">
+<!ENTITY scaron "&#353;">
+<!ENTITY sdot "&#8901;">
+<!ENTITY sect "&#167;">
+<!ENTITY shy "&#173;">
+<!ENTITY Sigma "&#931;">
+<!ENTITY sigma "&#963;">
+<!ENTITY sigmaf "&#962;">
+<!ENTITY sim "&#8764;">
+<!ENTITY spades "&#9824;">
+<!ENTITY sub "&#8834;">
+<!ENTITY sube "&#8838;">
+<!ENTITY sum "&#8721;">
+<!ENTITY sup "&#8835;">
+<!ENTITY sup1 "&#185;">
+<!ENTITY sup2 "&#178;">
+<!ENTITY sup3 "&#179;">
+<!ENTITY supe "&#8839;">
+<!ENTITY szlig "&#223;">
+<!ENTITY Tau "&#932;">
+<!ENTITY tau "&#964;">
+<!ENTITY there4 "&#8756;">
+<!ENTITY Theta "&#920;">
+<!ENTITY theta "&#952;">
+<!ENTITY thetasym "&#977;">
+<!ENTITY thinsp "&#8201;">
+<!ENTITY THORN "&#222;">
+<!ENTITY thorn "&#254;">
+<!ENTITY tilde "&#732;">
+<!ENTITY times "&#215;">
+<!ENTITY trade "&#8482;">
+<!ENTITY Uacute "&#218;">
+<!ENTITY uacute "&#250;">
+<!ENTITY uarr "&#8593;">
+<!ENTITY uArr "&#8657;">
+<!ENTITY Ucirc "&#219;">
+<!ENTITY ucirc "&#251;">
+<!ENTITY Ugrave "&#217;">
+<!ENTITY ugrave "&#249;">
+<!ENTITY uml "&#168;">
+<!ENTITY upsih "&#978;">
+<!ENTITY Upsilon "&#933;">
+<!ENTITY upsilon "&#965;">
+<!ENTITY Uuml "&#220;">
+<!ENTITY uuml "&#252;">
+<!ENTITY weierp "&#8472;">
+<!ENTITY Xi "&#926;">
+<!ENTITY xi "&#958;">
+<!ENTITY Yacute "&#221;">
+<!ENTITY yacute "&#253;">
+<!ENTITY yen "&#165;">
+<!ENTITY Yuml "&#376;">
+<!ENTITY yuml "&#255;">
+<!ENTITY Zeta "&#918;">
+<!ENTITY zeta "&#950;">
+<!ENTITY zwj "&#8205;">
+<!ENTITY zwnj "&#8204;">`.replace(/\n/g, ' ');
+
+  /**
+   * A reasonably strict xml declaration.
+   */
+  const XML_DECL = '<?xml version="1.0" standalone="no"?>';
+
+  /**
+   * The beginning of the XML doctype declaration.
+   */
+  const DOCTYPE_START = `<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [`;
+
+  /**
+   * The end of the XML docype declaration.
+   */
+  const DOCTYPE_END = ']>';
+
+  /**
+   * A full header for an SVG XML document.
+   */
+  const SVG_XML_HEADER = `${XML_DECL}
+    ${DOCTYPE_START}${HTML_ENTITIES}${DOCTYPE_END}`;
 
     void Promise.all([...diagrams].map(renderOneMarmaid));
   });
@@ -7581,14 +7866,14 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">pip</span> install -U wget | tail -n 1
-<span class="o">%</span><span class="k">pip</span> install -U lale | tail -n 1
-<span class="o">%</span><span class="k">pip</span> install -U autoai-libs | tail -n 1
-<span class="o">%</span><span class="k">pip</span> install "scikit-learn==1.6.1" | tail -n 1
-<span class="o">%</span><span class="k">pip</span> install -U ibm-watsonx-ai | tail -n 1
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">lale</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">autoai</span><span class="o">-</span><span class="n">libs</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"snapml&gt;=1.16,&lt;1.17"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">ibm</span><span class="o">-</span><span class="n">watsonx</span><span class="o">-</span><span class="n">ai</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -7602,10 +7887,10 @@ a.anchor-link {
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Successfully installed wget-3.2
-Requirement already satisfied: sortedcontainers~=2.2 in /opt/user-env/pyt6/lib64/python3.12/site-packages (from portion-&gt;jsonsubschema&gt;=0.0.6-&gt;lale) (2.4.0)
-Successfully installed autoai-libs-3.0.3
-Requirement already satisfied: threadpoolctl&gt;=3.1.0 in /opt/user-env/pyt6/lib64/python3.12/site-packages (from scikit-learn==1.6.1) (3.6.0)
-Successfully installed ibm-watsonx-ai-1.3.20
+Successfully installed attrs-25.4.0 black-26.1.0 click-8.3.1 cloudpickle-3.1.2 future-1.0.0 greenery-3.3.3 hyperopt-0.2.7 joblib-1.5.3 jsonref-1.1.0 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 jsonsubschema-0.0.7 lale-0.9.2 mypy-extensions-1.1.0 networkx-3.6.1 numpy-2.4.2 pandas-3.0.0 pathspec-1.0.4 portion-2.6.1 py4j-0.10.9.9 pytokens-0.4.1 referencing-0.37.0 rpds-py-0.30.0 scikit-learn-1.7.2 scipy-1.17.0 sortedcontainers-2.4.0 threadpoolctl-3.6.0 tqdm-4.67.3 typing-extensions-4.15.0
+Successfully installed attrs-25.3.0 autoai-libs-3.0.10 numpy-2.0.2 pandas-2.2.3 parameterized-0.9.0 protobuf-6.33.5 pytz-2025.2 scikit-learn-1.6.1 tzdata-2025.3 xgboost-2.1.4
+Successfully installed snapml-1.16.4
+Successfully installed anyio-4.12.1 cachetools-7.0.0 certifi-2026.1.4 charset_normalizer-3.4.4 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-watsonx-ai-1.5.1 idna-3.11 jmespath-1.0.1 lomond-0.3.3 requests-2.32.5 tabulate-0.9.0 urllib3-2.6.3
 </pre>
 </div>
 </div>
@@ -7627,7 +7912,7 @@ Successfully installed ibm-watsonx-ai-1.3.20
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">username</span> <span class="o">=</span> <span class="s2">"PASTE YOUR USERNAME HERE"</span>
@@ -7683,7 +7968,7 @@ Successfully installed ibm-watsonx-ai-1.3.20
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7704,19 +7989,6 @@ Successfully installed ibm-watsonx-ai-1.3.20
         <span class="n">version</span><span class="o">=</span><span class="s2">"5.3"</span><span class="p">,</span>
     <span class="p">)</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Enter your watsonx.ai password and hit enter:  ········
-</pre>
 </div>
 </div>
 </div>
@@ -7942,12 +8214,12 @@ SUCCESS
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>{'metadata': {'space_id': '9c4eb218-96e8-41e0-8cd5-f783504a11ea',
-  'usage': {'last_updated_at': '2025-05-22T11:39:54Z',
+<pre>{'metadata': {'space_id': 'c30e7fdc-830a-4494-9ff4-643a93a7bc7b',
+  'usage': {'last_updated_at': '2026-02-09T11:41:20Z',
    'last_updater_id': '1000331001',
-   'last_update_time': 1747913994246,
-   'last_accessed_at': '2025-05-22T11:39:54Z',
-   'last_access_time': 1747913994246,
+   'last_update_time': 1770637280256,
+   'last_accessed_at': '2026-02-09T11:41:20Z',
+   'last_access_time': 1770637280256,
    'last_accessor_id': '1000331001',
    'access_count': 0},
   'rov': {'mode': 0,
@@ -7962,21 +8234,22 @@ SUCCESS
   'resource_key': 'credit_risk_training',
   'rating': 0.0,
   'total_ratings': 0,
-  'catalog_id': '32c875f2-f104-4801-9d5f-a0987098790c',
-  'created': 1747913994246,
-  'created_at': '2025-05-22T11:39:54Z',
+  'catalog_id': 'ee4a8369-7ab6-493e-b527-d2997d382ade',
+  'created': 1770637280256,
+  'created_at': '2026-02-09T11:41:20Z',
   'owner_id': '1000331001',
   'size': 0,
   'version': 2.0,
   'asset_state': 'available',
   'asset_attributes': ['data_asset'],
-  'asset_id': 'd414512e-a854-49c3-a8fc-cceff65dd884',
+  'asset_id': '354de247-8cd2-46b6-a97b-0d9efcd20709',
   'asset_category': 'USER',
   'creator_id': '1000331001',
   'is_branched': True,
-  'guid': 'd414512e-a854-49c3-a8fc-cceff65dd884',
-  'href': '/v2/assets/d414512e-a854-49c3-a8fc-cceff65dd884?space_id=9c4eb218-96e8-41e0-8cd5-f783504a11ea',
-  'last_updated_at': '2025-05-22T11:39:54Z'},
+  'is_managed_asset': False,
+  'guid': '354de247-8cd2-46b6-a97b-0d9efcd20709',
+  'href': '/v2/assets/354de247-8cd2-46b6-a97b-0d9efcd20709?space_id=c30e7fdc-830a-4494-9ff4-643a93a7bc7b',
+  'last_updated_at': '2026-02-09T11:41:20Z'},
  'entity': {'data_asset': {'mime_type': 'text/csv'}}}</pre>
 </div>
 </div>
@@ -8167,7 +8440,7 @@ SUCCESS
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Training job f2a01a01-0f16-4e0d-9748-895e7b795c4a completed: 100%|████████| [01:11&lt;00:00,  1.39it/s]
+<pre>Training job a6e4ec2f-484a-43f9-bd4c-effc0b9394c4 completed: 100%|████████| [01:34&lt;00:00,  1.06it/s]
 </pre>
 </div>
 </div>
@@ -8246,7 +8519,7 @@ SUCCESS
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8259,6 +8532,23 @@ SUCCESS
 <span class="n">train_X</span> <span class="o">=</span> <span class="n">train_df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">"Risk"</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
 <span class="n">train_y</span> <span class="o">=</span> <span class="n">train_df</span><span class="o">.</span><span class="n">Risk</span><span class="o">.</span><span class="n">values</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Collecting pyarrow&gt;=3.0.0
+  Using cached pyarrow-23.0.0-cp312-cp312-macosx_12_0_x86_64.whl.metadata (3.0 kB)
+Using cached pyarrow-23.0.0-cp312-cp312-macosx_12_0_x86_64.whl (35.8 MB)
+Installing collected packages: pyarrow
+Successfully installed pyarrow-23.0.0
+</pre>
 </div>
 </div>
 </div>
@@ -8327,25 +8617,25 @@ SUCCESS
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Preparing an AutoAI Deployment...
-Published model uid: b78e56d5-6a90-477b-8ab8-b58d5e5ce1ed
-Deploying model b78e56d5-6a90-477b-8ab8-b58d5e5ce1ed using V4 client.
+Published model uid: 1814d2ae-ed38-483e-b289-53dc410c021c
+Deploying model 1814d2ae-ed38-483e-b289-53dc410c021c using V4 client.
 
 
 ######################################################################################
 
-Synchronous deployment creation for id: 'b78e56d5-6a90-477b-8ab8-b58d5e5ce1ed' started
+Synchronous deployment creation for id: '1814d2ae-ed38-483e-b289-53dc410c021c' started
 
 ######################################################################################
 
 
 initializing
 Note: online_url is deprecated and will be removed in a future release. Use serving_urls instead.
-.....
+....
 ready
 
 
 -----------------------------------------------------------------------------------------------
-Successfully finished deployment creation, deployment_id='433799b3-5756-4563-96f1-603ab2f5ff1e'
+Successfully finished deployment creation, deployment_id='c4ad818c-cfae-42a8-bbeb-b6f088705a08'
 -----------------------------------------------------------------------------------------------
 
 
@@ -8370,7 +8660,7 @@ Successfully finished deployment creation, deployment_id='433799b3-5756-4563-96f
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">service</span><span class="p">)</span>
@@ -8395,7 +8685,7 @@ Successfully finished deployment creation, deployment_id='433799b3-5756-4563-96f
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">service</span><span class="o">.</span><span class="n">get_params</span><span class="p">()</span>
@@ -8978,7 +9268,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   background-color: var(--sklearn-color-fitted-level-3);
 }
 </style><div class="sk-top-container" id="sk-container-id-1"><div class="sk-text-repr-fallback"><pre>Pipeline(steps=[('featureunion',
-                 FeatureUnion(transformer_list=[('float32_transform_140367139217696',
+                 FeatureUnion(transformer_list=[('float32_transform_5211447536',
                                                  Pipeline(steps=[('numpycolumnselector',
                                                                   NumpyColumnSelector(columns=[0,
                                                                                                2,
@@ -9004,23 +9294,12 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                                                'char_str',
                                                                                                'char_str',
                                                                                                'char_str',
-                                                                                               'float_int_n...
-                                                                 ('numpyreplacemissingvalues',
-                                                                  NumpyReplaceMissingValues(missing_values=[])),
-                                                                 ('numimputer',
-                                                                  NumImputer(missing_values=nan,
-                                                                             strategy='median')),
-                                                                 ('optstandardscaler',
-                                                                  OptStandardScaler(use_scaler_flag=False)),
-                                                                 ('float32_transform',
-                                                                  float32_transform())]))])),
-                ('numpypermutearray',
-                 NumpyPermuteArray(axis=0,
-                                   permutation_indices=[0, 2, 3, 5, 6, 7, 8, 9,
-                                                        10, 11, 13, 14, 15, 16,
-                                                        17, 18, 19, 1, 4,
-                                                        12]))])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br/>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-1"><div><div>Pipeline</div></div><div><a class="sk-estimator-doc-link fitted" href="https://scikit-learn.org/1.6/modules/generated/sklearn.pipeline.Pipeline.html" rel="noreferrer" target="_blank">?<span>Documentation for Pipeline</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[('featureunion',
-                 FeatureUnion(transformer_list=[('float32_transform_140367139217696',
+                                                                                               'int_num',
+                                                                                               'char_s...
+                 autoai_libs.cognito.transforms.transform_utils.TA2(fun = numpy.multiply, name = 'product', datatypes1 = ['intc', 'intp', 'int_', 'uint8', 'uint16', 'uint32', 'uint64', 'int8', 'int16', 'int32', 'int64', 'short', 'long', 'longlong', 'float16', 'float32', 'float64'], feat_constraints1 = [&lt;cyfunction is_not_categorical at 0x126ad3790&gt;], datatypes2 = ['intc', 'intp', 'int_', 'uint8', 'uint16', 'uint32', 'uint64', 'int8', 'int16', 'int32', 'int64', 'short', 'long', 'longlong', 'float16', 'float32', 'float64'], feat_constraints2 = [&lt;cyfunction is_not_categorical at 0x126ad3790&gt;], tgraph = None, apply_all = True, col_names = ['CheckingStatus', 'LoanDuration', 'CreditHistory', 'LoanPurpose', 'LoanAmount', 'ExistingSavings', 'EmploymentDuration', 'InstallmentPercent', 'Sex', 'OthersOnLoan', 'CurrentResidenceDuration', 'OwnsProperty', 'Age', 'InstallmentPlans', 'Housing', 'ExistingCreditsCount', 'Job', 'Dependents', 'Telephone', 'ForeignWorker', 'pca_0', 'pca_1', 'pca_2', 'pca_3', 'pca_4', 'pca_5', 'pca_6', 'pca_7', 'pca_8', 'pca_9', 'pca_10', 'pca_11', 'pca_12', 'pca_13', 'pca_14', 'pca_15', 'pca_16', 'pca_17', 'pca_18', 'pca_19'], col_dtypes = [dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32')], col_as_json_objects = None)),
+                ('fs1-2',
+                 autoai_libs.cognito.transforms.transform_utils.FS1(cols_ids_must_keep = range(0, 20), additional_col_count_to_keep = 20, ptype = 'classification'))])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br/>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-1"><div><div>Pipeline</div></div><div><a class="sk-estimator-doc-link fitted" href="https://scikit-learn.org/1.6/modules/generated/sklearn.pipeline.Pipeline.html" rel="noreferrer" target="_blank">?<span>Documentation for Pipeline</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[('featureunion',
+                 FeatureUnion(transformer_list=[('float32_transform_5211447536',
                                                  Pipeline(steps=[('numpycolumnselector',
                                                                   NumpyColumnSelector(columns=[0,
                                                                                                2,
@@ -9046,22 +9325,11 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                                                'char_str',
                                                                                                'char_str',
                                                                                                'char_str',
-                                                                                               'float_int_n...
-                                                                 ('numpyreplacemissingvalues',
-                                                                  NumpyReplaceMissingValues(missing_values=[])),
-                                                                 ('numimputer',
-                                                                  NumImputer(missing_values=nan,
-                                                                             strategy='median')),
-                                                                 ('optstandardscaler',
-                                                                  OptStandardScaler(use_scaler_flag=False)),
-                                                                 ('float32_transform',
-                                                                  float32_transform())]))])),
-                ('numpypermutearray',
-                 NumpyPermuteArray(axis=0,
-                                   permutation_indices=[0, 2, 3, 5, 6, 7, 8, 9,
-                                                        10, 11, 13, 14, 15, 16,
-                                                        17, 18, 19, 1, 4,
-                                                        12]))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-2"><div><div>featureunion: FeatureUnion</div></div><div><a class="sk-estimator-doc-link fitted" href="https://scikit-learn.org/1.6/modules/generated/sklearn.pipeline.FeatureUnion.html" rel="noreferrer" target="_blank">?<span>Documentation for featureunion: FeatureUnion</span></a></div></label><div class="sk-toggleable__content fitted"><pre>FeatureUnion(transformer_list=[('float32_transform_140367139217696',
+                                                                                               'int_num',
+                                                                                               'char_s...
+                 autoai_libs.cognito.transforms.transform_utils.TA2(fun = numpy.multiply, name = 'product', datatypes1 = ['intc', 'intp', 'int_', 'uint8', 'uint16', 'uint32', 'uint64', 'int8', 'int16', 'int32', 'int64', 'short', 'long', 'longlong', 'float16', 'float32', 'float64'], feat_constraints1 = [&lt;cyfunction is_not_categorical at 0x126ad3790&gt;], datatypes2 = ['intc', 'intp', 'int_', 'uint8', 'uint16', 'uint32', 'uint64', 'int8', 'int16', 'int32', 'int64', 'short', 'long', 'longlong', 'float16', 'float32', 'float64'], feat_constraints2 = [&lt;cyfunction is_not_categorical at 0x126ad3790&gt;], tgraph = None, apply_all = True, col_names = ['CheckingStatus', 'LoanDuration', 'CreditHistory', 'LoanPurpose', 'LoanAmount', 'ExistingSavings', 'EmploymentDuration', 'InstallmentPercent', 'Sex', 'OthersOnLoan', 'CurrentResidenceDuration', 'OwnsProperty', 'Age', 'InstallmentPlans', 'Housing', 'ExistingCreditsCount', 'Job', 'Dependents', 'Telephone', 'ForeignWorker', 'pca_0', 'pca_1', 'pca_2', 'pca_3', 'pca_4', 'pca_5', 'pca_6', 'pca_7', 'pca_8', 'pca_9', 'pca_10', 'pca_11', 'pca_12', 'pca_13', 'pca_14', 'pca_15', 'pca_16', 'pca_17', 'pca_18', 'pca_19'], col_dtypes = [dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32')], col_as_json_objects = None)),
+                ('fs1-2',
+                 autoai_libs.cognito.transforms.transform_utils.FS1(cols_ids_must_keep = range(0, 20), additional_col_count_to_keep = 20, ptype = 'classification'))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-2"><div><div>featureunion: FeatureUnion</div></div><div><a class="sk-estimator-doc-link fitted" href="https://scikit-learn.org/1.6/modules/generated/sklearn.pipeline.FeatureUnion.html" rel="noreferrer" target="_blank">?<span>Documentation for featureunion: FeatureUnion</span></a></div></label><div class="sk-toggleable__content fitted"><pre>FeatureUnion(transformer_list=[('float32_transform_5211447536',
                                 Pipeline(steps=[('numpycolumnselector',
                                                  NumpyColumnSelector(columns=[0,
                                                                               2,
@@ -9087,13 +9355,15 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                               'char_str',
                                                                               'char_str',
                                                                               'char_str',
-                                                                              'float_int_num',
+                                                                              'int_num',
                                                                               'char_str',
                                                                               'char_str',
-                                                                              'float...
-                                                 FloatStr2Float(dtypes_list=['float_int_num',
-                                                                             'float_int_num',
-                                                                             'float_int_num'],
+                                                                              'int_num',
+                                                                              'char_s...
+                                                ('floatstr2float',
+                                                 FloatStr2Float(dtypes_list=['int_num',
+                                                                             'int_num',
+                                                                             'int_num'],
                                                                 missing_values_reference_list=[])),
                                                 ('numpyreplacemissingvalues',
                                                  NumpyReplaceMissingValues(missing_values=[])),
@@ -9103,39 +9373,38 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                 ('optstandardscaler',
                                                  OptStandardScaler(use_scaler_flag=False)),
                                                 ('float32_transform',
-                                                 float32_transform())]))])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><label>float32_transform_140367139217696</label></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-3" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-3"><div><div>NumpyColumnSelector</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyColumnSelector(columns=[0, 2, 3, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17,
+                                                 float32_transform())]))])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><label>float32_transform_5211447536</label></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-3" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-3"><div><div>NumpyColumnSelector</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyColumnSelector(columns=[0, 2, 3, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17,
                              18, 19])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-4" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-4"><div><div>CompressStrings</div></div></label><div class="sk-toggleable__content fitted"><pre>CompressStrings(compress_type='hash',
                 dtypes_list=['char_str', 'char_str', 'char_str', 'char_str',
-                             'char_str', 'float_int_num', 'char_str',
-                             'char_str', 'float_int_num', 'char_str',
-                             'char_str', 'char_str', 'float_int_num',
-                             'char_str', 'float_int_num', 'char_str',
+                             'char_str', 'int_num', 'char_str', 'char_str',
+                             'int_num', 'char_str', 'char_str', 'char_str',
+                             'int_num', 'char_str', 'int_num', 'char_str',
                              'char_str'],
                 missing_values_reference_list=['', '-', '?', nan],
                 misslist_list=[[], [], [], [], [], [], [], [], [], [], [], [],
                                [], [], [], [], []])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-5" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-5"><div><div>NumpyReplaceMissingValues</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyReplaceMissingValues(missing_values=[])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-6" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-6"><div><div>NumpyReplaceUnknownValues</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyReplaceUnknownValues(filling_values=nan,
-                          filling_values_list=[nan, nan, nan, nan, nan, 100001,
-                                               nan, nan, 100001, nan, nan, nan,
-                                               100001, nan, 100001, nan, nan],
+                          filling_values_list=[nan, nan, nan, nan, nan, nan,
+                                               nan, nan, nan, nan, nan, nan,
+                                               nan, nan, nan, nan, nan],
                           known_values_list=[[227259264688753646810077375790908286508,
                                               253732214910815238134509288111402486722,
                                               303819144345098626554456011496217223575,
                                               280353606872939388614315901186094326949],
-                                             [310861434292724266828...
+                                             [310861434292724266828512742170106...
                                              [328286527295663582663365503319902632676,
                                               119641707607939038914465000864290288880,
                                               283364312271660996400883763491949419861,
                                               27741019508977055807423991753468819528],
-                                             [1.0, 2.0],
+                                             [1, 2],
                                              [68186749286663113704472210246844540664,
                                               220736790854050750400968561922076059550],
                                              [169662019754859674907370307324476606919,
                                               220736790854050750400968561922076059550]],
                           missing_values_reference_list=['', '-', '?', nan])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-7" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-7"><div><div>boolean2float</div></div></label><div class="sk-toggleable__content fitted"><pre>boolean2float()</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-8" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-8"><div><div>CatImputer</div></div></label><div class="sk-toggleable__content fitted"><pre>CatImputer(missing_values=nan, strategy='most_frequent')</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-9" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-9"><div><div>CatEncoder</div></div></label><div class="sk-toggleable__content fitted"><pre>CatEncoder(categories='auto', dtype=&lt;class 'numpy.float64'&gt;, encoding='ordinal',
-           handle_unknown='error')</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-10" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-10"><div><div>float32_transform</div></div></label><div class="sk-toggleable__content fitted"><pre>float32_transform()</pre></div> </div></div></div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><label>float32_transform_140367139220096</label></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-11" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-11"><div><div>NumpyColumnSelector</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyColumnSelector(columns=[1, 4, 12])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-12" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-12"><div><div>FloatStr2Float</div></div></label><div class="sk-toggleable__content fitted"><pre>FloatStr2Float(dtypes_list=['float_int_num', 'float_int_num', 'float_int_num'],
+           handle_unknown='error')</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-10" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-10"><div><div>float32_transform</div></div></label><div class="sk-toggleable__content fitted"><pre>float32_transform()</pre></div> </div></div></div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><label>float32_transform_5211449792</label></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-11" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-11"><div><div>NumpyColumnSelector</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyColumnSelector(columns=[1, 4, 12])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-12" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-12"><div><div>FloatStr2Float</div></div></label><div class="sk-toggleable__content fitted"><pre>FloatStr2Float(dtypes_list=['int_num', 'int_num', 'int_num'],
                missing_values_reference_list=[])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-13" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-13"><div><div>NumpyReplaceMissingValues</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyReplaceMissingValues(missing_values=[])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-14" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-14"><div><div>NumImputer</div></div></label><div class="sk-toggleable__content fitted"><pre>NumImputer(missing_values=nan, strategy='median')</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-15" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-15"><div><div>OptStandardScaler</div></div></label><div class="sk-toggleable__content fitted"><pre>OptStandardScaler(use_scaler_flag=False)</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-16" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-16"><div><div>float32_transform</div></div></label><div class="sk-toggleable__content fitted"><pre>float32_transform()</pre></div> </div></div></div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-17" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-17"><div><div>NumpyPermuteArray</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyPermuteArray(axis=0,
                   permutation_indices=[0, 2, 3, 5, 6, 7, 8, 9, 10, 11, 13, 14,
-                                       15, 16, 17, 18, 19, 1, 4, 12])</pre></div> </div></div></div></div></div></div>
+                                       15, 16, 17, 18, 19, 1, 4, 12])</pre></div> </div></div><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-18" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-18"><div><div>tam: TAM</div></div></label><div class="sk-toggleable__content fitted"><pre>autoai_libs.cognito.transforms.transform_utils.TAM(tans_class=sklearn.decomposition._pca.PCA(copy = True, iterated_power = 'auto', n_components = None, n_oversamples = 10, power_iteration_normalizer = 'auto', random_state = None, svd_solver = 'auto', tol = 0.0, whiten = False), name = 'pca', tgraph = None, apply_all = True, col_names = ['CheckingStatus', 'LoanDuration', 'CreditHistory', 'LoanPurpose', 'LoanAmount', 'ExistingSavings', 'EmploymentDuration', 'InstallmentPercent', 'Sex', 'OthersOnLoan', 'CurrentResidenceDuration', 'OwnsProperty', 'Age', 'InstallmentPlans', 'Housing', 'ExistingCreditsCount', 'Job', 'Dependents', 'Telephone', 'ForeignWorker'], col_dtypes = [dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32')], col_as_json_objects = None)</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-19" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-19"><div><div>tans_class: PCA</div></div></label><div class="sk-toggleable__content fitted"><pre>PCA()</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-20" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-20"><div><div>PCA</div></div><div><a class="sk-estimator-doc-link fitted" href="https://scikit-learn.org/1.6/modules/generated/sklearn.decomposition.PCA.html" rel="noreferrer" target="_blank">?<span>Documentation for PCA</span></a></div></label><div class="sk-toggleable__content fitted"><pre>PCA()</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-21" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-21"><div><div>FS1</div></div></label><div class="sk-toggleable__content fitted"><pre>autoai_libs.cognito.transforms.transform_utils.FS1(cols_ids_must_keep = range(0, 20), additional_col_count_to_keep = 20, ptype = 'classification')</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-22" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-22"><div><div>TA2</div></div></label><div class="sk-toggleable__content fitted"><pre>autoai_libs.cognito.transforms.transform_utils.TA2(fun = numpy.multiply, name = 'product', datatypes1 = ['intc', 'intp', 'int_', 'uint8', 'uint16', 'uint32', 'uint64', 'int8', 'int16', 'int32', 'int64', 'short', 'long', 'longlong', 'float16', 'float32', 'float64'], feat_constraints1 = [&lt;cyfunction is_not_categorical at 0x126ad3790&gt;], datatypes2 = ['intc', 'intp', 'int_', 'uint8', 'uint16', 'uint32', 'uint64', 'int8', 'int16', 'int32', 'int64', 'short', 'long', 'longlong', 'float16', 'float32', 'float64'], feat_constraints2 = [&lt;cyfunction is_not_categorical at 0x126ad3790&gt;], tgraph = None, apply_all = True, col_names = ['CheckingStatus', 'LoanDuration', 'CreditHistory', 'LoanPurpose', 'LoanAmount', 'ExistingSavings', 'EmploymentDuration', 'InstallmentPercent', 'Sex', 'OthersOnLoan', 'CurrentResidenceDuration', 'OwnsProperty', 'Age', 'InstallmentPlans', 'Housing', 'ExistingCreditsCount', 'Job', 'Dependents', 'Telephone', 'ForeignWorker', 'pca_0', 'pca_1', 'pca_2', 'pca_3', 'pca_4', 'pca_5', 'pca_6', 'pca_7', 'pca_8', 'pca_9', 'pca_10', 'pca_11', 'pca_12', 'pca_13', 'pca_14', 'pca_15', 'pca_16', 'pca_17', 'pca_18', 'pca_19'], col_dtypes = [dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32'), dtype('float32')], col_as_json_objects = None)</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-23" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-23"><div><div>FS1</div></div></label><div class="sk-toggleable__content fitted"><pre>autoai_libs.cognito.transforms.transform_utils.FS1(cols_ids_must_keep = range(0, 20), additional_col_count_to_keep = 20, ptype = 'classification')</pre></div> </div></div></div></div></div></div>
 </div>
 </div>
 </div>
@@ -9220,9 +9489,7 @@ data.</p>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>100%|██████████| 20/20 [00:08&lt;00:00,  2.34trial/s, best loss: -0.7994345630215195]
-1 out of 20 trials failed, call summary() for details.
-Run with verbose=True to see per-trial exceptions.
+<pre>100%|██████████| 20/20 [00:03&lt;00:00,  6.21trial/s, best loss: -0.804814448836188]
 </pre>
 </div>
 </div>
@@ -9377,12 +9644,6 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
 </pre>
 </div>
 </div>
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[30]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'/home/wsuser/work/current_model.zip'</pre>
-</div>
-</div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
@@ -9467,13 +9728,13 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
 <pre>{
   "metadata": {
     "name": "P1",
-    "space_id": "9c4eb218-96e8-41e0-8cd5-f783504a11ea",
-    "resource_key": "81444767-8506-4af1-9fd3-9b2b2dd4b3a6",
-    "id": "b78e56d5-6a90-477b-8ab8-b58d5e5ce1ed",
-    "created_at": "2025-05-22T11:41:53Z",
+    "space_id": "c30e7fdc-830a-4494-9ff4-643a93a7bc7b",
+    "resource_key": "16b48989-415f-4731-9bf4-da715dc767e5",
+    "id": "1814d2ae-ed38-483e-b289-53dc410c021c",
+    "created_at": "2026-02-09T11:47:53Z",
     "rev": "1",
     "commit_info": {
-      "committed_at": "2025-05-22T11:44:01Z"
+      "committed_at": "2026-02-09T11:49:51Z"
     },
     "rov": {
       "member_roles": {
@@ -9489,7 +9750,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
   },
   "entity": {
     "pipeline": {
-      "id": "91cd7ec2-6bda-417e-82d1-ff8368b03952"
+      "id": "c9dd6210-4d50-4f6a-888a-da030d5813fe"
     },
     "software_spec": {
       "id": "8c1a58c6-62b5-4dc4-987a-df751c2756b6",
@@ -9501,9 +9762,9 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
         "type": "data_asset",
         "connection": null,
         "location": {
-          "href": "/v2/assets/d414512e-a854-49c3-a8fc-cceff65dd884?space_id=9c4eb218-96e8-41e0-8cd5-f783504a11ea",
-          "id": "d414512e-a854-49c3-a8fc-cceff65dd884",
-          "space_id": "9c4eb218-96e8-41e0-8cd5-f783504a11ea"
+          "href": "/v2/assets/354de247-8cd2-46b6-a97b-0d9efcd20709?space_id=c30e7fdc-830a-4494-9ff4-643a93a7bc7b",
+          "id": "354de247-8cd2-46b6-a97b-0d9efcd20709",
+          "space_id": "c30e7fdc-830a-4494-9ff4-643a93a7bc7b"
         },
         "schema": {
           "id": "auto_ai_kb_input_schema",
@@ -9515,7 +9776,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "LoanDuration",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -9530,7 +9791,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "LoanAmount",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -9545,7 +9806,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "InstallmentPercent",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -9560,7 +9821,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "CurrentResidenceDuration",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -9570,7 +9831,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "Age",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -9585,7 +9846,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "ExistingCreditsCount",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -9595,7 +9856,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "Dependents",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -9629,7 +9890,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "LoanDuration",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -9644,7 +9905,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "LoanAmount",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -9659,7 +9920,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "InstallmentPercent",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -9674,7 +9935,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "CurrentResidenceDuration",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -9684,7 +9945,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "Age",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -9699,7 +9960,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "ExistingCreditsCount",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -9709,7 +9970,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "Dependents",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -9730,7 +9991,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
     "label_column": "Risk",
     "metrics": [
       {
-        "timestamp": "2025-05-22T11:40:28Z",
+        "timestamp": "2026-02-09T11:43:19Z",
         "ml_metrics": {
           "holdout_accuracy": 0.72,
           "holdout_average_precision": 0.5175996610541083,
@@ -9754,12 +10015,12 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             "name": "P1",
             "process": "pre_hpo_d_output",
             "location": {
-              "pipeline": "/spaces/9c4eb218-96e8-41e0-8cd5-f783504a11ea/assets/auto_ml/auto_ml.0627b7f6-8708-4c13-b0c9-5d91455561d9/wml_data/f2a01a01-0f16-4e0d-9748-895e7b795c4a/data/automl/pre_hpo_d_output/Pipeline1/pipeline.json",
-              "pipeline_model": "/spaces/9c4eb218-96e8-41e0-8cd5-f783504a11ea/assets/auto_ml/auto_ml.0627b7f6-8708-4c13-b0c9-5d91455561d9/wml_data/f2a01a01-0f16-4e0d-9748-895e7b795c4a/data/automl/pre_hpo_d_output/Pipeline1/pipeline-model.json",
-              "model": "/spaces/9c4eb218-96e8-41e0-8cd5-f783504a11ea/assets/auto_ml/auto_ml.0627b7f6-8708-4c13-b0c9-5d91455561d9/wml_data/f2a01a01-0f16-4e0d-9748-895e7b795c4a/data/automl/pre_hpo_d_output/Pipeline1/model.pickle"
+              "pipeline": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/data/automl/pre_hpo_d_output/Pipeline1/pipeline.json",
+              "pipeline_model": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/data/automl/pre_hpo_d_output/Pipeline1/pipeline-model.json",
+              "model": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/data/automl/pre_hpo_d_output/Pipeline1/model.pickle"
             },
-            "schema_location": "/spaces/9c4eb218-96e8-41e0-8cd5-f783504a11ea/assets/auto_ml/auto_ml.0627b7f6-8708-4c13-b0c9-5d91455561d9/wml_data/f2a01a01-0f16-4e0d-9748-895e7b795c4a/data/automl/pre_hpo_d_output/Pipeline1/schema.json",
-            "notebook_location": "/spaces/9c4eb218-96e8-41e0-8cd5-f783504a11ea/assets/auto_ml/auto_ml.0627b7f6-8708-4c13-b0c9-5d91455561d9/wml_data/f2a01a01-0f16-4e0d-9748-895e7b795c4a/data/automl/pre_hpo_d_output/Pipeline1/notebook.ipynb",
+            "schema_location": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/data/automl/pre_hpo_d_output/Pipeline1/schema.json",
+            "notebook_location": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/data/automl/pre_hpo_d_output/Pipeline1/notebook.ipynb",
             "pipeline_nodes": [
               "PreprocessingTransformer",
               "SnapLogisticRegression"
@@ -9772,7 +10033,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
               "Preprocessor_default",
               "DAUB"
             ],
-            "duration": 418
+            "duration": 365
           },
           "phase": "pre_hpo_d_output",
           "classes": [
@@ -9928,7 +10189,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
         "name": "autoai-kb_rt25.1-py3.12"
       }
     ],
-    "training_id": "f2a01a01-0f16-4e0d-9748-895e7b795c4a",
+    "training_id": "a6e4ec2f-484a-43f9-bd4c-effc0b9394c4",
     "data_preprocessing": [
       {
         "stage": "sampling",
@@ -9959,6 +10220,30 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
         }
       }
     ],
+    "content_location": {
+      "type": "fs",
+      "location": {
+        "assets_path": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/assets",
+        "notebooks_path": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/notebooks",
+        "path": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data",
+        "training": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4",
+        "training_log": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/data/automl/training.log",
+        "training_status": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/training-status.json"
+      },
+      "contents": [
+        {
+          "content_format": "pipeline-node",
+          "location": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/assets/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4_P1_pre_hpo_d_output/resources/wml_model/P1_automl.zip",
+          "file_name": "P1_automl.zip",
+          "pipeline_node_id": "automl"
+        },
+        {
+          "content_format": "native",
+          "location": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/assets/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4_P1_pre_hpo_d_output/resources/wml_model/pipeline_model.json",
+          "file_name": "pipeline_model.json"
+        }
+      ]
+    },
     "content_import_state": "completed"
   }
 }
@@ -10032,13 +10317,13 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
 <pre>{
   "metadata": {
     "name": "AutoAI credit-risk updated model",
-    "space_id": "9c4eb218-96e8-41e0-8cd5-f783504a11ea",
-    "resource_key": "73dd6496-5468-4080-ab0e-2f50aeb7cbe6",
-    "id": "b78e56d5-6a90-477b-8ab8-b58d5e5ce1ed",
-    "created_at": "2025-05-22T11:41:53Z",
+    "space_id": "c30e7fdc-830a-4494-9ff4-643a93a7bc7b",
+    "resource_key": "4dd1ef35-a54c-4fad-8c35-a31cad21606e",
+    "id": "1814d2ae-ed38-483e-b289-53dc410c021c",
+    "created_at": "2026-02-09T11:47:53Z",
     "rev": "2",
     "commit_info": {
-      "committed_at": "2025-05-22T11:44:04Z"
+      "committed_at": "2026-02-09T11:49:53Z"
     },
     "rov": {
       "member_roles": {
@@ -10054,7 +10339,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
   },
   "entity": {
     "pipeline": {
-      "id": "91cd7ec2-6bda-417e-82d1-ff8368b03952"
+      "id": "c9dd6210-4d50-4f6a-888a-da030d5813fe"
     },
     "software_spec": {
       "id": "8c1a58c6-62b5-4dc4-987a-df751c2756b6",
@@ -10066,9 +10351,9 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
         "type": "data_asset",
         "connection": null,
         "location": {
-          "href": "/v2/assets/d414512e-a854-49c3-a8fc-cceff65dd884?space_id=9c4eb218-96e8-41e0-8cd5-f783504a11ea",
-          "id": "d414512e-a854-49c3-a8fc-cceff65dd884",
-          "space_id": "9c4eb218-96e8-41e0-8cd5-f783504a11ea"
+          "href": "/v2/assets/354de247-8cd2-46b6-a97b-0d9efcd20709?space_id=c30e7fdc-830a-4494-9ff4-643a93a7bc7b",
+          "id": "354de247-8cd2-46b6-a97b-0d9efcd20709",
+          "space_id": "c30e7fdc-830a-4494-9ff4-643a93a7bc7b"
         },
         "schema": {
           "id": "auto_ai_kb_input_schema",
@@ -10080,7 +10365,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "LoanDuration",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -10095,7 +10380,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "LoanAmount",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -10110,7 +10395,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "InstallmentPercent",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -10125,7 +10410,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "CurrentResidenceDuration",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -10135,7 +10420,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "Age",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -10150,7 +10435,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "ExistingCreditsCount",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -10160,7 +10445,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "Dependents",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -10194,7 +10479,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "LoanDuration",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -10209,7 +10494,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "LoanAmount",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -10224,7 +10509,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "InstallmentPercent",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -10239,7 +10524,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "CurrentResidenceDuration",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -10249,7 +10534,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "Age",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -10264,7 +10549,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "ExistingCreditsCount",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -10274,7 +10559,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "Dependents",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -10295,7 +10580,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
     "label_column": "Risk",
     "metrics": [
       {
-        "timestamp": "2025-05-22T11:40:28Z",
+        "timestamp": "2026-02-09T11:43:19Z",
         "ml_metrics": {
           "holdout_accuracy": 0.72,
           "holdout_average_precision": 0.5175996610541083,
@@ -10319,12 +10604,12 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             "name": "P1",
             "process": "pre_hpo_d_output",
             "location": {
-              "pipeline": "/spaces/9c4eb218-96e8-41e0-8cd5-f783504a11ea/assets/auto_ml/auto_ml.0627b7f6-8708-4c13-b0c9-5d91455561d9/wml_data/f2a01a01-0f16-4e0d-9748-895e7b795c4a/data/automl/pre_hpo_d_output/Pipeline1/pipeline.json",
-              "pipeline_model": "/spaces/9c4eb218-96e8-41e0-8cd5-f783504a11ea/assets/auto_ml/auto_ml.0627b7f6-8708-4c13-b0c9-5d91455561d9/wml_data/f2a01a01-0f16-4e0d-9748-895e7b795c4a/data/automl/pre_hpo_d_output/Pipeline1/pipeline-model.json",
-              "model": "/spaces/9c4eb218-96e8-41e0-8cd5-f783504a11ea/assets/auto_ml/auto_ml.0627b7f6-8708-4c13-b0c9-5d91455561d9/wml_data/f2a01a01-0f16-4e0d-9748-895e7b795c4a/data/automl/pre_hpo_d_output/Pipeline1/model.pickle"
+              "pipeline": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/data/automl/pre_hpo_d_output/Pipeline1/pipeline.json",
+              "pipeline_model": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/data/automl/pre_hpo_d_output/Pipeline1/pipeline-model.json",
+              "model": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/data/automl/pre_hpo_d_output/Pipeline1/model.pickle"
             },
-            "schema_location": "/spaces/9c4eb218-96e8-41e0-8cd5-f783504a11ea/assets/auto_ml/auto_ml.0627b7f6-8708-4c13-b0c9-5d91455561d9/wml_data/f2a01a01-0f16-4e0d-9748-895e7b795c4a/data/automl/pre_hpo_d_output/Pipeline1/schema.json",
-            "notebook_location": "/spaces/9c4eb218-96e8-41e0-8cd5-f783504a11ea/assets/auto_ml/auto_ml.0627b7f6-8708-4c13-b0c9-5d91455561d9/wml_data/f2a01a01-0f16-4e0d-9748-895e7b795c4a/data/automl/pre_hpo_d_output/Pipeline1/notebook.ipynb",
+            "schema_location": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/data/automl/pre_hpo_d_output/Pipeline1/schema.json",
+            "notebook_location": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/data/automl/pre_hpo_d_output/Pipeline1/notebook.ipynb",
             "pipeline_nodes": [
               "PreprocessingTransformer",
               "SnapLogisticRegression"
@@ -10337,7 +10622,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
               "Preprocessor_default",
               "DAUB"
             ],
-            "duration": 418
+            "duration": 365
           },
           "phase": "pre_hpo_d_output",
           "classes": [
@@ -10493,7 +10778,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
         "name": "autoai-kb_rt25.1-py3.12"
       }
     ],
-    "training_id": "f2a01a01-0f16-4e0d-9748-895e7b795c4a",
+    "training_id": "a6e4ec2f-484a-43f9-bd4c-effc0b9394c4",
     "data_preprocessing": [
       {
         "stage": "sampling",
@@ -10524,6 +10809,30 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
         }
       }
     ],
+    "content_location": {
+      "type": "fs",
+      "location": {
+        "assets_path": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/assets",
+        "notebooks_path": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/notebooks",
+        "path": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data",
+        "training": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4",
+        "training_log": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/data/automl/training.log",
+        "training_status": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/training-status.json"
+      },
+      "contents": [
+        {
+          "content_format": "pipeline-node",
+          "location": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/assets/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4_P1_pre_hpo_d_output/resources/wml_model/P1_automl.zip",
+          "file_name": "P1_automl.zip",
+          "pipeline_node_id": "automl"
+        },
+        {
+          "content_format": "native",
+          "location": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/assets/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4_P1_pre_hpo_d_output/resources/wml_model/pipeline_model.json",
+          "file_name": "pipeline_model.json"
+        }
+      ]
+    },
     "content_import_state": "completed"
   }
 }
@@ -10618,13 +10927,13 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
 <th>0</th>
 <td>2</td>
 <td>AutoAI credit-risk updated model</td>
-<td>2025-05-22T11:41:53Z</td>
+<td>2026-02-09T11:47:53Z</td>
 </tr>
 <tr>
 <th>1</th>
 <td>1</td>
 <td>P1</td>
-<td>2025-05-22T11:41:53Z</td>
+<td>2026-02-09T11:47:53Z</td>
 </tr>
 </tbody>
 </table>
@@ -10668,12 +10977,12 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
 <pre>{
   "metadata": {
     "name": "AutoAI credit-risk updated model",
-    "space_id": "9c4eb218-96e8-41e0-8cd5-f783504a11ea",
-    "resource_key": "73dd6496-5468-4080-ab0e-2f50aeb7cbe6",
-    "id": "b78e56d5-6a90-477b-8ab8-b58d5e5ce1ed",
-    "created_at": "2025-05-22T11:41:53Z",
+    "space_id": "c30e7fdc-830a-4494-9ff4-643a93a7bc7b",
+    "resource_key": "4dd1ef35-a54c-4fad-8c35-a31cad21606e",
+    "id": "1814d2ae-ed38-483e-b289-53dc410c021c",
+    "created_at": "2026-02-09T11:47:53Z",
     "commit_info": {
-      "committed_at": "2025-05-22T11:41:53Z"
+      "committed_at": "2026-02-09T11:47:53Z"
     },
     "rov": {
       "member_roles": {
@@ -10689,7 +10998,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
   },
   "entity": {
     "pipeline": {
-      "id": "91cd7ec2-6bda-417e-82d1-ff8368b03952"
+      "id": "c9dd6210-4d50-4f6a-888a-da030d5813fe"
     },
     "software_spec": {
       "id": "8c1a58c6-62b5-4dc4-987a-df751c2756b6",
@@ -10701,9 +11010,9 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
         "type": "data_asset",
         "connection": null,
         "location": {
-          "href": "/v2/assets/d414512e-a854-49c3-a8fc-cceff65dd884?space_id=9c4eb218-96e8-41e0-8cd5-f783504a11ea",
-          "id": "d414512e-a854-49c3-a8fc-cceff65dd884",
-          "space_id": "9c4eb218-96e8-41e0-8cd5-f783504a11ea"
+          "href": "/v2/assets/354de247-8cd2-46b6-a97b-0d9efcd20709?space_id=c30e7fdc-830a-4494-9ff4-643a93a7bc7b",
+          "id": "354de247-8cd2-46b6-a97b-0d9efcd20709",
+          "space_id": "c30e7fdc-830a-4494-9ff4-643a93a7bc7b"
         },
         "schema": {
           "id": "auto_ai_kb_input_schema",
@@ -10715,7 +11024,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "LoanDuration",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -10730,7 +11039,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "LoanAmount",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -10745,7 +11054,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "InstallmentPercent",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -10760,7 +11069,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "CurrentResidenceDuration",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -10770,7 +11079,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "Age",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -10785,7 +11094,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "ExistingCreditsCount",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -10795,7 +11104,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "Dependents",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -10829,7 +11138,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "LoanDuration",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -10844,7 +11153,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "LoanAmount",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -10859,7 +11168,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "InstallmentPercent",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -10874,7 +11183,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "CurrentResidenceDuration",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -10884,7 +11193,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "Age",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -10899,7 +11208,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "ExistingCreditsCount",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -10909,7 +11218,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             },
             {
               "name": "Dependents",
-              "type": "double",
+              "type": "integer",
               "nullable": false
             },
             {
@@ -10930,7 +11239,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
     "label_column": "Risk",
     "metrics": [
       {
-        "timestamp": "2025-05-22T11:40:28Z",
+        "timestamp": "2026-02-09T11:43:19Z",
         "ml_metrics": {
           "holdout_accuracy": 0.72,
           "holdout_average_precision": 0.5175996610541083,
@@ -10954,12 +11263,12 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
             "name": "P1",
             "process": "pre_hpo_d_output",
             "location": {
-              "pipeline": "/spaces/9c4eb218-96e8-41e0-8cd5-f783504a11ea/assets/auto_ml/auto_ml.0627b7f6-8708-4c13-b0c9-5d91455561d9/wml_data/f2a01a01-0f16-4e0d-9748-895e7b795c4a/data/automl/pre_hpo_d_output/Pipeline1/pipeline.json",
-              "pipeline_model": "/spaces/9c4eb218-96e8-41e0-8cd5-f783504a11ea/assets/auto_ml/auto_ml.0627b7f6-8708-4c13-b0c9-5d91455561d9/wml_data/f2a01a01-0f16-4e0d-9748-895e7b795c4a/data/automl/pre_hpo_d_output/Pipeline1/pipeline-model.json",
-              "model": "/spaces/9c4eb218-96e8-41e0-8cd5-f783504a11ea/assets/auto_ml/auto_ml.0627b7f6-8708-4c13-b0c9-5d91455561d9/wml_data/f2a01a01-0f16-4e0d-9748-895e7b795c4a/data/automl/pre_hpo_d_output/Pipeline1/model.pickle"
+              "pipeline": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/data/automl/pre_hpo_d_output/Pipeline1/pipeline.json",
+              "pipeline_model": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/data/automl/pre_hpo_d_output/Pipeline1/pipeline-model.json",
+              "model": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/data/automl/pre_hpo_d_output/Pipeline1/model.pickle"
             },
-            "schema_location": "/spaces/9c4eb218-96e8-41e0-8cd5-f783504a11ea/assets/auto_ml/auto_ml.0627b7f6-8708-4c13-b0c9-5d91455561d9/wml_data/f2a01a01-0f16-4e0d-9748-895e7b795c4a/data/automl/pre_hpo_d_output/Pipeline1/schema.json",
-            "notebook_location": "/spaces/9c4eb218-96e8-41e0-8cd5-f783504a11ea/assets/auto_ml/auto_ml.0627b7f6-8708-4c13-b0c9-5d91455561d9/wml_data/f2a01a01-0f16-4e0d-9748-895e7b795c4a/data/automl/pre_hpo_d_output/Pipeline1/notebook.ipynb",
+            "schema_location": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/data/automl/pre_hpo_d_output/Pipeline1/schema.json",
+            "notebook_location": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/data/automl/pre_hpo_d_output/Pipeline1/notebook.ipynb",
             "pipeline_nodes": [
               "PreprocessingTransformer",
               "SnapLogisticRegression"
@@ -10972,7 +11281,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
               "Preprocessor_default",
               "DAUB"
             ],
-            "duration": 418
+            "duration": 365
           },
           "phase": "pre_hpo_d_output",
           "classes": [
@@ -11128,7 +11437,7 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
         "name": "autoai-kb_rt25.1-py3.12"
       }
     ],
-    "training_id": "f2a01a01-0f16-4e0d-9748-895e7b795c4a",
+    "training_id": "a6e4ec2f-484a-43f9-bd4c-effc0b9394c4",
     "data_preprocessing": [
       {
         "stage": "sampling",
@@ -11159,6 +11468,30 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
         }
       }
     ],
+    "content_location": {
+      "type": "fs",
+      "location": {
+        "assets_path": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/assets",
+        "notebooks_path": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/notebooks",
+        "path": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data",
+        "training": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4",
+        "training_log": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/data/automl/training.log",
+        "training_status": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/training-status.json"
+      },
+      "contents": [
+        {
+          "content_format": "pipeline-node",
+          "location": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/assets/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4_P1_pre_hpo_d_output/resources/wml_model/P1_automl.zip",
+          "file_name": "P1_automl.zip",
+          "pipeline_node_id": "automl"
+        },
+        {
+          "content_format": "native",
+          "location": "/spaces/c30e7fdc-830a-4494-9ff4-643a93a7bc7b/assets/auto_ml/auto_ml.d2333d3a-abe9-41f0-916e-44058bd9b776/wml_data/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4/assets/a6e4ec2f-484a-43f9-bd4c-effc0b9394c4_P1_pre_hpo_d_output/resources/wml_model/pipeline_model.json",
+          "file_name": "pipeline_model.json"
+        }
+      ]
+    },
     "content_import_state": "completed"
   }
 }
@@ -11204,22 +11537,22 @@ Note: online_url is deprecated and will be removed in a future release. Use serv
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Since ASSET is patched, deployment need to be restarted. 
+<pre>Since ASSET is patched, deployment need to be restarted.
 
 
 ########################################################################
 
-Deployment update for id: '433799b3-5756-4563-96f1-603ab2f5ff1e' started
+Deployment update for id: 'c4ad818c-cfae-42a8-bbeb-b6f088705a08' started
 
 ########################################################################
 
 
-updating........
+updating....
 ready
 
 
 ---------------------------------------------------------------------------------------------
-Successfully finished deployment update, deployment_id='433799b3-5756-4563-96f1-603ab2f5ff1e'
+Successfully finished deployment update, deployment_id='c4ad818c-cfae-42a8-bbeb-b6f088705a08'
 ---------------------------------------------------------------------------------------------
 
 
@@ -11288,7 +11621,7 @@ Deployment update finished with status:  ready
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -11298,78 +11631,6 @@ Deployment update finished with status:  ready
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_details</span><span class="p">(</span><span class="n">deployment_id</span><span class="p">),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Note: online_url is deprecated and will be removed in a future release. Use serving_urls instead.
-{
-  "entity": {
-    "asset": {
-      "id": "b78e56d5-6a90-477b-8ab8-b58d5e5ce1ed",
-      "rev": "2"
-    },
-    "chat_enabled": false,
-    "custom": {},
-    "deployed_asset_type": "model",
-    "hybrid_pipeline_hardware_specs": [
-      {
-        "hardware_spec": {
-          "id": "e7ed1d6c-2e89-42d7-aed5-863b972c1d2b",
-          "name": "S",
-          "num_nodes": 1
-        },
-        "node_runtime_id": "auto_ai.kb"
-      }
-    ],
-    "name": "AutoAI credit-risk deployment",
-    "online": {},
-    "space_id": "9c4eb218-96e8-41e0-8cd5-f783504a11ea",
-    "status": {
-      "inference": [
-        {
-          "url": "https://cpd-cpd-instance.apps.ocpwmlautoai-x86-2-nonfips.cp.fyre.ibm.com/ml/v4/deployments/433799b3-5756-4563-96f1-603ab2f5ff1e/predictions"
-        }
-      ],
-      "message": {
-        "level": "warning",
-        "text": "Successfully patched the asset."
-      },
-      "online_url": {
-        "url": "https://cpd-cpd-instance.apps.ocpwmlautoai-x86-2-nonfips.cp.fyre.ibm.com/ml/v4/deployments/433799b3-5756-4563-96f1-603ab2f5ff1e/predictions"
-      },
-      "serving_urls": [
-        "https://cpd-cpd-instance.apps.ocpwmlautoai-x86-2-nonfips.cp.fyre.ibm.com/ml/v4/deployments/433799b3-5756-4563-96f1-603ab2f5ff1e/predictions"
-      ],
-      "state": "ready"
-    }
-  },
-  "metadata": {
-    "created_at": "2025-05-22T11:41:56.099Z",
-    "id": "433799b3-5756-4563-96f1-603ab2f5ff1e",
-    "last_updater_id": "1000331001",
-    "modified_at": "2025-05-22T11:44:52.296Z",
-    "name": "AutoAI credit-risk deployment",
-    "owner": "1000331001",
-    "space_id": "9c4eb218-96e8-41e0-8cd5-f783504a11ea"
-  },
-  "system": {
-    "warnings": [
-      {
-        "id": "Deprecated",
-        "message": "online_url is deprecated and will be removed in a future release. Use serving_urls instead."
-      }
-    ]
-  }
-}
-</pre>
 </div>
 </div>
 </div>

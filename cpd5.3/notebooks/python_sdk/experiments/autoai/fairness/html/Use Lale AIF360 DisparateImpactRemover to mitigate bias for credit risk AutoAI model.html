@@ -7332,7 +7332,12 @@ a.anchor-link {
     if (!diagrams.length) {
       return;
     }
-    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs")).default;
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.0/mermaid.esm.min.mjs")).default;
+    const elkUrl = "https://cdnjs.cloudflare.com/ajax/libs/mermaid-layout-elk/0.1.9/mermaid-layout-elk.esm.min.mjs";
+    if(elkUrl) {
+      const elkLayouts = (await import(elkUrl)).default;
+      mermaid.registerLayoutLoaders(elkLayouts);
+    }
     const parser = new DOMParser();
 
     mermaid.initialize({
@@ -7429,7 +7434,8 @@ a.anchor-link {
      * Post-process to ensure mermaid diagrams contain only valid SVG and XHTML.
      */
     function cleanMermaidSvg(svg) {
-      return svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      svg = svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      return `${SVG_XML_HEADER}${svg}`;
     }
 
 
@@ -7455,6 +7461,285 @@ a.anchor-link {
       }
       return `<${tag} ${rest}>`;
     }
+
+
+  /**
+   * Named HTML entities with their decimal equivalent codes.
+   *
+   * @see https://www.w3.org/TR/WD-html40-970708/sgml/entities.html
+   * */
+  const HTML_ENTITIES = `<!ENTITY Aacute "&#193;">
+<!ENTITY aacute "&#225;">
+<!ENTITY Acirc "&#194;">
+<!ENTITY acirc "&#226;">
+<!ENTITY acute "&#180;">
+<!ENTITY AElig "&#198;">
+<!ENTITY aelig "&#230;">
+<!ENTITY Agrave "&#192;">
+<!ENTITY agrave "&#224;">
+<!ENTITY alefsym "&#8501;">
+<!ENTITY Alpha "&#913;">
+<!ENTITY alpha "&#945;">
+<!ENTITY amp "&#38;">
+<!ENTITY and "&#8869;">
+<!ENTITY ang "&#8736;">
+<!ENTITY Aring "&#197;">
+<!ENTITY aring "&#229;">
+<!ENTITY asymp "&#8776;">
+<!ENTITY Atilde "&#195;">
+<!ENTITY atilde "&#227;">
+<!ENTITY Auml "&#196;">
+<!ENTITY auml "&#228;">
+<!ENTITY bdquo "&#8222;">
+<!ENTITY Beta "&#914;">
+<!ENTITY beta "&#946;">
+<!ENTITY brvbar "&#166;">
+<!ENTITY bull "&#8226;">
+<!ENTITY cap "&#8745;">
+<!ENTITY Ccedil "&#199;">
+<!ENTITY ccedil "&#231;">
+<!ENTITY cedil "&#184;">
+<!ENTITY cent "&#162;">
+<!ENTITY Chi "&#935;">
+<!ENTITY chi "&#967;">
+<!ENTITY circ "&#710;">
+<!ENTITY clubs "&#9827;">
+<!ENTITY cong "&#8773;">
+<!ENTITY copy "&#169;">
+<!ENTITY crarr "&#8629;">
+<!ENTITY cup "&#8746;">
+<!ENTITY curren "&#164;">
+<!ENTITY dagger "&#8224;">
+<!ENTITY Dagger "&#8225;">
+<!ENTITY darr "&#8595;">
+<!ENTITY dArr "&#8659;">
+<!ENTITY deg "&#176;">
+<!ENTITY Delta "&#916;">
+<!ENTITY delta "&#948;">
+<!ENTITY diams "&#9830;">
+<!ENTITY divide "&#247;">
+<!ENTITY Eacute "&#201;">
+<!ENTITY eacute "&#233;">
+<!ENTITY Ecirc "&#202;">
+<!ENTITY ecirc "&#234;">
+<!ENTITY Egrave "&#200;">
+<!ENTITY egrave "&#232;">
+<!ENTITY empty "&#8709;">
+<!ENTITY emsp "&#8195;">
+<!ENTITY ensp "&#8194;">
+<!ENTITY epsilon "&#949;">
+<!ENTITY Epsilon "&#917;">
+<!ENTITY equiv "&#8801;">
+<!ENTITY Eta "&#919;">
+<!ENTITY eta "&#951;">
+<!ENTITY ETH "&#208;">
+<!ENTITY eth "&#240;">
+<!ENTITY Euml "&#203;">
+<!ENTITY euml "&#235;">
+<!ENTITY exist "&#8707;">
+<!ENTITY fnof "&#402;">
+<!ENTITY forall "&#8704;">
+<!ENTITY frac12 "&#189;">
+<!ENTITY frac14 "&#188;">
+<!ENTITY frac34 "&#190;">
+<!ENTITY frasl "&#8260;">
+<!ENTITY Gamma "&#915;">
+<!ENTITY gamma "&#947;">
+<!ENTITY ge "&#8805;">
+<!ENTITY gt "&#62;">
+<!ENTITY harr "&#8596;">
+<!ENTITY hArr "&#8660;">
+<!ENTITY hearts "&#9829;">
+<!ENTITY hellip "&#8230;">
+<!ENTITY Iacute "&#205;">
+<!ENTITY iacute "&#237;">
+<!ENTITY Icirc "&#206;">
+<!ENTITY icirc "&#238;">
+<!ENTITY iexcl "&#161;">
+<!ENTITY Igrave "&#204;">
+<!ENTITY igrave "&#236;">
+<!ENTITY image "&#8465;">
+<!ENTITY infin "&#8734;">
+<!ENTITY int "&#8747;">
+<!ENTITY Iota "&#921;">
+<!ENTITY iota "&#953;">
+<!ENTITY iquest "&#191;">
+<!ENTITY isin "&#8712;">
+<!ENTITY Iuml "&#207;">
+<!ENTITY iuml "&#239;">
+<!ENTITY Kappa "&#922;">
+<!ENTITY kappa "&#954;">
+<!ENTITY Lambda "&#923;">
+<!ENTITY lambda "&#955;">
+<!ENTITY lang "&#9001;">
+<!ENTITY laquo "&#171;">
+<!ENTITY larr "&#8592;">
+<!ENTITY lArr "&#8656;">
+<!ENTITY lceil "&#8968;">
+<!ENTITY ldquo "&#8220;">
+<!ENTITY le "&#8804;">
+<!ENTITY lfloor "&#8970;">
+<!ENTITY lowast "&#8727;">
+<!ENTITY loz "&#9674;">
+<!ENTITY lrm "&#8206;">
+<!ENTITY lsaquo "&#8249;">
+<!ENTITY lsquo "&#8216;">
+<!ENTITY lt "&#60;">
+<!ENTITY macr "&#175;">
+<!ENTITY mdash "&#8212;">
+<!ENTITY micro "&#181;">
+<!ENTITY middot "&#183;">
+<!ENTITY minus "&#8722;">
+<!ENTITY Mu "&#924;">
+<!ENTITY mu "&#956;">
+<!ENTITY nabla "&#8711;">
+<!ENTITY nbsp "&#160;">
+<!ENTITY ndash "&#8211;">
+<!ENTITY ne "&#8800;">
+<!ENTITY ni "&#8715;">
+<!ENTITY not "&#172;">
+<!ENTITY notin "&#8713;">
+<!ENTITY nsub "&#8836;">
+<!ENTITY Ntilde "&#209;">
+<!ENTITY ntilde "&#241;">
+<!ENTITY Nu "&#925;">
+<!ENTITY nu "&#957;">
+<!ENTITY Oacute "&#211;">
+<!ENTITY oacute "&#243;">
+<!ENTITY Ocirc "&#212;">
+<!ENTITY ocirc "&#244;">
+<!ENTITY OElig "&#338;">
+<!ENTITY oelig "&#339;">
+<!ENTITY Ograve "&#210;">
+<!ENTITY ograve "&#242;">
+<!ENTITY oline "&#8254;">
+<!ENTITY Omega "&#937;">
+<!ENTITY omega "&#969;">
+<!ENTITY Omicron "&#927;">
+<!ENTITY omicron "&#959;">
+<!ENTITY oplus "&#8853;">
+<!ENTITY or "&#8870;">
+<!ENTITY ordf "&#170;">
+<!ENTITY ordm "&#186;">
+<!ENTITY Oslash "&#216;">
+<!ENTITY oslash "&#248;">
+<!ENTITY Otilde "&#213;">
+<!ENTITY otilde "&#245;">
+<!ENTITY otimes "&#8855;">
+<!ENTITY Ouml "&#214;">
+<!ENTITY ouml "&#246;">
+<!ENTITY para "&#182;">
+<!ENTITY part "&#8706;">
+<!ENTITY permil "&#8240;">
+<!ENTITY perp "&#8869;">
+<!ENTITY Phi "&#934;">
+<!ENTITY phi "&#966;">
+<!ENTITY Pi "&#928;">
+<!ENTITY pi "&#960;">
+<!ENTITY piv "&#982;">
+<!ENTITY plusmn "&#177;">
+<!ENTITY pound "&#163;">
+<!ENTITY prime "&#8242;">
+<!ENTITY Prime "&#8243;">
+<!ENTITY prod "&#8719;">
+<!ENTITY prop "&#8733;">
+<!ENTITY Psi "&#936;">
+<!ENTITY psi "&#968;">
+<!ENTITY quot "&#34;">
+<!ENTITY radic "&#8730;">
+<!ENTITY rang "&#9002;">
+<!ENTITY raquo "&#187;">
+<!ENTITY rarr "&#8594;">
+<!ENTITY rArr "&#8658;">
+<!ENTITY rceil "&#8969;">
+<!ENTITY rdquo "&#8221;">
+<!ENTITY real "&#8476;">
+<!ENTITY reg "&#174;">
+<!ENTITY rfloor "&#8971;">
+<!ENTITY Rho "&#929;">
+<!ENTITY rho "&#961;">
+<!ENTITY rlm "&#8207;">
+<!ENTITY rsaquo "&#8250;">
+<!ENTITY rsquo "&#8217;">
+<!ENTITY sbquo "&#8218;">
+<!ENTITY Scaron "&#352;">
+<!ENTITY scaron "&#353;">
+<!ENTITY sdot "&#8901;">
+<!ENTITY sect "&#167;">
+<!ENTITY shy "&#173;">
+<!ENTITY Sigma "&#931;">
+<!ENTITY sigma "&#963;">
+<!ENTITY sigmaf "&#962;">
+<!ENTITY sim "&#8764;">
+<!ENTITY spades "&#9824;">
+<!ENTITY sub "&#8834;">
+<!ENTITY sube "&#8838;">
+<!ENTITY sum "&#8721;">
+<!ENTITY sup "&#8835;">
+<!ENTITY sup1 "&#185;">
+<!ENTITY sup2 "&#178;">
+<!ENTITY sup3 "&#179;">
+<!ENTITY supe "&#8839;">
+<!ENTITY szlig "&#223;">
+<!ENTITY Tau "&#932;">
+<!ENTITY tau "&#964;">
+<!ENTITY there4 "&#8756;">
+<!ENTITY Theta "&#920;">
+<!ENTITY theta "&#952;">
+<!ENTITY thetasym "&#977;">
+<!ENTITY thinsp "&#8201;">
+<!ENTITY THORN "&#222;">
+<!ENTITY thorn "&#254;">
+<!ENTITY tilde "&#732;">
+<!ENTITY times "&#215;">
+<!ENTITY trade "&#8482;">
+<!ENTITY Uacute "&#218;">
+<!ENTITY uacute "&#250;">
+<!ENTITY uarr "&#8593;">
+<!ENTITY uArr "&#8657;">
+<!ENTITY Ucirc "&#219;">
+<!ENTITY ucirc "&#251;">
+<!ENTITY Ugrave "&#217;">
+<!ENTITY ugrave "&#249;">
+<!ENTITY uml "&#168;">
+<!ENTITY upsih "&#978;">
+<!ENTITY Upsilon "&#933;">
+<!ENTITY upsilon "&#965;">
+<!ENTITY Uuml "&#220;">
+<!ENTITY uuml "&#252;">
+<!ENTITY weierp "&#8472;">
+<!ENTITY Xi "&#926;">
+<!ENTITY xi "&#958;">
+<!ENTITY Yacute "&#221;">
+<!ENTITY yacute "&#253;">
+<!ENTITY yen "&#165;">
+<!ENTITY Yuml "&#376;">
+<!ENTITY yuml "&#255;">
+<!ENTITY Zeta "&#918;">
+<!ENTITY zeta "&#950;">
+<!ENTITY zwj "&#8205;">
+<!ENTITY zwnj "&#8204;">`.replace(/\n/g, ' ');
+
+  /**
+   * A reasonably strict xml declaration.
+   */
+  const XML_DECL = '<?xml version="1.0" standalone="no"?>';
+
+  /**
+   * The beginning of the XML doctype declaration.
+   */
+  const DOCTYPE_START = `<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [`;
+
+  /**
+   * The end of the XML docype declaration.
+   */
+  const DOCTYPE_END = ']>';
+
+  /**
+   * A full header for an SVG XML document.
+   */
+  const SVG_XML_HEADER = `${XML_DECL}
+    ${DOCTYPE_START}${HTML_ENTITIES}${DOCTYPE_END}`;
 
     void Promise.all([...diagrams].map(renderOneMarmaid));
   });
@@ -7587,11 +7872,11 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">pip</span> install -U wget | tail -n 1
-<span class="o">%</span><span class="k">pip</span> install -U ibm-watsonx-ai | tail -n 1
-<span class="o">%</span><span class="k">pip</span> install "scikit-learn==1.6.1" | tail -n 1
-<span class="o">%</span><span class="k">pip</span> install -U "autoai-libs==3.0.3" | tail -n 1
-<span class="o">%</span><span class="k">pip</span> install -U "lale[fairness]" | tail -n 1
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">ibm</span><span class="o">-</span><span class="n">watsonx</span><span class="o">-</span><span class="n">ai</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="s2">"scikit-learn==1.6.1"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">autoai</span><span class="o">-</span><span class="n">libs</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"lale[fairness]"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -7605,10 +7890,10 @@ a.anchor-link {
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Successfully installed wget-3.2
-Successfully installed ibm-watsonx-ai-1.3.20
-Requirement already satisfied: threadpoolctl&gt;=3.1.0 in /opt/user-env/pyt6/lib64/python3.12/site-packages (from scikit-learn==1.6.1) (3.6.0)
-Successfully installed autoai-libs-3.0.3
-Successfully installed BlackBoxAuditing-0.1.54 aif360-0.6.1 imbalanced-learn-0.13.0 klepto-0.2.7 liac-arff-2.5.0 mystic-0.4.4 pox-0.3.6 sklearn-compat-0.1.3
+Successfully installed anyio-4.12.1 cachetools-7.0.0 certifi-2026.1.4 charset_normalizer-3.4.4 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-watsonx-ai-1.5.1 idna-3.11 jmespath-1.0.1 lomond-0.3.3 numpy-2.4.2 pandas-2.3.3 pytz-2025.2 requests-2.32.5 tabulate-0.9.0 typing_extensions-4.15.0 tzdata-2025.3 urllib3-2.6.3
+Successfully installed joblib-1.5.3 scikit-learn-1.6.1 scipy-1.17.0 threadpoolctl-3.6.0
+Successfully installed attrs-25.3.0 autoai-libs-3.0.10 black-26.1.0 click-8.3.1 cloudpickle-3.1.2 future-1.0.0 greenery-3.3.3 hyperopt-0.2.7 jsonref-1.1.0 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 jsonsubschema-0.0.7 lale-0.9.2 mypy-extensions-1.1.0 networkx-3.6.1 numpy-2.0.2 pandas-2.2.3 parameterized-0.9.0 pathspec-1.0.4 portion-2.6.1 protobuf-6.33.5 py4j-0.10.9.9 pytokens-0.4.1 referencing-0.37.0 rpds-py-0.30.0 sortedcontainers-2.4.0 tqdm-4.67.3 xgboost-2.1.4
+Successfully installed BlackBoxAuditing-0.1.54 aif360-0.6.1 contourpy-1.3.3 cycler-0.12.1 dill-0.4.1 fonttools-4.61.1 imbalanced-learn-0.14.1 kiwisolver-1.4.9 klepto-0.2.8 liac-arff-2.5.0 matplotlib-3.10.8 mpmath-1.3.0 mystic-0.4.5 pillow-12.1.0 pox-0.3.7 pyparsing-3.3.2 sklearn-compat-0.1.5 sympy-1.14.0
 </pre>
 </div>
 </div>
@@ -7686,7 +7971,7 @@ Successfully installed BlackBoxAuditing-0.1.54 aif360-0.6.1 imbalanced-learn-0.1
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7707,19 +7992,6 @@ Successfully installed BlackBoxAuditing-0.1.54 aif360-0.6.1 imbalanced-learn-0.1
         <span class="n">version</span><span class="o">=</span><span class="s2">"5.3"</span><span class="p">,</span>
     <span class="p">)</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Enter your watsonx.ai password and hit enter:  ········
-</pre>
 </div>
 </div>
 </div>
@@ -7948,29 +8220,8 @@ Successfully installed BlackBoxAuditing-0.1.54 aif360-0.6.1 imbalanced-learn-0.1
 <tbody>
 <tr>
 <th>0</th>
-<td>2025-05-23T13:44:57.102Z</td>
-<td>b7ee8857-8805-4d25-8456-b7aa8a366957</td>
-<td>completed</td>
-<td>Credit Risk Prediction and bias detection - Au...</td>
-</tr>
-<tr>
-<th>1</th>
-<td>2025-05-23T12:44:26.982Z</td>
-<td>a3ce47c9-3da6-481f-9a71-59775dae5ecc</td>
-<td>completed</td>
-<td>Credit Risk Prediction and bias detection - Au...</td>
-</tr>
-<tr>
-<th>2</th>
-<td>2025-05-23T12:37:45.995Z</td>
-<td>6f823c4e-17ff-4e59-96da-8a9d363db433</td>
-<td>completed</td>
-<td>Credit Risk Prediction and bias detection - Au...</td>
-</tr>
-<tr>
-<th>3</th>
-<td>2025-05-23T11:59:18.516Z</td>
-<td>5ab6871d-e40b-4204-aa64-81611f60f36d</td>
+<td>2026-02-09T10:39:13.417Z</td>
+<td>d7b1ed9b-d0ac-4e1d-9d82-f89c0f7f4cea</td>
 <td>completed</td>
 <td>Credit Risk Prediction and bias detection - Au...</td>
 </tr>
@@ -8284,6 +8535,17 @@ Successfully installed BlackBoxAuditing-0.1.54 aif360-0.6.1 imbalanced-learn-0.1
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Collecting pyarrow&gt;=3.0.0
+  Using cached pyarrow-23.0.0-cp312-cp312-macosx_12_0_x86_64.whl.metadata (3.0 kB)
+Using cached pyarrow-23.0.0-cp312-cp312-macosx_12_0_x86_64.whl (35.8 MB)
+Installing collected packages: pyarrow
+Successfully installed pyarrow-23.0.0
+</pre>
+</div>
+</div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
@@ -8331,115 +8593,115 @@ Successfully installed BlackBoxAuditing-0.1.54 aif360-0.6.1 imbalanced-learn-0.1
 <tr>
 <th>13</th>
 <td>0_to_200</td>
-<td>29.0</td>
+<td>29</td>
 <td>credits_paid_to_date</td>
 <td>furniture</td>
-<td>3705.0</td>
+<td>3705</td>
 <td>less_100</td>
 <td>less_1</td>
-<td>3.0</td>
+<td>3</td>
 <td>female</td>
 <td>co-applicant</td>
-<td>3.0</td>
+<td>3</td>
 <td>car_other</td>
-<td>44.0</td>
+<td>44</td>
 <td>none</td>
 <td>own</td>
-<td>1.0</td>
+<td>1</td>
 <td>skilled</td>
-<td>1.0</td>
+<td>1</td>
 <td>none</td>
 <td>yes</td>
 </tr>
 <tr>
 <th>31</th>
 <td>no_checking</td>
-<td>26.0</td>
+<td>26</td>
 <td>prior_payments_delayed</td>
 <td>appliances</td>
-<td>4391.0</td>
+<td>4391</td>
 <td>500_to_1000</td>
 <td>greater_7</td>
-<td>4.0</td>
+<td>4</td>
 <td>female</td>
 <td>none</td>
-<td>3.0</td>
+<td>3</td>
 <td>car_other</td>
-<td>39.0</td>
+<td>39</td>
 <td>stores</td>
 <td>own</td>
-<td>2.0</td>
+<td>2</td>
 <td>unskilled</td>
-<td>2.0</td>
+<td>2</td>
 <td>yes</td>
 <td>yes</td>
 </tr>
 <tr>
 <th>3673</th>
 <td>less_0</td>
-<td>20.0</td>
+<td>20</td>
 <td>credits_paid_to_date</td>
 <td>retraining</td>
-<td>4683.0</td>
+<td>4683</td>
 <td>less_100</td>
 <td>4_to_7</td>
-<td>2.0</td>
+<td>2</td>
 <td>male</td>
 <td>none</td>
-<td>1.0</td>
+<td>1</td>
 <td>savings_insurance</td>
-<td>46.0</td>
+<td>46</td>
 <td>stores</td>
 <td>free</td>
-<td>1.0</td>
+<td>1</td>
 <td>skilled</td>
-<td>1.0</td>
+<td>1</td>
 <td>yes</td>
 <td>yes</td>
 </tr>
 <tr>
 <th>3611</th>
 <td>no_checking</td>
-<td>25.0</td>
+<td>25</td>
 <td>prior_payments_delayed</td>
 <td>car_used</td>
-<td>5426.0</td>
+<td>5426</td>
 <td>500_to_1000</td>
 <td>4_to_7</td>
-<td>4.0</td>
+<td>4</td>
 <td>male</td>
 <td>none</td>
-<td>3.0</td>
+<td>3</td>
 <td>car_other</td>
-<td>41.0</td>
+<td>41</td>
 <td>none</td>
 <td>own</td>
-<td>1.0</td>
+<td>1</td>
 <td>skilled</td>
-<td>1.0</td>
+<td>1</td>
 <td>none</td>
 <td>yes</td>
 </tr>
 <tr>
 <th>433</th>
 <td>greater_200</td>
-<td>34.0</td>
+<td>34</td>
 <td>prior_payments_delayed</td>
 <td>furniture</td>
-<td>5470.0</td>
+<td>5470</td>
 <td>100_to_500</td>
 <td>4_to_7</td>
-<td>4.0</td>
+<td>4</td>
 <td>male</td>
 <td>none</td>
-<td>4.0</td>
+<td>4</td>
 <td>car_other</td>
-<td>33.0</td>
+<td>33</td>
 <td>none</td>
 <td>own</td>
-<td>2.0</td>
+<td>2</td>
 <td>skilled</td>
-<td>1.0</td>
+<td>1</td>
 <td>none</td>
 <td>no</td>
 </tr>
@@ -9071,7 +9333,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   background-color: var(--sklearn-color-fitted-level-3);
 }
 </style><div class="sk-top-container" id="sk-container-id-1"><div class="sk-text-repr-fallback"><pre>Pipeline(steps=[('featureunion',
-                 FeatureUnion(transformer_list=[('float32_transform_140371756645552',
+                 FeatureUnion(transformer_list=[('float32_transform_5378457328',
                                                  Pipeline(steps=[('numpycolumnselector',
                                                                   NumpyColumnSelector(columns=[0,
                                                                                                1,
@@ -9095,11 +9357,12 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                  ('compressstrings',
                                                                   CompressStrings(compress_type='hash',
                                                                                   dtypes_list=['char_str',
-                                                                                               'float_int_num',
+                                                                                               'int_num',
                                                                                                'char_str',
                                                                                                'char_str',
                                                                                                'char_str',
-                                                                                               'c...
+                                                                                               'char_str',
+                                                                                               'i...
                                                                  ('numpyreplacemissingvalues',
                                                                   NumpyReplaceMissingValues(missing_values=[])),
                                                                  ('numimputer',
@@ -9115,7 +9378,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                         9, 10, 11, 12, 13, 14,
                                                         15, 16, 17, 18, 19,
                                                         4]))])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br/>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-1"><div><div>Pipeline</div></div><div><a class="sk-estimator-doc-link fitted" href="https://scikit-learn.org/1.6/modules/generated/sklearn.pipeline.Pipeline.html" rel="noreferrer" target="_blank">?<span>Documentation for Pipeline</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[('featureunion',
-                 FeatureUnion(transformer_list=[('float32_transform_140371756645552',
+                 FeatureUnion(transformer_list=[('float32_transform_5378457328',
                                                  Pipeline(steps=[('numpycolumnselector',
                                                                   NumpyColumnSelector(columns=[0,
                                                                                                1,
@@ -9139,11 +9402,12 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                                  ('compressstrings',
                                                                   CompressStrings(compress_type='hash',
                                                                                   dtypes_list=['char_str',
-                                                                                               'float_int_num',
+                                                                                               'int_num',
                                                                                                'char_str',
                                                                                                'char_str',
                                                                                                'char_str',
-                                                                                               'c...
+                                                                                               'char_str',
+                                                                                               'i...
                                                                  ('numpyreplacemissingvalues',
                                                                   NumpyReplaceMissingValues(missing_values=[])),
                                                                  ('numimputer',
@@ -9158,7 +9422,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                    permutation_indices=[0, 1, 2, 3, 5, 6, 7, 8,
                                                         9, 10, 11, 12, 13, 14,
                                                         15, 16, 17, 18, 19,
-                                                        4]))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-2"><div><div>featureunion: FeatureUnion</div></div><div><a class="sk-estimator-doc-link fitted" href="https://scikit-learn.org/1.6/modules/generated/sklearn.pipeline.FeatureUnion.html" rel="noreferrer" target="_blank">?<span>Documentation for featureunion: FeatureUnion</span></a></div></label><div class="sk-toggleable__content fitted"><pre>FeatureUnion(transformer_list=[('float32_transform_140371756645552',
+                                                        4]))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-2"><div><div>featureunion: FeatureUnion</div></div><div><a class="sk-estimator-doc-link fitted" href="https://scikit-learn.org/1.6/modules/generated/sklearn.pipeline.FeatureUnion.html" rel="noreferrer" target="_blank">?<span>Documentation for featureunion: FeatureUnion</span></a></div></label><div class="sk-toggleable__content fitted"><pre>FeatureUnion(transformer_list=[('float32_transform_5378457328',
                                 Pipeline(steps=[('numpycolumnselector',
                                                  NumpyColumnSelector(columns=[0,
                                                                               1,
@@ -9182,16 +9446,18 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                 ('compressstrings',
                                                  CompressStrings(compress_type='hash',
                                                                  dtypes_list=['char_str',
-                                                                              'float_int_num',
+                                                                              'int_num',
                                                                               'char_str',
                                                                               'char_str',
                                                                               'char_str',
                                                                               'char_str',
-                                                                              'float_int_num',
-                                                                              'char_s...
+                                                                              'int_num',
+                                                                              'char_str',
+                                                                              'char_str',
+                                                                              'i...
                                                  NumpyColumnSelector(columns=[4])),
                                                 ('floatstr2float',
-                                                 FloatStr2Float(dtypes_list=['float_int_num'],
+                                                 FloatStr2Float(dtypes_list=['int_num'],
                                                                 missing_values_reference_list=[])),
                                                 ('numpyreplacemissingvalues',
                                                  NumpyReplaceMissingValues(missing_values=[])),
@@ -9201,38 +9467,37 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                 ('optstandardscaler',
                                                  OptStandardScaler(use_scaler_flag=False)),
                                                 ('float32_transform',
-                                                 float32_transform())]))])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><label>float32_transform_140371756645552</label></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-3" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-3"><div><div>NumpyColumnSelector</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyColumnSelector(columns=[0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+                                                 float32_transform())]))])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><label>float32_transform_5378457328</label></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-3" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-3"><div><div>NumpyColumnSelector</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyColumnSelector(columns=[0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
                              16, 17, 18, 19])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-4" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-4"><div><div>CompressStrings</div></div></label><div class="sk-toggleable__content fitted"><pre>CompressStrings(compress_type='hash',
-                dtypes_list=['char_str', 'float_int_num', 'char_str',
-                             'char_str', 'char_str', 'char_str',
-                             'float_int_num', 'char_str', 'char_str',
-                             'float_int_num', 'char_str', 'float_int_num',
-                             'char_str', 'char_str', 'float_int_num',
-                             'char_str', 'float_int_num', 'char_str',
-                             'char_str'],
+                dtypes_list=['char_str', 'int_num', 'char_str', 'char_str',
+                             'char_str', 'char_str', 'int_num', 'char_str',
+                             'char_str', 'int_num', 'char_str', 'int_num',
+                             'char_str', 'char_str', 'int_num', 'char_str',
+                             'int_num', 'char_str', 'char_str'],
                 missing_values_reference_list=['', '-', '?', nan],
                 misslist_list=[[], [], [], [], [], [], [], [], [], [], [], [],
                                [], [], [], [], [], [], []])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-5" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-5"><div><div>NumpyReplaceMissingValues</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyReplaceMissingValues(missing_values=[])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-6" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-6"><div><div>NumpyReplaceUnknownValues</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyReplaceUnknownValues(filling_values=nan,
-                          filling_values_list=[nan, 100001, nan, nan, nan, nan,
-                                               100001, nan, nan, 100001, nan,
-                                               100001, nan, nan, 100001, nan,
-                                               100001, nan, nan],
+                          filling_values_list=[nan, nan, nan, nan, nan, nan,
+                                               nan, nan, nan, nan, nan, nan,
+                                               nan, nan, nan, nan, nan, nan,
+                                               nan],
                           known_values_list=[[227259264688753646810077375790908286508,
                                               253732214910815238134509288111402486722,
                                               303819144345098626554456011496217223575,
                                               280353606872939388614315901186094326949],
-                                             [4.0, 5.0...
+                                             [4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
+                                              1...
                                              [328286527295663582663365503319902632676,
                                               119641707607939038914465000864290288880,
                                               283364312271660996400883763491949419861,
                                               27741019508977055807423991753468819528],
-                                             [1.0, 2.0],
+                                             [1, 2],
                                              [68186749286663113704472210246844540664,
                                               220736790854050750400968561922076059550],
                                              [169662019754859674907370307324476606919,
                                               220736790854050750400968561922076059550]],
                           missing_values_reference_list=['', '-', '?', nan])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-7" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-7"><div><div>boolean2float</div></div></label><div class="sk-toggleable__content fitted"><pre>boolean2float()</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-8" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-8"><div><div>CatImputer</div></div></label><div class="sk-toggleable__content fitted"><pre>CatImputer(missing_values=nan, strategy='most_frequent')</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-9" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-9"><div><div>CatEncoder</div></div></label><div class="sk-toggleable__content fitted"><pre>CatEncoder(categories='auto', dtype=&lt;class 'numpy.float64'&gt;, encoding='ordinal',
-           handle_unknown='error')</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-10" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-10"><div><div>float32_transform</div></div></label><div class="sk-toggleable__content fitted"><pre>float32_transform()</pre></div> </div></div></div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><label>float32_transform_140371752838416</label></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-11" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-11"><div><div>NumpyColumnSelector</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyColumnSelector(columns=[4])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-12" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-12"><div><div>FloatStr2Float</div></div></label><div class="sk-toggleable__content fitted"><pre>FloatStr2Float(dtypes_list=['float_int_num'], missing_values_reference_list=[])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-13" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-13"><div><div>NumpyReplaceMissingValues</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyReplaceMissingValues(missing_values=[])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-14" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-14"><div><div>NumImputer</div></div></label><div class="sk-toggleable__content fitted"><pre>NumImputer(missing_values=nan, strategy='median')</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-15" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-15"><div><div>OptStandardScaler</div></div></label><div class="sk-toggleable__content fitted"><pre>OptStandardScaler(use_scaler_flag=False)</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-16" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-16"><div><div>float32_transform</div></div></label><div class="sk-toggleable__content fitted"><pre>float32_transform()</pre></div> </div></div></div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-17" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-17"><div><div>NumpyPermuteArray</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyPermuteArray(axis=0,
+           handle_unknown='error')</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-10" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-10"><div><div>float32_transform</div></div></label><div class="sk-toggleable__content fitted"><pre>float32_transform()</pre></div> </div></div></div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><label>float32_transform_5378442976</label></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-11" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-11"><div><div>NumpyColumnSelector</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyColumnSelector(columns=[4])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-12" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-12"><div><div>FloatStr2Float</div></div></label><div class="sk-toggleable__content fitted"><pre>FloatStr2Float(dtypes_list=['int_num'], missing_values_reference_list=[])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-13" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-13"><div><div>NumpyReplaceMissingValues</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyReplaceMissingValues(missing_values=[])</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-14" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-14"><div><div>NumImputer</div></div></label><div class="sk-toggleable__content fitted"><pre>NumImputer(missing_values=nan, strategy='median')</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-15" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-15"><div><div>OptStandardScaler</div></div></label><div class="sk-toggleable__content fitted"><pre>OptStandardScaler(use_scaler_flag=False)</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-16" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-16"><div><div>float32_transform</div></div></label><div class="sk-toggleable__content fitted"><pre>float32_transform()</pre></div> </div></div></div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-17" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-17"><div><div>NumpyPermuteArray</div></div></label><div class="sk-toggleable__content fitted"><pre>NumpyPermuteArray(axis=0,
                   permutation_indices=[0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12,
                                        13, 14, 15, 16, 17, 18, 19, 4])</pre></div> </div></div></div></div></div></div>
 </div>
@@ -9340,7 +9605,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>100%|██████████| 10/10 [00:26&lt;00:00,  2.70s/trial, best loss: 0.1676332233430191]
+<pre>100%|██████████| 10/10 [00:18&lt;00:00,  1.86s/trial, best loss: 0.1676332233430191]
 </pre>
 </div>
 </div>
@@ -9794,18 +10059,18 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   background-color: var(--sklearn-color-fitted-level-3);
 }
 </style><div class="sk-top-container" id="sk-container-id-2"><div class="sk-text-repr-fallback"><pre>Pipeline(steps=[('_disparateimpactremoverimpl',
-                 &lt;lale.lib.aif360.disparate_impact_remover._DisparateImpactRemoverImpl object at 0x7faad87b7ad0&gt;),
+                 &lt;lale.lib.aif360.disparate_impact_remover._DisparateImpactRemoverImpl object at 0x1416bfad0&gt;),
                 ('randomforestclassifier',
                  RandomForestClassifier(criterion='entropy',
                                         min_samples_leaf=0.3551854079747729,
                                         min_samples_split=0.3003021725296457,
                                         n_estimators=29))])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br/>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-18" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-18"><div><div>Pipeline</div></div><div><a class="sk-estimator-doc-link fitted" href="https://scikit-learn.org/1.6/modules/generated/sklearn.pipeline.Pipeline.html" rel="noreferrer" target="_blank">?<span>Documentation for Pipeline</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[('_disparateimpactremoverimpl',
-                 &lt;lale.lib.aif360.disparate_impact_remover._DisparateImpactRemoverImpl object at 0x7faad87b7ad0&gt;),
+                 &lt;lale.lib.aif360.disparate_impact_remover._DisparateImpactRemoverImpl object at 0x1416bfad0&gt;),
                 ('randomforestclassifier',
                  RandomForestClassifier(criterion='entropy',
                                         min_samples_leaf=0.3551854079747729,
                                         min_samples_split=0.3003021725296457,
-                                        n_estimators=29))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-19" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-19"><div><div>_DisparateImpactRemoverImpl</div></div></label><div class="sk-toggleable__content fitted"><pre>&lt;lale.lib.aif360.disparate_impact_remover._DisparateImpactRemoverImpl object at 0x7faad87b7ad0&gt;</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-20" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-20"><div><div>RandomForestClassifier</div></div><div><a class="sk-estimator-doc-link fitted" href="https://scikit-learn.org/1.6/modules/generated/sklearn.ensemble.RandomForestClassifier.html" rel="noreferrer" target="_blank">?<span>Documentation for RandomForestClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>RandomForestClassifier(criterion='entropy', min_samples_leaf=0.3551854079747729,
+                                        n_estimators=29))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-19" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-19"><div><div>_DisparateImpactRemoverImpl</div></div></label><div class="sk-toggleable__content fitted"><pre>&lt;lale.lib.aif360.disparate_impact_remover._DisparateImpactRemoverImpl object at 0x1416bfad0&gt;</pre></div> </div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-20" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-20"><div><div>RandomForestClassifier</div></div><div><a class="sk-estimator-doc-link fitted" href="https://scikit-learn.org/1.6/modules/generated/sklearn.ensemble.RandomForestClassifier.html" rel="noreferrer" target="_blank">?<span>Documentation for RandomForestClassifier</span></a></div></label><div class="sk-toggleable__content fitted"><pre>RandomForestClassifier(criterion='entropy', min_samples_leaf=0.3551854079747729,
                        min_samples_split=0.3003021725296457, n_estimators=29)</pre></div> </div></div></div></div></div></div>
 </div>
 </div>
@@ -9987,7 +10252,7 @@ accuracy and disparate impact metric 0.83
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Creating package extensions
+<pre>Creating package extension
 SUCCESS
 </pre>
 </div>
@@ -10160,19 +10425,19 @@ SUCCESS
 
 ######################################################################################
 
-Synchronous deployment creation for id: '99333010-9333-465f-ab57-bc354ca03efa' started
+Synchronous deployment creation for id: '11d116c2-c511-48d4-952c-3a6c5d608787' started
 
 ######################################################################################
 
 
 initializing
 Note: online_url is deprecated and will be removed in a future release. Use serving_urls instead.
-......
+.................
 ready
 
 
 -----------------------------------------------------------------------------------------------
-Successfully finished deployment creation, deployment_id='1e5d83bd-43c0-4c2b-95cf-dfd002687aed'
+Successfully finished deployment creation, deployment_id='28044c98-bf1e-4a61-84fc-31904a37197a'
 -----------------------------------------------------------------------------------------------
 
 
@@ -10256,11 +10521,11 @@ Successfully finished deployment creation, deployment_id='1e5d83bd-43c0-4c2b-95c
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[32]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>{'predictions': [{'fields': ['prediction', 'probability'],
-   'values': [['No Risk', [0.7776124477386475, 0.22238758206367493]],
-    ['No Risk', [0.7723912596702576, 0.22760875523090363]],
-    ['No Risk', [0.7723912596702576, 0.22760875523090363]],
-    ['No Risk', [0.7541248202323914, 0.24587517976760864]],
-    ['No Risk', [0.7541248202323914, 0.24587517976760864]]]}]}</pre>
+   'values': [['No Risk', [0.8502577543258667, 0.1497422307729721]],
+    ['Risk', [0.48041510581970215, 0.5195848941802979]],
+    ['No Risk', [0.9268998503684998, 0.07310012727975845]],
+    ['No Risk', [0.7669427394866943, 0.23305723071098328]],
+    ['No Risk', [0.852082371711731, 0.14791759848594666]]]}]}</pre>
 </div>
 </div>
 </div>
