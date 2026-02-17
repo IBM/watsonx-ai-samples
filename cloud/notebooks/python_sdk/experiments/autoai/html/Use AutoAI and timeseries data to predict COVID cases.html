@@ -7332,7 +7332,12 @@ a.anchor-link {
     if (!diagrams.length) {
       return;
     }
-    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs")).default;
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.0/mermaid.esm.min.mjs")).default;
+    const elkUrl = "https://cdnjs.cloudflare.com/ajax/libs/mermaid-layout-elk/0.1.9/mermaid-layout-elk.esm.min.mjs";
+    if(elkUrl) {
+      const elkLayouts = (await import(elkUrl)).default;
+      mermaid.registerLayoutLoaders(elkLayouts);
+    }
     const parser = new DOMParser();
 
     mermaid.initialize({
@@ -7429,7 +7434,8 @@ a.anchor-link {
      * Post-process to ensure mermaid diagrams contain only valid SVG and XHTML.
      */
     function cleanMermaidSvg(svg) {
-      return svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      svg = svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      return `${SVG_XML_HEADER}${svg}`;
     }
 
 
@@ -7455,6 +7461,285 @@ a.anchor-link {
       }
       return `<${tag} ${rest}>`;
     }
+
+
+  /**
+   * Named HTML entities with their decimal equivalent codes.
+   *
+   * @see https://www.w3.org/TR/WD-html40-970708/sgml/entities.html
+   * */
+  const HTML_ENTITIES = `<!ENTITY Aacute "&#193;">
+<!ENTITY aacute "&#225;">
+<!ENTITY Acirc "&#194;">
+<!ENTITY acirc "&#226;">
+<!ENTITY acute "&#180;">
+<!ENTITY AElig "&#198;">
+<!ENTITY aelig "&#230;">
+<!ENTITY Agrave "&#192;">
+<!ENTITY agrave "&#224;">
+<!ENTITY alefsym "&#8501;">
+<!ENTITY Alpha "&#913;">
+<!ENTITY alpha "&#945;">
+<!ENTITY amp "&#38;">
+<!ENTITY and "&#8869;">
+<!ENTITY ang "&#8736;">
+<!ENTITY Aring "&#197;">
+<!ENTITY aring "&#229;">
+<!ENTITY asymp "&#8776;">
+<!ENTITY Atilde "&#195;">
+<!ENTITY atilde "&#227;">
+<!ENTITY Auml "&#196;">
+<!ENTITY auml "&#228;">
+<!ENTITY bdquo "&#8222;">
+<!ENTITY Beta "&#914;">
+<!ENTITY beta "&#946;">
+<!ENTITY brvbar "&#166;">
+<!ENTITY bull "&#8226;">
+<!ENTITY cap "&#8745;">
+<!ENTITY Ccedil "&#199;">
+<!ENTITY ccedil "&#231;">
+<!ENTITY cedil "&#184;">
+<!ENTITY cent "&#162;">
+<!ENTITY Chi "&#935;">
+<!ENTITY chi "&#967;">
+<!ENTITY circ "&#710;">
+<!ENTITY clubs "&#9827;">
+<!ENTITY cong "&#8773;">
+<!ENTITY copy "&#169;">
+<!ENTITY crarr "&#8629;">
+<!ENTITY cup "&#8746;">
+<!ENTITY curren "&#164;">
+<!ENTITY dagger "&#8224;">
+<!ENTITY Dagger "&#8225;">
+<!ENTITY darr "&#8595;">
+<!ENTITY dArr "&#8659;">
+<!ENTITY deg "&#176;">
+<!ENTITY Delta "&#916;">
+<!ENTITY delta "&#948;">
+<!ENTITY diams "&#9830;">
+<!ENTITY divide "&#247;">
+<!ENTITY Eacute "&#201;">
+<!ENTITY eacute "&#233;">
+<!ENTITY Ecirc "&#202;">
+<!ENTITY ecirc "&#234;">
+<!ENTITY Egrave "&#200;">
+<!ENTITY egrave "&#232;">
+<!ENTITY empty "&#8709;">
+<!ENTITY emsp "&#8195;">
+<!ENTITY ensp "&#8194;">
+<!ENTITY epsilon "&#949;">
+<!ENTITY Epsilon "&#917;">
+<!ENTITY equiv "&#8801;">
+<!ENTITY Eta "&#919;">
+<!ENTITY eta "&#951;">
+<!ENTITY ETH "&#208;">
+<!ENTITY eth "&#240;">
+<!ENTITY Euml "&#203;">
+<!ENTITY euml "&#235;">
+<!ENTITY exist "&#8707;">
+<!ENTITY fnof "&#402;">
+<!ENTITY forall "&#8704;">
+<!ENTITY frac12 "&#189;">
+<!ENTITY frac14 "&#188;">
+<!ENTITY frac34 "&#190;">
+<!ENTITY frasl "&#8260;">
+<!ENTITY Gamma "&#915;">
+<!ENTITY gamma "&#947;">
+<!ENTITY ge "&#8805;">
+<!ENTITY gt "&#62;">
+<!ENTITY harr "&#8596;">
+<!ENTITY hArr "&#8660;">
+<!ENTITY hearts "&#9829;">
+<!ENTITY hellip "&#8230;">
+<!ENTITY Iacute "&#205;">
+<!ENTITY iacute "&#237;">
+<!ENTITY Icirc "&#206;">
+<!ENTITY icirc "&#238;">
+<!ENTITY iexcl "&#161;">
+<!ENTITY Igrave "&#204;">
+<!ENTITY igrave "&#236;">
+<!ENTITY image "&#8465;">
+<!ENTITY infin "&#8734;">
+<!ENTITY int "&#8747;">
+<!ENTITY Iota "&#921;">
+<!ENTITY iota "&#953;">
+<!ENTITY iquest "&#191;">
+<!ENTITY isin "&#8712;">
+<!ENTITY Iuml "&#207;">
+<!ENTITY iuml "&#239;">
+<!ENTITY Kappa "&#922;">
+<!ENTITY kappa "&#954;">
+<!ENTITY Lambda "&#923;">
+<!ENTITY lambda "&#955;">
+<!ENTITY lang "&#9001;">
+<!ENTITY laquo "&#171;">
+<!ENTITY larr "&#8592;">
+<!ENTITY lArr "&#8656;">
+<!ENTITY lceil "&#8968;">
+<!ENTITY ldquo "&#8220;">
+<!ENTITY le "&#8804;">
+<!ENTITY lfloor "&#8970;">
+<!ENTITY lowast "&#8727;">
+<!ENTITY loz "&#9674;">
+<!ENTITY lrm "&#8206;">
+<!ENTITY lsaquo "&#8249;">
+<!ENTITY lsquo "&#8216;">
+<!ENTITY lt "&#60;">
+<!ENTITY macr "&#175;">
+<!ENTITY mdash "&#8212;">
+<!ENTITY micro "&#181;">
+<!ENTITY middot "&#183;">
+<!ENTITY minus "&#8722;">
+<!ENTITY Mu "&#924;">
+<!ENTITY mu "&#956;">
+<!ENTITY nabla "&#8711;">
+<!ENTITY nbsp "&#160;">
+<!ENTITY ndash "&#8211;">
+<!ENTITY ne "&#8800;">
+<!ENTITY ni "&#8715;">
+<!ENTITY not "&#172;">
+<!ENTITY notin "&#8713;">
+<!ENTITY nsub "&#8836;">
+<!ENTITY Ntilde "&#209;">
+<!ENTITY ntilde "&#241;">
+<!ENTITY Nu "&#925;">
+<!ENTITY nu "&#957;">
+<!ENTITY Oacute "&#211;">
+<!ENTITY oacute "&#243;">
+<!ENTITY Ocirc "&#212;">
+<!ENTITY ocirc "&#244;">
+<!ENTITY OElig "&#338;">
+<!ENTITY oelig "&#339;">
+<!ENTITY Ograve "&#210;">
+<!ENTITY ograve "&#242;">
+<!ENTITY oline "&#8254;">
+<!ENTITY Omega "&#937;">
+<!ENTITY omega "&#969;">
+<!ENTITY Omicron "&#927;">
+<!ENTITY omicron "&#959;">
+<!ENTITY oplus "&#8853;">
+<!ENTITY or "&#8870;">
+<!ENTITY ordf "&#170;">
+<!ENTITY ordm "&#186;">
+<!ENTITY Oslash "&#216;">
+<!ENTITY oslash "&#248;">
+<!ENTITY Otilde "&#213;">
+<!ENTITY otilde "&#245;">
+<!ENTITY otimes "&#8855;">
+<!ENTITY Ouml "&#214;">
+<!ENTITY ouml "&#246;">
+<!ENTITY para "&#182;">
+<!ENTITY part "&#8706;">
+<!ENTITY permil "&#8240;">
+<!ENTITY perp "&#8869;">
+<!ENTITY Phi "&#934;">
+<!ENTITY phi "&#966;">
+<!ENTITY Pi "&#928;">
+<!ENTITY pi "&#960;">
+<!ENTITY piv "&#982;">
+<!ENTITY plusmn "&#177;">
+<!ENTITY pound "&#163;">
+<!ENTITY prime "&#8242;">
+<!ENTITY Prime "&#8243;">
+<!ENTITY prod "&#8719;">
+<!ENTITY prop "&#8733;">
+<!ENTITY Psi "&#936;">
+<!ENTITY psi "&#968;">
+<!ENTITY quot "&#34;">
+<!ENTITY radic "&#8730;">
+<!ENTITY rang "&#9002;">
+<!ENTITY raquo "&#187;">
+<!ENTITY rarr "&#8594;">
+<!ENTITY rArr "&#8658;">
+<!ENTITY rceil "&#8969;">
+<!ENTITY rdquo "&#8221;">
+<!ENTITY real "&#8476;">
+<!ENTITY reg "&#174;">
+<!ENTITY rfloor "&#8971;">
+<!ENTITY Rho "&#929;">
+<!ENTITY rho "&#961;">
+<!ENTITY rlm "&#8207;">
+<!ENTITY rsaquo "&#8250;">
+<!ENTITY rsquo "&#8217;">
+<!ENTITY sbquo "&#8218;">
+<!ENTITY Scaron "&#352;">
+<!ENTITY scaron "&#353;">
+<!ENTITY sdot "&#8901;">
+<!ENTITY sect "&#167;">
+<!ENTITY shy "&#173;">
+<!ENTITY Sigma "&#931;">
+<!ENTITY sigma "&#963;">
+<!ENTITY sigmaf "&#962;">
+<!ENTITY sim "&#8764;">
+<!ENTITY spades "&#9824;">
+<!ENTITY sub "&#8834;">
+<!ENTITY sube "&#8838;">
+<!ENTITY sum "&#8721;">
+<!ENTITY sup "&#8835;">
+<!ENTITY sup1 "&#185;">
+<!ENTITY sup2 "&#178;">
+<!ENTITY sup3 "&#179;">
+<!ENTITY supe "&#8839;">
+<!ENTITY szlig "&#223;">
+<!ENTITY Tau "&#932;">
+<!ENTITY tau "&#964;">
+<!ENTITY there4 "&#8756;">
+<!ENTITY Theta "&#920;">
+<!ENTITY theta "&#952;">
+<!ENTITY thetasym "&#977;">
+<!ENTITY thinsp "&#8201;">
+<!ENTITY THORN "&#222;">
+<!ENTITY thorn "&#254;">
+<!ENTITY tilde "&#732;">
+<!ENTITY times "&#215;">
+<!ENTITY trade "&#8482;">
+<!ENTITY Uacute "&#218;">
+<!ENTITY uacute "&#250;">
+<!ENTITY uarr "&#8593;">
+<!ENTITY uArr "&#8657;">
+<!ENTITY Ucirc "&#219;">
+<!ENTITY ucirc "&#251;">
+<!ENTITY Ugrave "&#217;">
+<!ENTITY ugrave "&#249;">
+<!ENTITY uml "&#168;">
+<!ENTITY upsih "&#978;">
+<!ENTITY Upsilon "&#933;">
+<!ENTITY upsilon "&#965;">
+<!ENTITY Uuml "&#220;">
+<!ENTITY uuml "&#252;">
+<!ENTITY weierp "&#8472;">
+<!ENTITY Xi "&#926;">
+<!ENTITY xi "&#958;">
+<!ENTITY Yacute "&#221;">
+<!ENTITY yacute "&#253;">
+<!ENTITY yen "&#165;">
+<!ENTITY Yuml "&#376;">
+<!ENTITY yuml "&#255;">
+<!ENTITY Zeta "&#918;">
+<!ENTITY zeta "&#950;">
+<!ENTITY zwj "&#8205;">
+<!ENTITY zwnj "&#8204;">`.replace(/\n/g, ' ');
+
+  /**
+   * A reasonably strict xml declaration.
+   */
+  const XML_DECL = '<?xml version="1.0" standalone="no"?>';
+
+  /**
+   * The beginning of the XML doctype declaration.
+   */
+  const DOCTYPE_START = `<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [`;
+
+  /**
+   * The end of the XML docype declaration.
+   */
+  const DOCTYPE_END = ']>';
+
+  /**
+   * A full header for an SVG XML document.
+   */
+  const SVG_XML_HEADER = `${XML_DECL}
+    ${DOCTYPE_START}${HTML_ENTITIES}${DOCTYPE_END}`;
 
     void Promise.all([...diagrams].map(renderOneMarmaid));
   });
@@ -7529,7 +7814,7 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>This notebook contains the steps and code to demonstrate support of AutoAI experiments for timeseries data sets in watsonx.ai Runtime service. It introduces commands for data retrieval, training experiments, persisting pipelines, testing pipelines, deploying pipelines, and scoring.</p>
-<p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
+<p>Some familiarity with Python is helpful. This notebook uses Python 3.12.</p>
 <h2 id="Learning-goals">Learning goals<a class="anchor-link" href="#Learning-goals">¶</a></h2><p>The learning goals of this notebook are:</p>
 <ul>
 <li>Define watsonx.ai Runtime experiment for timeseries data sets.</li>
@@ -7574,22 +7859,41 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Install-and-import-the-ibm-watsonx-ai-and-dependecies">Install and import the <code>ibm-watsonx-ai</code> and dependecies<a class="anchor-link" href="#Install-and-import-the-ibm-watsonx-ai-and-dependecies">¶</a></h3><p><strong>Note:</strong> <code>ibm-watsonx-ai</code> documentation can be found <a href="https://ibm.github.io/watsonx-ai-python-sdk/index.html" rel="noopener no referrer" target="_blank">here</a>.</p>
+<h3 id="Install-dependencies">Install dependencies<a class="anchor-link" href="#Install-dependencies">¶</a></h3><p><strong>Note:</strong> <code>ibm-watsonx-ai</code> documentation can be found <a href="https://ibm.github.io/watsonx-ai-python-sdk/index.html" rel="noopener no referrer" target="_blank">here</a>.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>wget<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>plotly<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>ibm-watsonx-ai<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">plotly</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">tqdm</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="s2">"nbformat&gt;=4.2.0"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">ibm</span><span class="o">-</span><span class="n">watsonx</span><span class="o">-</span><span class="n">ai</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Successfully installed wget-3.2
+Successfully installed narwhals-2.16.0 plotly-6.5.2
+Successfully installed tqdm-4.67.3
+Successfully installed attrs-25.4.0 fastjsonschema-2.21.2 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 nbformat-5.10.4 referencing-0.37.0 rpds-py-0.30.0 typing-extensions-4.15.0
+Successfully installed anyio-4.12.1 cachetools-7.0.1 certifi-2026.1.4 charset_normalizer-3.4.4 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-watsonx-ai-1.5.2 idna-3.11 jmespath-1.0.1 lomond-0.3.3 numpy-2.4.2 pandas-2.3.3 pytz-2025.2 requests-2.32.5 tabulate-0.9.0 tzdata-2025.3 urllib3-2.6.3
+</pre>
 </div>
 </div>
 </div>
@@ -7601,14 +7905,31 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Connection-to-watsonx.ai-Runtime">Connection to watsonx.ai Runtime<a class="anchor-link" href="#Connection-to-watsonx.ai-Runtime">¶</a></h3><p>Authenticate the watsonx.ai Runtime service on IBM Cloud. You need to provide Cloud <code>API key</code> and <code>location</code>.</p>
-<p><strong>Tip</strong>: Your <code>Cloud API key</code> can be generated by going to the <a href="https://cloud.ibm.com/iam#/users"><strong>Users</strong> section of the Cloud console</a>. From that page, click your name, scroll down to the <strong>API Keys</strong> section, and click <strong>Create an IBM Cloud API key</strong>. Give your key a name and click <strong>Create</strong>, then copy the created key and paste it below. You can also get a service specific url by going to the <a href="https://cloud.ibm.com/apidocs/machine-learning"><strong>Endpoint URLs</strong> section of the watsonx.ai Runtime docs</a>.  You can check your instance location in your  <a href="https://cloud.ibm.com/catalog/services/watsonxai-runtime" rel="noopener no referrer" target="_blank">watsonx.ai Runtime Service</a> instance details.</p>
-<p>You can use <a href="https://cloud.ibm.com/docs/cli/index.html">IBM Cloud CLI</a> to retrieve the instance <code>location</code>.</p>
+<h3 id="Connection-to-watsonx.ai-Runtime">Connection to watsonx.ai Runtime<a class="anchor-link" href="#Connection-to-watsonx.ai-Runtime">¶</a></h3><p>Authenticate the watsonx.ai Runtime service on IBM Cloud. You need to provide platform <code>api_key</code> and instance <code>location</code>.</p>
+<p>You can use <a href="https://cloud.ibm.com/docs/cli/index.html">IBM Cloud CLI</a> to retrieve platform API Key and instance location.</p>
+<p>API Key can be generated in the following way:</p>
+<pre><code>ibmcloud login
+ibmcloud iam api-key-create API_KEY_NAME
+</code></pre>
+<p>In result, get the value of <code>api_key</code> from the output.</p>
+<p>Location of your watsonx.ai Runtime instance can be retrieved in the following way:</p>
 <pre><code>ibmcloud login --apikey API_KEY -a https://cloud.ibm.com
 ibmcloud resource service-instance INSTANCE_NAME
 </code></pre>
-<p><strong>NOTE:</strong> You can also get a service specific apikey by going to the <a href="https://cloud.ibm.com/iam/serviceids"><strong>Service IDs</strong> section of the Cloud Console</a>.  From that page, click <strong>Create</strong>, and then copy the created key and paste it in the following cell.</p>
-<p><strong>Action</strong>: Enter your <code>api_key</code> and <code>location</code> in the following cell.</p>
+<p>In result, get the value of <code>location</code> from the output.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><strong>Tip</strong>: Your <code>Cloud API key</code> can be generated by going to the <a href="https://cloud.ibm.com/iam#/users"><strong>Users</strong> section of the Cloud console</a>. From that page, click your name, scroll down to the <strong>API Keys</strong> section, and click <strong>Create an IBM Cloud API key</strong>. Give your key a name and click <strong>Create</strong>, then copy the created key and paste it below. You can also get a service specific url by going to the <a href="https://cloud.ibm.com/apidocs/machine-learning"><strong>Endpoint URLs</strong> section of the watsonx.ai Runtime docs</a>.  You can check your instance location in your  <a href="https://cloud.ibm.com/catalog/services/watsonxai-runtime" rel="noopener no referrer" target="_blank">watsonx.ai Runtime Service</a> instance details.</p>
+<p>You can also get service specific apikey by going to the <a href="https://cloud.ibm.com/iam/serviceids"><strong>Service IDs</strong> section of the Cloud Console</a>.  From that page, click <strong>Create</strong>, then copy the created key and paste it below.</p>
+<p><strong>Action</strong>: Enter your <code>url</code> and <code>api_key</code> in the following cell.</p>
 </div>
 </div>
 </div>
@@ -7617,29 +7938,16 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">api_key</span> <span class="o">=</span> <span class="s1">'PUT_YOUR_KEY_HERE'</span>
-<span class="n">location</span> <span class="o">=</span> <span class="s1">'PASTE YOUR INSTANCE LOCATION HERE'</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span>
 
 <span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span>
-    <span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span>
-    <span class="n">url</span><span class="o">=</span><span class="s1">'https://'</span> <span class="o">+</span> <span class="n">location</span> <span class="o">+</span> <span class="s1">'.ml.cloud.ibm.com'</span>
+    <span class="n">url</span><span class="o">=</span><span class="s2">"https://us-south.ml.cloud.ibm.com"</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Enter your watsonx.ai api key and hit enter: "</span><span class="p">),</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -7687,10 +7995,10 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">space_id</span> <span class="o">=</span> <span class="s1">'PASTE YOUR SPACE ID HERE'</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">space_id</span> <span class="o">=</span> <span class="s2">"PASTE YOUR SPACE ID HERE"</span>
 </pre></div>
 </div>
 </div>
@@ -7737,7 +8045,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">set</span><span class="o">.</span><span class="n">default_space</span><span class="p">(</span><span class="n">space_id</span><span class="p">)</span>
@@ -7751,7 +8059,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>'SUCCESS'</pre>
 </div>
@@ -7777,32 +8085,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Connections-to-COS">Connections to COS<a class="anchor-link" href="#Connections-to-COS">¶</a></h3><p>In next cell we read the COS credentials from the space.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">cos_credentials</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">spaces</span><span class="o">.</span><span class="n">get_details</span><span class="p">(</span><span class="n">space_id</span><span class="o">=</span><span class="n">space_id</span><span class="p">)[</span><span class="s1">'entity'</span><span class="p">][</span><span class="s1">'storage'</span><span class="p">][</span><span class="s1">'properties'</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Training-data-sets">Training data sets<a class="anchor-link" href="#Training-data-sets">¶</a></h3><p>Download training data from git repository and upload it to a COS.<br/>
+<h3 id="Training-data-sets">Training data sets<a class="anchor-link" href="#Training-data-sets">¶</a></h3><p>Download training data from git repository and upload it to your space.<br/>
 This example uses the <a href="https://raw.githubusercontent.com/LukaszCmielowski/covid-19/master/poland_daily_cases_03_28_2021.csv">Poland COVID19 daily confirmed cases</a>.</p>
 </div>
 </div>
@@ -7812,30 +8095,18 @@ This example uses the <a href="https://raw.githubusercontent.com/LukaszCmielowsk
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">datasource_name</span> <span class="o">=</span> <span class="s1">'bluemixcloudobjectstorage'</span>
-<span class="n">bucketname</span> <span class="o">=</span> <span class="n">cos_credentials</span><span class="p">[</span><span class="s1">'bucket_name'</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span><span class="o">,</span><span class="w"> </span><span class="nn">wget</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
-<span class="n">filename</span> <span class="o">=</span> <span class="s1">'poland_daily_cases_03_28_2021.csv'</span>
-<span class="n">base_url</span> <span class="o">=</span> <span class="s1">'https://raw.githubusercontent.com/LukaszCmielowski/covid-19/master/'</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">wget</span>
 
-<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span> <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">base_url</span> <span class="o">+</span> <span class="n">filename</span><span class="p">)</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s2">"poland_daily_cases_03_28_2021.csv"</span>
+<span class="n">base_url</span> <span class="o">=</span> <span class="s2">"https://raw.githubusercontent.com/LukaszCmielowski/covid-19/master/"</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">base_url</span> <span class="o">+</span> <span class="n">filename</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7857,14 +8128,14 @@ This example uses the <a href="https://raw.githubusercontent.com/LukaszCmielowsk
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">plotly.express</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">px</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.express</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">px</span>
 
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">'date'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"daily_cases"</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">"date"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"daily_cases"</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -7887,7 +8158,7 @@ This example uses the <a href="https://raw.githubusercontent.com/LukaszCmielowsk
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="Create-connection">Create connection<a class="anchor-link" href="#Create-connection">¶</a></h4>
+<h3 id="Training-data-connection">Training data connection<a class="anchor-link" href="#Training-data-connection">¶</a></h3><p>The code in next cell defines connections to created assets.</p>
 </div>
 </div>
 </div>
@@ -7896,23 +8167,16 @@ This example uses the <a href="https://raw.githubusercontent.com/LukaszCmielowsk
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">conn_meta_props</span><span class="o">=</span> <span class="p">{</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Connection to Database - </span><span class="si">{</span><span class="n">datasource_name</span><span class="si">}</span><span class="s2"> "</span><span class="p">,</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DATASOURCE_TYPE</span><span class="p">:</span> <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">get_datasource_type_id_by_name</span><span class="p">(</span><span class="n">datasource_name</span><span class="p">),</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DESCRIPTION</span><span class="p">:</span> <span class="s2">"Connection to external Database"</span><span class="p">,</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">PROPERTIES</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s1">'bucket'</span><span class="p">:</span> <span class="n">bucketname</span><span class="p">,</span>
-        <span class="s1">'access_key'</span><span class="p">:</span> <span class="n">cos_credentials</span><span class="p">[</span><span class="s1">'credentials'</span><span class="p">][</span><span class="s1">'editor'</span><span class="p">][</span><span class="s1">'access_key_id'</span><span class="p">],</span>
-        <span class="s1">'secret_key'</span><span class="p">:</span> <span class="n">cos_credentials</span><span class="p">[</span><span class="s1">'credentials'</span><span class="p">][</span><span class="s1">'editor'</span><span class="p">][</span><span class="s1">'secret_access_key'</span><span class="p">],</span>
-        <span class="s1">'iam_url'</span><span class="p">:</span> <span class="s1">'https://iam.cloud.ibm.com/identity/token'</span><span class="p">,</span>
-        <span class="s1">'url'</span><span class="p">:</span> <span class="n">cos_credentials</span><span class="p">[</span><span class="s1">'endpoint_url'</span><span class="p">]</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">ContainerLocation</span><span class="p">,</span> <span class="n">DataConnection</span>
 
-<span class="n">conn_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">meta_props</span><span class="o">=</span><span class="n">conn_meta_props</span><span class="p">)</span>
+<span class="n">data_connection</span> <span class="o">=</span> <span class="n">DataConnection</span><span class="p">(</span>
+    <span class="n">location</span><span class="o">=</span><span class="n">ContainerLocation</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">filename</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">data_connection</span><span class="o">.</span><span class="n">set_client</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+<span class="n">data_connection</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="n">remote_name</span><span class="o">=</span><span class="n">filename</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7925,87 +8189,12 @@ This example uses the <a href="https://raw.githubusercontent.com/LukaszCmielowsk
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Creating connections...
-SUCCESS
+<pre>Collecting pyarrow&gt;=3.0.0
+  Using cached pyarrow-23.0.0-cp312-cp312-macosx_12_0_x86_64.whl.metadata (3.0 kB)
+Using cached pyarrow-23.0.0-cp312-cp312-macosx_12_0_x86_64.whl (35.8 MB)
+Installing collected packages: pyarrow
+Successfully installed pyarrow-23.0.0
 </pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><strong>Note</strong>: The above connection can be initialized alternatively with <code>api_key</code> and <code>resource_instance_id</code>.<br/>
-The above cell can be replaced with:</p>
-<pre><code>conn_meta_props= {
-    client.connections.ConfigurationMetaNames.NAME: f"Connection to Database - {db_name} ",
-    client.connections.ConfigurationMetaNames.DATASOURCE_TYPE: client.connections.get_datasource_type_id_by_name(db_name),
-    client.connections.ConfigurationMetaNames.DESCRIPTION: "Connection to external Database",
-    client.connections.ConfigurationMetaNames.PROPERTIES: {
-        'bucket': bucket_name,
-        'api_key': cos_credentials['apikey'],
-        'resource_instance_id': cos_credentials['resource_instance_id'],
-        'iam_url': 'https://iam.cloud.ibm.com/identity/token',
-        'url': 'https://s3.us.cloud-object-storage.appdomain.cloud'
-    }
-}
-
-conn_details = client.connections.create(meta_props=conn_meta_props)
-
-</code></pre>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">connection_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">conn_details</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Training-data-connection">Training data connection<a class="anchor-link" href="#Training-data-connection">¶</a></h3><p>The code in next cell defines connections to created assets.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataConnection</span><span class="p">,</span> <span class="n">S3Location</span>
-
-<span class="n">data_connections</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">data_connection</span> <span class="o">=</span> <span class="n">DataConnection</span><span class="p">(</span>
-        <span class="n">connection_asset_id</span><span class="o">=</span><span class="n">connection_id</span><span class="p">,</span>
-        <span class="n">location</span><span class="o">=</span><span class="n">S3Location</span><span class="p">(</span><span class="n">bucket</span><span class="o">=</span><span class="n">cos_credentials</span><span class="p">[</span><span class="s1">'bucket_name'</span><span class="p">],</span>
-                            <span class="n">path</span><span class="o">=</span><span class="n">filename</span><span class="p">)</span>
-    <span class="p">)</span>
-
-<span class="n">data_connection</span><span class="o">.</span><span class="n">set_client</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
-<span class="n">data_connection</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="n">remote_name</span><span class="o">=</span><span class="n">filename</span><span class="p">)</span>
-<span class="n">data_connections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data_connection</span><span class="p">)</span>
-</pre></div>
 </div>
 </div>
 </div>
@@ -8045,7 +8234,7 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.experiment</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoAI</span>
@@ -8055,16 +8244,16 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 <span class="n">backtest_num</span> <span class="o">=</span> <span class="mi">4</span>
 
 <span class="n">pipeline_optimizer</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">optimizer</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="s2">"COVID19 PL timeseries"</span><span class="p">,</span>
-            <span class="n">prediction_type</span><span class="o">=</span><span class="n">AutoAI</span><span class="o">.</span><span class="n">PredictionType</span><span class="o">.</span><span class="n">FORECASTING</span><span class="p">,</span>
-            <span class="n">prediction_columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'daily_cases'</span><span class="p">],</span>
-            <span class="n">timestamp_column_name</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-            <span class="n">scoring</span><span class="o">=</span><span class="n">AutoAI</span><span class="o">.</span><span class="n">Metrics</span><span class="o">.</span><span class="n">R2_SCORE</span><span class="p">,</span>
-            <span class="n">max_number_of_estimators</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-            <span class="n">backtest_num</span><span class="o">=</span><span class="n">backtest_num</span><span class="p">,</span>
-            <span class="n">lookback_window</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-            <span class="n">forecast_window</span><span class="o">=</span><span class="n">forecast_window</span><span class="p">,</span>
-            <span class="n">holdout_size</span><span class="o">=</span><span class="mi">5</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"COVID19 PL timeseries"</span><span class="p">,</span>
+    <span class="n">prediction_type</span><span class="o">=</span><span class="n">AutoAI</span><span class="o">.</span><span class="n">PredictionType</span><span class="o">.</span><span class="n">FORECASTING</span><span class="p">,</span>
+    <span class="n">prediction_columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"daily_cases"</span><span class="p">],</span>
+    <span class="n">timestamp_column_name</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">scoring</span><span class="o">=</span><span class="n">AutoAI</span><span class="o">.</span><span class="n">Metrics</span><span class="o">.</span><span class="n">R2_SCORE</span><span class="p">,</span>
+    <span class="n">max_number_of_estimators</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">backtest_num</span><span class="o">=</span><span class="n">backtest_num</span><span class="p">,</span>
+    <span class="n">lookback_window</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">forecast_window</span><span class="o">=</span><span class="n">forecast_window</span><span class="p">,</span>
+    <span class="n">holdout_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -8099,10 +8288,10 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">fit_details</span> <span class="o">=</span> <span class="n">pipeline_optimizer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">training_data_reference</span><span class="o">=</span><span class="n">data_connections</span><span class="p">,</span> <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">fit_details</span> <span class="o">=</span> <span class="n">pipeline_optimizer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">training_data_reference</span><span class="o">=</span><span class="p">[</span><span class="n">data_connection</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -8115,7 +8304,7 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Training job 1d345490-624b-4809-ba30-c41a6df8de35 completed: 100%|████████| [01:50&lt;00:00,  1.10s/it]
+<pre>Training job 1effff04-5ee3-4863-bc75-3b09b2601498 completed: 100%|████████| [05:26&lt;00:00,  3.26s/it]
 </pre>
 </div>
 </div>
@@ -8137,7 +8326,7 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">pipeline_optimizer</span><span class="o">.</span><span class="n">get_run_status</span><span class="p">()</span>
@@ -8151,7 +8340,7 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[11]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>'completed'</pre>
 </div>
@@ -8178,7 +8367,7 @@ you like for further deployment.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">summary</span> <span class="o">=</span> <span class="n">pipeline_optimizer</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
@@ -8193,7 +8382,7 @@ you like for further deployment.</p>
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
@@ -8305,11 +8494,11 @@ you like for further deployment.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">best_pipeline_name</span> <span class="o">=</span> <span class="n">summary</span><span class="p">[</span><span class="n">summary</span><span class="o">.</span><span class="n">Winner</span><span class="o">==</span><span class="kc">True</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'Best pipeline is:'</span><span class="p">,</span> <span class="n">best_pipeline_name</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">best_pipeline_name</span> <span class="o">=</span> <span class="n">summary</span><span class="p">[</span><span class="n">summary</span><span class="o">.</span><span class="n">Winner</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Best pipeline is:"</span><span class="p">,</span> <span class="n">best_pipeline_name</span><span class="p">)</span>
 
 <span class="n">pipeline_details</span> <span class="o">=</span> <span class="n">pipeline_optimizer</span><span class="o">.</span><span class="n">get_pipeline_details</span><span class="p">()</span>
 </pre></div>
@@ -8346,15 +8535,27 @@ you like for further deployment.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">visualization</span> <span class="o">=</span> <span class="n">pipeline_details</span><span class="p">[</span><span class="s1">'visualization'</span><span class="p">][</span><span class="s1">'holdout'</span><span class="p">]</span>
-<span class="n">holdout_dates</span> <span class="o">=</span> <span class="n">visualization</span><span class="p">[</span><span class="s1">'time'</span><span class="p">]</span>
-<span class="n">holdout_predictions</span> <span class="o">=</span> <span class="n">visualization</span><span class="p">[</span><span class="s1">'predicted_values'</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">holdout_observed_values</span> <span class="o">=</span> <span class="n">visualization</span><span class="p">[</span><span class="s1">'observed_values'</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">holdout_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'time'</span><span class="p">:</span><span class="n">holdout_dates</span><span class="p">,</span> <span class="s1">'observed_values'</span><span class="p">:</span><span class="n">holdout_observed_values</span><span class="p">,</span> <span class="s1">'predicted_values'</span><span class="p">:</span> <span class="n">holdout_predictions</span><span class="p">})</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">holdout_df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">holdout_df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">hover_data</span><span class="o">=</span><span class="p">{</span><span class="s2">"time"</span><span class="p">:</span> <span class="s2">"|%B </span><span class="si">%d</span><span class="s2">, %Y"</span><span class="p">},</span> <span class="n">title</span><span class="o">=</span><span class="s1">'Holdout data'</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">visualization</span> <span class="o">=</span> <span class="n">pipeline_details</span><span class="p">[</span><span class="s2">"visualization"</span><span class="p">][</span><span class="s2">"holdout"</span><span class="p">]</span>
+<span class="n">holdout_dates</span> <span class="o">=</span> <span class="n">visualization</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span>
+<span class="n">holdout_predictions</span> <span class="o">=</span> <span class="n">visualization</span><span class="p">[</span><span class="s2">"predicted_values"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">holdout_observed_values</span> <span class="o">=</span> <span class="n">visualization</span><span class="p">[</span><span class="s2">"observed_values"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">holdout_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">"time"</span><span class="p">:</span> <span class="n">holdout_dates</span><span class="p">,</span>
+        <span class="s2">"observed_values"</span><span class="p">:</span> <span class="n">holdout_observed_values</span><span class="p">,</span>
+        <span class="s2">"predicted_values"</span><span class="p">:</span> <span class="n">holdout_predictions</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">line</span><span class="p">(</span>
+    <span class="n">holdout_df</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">holdout_df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+    <span class="n">hover_data</span><span class="o">=</span><span class="p">{</span><span class="s2">"time"</span><span class="p">:</span> <span class="s2">"|%B </span><span class="si">%d</span><span class="s2">, %Y"</span><span class="p">},</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">"Holdout data"</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">update_xaxes</span><span class="p">(</span><span class="n">dtick</span><span class="o">=</span><span class="s2">"M1"</span><span class="p">,</span> <span class="n">tickformat</span><span class="o">=</span><span class="s2">"%b</span><span class="se">\n</span><span class="s2">%Y"</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -8387,21 +8588,36 @@ you like for further deployment.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <span class="n">backtest_dfs</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">backtest_num</span><span class="p">):</span>
-    <span class="n">visualization</span> <span class="o">=</span> <span class="n">pipeline_details</span><span class="p">[</span><span class="s1">'visualization'</span><span class="p">][</span><span class="s1">'backtest'</span><span class="p">][</span><span class="s1">'iterations'</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
-    <span class="n">backtest_dates</span> <span class="o">=</span> <span class="n">visualization</span><span class="p">[</span><span class="s1">'time'</span><span class="p">]</span>
-    <span class="n">backtest_predictions</span> <span class="o">=</span> <span class="n">visualization</span><span class="p">[</span><span class="s1">'predicted_values'</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">observed_values</span> <span class="o">=</span> <span class="n">visualization</span><span class="p">[</span><span class="s1">'observed_values'</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">backtest_dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'time'</span><span class="p">:</span><span class="n">backtest_dates</span><span class="p">,</span> <span class="s1">'observed_values'</span><span class="p">:</span><span class="n">observed_values</span><span class="p">,</span> <span class="s1">'predicted_values'</span><span class="p">:</span> <span class="n">backtest_predictions</span><span class="p">}))</span>
+    <span class="n">visualization</span> <span class="o">=</span> <span class="n">pipeline_details</span><span class="p">[</span><span class="s2">"visualization"</span><span class="p">][</span><span class="s2">"backtest"</span><span class="p">][</span><span class="s2">"iterations"</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">backtest_dates</span> <span class="o">=</span> <span class="n">visualization</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span>
+    <span class="n">backtest_predictions</span> <span class="o">=</span> <span class="n">visualization</span><span class="p">[</span><span class="s2">"predicted_values"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">observed_values</span> <span class="o">=</span> <span class="n">visualization</span><span class="p">[</span><span class="s2">"observed_values"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">backtest_dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">"time"</span><span class="p">:</span> <span class="n">backtest_dates</span><span class="p">,</span>
+                <span class="s2">"observed_values"</span><span class="p">:</span> <span class="n">observed_values</span><span class="p">,</span>
+                <span class="s2">"predicted_values"</span><span class="p">:</span> <span class="n">backtest_predictions</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
 <span class="n">backtest_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">backtest_dfs</span><span class="p">)</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">backtest_df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">backtest_df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">hover_data</span><span class="o">=</span><span class="p">{</span><span class="s2">"time"</span><span class="p">:</span> <span class="s2">"|%B </span><span class="si">%d</span><span class="s2">, %Y"</span><span class="p">},</span> <span class="n">title</span><span class="o">=</span><span class="s1">'Backtest data'</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">line</span><span class="p">(</span>
+    <span class="n">backtest_df</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">backtest_df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+    <span class="n">hover_data</span><span class="o">=</span><span class="p">{</span><span class="s2">"time"</span><span class="p">:</span> <span class="s2">"|%B </span><span class="si">%d</span><span class="s2">, %Y"</span><span class="p">},</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">"Backtest data"</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">update_xaxes</span><span class="p">(</span><span class="n">dtick</span><span class="o">=</span><span class="s2">"M1"</span><span class="p">,</span> <span class="n">tickformat</span><span class="o">=</span><span class="s2">"%b</span><span class="se">\n</span><span class="s2">%Y"</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -8446,7 +8662,7 @@ you like for further deployment.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.deployment</span><span class="w"> </span><span class="kn">import</span> <span class="n">WebService</span>
@@ -8454,10 +8670,10 @@ you like for further deployment.</p>
 <span class="n">service</span> <span class="o">=</span> <span class="n">WebService</span><span class="p">(</span><span class="n">credentials</span><span class="p">,</span> <span class="n">source_space_id</span><span class="o">=</span><span class="n">space_id</span><span class="p">)</span>
 
 <span class="n">service</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-    <span class="n">experiment_run_id</span><span class="o">=</span><span class="n">pipeline_optimizer</span><span class="o">.</span><span class="n">get_run_details</span><span class="p">()[</span><span class="s1">'metadata'</span><span class="p">][</span><span class="s1">'id'</span><span class="p">],</span>
-    <span class="n">model</span><span class="o">=</span><span class="n">best_pipeline_name</span><span class="p">,</span> 
-    <span class="n">deployment_name</span><span class="o">=</span><span class="s2">"COVID19 for Poland"</span>
-    <span class="p">)</span>
+    <span class="n">experiment_run_id</span><span class="o">=</span><span class="n">pipeline_optimizer</span><span class="o">.</span><span class="n">get_run_details</span><span class="p">()[</span><span class="s2">"metadata"</span><span class="p">][</span><span class="s2">"id"</span><span class="p">],</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">best_pipeline_name</span><span class="p">,</span>
+    <span class="n">deployment_name</span><span class="o">=</span><span class="s2">"COVID19 for Poland"</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8471,26 +8687,26 @@ you like for further deployment.</p>
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Preparing an AutoAI Deployment...
-Published model uid: 4cf66a0c-067b-4869-96da-698b3bd51b43
-Deploying model 4cf66a0c-067b-4869-96da-698b3bd51b43 using V4 client.
+Published model uid: 31362422-dce9-404f-8088-3f97101af2d8
+Deploying model 31362422-dce9-404f-8088-3f97101af2d8 using V4 client.
 
 
-#######################################################################################
+######################################################################################
 
-Synchronous deployment creation for uid: '4cf66a0c-067b-4869-96da-698b3bd51b43' started
+Synchronous deployment creation for id: '31362422-dce9-404f-8088-3f97101af2d8' started
 
-#######################################################################################
+######################################################################################
 
 
 initializing
 Note: online_url and serving_urls are deprecated and will be removed in a future release. Use inference instead.
-..
+...
 ready
 
 
-------------------------------------------------------------------------------------------------
-Successfully finished deployment creation, deployment_uid='7b65f65a-5535-440c-b170-433663547d57'
-------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------
+Successfully finished deployment creation, deployment_id='97907f34-3cda-4788-bd59-b67640dfa57d'
+-----------------------------------------------------------------------------------------------
 
 
 </pre>
@@ -8514,7 +8730,7 @@ Successfully finished deployment creation, deployment_uid='7b65f65a-5535-440c-b1
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">service</span><span class="o">.</span><span class="n">get_params</span><span class="p">()</span>
@@ -8539,11 +8755,11 @@ Successfully finished deployment creation, deployment_uid='7b65f65a-5535-440c-b1
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">payload</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'daily_cases'</span> <span class="p">:</span> <span class="p">[]}))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'predictions for next 7 days:</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">payload</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"daily_cases"</span><span class="p">:</span> <span class="p">[]}))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"predictions for next 7 days:</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 <span class="n">predictions</span>
 </pre></div>
 </div>
@@ -8563,16 +8779,16 @@ Successfully finished deployment creation, deployment_uid='7b65f65a-5535-440c-b1
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[24]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>{'predictions': [{'fields': ['prediction'],
-   'values': [[[29333.442804537604]],
-    [[29957.455192354842]],
-    [[31766.405211835838]],
-    [[34318.30390937021]],
-    [[35107.350337853044]],
-    [[32564.841193702112]],
-    [[29853.50082004966]]]}]}</pre>
+   'values': [[[19904.816700229545]],
+    [[22106.556234812087]],
+    [[24501.057719609922]],
+    [[24280.056249000198]],
+    [[20357.0123610303]],
+    [[15169.625869179024]],
+    [[14853.03013917623]]]}]}</pre>
 </div>
 </div>
 </div>
@@ -8606,17 +8822,30 @@ Successfully finished deployment creation, deployment_uid='7b65f65a-5535-440c-b1
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">last_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">holdout_df</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span><span class="s1">'%Y-%m-</span><span class="si">%d</span><span class="s1">'</span><span class="p">)</span>
-<span class="n">prediction_dates</span> <span class="o">=</span> <span class="p">[(</span><span class="n">last_date</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span> <span class="o">+</span> <span class="n">i</span><span class="p">))</span><span class="o">.</span><span class="n">date</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">forecast_window</span><span class="p">)]</span>
-<span class="n">prediction_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">pred</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">pred</span> <span class="ow">in</span>  <span class="n">predictions</span><span class="p">[</span><span class="s1">'predictions'</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">'values'</span><span class="p">]]</span>
-<span class="n">pred_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'time'</span> <span class="p">:</span> <span class="n">holdout_dates</span> <span class="o">+</span> <span class="n">prediction_dates</span><span class="p">,</span>
-                        <span class="s1">'observed_values'</span> <span class="p">:</span> <span class="n">holdout_observed_values</span> <span class="o">+</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">NAN</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">forecast_window</span><span class="p">)],</span>
-                        <span class="s1">'predicted_values'</span> <span class="p">:</span> <span class="n">holdout_predictions</span> <span class="o">+</span> <span class="n">prediction_values</span><span class="p">})</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">last_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">holdout_df</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">prediction_dates</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="n">last_date</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span> <span class="o">+</span> <span class="n">i</span><span class="p">))</span><span class="o">.</span><span class="n">date</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">forecast_window</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="n">prediction_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">pred</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">pred</span> <span class="ow">in</span> <span class="n">predictions</span><span class="p">[</span><span class="s2">"predictions"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"values"</span><span class="p">]]</span>
+<span class="n">pred_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">"time"</span><span class="p">:</span> <span class="n">holdout_dates</span> <span class="o">+</span> <span class="n">prediction_dates</span><span class="p">,</span>
+        <span class="s2">"observed_values"</span><span class="p">:</span> <span class="n">holdout_observed_values</span>
+        <span class="o">+</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">forecast_window</span><span class="p">)],</span>
+        <span class="s2">"predicted_values"</span><span class="p">:</span> <span class="n">holdout_predictions</span> <span class="o">+</span> <span class="n">prediction_values</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">)</span>
 
-<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">pred_df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">pred_df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">hover_data</span><span class="o">=</span><span class="p">{</span><span class="s2">"time"</span><span class="p">:</span> <span class="s2">"|%B </span><span class="si">%d</span><span class="s2">, %Y"</span><span class="p">},</span> <span class="n">title</span><span class="o">=</span><span class="s1">'Forecast data'</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">line</span><span class="p">(</span>
+    <span class="n">pred_df</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">pred_df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+    <span class="n">hover_data</span><span class="o">=</span><span class="p">{</span><span class="s2">"time"</span><span class="p">:</span> <span class="s2">"|%B </span><span class="si">%d</span><span class="s2">, %Y"</span><span class="p">},</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">"Forecast data"</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">update_xaxes</span><span class="p">(</span><span class="n">dtick</span><span class="o">=</span><span class="s2">"M1"</span><span class="p">,</span> <span class="n">tickformat</span><span class="o">=</span><span class="s2">"%b</span><span class="se">\n</span><span class="s2">%Y"</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
