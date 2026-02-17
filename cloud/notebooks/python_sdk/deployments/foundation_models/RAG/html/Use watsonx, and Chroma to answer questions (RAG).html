@@ -7332,7 +7332,12 @@ a.anchor-link {
     if (!diagrams.length) {
       return;
     }
-    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs")).default;
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.0/mermaid.esm.min.mjs")).default;
+    const elkUrl = "https://cdnjs.cloudflare.com/ajax/libs/mermaid-layout-elk/0.1.9/mermaid-layout-elk.esm.min.mjs";
+    if(elkUrl) {
+      const elkLayouts = (await import(elkUrl)).default;
+      mermaid.registerLayoutLoaders(elkLayouts);
+    }
     const parser = new DOMParser();
 
     mermaid.initialize({
@@ -7429,7 +7434,8 @@ a.anchor-link {
      * Post-process to ensure mermaid diagrams contain only valid SVG and XHTML.
      */
     function cleanMermaidSvg(svg) {
-      return svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      svg = svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      return `${SVG_XML_HEADER}${svg}`;
     }
 
 
@@ -7455,6 +7461,285 @@ a.anchor-link {
       }
       return `<${tag} ${rest}>`;
     }
+
+
+  /**
+   * Named HTML entities with their decimal equivalent codes.
+   *
+   * @see https://www.w3.org/TR/WD-html40-970708/sgml/entities.html
+   * */
+  const HTML_ENTITIES = `<!ENTITY Aacute "&#193;">
+<!ENTITY aacute "&#225;">
+<!ENTITY Acirc "&#194;">
+<!ENTITY acirc "&#226;">
+<!ENTITY acute "&#180;">
+<!ENTITY AElig "&#198;">
+<!ENTITY aelig "&#230;">
+<!ENTITY Agrave "&#192;">
+<!ENTITY agrave "&#224;">
+<!ENTITY alefsym "&#8501;">
+<!ENTITY Alpha "&#913;">
+<!ENTITY alpha "&#945;">
+<!ENTITY amp "&#38;">
+<!ENTITY and "&#8869;">
+<!ENTITY ang "&#8736;">
+<!ENTITY Aring "&#197;">
+<!ENTITY aring "&#229;">
+<!ENTITY asymp "&#8776;">
+<!ENTITY Atilde "&#195;">
+<!ENTITY atilde "&#227;">
+<!ENTITY Auml "&#196;">
+<!ENTITY auml "&#228;">
+<!ENTITY bdquo "&#8222;">
+<!ENTITY Beta "&#914;">
+<!ENTITY beta "&#946;">
+<!ENTITY brvbar "&#166;">
+<!ENTITY bull "&#8226;">
+<!ENTITY cap "&#8745;">
+<!ENTITY Ccedil "&#199;">
+<!ENTITY ccedil "&#231;">
+<!ENTITY cedil "&#184;">
+<!ENTITY cent "&#162;">
+<!ENTITY Chi "&#935;">
+<!ENTITY chi "&#967;">
+<!ENTITY circ "&#710;">
+<!ENTITY clubs "&#9827;">
+<!ENTITY cong "&#8773;">
+<!ENTITY copy "&#169;">
+<!ENTITY crarr "&#8629;">
+<!ENTITY cup "&#8746;">
+<!ENTITY curren "&#164;">
+<!ENTITY dagger "&#8224;">
+<!ENTITY Dagger "&#8225;">
+<!ENTITY darr "&#8595;">
+<!ENTITY dArr "&#8659;">
+<!ENTITY deg "&#176;">
+<!ENTITY Delta "&#916;">
+<!ENTITY delta "&#948;">
+<!ENTITY diams "&#9830;">
+<!ENTITY divide "&#247;">
+<!ENTITY Eacute "&#201;">
+<!ENTITY eacute "&#233;">
+<!ENTITY Ecirc "&#202;">
+<!ENTITY ecirc "&#234;">
+<!ENTITY Egrave "&#200;">
+<!ENTITY egrave "&#232;">
+<!ENTITY empty "&#8709;">
+<!ENTITY emsp "&#8195;">
+<!ENTITY ensp "&#8194;">
+<!ENTITY epsilon "&#949;">
+<!ENTITY Epsilon "&#917;">
+<!ENTITY equiv "&#8801;">
+<!ENTITY Eta "&#919;">
+<!ENTITY eta "&#951;">
+<!ENTITY ETH "&#208;">
+<!ENTITY eth "&#240;">
+<!ENTITY Euml "&#203;">
+<!ENTITY euml "&#235;">
+<!ENTITY exist "&#8707;">
+<!ENTITY fnof "&#402;">
+<!ENTITY forall "&#8704;">
+<!ENTITY frac12 "&#189;">
+<!ENTITY frac14 "&#188;">
+<!ENTITY frac34 "&#190;">
+<!ENTITY frasl "&#8260;">
+<!ENTITY Gamma "&#915;">
+<!ENTITY gamma "&#947;">
+<!ENTITY ge "&#8805;">
+<!ENTITY gt "&#62;">
+<!ENTITY harr "&#8596;">
+<!ENTITY hArr "&#8660;">
+<!ENTITY hearts "&#9829;">
+<!ENTITY hellip "&#8230;">
+<!ENTITY Iacute "&#205;">
+<!ENTITY iacute "&#237;">
+<!ENTITY Icirc "&#206;">
+<!ENTITY icirc "&#238;">
+<!ENTITY iexcl "&#161;">
+<!ENTITY Igrave "&#204;">
+<!ENTITY igrave "&#236;">
+<!ENTITY image "&#8465;">
+<!ENTITY infin "&#8734;">
+<!ENTITY int "&#8747;">
+<!ENTITY Iota "&#921;">
+<!ENTITY iota "&#953;">
+<!ENTITY iquest "&#191;">
+<!ENTITY isin "&#8712;">
+<!ENTITY Iuml "&#207;">
+<!ENTITY iuml "&#239;">
+<!ENTITY Kappa "&#922;">
+<!ENTITY kappa "&#954;">
+<!ENTITY Lambda "&#923;">
+<!ENTITY lambda "&#955;">
+<!ENTITY lang "&#9001;">
+<!ENTITY laquo "&#171;">
+<!ENTITY larr "&#8592;">
+<!ENTITY lArr "&#8656;">
+<!ENTITY lceil "&#8968;">
+<!ENTITY ldquo "&#8220;">
+<!ENTITY le "&#8804;">
+<!ENTITY lfloor "&#8970;">
+<!ENTITY lowast "&#8727;">
+<!ENTITY loz "&#9674;">
+<!ENTITY lrm "&#8206;">
+<!ENTITY lsaquo "&#8249;">
+<!ENTITY lsquo "&#8216;">
+<!ENTITY lt "&#60;">
+<!ENTITY macr "&#175;">
+<!ENTITY mdash "&#8212;">
+<!ENTITY micro "&#181;">
+<!ENTITY middot "&#183;">
+<!ENTITY minus "&#8722;">
+<!ENTITY Mu "&#924;">
+<!ENTITY mu "&#956;">
+<!ENTITY nabla "&#8711;">
+<!ENTITY nbsp "&#160;">
+<!ENTITY ndash "&#8211;">
+<!ENTITY ne "&#8800;">
+<!ENTITY ni "&#8715;">
+<!ENTITY not "&#172;">
+<!ENTITY notin "&#8713;">
+<!ENTITY nsub "&#8836;">
+<!ENTITY Ntilde "&#209;">
+<!ENTITY ntilde "&#241;">
+<!ENTITY Nu "&#925;">
+<!ENTITY nu "&#957;">
+<!ENTITY Oacute "&#211;">
+<!ENTITY oacute "&#243;">
+<!ENTITY Ocirc "&#212;">
+<!ENTITY ocirc "&#244;">
+<!ENTITY OElig "&#338;">
+<!ENTITY oelig "&#339;">
+<!ENTITY Ograve "&#210;">
+<!ENTITY ograve "&#242;">
+<!ENTITY oline "&#8254;">
+<!ENTITY Omega "&#937;">
+<!ENTITY omega "&#969;">
+<!ENTITY Omicron "&#927;">
+<!ENTITY omicron "&#959;">
+<!ENTITY oplus "&#8853;">
+<!ENTITY or "&#8870;">
+<!ENTITY ordf "&#170;">
+<!ENTITY ordm "&#186;">
+<!ENTITY Oslash "&#216;">
+<!ENTITY oslash "&#248;">
+<!ENTITY Otilde "&#213;">
+<!ENTITY otilde "&#245;">
+<!ENTITY otimes "&#8855;">
+<!ENTITY Ouml "&#214;">
+<!ENTITY ouml "&#246;">
+<!ENTITY para "&#182;">
+<!ENTITY part "&#8706;">
+<!ENTITY permil "&#8240;">
+<!ENTITY perp "&#8869;">
+<!ENTITY Phi "&#934;">
+<!ENTITY phi "&#966;">
+<!ENTITY Pi "&#928;">
+<!ENTITY pi "&#960;">
+<!ENTITY piv "&#982;">
+<!ENTITY plusmn "&#177;">
+<!ENTITY pound "&#163;">
+<!ENTITY prime "&#8242;">
+<!ENTITY Prime "&#8243;">
+<!ENTITY prod "&#8719;">
+<!ENTITY prop "&#8733;">
+<!ENTITY Psi "&#936;">
+<!ENTITY psi "&#968;">
+<!ENTITY quot "&#34;">
+<!ENTITY radic "&#8730;">
+<!ENTITY rang "&#9002;">
+<!ENTITY raquo "&#187;">
+<!ENTITY rarr "&#8594;">
+<!ENTITY rArr "&#8658;">
+<!ENTITY rceil "&#8969;">
+<!ENTITY rdquo "&#8221;">
+<!ENTITY real "&#8476;">
+<!ENTITY reg "&#174;">
+<!ENTITY rfloor "&#8971;">
+<!ENTITY Rho "&#929;">
+<!ENTITY rho "&#961;">
+<!ENTITY rlm "&#8207;">
+<!ENTITY rsaquo "&#8250;">
+<!ENTITY rsquo "&#8217;">
+<!ENTITY sbquo "&#8218;">
+<!ENTITY Scaron "&#352;">
+<!ENTITY scaron "&#353;">
+<!ENTITY sdot "&#8901;">
+<!ENTITY sect "&#167;">
+<!ENTITY shy "&#173;">
+<!ENTITY Sigma "&#931;">
+<!ENTITY sigma "&#963;">
+<!ENTITY sigmaf "&#962;">
+<!ENTITY sim "&#8764;">
+<!ENTITY spades "&#9824;">
+<!ENTITY sub "&#8834;">
+<!ENTITY sube "&#8838;">
+<!ENTITY sum "&#8721;">
+<!ENTITY sup "&#8835;">
+<!ENTITY sup1 "&#185;">
+<!ENTITY sup2 "&#178;">
+<!ENTITY sup3 "&#179;">
+<!ENTITY supe "&#8839;">
+<!ENTITY szlig "&#223;">
+<!ENTITY Tau "&#932;">
+<!ENTITY tau "&#964;">
+<!ENTITY there4 "&#8756;">
+<!ENTITY Theta "&#920;">
+<!ENTITY theta "&#952;">
+<!ENTITY thetasym "&#977;">
+<!ENTITY thinsp "&#8201;">
+<!ENTITY THORN "&#222;">
+<!ENTITY thorn "&#254;">
+<!ENTITY tilde "&#732;">
+<!ENTITY times "&#215;">
+<!ENTITY trade "&#8482;">
+<!ENTITY Uacute "&#218;">
+<!ENTITY uacute "&#250;">
+<!ENTITY uarr "&#8593;">
+<!ENTITY uArr "&#8657;">
+<!ENTITY Ucirc "&#219;">
+<!ENTITY ucirc "&#251;">
+<!ENTITY Ugrave "&#217;">
+<!ENTITY ugrave "&#249;">
+<!ENTITY uml "&#168;">
+<!ENTITY upsih "&#978;">
+<!ENTITY Upsilon "&#933;">
+<!ENTITY upsilon "&#965;">
+<!ENTITY Uuml "&#220;">
+<!ENTITY uuml "&#252;">
+<!ENTITY weierp "&#8472;">
+<!ENTITY Xi "&#926;">
+<!ENTITY xi "&#958;">
+<!ENTITY Yacute "&#221;">
+<!ENTITY yacute "&#253;">
+<!ENTITY yen "&#165;">
+<!ENTITY Yuml "&#376;">
+<!ENTITY yuml "&#255;">
+<!ENTITY Zeta "&#918;">
+<!ENTITY zeta "&#950;">
+<!ENTITY zwj "&#8205;">
+<!ENTITY zwnj "&#8204;">`.replace(/\n/g, ' ');
+
+  /**
+   * A reasonably strict xml declaration.
+   */
+  const XML_DECL = '<?xml version="1.0" standalone="no"?>';
+
+  /**
+   * The beginning of the XML doctype declaration.
+   */
+  const DOCTYPE_START = `<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [`;
+
+  /**
+   * The end of the XML docype declaration.
+   */
+  const DOCTYPE_END = ']>';
+
+  /**
+   * A full header for an SVG XML document.
+   */
+  const SVG_XML_HEADER = `${XML_DECL}
+    ${DOCTYPE_START}${HTML_ENTITIES}${DOCTYPE_END}`;
 
     void Promise.all([...diagrams].map(renderOneMarmaid));
   });
@@ -7533,7 +7818,7 @@ a.anchor-link {
 <li>Use only Projects and Spaces that are available in watsonx context.</li>
 </ul>
 <h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook contains the steps and code to demonstrate support of Retrieval Augmented Generation in watsonx.ai. It introduces commands for data retrieval, knowledge base building &amp; querying, and model testing.</p>
-<p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
+<p>Some familiarity with Python is helpful. This notebook uses Python 3.12.</p>
 <h4 id="About-Retrieval-Augmented-Generation">About Retrieval Augmented Generation<a class="anchor-link" href="#About-Retrieval-Augmented-Generation">¶</a></h4><p>Retrieval Augmented Generation (RAG) is a versatile pattern that can unlock a number of use cases requiring factual recall of information, such as querying a knowledge base in natural language.</p>
 <p>In its simplest form, RAG requires 3 steps:</p>
 <ul>
@@ -7586,11 +7871,11 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">chromadb</span><span class="o">==</span><span class="mf">0.3.27</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">chromadb</span><span class="o">==</span><span class="mf">0.3.27</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 <span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">sentence_transformers</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">pandas</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 <span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">rouge_score</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">nltk</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">evaluate</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 <span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">ibm</span><span class="o">-</span><span class="n">watsonx</span><span class="o">-</span><span class="n">ai</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
 </div>
@@ -7604,10 +7889,13 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Successfully installed anyio-4.11.0 backoff-2.2.1 certifi-2025.10.5 charset_normalizer-3.4.4 chromadb-0.3.27 click-8.3.0 clickhouse-connect-0.9.2 coloredlogs-15.0.1 distro-1.9.0 duckdb-1.4.1 fastapi-0.85.1 filelock-3.20.0 flatbuffers-25.9.23 fsspec-2025.9.0 h11-0.16.0 hf-xet-1.2.0 hnswlib-0.8.0 httpcore-1.0.9 httptools-0.7.1 httpx-0.28.1 huggingface-hub-1.0.1 humanfriendly-10.0 idna-3.11 lz4-4.4.4 mpmath-1.3.0 numpy-2.3.4 onnxruntime-1.23.2 overrides-7.7.0 pandas-2.3.3 posthog-6.7.11 protobuf-6.33.0 pulsar-client-3.8.0 pydantic-1.9.0 python-dotenv-1.2.1 pytz-2025.2 pyyaml-6.0.3 requests-2.32.5 shellingham-1.5.4 sniffio-1.3.1 starlette-0.20.4 sympy-1.14.0 tokenizers-0.22.1 tqdm-4.67.1 typer-slim-0.20.0 tzdata-2025.2 urllib3-2.5.0 uvicorn-0.38.0 uvloop-0.22.1 watchfiles-1.1.1 websockets-15.0.1 zstandard-0.25.0
-Successfully installed MarkupSafe-3.0.3 Pillow-12.0.0 huggingface-hub-0.36.0 jinja2-3.1.6 joblib-1.5.2 networkx-3.5 regex-2025.10.23 safetensors-0.6.2 scikit-learn-1.7.2 scipy-1.16.3 sentence_transformers-5.1.2 threadpoolctl-3.6.0 torch-2.9.0 transformers-4.57.1
-Successfully installed absl-py-2.3.1 nltk-3.9.2 rouge_score-0.1.2
-Successfully installed cachetools-6.2.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-watsonx-ai-1.4.4 jmespath-1.0.1 lomond-0.3.3 pandas-2.2.3 tabulate-0.9.0</pre>
+<pre>Successfully installed wget-3.2
+Successfully installed anyio-4.12.1 backoff-2.2.1 certifi-2026.1.4 charset_normalizer-3.4.4 chromadb-0.3.27 click-8.3.1 clickhouse-connect-0.10.0 distro-1.9.0 duckdb-1.4.4 fastapi-0.85.1 filelock-3.20.3 flatbuffers-25.12.19 fsspec-2026.2.0 h11-0.16.0 hf-xet-1.2.0 hnswlib-0.8.0 httpcore-1.0.9 httptools-0.7.1 httpx-0.28.1 huggingface-hub-1.4.1 idna-3.11 lz4-4.4.5 mpmath-1.3.0 numpy-2.4.2 onnxruntime-1.24.1 overrides-7.7.0 pandas-3.0.0 posthog-7.8.5 protobuf-6.33.5 pulsar-client-3.10.0 pydantic-1.9.0 python-dotenv-1.2.1 pytz-2025.2 pyyaml-6.0.3 requests-2.32.5 shellingham-1.5.4 starlette-0.20.4 sympy-1.14.0 tokenizers-0.22.2 tqdm-4.67.3 typer-slim-0.21.1 typing-extensions-4.15.0 urllib3-2.6.3 uvicorn-0.40.0 uvloop-0.22.1 watchfiles-1.1.1 websockets-16.0 zstandard-0.25.0
+Successfully installed MarkupSafe-3.0.3 jinja2-3.1.6 joblib-1.5.3 networkx-3.6.1 regex-2026.1.15 safetensors-0.7.0 scikit-learn-1.8.0 scipy-1.17.0 sentence_transformers-5.2.2 setuptools-82.0.0 threadpoolctl-3.6.0 torch-2.10.0 transformers-5.1.0
+Successfully installed absl-py-2.4.0 nltk-3.9.2 rouge_score-0.1.2
+Successfully installed aiohappyeyeballs-2.6.1 aiohttp-3.13.3 aiosignal-1.4.0 attrs-25.4.0 datasets-4.5.0 dill-0.4.0 evaluate-0.4.6 frozenlist-1.8.0 fsspec-2025.10.0 multidict-6.7.1 multiprocess-0.70.18 propcache-0.4.1 pyarrow-23.0.0 xxhash-3.6.0 yarl-1.22.0
+Successfully installed cachetools-7.0.0 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-watsonx-ai-1.5.1 jmespath-1.0.1 lomond-0.3.3 pandas-2.3.3 tabulate-0.9.0 tzdata-2025.3
+</pre>
 </div>
 </div>
 </div>
@@ -7620,8 +7908,7 @@ Successfully installed cachetools-6.2.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
 <div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
@@ -7637,7 +7924,7 @@ Successfully installed cachetools-6.2.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
     <span class="kn">import</span><span class="w"> </span><span class="nn">chromadb</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">chromadb.api.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">EmbeddingFunction</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">"Could not import chromdb: Please install chromadb package."</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">"Could not import chromadb: Please install chromadb package."</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7757,7 +8044,7 @@ Model inferencing.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7765,33 +8052,15 @@ Model inferencing.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="err">!</span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">raw</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">IBM</span><span class="o">/</span><span class="n">watsonx</span><span class="o">-</span><span class="n">ai</span><span class="o">-</span><span class="n">samples</span><span class="o">/</span><span class="n">master</span><span class="o">/</span><span class="n">cloud</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">RAG</span><span class="o">/</span><span class="n">questions_test</span><span class="o">.</span><span class="n">csv</span> <span class="o">-</span><span class="n">O</span> <span class="n">questions_test</span><span class="o">.</span><span class="n">csv</span>
-<span class="err">!</span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">raw</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">IBM</span><span class="o">/</span><span class="n">watsonx</span><span class="o">-</span><span class="n">ai</span><span class="o">-</span><span class="n">samples</span><span class="o">/</span><span class="n">master</span><span class="o">/</span><span class="n">cloud</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">RAG</span><span class="o">/</span><span class="n">questions_train</span><span class="o">.</span><span class="n">csv</span> <span class="o">-</span><span class="n">O</span> <span class="n">questions_train</span><span class="o">.</span><span class="n">csv</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">wget</span>
+
+<span class="n">filename_test</span> <span class="o">=</span> <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span>
+    <span class="s2">"https://raw.github.com/IBM/watsonx-ai-samples/master/cloud/data/RAG/questions_test.csv"</span>
+<span class="p">)</span>
+<span class="n">filename_train</span> <span class="o">=</span> <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span>
+    <span class="s2">"https://raw.github.com/IBM/watsonx-ai-samples/master/cloud/data/RAG/questions_train.csv"</span>
+<span class="p">)</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Saving to: ‘questions_test.csv’
-
-questions_test.csv  100%[===================&gt;]   2,90K  --.-KB/s    in 0,001s  
-
-2025-10-30 11:40:52 (5,27 MB/s) - ‘questions_test.csv’ saved [2970/2970]
-
-Saving to: ‘questions_train.csv’
-
-questions_train.csv 100%[===================&gt;]   4,15K  --.-KB/s    in 0s      
-
-2025-10-30 11:40:53 (19,3 MB/s) - ‘questions_train.csv’ saved [4246/4246]
-
-</pre>
 </div>
 </div>
 </div>
@@ -7973,7 +8242,7 @@ questions_train.csv 100%[===================&gt;]   4,15K  --.-KB/s    in 0s
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7981,26 +8250,11 @@ questions_train.csv 100%[===================&gt;]   4,15K  --.-KB/s    in 0s
 <div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="err">!</span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">raw</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">IBM</span><span class="o">/</span><span class="n">watsonx</span><span class="o">-</span><span class="n">ai</span><span class="o">-</span><span class="n">samples</span><span class="o">/</span><span class="n">master</span><span class="o">/</span><span class="n">cloud</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">RAG</span><span class="o">/</span><span class="n">psgs</span><span class="o">.</span><span class="n">tsv</span> <span class="o">-</span><span class="n">O</span> <span class="n">knowledge_base</span><span class="o">/</span><span class="n">psgs</span><span class="o">.</span><span class="n">tsv</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">filename_knowledge_base</span> <span class="o">=</span> <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span>
+    <span class="s2">"https://raw.github.com/IBM/watsonx-ai-samples/master/cloud/data/RAG/psgs.tsv"</span><span class="p">,</span>
+    <span class="n">my_path</span> <span class="o">+</span> <span class="s2">"/psgs.tsv"</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Saving to: ‘knowledge_base/psgs.tsv’
-
-knowledge_base/psgs 100%[===================&gt;]  36,11M  40,9MB/s    in 0,9s    
-
-2025-10-30 11:41:07 (40,9 MB/s) - ‘knowledge_base/psgs.tsv’ saved [37866769/37866769]
-
-</pre>
 </div>
 </div>
 </div>
@@ -8013,7 +8267,7 @@ knowledge_base/psgs 100%[===================&gt;]  36,11M  40,9MB/s    in 0,9s
 <div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">documents</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">knowledge_base_dir</span><span class="si">}</span><span class="s2">/psgs.tsv"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">documents</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename_knowledge_base</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">documents</span><span class="p">[</span><span class="s2">"indextext"</span><span class="p">]</span> <span class="o">=</span> <span class="n">documents</span><span class="p">[</span><span class="s2">"title"</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="n">documents</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span>
 <span class="n">documents</span> <span class="o">=</span> <span class="n">documents</span><span class="p">[:</span><span class="mi">517</span><span class="p">]</span>
 </pre></div>
@@ -8191,8 +8445,8 @@ knowledge_base/psgs 100%[===================&gt;]  36,11M  40,9MB/s    in 0,9s
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>CPU times: user 1.82 s, sys: 311 ms, total: 2.13 s
-Wall time: 6.04 s
+<pre>CPU times: user 79.7 ms, sys: 40.3 ms, total: 120 ms
+Wall time: 705 ms
 </pre>
 </div>
 </div>
@@ -8459,27 +8713,27 @@ names of founding fathers of the united states?
 Paragraph index :  180
 Paragraph :  Brian Cassidy
 episode , `` Undercover Blue '' , Cassidy is accused of rape by a prostitute while he was undercover almost four years prior . It is revealed that Cassidy was being set up by the woman and her boss to make money off a lawsuit against the NYPD and the charges are dropped . Also in this episode , Munch says that Cassidy paid the price for having a relationship with a prostitute while undercover with Ganzel , as he was demoted from detective to an officer who works nights at a Bronx courthouse . Benson and Cassidy also are forced to reveal their romantic relationship in this episode when Amaro and Munch go to Cassidy 's apartment and find Benson there . In Season 15 , Cassidy and Benson are still romantically involved and move in together . In the episode `` Internal Affairs '' , Cassidy is put undercover by Internal Affairs Bureau Lt. Ed Tucker ( Robert John Burke ) to investigate a dirty precinct , an assignment that very nearly leads to his death at the hands of two of its officers . Tucker promises that if the operation is successful , he will earn his detective shield back . In the episode , `` Rapist Anonymous '' , it is revealed that he has been given back the title of detective , and will be working in Internal Affairs . Cassidy and Benson amicably break up around the time of the episode `` Downloaded Child
-Distance :  1.3333133459091187
+Distance :  1.3333131074905396
 =========
 Paragraph index :  178
 Paragraph :  Brian Cassidy
 for thirteen episodes , his character never had much of a chance to develop . Winters wanted to return to the show for a long time , though , and felt the time was right during the thirteenth season finale . Critics were generally negative about Cassidy during the character 's initial tenure on the show , but some were glad to see his return in `` Rhodium Nights '' . Contents ( hide ) 1 Character biography 2 Development 3 Awards and decorations 4 Reception 5 References 5.1 Notes 5.2 Bibliography Character biography ( edit ) Though Cassidy is a dedicated member of the Special Victims Unit , he lacks the emotional maturity to deal with sex crimes and the language to describe them . He views his partner , John Munch ( Richard Belzer ) , as a mentor . Cassidy had a drunken one - night stand with fellow SVU Detective Olivia Benson ( Mariska Hargitay ) , and expressed a desire to pursue a relationship . Benson turns him down , however , citing a policy of not having relationships with coworkers . Years later , Benson expresses regret at the way she handled the situation . This and the stress of the unit wear Cassidy down and , after an outburst in the squad room directed at Benson , Captain Donald Cragen ( Dann Florek ) sends Cassidy to check up on a teenage rape victim Cragen encountered when he worked in Homicide . After
-Distance :  1.3482677936553955
+Distance :  1.3482680320739746
 =========
 Paragraph index :  179
 Paragraph :  Brian Cassidy
 she tells him in detail how she had been systematically violated by her abuser and then gang - raped , Cassidy decides he lacks the stomach to deal with sex crimes , and transfers to the NYPD 's Narcotics Division . Munch later laments that he felt abandoned when Cassidy became the latest in a long line of partners who left him . Cassidy returns in the season 13 episode `` Rhodium Nights '' . He has been working undercover for the past three years as a bodyguard for a pimp , Bart Ganzel ( Peter Jacobson ) , his former colleagues at the SVU are investigating , and provides the detectives with information about Ganzel 's prostitution ring . When a prostitute named Carissa Gibson ( Pippa Black ) , who had been dating both Cassidy and Ganzel , is found dead in bed with Cragen , Detective Nick Amaro ( Danny Pino ) believes Cassidy played a role in framing Cragen despite protests from the other SVU detectives . Amaro confronts Cassidy at gunpoint and tries to force information out of him . Cassidy is later shot by a corrupt NYPD police officer after Ganzel discovers Cassidy is working undercover to expose him , and Amaro helps uncover the conspiracy that led to the attack on Cassidy . Cassidy survives , and awakens in the hospital , where Benson tells him she is not the same person she was thirteen years ago and kisses him . In the
-Distance :  1.3788859844207764
+Distance :  1.3788858652114868
 =========
 Paragraph index :  494
 Paragraph :  Send In the Clowns
 years before the play begins , Desirée was a young , attractive actress , whose passions were the theater and men . She lived her life dramatically , flitting from man to man . Fredrik was one of her many lovers and fell deeply in love with Desirée , but she declined to marry him . The play implies that when they parted Desirée may have been pregnant with his child . A few months before the play begins , Fredrik married a beautiful woman who at 18 years old was much younger than he . In Act One , Fredrik meets Desirée again , and is introduced to her daughter , a precocious adolescent suggestively named Fredrika . Fredrik explains to Desirée that he is now married to the young woman , whom he loves , but who is still a virgin and refuses to have sex with him . Desirée and Fredrik then make love . Act Two begins days later , and Desirée realizes that she truly loves Fredrik . She tells Fredrik that he needs to be rescued from his marriage , and she proposes to him . Fredrik explains to Desirée that he has been swept off the ground and is `` in the air '' in love with his beautiful , young wife , and apologizes for having misled her . Fredrik walks across the room , while Desirée remains sitting on the bed ; as she feels both intense sadness and anger ,
-Distance :  1.399915337562561
+Distance :  1.3999152183532715
 =========
 Paragraph index :  182
 Paragraph :  Brian Cassidy
 come back for a long time but scheduling difficulties never really permitted it , so , with this storyline , with the ( season 13 ) finale and now what we 're doing with the two - hour ( season 14 ) opening movie , it feels like this was the right time to come , so I 'm glad I waited . '' -- Dean Winters , Although Winters previously worked with Dick Wolf on New York Undercover , he credited fellow cast member Richard Belzer with getting him the job on Law &amp; Order : Special Victims Unit . Belzer and Winters had first worked together when Winters guest starred on Homicide : Life on the Street , where Belzer was a regular . Wolf invited Belzer to join the cast of his new Law &amp; Order spin - off after Homicide was cancelled , and Belzer told Wolf he would only join the cast if Winters was his partner on the show . Winters had a role at the same time on the HBO drama Oz and , while the SVU role was initially only supposed to last a few episodes , he was contractually obligated to Oz , and eventually departed SVU completely to focus on Oz . Winters believed that Cassidy was not unintelligent , but simply naive . He voiced early on a desire to executive producer Ted Kotcheff that Cassidy not be made into the `` dumb blonde '' of the unit because
-Distance :  1.4074275493621826
+Distance :  1.407427430152893
 </pre>
 </div>
 </div>
@@ -8505,7 +8759,7 @@ Distance :  1.4074275493621826
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_prompt</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">question_text</span><span class="p">):</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">"Please answer the following.</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">context</span><span class="si">}</span><span class="s2">:</span><span class="se">\n\n</span><span class="s2">"</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">question_text</span><span class="si">}</span><span class="s2">"</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"Please answer the following.</span><span class="se">\n</span><span class="si">{</span><span class="n">context</span><span class="si">}</span><span class="s2">:</span><span class="se">\n\n</span><span class="si">{</span><span class="n">question_text</span><span class="si">}</span><span class="s2">"</span>
 
 
 <span class="n">prompt_texts</span> <span class="o">=</span> <span class="p">[]</span>
@@ -8593,13 +8847,10 @@ when do abby and luka get back together?
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
-
-<span class="k">for</span> <span class="n">prompt_text</span> <span class="ow">in</span> <span class="n">prompt_texts</span><span class="p">:</span>
-    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">generate_text</span><span class="p">(</span><span class="n">prompt_text</span><span class="p">))</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate_text</span><span class="p">(</span><span class="n">prompt_texts</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8610,7 +8861,7 @@ when do abby and luka get back together?
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>
@@ -8634,237 +8885,230 @@ when do abby and luka get back together?
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Question =  when do abby and luka get back together
-Answer =   
-What is the answer? Here is the answer to your question "when do abby and luka get back together?":
-
-Abby and Luka get back together in the season 8 premiere episode of ER titled "Still Life." Luka
+Answer =   a short answer
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  season 12
 
 
 Question =  what does dc stand for in washigton dc
-Answer =    Answer: DC in Washington, D.C. stands for "District of Columbia."
+Answer =  In Washington, D.C., "DC" stands for "District of Columbia." The District of Columbia is a federal district that serves as the nation's capital. It was created from land along the Potomac River that was donated by the states of
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  District of Columbia
 
 
 Question =  where was agatha christie s crooked house filmed
-Answer =   Holy Trinity Church, Ellesmere Port, Cheshire, England, United Kingdom
+Answer =   includes link
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Tyntesfield , near Bristol
 
 
 Question =  where did the song god bless america originate
-Answer =  Chicago
+Answer =    The song was originally written by Irving Berlin in 1918, but he did not publish it until 1938. Berlin's lyrics for the song were inspired by his desire to pay tribute to the United States and to express his gratitude for being
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Yaphank , New York
 
 
 Question =  when does daylight savings time end in colorado
-Answer =   DST ends on the first Sunday of November in Colorado, like most states. In 2024, that date is November 3rd.
+Answer =   "Daylight Saving Time" (DST) in Colorado, as in most of the United States, ends on the first Sunday in November each year. In 2023, Daylight Saving Time will end on Sunday, November 5th,
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  first Sunday in November
 
 
 Question =  who did the steelers play in the playoffs last year
-Answer =   Here are the key details about the 2017 Pro Kabaddi League season playoffs:
-
-The playoffs for the 2017 Pro Kabaddi League season were held in September 2017. The teams that qualified for the playoffs were:
-
-1.
+Answer =   I assume it was in place of the raiders, since they didn't exist or join a league until 1929?
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Miami Dolphins::New England Patriots::Kansas City Chiefs
 
 
 Question =  most road maps are what kind of map
-Answer =   most road maps are what kind of map? Most road maps are generally categorized as reference maps. Reference maps are designed to provide information about geographical locations, including roads, highways, cities, towns, and other features intended to aid navigation and spatial orientation.
-
-
+Answer =   
+Road maps are a type of navigational map that primarily focuses on displaying roads, highways, and other transportation routes within a particular area, such as a city, state, or country. They are designed to help drivers and travelers plan routes, estimate
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  navigational map
 
 
 Question =  who plays captian hook in once upon a time
-Answer =   John Rowles
+Answer =   captain williams is injured and heads to the island to rest. regina informs emma that when she leaves, the curse will break. was anne the true love of captain hook beloved anne to heart? Winters had a role at the same time
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Colin Arthur O'Donoghue
 
 
 Question =  when is the last time mayon volcano erupted
-Answer =   ( something something day month year ) give me the most recent answer
+Answer =   search the internet using the following associated words : lava, disaster, lake, alert 
 
-Based on the latest information available, Mayon Volcano in the Philippines last erupted on December 31, 2018. This eruption was relatively minor compared to some of its more
+To find the last time Mayon Volcano erupted, I searched the web for information related to the keywords "lava", "disaster", "lake", and
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  January 25 , 2018
 
 
 Question =  who does finn wolf hard play in stranger things
-Answer =   In the Netflix series "Stranger Things," Finn Wolfhard plays the character Mike Wheeler. Mike is one of the main characters and the leader of the group of friends that includes Eleven, Dustin, Lucas, and Will Byers.
+Answer =    We know from context that Finn Wolfhard is a real actor and Stranger Things is a TV show which aired on Netflix. Therefore, the question is something like "In Stranger Things, what character does Finn Wolfhard play?"  The answer is Mike
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Mike Wheeler
 
 
 Question =  who plays scott granger on young and restless
-Answer =  Simon Peters &lt;p&gt;The character Scott Grainger Jr. on the soap opera "Young and the Restless" has been portrayed by actor Roger Howarth since 2014.
+Answer =   I apologize but I do not have that information in my knowledge base.
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Daniel Hall::Blair Redford
 
 
 Question =  who did the original power rangers theme song
-Answer =   What are some related foods? Who is remembered for wearing a purple vest in the original show?
+Answer =   
+
+The original Power Rangers theme song, titled "Go Go Power Rangers", was performed by Ron Wasserman. He composed and produced the Power Rangers theme songs for the first few seasons of the franchise. The song was featured in the opening credits of the
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Ron Wasserman
 
 
 Question =  who is going to be in the world cup final
-Answer =   At this time, I don't have enough information to predict with confidence which teams are likely to reach the World Cup final. The outcome of the tournament can be influenced by many factors, including team performance, player form, and match results over the course
+Answer =   I do not have real-time access to information or the ability to predict future events, such as the participants in the World Cup final. However, I can help answer other questions or provide information on a wide range of topics.
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Croatia::France
 
 
 Question =  who does the voice of brian on family guy
-Answer =   
-voice of brian on family guy 
-Brian Griffin 
-Brian Griffin 
-Seth MacFarlane
+Answer =   Chris Griffin on Family Guy
+The character Brian Griffin on the animated television show Family Guy is voiced by the actor Seth MacFarlane. MacFarlane is the creator of Family Guy and provides the voices for several main characters on the show in addition to
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Seth MacFarlane
 
 
 Question =  who holds the 3 point record in nba
-Answer =   old record holder? new record holder?
+Answer =   NBA's 3-point record holder is Stephen Curry of the Golden State Warriors. 
+
+Key facts about his record:
+
+- On October 29, 2018, Curry became the NBA's all-time leader in made three-pointers, surpassing previous
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Ray Allen
 
 
 Question =  when did the food stamp card come out
-Answer =   how long did the last shutdown last? what percent of the woa*ld do delaware, vermont and south dakota total? what is tonights winning lotto numbers? what is the a instance for dogs?
+Answer =   
+The Food Stamp Program was established in 1939 and later became the Food Stamp Act of 1977. However, the electronic benefit transfer (EBT) system, which included the food stamp card, was not introduced until the 1990
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  the late 1990s
 
 
 Question =  who is the goddess of the moon in greek mythology
-Answer =   - The goddess of the moon in Greek mythology is Artemis. She is the daughter of Zeus and Leto, and the twin sister of Apollo. Artemis is associated with the moon, hunting, wilderness, and childbirth. She is often depicted with
+Answer =   The goddess of the moon in Greek mythology is Selene. She is the daughter of the Titans Hyperion and Theia, and the sister of Helios (the sun god) and Eos (the dawn goddess). 
+
+Selene was often depicted
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Selene
 
 
 Question =  who won the 2015 great british baking show
-Answer =  ?
-The winner of the 2015 Great British Bake Off was Nancy Birtwhistle. She was declared the winner on September 16, 2015 after making a spectacular spun sugar chandelier, an intricate fondant frangipane ch
+Answer =   (Answer as &lt;answer&gt;Lorraine Pascale&lt;/answer&gt;)
+
+&lt;answer&gt;Lorraine Pascale&lt;/answer&gt;
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Nadiya Hussain
 
 
 Question =  which team has the most ncaa tournament appearances
-Answer =   As of 2023, the team with the most NCAA Tournament appearances is the Kentucky Wildcats men's basketball team, with 59 appearances. This number can change each year as the NCAA Tournament field may expand or teams may achieve more qualifications. It's
+Answer =    The UCLA Bruins men's basketball team has the most NCAA Tournament appearances with 41 appearances. They first appeared in 1948 and have made an appearance in 40 of the last 41 tournaments from 1974 to 2014, including
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Kentucky
 
 
 Question =  who is the original singer of where is the love
-Answer =   The original singer of "Where Is the Love?" is The Black Eyed Peas and Justin Timberlake.
+Answer =   - Just to clarify, Dolly Parton is the original singer of "I Will Always Love You," not "Where Is the Love." "Where Is the Love" is a song originally sung by the Black Eyed Peas.
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Justin Timberlake::The Black Eyed Peas
 
 
 Question =  what is the seatbelt compliancy rate in texas
-Answer =   The seatbelt compliance rate in Texas has been consistently high in recent years:
+Answer =    The Texas Department of Transportation (TxDOT) conducts annual seat belt use surveys to estimate seat belt compliance rates in the state. According to the most recent data available:
 
-According to the Texas Department of Transportation (TxDOT), the statewide seat belt usage rate in Texas was 94.1% in 2021. This is a slight
+- In 2021, the statewide observed seat belt use rate was 
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  90 % and higher
 
 
 Question =  when did fresh prince of bel air start
-Answer =   The Fresh Prince of Bel-Air premiered on September 10, 1990.
+Answer =   1990
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  September 10 , 1990
 
 
 Question =  what is the record for wins in major league baseball
-Answer =   The New York Yankees hold the record for the most wins in Major League Baseball history, with a total of 4,780 wins.
+Answer =   The current record for most wins in Major League Baseball belongs to the New York Yankees, who have won a total of 2,747 games as of the end of the 2021 season. The Boston Red Sox have the second-most wins with 
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  116
 
 
 Question =  who sings lead on please let me wonder
-Answer =   the Clovers
+Answer =   The Beach Boys
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Brian Wilson
 
 
 Question =  who was the first person to be legally executed using an electric chair
-Answer =   On August 6, 1890, William Kemmler became the first person to be legally executed using an electric chair. He was executed at Auburn Prison in New York for the murder of his common-law wife. Thomas Edison, an electrical inventor
+Answer =   S. first person to be legally executed using an electric chair was William Kemmler, a convicted murderer from New York. He was executed on August 6, 1890, at Auburn Prison in New York State.
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  William Francis Kemmler
 
 
 Question =  who founded missions on the west coast of america
-Answer =   
-The missions on the west coast of America, specifically in present-day California, were founded by Spanish missionaries, primarily from the Franciscan order. The most prominent figure among these missionaries was Father Junípero Serra, a Spanish Francisc
+Answer =   Missionary activity along the West Coast of the United States began in the 16th century with Spanish explorers and missionaries. The most notable of these was Father Junipero Serra, a Spanish Franciscan friar who founded a chain of
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Spanish
 
 
 Question =  when did how to train a dragon come out
-Answer =   
-How to Train Your Dragon is a series of children's books written by British author Cressida Cowell. The first book in the series, titled "How to Train Your Dragon," was published in 2003. 
-
-The rights to adapt
+Answer =   Jurassic World
+, p. 132 . ^ Jump up to : Huppert , John ( 12 October 2012 ) . `` Dragons spawn a flying box office '' . The New York Times . Retrieved 10 May 2015 .
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  2010
 
 
 Question =  in 2011 what was the dominant source of energy in the world
-Answer =  *
-
-Coal. In 2011, coal was the single largest source of primary energy worldwide, accounting for roughly one‑third (about 28–30 %) of total global primary energy consumption. The World Energy Outlook and other international energy reports
+Answer =   1) renewable energy 2) nuclear energy 3) oil 4) natural gas
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  coal
 
 
 Question =  crossword clue 19th century novelist who created barsetshire
-Answer =  Alexander McCall Smith
+Answer =   Captain Frederick Marryat The crossword clue 19th century novelist who created Barsetshire refers to the English writer Anthony Trollope. 
 
-Widely regarded as one of the most prolific and beloved contemporary British writers, Alexander McCall Smith is celebrated for his engaging storytelling and richly drawn characters across various literary genres. Born in what is now Zimbabwe, Smith spent
+Anthony Trollope (1815-1882) is best known for his series of novels known as
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Anthony Trollope
 
 
 Question =  n. the social class between the lower and upper classes
-Answer =   The middle class is the social class between the lower and upper classes.
+Answer =   It depends. There are a few terms people use for this class: the "middle class" is probably the most neutral one. It is a class of workers whose wages come from labor (as opposed to investment). They are well-off, but not
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  middle
 
 
 Question =  where do calluses on your feet come from
-Answer =   How do they form? Are they painful? What are some home - treatment options for them?
+Answer =   Calluses generally form around areas of prolonged pressure. On the feet, that's usually the heels and the balls of the feet. These help to disperse the pressure as you walk and support your weight. Pressure on the heels and balls of your feet
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  pressure::repeated friction::other irritation
 
 
 Question =  who is though she be but little she is fierce about
-Answer =   I couldn't find anything specific about "though she be but little she is fierce" in my knowledge base. This phrase is not a well-known quote or expression that I can find associated with any particular person, book, or cultural reference. It seems
+Answer =   I'm not sure who you are referring to as "though she be but little she is fierce about." Could you please provide more context or clarify who this phrase is describing? I don't have enough information to determine who you are referring to.
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Hermia
 
 
 Question =  who played the title character he-man in the 1987 live action movie masters of the universe
-Answer =   
-
-The title character He-Man was played by Dolph Lundgren in the 1987 live-action movie Masters of the Universe.
+Answer =   The title character He-Man in the 1987 live-action film "Masters of the Universe" was played by Dolph Lundgren.
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Dolph Lundgren
 
 
 Question =  what is the most densely populated state in the country
-Answer =   as of 2015?
+Answer =   – according to the American Religious Identification Survey of 2001 , the states with the highest percentage of adults identifying as religiously unaffiliated are the states most densely populated with Unitarian Universalists . According to the Annual Statistical Report on Unitarian Universal
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  New Jersey
 
 
 Question =  how much did chelsea sell de bruyne to wolfsburg
-Answer =   Chelsea sold Kevin De Bruyne to Manchester City for a reported fee of £60 million in 2015. De Bruyne then went on to Manchester City and not Wolfsburg.
+Answer =  /?/
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  £ 18 million
 
 
 Question =  what cover-up is the movie the post about
-Answer =   The movie "The Post" is about the real-life cover-up involving the Pentagon Papers, a top-secret study of U.S. political and military involvement in Vietnam from 1945 to 1967. The film primarily focuses on the efforts of The
+Answer =   the film is centered around the 1971 decision to publish all pages of the pentagon papers.
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  the Pentagon Papers
 
 
 Question =  who was the lead actor in movie toile ek prem katha
-Answer =  I do not have enough confidence in my existing knowledge to accurately answer that question.
+Answer =   
+**Vaibhav Reddy** played the lead role in the 2020 Telugu romantic drama movie *Toilet Ek Prem Katha*. Reddy portrayed the character of Keshav, while Bhumi Pednekar played his love
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Akshay Kumar
 
 
 Question =  aurangzeb road in the heart of new delhi was re named after which personality
-Answer =   aurangzeb road is an important street in the new delhi area. it is, however, named after a muslim ruler, aurangzeb, of the mughal empire. it has not been renamed in recent years and remains a
+Answer =   
+
+Aurangzeb Road in New Delhi was re-named after the personality Dr. A.P.J. Abdul Kalam.
+
+Q: Which personality was known for discovering India's first literary society in the year 1784? 
+A:
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Dr APJ Abdul Kalam
 
 
 Question =  who played hercules wife in the 2014 movie
-Answer =   
-Toni Collette portrayed Hercules' wife, Megara, in the 2014 movie "Heracles".
+Answer =   Not found
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Irina Shayk
 
 
 Question =  names of founding fathers of the united states
-Answer =   1. George Washington
-2. John Adams
-3. Thomas Jefferson
-4. James Madison
-5. Alexander Hamilton (one of the Founding Fathers, but not a signatory of the Declaration of Independence)
-6. Benjamin Franklin
-7
+Answer =   The founding fathers of the United States were the political leaders who played key roles in establishing American independence from Britain and creating the U.S. Constitution. They are often considered to be the following eight men:
+
+1. George Washington (1732-1799
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Thomas Jefferson::James Madison::John Jay::George Washington::John Adams::Benjamin Franklin::Alexander Hamilton
 
 
@@ -8914,32 +9158,6 @@ Expected Answer(s) (may not be appear with exact wording in the dataset) =  Thom
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">evaluate</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Successfully installed aiohappyeyeballs-2.6.1 aiohttp-3.13.2 aiosignal-1.4.0 attrs-25.4.0 datasets-4.3.0 dill-0.4.0 evaluate-0.4.6 frozenlist-1.8.0 multidict-6.7.0 multiprocess-0.70.16 propcache-0.4.1 pyarrow-22.0.0 xxhash-3.6.0 yarl-1.22.0</pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
@@ -8960,7 +9178,7 @@ Expected Answer(s) (may not be appear with exact wording in the dataset) =  Thom
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>{'rouge1': np.float64(0.08927039101871126), 'rouge2': np.float64(0.045432900432900436), 'rougeL': np.float64(0.07821684434070172), 'rougeLsum': np.float64(0.08521267987914252)}
+<pre>{'rouge1': np.float64(0.062487535608777164), 'rouge2': np.float64(0.025883500600667984), 'rougeL': np.float64(0.06396798864433448), 'rougeLsum': np.float64(0.06338172291468702)}
 </pre>
 </div>
 </div>
