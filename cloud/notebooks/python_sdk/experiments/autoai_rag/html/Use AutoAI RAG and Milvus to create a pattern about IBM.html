@@ -7332,7 +7332,12 @@ a.anchor-link {
     if (!diagrams.length) {
       return;
     }
-    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs")).default;
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.0/mermaid.esm.min.mjs")).default;
+    const elkUrl = "https://cdnjs.cloudflare.com/ajax/libs/mermaid-layout-elk/0.1.9/mermaid-layout-elk.esm.min.mjs";
+    if(elkUrl) {
+      const elkLayouts = (await import(elkUrl)).default;
+      mermaid.registerLayoutLoaders(elkLayouts);
+    }
     const parser = new DOMParser();
 
     mermaid.initialize({
@@ -7429,7 +7434,8 @@ a.anchor-link {
      * Post-process to ensure mermaid diagrams contain only valid SVG and XHTML.
      */
     function cleanMermaidSvg(svg) {
-      return svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      svg = svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      return `${SVG_XML_HEADER}${svg}`;
     }
 
 
@@ -7455,6 +7461,285 @@ a.anchor-link {
       }
       return `<${tag} ${rest}>`;
     }
+
+
+  /**
+   * Named HTML entities with their decimal equivalent codes.
+   *
+   * @see https://www.w3.org/TR/WD-html40-970708/sgml/entities.html
+   * */
+  const HTML_ENTITIES = `<!ENTITY Aacute "&#193;">
+<!ENTITY aacute "&#225;">
+<!ENTITY Acirc "&#194;">
+<!ENTITY acirc "&#226;">
+<!ENTITY acute "&#180;">
+<!ENTITY AElig "&#198;">
+<!ENTITY aelig "&#230;">
+<!ENTITY Agrave "&#192;">
+<!ENTITY agrave "&#224;">
+<!ENTITY alefsym "&#8501;">
+<!ENTITY Alpha "&#913;">
+<!ENTITY alpha "&#945;">
+<!ENTITY amp "&#38;">
+<!ENTITY and "&#8869;">
+<!ENTITY ang "&#8736;">
+<!ENTITY Aring "&#197;">
+<!ENTITY aring "&#229;">
+<!ENTITY asymp "&#8776;">
+<!ENTITY Atilde "&#195;">
+<!ENTITY atilde "&#227;">
+<!ENTITY Auml "&#196;">
+<!ENTITY auml "&#228;">
+<!ENTITY bdquo "&#8222;">
+<!ENTITY Beta "&#914;">
+<!ENTITY beta "&#946;">
+<!ENTITY brvbar "&#166;">
+<!ENTITY bull "&#8226;">
+<!ENTITY cap "&#8745;">
+<!ENTITY Ccedil "&#199;">
+<!ENTITY ccedil "&#231;">
+<!ENTITY cedil "&#184;">
+<!ENTITY cent "&#162;">
+<!ENTITY Chi "&#935;">
+<!ENTITY chi "&#967;">
+<!ENTITY circ "&#710;">
+<!ENTITY clubs "&#9827;">
+<!ENTITY cong "&#8773;">
+<!ENTITY copy "&#169;">
+<!ENTITY crarr "&#8629;">
+<!ENTITY cup "&#8746;">
+<!ENTITY curren "&#164;">
+<!ENTITY dagger "&#8224;">
+<!ENTITY Dagger "&#8225;">
+<!ENTITY darr "&#8595;">
+<!ENTITY dArr "&#8659;">
+<!ENTITY deg "&#176;">
+<!ENTITY Delta "&#916;">
+<!ENTITY delta "&#948;">
+<!ENTITY diams "&#9830;">
+<!ENTITY divide "&#247;">
+<!ENTITY Eacute "&#201;">
+<!ENTITY eacute "&#233;">
+<!ENTITY Ecirc "&#202;">
+<!ENTITY ecirc "&#234;">
+<!ENTITY Egrave "&#200;">
+<!ENTITY egrave "&#232;">
+<!ENTITY empty "&#8709;">
+<!ENTITY emsp "&#8195;">
+<!ENTITY ensp "&#8194;">
+<!ENTITY epsilon "&#949;">
+<!ENTITY Epsilon "&#917;">
+<!ENTITY equiv "&#8801;">
+<!ENTITY Eta "&#919;">
+<!ENTITY eta "&#951;">
+<!ENTITY ETH "&#208;">
+<!ENTITY eth "&#240;">
+<!ENTITY Euml "&#203;">
+<!ENTITY euml "&#235;">
+<!ENTITY exist "&#8707;">
+<!ENTITY fnof "&#402;">
+<!ENTITY forall "&#8704;">
+<!ENTITY frac12 "&#189;">
+<!ENTITY frac14 "&#188;">
+<!ENTITY frac34 "&#190;">
+<!ENTITY frasl "&#8260;">
+<!ENTITY Gamma "&#915;">
+<!ENTITY gamma "&#947;">
+<!ENTITY ge "&#8805;">
+<!ENTITY gt "&#62;">
+<!ENTITY harr "&#8596;">
+<!ENTITY hArr "&#8660;">
+<!ENTITY hearts "&#9829;">
+<!ENTITY hellip "&#8230;">
+<!ENTITY Iacute "&#205;">
+<!ENTITY iacute "&#237;">
+<!ENTITY Icirc "&#206;">
+<!ENTITY icirc "&#238;">
+<!ENTITY iexcl "&#161;">
+<!ENTITY Igrave "&#204;">
+<!ENTITY igrave "&#236;">
+<!ENTITY image "&#8465;">
+<!ENTITY infin "&#8734;">
+<!ENTITY int "&#8747;">
+<!ENTITY Iota "&#921;">
+<!ENTITY iota "&#953;">
+<!ENTITY iquest "&#191;">
+<!ENTITY isin "&#8712;">
+<!ENTITY Iuml "&#207;">
+<!ENTITY iuml "&#239;">
+<!ENTITY Kappa "&#922;">
+<!ENTITY kappa "&#954;">
+<!ENTITY Lambda "&#923;">
+<!ENTITY lambda "&#955;">
+<!ENTITY lang "&#9001;">
+<!ENTITY laquo "&#171;">
+<!ENTITY larr "&#8592;">
+<!ENTITY lArr "&#8656;">
+<!ENTITY lceil "&#8968;">
+<!ENTITY ldquo "&#8220;">
+<!ENTITY le "&#8804;">
+<!ENTITY lfloor "&#8970;">
+<!ENTITY lowast "&#8727;">
+<!ENTITY loz "&#9674;">
+<!ENTITY lrm "&#8206;">
+<!ENTITY lsaquo "&#8249;">
+<!ENTITY lsquo "&#8216;">
+<!ENTITY lt "&#60;">
+<!ENTITY macr "&#175;">
+<!ENTITY mdash "&#8212;">
+<!ENTITY micro "&#181;">
+<!ENTITY middot "&#183;">
+<!ENTITY minus "&#8722;">
+<!ENTITY Mu "&#924;">
+<!ENTITY mu "&#956;">
+<!ENTITY nabla "&#8711;">
+<!ENTITY nbsp "&#160;">
+<!ENTITY ndash "&#8211;">
+<!ENTITY ne "&#8800;">
+<!ENTITY ni "&#8715;">
+<!ENTITY not "&#172;">
+<!ENTITY notin "&#8713;">
+<!ENTITY nsub "&#8836;">
+<!ENTITY Ntilde "&#209;">
+<!ENTITY ntilde "&#241;">
+<!ENTITY Nu "&#925;">
+<!ENTITY nu "&#957;">
+<!ENTITY Oacute "&#211;">
+<!ENTITY oacute "&#243;">
+<!ENTITY Ocirc "&#212;">
+<!ENTITY ocirc "&#244;">
+<!ENTITY OElig "&#338;">
+<!ENTITY oelig "&#339;">
+<!ENTITY Ograve "&#210;">
+<!ENTITY ograve "&#242;">
+<!ENTITY oline "&#8254;">
+<!ENTITY Omega "&#937;">
+<!ENTITY omega "&#969;">
+<!ENTITY Omicron "&#927;">
+<!ENTITY omicron "&#959;">
+<!ENTITY oplus "&#8853;">
+<!ENTITY or "&#8870;">
+<!ENTITY ordf "&#170;">
+<!ENTITY ordm "&#186;">
+<!ENTITY Oslash "&#216;">
+<!ENTITY oslash "&#248;">
+<!ENTITY Otilde "&#213;">
+<!ENTITY otilde "&#245;">
+<!ENTITY otimes "&#8855;">
+<!ENTITY Ouml "&#214;">
+<!ENTITY ouml "&#246;">
+<!ENTITY para "&#182;">
+<!ENTITY part "&#8706;">
+<!ENTITY permil "&#8240;">
+<!ENTITY perp "&#8869;">
+<!ENTITY Phi "&#934;">
+<!ENTITY phi "&#966;">
+<!ENTITY Pi "&#928;">
+<!ENTITY pi "&#960;">
+<!ENTITY piv "&#982;">
+<!ENTITY plusmn "&#177;">
+<!ENTITY pound "&#163;">
+<!ENTITY prime "&#8242;">
+<!ENTITY Prime "&#8243;">
+<!ENTITY prod "&#8719;">
+<!ENTITY prop "&#8733;">
+<!ENTITY Psi "&#936;">
+<!ENTITY psi "&#968;">
+<!ENTITY quot "&#34;">
+<!ENTITY radic "&#8730;">
+<!ENTITY rang "&#9002;">
+<!ENTITY raquo "&#187;">
+<!ENTITY rarr "&#8594;">
+<!ENTITY rArr "&#8658;">
+<!ENTITY rceil "&#8969;">
+<!ENTITY rdquo "&#8221;">
+<!ENTITY real "&#8476;">
+<!ENTITY reg "&#174;">
+<!ENTITY rfloor "&#8971;">
+<!ENTITY Rho "&#929;">
+<!ENTITY rho "&#961;">
+<!ENTITY rlm "&#8207;">
+<!ENTITY rsaquo "&#8250;">
+<!ENTITY rsquo "&#8217;">
+<!ENTITY sbquo "&#8218;">
+<!ENTITY Scaron "&#352;">
+<!ENTITY scaron "&#353;">
+<!ENTITY sdot "&#8901;">
+<!ENTITY sect "&#167;">
+<!ENTITY shy "&#173;">
+<!ENTITY Sigma "&#931;">
+<!ENTITY sigma "&#963;">
+<!ENTITY sigmaf "&#962;">
+<!ENTITY sim "&#8764;">
+<!ENTITY spades "&#9824;">
+<!ENTITY sub "&#8834;">
+<!ENTITY sube "&#8838;">
+<!ENTITY sum "&#8721;">
+<!ENTITY sup "&#8835;">
+<!ENTITY sup1 "&#185;">
+<!ENTITY sup2 "&#178;">
+<!ENTITY sup3 "&#179;">
+<!ENTITY supe "&#8839;">
+<!ENTITY szlig "&#223;">
+<!ENTITY Tau "&#932;">
+<!ENTITY tau "&#964;">
+<!ENTITY there4 "&#8756;">
+<!ENTITY Theta "&#920;">
+<!ENTITY theta "&#952;">
+<!ENTITY thetasym "&#977;">
+<!ENTITY thinsp "&#8201;">
+<!ENTITY THORN "&#222;">
+<!ENTITY thorn "&#254;">
+<!ENTITY tilde "&#732;">
+<!ENTITY times "&#215;">
+<!ENTITY trade "&#8482;">
+<!ENTITY Uacute "&#218;">
+<!ENTITY uacute "&#250;">
+<!ENTITY uarr "&#8593;">
+<!ENTITY uArr "&#8657;">
+<!ENTITY Ucirc "&#219;">
+<!ENTITY ucirc "&#251;">
+<!ENTITY Ugrave "&#217;">
+<!ENTITY ugrave "&#249;">
+<!ENTITY uml "&#168;">
+<!ENTITY upsih "&#978;">
+<!ENTITY Upsilon "&#933;">
+<!ENTITY upsilon "&#965;">
+<!ENTITY Uuml "&#220;">
+<!ENTITY uuml "&#252;">
+<!ENTITY weierp "&#8472;">
+<!ENTITY Xi "&#926;">
+<!ENTITY xi "&#958;">
+<!ENTITY Yacute "&#221;">
+<!ENTITY yacute "&#253;">
+<!ENTITY yen "&#165;">
+<!ENTITY Yuml "&#376;">
+<!ENTITY yuml "&#255;">
+<!ENTITY Zeta "&#918;">
+<!ENTITY zeta "&#950;">
+<!ENTITY zwj "&#8205;">
+<!ENTITY zwnj "&#8204;">`.replace(/\n/g, ' ');
+
+  /**
+   * A reasonably strict xml declaration.
+   */
+  const XML_DECL = '<?xml version="1.0" standalone="no"?>';
+
+  /**
+   * The beginning of the XML doctype declaration.
+   */
+  const DOCTYPE_START = `<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [`;
+
+  /**
+   * The end of the XML docype declaration.
+   */
+  const DOCTYPE_END = ']>';
+
+  /**
+   * A full header for an SVG XML document.
+   */
+  const SVG_XML_HEADER = `${XML_DECL}
+    ${DOCTYPE_START}${HTML_ENTITIES}${DOCTYPE_END}`;
 
     void Promise.all([...diagrams].map(renderOneMarmaid));
   });
@@ -7585,8 +7870,8 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>wget<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span><span class="s1">'ibm-watsonx-ai[rag]&gt;=1.3.26'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s1">'ibm-watsonx-ai[rag]&gt;=1.3.26'</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -7613,6 +7898,7 @@ a.anchor-link {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span>
 
 <span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span>
@@ -7653,7 +7939,7 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">space_id</span> <span class="o">=</span> <span class="s1">'PASTE YOUR SPACE GUID HERE'</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">space_id</span> <span class="o">=</span> <span class="s2">"PASTE YOUR SPACE GUID HERE"</span>
 </pre></div>
 </div>
 </div>
@@ -7717,13 +8003,19 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">wget</span><span class="o">,</span><span class="w"> </span><span class="nn">zipfile</span><span class="o">,</span><span class="w"> </span><span class="nn">os</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">zipfile</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">wget</span>
 
 <span class="n">filename</span> <span class="o">=</span> <span class="s2">"watsonx-ai-python-sdk"</span>
 <span class="n">filename_zip</span> <span class="o">=</span> <span class="s2">"watsonx-ai-python-sdk.zip"</span>
 
 <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename_zip</span><span class="p">):</span>
-    <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s2">"https://github.com/IBM/watsonx-ai-python-sdk/archive/refs/heads/gh-pages.zip"</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">filename_zip</span><span class="p">)</span>
+    <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span>
+        <span class="s2">"https://github.com/IBM/watsonx-ai-python-sdk/archive/refs/heads/gh-pages.zip"</span><span class="p">,</span>
+        <span class="n">out</span><span class="o">=</span><span class="n">filename_zip</span><span class="p">,</span>
+    <span class="p">)</span>
 
 <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">filename_zip</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">zip_ref</span><span class="p">:</span>
     <span class="n">zip_ref</span><span class="o">.</span><span class="n">extractall</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
@@ -7740,11 +8032,13 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataConnection</span><span class="p">,</span> <span class="n">ContainerLocation</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">ContainerLocation</span><span class="p">,</span> <span class="n">DataConnection</span>
 
 <span class="n">container_location_path</span> <span class="o">=</span> <span class="s2">"ibm_watsonx_ai_sdk_docs"</span>
 
-<span class="n">container_data_connection</span> <span class="o">=</span> <span class="n">DataConnection</span><span class="p">(</span><span class="n">ContainerLocation</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">container_location_path</span><span class="si">}</span><span class="s2">/"</span><span class="p">))</span>
+<span class="n">container_data_connection</span> <span class="o">=</span> <span class="n">DataConnection</span><span class="p">(</span>
+    <span class="n">ContainerLocation</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">container_location_path</span><span class="si">}</span><span class="s2">/"</span><span class="p">)</span>
+<span class="p">)</span>
 <span class="n">container_data_connection</span><span class="o">.</span><span class="n">set_client</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -7774,7 +8068,7 @@ a.anchor-link {
 <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">root</span> <span class="o">==</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">/watsonx-ai-python-sdk-gh-pages"</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">'.html'</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">".html"</span><span class="p">):</span>
                 <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
                 <span class="n">html_docs_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
 </pre></div>
@@ -7804,9 +8098,13 @@ a.anchor-link {
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 
 <span class="k">for</span> <span class="n">ind</span><span class="p">,</span> <span class="n">html_docs_file</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">html_docs_files</span><span class="p">):</span>
-    <span class="n">container_data_connection</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">html_docs_file</span><span class="p">,</span> <span class="n">remote_name</span> <span class="o">=</span> <span class="n">html_docs_file</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">container_data_connection</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+        <span class="n">html_docs_file</span><span class="p">,</span> <span class="n">remote_name</span><span class="o">=</span><span class="n">html_docs_file</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="p">)</span>
 
-    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\r</span><span class="s2">Progress: </span><span class="si">{</span><span class="s1">'✓'</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">ind</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="si">}{</span><span class="s1">'.'</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">html_docs_files</span><span class="p">)</span><span class="o">-</span><span class="n">ind</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="se">\r</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="se">\r</span><span class="s2">Progress: </span><span class="si">{</span><span class="s1">'✓'</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">ind</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="si">}{</span><span class="s1">'.'</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">html_docs_files</span><span class="p">)</span><span class="o">-</span><span class="n">ind</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="se">\r</span><span class="s2">"</span>
+    <span class="p">)</span>
     <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -7844,7 +8142,7 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">datasource_name</span> <span class="o">=</span> <span class="s1">'bluemixcloudobjectstorage'</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">datasource_name</span> <span class="o">=</span> <span class="s2">"bluemixcloudobjectstorage"</span>
 <span class="n">bucketname</span> <span class="o">=</span> <span class="n">container_data_connection</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">bucket</span>
 </pre></div>
 </div>
@@ -7859,7 +8157,9 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">cos_credentials</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">spaces</span><span class="o">.</span><span class="n">get_details</span><span class="p">(</span><span class="n">space_id</span><span class="o">=</span><span class="n">space_id</span><span class="p">)[</span><span class="s1">'entity'</span><span class="p">][</span><span class="s1">'storage'</span><span class="p">][</span><span class="s1">'properties'</span><span class="p">]</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">cos_credentials</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">spaces</span><span class="o">.</span><span class="n">get_details</span><span class="p">(</span><span class="n">space_id</span><span class="o">=</span><span class="n">space_id</span><span class="p">)[</span><span class="s2">"entity"</span><span class="p">][</span><span class="s2">"storage"</span><span class="p">][</span>
+    <span class="s2">"properties"</span>
+<span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -7873,17 +8173,19 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">conn_meta_props</span><span class="o">=</span> <span class="p">{</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">conn_meta_props</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Connection to Database - </span><span class="si">{</span><span class="n">datasource_name</span><span class="si">}</span><span class="s2"> "</span><span class="p">,</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DATASOURCE_TYPE</span><span class="p">:</span> <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">get_datasource_type_id_by_name</span><span class="p">(</span><span class="n">datasource_name</span><span class="p">),</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DATASOURCE_TYPE</span><span class="p">:</span> <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">get_datasource_type_id_by_name</span><span class="p">(</span>
+        <span class="n">datasource_name</span>
+    <span class="p">),</span>
     <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DESCRIPTION</span><span class="p">:</span> <span class="s2">"Connection to external Database"</span><span class="p">,</span>
     <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">PROPERTIES</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s1">'bucket'</span><span class="p">:</span> <span class="n">bucketname</span><span class="p">,</span>
-        <span class="s1">'access_key'</span><span class="p">:</span> <span class="n">cos_credentials</span><span class="p">[</span><span class="s1">'credentials'</span><span class="p">][</span><span class="s1">'editor'</span><span class="p">][</span><span class="s1">'access_key_id'</span><span class="p">],</span>
-        <span class="s1">'secret_key'</span><span class="p">:</span> <span class="n">cos_credentials</span><span class="p">[</span><span class="s1">'credentials'</span><span class="p">][</span><span class="s1">'editor'</span><span class="p">][</span><span class="s1">'secret_access_key'</span><span class="p">],</span>
-        <span class="s1">'iam_url'</span><span class="p">:</span> <span class="s1">'https://iam.cloud.ibm.com/identity/token'</span><span class="p">,</span>
-        <span class="s1">'url'</span><span class="p">:</span> <span class="n">cos_credentials</span><span class="p">[</span><span class="s1">'endpoint_url'</span><span class="p">]</span>
-    <span class="p">}</span>
+        <span class="s2">"bucket"</span><span class="p">:</span> <span class="n">bucketname</span><span class="p">,</span>
+        <span class="s2">"access_key"</span><span class="p">:</span> <span class="n">cos_credentials</span><span class="p">[</span><span class="s2">"credentials"</span><span class="p">][</span><span class="s2">"editor"</span><span class="p">][</span><span class="s2">"access_key_id"</span><span class="p">],</span>
+        <span class="s2">"secret_key"</span><span class="p">:</span> <span class="n">cos_credentials</span><span class="p">[</span><span class="s2">"credentials"</span><span class="p">][</span><span class="s2">"editor"</span><span class="p">][</span><span class="s2">"secret_access_key"</span><span class="p">],</span>
+        <span class="s2">"iam_url"</span><span class="p">:</span> <span class="s2">"https://iam.cloud.ibm.com/identity/token"</span><span class="p">,</span>
+        <span class="s2">"url"</span><span class="p">:</span> <span class="n">cos_credentials</span><span class="p">[</span><span class="s2">"endpoint_url"</span><span class="p">],</span>
+    <span class="p">},</span>
 <span class="p">}</span>
 
 <span class="n">conn_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">meta_props</span><span class="o">=</span><span class="n">conn_meta_props</span><span class="p">)</span>
@@ -7928,10 +8230,12 @@ SUCCESS
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataConnection</span><span class="p">,</span> <span class="n">S3Location</span>
 
-<span class="n">input_data_references</span> <span class="o">=</span> <span class="p">[</span><span class="n">DataConnection</span><span class="p">(</span>
-    <span class="n">connection_asset_id</span><span class="o">=</span><span class="n">connection_id</span><span class="p">,</span>
-    <span class="n">location</span><span class="o">=</span><span class="n">S3Location</span><span class="p">(</span><span class="n">bucket</span><span class="o">=</span><span class="n">bucketname</span><span class="p">,</span>
-                        <span class="n">path</span><span class="o">=</span><span class="n">container_location_path</span><span class="p">))]</span>
+<span class="n">input_data_references</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">DataConnection</span><span class="p">(</span>
+        <span class="n">connection_asset_id</span><span class="o">=</span><span class="n">connection_id</span><span class="p">,</span>
+        <span class="n">location</span><span class="o">=</span><span class="n">S3Location</span><span class="p">(</span><span class="n">bucket</span><span class="o">=</span><span class="n">bucketname</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">container_location_path</span><span class="p">),</span>
+    <span class="p">)</span>
+<span class="p">]</span>
 <span class="n">input_data_references</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_client</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -7961,52 +8265,38 @@ SUCCESS
     <span class="p">{</span>
         <span class="s2">"question"</span><span class="p">:</span> <span class="s2">"How to install ibm-watsonx-ai library?"</span><span class="p">,</span>
         <span class="s2">"correct_answer"</span><span class="p">:</span> <span class="s2">"pip install ibm-watsonx-ai"</span><span class="p">,</span>
-        <span class="s2">"correct_answer_document_ids"</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">"install.html"</span>
-        <span class="p">]</span>
+        <span class="s2">"correct_answer_document_ids"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"install.html"</span><span class="p">],</span>
     <span class="p">},</span>
     <span class="p">{</span>
         <span class="s2">"question"</span><span class="p">:</span> <span class="s2">"What is Credentails class parameters?"</span><span class="p">,</span>
         <span class="s2">"correct_answer"</span><span class="p">:</span> <span class="s2">"url, api_key, name, iam_serviceid_crn, token, projects_token, username, password, instance_id, version, bedrock_url, proxies, verify"</span><span class="p">,</span>
-        <span class="s2">"correct_answer_document_ids"</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">"base.html"</span>
-        <span class="p">]</span>
+        <span class="s2">"correct_answer_document_ids"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"base.html"</span><span class="p">],</span>
     <span class="p">},</span>
     <span class="p">{</span>
         <span class="s2">"question"</span><span class="p">:</span> <span class="s2">"How to get AutoAI pipeline with number 3?"</span><span class="p">,</span>
         <span class="s2">"correct_answer"</span><span class="p">:</span> <span class="s2">"get_pipeline(pipeline_name='Pipeline_3')"</span><span class="p">,</span>
-        <span class="s2">"correct_answer_document_ids"</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">"autoai_working_with_class_and_optimizer.html"</span>
-        <span class="p">]</span>
+        <span class="s2">"correct_answer_document_ids"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"autoai_working_with_class_and_optimizer.html"</span><span class="p">],</span>
     <span class="p">},</span>
     <span class="p">{</span>
         <span class="s2">"question"</span><span class="p">:</span> <span class="s2">"How to get list of Embedding Models?"</span><span class="p">,</span>
         <span class="s2">"correct_answer"</span><span class="p">:</span> <span class="s2">"client.foundation_models.EmbeddingModels"</span><span class="p">,</span>
-        <span class="s2">"correct_answer_document_ids"</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">"fm_embeddings.html"</span>
-        <span class="p">]</span>
+        <span class="s2">"correct_answer_document_ids"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"fm_embeddings.html"</span><span class="p">],</span>
     <span class="p">},</span>
     <span class="p">{</span>
         <span class="s2">"question"</span><span class="p">:</span> <span class="s2">"How to retrieve the list of model lifecycle data?"</span><span class="p">,</span>
         <span class="s2">"correct_answer"</span><span class="p">:</span> <span class="s2">"get_model_lifecycle(url='https://us-south.ml.cloud.ibm.com', model_id='ibm/granite-13b-instruct-v2')"</span><span class="p">,</span>
-        <span class="s2">"correct_answer_document_ids"</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">"fm_helpers.html"</span>
-        <span class="p">]</span>
+        <span class="s2">"correct_answer_document_ids"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"fm_helpers.html"</span><span class="p">],</span>
     <span class="p">},</span>
     <span class="p">{</span>
         <span class="s2">"question"</span><span class="p">:</span> <span class="s2">"What is path to ModelInference class?"</span><span class="p">,</span>
         <span class="s2">"correct_answer"</span><span class="p">:</span> <span class="s2">"ibm_watsonx_ai.foundation_models.inference.ModelInference"</span><span class="p">,</span>
-        <span class="s2">"correct_answer_document_ids"</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">"fm_model_inference.html"</span>
-        <span class="p">]</span>
+        <span class="s2">"correct_answer_document_ids"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"fm_model_inference.html"</span><span class="p">],</span>
     <span class="p">},</span>
     <span class="p">{</span>
         <span class="s2">"question"</span><span class="p">:</span> <span class="s2">"What is method for get model inferance details?"</span><span class="p">,</span>
         <span class="s2">"correct_answer"</span><span class="p">:</span> <span class="s2">"get_details()"</span><span class="p">,</span>
-        <span class="s2">"correct_answer_document_ids"</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">"fm_model_inference.html"</span>
-        <span class="p">]</span>
-    <span class="p">}</span>
+        <span class="s2">"correct_answer_document_ids"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"fm_model_inference.html"</span><span class="p">],</span>
+    <span class="p">},</span>
 <span class="p">]</span>
 </pre></div>
 </div>
@@ -8040,7 +8330,9 @@ SUCCESS
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">test_filename</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
         <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">benchmarking_data_IBM_page_content</span><span class="p">,</span> <span class="n">json_file</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 
-<span class="n">test_asset_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">test_filename</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="n">test_filename</span><span class="p">)</span>
+<span class="n">test_asset_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="n">test_filename</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="n">test_filename</span>
+<span class="p">)</span>
 
 <span class="n">test_asset_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">test_asset_details</span><span class="p">)</span>
 <span class="n">test_asset_id</span>
@@ -8117,10 +8409,15 @@ SUCCESS
 <div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
-<span class="n">milvus_connection_id</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Provide connection asset ID in your space. Skip this, if you wish to type credentials by hand and hit enter: "</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span>
+<span class="n">milvus_connection_id</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="nb">input</span><span class="p">(</span>
+        <span class="s2">"Provide connection asset ID in your space. Skip this, if you wish to type credentials by hand and hit enter: "</span>
+    <span class="p">)</span>
+    <span class="ow">or</span> <span class="kc">None</span>
+<span class="p">)</span>
 
 <span class="k">if</span> <span class="n">milvus_connection_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">try</span><span class="p">:</span>
@@ -8141,8 +8438,12 @@ SUCCESS
         <span class="n">port</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your Milvus port number and hit enter: "</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">ssl</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"SSL"</span><span class="p">]</span>
-    <span class="k">except</span><span class="p">:</span>
-        <span class="n">ssl</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter ('y'/anything) if your Milvus instance has SSL enabled. Skip if it is not: "</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="n">ssl</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span>
+            <span class="nb">input</span><span class="p">(</span>
+                <span class="s2">"Please enter ('y'/anything) if your Milvus instance has SSL enabled. Skip if it is not: "</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
 
     <span class="c1"># Create connection</span>
     <span class="n">milvus_data_source_type_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">get_datasource_type_uid_by_name</span><span class="p">(</span>
@@ -8224,10 +8525,10 @@ SUCCESS
 <span class="n">experiment</span> <span class="o">=</span> <span class="n">AutoAI</span><span class="p">(</span><span class="n">credentials</span><span class="p">,</span> <span class="n">space_id</span><span class="o">=</span><span class="n">space_id</span><span class="p">)</span>
 
 <span class="n">rag_optimizer</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">rag_optimizer</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s1">'AutoAI RAG ibm-watsonx-ai SDK documentation'</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">"AutoAI RAG experiemnt trainded on ibm-watsonx-ai SDK documentataion"</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"AutoAI RAG ibm-watsonx-ai SDK documentation"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"AutoAI RAG experiemnt trained on ibm-watsonx-ai SDK documentation"</span><span class="p">,</span>
     <span class="n">max_number_of_rag_patterns</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
-    <span class="n">optimization_metrics</span><span class="o">=</span><span class="p">[</span><span class="n">AutoAI</span><span class="o">.</span><span class="n">RAGMetrics</span><span class="o">.</span><span class="n">ANSWER_CORRECTNESS</span><span class="p">]</span>
+    <span class="n">optimization_metrics</span><span class="o">=</span><span class="p">[</span><span class="n">AutoAI</span><span class="o">.</span><span class="n">RAGMetrics</span><span class="o">.</span><span class="n">ANSWER_CORRECTNESS</span><span class="p">],</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -8298,7 +8599,7 @@ SUCCESS
     <span class="n">input_data_references</span><span class="o">=</span><span class="n">input_data_references</span><span class="p">,</span>
     <span class="n">test_data_references</span><span class="o">=</span><span class="n">test_data_references</span><span class="p">,</span>
     <span class="n">vector_store_references</span><span class="o">=</span><span class="n">vector_store_references</span><span class="p">,</span>
-    <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span>
+    <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -8579,7 +8880,7 @@ Training of '09437777-a9e4-4cc6-aac0-96c2c8352d10' finished successfully.
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">best_pattern_name</span> <span class="o">=</span> <span class="n">summary</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'Best pattern is:'</span><span class="p">,</span> <span class="n">best_pattern_name</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Best pattern is:"</span><span class="p">,</span> <span class="n">best_pattern_name</span><span class="p">)</span>
 
 <span class="n">best_pattern</span> <span class="o">=</span> <span class="n">rag_optimizer</span><span class="o">.</span><span class="n">get_pattern</span><span class="p">()</span>
 </pre></div>
@@ -8739,7 +9040,7 @@ This approach ensures that you are using the latest and recommended method for p
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">deployment_details</span> <span class="o">=</span> <span class="n">best_pattern</span><span class="o">.</span><span class="n">inference_service</span><span class="o">.</span><span class="n">deploy</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">"AutoAI RAG deployment - ibm_watsonx_ai documentataion"</span><span class="p">,</span>
     <span class="n">space_id</span><span class="o">=</span><span class="n">space_id</span><span class="p">,</span>
-    <span class="n">deploy_params</span><span class="o">=</span><span class="p">{</span><span class="s2">"tags"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"wx-autoai-rag"</span><span class="p">]}</span>
+    <span class="n">deploy_params</span><span class="o">=</span><span class="p">{</span><span class="s2">"tags"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"wx-autoai-rag"</span><span class="p">]},</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -8799,9 +9100,7 @@ Successfully finished deployment creation, deployment_id='cfabea10-76b5-4a8c-ae4
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">deployment_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">deployment_details</span><span class="p">)</span>
 
-<span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"messages"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">question</span><span class="p">}]</span>
-<span class="p">}</span>
+<span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"messages"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">question</span><span class="p">}]}</span>
 <span class="n">score_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">run_ai_service</span><span class="p">(</span><span class="n">deployment_id</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -8919,7 +9218,7 @@ This approach ensures that you are using the latest and recommended method for p
 <div class="jp-InputPrompt jp-InputArea-prompt">In [34]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">experiment</span><span class="o">.</span><span class="n">runs</span><span class="p">(</span><span class="nb">filter</span><span class="o">=</span><span class="s1">'rag_optimizer'</span><span class="p">)</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">experiment</span><span class="o">.</span><span class="n">runs</span><span class="p">(</span><span class="nb">filter</span><span class="o">=</span><span class="s2">"rag_optimizer"</span><span class="p">)</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -8979,7 +9278,7 @@ This approach ensures that you are using the latest and recommended method for p
 <div class="jp-InputPrompt jp-InputArea-prompt">In [35]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">run_id</span> <span class="o">=</span> <span class="n">run_details</span><span class="p">[</span><span class="s1">'metadata'</span><span class="p">][</span><span class="s1">'id'</span><span class="p">]</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">run_id</span> <span class="o">=</span> <span class="n">run_details</span><span class="p">[</span><span class="s2">"metadata"</span><span class="p">][</span><span class="s2">"id"</span><span class="p">]</span>
 <span class="n">run_id</span>
 </pre></div>
 </div>
@@ -9261,7 +9560,7 @@ This approach ensures that you are using the latest and recommended method for p
 <div class="jp-InputPrompt jp-InputArea-prompt">In [40]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">rag_optimizer</span><span class="o">.</span><span class="n">cancel_run</span><span class="p">()</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">rag_optimizer</span><span class="o">.</span><span class="n">cancel_run</span><span class="p">(</span><span class="n">hard_delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
