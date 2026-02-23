@@ -7332,7 +7332,12 @@ a.anchor-link {
     if (!diagrams.length) {
       return;
     }
-    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs")).default;
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.0/mermaid.esm.min.mjs")).default;
+    const elkUrl = "https://cdnjs.cloudflare.com/ajax/libs/mermaid-layout-elk/0.1.9/mermaid-layout-elk.esm.min.mjs";
+    if(elkUrl) {
+      const elkLayouts = (await import(elkUrl)).default;
+      mermaid.registerLayoutLoaders(elkLayouts);
+    }
     const parser = new DOMParser();
 
     mermaid.initialize({
@@ -7429,7 +7434,8 @@ a.anchor-link {
      * Post-process to ensure mermaid diagrams contain only valid SVG and XHTML.
      */
     function cleanMermaidSvg(svg) {
-      return svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      svg = svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      return `${SVG_XML_HEADER}${svg}`;
     }
 
 
@@ -7455,6 +7461,285 @@ a.anchor-link {
       }
       return `<${tag} ${rest}>`;
     }
+
+
+  /**
+   * Named HTML entities with their decimal equivalent codes.
+   *
+   * @see https://www.w3.org/TR/WD-html40-970708/sgml/entities.html
+   * */
+  const HTML_ENTITIES = `<!ENTITY Aacute "&#193;">
+<!ENTITY aacute "&#225;">
+<!ENTITY Acirc "&#194;">
+<!ENTITY acirc "&#226;">
+<!ENTITY acute "&#180;">
+<!ENTITY AElig "&#198;">
+<!ENTITY aelig "&#230;">
+<!ENTITY Agrave "&#192;">
+<!ENTITY agrave "&#224;">
+<!ENTITY alefsym "&#8501;">
+<!ENTITY Alpha "&#913;">
+<!ENTITY alpha "&#945;">
+<!ENTITY amp "&#38;">
+<!ENTITY and "&#8869;">
+<!ENTITY ang "&#8736;">
+<!ENTITY Aring "&#197;">
+<!ENTITY aring "&#229;">
+<!ENTITY asymp "&#8776;">
+<!ENTITY Atilde "&#195;">
+<!ENTITY atilde "&#227;">
+<!ENTITY Auml "&#196;">
+<!ENTITY auml "&#228;">
+<!ENTITY bdquo "&#8222;">
+<!ENTITY Beta "&#914;">
+<!ENTITY beta "&#946;">
+<!ENTITY brvbar "&#166;">
+<!ENTITY bull "&#8226;">
+<!ENTITY cap "&#8745;">
+<!ENTITY Ccedil "&#199;">
+<!ENTITY ccedil "&#231;">
+<!ENTITY cedil "&#184;">
+<!ENTITY cent "&#162;">
+<!ENTITY Chi "&#935;">
+<!ENTITY chi "&#967;">
+<!ENTITY circ "&#710;">
+<!ENTITY clubs "&#9827;">
+<!ENTITY cong "&#8773;">
+<!ENTITY copy "&#169;">
+<!ENTITY crarr "&#8629;">
+<!ENTITY cup "&#8746;">
+<!ENTITY curren "&#164;">
+<!ENTITY dagger "&#8224;">
+<!ENTITY Dagger "&#8225;">
+<!ENTITY darr "&#8595;">
+<!ENTITY dArr "&#8659;">
+<!ENTITY deg "&#176;">
+<!ENTITY Delta "&#916;">
+<!ENTITY delta "&#948;">
+<!ENTITY diams "&#9830;">
+<!ENTITY divide "&#247;">
+<!ENTITY Eacute "&#201;">
+<!ENTITY eacute "&#233;">
+<!ENTITY Ecirc "&#202;">
+<!ENTITY ecirc "&#234;">
+<!ENTITY Egrave "&#200;">
+<!ENTITY egrave "&#232;">
+<!ENTITY empty "&#8709;">
+<!ENTITY emsp "&#8195;">
+<!ENTITY ensp "&#8194;">
+<!ENTITY epsilon "&#949;">
+<!ENTITY Epsilon "&#917;">
+<!ENTITY equiv "&#8801;">
+<!ENTITY Eta "&#919;">
+<!ENTITY eta "&#951;">
+<!ENTITY ETH "&#208;">
+<!ENTITY eth "&#240;">
+<!ENTITY Euml "&#203;">
+<!ENTITY euml "&#235;">
+<!ENTITY exist "&#8707;">
+<!ENTITY fnof "&#402;">
+<!ENTITY forall "&#8704;">
+<!ENTITY frac12 "&#189;">
+<!ENTITY frac14 "&#188;">
+<!ENTITY frac34 "&#190;">
+<!ENTITY frasl "&#8260;">
+<!ENTITY Gamma "&#915;">
+<!ENTITY gamma "&#947;">
+<!ENTITY ge "&#8805;">
+<!ENTITY gt "&#62;">
+<!ENTITY harr "&#8596;">
+<!ENTITY hArr "&#8660;">
+<!ENTITY hearts "&#9829;">
+<!ENTITY hellip "&#8230;">
+<!ENTITY Iacute "&#205;">
+<!ENTITY iacute "&#237;">
+<!ENTITY Icirc "&#206;">
+<!ENTITY icirc "&#238;">
+<!ENTITY iexcl "&#161;">
+<!ENTITY Igrave "&#204;">
+<!ENTITY igrave "&#236;">
+<!ENTITY image "&#8465;">
+<!ENTITY infin "&#8734;">
+<!ENTITY int "&#8747;">
+<!ENTITY Iota "&#921;">
+<!ENTITY iota "&#953;">
+<!ENTITY iquest "&#191;">
+<!ENTITY isin "&#8712;">
+<!ENTITY Iuml "&#207;">
+<!ENTITY iuml "&#239;">
+<!ENTITY Kappa "&#922;">
+<!ENTITY kappa "&#954;">
+<!ENTITY Lambda "&#923;">
+<!ENTITY lambda "&#955;">
+<!ENTITY lang "&#9001;">
+<!ENTITY laquo "&#171;">
+<!ENTITY larr "&#8592;">
+<!ENTITY lArr "&#8656;">
+<!ENTITY lceil "&#8968;">
+<!ENTITY ldquo "&#8220;">
+<!ENTITY le "&#8804;">
+<!ENTITY lfloor "&#8970;">
+<!ENTITY lowast "&#8727;">
+<!ENTITY loz "&#9674;">
+<!ENTITY lrm "&#8206;">
+<!ENTITY lsaquo "&#8249;">
+<!ENTITY lsquo "&#8216;">
+<!ENTITY lt "&#60;">
+<!ENTITY macr "&#175;">
+<!ENTITY mdash "&#8212;">
+<!ENTITY micro "&#181;">
+<!ENTITY middot "&#183;">
+<!ENTITY minus "&#8722;">
+<!ENTITY Mu "&#924;">
+<!ENTITY mu "&#956;">
+<!ENTITY nabla "&#8711;">
+<!ENTITY nbsp "&#160;">
+<!ENTITY ndash "&#8211;">
+<!ENTITY ne "&#8800;">
+<!ENTITY ni "&#8715;">
+<!ENTITY not "&#172;">
+<!ENTITY notin "&#8713;">
+<!ENTITY nsub "&#8836;">
+<!ENTITY Ntilde "&#209;">
+<!ENTITY ntilde "&#241;">
+<!ENTITY Nu "&#925;">
+<!ENTITY nu "&#957;">
+<!ENTITY Oacute "&#211;">
+<!ENTITY oacute "&#243;">
+<!ENTITY Ocirc "&#212;">
+<!ENTITY ocirc "&#244;">
+<!ENTITY OElig "&#338;">
+<!ENTITY oelig "&#339;">
+<!ENTITY Ograve "&#210;">
+<!ENTITY ograve "&#242;">
+<!ENTITY oline "&#8254;">
+<!ENTITY Omega "&#937;">
+<!ENTITY omega "&#969;">
+<!ENTITY Omicron "&#927;">
+<!ENTITY omicron "&#959;">
+<!ENTITY oplus "&#8853;">
+<!ENTITY or "&#8870;">
+<!ENTITY ordf "&#170;">
+<!ENTITY ordm "&#186;">
+<!ENTITY Oslash "&#216;">
+<!ENTITY oslash "&#248;">
+<!ENTITY Otilde "&#213;">
+<!ENTITY otilde "&#245;">
+<!ENTITY otimes "&#8855;">
+<!ENTITY Ouml "&#214;">
+<!ENTITY ouml "&#246;">
+<!ENTITY para "&#182;">
+<!ENTITY part "&#8706;">
+<!ENTITY permil "&#8240;">
+<!ENTITY perp "&#8869;">
+<!ENTITY Phi "&#934;">
+<!ENTITY phi "&#966;">
+<!ENTITY Pi "&#928;">
+<!ENTITY pi "&#960;">
+<!ENTITY piv "&#982;">
+<!ENTITY plusmn "&#177;">
+<!ENTITY pound "&#163;">
+<!ENTITY prime "&#8242;">
+<!ENTITY Prime "&#8243;">
+<!ENTITY prod "&#8719;">
+<!ENTITY prop "&#8733;">
+<!ENTITY Psi "&#936;">
+<!ENTITY psi "&#968;">
+<!ENTITY quot "&#34;">
+<!ENTITY radic "&#8730;">
+<!ENTITY rang "&#9002;">
+<!ENTITY raquo "&#187;">
+<!ENTITY rarr "&#8594;">
+<!ENTITY rArr "&#8658;">
+<!ENTITY rceil "&#8969;">
+<!ENTITY rdquo "&#8221;">
+<!ENTITY real "&#8476;">
+<!ENTITY reg "&#174;">
+<!ENTITY rfloor "&#8971;">
+<!ENTITY Rho "&#929;">
+<!ENTITY rho "&#961;">
+<!ENTITY rlm "&#8207;">
+<!ENTITY rsaquo "&#8250;">
+<!ENTITY rsquo "&#8217;">
+<!ENTITY sbquo "&#8218;">
+<!ENTITY Scaron "&#352;">
+<!ENTITY scaron "&#353;">
+<!ENTITY sdot "&#8901;">
+<!ENTITY sect "&#167;">
+<!ENTITY shy "&#173;">
+<!ENTITY Sigma "&#931;">
+<!ENTITY sigma "&#963;">
+<!ENTITY sigmaf "&#962;">
+<!ENTITY sim "&#8764;">
+<!ENTITY spades "&#9824;">
+<!ENTITY sub "&#8834;">
+<!ENTITY sube "&#8838;">
+<!ENTITY sum "&#8721;">
+<!ENTITY sup "&#8835;">
+<!ENTITY sup1 "&#185;">
+<!ENTITY sup2 "&#178;">
+<!ENTITY sup3 "&#179;">
+<!ENTITY supe "&#8839;">
+<!ENTITY szlig "&#223;">
+<!ENTITY Tau "&#932;">
+<!ENTITY tau "&#964;">
+<!ENTITY there4 "&#8756;">
+<!ENTITY Theta "&#920;">
+<!ENTITY theta "&#952;">
+<!ENTITY thetasym "&#977;">
+<!ENTITY thinsp "&#8201;">
+<!ENTITY THORN "&#222;">
+<!ENTITY thorn "&#254;">
+<!ENTITY tilde "&#732;">
+<!ENTITY times "&#215;">
+<!ENTITY trade "&#8482;">
+<!ENTITY Uacute "&#218;">
+<!ENTITY uacute "&#250;">
+<!ENTITY uarr "&#8593;">
+<!ENTITY uArr "&#8657;">
+<!ENTITY Ucirc "&#219;">
+<!ENTITY ucirc "&#251;">
+<!ENTITY Ugrave "&#217;">
+<!ENTITY ugrave "&#249;">
+<!ENTITY uml "&#168;">
+<!ENTITY upsih "&#978;">
+<!ENTITY Upsilon "&#933;">
+<!ENTITY upsilon "&#965;">
+<!ENTITY Uuml "&#220;">
+<!ENTITY uuml "&#252;">
+<!ENTITY weierp "&#8472;">
+<!ENTITY Xi "&#926;">
+<!ENTITY xi "&#958;">
+<!ENTITY Yacute "&#221;">
+<!ENTITY yacute "&#253;">
+<!ENTITY yen "&#165;">
+<!ENTITY Yuml "&#376;">
+<!ENTITY yuml "&#255;">
+<!ENTITY Zeta "&#918;">
+<!ENTITY zeta "&#950;">
+<!ENTITY zwj "&#8205;">
+<!ENTITY zwnj "&#8204;">`.replace(/\n/g, ' ');
+
+  /**
+   * A reasonably strict xml declaration.
+   */
+  const XML_DECL = '<?xml version="1.0" standalone="no"?>';
+
+  /**
+   * The beginning of the XML doctype declaration.
+   */
+  const DOCTYPE_START = `<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [`;
+
+  /**
+   * The end of the XML docype declaration.
+   */
+  const DOCTYPE_END = ']>';
+
+  /**
+   * A full header for an SVG XML document.
+   */
+  const SVG_XML_HEADER = `${XML_DECL}
+    ${DOCTYPE_START}${HTML_ENTITIES}${DOCTYPE_END}`;
 
     void Promise.all([...diagrams].map(renderOneMarmaid));
   });
@@ -7529,7 +7814,7 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>This notebook contains steps to deploy a sample SPSS stream and start batch scoring new data.</p>
-<p>Some familiarity with bash is helpful. This notebook uses Python 3.11.</p>
+<p>Some familiarity with bash is helpful. This notebook uses Python 3.12.</p>
 <p>You will use a data set, <strong>Telco Customer Churn</strong>, which details anonymous customer data from a telecommunication company. Use the details of this data set to predict customer churn. This is critical to business, as it's easier to retain existing customers than acquire new ones.</p>
 <h2 id="Learning-goals">Learning goals<a class="anchor-link" href="#Learning-goals">¶</a></h2><p>The learning goals of this notebook are:</p>
 <ul>
@@ -7559,7 +7844,7 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><a id="setup"></a></p>
-<h2 id="1.-Set-up-the-environment">1. Set up the environment<a class="anchor-link" href="#1.-Set-up-the-environment">¶</a></h2><p>Before you use the sample code in this notebook:</p>
+<h2 id="Set-up-the-environment">Set up the environment<a class="anchor-link" href="#Set-up-the-environment">¶</a></h2><p>Before you use the sample code in this notebook:</p>
 <ul>
 <li>Create a <a href="https://cloud.ibm.com/catalog/services/watsonxai-runtime" rel="noopener no referrer" target="_blank">watsonx.ai Runtime Service</a> instance (a free plan is offered and information about how to create the instance can be found <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/wml-plans.html?context=wx&amp;audience=wdp" rel="noopener no referrer" target="_blank">here</a>).</li>
 </ul>
@@ -7573,21 +7858,35 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Install-and-import-the-ibm-watsonx-ai-and-dependecies">Install and import the <code>ibm-watsonx-ai</code> and dependecies<a class="anchor-link" href="#Install-and-import-the-ibm-watsonx-ai-and-dependecies">¶</a></h3><p><strong>Note:</strong> <code>ibm-watsonx-ai</code> documentation can be found <a href="https://ibm.github.io/watsonx-ai-python-sdk/index.html" rel="noopener no referrer" target="_blank">here</a>.</p>
+<h3 id="Install-dependencies">Install dependencies<a class="anchor-link" href="#Install-dependencies">¶</a></h3><p><strong>Note:</strong> <code>ibm-watsonx-ai</code> documentation can be found <a href="https://ibm.github.io/watsonx-ai-python-sdk/index.html" rel="noopener no referrer" target="_blank">here</a>.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>wget
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>ibm-watsonx-ai<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">ibm</span><span class="o">-</span><span class="n">watsonx</span><span class="o">-</span><span class="n">ai</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Successfully installed wget-3.2
+Successfully installed anyio-4.12.1 cachetools-7.0.1 certifi-2026.1.4 charset_normalizer-3.4.4 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-watsonx-ai-1.5.2 idna-3.11 jmespath-1.0.1 lomond-0.3.3 numpy-2.4.2 pandas-2.3.3 pytz-2025.2 requests-2.32.5 tabulate-0.9.0 typing_extensions-4.15.0 tzdata-2025.3 urllib3-2.6.3
+</pre>
 </div>
 </div>
 </div>
@@ -7623,22 +7922,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><strong>Tip</strong>: Your <code>Cloud API key</code> can be generated by going to the <a href="https://cloud.ibm.com/iam#/users"><strong>Users</strong> section of the Cloud console</a>. From that page, click your name, scroll down to the <strong>API Keys</strong> section, and click <strong>Create an IBM Cloud API key</strong>. Give your key a name and click <strong>Create</strong>, then copy the created key and paste it below. You can also get a service specific url by going to the <a href="https://cloud.ibm.com/apidocs/machine-learning"><strong>Endpoint URLs</strong> section of the watsonx.ai Runtime docs</a>.  You can check your instance location in your  <a href="https://cloud.ibm.com/catalog/services/watsonxai-runtime" rel="noopener no referrer" target="_blank">watsonx.ai Runtime Service</a> instance details.</p>
 <p>You can also get service specific apikey by going to the <a href="https://cloud.ibm.com/iam/serviceids"><strong>Service IDs</strong> section of the Cloud Console</a>.  From that page, click <strong>Create</strong>, then copy the created key and paste it below.</p>
-<p><strong>Action</strong>: Enter your <code>api_key</code> and <code>location</code> in the following cell.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">api_key</span> <span class="o">=</span> <span class="s1">'PASTE YOUR PLATFORM API KEY HERE'</span>
-<span class="n">location</span> <span class="o">=</span> <span class="s1">'PASTE YOUR INSTANCE LOCATION HERE'</span>
-</pre></div>
-</div>
+<p><strong>Action</strong>: Enter your <code>url</code> and <code>api_key</code> in the following cell.</p>
 </div>
 </div>
 </div>
@@ -7650,11 +7934,13 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span>
 
 <span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span>
-    <span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span>
-    <span class="n">url</span><span class="o">=</span><span class="s1">'https://'</span> <span class="o">+</span> <span class="n">location</span> <span class="o">+</span> <span class="s1">'.ml.cloud.ibm.com'</span>
+    <span class="n">url</span><span class="o">=</span><span class="s2">"https://us-south.ml.cloud.ibm.com"</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Please enter your watsonx.ai api key (hit enter): "</span><span class="p">),</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -7666,7 +7952,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span>
@@ -7702,10 +7988,10 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">space_id</span> <span class="o">=</span> <span class="s1">'PASTE YOUR SPACE ID HERE'</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">space_id</span> <span class="o">=</span> <span class="s2">"PASTE YOUR SPACE ID HERE"</span>
 </pre></div>
 </div>
 </div>
@@ -7752,7 +8038,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">set</span><span class="o">.</span><span class="n">default_space</span><span class="p">(</span><span class="n">space_id</span><span class="p">)</span>
@@ -7766,7 +8052,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[4]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>'SUCCESS'</pre>
 </div>
@@ -7780,118 +8066,8 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="upload"></a></p>
-<h2 id="2.-Upload-model">2. Upload model<a class="anchor-link" href="#2.-Upload-model">¶</a></h2><p>In this section you will learn how to upload the model to the Cloud.</p>
-<p><strong>Action</strong>: Download sample SPSS model from git project using wget.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">wget</span><span class="w"> </span><span class="kn">import</span> <span class="n">download</span>
-
-<span class="n">sample_dir</span> <span class="o">=</span> <span class="s1">'spss_sample_model'</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">sample_dir</span><span class="p">):</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">sample_dir</span><span class="p">)</span>
-
-<span class="n">filename</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sample_dir</span><span class="p">,</span> <span class="s1">'db2-customer-satisfaction-prediction.str'</span><span class="p">)</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-    <span class="n">filename</span> <span class="o">=</span> <span class="n">download</span><span class="p">(</span><span class="s1">'https://github.com/IBM/watson-machine-learning-samples/raw/master/cloud/models/spss/db2_customer_satisfaction/model/db2-customer-satisfaction-prediction.str'</span><span class="p">,</span>\
-                             <span class="n">out</span><span class="o">=</span><span class="n">sample_dir</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Store SPSS sample model in your watsonx.ai Runtime instance.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">sw_spec_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">get_id_by_name</span><span class="p">(</span><span class="s2">"spss-modeler_18.2"</span><span class="p">)</span>
-
-<span class="n">model_meta_props</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">ModelMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"SPSS customer satisfaction model"</span><span class="p">,</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">ModelMetaNames</span><span class="o">.</span><span class="n">TYPE</span><span class="p">:</span> <span class="s2">"spss-modeler_18.2"</span><span class="p">,</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">ModelMetaNames</span><span class="o">.</span><span class="n">SOFTWARE_SPEC_ID</span><span class="p">:</span> <span class="n">sw_spec_id</span>
-<span class="p">}</span>
-
-<span class="n">model_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">store_model</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">model_meta_props</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><strong>Note:</strong> You can see that model is successfully stored in watsonx.ai Runtime Service.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">list_models</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><a id="connection"></a></p>
-<h2 id="3.-Create-a-Db2-connection">3. Create a Db2 connection<a class="anchor-link" href="#3.-Create-a-Db2-connection">¶</a></h2><p>You can use commands below to create a db2 connection and required data assets to perform batch scoring.</p>
+<h2 id="Create-a-Db2-connection">Create a Db2 connection<a class="anchor-link" href="#Create-a-Db2-connection">¶</a></h2><p>You can use commands below to create a Db2 connection and required data assets to perform batch scoring.</p>
 </div>
 </div>
 </div>
@@ -7903,12 +8079,35 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="Create-tables-in-Db2-on-Cloud">Create tables in Db2 on Cloud<a class="anchor-link" href="#Create-tables-in-Db2-on-Cloud">¶</a></h3><ul>
-<li>Download the <a href="https://github.com/IBM/watson-machine-learning-samples/raw/master/cloud/data/customer_churn/scoreInput.csv">inputScore.csv</a> and <a href="https://github.com/IBM/watson-machine-learning-samples/raw/master/cloud/data/customer_churn/scoreInput2.csv">inputScore2.csv</a> file from the GitHub repository</li>
+<li>Download <a href="https://github.com/IBM/watsonx-ai-samples/raw/master/cloud/data/customer_churn/scoreInput.csv">inputScore.csv</a> and <a href="https://github.com/IBM/watsonx-ai-samples/raw/master/cloud/data/customer_churn/scoreInput2.csv">inputScore2.csv</a> files from the GitHub repository.</li>
 <li>Click the <strong>Open the console to get started with Db2 on Cloud</strong> icon.</li>
 <li>Select the <strong>Load Data</strong> and <strong>Desktop</strong> load type.</li>
 <li>Drag and drop the previously downloaded file and click Next.</li>
-<li>Set table name to <strong>CUSTOMER</strong> and proceed with creating.</li>
+<li>Set table names to <code>CUSTOMER</code> and <code>CUSTOMER_2</code> and proceed with creating.</li>
 </ul>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="n">input_table_1</span> <span class="o">=</span> <span class="s2">"CUSTOMER"</span>
+<span class="n">input_table_2</span> <span class="o">=</span> <span class="s2">"CUSTOMER_2"</span>
+<span class="n">output_table</span> <span class="o">=</span> <span class="s2">"OUTPUT"</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">schema_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"DB_SCHEMA"</span><span class="p">]</span>
+<span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+    <span class="n">schema_name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter name of the schema you want to use: "</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -7919,7 +8118,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="Create-a-connection">Create a connection<a class="anchor-link" href="#Create-a-connection">¶</a></h4>
+<h4 id="Create-Db2-connection-asset">Create Db2 connection asset<a class="anchor-link" href="#Create-Db2-connection-asset">¶</a></h4>
 </div>
 </div>
 </div>
@@ -7928,50 +8127,83 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">schema_name</span> <span class="o">=</span> <span class="s1">'PUT YOUR SCHEMA NAME HERE'</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">db2_connection_id</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="nb">input</span><span class="p">(</span>
+        <span class="s2">"Provide connection asset ID in your space. Skip this, if you wish to type credentials by hand and hit enter: "</span>
+    <span class="p">)</span>
+    <span class="ow">or</span> <span class="kc">None</span>
+<span class="p">)</span>
+
+<span class="k">if</span> <span class="n">db2_connection_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">db_type</span> <span class="o">=</span> <span class="s2">"db2"</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">hostname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"DB_HOSTNAME"</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="n">hostname</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span>
+            <span class="s2">"Please enter hostname or IP address of your database and hit enter: "</span>
+        <span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">port</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"DB_PORT"</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="n">port</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your database port number and hit enter: "</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">database</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"DB_DATABASE"</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="n">database</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your database name and hit enter: "</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">username</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"DB_USERNAME"</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="n">username</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your username and hit enter: "</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">password</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"DB_PASSWORD"</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="n">password</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Please enter your password and hit enter: "</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ssl</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"DB_SSL"</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="n">ssl</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Please enter your ssl certificate and hit enter: "</span><span class="p">)</span>
+
+    <span class="c1"># Create connection</span>
+    <span class="n">db_data_source_type_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">get_datasource_type_uid_by_name</span><span class="p">(</span><span class="n">db_type</span><span class="p">)</span>
+    <span class="n">details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"Knowledge database connection"</span><span class="p">,</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DESCRIPTION</span><span class="p">:</span> <span class="s2">"Connection created by the sample notebook"</span><span class="p">,</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DATASOURCE_TYPE</span><span class="p">:</span> <span class="n">db_data_source_type_id</span><span class="p">,</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">PROPERTIES</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"host"</span><span class="p">:</span> <span class="n">hostname</span><span class="p">,</span>
+                <span class="s2">"port"</span><span class="p">:</span> <span class="n">port</span><span class="p">,</span>
+                <span class="s2">"username"</span><span class="p">:</span> <span class="n">username</span><span class="p">,</span>
+                <span class="s2">"password"</span><span class="p">:</span> <span class="n">password</span><span class="p">,</span>
+                <span class="s2">"database"</span><span class="p">:</span> <span class="n">database</span><span class="p">,</span>
+                <span class="s2">"ssl"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+
+    <span class="n">db2_connection_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">details</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">db_name</span> <span class="o">=</span> <span class="s1">'db2'</span>
-<span class="n">input_table_1</span> <span class="o">=</span> <span class="s1">'CUSTOMER'</span>
-<span class="n">input_table_2</span> <span class="o">=</span> <span class="s1">'CUSTOMER_2'</span>
-<span class="n">output_table</span> <span class="o">=</span> <span class="s1">'OUTPUT'</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">db_credentials</span> <span class="o">=</span> <span class="p">{</span>
-      <span class="s2">"db"</span><span class="p">:</span> <span class="s2">"***"</span><span class="p">,</span>
-      <span class="s2">"host"</span><span class="p">:</span> <span class="s2">"***"</span><span class="p">,</span>
-      <span class="s2">"https_url"</span><span class="p">:</span> <span class="s2">"***"</span><span class="p">,</span>
-      <span class="s2">"password"</span><span class="p">:</span> <span class="s2">"***"</span><span class="p">,</span>
-      <span class="s2">"port"</span><span class="p">:</span> <span class="s2">"***"</span><span class="p">,</span>
-      <span class="s2">"username"</span><span class="p">:</span> <span class="s2">"***"</span>
-<span class="p">}</span>
-</pre></div>
-</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h4 id="Create-input-connection-data-assets">Create input connection data assets<a class="anchor-link" href="#Create-input-connection-data-assets">¶</a></h4>
 </div>
 </div>
 </div>
@@ -7983,81 +8215,14 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">db2_data_source_type_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">get_datasource_type_id_by_name</span><span class="p">(</span><span class="n">db_name</span><span class="p">)</span>
-
-<span class="n">db2_conn_meta_props</span><span class="o">=</span> <span class="p">{</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"conn_db2"</span><span class="p">,</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DATASOURCE_TYPE</span><span class="p">:</span> <span class="n">db2_data_source_type_id</span><span class="p">,</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DESCRIPTION</span><span class="p">:</span> <span class="s2">"Connection using DB2"</span><span class="p">,</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">PROPERTIES</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">"database"</span><span class="p">:</span> <span class="n">db_credentials</span><span class="p">[</span><span class="s2">"db"</span><span class="p">],</span>
-        <span class="s2">"port"</span><span class="p">:</span> <span class="n">db_credentials</span><span class="p">[</span><span class="s2">"port"</span><span class="p">],</span>          
-        <span class="s2">"host"</span><span class="p">:</span> <span class="n">db_credentials</span><span class="p">[</span><span class="s2">"host"</span><span class="p">],</span>
-        <span class="s2">"password"</span><span class="p">:</span> <span class="n">db_credentials</span><span class="p">[</span><span class="s2">"password"</span><span class="p">],</span>
-        <span class="s2">"username"</span><span class="p">:</span> <span class="n">db_credentials</span><span class="p">[</span><span class="s2">"username"</span><span class="p">]</span>
-    <span class="p">}</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">db2_asset_meta_props</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"INPUT_TABLE_1"</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">CONNECTION_ID</span><span class="p">:</span> <span class="n">db2_connection_id</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DESCRIPTION</span><span class="p">:</span> <span class="s2">"db2 table"</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DATA_CONTENT_NAME</span><span class="p">:</span> <span class="n">input_table_1</span><span class="p">,</span>
 <span class="p">}</span>
 
-<span class="n">db2_conn_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">meta_props</span><span class="o">=</span><span class="n">db2_conn_meta_props</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Creating connections...
-SUCCESS
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">db2_conn_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">db2_conn_details</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="Create-input-connection-data-asset">Create input connection data asset<a class="anchor-link" href="#Create-input-connection-data-asset">¶</a></h4>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">db2_asset_meta_props</span><span class="o">=</span><span class="p">{</span>
-            <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"INPUT_TABLE_1"</span><span class="p">,</span>
-            <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">CONNECTION_ID</span><span class="p">:</span> <span class="n">db2_conn_id</span><span class="p">,</span>
-            <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DESCRIPTION</span><span class="p">:</span> <span class="s2">"db2 table"</span><span class="p">,</span>
-            <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DATA_CONTENT_NAME</span><span class="p">:</span> <span class="n">input_table_1</span> <span class="p">}</span>
-
-<span class="n">db2_conn_input_asset_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">db2_asset_meta_props</span><span class="p">)</span>  
+<span class="n">db2_conn_input_asset_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">db2_asset_meta_props</span><span class="p">)</span>
 <span class="n">input_data_1_href</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">get_href</span><span class="p">(</span><span class="n">db2_conn_input_asset_details</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -8083,16 +8248,17 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">db2_asset_meta_props</span><span class="o">=</span><span class="p">{</span>
-            <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"INPUT_TABLE_2"</span><span class="p">,</span>
-            <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">CONNECTION_ID</span><span class="p">:</span> <span class="n">db2_conn_id</span><span class="p">,</span>
-            <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DESCRIPTION</span><span class="p">:</span> <span class="s2">"db2 table"</span><span class="p">,</span>
-            <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DATA_CONTENT_NAME</span><span class="p">:</span> <span class="n">input_table_2</span> <span class="p">}</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">db2_asset_meta_props</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"INPUT_TABLE_2"</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">CONNECTION_ID</span><span class="p">:</span> <span class="n">db2_connection_id</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DESCRIPTION</span><span class="p">:</span> <span class="s2">"db2 table"</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DATA_CONTENT_NAME</span><span class="p">:</span> <span class="n">input_table_2</span><span class="p">,</span>
+<span class="p">}</span>
 
-<span class="n">db2_conn_input_asset_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">db2_asset_meta_props</span><span class="p">)</span>  
+<span class="n">db2_conn_input_asset_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">db2_asset_meta_props</span><span class="p">)</span>
 <span class="n">input_data_2_href</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">get_href</span><span class="p">(</span><span class="n">db2_conn_input_asset_details</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -8129,16 +8295,17 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">db2_asset_meta_props</span><span class="o">=</span><span class="p">{</span>
-            <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"OUTPUT_TABLE"</span><span class="p">,</span>
-            <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">CONNECTION_ID</span><span class="p">:</span> <span class="n">db2_conn_id</span><span class="p">,</span>
-            <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DESCRIPTION</span><span class="p">:</span> <span class="s2">"db2 table"</span><span class="p">,</span>
-            <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DATA_CONTENT_NAME</span><span class="p">:</span> <span class="n">output_table</span> <span class="p">}</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">db2_asset_meta_props</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"OUTPUT_TABLE"</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">CONNECTION_ID</span><span class="p">:</span> <span class="n">db2_connection_id</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DESCRIPTION</span><span class="p">:</span> <span class="s2">"db2 table"</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DATA_CONTENT_NAME</span><span class="p">:</span> <span class="n">output_table</span><span class="p">,</span>
+<span class="p">}</span>
 
-<span class="n">db2_conn_output_asset_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">db2_asset_meta_props</span><span class="p">)</span>  
+<span class="n">db2_conn_output_asset_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">db2_asset_meta_props</span><span class="p">)</span>
 <span class="n">output_data_href</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">get_href</span><span class="p">(</span><span class="n">db2_conn_output_asset_details</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -8166,8 +8333,9 @@ SUCCESS
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="deploy"></a></p>
-<h2 id="4.-Create-batch-deployment">4. Create batch deployment<a class="anchor-link" href="#4.-Create-batch-deployment">¶</a></h2><p>Use bellow  to create batch deployment for stored model.</p>
+<p><a id="upload"></a></p>
+<h2 id="Download-model">Download model<a class="anchor-link" href="#Download-model">¶</a></h2><p>In this section you will learn how to upload the model to the Cloud.</p>
+<p><strong>Action</strong>: Download sample SPSS model from git repository using <code>wget</code>.</p>
 </div>
 </div>
 </div>
@@ -8176,7 +8344,207 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">wget</span>
+
+<span class="n">filename</span> <span class="o">=</span> <span class="s2">"db2-customer-satisfaction-prediction.str"</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span>
+        <span class="s2">"https://github.com/IBM/watsonx-ai-samples/raw/master/cloud/models/spss/db2_customer_satisfaction/model/db2-customer-satisfaction-prediction.str"</span><span class="p">,</span>
+    <span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>db2-customer-satisfaction-prediction.str
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Update-model-to-use-provided-schema">Update model to use provided schema<a class="anchor-link" href="#Update-model-to-use-provided-schema">¶</a></h3><p><strong>Note:</strong> This step is relevant only for the model specific to this notebook. In general case, you should specify your schema directly in SPSS.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">zipfile</span>
+
+<span class="n">new_filename</span> <span class="o">=</span> <span class="n">filename</span> <span class="o">+</span> <span class="s2">".new"</span>
+
+<span class="k">with</span> <span class="p">(</span>
+    <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">old_zip_file</span><span class="p">,</span>
+    <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">new_filename</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">new_zip_file</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">old_zip_file</span><span class="o">.</span><span class="n">infolist</span><span class="p">():</span>
+        <span class="k">with</span> <span class="n">old_zip_file</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">file_content</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">filename</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">"data/0001.dat"</span><span class="p">,</span> <span class="s2">"data/0002.dat"</span><span class="p">,</span> <span class="s2">"data/0004.dat"</span><span class="p">}:</span>
+            <span class="n">file_content</span> <span class="o">=</span> <span class="n">file_content</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                <span class="sa">b</span><span class="s2">"/CJB94327/"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"/</span><span class="si">{</span><span class="n">schema_name</span><span class="si">}</span><span class="s2">/"</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>
+            <span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">new_zip_file</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">file_content</span><span class="p">)</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">new_filename</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Store SPSS sample model in your watsonx.ai Runtime instance.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">sw_spec_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">get_id_by_name</span><span class="p">(</span><span class="s2">"spss-modeler_18.2"</span><span class="p">)</span>
+
+<span class="n">model_meta_props</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">ModelMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"SPSS customer satisfaction model"</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">ModelMetaNames</span><span class="o">.</span><span class="n">TYPE</span><span class="p">:</span> <span class="s2">"spss-modeler_18.2"</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">ModelMetaNames</span><span class="o">.</span><span class="n">SOFTWARE_SPEC_ID</span><span class="p">:</span> <span class="n">sw_spec_id</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">model_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">store_model</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">model_meta_props</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><strong>Note:</strong> You can see that model is successfully stored in watsonx.ai Runtime Service.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">list_models</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[14]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>ID</th>
+<th>NAME</th>
+<th>CREATED</th>
+<th>TYPE</th>
+<th>SPEC_STATE</th>
+<th>SPEC_REPLACEMENT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>79e9d2ce-facf-4bba-bdcb-bda7dfe55863</td>
+<td>SPSS customer satisfaction model</td>
+<td>2026-02-23T08:01:03Z</td>
+<td>spss-modeler_18.2</td>
+<td>supported</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><a id="deploy"></a></p>
+<h2 id="4.-Create-batch-deployment">4. Create batch deployment<a class="anchor-link" href="#4.-Create-batch-deployment">¶</a></h2><p>Run the following cell to create batch deployment for stored model.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">model_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">get_model_id</span><span class="p">(</span><span class="n">model_details</span><span class="p">)</span>
@@ -8188,9 +8556,9 @@ SUCCESS
         <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">BATCH</span><span class="p">:</span> <span class="p">{},</span>
         <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">HARDWARE_SPEC</span><span class="p">:</span> <span class="p">{</span>
             <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"S"</span><span class="p">,</span>
-            <span class="s2">"num_nodes"</span><span class="p">:</span> <span class="mi">1</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
+            <span class="s2">"num_nodes"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">},</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -8206,19 +8574,19 @@ SUCCESS
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
 
-#######################################################################################
+######################################################################################
 
-Synchronous deployment creation for uid: 'b5f984cb-9b46-4884-aa9b-1541efab1faf' started
+Synchronous deployment creation for id: '79e9d2ce-facf-4bba-bdcb-bda7dfe55863' started
 
-#######################################################################################
+######################################################################################
 
 
 ready.
 
 
-------------------------------------------------------------------------------------------------
-Successfully finished deployment creation, deployment_uid='7ca37c54-19ab-4632-a191-625b3da3c898'
-------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------
+Successfully finished deployment creation, deployment_id='8ba9dcdb-08bc-4aaa-8fa0-f80dc8cdda0d'
+-----------------------------------------------------------------------------------------------
 
 
 </pre>
@@ -8234,18 +8602,7 @@ Successfully finished deployment creation, deployment_uid='7ca37c54-19ab-4632-a1
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><a id="score"></a></p>
-<h2 id="5.-Scoring">5. Scoring<a class="anchor-link" href="#5.-Scoring">¶</a></h2><p>You can create batch job using below methods.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="5.1-Scoring-using-data_asset-pointing-to-the-DB2.">5.1 Scoring using <code>data_asset</code> pointing to the DB2.<a class="anchor-link" href="#5.1-Scoring-using-data_asset-pointing-to-the-DB2.">¶</a></h3>
+<h2 id="5.-Scoring">5. Scoring<a class="anchor-link" href="#5.-Scoring">¶</a></h2><p>Create deployment job</p>
 </div>
 </div>
 </div>
@@ -8254,141 +8611,7 @@ Successfully finished deployment creation, deployment_uid='7ca37c54-19ab-4632-a1
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">job_payload_ref</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">ScoringMetaNames</span><span class="o">.</span><span class="n">INPUT_DATA_REFERENCES</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span>
-            <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"conn_db2"</span><span class="p">,</span>
-            <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"input_data_1_href"</span><span class="p">,</span>
-            <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"data_asset"</span><span class="p">,</span>
-            <span class="s2">"connection"</span><span class="p">:</span> <span class="p">{},</span>
-            <span class="s2">"location"</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">"href"</span><span class="p">:</span> <span class="n">input_data_1_href</span>
-            <span class="p">}</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"conn_db2"</span><span class="p">,</span>
-            <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"input_data_2_href"</span><span class="p">,</span>
-            <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"data_asset"</span><span class="p">,</span>
-            <span class="s2">"connection"</span><span class="p">:</span> <span class="p">{},</span>
-            <span class="s2">"location"</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">"href"</span><span class="p">:</span> <span class="n">input_data_2_href</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">],</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">ScoringMetaNames</span><span class="o">.</span><span class="n">OUTPUT_DATA_REFERENCE</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"data_asset"</span><span class="p">,</span>
-            <span class="s2">"connection"</span><span class="p">:</span> <span class="p">{},</span>
-            <span class="s2">"location"</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">"href"</span><span class="p">:</span> <span class="n">output_data_href</span>
-            <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="n">deployment_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">deployment</span><span class="p">)</span>
-<span class="n">job</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">create_job</span><span class="p">(</span><span class="n">deployment_id</span><span class="p">,</span> <span class="n">meta_props</span><span class="o">=</span><span class="n">job_payload_ref</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>You can retrive job ID.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">job_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_job_id</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h5 id="Monitor-job-execution">Monitor job execution<a class="anchor-link" href="#Monitor-job-execution">¶</a></h5><p>Here you can check the status of your batch scoring. When batch job is completed the results will be written to a Db2 table.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
-
-<span class="n">elapsed_time</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="k">while</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_job_status</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'state'</span><span class="p">)</span> <span class="o">!=</span> <span class="s1">'completed'</span> <span class="ow">and</span> <span class="n">elapsed_time</span> <span class="o">&lt;</span> <span class="mi">300</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">" Current state: </span><span class="si">{</span><span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_job_status</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'state'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="n">elapsed_time</span> <span class="o">+=</span> <span class="mi">10</span>
-    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="k">if</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_job_status</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'state'</span><span class="p">)</span> <span class="o">==</span> <span class="s1">'completed'</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">" Current state: </span><span class="si">{</span><span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_job_status</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'state'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="n">job_details_do</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_job_details</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">job_details_do</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"Job hasn't completed successfully in 5 minutes."</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre> Current state: queued
- Current state: running
- Current state: completed
-{'entity': {'deployment': {'id': 'ac0dfe9a-6c98-4eeb-967b-120f9234b0e5'}, 'platform_job': {'job_id': 'bfcf37c5-d190-49bd-abca-fb22116323f5', 'run_id': '361b151b-c5f6-48dc-ae1d-776642c9a692'}, 'scoring': {'input_data_references': [{'connection': {}, 'id': 'conn_db2', 'location': {'href': '/v2/assets/04f74392-0b89-4ca6-baa1-157e4295bd8b?space_id=680a7515-620c-461f-9c6f-1f4c535bfc47'}, 'type': 'data_asset'}, {'connection': {}, 'id': 'conn_db2', 'location': {'href': '/v2/assets/d1e1c2eb-d0eb-430f-8707-f948c0b37ba2?space_id=680a7515-620c-461f-9c6f-1f4c535bfc47'}, 'type': 'data_asset'}], 'output_data_reference': {'connection': {}, 'location': {'href': '/v2/assets/8009a976-1218-42b7-81fc-39b77ec225cd?space_id=680a7515-620c-461f-9c6f-1f4c535bfc47'}, 'type': 'data_asset'}, 'status': {'completed_at': '2021-05-13T08:26:06.058Z', 'running_at': '2021-05-13T08:25:58.434Z', 'state': 'completed'}}}, 'metadata': {'created_at': '2021-05-13T08:25:47.071Z', 'id': 'a5d0e0b3-62c5-41f4-879b-41702e16b185', 'modified_at': '2021-05-13T08:26:06.191Z', 'name': 'name_d68b05fd-7866-4a48-af56-235eb3f03809', 'space_id': '680a7515-620c-461f-9c6f-1f4c535bfc47'}}
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="5.2-Scoring-using-connection_asset-poiniting-to-the-DB2">5.2 Scoring using <code>connection_asset</code> poiniting to the DB2<a class="anchor-link" href="#5.2-Scoring-using-connection_asset-poiniting-to-the-DB2">¶</a></h3>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">job_payload_ref</span> <span class="o">=</span> <span class="p">{</span>
@@ -8397,43 +8620,28 @@ Successfully finished deployment creation, deployment_uid='7ca37c54-19ab-4632-a1
             <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"conn_db2"</span><span class="p">,</span>
             <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"input_table_1"</span><span class="p">,</span>
             <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"connection_asset"</span><span class="p">,</span>
-            <span class="s2">"connection"</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">"id"</span><span class="p">:</span> <span class="n">db2_conn_id</span>
-            <span class="p">},</span>
-            <span class="s2">"location"</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">"schema_name"</span><span class="p">:</span> <span class="n">schema_name</span><span class="p">,</span>
-                <span class="s2">"file_name"</span><span class="p">:</span> <span class="n">input_table_1</span>
-            <span class="p">}</span>
+            <span class="s2">"connection"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"id"</span><span class="p">:</span> <span class="n">db2_connection_id</span><span class="p">},</span>
+            <span class="s2">"location"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"schema_name"</span><span class="p">:</span> <span class="n">schema_name</span><span class="p">,</span> <span class="s2">"file_name"</span><span class="p">:</span> <span class="n">input_table_1</span><span class="p">},</span>
         <span class="p">},</span>
         <span class="p">{</span>
             <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"conn_db2"</span><span class="p">,</span>
             <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"input_table_2"</span><span class="p">,</span>
             <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"connection_asset"</span><span class="p">,</span>
-            <span class="s2">"connection"</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">"id"</span><span class="p">:</span> <span class="n">db2_conn_id</span>
-            <span class="p">},</span>
-            <span class="s2">"location"</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">"schema_name"</span><span class="p">:</span> <span class="n">schema_name</span><span class="p">,</span>
-                <span class="s2">"file_name"</span><span class="p">:</span> <span class="n">input_table_2</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
+            <span class="s2">"connection"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"id"</span><span class="p">:</span> <span class="n">db2_connection_id</span><span class="p">},</span>
+            <span class="s2">"location"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"schema_name"</span><span class="p">:</span> <span class="n">schema_name</span><span class="p">,</span> <span class="s2">"file_name"</span><span class="p">:</span> <span class="n">input_table_2</span><span class="p">},</span>
+        <span class="p">},</span>
     <span class="p">],</span>
     <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">ScoringMetaNames</span><span class="o">.</span><span class="n">OUTPUT_DATA_REFERENCE</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"conn_db2"</span><span class="p">,</span>
-            <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"output_table"</span><span class="p">,</span>
-            <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"connection_asset"</span><span class="p">,</span>
-            <span class="s2">"connection"</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">"id"</span><span class="p">:</span> <span class="n">db2_conn_id</span>
-            <span class="p">},</span>
-            <span class="s2">"location"</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">"schema_name"</span><span class="p">:</span> <span class="n">schema_name</span><span class="p">,</span>
-                <span class="s2">"file_name"</span><span class="p">:</span> <span class="n">output_table</span>
-            <span class="p">}</span>
-    <span class="p">}</span>
+        <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"conn_db2"</span><span class="p">,</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"output_table"</span><span class="p">,</span>
+        <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"connection_asset"</span><span class="p">,</span>
+        <span class="s2">"connection"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"id"</span><span class="p">:</span> <span class="n">db2_connection_id</span><span class="p">},</span>
+        <span class="s2">"location"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"schema_name"</span><span class="p">:</span> <span class="n">schema_name</span><span class="p">,</span> <span class="s2">"file_name"</span><span class="p">:</span> <span class="n">output_table</span><span class="p">},</span>
+    <span class="p">},</span>
 <span class="p">}</span>
 
 <span class="n">deployment_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">deployment</span><span class="p">)</span>
-<span class="n">job</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">create_job</span><span class="p">(</span><span class="n">deployment_id</span><span class="p">,</span> <span class="n">meta_props</span><span class="o">=</span><span class="n">job_payload_ref</span><span class="p">)</span>
+<span class="n">job_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">create_job</span><span class="p">(</span><span class="n">deployment_id</span><span class="p">,</span> <span class="n">meta_props</span><span class="o">=</span><span class="n">job_payload_ref</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8446,7 +8654,7 @@ Successfully finished deployment creation, deployment_uid='7ca37c54-19ab-4632-a1
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Retrive job ID.</p>
+<p>Retrieve job ID</p>
 </div>
 </div>
 </div>
@@ -8455,10 +8663,10 @@ Successfully finished deployment creation, deployment_uid='7ca37c54-19ab-4632-a1
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">job_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_job_id</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">job_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_job_id</span><span class="p">(</span><span class="n">job_details</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8480,20 +8688,23 @@ Successfully finished deployment creation, deployment_uid='7ca37c54-19ab-4632-a1
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 
-<span class="n">elapsed_time</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="k">while</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_job_status</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'state'</span><span class="p">)</span> <span class="o">!=</span> <span class="s1">'completed'</span> <span class="ow">and</span> <span class="n">elapsed_time</span> <span class="o">&lt;</span> <span class="mi">300</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">" Current state: </span><span class="si">{</span><span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_job_status</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'state'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="n">elapsed_time</span> <span class="o">+=</span> <span class="mi">10</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="k">while</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span> <span class="o">&lt;</span> <span class="mi">300</span><span class="p">:</span>
     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="k">if</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_job_status</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'state'</span><span class="p">)</span> <span class="o">==</span> <span class="s1">'completed'</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">" Current state: </span><span class="si">{</span><span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_job_status</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'state'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="n">job_details_do</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_job_details</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">job_details_do</span><span class="p">)</span>
+
+    <span class="n">job_status</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_job_status</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"state"</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">job_status</span> <span class="o">==</span> <span class="s2">"completed"</span> <span class="ow">or</span> <span class="s2">"fail"</span> <span class="ow">in</span> <span class="n">job_status</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Job finished with status: </span><span class="si">{</span><span class="n">job_status</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_job_details</span><span class="p">(</span><span class="n">job_id</span><span class="p">))</span>
+        <span class="k">break</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"."</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Job hasn't completed successfully in 5 minutes."</span><span class="p">)</span>
 </pre></div>
@@ -8508,10 +8719,9 @@ Successfully finished deployment creation, deployment_uid='7ca37c54-19ab-4632-a1
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre> Current state: queued
- Current state: running
- Current state: completed
-{'entity': {'deployment': {'id': 'ac0dfe9a-6c98-4eeb-967b-120f9234b0e5'}, 'platform_job': {'job_id': 'bfcf37c5-d190-49bd-abca-fb22116323f5', 'run_id': '4d83ddcb-88ca-45ca-8209-446698936b8d'}, 'scoring': {'input_data_references': [{'connection': {'id': 'ae2a374b-85fd-4823-b6f5-95f11662324f'}, 'id': 'conn_db2', 'location': {'file_name': 'CUSTOMER', 'schema_name': 'PUT YOUR SCHEMA NAME HERE'}, 'type': 'connection_asset'}, {'connection': {'id': 'ae2a374b-85fd-4823-b6f5-95f11662324f'}, 'id': 'conn_db2', 'location': {'file_name': 'CUSTOMER_2', 'schema_name': 'PUT YOUR SCHEMA NAME HERE'}, 'type': 'connection_asset'}], 'output_data_reference': {'connection': {'id': 'ae2a374b-85fd-4823-b6f5-95f11662324f'}, 'id': 'conn_db2', 'location': {'file_name': 'OUTPUT', 'schema_name': 'PUT YOUR SCHEMA NAME HERE'}, 'type': 'connection_asset'}, 'status': {'completed_at': '2021-05-13T08:26:43.422Z', 'running_at': '2021-05-13T08:26:35.279Z', 'state': 'completed'}}}, 'metadata': {'created_at': '2021-05-13T08:26:23.663Z', 'id': '77973aa5-fbd0-41b8-9012-a4e2016a57dc', 'modified_at': '2021-05-13T08:26:43.622Z', 'name': 'name_3dc38b68-0227-4422-b7eb-b9bdd3f72d95', 'space_id': '680a7515-620c-461f-9c6f-1f4c535bfc47'}}
+<pre>............
+Job finished with status: completed
+{'entity': {'deployment': {'id': '8ba9dcdb-08bc-4aaa-8fa0-f80dc8cdda0d'}, 'platform_job': {'job_id': 'fc8b9526-ef23-486f-8a41-d5af4ff958a1', 'run_id': 'e9c2e737-fb9c-4521-a36a-618d94653f02'}, 'scoring': {'input_data_references': [{'connection': {'id': 'ce2fbb1b-f31f-464e-8aaa-6fe550804142'}, 'id': 'conn_db2', 'location': {'file_name': 'CUSTOMER', 'schema_name': 'SPSS_NOTEBOOK'}, 'type': 'connection_asset'}, {'connection': {'id': 'ce2fbb1b-f31f-464e-8aaa-6fe550804142'}, 'id': 'conn_db2', 'location': {'file_name': 'CUSTOMER_2', 'schema_name': 'SPSS_NOTEBOOK'}, 'type': 'connection_asset'}], 'output_data_reference': {'connection': {'id': 'ce2fbb1b-f31f-464e-8aaa-6fe550804142'}, 'id': 'conn_db2', 'location': {'file_name': 'OUTPUT', 'schema_name': 'SPSS_NOTEBOOK'}, 'type': 'connection_asset'}, 'status': {'completed_at': '2026-02-23T08:03:51.062Z', 'running_at': '2026-02-23T08:02:56.603Z', 'state': 'completed'}}}, 'metadata': {'created_at': '2026-02-23T08:01:39.944Z', 'id': 'e9c2e737-fb9c-4521-a36a-618d94653f02', 'modified_at': '2026-02-23T08:03:51.201Z', 'name': 'name_9d8ac842-3263-4eea-883d-08be2c18192c', 'space_id': 'fb3d528a-bf16-460e-bcf6-06f05d8ba57c'}}
 </pre>
 </div>
 </div>
@@ -8528,18 +8738,7 @@ Successfully finished deployment creation, deployment_uid='7ca37c54-19ab-4632-a1
 </div>
 </div>
 </div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><strong>Tip</strong>: To install <code>requests</code> execute the following command: <code>!pip install requests</code></p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8547,120 +8746,14 @@ Successfully finished deployment creation, deployment_uid='7ca37c54-19ab-4632-a1
 <div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">host</span> <span class="o">=</span> <span class="n">db_credentials</span><span class="p">[</span><span class="s2">"https_url"</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"/dbapi/v3"</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.helpers.connections</span><span class="w"> </span><span class="kn">import</span> <span class="n">DatabaseLocation</span><span class="p">,</span> <span class="n">DataConnection</span>
 
-<span class="n">url</span> <span class="o">=</span> <span class="n">host</span> <span class="o">+</span> <span class="s2">"/auth/tokens"</span>
-<span class="n">token</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="p">{</span>
-                             <span class="s2">"userid"</span><span class="p">:</span> <span class="n">db_credentials</span><span class="p">[</span><span class="s2">"username"</span><span class="p">],</span>
-                             <span class="s2">"password"</span><span class="p">:</span> <span class="n">db_credentials</span><span class="p">[</span><span class="s2">"password"</span><span class="p">]})</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">'token'</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h5 id="Get-stored-output-using-Db2-REST-API">Get stored output using Db2 REST API<a class="anchor-link" href="#Get-stored-output-using-Db2-REST-API">¶</a></h5>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">auth_header</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span>
-<span class="p">}</span>
-
-<span class="n">sql_command</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"commands"</span><span class="p">:</span> <span class="s2">"SELECT * FROM OUTPUT"</span><span class="p">,</span>
-    <span class="s2">"limit"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-    <span class="s2">"separator"</span><span class="p">:</span> <span class="s2">","</span><span class="p">,</span>
-    <span class="s2">"stop_on_error"</span><span class="p">:</span> <span class="s2">"yes"</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="n">host</span> <span class="o">+</span> <span class="s2">"/sql_jobs"</span>
-<span class="n">jobid</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">auth_header</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">sql_command</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">'id'</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">jobid</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">auth_header</span><span class="p">)</span>
-
-<span class="n">results</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">"results"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">columns</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s2">"columns"</span><span class="p">]</span>
-<span class="n">rows</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s2">"rows"</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h5 id="Preview-output-using-pandas-DateFrame">Preview output using pandas DateFrame<a class="anchor-link" href="#Preview-output-using-pandas-DateFrame">¶</a></h5><p><strong>Tip</strong>: To install <code>pandas</code> execute following command: <code>!pip install pandas</code></p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-
-<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">rows</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
+<span class="n">connection</span> <span class="o">=</span> <span class="n">DataConnection</span><span class="p">(</span>
+    <span class="n">connection_asset_id</span><span class="o">=</span><span class="n">db2_connection_id</span><span class="p">,</span>
+    <span class="n">location</span><span class="o">=</span><span class="n">DatabaseLocation</span><span class="p">(</span><span class="n">schema_name</span><span class="p">,</span> <span class="n">output_table</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">connection</span><span class="o">.</span><span class="n">set_client</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+<span class="n">connection</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -8670,8 +8763,19 @@ Successfully finished deployment creation, deployment_uid='7ca37c54-19ab-4632-a1
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Collecting pyarrow&gt;=3.0.0
+  Using cached pyarrow-23.0.1-cp312-cp312-macosx_12_0_arm64.whl.metadata (3.1 kB)
+Using cached pyarrow-23.0.1-cp312-cp312-macosx_12_0_arm64.whl (34.2 MB)
+Installing collected packages: pyarrow
+Successfully installed pyarrow-23.0.1
+</pre>
+</div>
+</div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[24]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[19]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
@@ -8700,143 +8804,143 @@ Successfully finished deployment creation, deployment_uid='7ca37c54-19ab-4632-a1
 <tbody>
 <tr>
 <th>0</th>
-<td>9237-HQITU</td>
-<td>Yes</td>
-<td>Yes</td>
-<td>0.8829830706957551</td>
-</tr>
-<tr>
-<th>1</th>
 <td>3638-WEABW</td>
 <td>No</td>
 <td>No</td>
-<td>0.0526309571556145</td>
+<td>0.052631</td>
 </tr>
 <tr>
-<th>2</th>
-<td>8665-UTDHZ</td>
-<td>Yes</td>
-<td>No</td>
-<td>0.17411004057470159</td>
-</tr>
-<tr>
-<th>3</th>
-<td>8773-HHUOZ</td>
-<td>Yes</td>
-<td>No</td>
-<td>0.48432324905415836</td>
-</tr>
-<tr>
-<th>4</th>
-<td>4080-IIARD</td>
-<td>No</td>
-<td>No</td>
-<td>0.0920141258229612</td>
-</tr>
-<tr>
-<th>5</th>
-<td>6575-SUVOI</td>
-<td>No</td>
-<td>No</td>
-<td>0.0920919392791626</td>
-</tr>
-<tr>
-<th>6</th>
-<td>7495-OOKFY</td>
-<td>Yes</td>
-<td>Yes</td>
-<td>0.9721495250458333</td>
-</tr>
-<tr>
-<th>7</th>
-<td>0731-EBJQB</td>
-<td>No</td>
-<td>No</td>
-<td>0.09059837844121355</td>
-</tr>
-<tr>
-<th>8</th>
-<td>1891-QRQSA</td>
-<td>No</td>
-<td>No</td>
-<td>0.09210273951918213</td>
-</tr>
-<tr>
-<th>9</th>
+<th>1</th>
 <td>5919-TMRGD</td>
 <td>Yes</td>
 <td>Yes</td>
-<td>0.8942276923073484</td>
+<td>0.894228</td>
 </tr>
 <tr>
-<th>10</th>
-<td>9364-YKUVW</td>
-<td>No</td>
-<td>No</td>
-<td>0.08573913673013789</td>
-</tr>
-<tr>
-<th>11</th>
-<td>7563-BIUPC</td>
-<td>Yes</td>
-<td>Yes</td>
-<td>0.878469673954569</td>
-</tr>
-<tr>
-<th>12</th>
-<td>4183-MYFRB</td>
-<td>No</td>
-<td>No</td>
-<td>0.41029784048995666</td>
-</tr>
-<tr>
-<th>13</th>
-<td>5729-KLZAR</td>
-<td>Yes</td>
-<td>Yes</td>
-<td>0.9589057770843653</td>
-</tr>
-<tr>
-<th>14</th>
-<td>9102-OXKFY</td>
-<td>No</td>
-<td>No</td>
-<td>0.0920128511710483</td>
-</tr>
-<tr>
-<th>15</th>
-<td>6078-VESFR</td>
-<td>No</td>
-<td>No</td>
-<td>0.25027748128974314</td>
-</tr>
-<tr>
-<th>16</th>
+<th>2</th>
 <td>9979-RGMZT</td>
 <td>No</td>
 <td>No</td>
-<td>0.08438119760083618</td>
+<td>0.084381</td>
 </tr>
 <tr>
-<th>17</th>
-<td>1965-DDBWU</td>
+<th>0</th>
+<td>4080-IIARD</td>
+<td>No</td>
+<td>No</td>
+<td>0.092014</td>
+</tr>
+<tr>
+<th>1</th>
+<td>6575-SUVOI</td>
+<td>No</td>
+<td>No</td>
+<td>0.092092</td>
+</tr>
+<tr>
+<th>2</th>
+<td>7495-OOKFY</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>0.972150</td>
+</tr>
+<tr>
+<th>3</th>
+<td>9102-OXKFY</td>
+<td>No</td>
+<td>No</td>
+<td>0.092013</td>
+</tr>
+<tr>
+<th>0</th>
+<td>9237-HQITU</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>0.882983</td>
+</tr>
+<tr>
+<th>1</th>
+<td>8665-UTDHZ</td>
 <td>Yes</td>
 <td>No</td>
-<td>0.24591107604601636</td>
+<td>0.174110</td>
 </tr>
 <tr>
-<th>18</th>
+<th>2</th>
+<td>9364-YKUVW</td>
+<td>No</td>
+<td>No</td>
+<td>0.085739</td>
+</tr>
+<tr>
+<th>3</th>
+<td>7563-BIUPC</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>0.878470</td>
+</tr>
+<tr>
+<th>4</th>
+<td>4183-MYFRB</td>
+<td>No</td>
+<td>No</td>
+<td>0.410298</td>
+</tr>
+<tr>
+<th>5</th>
 <td>7159-NOKYQ</td>
 <td>No</td>
 <td>No</td>
-<td>0.008693015730152798</td>
+<td>0.008693</td>
 </tr>
 <tr>
-<th>19</th>
+<th>0</th>
+<td>8773-HHUOZ</td>
+<td>Yes</td>
+<td>No</td>
+<td>0.484323</td>
+</tr>
+<tr>
+<th>1</th>
+<td>0731-EBJQB</td>
+<td>No</td>
+<td>No</td>
+<td>0.090598</td>
+</tr>
+<tr>
+<th>2</th>
+<td>1891-QRQSA</td>
+<td>No</td>
+<td>No</td>
+<td>0.092103</td>
+</tr>
+<tr>
+<th>3</th>
+<td>5729-KLZAR</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>0.958906</td>
+</tr>
+<tr>
+<th>4</th>
+<td>6078-VESFR</td>
+<td>No</td>
+<td>No</td>
+<td>0.250277</td>
+</tr>
+<tr>
+<th>5</th>
+<td>1965-DDBWU</td>
+<td>Yes</td>
+<td>No</td>
+<td>0.245911</td>
+</tr>
+<tr>
+<th>6</th>
 <td>6778-YSNIH</td>
 <td>No</td>
 <td>No</td>
-<td>0.04730024365943297</td>
+<td>0.047300</td>
 </tr>
 </tbody>
 </table>
@@ -8909,6 +9013,7 @@ Successfully finished deployment creation, deployment_uid='7ca37c54-19ab-4632-a1
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="Author">Author<a class="anchor-link" href="#Author">¶</a></h3><p><strong>Jan Sołtysik</strong> Intern at watsonx.ai.</p>
+<p><strong>Rafał Chrzanowski</strong> Software Engineer at watsonx.ai</p>
 </div>
 </div>
 </div>
