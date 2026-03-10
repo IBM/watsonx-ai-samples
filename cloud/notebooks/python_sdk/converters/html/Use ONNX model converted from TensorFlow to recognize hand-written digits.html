@@ -7824,13 +7824,13 @@ a.anchor-link {
 </ul>
 <h2 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h2><p>This notebook contains the following parts:</p>
 <ol>
-<li><a href="#setup">Setting up the environment</a></li>
-<li><a href="#download">Downloading externally created TensorFlow model and data</a></li>
-<li><a href="#convert">Converting TensorFlow model to ONNX format</a></li>
-<li><a href="#upload">Persisting converted ONNX model</a></li>
-<li><a href="#deploy">Deploying and scoring ONNX model</a></li>
-<li><a href="#cleanup">Cleaning up</a></li>
-<li><a href="#summary">Summary and next steps</a></li>
+<li><a href="#1.-Setting-up-the-environment">Setting up the environment</a></li>
+<li><a href="#2.-Downloading-externally-created-TensorFlow-model-and-data">Downloading externally created TensorFlow model and data</a></li>
+<li><a href="#3.-Converting-TensorFlow-model-to-ONNX-format">Converting TensorFlow model to ONNX format</a></li>
+<li><a href="#4.-Persisting-converted-ONNX-model">Persisting converted ONNX model</a></li>
+<li><a href="#5.-Deploying-and-scoring-ONNX-model">Deploying and scoring ONNX model</a></li>
+<li><a href="#6.-Cleaning-up">Cleaning up</a></li>
+<li><a href="#7.-Summary-and-next-steps">Summary and next steps</a></li>
 </ol>
 </div>
 </div>
@@ -7842,7 +7842,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="setup"></a></p>
+<p><a id="1.-Setting-up-the-environment"></a></p>
 <h2 id="1.-Setting-up-the-environment">1. Setting up the environment<a class="anchor-link" href="#1.-Setting-up-the-environment">¶</a></h2><p>Before you use the sample code in this notebook, you must perform the following setup tasks:</p>
 <ul>
 <li>Create a <a href="https://cloud.ibm.com/catalog/services/watsonxai-runtime">watsonx.ai Runtime</a> instance (information on service plans and further reading can be found <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/wml-plans.html?context=wx&amp;audience=wdp">here</a>).</li>
@@ -8075,7 +8075,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="download"></a></p>
+<p><a id="2.-Downloading-externally-created-TensorFlow-model-and-data"></a></p>
 <h2 id="2.-Downloading-externally-created-TensorFlow-model-and-data">2. Downloading externally created TensorFlow model and data<a class="anchor-link" href="#2.-Downloading-externally-created-TensorFlow-model-and-data">¶</a></h2><p>In this section, you will download externally created TensorFlow models and data used for training it. You can choose to download either a <strong>TensorFlow</strong> or a <strong>Keras</strong> model.</p>
 </div>
 </div>
@@ -8184,7 +8184,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="convert"></a></p>
+<p><a id="3.-Converting-TensorFlow-model-to-ONNX-format"></a></p>
 <h2 id="3.-Converting-TensorFlow-model-to-ONNX-format">3. Converting TensorFlow model to ONNX format<a class="anchor-link" href="#3.-Converting-TensorFlow-model-to-ONNX-format">¶</a></h2><p>In this section, you will unpack externally created TensorFlow models, provided in either SavedModel or Keras format (depending on your earlier selection), from the tar archive and convert them to the ONNX format. More information can be found <a href="https://onnxruntime.ai/docs/tutorials/tf-get-started.html">here</a>.</p>
 </div>
 </div>
@@ -8375,7 +8375,7 @@ I0000 00:00:1771225953.242191   41231 single_machine.cc:361] Starting new sessio
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="evaluation-onnx"></a></p>
+<p><a id="3.3.-Evaluating-the-ONNX-Model"></a></p>
 <h3 id="3.3.-Evaluating-the-ONNX-Model">3.3. Evaluating the ONNX Model<a class="anchor-link" href="#3.3.-Evaluating-the-ONNX-Model">¶</a></h3><p>After exporting the model, you should verify its integrity and ensure that it functions as expected. We will use <code>onnxruntime</code> to load the model and perform inference on the test data. Additionally, we’ll use <code>onnx</code>'s <code>checker</code> module to validate the exported ONNX model.</p>
 </div>
 </div>
@@ -8437,7 +8437,7 @@ I0000 00:00:1771225953.242191   41231 single_machine.cc:361] Starting new sessio
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="upload"></a></p>
+<p><a id="4.-Persisting-converted-ONNX-model"></a></p>
 <h2 id="4.-Persisting-converted-ONNX-model">4. Persisting converted ONNX model<a class="anchor-link" href="#4.-Persisting-converted-ONNX-model">¶</a></h2>
 </div>
 </div>
@@ -8603,7 +8603,7 @@ I0000 00:00:1771225953.242191   41231 single_machine.cc:361] Starting new sessio
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="deploy"></a></p>
+<p><a id="5.-Deploying-and-scoring-ONNX-model"></a></p>
 <h2 id="5.-Deploying-and-scoring-ONNX-model">5. Deploying and scoring ONNX model<a class="anchor-link" href="#5.-Deploying-and-scoring-ONNX-model">¶</a></h2>
 </div>
 </div>
@@ -8752,7 +8752,6 @@ Successfully finished deployment creation, deployment_id='10d18703-6032-41ed-87a
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="score"></a></p>
 <h3 id="5.3.-Scoring">5.3. Scoring<a class="anchor-link" href="#5.3.-Scoring">¶</a></h3>
 </div>
 </div>
@@ -8990,7 +8989,7 @@ Successfully finished deployment creation, deployment_id='10d18703-6032-41ed-87a
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>As you can see, the predicted values are consistent with those calculated in the <a href="#evaluation-onnx">evaluation</a> section.</p>
+<p>As you can see, the predicted values are consistent with those calculated in the <a href="#3.3.-Evaluating-the-ONNX-Model">evaluation</a> section.</p>
 </div>
 </div>
 </div>
@@ -9001,7 +9000,7 @@ Successfully finished deployment creation, deployment_id='10d18703-6032-41ed-87a
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="cleanup"></a></p>
+<p><a id="6.-Cleaning-up"></a></p>
 <h2 id="6.-Cleaning-up">6. Cleaning up<a class="anchor-link" href="#6.-Cleaning-up">¶</a></h2>
 </div>
 </div>
@@ -9034,7 +9033,7 @@ Successfully finished deployment creation, deployment_id='10d18703-6032-41ed-87a
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="summary"></a></p>
+<p><a id="7.-Summary-and-next-steps"></a></p>
 <h2 id="7.-Summary-and-next-steps">7. Summary and next steps<a class="anchor-link" href="#7.-Summary-and-next-steps">¶</a></h2>
 </div>
 </div>
