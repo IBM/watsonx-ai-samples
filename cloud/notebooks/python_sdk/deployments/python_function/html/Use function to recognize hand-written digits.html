@@ -7813,14 +7813,14 @@ See: <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/f
 </ul>
 <h2 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h2><p>This notebook contains the following parts:</p>
 <ol>
-<li><a href="#setup">Setup</a></li>
-<li><a href="#step4">Get an ID for a model deployment</a></li>
-<li><a href="#step5">Get sample canvas data</a></li>
-<li><a href="#upload">Create a deployable function</a></li>
-<li><a href="#deploy">Store and deploy the function</a></li>
-<li><a href="#score">Test the deployed function</a></li>
-<li><a href="#cleanup">Clean up</a></li>
-<li><a href="#summary">Summary</a></li>
+<li><a href="#1.-Set-up-the-environment">Set up the environment</a></li>
+<li><a href="#2.-Get-an-ID-for-a-model-deployment">Get an ID for a model deployment</a></li>
+<li><a href="#3.-Get-sample-canvas-data">Get sample canvas data</a></li>
+<li><a href="#4.-Create-a-deployable-function">Create a deployable function</a></li>
+<li><a href="#5.-Store-and-deploy-the-function">Store and deploy the function</a></li>
+<li><a href="#6.-Test-the-deployed-function">Test the deployed function</a></li>
+<li><a href="#7.-Clean-up">Clean up</a></li>
+<li><a href="#8.-Summary-and-next-steps">Summary</a></li>
 </ol>
 </div>
 </div>
@@ -7832,7 +7832,7 @@ See: <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/f
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="setup"></a></p>
+<p><a id="1.-Set-up-the-environment"></a></p>
 <h2 id="1.-Set-up-the-environment">1. Set up the environment<a class="anchor-link" href="#1.-Set-up-the-environment">¶</a></h2><p>Before you use the sample code in this notebook, you must perform the following setup tasks:</p>
 <ul>
 <li>Create a <a href="https://cloud.ibm.com/catalog/services/watsonxai-runtime" rel="noopener no referrer" target="_blank">watsonx.ai Runtime Service</a> instance (a free plan is offered and information about how to create the instance can be found <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/wml-plans.html?context=wx&amp;audience=wdp" rel="noopener no referrer" target="_blank">here</a>).</li>
@@ -8011,7 +8011,8 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="2.--Get-an-ID-for-a-model-deployment">2. <a id="step4"></a> Get an ID for a model deployment<a class="anchor-link" href="#2.--Get-an-ID-for-a-model-deployment">¶</a></h2><p>The deployed function created in this notebook is designed to send payload data to a TensorFlow model created in the <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/fl-tf2-tutorial.html?context=wx&amp;audience=wdp" rel="noopener noreferrer" target="_blank">MNIST tutorials</a>.</p>
+<p><a id="2.-Get-an-ID-for-a-model-deployment"></a></p>
+<h2 id="2.-Get-an-ID-for-a-model-deployment">2. Get an ID for a model deployment<a class="anchor-link" href="#2.-Get-an-ID-for-a-model-deployment">¶</a></h2><p>The deployed function created in this notebook is designed to send payload data to a TensorFlow model created in the <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/fl-tf2-tutorial.html?context=wx&amp;audience=wdp" rel="noopener noreferrer" target="_blank">MNIST tutorials</a>.</p>
 </div>
 </div>
 </div>
@@ -8281,7 +8282,8 @@ Successfully finished deployment creation, deployment_id='bcdf511f-4971-4a7e-aa9
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="-3.-Get-sample-canvas-data"><a id="step5"></a> 3. Get sample canvas data<a class="anchor-link" href="#-3.-Get-sample-canvas-data">¶</a></h2><p>The deployed function created in this notebook is designed to accept RGBA image data from an HTML canvas object.</p>
+<p><a id="3.-Get-sample-canvas-data"></a></p>
+<h2 id="3.-Get-sample-canvas-data">3. Get sample canvas data<a class="anchor-link" href="#3.-Get-sample-canvas-data">¶</a></h2><p>The deployed function created in this notebook is designed to accept RGBA image data from an HTML canvas object.</p>
 <p>Run the following cells to download and view sample canvas data for testing the deployed function.</p>
 </div>
 </div>
@@ -8480,7 +8482,8 @@ Num image data entries: 139876 - (n * n * 4) elements - RGBA values
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="-4.-Create-a-deployable-function"><a id="upload"></a> 4. Create a deployable function<a class="anchor-link" href="#-4.-Create-a-deployable-function">¶</a></h2><p>The basics of creating and deploying functions in watsonx.ai Runtime.</p>
+<p><a id="4.-Create-a-deployable-function"></a></p>
+<h2 id="4.-Create-a-deployable-function">4. Create a deployable function<a class="anchor-link" href="#4.-Create-a-deployable-function">¶</a></h2><p>The basics of creating and deploying functions in watsonx.ai Runtime.</p>
 </div>
 </div>
 </div>
@@ -8677,7 +8680,7 @@ Num image data entries: 139876 - (n * n * 4) elements - RGBA values
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="deploy"></a></p>
+<p><a id="5.-Store-and-deploy-the-function"></a></p>
 <h2 id="5.-Store-and-deploy-the-function">5. Store and deploy the function<a class="anchor-link" href="#5.-Store-and-deploy-the-function">¶</a></h2>
 </div>
 </div>
@@ -8835,7 +8838,8 @@ Successfully finished deployment creation, deployment_id='fa27828d-00b4-41c6-b20
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="-6.-Test-the-deployed-function"><a id="score"></a> 6. Test the deployed function<a class="anchor-link" href="#-6.-Test-the-deployed-function">¶</a></h2><p>You can use the watsonx.ai Python client or REST API to send data to your function deployment for processing in exactly the same way you send data to model deployments for processing.</p>
+<p><a id="6.-Test-the-deployed-function"></a></p>
+<h2 id="6.-Test-the-deployed-function">6. Test the deployed function<a class="anchor-link" href="#6.-Test-the-deployed-function">¶</a></h2><p>You can use the watsonx.ai Python client or REST API to send data to your function deployment for processing in exactly the same way you send data to model deployments for processing.</p>
 </div>
 </div>
 </div>
@@ -9033,7 +9037,8 @@ Successfully finished deployment creation, deployment_id='fa27828d-00b4-41c6-b20
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="-7.-Clean-up"><a id="cleanup"></a> 7. Clean up<a class="anchor-link" href="#-7.-Clean-up">¶</a></h2>
+<p><a id="7.-Clean-up"></a></p>
+<h2 id="7.-Clean-up">7. Clean up<a class="anchor-link" href="#7.-Clean-up">¶</a></h2>
 </div>
 </div>
 </div>
@@ -9065,7 +9070,7 @@ Successfully finished deployment creation, deployment_id='fa27828d-00b4-41c6-b20
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="summary"></a></p>
+<p><a id="8.-Summary-and-next-steps"></a></p>
 <h2 id="8.-Summary-and-next-steps">8. Summary and next steps<a class="anchor-link" href="#8.-Summary-and-next-steps">¶</a></h2><p>In this notebook, you created a Python function that receives HTML canvas image data and then processes and sends that data to a model trained to recognize handwritten digits.</p>
 </div>
 </div>
@@ -9077,7 +9082,7 @@ Successfully finished deployment creation, deployment_id='fa27828d-00b4-41c6-b20
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Authors"><a id="authors"></a>Authors<a class="anchor-link" href="#Authors">¶</a></h3><p><strong>Sarah Packowski</strong> is a member of the IBM Watson Studio Content Design team in Canada.</p>
+<h3 id="Authors">Authors<a class="anchor-link" href="#Authors">¶</a></h3><p><strong>Sarah Packowski</strong> is a member of the IBM Watson Studio Content Design team in Canada.</p>
 <p><strong>Mateusz Szewczyk</strong>, Software Engineer at watsonx.ai</p>
 </div>
 </div>

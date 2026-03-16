@@ -7822,15 +7822,15 @@ a.anchor-link {
 <h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The primary objective of this notebook is to illustrate how to utilize watsonx.ai AI services to execute a <code>generate_batch</code> job, facilitating the ingestion of documents into a Milvus vector database.</p>
 <h2 id="Table-of-Contents">Table of Contents<a class="anchor-link" href="#Table-of-Contents">¶</a></h2><p>This notebook contains the following parts:</p>
 <ul>
-<li><a href="#setup">Setup</a></li>
-<li><a href="#vectorstore">Set up VectorStore with Milvus credentials</a></li>
-<li><a href="#input_data">References to input data</a></li>
-<li><a href="#ai_service">Create AI service</a></li>
-<li><a href="#testing">Testing AI service's function locally</a></li>
-<li><a href="#deploy">Deploy AI service</a></li>
-<li><a href="#example">Example of Executing an AI service</a></li>
-<li><a href="#cleanup">Cleanup</a></li>
-<li><a href="#summary">Summary and next steps</a></li>
+<li><a href="#Set-up-the-environment">Set up the environment</a></li>
+<li><a href="#Set-up-VectorStore-with-Milvus-credentials">Set up VectorStore with Milvus credentials</a></li>
+<li><a href="#References-to-input-data">References to input data</a></li>
+<li><a href="#Create-AI-service">Create AI service</a></li>
+<li><a href="#Testing-AI-service%27s-function-locally">Testing AI service's function locally</a></li>
+<li><a href="#Deploy-AI-service">Deploy AI service</a></li>
+<li><a href="#Example-of-executing-an-AI-service">Example of Executing an AI service</a></li>
+<li><a href="#Cleanup">Cleanup</a></li>
+<li><a href="#Summary-and-next-steps">Summary and next steps</a></li>
 </ul>
 </div>
 </div>
@@ -7842,7 +7842,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="setup"></a></p>
+<p><a id="Set-up-the-environment"></a></p>
 <h2 id="Set-up-the-environment">Set up the environment<a class="anchor-link" href="#Set-up-the-environment">¶</a></h2><p>Before you use the sample code in this notebook, you must perform the following setup tasks:</p>
 <ul>
 <li>Create a <a href="https://cloud.ibm.com/catalog/services/watsonxai-runtime" rel="noopener no referrer" target="_blank">watsonx.ai Runtime Service</a> instance (a free plan is offered and information about how to create the instance can be found <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/wml-plans.html?context=wx&amp;audience=wdp" rel="noopener no referrer" target="_blank">here</a>).</li>
@@ -8117,7 +8117,7 @@ Successfully installed Pillow-12.1.0 XlsxWriter-3.2.9 backoff-2.2.1 bcrypt-5.0.0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="vectorstore"></a></p>
+<p><a id="Set-up-VectorStore-with-Milvus-credentials"></a></p>
 <h2 id="Set-up-VectorStore-with-Milvus-credentials">Set up VectorStore with Milvus credentials<a class="anchor-link" href="#Set-up-VectorStore-with-Milvus-credentials">¶</a></h2><p>Create a VectorStore class that automatically detects the database type (in our case it will be Milvus) and allows us to add, search and delete documents.</p>
 <p>It works as a wrapper for LangChain VectorStore classes. You can customize the settings as long as it is supported. Consult the LangChain documentation for more information about <a href="https://api.python.langchain.com/en/latest/vectorstores/langchain_community.vectorstores.milvus.Milvus.html" rel="noopener no referrer" target="_blank">Milvus</a> connector.</p>
 <p>Provide the name of your Milvus index for subsequent operations:</p>
@@ -8221,7 +8221,7 @@ Successfully installed Pillow-12.1.0 XlsxWriter-3.2.9 backoff-2.2.1 bcrypt-5.0.0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="input_data"></a></p>
+<p><a id="References-to-input-data"></a></p>
 <h2 id="References-to-input-data">References to input data<a class="anchor-link" href="#References-to-input-data">¶</a></h2><p>This example uses the <code>ModelInference</code> description from the <a href="https://ibm.github.io/watsonx-ai-python-sdk/fm_model_inference.html"><code>ibm_watsonx_ai</code></a> documentation.</p>
 </div>
 </div>
@@ -8391,7 +8391,7 @@ SUCCESS
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="ai_service"></a></p>
+<p><a id="Create-AI-service"></a></p>
 <h2 id="Create-AI-service">Create AI service<a class="anchor-link" href="#Create-AI-service">¶</a></h2><p>Prepare function which will be deployed using AI service.</p>
 <p>Please specify the default parameters that will be passed to the function.</p>
 </div>
@@ -8482,7 +8482,7 @@ SUCCESS
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="testing"></a></p>
+<p><a id="Testing-AI-service's-function-locally"></a></p>
 <h2 id="Testing-AI-service's-function-locally">Testing AI service's function locally<a class="anchor-link" href="#Testing-AI-service's-function-locally">¶</a></h2><p>You can test AI service's function locally. Initialise <code>RuntimeContext</code> firstly.</p>
 </div>
 </div>
@@ -8658,7 +8658,7 @@ Vector Store count: 93
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="deploy"></a></p>
+<p><a id="Deploy-AI-service"></a></p>
 <h2 id="Deploy-AI-service">Deploy AI service<a class="anchor-link" href="#Deploy-AI-service">¶</a></h2><p>Store AI service with previous created custom software specifications.</p>
 </div>
 </div>
@@ -8835,7 +8835,7 @@ deployment_id='2cb23a1e-367c-4a0b-872d-1d6c6f856a64'
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="example"></a></p>
+<p><a id="Example-of-executing-an-AI-service"></a></p>
 <h2 id="Example-of-executing-an-AI-service">Example of executing an AI service<a class="anchor-link" href="#Example-of-executing-an-AI-service">¶</a></h2><p>Run the following cells to create and run a job with the deployed AI service.</p>
 </div>
 </div>
@@ -8993,7 +8993,7 @@ deployment_id='2cb23a1e-367c-4a0b-872d-1d6c6f856a64'
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="cleanup"></a></p>
+<p><a id="Cleanup"></a></p>
 <h2 id="Cleanup">Cleanup<a class="anchor-link" href="#Cleanup">¶</a></h2><p>Please execute the following commands to clean up and decommission all resources provisioned during the execution of this notebook.</p>
 </div>
 </div>
@@ -9152,7 +9152,7 @@ deployment_id='2cb23a1e-367c-4a0b-872d-1d6c6f856a64'
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="summary"></a></p>
+<p><a id="Summary-and-next-steps"></a></p>
 <h2 id="Summary-and-next-steps">Summary and next steps<a class="anchor-link" href="#Summary-and-next-steps">¶</a></h2><p>You successfully completed this notebook!</p>
 <p>You have successfully learned how to design and deploy an AI service utilizing the <code>generate_batch</code> functionality, leveraging the capabilities of the <code>ibm_watsonx_ai</code> SDK.</p>
 <p>Check out our <em><a href="https://ibm.github.io/watsonx-ai-python-sdk/samples.html" rel="noopener no referrer" target="_blank">Online Documentation</a></em> for more samples, tutorials, documentation, how-tos, and blog posts.</p>

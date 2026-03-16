@@ -7834,14 +7834,14 @@ a.anchor-link {
 <li>Perform predictions using the deployed model</li>
 </ul>
 <h2 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h2><ol>
-<li><a href="#setup">Set up the environment</a></li>
-<li><a href="#install_lib">Install python library containing custom transformer implementation</a></li>
-<li><a href="#load">Prepare training data</a></li>
-<li><a href="#train">Train the scikit-learn model</a></li>
-<li><a href="#upload">Save the model and library to watsonx.ai Runtime repository</a></li>
-<li><a href="#deploy">Deploy and score data in the IBM Cloud</a></li>
-<li><a href="#cleanup">Clean up</a></li>
-<li><a href="#summary">Summary and next steps</a></li>
+<li><a href="#1.-Set-up-the-environment">Set up the environment</a></li>
+<li><a href="#2.-Install-the-library-containing-custom-transformer">Install python library containing custom transformer implementation</a></li>
+<li><a href="#3.-Download-training-dataset-and-prepare-training-data">Prepare training data</a></li>
+<li><a href="#4.-Train-a-model">Train the scikit-learn model</a></li>
+<li><a href="#5.-Persist-the-model-and-custom-library">Save the model and library to watsonx.ai Runtime repository</a></li>
+<li><a href="#6.-Deploy-and-Score">Deploy and score data in the IBM Cloud</a></li>
+<li><a href="#7.-Clean-up">Clean up</a></li>
+<li><a href="#8.-Summary">Summary and next steps</a></li>
 </ol>
 </div>
 </div>
@@ -7853,7 +7853,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="setup"></a></p>
+<p><a id="1.-Set-up-the-environment"></a></p>
 <h2 id="1.-Set-up-the-environment">1. Set up the environment<a class="anchor-link" href="#1.-Set-up-the-environment">¶</a></h2><p>Before you use the sample code in this notebook, you must perform the following setup tasks:</p>
 <ul>
 <li>Create a <a href="https://cloud.ibm.com/catalog/services/watsonxai-runtime" rel="noopener no referrer" target="_blank">watsonx.ai Runtime Service</a> instance (a free plan is offered and information about how to create the instance can be found <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/wml-plans.html?context=wx&amp;audience=wdp" rel="noopener no referrer" target="_blank">here</a>).</li>
@@ -8080,7 +8080,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="install_lib"></a></p>
+<p><a id="2.-Install-the-library-containing-custom-transformer"></a></p>
 <h2 id="2.-Install-the-library-containing-custom-transformer">2. Install the library containing custom transformer<a class="anchor-link" href="#2.-Install-the-library-containing-custom-transformer">¶</a></h2>
 </div>
 </div>
@@ -8334,7 +8334,7 @@ rm<span class="w"> </span>-rf<span class="w"> </span>linalgnorm-0.1
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="load"></a></p>
+<p><a id="3.-Download-training-dataset-and-prepare-training-data"></a></p>
 <h2 id="3.-Download-training-dataset-and-prepare-training-data">3. Download training dataset and prepare training data<a class="anchor-link" href="#3.-Download-training-dataset-and-prepare-training-data">¶</a></h2>
 </div>
 </div>
@@ -8642,7 +8642,7 @@ rm<span class="w"> </span>-rf<span class="w"> </span>linalgnorm-0.1
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="train"></a></p>
+<p><a id="4.-Train-a-model"></a></p>
 <h2 id="4.-Train-a-model">4. Train a model<a class="anchor-link" href="#4.-Train-a-model">¶</a></h2><p>In this section, you will use the custom transformer as a stage in the Scikit-Learn <code>Pipeline</code> and train a model.</p>
 </div>
 </div>
@@ -9205,7 +9205,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="upload"></a></p>
+<p><a id="5.-Persist-the-model-and-custom-library"></a></p>
 <h2 id="5.-Persist-the-model-and-custom-library">5. Persist the model and custom library<a class="anchor-link" href="#5.-Persist-the-model-and-custom-library">¶</a></h2><p>In this section, using <code>ibm-watsonx-ai</code> SDK, you will ...</p>
 <ul>
 <li>save the library <code>linalgnorm-0.1.zip</code> in watsonx.ai Runtime repository by creating a package extension resource</li>
@@ -9947,8 +9947,8 @@ BASE_SOFTWARE_SPECIFICATION  dict  Y
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="deploy"></a></p>
-<h2 id="6-Deploy-and-Score">6 Deploy and Score<a class="anchor-link" href="#6-Deploy-and-Score">¶</a></h2><p>In this section, you will deploy the saved model that uses the custom transformer and perform predictions. You will use watsonx.ai client to perform these tasks.</p>
+<p><a id="6.-Deploy-and-Score"></a></p>
+<h2 id="6.-Deploy-and-Score">6. Deploy and Score<a class="anchor-link" href="#6.-Deploy-and-Score">¶</a></h2><p>In this section, you will deploy the saved model that uses the custom transformer and perform predictions. You will use watsonx.ai client to perform these tasks.</p>
 </div>
 </div>
 </div>
@@ -10083,8 +10083,7 @@ Successfully finished deployment creation, deployment_id='d6dfb6ad-1d30-4730-800
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="score"></a>
-Prepare the payload for prediction. The payload contains the input records for which predictions has to be performed.</p>
+<p>Prepare the payload for prediction. The payload contains the input records for which predictions has to be performed.</p>
 </div>
 </div>
 </div>
@@ -10176,7 +10175,7 @@ Prepare the payload for prediction. The payload contains the input records for w
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="cleanup"></a></p>
+<p><a id="7.-Clean-up"></a></p>
 <h2 id="7.-Clean-up">7. Clean up<a class="anchor-link" href="#7.-Clean-up">¶</a></h2>
 </div>
 </div>
@@ -10209,7 +10208,7 @@ Prepare the payload for prediction. The payload contains the input records for w
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="summary"></a></p>
+<p><a id="8.-Summary"></a></p>
 <h2 id="8.-Summary">8. Summary<a class="anchor-link" href="#8.-Summary">¶</a></h2><p>You successfully completed this notebook!</p>
 <p>You learned how to use a scikit-learn model with custom transformer in watsonx.ai Runtime service to deploy and score.</p>
 <p>Check out our <em><a href="https://www.ibm.com/cloud/watson-studio/autoai">Online Documentation</a></em> for more samples, tutorials, documentation, how-tos, and blog posts.</p>

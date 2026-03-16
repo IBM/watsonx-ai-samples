@@ -7829,14 +7829,14 @@ a.anchor-link {
 </ul>
 <h2 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h2><p>This notebook contains the following parts:</p>
 <ol>
-<li><a href="#setup">Setup</a></li>
-<li><a href="#load">Load and explore data</a></li>
-<li><a href="#model">Create an Apache Spark machine learning model</a></li>
-<li><a href="#upload">Store the model in the watsonx.ai Runtime repository</a></li>
-<li><a href="#deploy">Deploy the model in the IBM Cloud</a></li>
-<li><a href="#score">Score</a></li>
-<li><a href="#cleanup">Clean up</a></li>
-<li><a href="#summary">Summary and next steps</a></li>
+<li><a href="#1.-Set-up-the-environment">Set up the environment</a></li>
+<li><a href="#2.-Load-and-explore-data">Load and explore data</a></li>
+<li><a href="#3.-Create-an-Apache-Spark-machine-learning-model">Create an Apache Spark machine learning model</a></li>
+<li><a href="#4.-Store-the-model-in-the-watsonx.ai-Runtime-repository">Store the model in the watsonx.ai Runtime repository</a></li>
+<li><a href="#5.-Deploy-model-in-the-IBM-Cloud">Deploy the model in the IBM Cloud</a></li>
+<li><a href="#6.-Score">Score</a></li>
+<li><a href="#7.-Clean-up">Clean up</a></li>
+<li><a href="#8.-Summary-and-next-steps">Summary and next steps</a></li>
 </ol>
 </div>
 </div>
@@ -7859,7 +7859,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="setup"></a></p>
+<p><a id="1.-Set-up-the-environment"></a></p>
 <h2 id="1.-Set-up-the-environment">1. Set up the environment<a class="anchor-link" href="#1.-Set-up-the-environment">¶</a></h2><p>Before you use the sample code in this notebook, you must perform the following setup tasks:</p>
 <ul>
 <li>Create a <a href="https://cloud.ibm.com/catalog/services/watsonxai-runtime" rel="noopener no referrer" target="_blank">watsonx.ai Runtime Service</a> instance (a free plan is offered and information about how to create the instance can be found <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/wml-plans.html?context=wx&amp;audience=wdp" rel="noopener no referrer" target="_blank">here</a>).</li>
@@ -8128,7 +8128,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="load"></a></p>
+<p><a id="2.-Load-and-explore-data"></a></p>
 <h2 id="2.-Load-and-explore-data">2. Load and explore data<a class="anchor-link" href="#2.-Load-and-explore-data">¶</a></h2>
 </div>
 </div>
@@ -8365,13 +8365,8 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="model"></a></p>
-<h2 id="3.-Create-an-Apache-Spark-machine-learning-model">3. Create an Apache Spark machine learning model<a class="anchor-link" href="#3.-Create-an-Apache-Spark-machine-learning-model">¶</a></h2><p>In this section you will learn how to:</p>
-<ul>
-<li><a href="#prep">3.1 Prepare data for model training and evaluation</a></li>
-<li><a href="#pipe">3.2 Create an Apache Spark machine learning pipeline</a></li>
-<li><a href="#train">3.3 Train a model</a></li>
-</ul>
+<p><a id="3.-Create-an-Apache-Spark-machine-learning-model"></a></p>
+<h2 id="3.-Create-an-Apache-Spark-machine-learning-model">3. Create an Apache Spark machine learning model<a class="anchor-link" href="#3.-Create-an-Apache-Spark-machine-learning-model">¶</a></h2>
 </div>
 </div>
 </div>
@@ -8382,7 +8377,6 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="prep"></a></p>
 <h3 id="3.1-Prepare-data-for-model-training-and-evaluation">3.1 Prepare data for model training and evaluation<a class="anchor-link" href="#3.1-Prepare-data-for-model-training-and-evaluation">¶</a></h3><p>In this subsection you will split your data into: train and test data set.</p>
 </div>
 </div>
@@ -8427,7 +8421,7 @@ Number of testing records : 85
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="3.2-Create-the-pipeline">3.2 Create the pipeline<a id="pipe"></a><a class="anchor-link" href="#3.2-Create-the-pipeline">¶</a></h3>
+<h3 id="3.2-Create-the-pipeline">3.2 Create the pipeline<a class="anchor-link" href="#3.2-Create-the-pipeline">¶</a></h3>
 </div>
 </div>
 </div>
@@ -8591,7 +8585,7 @@ Number of testing records : 85
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="3.3-Train-the-model">3.3 Train the model<a id="train"></a><a class="anchor-link" href="#3.3-Train-the-model">¶</a></h3>
+<h3 id="3.3-Train-the-model">3.3 Train the model<a class="anchor-link" href="#3.3-Train-the-model">¶</a></h3>
 </div>
 </div>
 </div>
@@ -8746,8 +8740,8 @@ only showing top 3 rows
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="upload"></a></p>
-<h2 id="4.-Persist-model">4. Persist model<a class="anchor-link" href="#4.-Persist-model">¶</a></h2>
+<p><a id="4.-Store-the-model-in-the-watsonx.ai-Runtime-repository"></a></p>
+<h2 id="4.-Store-the-model-in-the-watsonx.ai-Runtime-repository">4. Store the model in the watsonx.ai Runtime repository<a class="anchor-link" href="#4.-Store-the-model-in-the-watsonx.ai-Runtime-repository">¶</a></h2>
 </div>
 </div>
 </div>
@@ -9147,7 +9141,7 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="4.2-Save-the-pipeline-and-model">4.2 Save the pipeline and model<a id="save"></a><a class="anchor-link" href="#4.2-Save-the-pipeline-and-model">¶</a></h3>
+<h3 id="4.2-Save-the-pipeline-and-model">4.2 Save the pipeline and model<a class="anchor-link" href="#4.2-Save-the-pipeline-and-model">¶</a></h3>
 </div>
 </div>
 </div>
@@ -9285,7 +9279,7 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="deploy"></a></p>
+<p><a id="5.-Deploy-model-in-the-IBM-Cloud"></a></p>
 <h2 id="5.-Deploy-model-in-the-IBM-Cloud">5. Deploy model in the IBM Cloud<a class="anchor-link" href="#5.-Deploy-model-in-the-IBM-Cloud">¶</a></h2>
 </div>
 </div>
@@ -9374,7 +9368,7 @@ Successfully finished deployment creation, deployment_id='742de966-b410-4a81-909
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="score"></a></p>
+<p><a id="6.-Score"></a></p>
 <h2 id="6.-Score">6. Score<a class="anchor-link" href="#6.-Score">¶</a></h2>
 </div>
 </div>
@@ -9613,7 +9607,7 @@ Successfully finished deployment creation, deployment_id='742de966-b410-4a81-909
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="cleanup"></a></p>
+<p><a id="7.-Clean-up"></a></p>
 <h2 id="7.-Clean-up">7. Clean up<a class="anchor-link" href="#7.-Clean-up">¶</a></h2>
 </div>
 </div>
@@ -9646,7 +9640,7 @@ Successfully finished deployment creation, deployment_id='742de966-b410-4a81-909
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="summary"></a></p>
+<p><a id="8.-Summary-and-next-steps"></a></p>
 <h2 id="8.-Summary-and-next-steps">8. Summary and next steps<a class="anchor-link" href="#8.-Summary-and-next-steps">¶</a></h2>
 </div>
 </div>
