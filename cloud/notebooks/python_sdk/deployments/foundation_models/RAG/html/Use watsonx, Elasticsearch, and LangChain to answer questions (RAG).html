@@ -7828,18 +7828,18 @@ a.anchor-link {
 <li>Generate a response by feeding retrieved passage into a large language model (for every user query)</li>
 </ul>
 <h2 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h2><p>This notebook contains the following parts:</p>
-<ul>
-<li><a href="#setup">Setup</a></li>
-<li><a href="#data">Test data loading</a></li>
-<li><a href="#models">Foundation Models on watsonx</a></li>
-<li><a href="#elastic_conn">Set up connectivity information to Elasticsearch</a></li>
-<li><a href="#predict">Generate a retrieval-augmented response to a question</a></li>
-<li><a href="#ai_service">Create AI service</a></li>
-<li><a href="#testing">Testing AI service's function locally</a></li>
-<li><a href="#deploy">Deploy AI service</a></li>
-<li><a href="#example">Example of Executing an AI service</a></li>
-<li><a href="#summary">Summary and next steps</a></li>
-</ul>
+<ol>
+<li><a href="#Set-up-the-environment">Set up the environment</a></li>
+<li><a href="#Test-data-loading">Test data loading</a></li>
+<li><a href="#Foundation-Models-on-watsonx">Foundation Models on watsonx</a></li>
+<li><a href="#Set-up-connectivity-information-to-Elasticsearch">Set up connectivity information to Elasticsearch</a></li>
+<li><a href="#Generate-a-retrieval-augmented-response-to-a-question">Generate a retrieval-augmented response to a question</a></li>
+<li><a href="#Create-AI-service">Create AI service</a></li>
+<li><a href="#Testing-AI-service%27s-function-locally">Testing AI service's function locally</a></li>
+<li><a href="#Deploy-AI-service">Deploy AI service</a></li>
+<li><a href="#Example-of-executing-an-AI-service">Example of executing an AI service</a></li>
+<li><a href="#Summary-and-next-steps">Summary and next steps</a></li>
+</ol>
 </div>
 </div>
 </div>
@@ -7850,7 +7850,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="setup"></a></p>
+<p><a id="Set-up-the-environment"></a></p>
 <h2 id="Set-up-the-environment">Set up the environment<a class="anchor-link" href="#Set-up-the-environment">¶</a></h2><p>Before you use the sample code in this notebook, you must perform the following setup tasks:</p>
 <ul>
 <li>Create a <a href="https://cloud.ibm.com/catalog/services/watsonxai-runtime" rel="noopener no referrer" target="_blank">watsonx.ai Runtime Service</a> instance (a free plan is offered and information about how to create the instance can be found <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/wml-plans.html?context=wx&amp;audience=wdp" rel="noopener no referrer" target="_blank">here</a>).</li>
@@ -8028,7 +8028,7 @@ Successfully installed MarkupSafe-3.0.3 Pillow-12.0.0 huggingface-hub-0.36.0 jin
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="data"></a></p>
+<p><a id="Test-data-loading"></a></p>
 <h2 id="Test-data-loading">Test data loading<a class="anchor-link" href="#Test-data-loading">¶</a></h2><p>Download the test dataset. This dataset is used to calculate the metrics score for selected model, defined prompts and parameters.</p>
 </div>
 </div>
@@ -8291,7 +8291,7 @@ Successfully installed MarkupSafe-3.0.3 Pillow-12.0.0 huggingface-hub-0.36.0 jin
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="models"></a></p>
+<p><a id="Foundation-Models-on-watsonx"></a></p>
 <h2 id="Foundation-Models-on-watsonx">Foundation Models on watsonx<a class="anchor-link" href="#Foundation-Models-on-watsonx">¶</a></h2>
 </div>
 </div>
@@ -8394,7 +8394,7 @@ Successfully installed MarkupSafe-3.0.3 Pillow-12.0.0 huggingface-hub-0.36.0 jin
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="elastic_conn"></a></p>
+<p><a id="Set-up-connectivity-information-to-Elasticsearch"></a></p>
 <h2 id="Set-up-connectivity-information-to-Elasticsearch">Set up connectivity information to Elasticsearch<a class="anchor-link" href="#Set-up-connectivity-information-to-Elasticsearch">¶</a></h2><p><strong>This notebook focuses on self-managed cluster using <a href="https://cloud.ibm.com/docs/databases-for-elasticsearch?topic=databases-for-elasticsearch-getting-started" rel="noopener no referrer" target="_blank">IBM Cloud® Databases for Elasticsearch.</a></strong></p>
 <p>The following cell retrieves the Elasticsearch url, username, password and ssl_certificate (base_64) and prompts you to provide them manually in case of failure.</p>
 <p>You can provide a connection asset ID to read all required connection data from it. Before doing so, make sure that a connection asset was created in your space.</p>
@@ -8539,7 +8539,6 @@ SUCCESS
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="elasticsearchstore_index"></a></p>
 <h3 id="Embed-and-index-documents-with-Elasticsearch">Embed and index documents with Elasticsearch<a class="anchor-link" href="#Embed-and-index-documents-with-Elasticsearch">¶</a></h3><p><strong>Note: Could take several minutes if you don't have pre-built indices</strong></p>
 </div>
 </div>
@@ -8730,7 +8729,7 @@ Indexing time: 0 minutes
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="predict"></a></p>
+<p><a id="Generate-a-retrieval-augmented-response-to-a-question"></a></p>
 <h2 id="Generate-a-retrieval-augmented-response-to-a-question">Generate a retrieval-augmented response to a question<a class="anchor-link" href="#Generate-a-retrieval-augmented-response-to-a-question">¶</a></h2><p><code>RetrievalQA</code> is a chain to do question answering.</p>
 </div>
 </div>
@@ -8930,7 +8929,7 @@ documents in 1459 . It became the capital of Romania in 1862 and is the centre o
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="ai_service"></a></p>
+<p><a id="Create-AI-service"></a></p>
 <h2 id="Create-AI-service">Create AI service<a class="anchor-link" href="#Create-AI-service">¶</a></h2><p>Prepare function which will be deployed using AI service.</p>
 </div>
 </div>
@@ -9051,7 +9050,7 @@ documents in 1459 . It became the capital of Romania in 1862 and is the centre o
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="testing"></a></p>
+<p><a id="Testing-AI-service's-function-locally"></a></p>
 <h2 id="Testing-AI-service's-function-locally">Testing AI service's function locally<a class="anchor-link" href="#Testing-AI-service's-function-locally">¶</a></h2><p>You can test AI service function locally. Initialise <code>RuntimeContext</code> firstly.</p>
 </div>
 </div>
@@ -9196,7 +9195,7 @@ documents in 1459 . It became the capital of Romania in 1862 and is the centre o
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="deploy"></a></p>
+<p><a id="Deploy-AI-service"></a></p>
 <h2 id="Deploy-AI-service">Deploy AI service<a class="anchor-link" href="#Deploy-AI-service">¶</a></h2><p>Prepare a configuration file for defining a custom software specification.</p>
 </div>
 </div>
@@ -9364,7 +9363,7 @@ SUCCESS
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Deploy-AI-service">Deploy AI service<a class="anchor-link" href="#Deploy-AI-service">¶</a></h1><p>Create deployment of AI service.</p>
+<p>Create deployment of AI service.</p>
 </div>
 </div>
 </div>
@@ -9440,8 +9439,8 @@ Successfully finished deployment creation, deployment_id='a7daf296-c811-4a60-961
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="example"></a></p>
-<h2 id="Example-of-Executing-an-AI-service.">Example of Executing an AI service.<a class="anchor-link" href="#Example-of-Executing-an-AI-service.">¶</a></h2>
+<p><a id="Example-of-executing-an-AI-service"></a></p>
+<h2 id="Example-of-executing-an-AI-service">Example of executing an AI service<a class="anchor-link" href="#Example-of-executing-an-AI-service">¶</a></h2>
 </div>
 </div>
 </div>
@@ -9569,7 +9568,7 @@ documents in 1459 . It became the capital of Romania in 1862 and is the centre o
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="summary"></a></p>
+<p><a id="Summary-and-next-steps"></a></p>
 <h2 id="Summary-and-next-steps">Summary and next steps<a class="anchor-link" href="#Summary-and-next-steps">¶</a></h2><p>You successfully completed this notebook!</p>
 <p>Check out our <em><a href="https://ibm.github.io/watsonx-ai-python-sdk/samples.html" rel="noopener no referrer" target="_blank">Online Documentation</a></em> for more samples, tutorials, documentation, how-tos, and blog posts.</p>
 </div>

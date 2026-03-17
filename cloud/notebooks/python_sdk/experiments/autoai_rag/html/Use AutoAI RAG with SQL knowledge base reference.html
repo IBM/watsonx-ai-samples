@@ -7824,15 +7824,15 @@ a.anchor-link {
 <li>Create an AutoAI RAG job that will find the best SQL RAG agent pattern based on provided SQL knowledge base.</li>
 </ul>
 <h2 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h2><p>This notebook contains the following parts:</p>
-<ul>
-<li><a href="#setup">Setup</a></li>
-<li><a href="#definition">RAG Optimizer definition</a></li>
-<li><a href="#run">RAG Experiment run</a></li>
-<li><a href="#comparison">RAG Patterns comparison and testing</a></li>
-<li><a href="#runs">Historical runs</a></li>
-<li><a href="#cleanup">Clean up</a></li>
-<li><a href="#summary">Summary and next steps</a></li>
-</ul>
+<ol>
+<li><a href="#Set-up-the-environment">Set up the environment</a></li>
+<li><a href="#RAG-Optimizer-definition">RAG Optimizer definition</a></li>
+<li><a href="#RAG-Experiment-run">RAG Experiment run</a></li>
+<li><a href="#Comparison-and-testing-of-RAG-Patterns">Comparison and testing of RAG Patterns</a></li>
+<li><a href="#Historical-runs">Historical runs</a></li>
+<li><a href="#Cleanup">Cleanup</a></li>
+<li><a href="#Summary-and-next-steps">Summary and next steps</a></li>
+</ol>
 </div>
 </div>
 </div>
@@ -7843,7 +7843,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="setup"></a></p>
+<p><a id="Set-up-the-environment"></a></p>
 <h2 id="Set-up-the-environment">Set up the environment<a class="anchor-link" href="#Set-up-the-environment">¶</a></h2><p>Before you use the sample code in this notebook, you must perform the following setup tasks:</p>
 <ul>
 <li>Create a <a href="https://cloud.ibm.com/catalog/services/watsonxai-runtime" rel="noopener no referrer" target="_blank">watsonx.ai Runtime Service</a> instance (a free plan is offered and information about how to create the instance can be found <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/wml-plans.html?context=wx&amp;audience=wdp" rel="noopener no referrer" target="_blank">here</a>).</li>
@@ -7998,7 +7998,7 @@ Note: you may need to restart the kernel to use updated packages.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="definition"></a></p>
+<p><a id="RAG-Optimizer-definition"></a></p>
 <h2 id="RAG-Optimizer-definition">RAG Optimizer definition<a class="anchor-link" href="#RAG-Optimizer-definition">¶</a></h2><h3 id="Defining-a-connection-to-knowledge-base">Defining a connection to knowledge base<a class="anchor-link" href="#Defining-a-connection-to-knowledge-base">¶</a></h3><p>Provide id of connection to your knowledge database or create a new one. You can add connection on watsonx platform or type your credentials after running the code below.</p>
 </div>
 </div>
@@ -8390,7 +8390,7 @@ SUCCESS
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="run"></a></p>
+<p><a id="RAG-Experiment-run"></a></p>
 <h2 id="RAG-Experiment-run">RAG Experiment run<a class="anchor-link" href="#RAG-Experiment-run">¶</a></h2><p>Call the <code>run()</code> method to trigger the AutoAI RAG experiment. You can either use interactive mode (synchronous job) or background mode (asynchronous job) by specifying <code>background_mode=True</code>.</p>
 </div>
 </div>
@@ -8482,7 +8482,7 @@ Training of '8019f164-995b-4403-bbdb-995f623e56f8' finished successfully.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="comparison"></a></p>
+<p><a id="Comparison-and-testing-of-RAG-Patterns"></a></p>
 <h2 id="Comparison-and-testing-of-RAG-Patterns">Comparison and testing of RAG Patterns<a class="anchor-link" href="#Comparison-and-testing-of-RAG-Patterns">¶</a></h2><p>You can list the trained patterns and information on evaluation metrics in the form of a Pandas DataFrame by calling the <code>summary()</code> method. You can use the DataFrame to compare all discovered patterns and select the one you like for further testing.</p>
 </div>
 </div>
@@ -8997,7 +8997,7 @@ Successfully finished deployment creation, deployment_id='91cc8506-1ad3-4bd3-8b8
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="runs"></a></p>
+<p><a id="Historical-runs"></a></p>
 <h2 id="Historical-runs">Historical runs<a class="anchor-link" href="#Historical-runs">¶</a></h2><p>In this section you learn to work with historical RAG Optimizer jobs (runs).</p>
 <p>To list historical runs use the <code>list()</code> method and provide the <code>'rag_optimizer'</code> filter.</p>
 </div>
@@ -9234,8 +9234,8 @@ Successfully finished deployment creation, deployment_id='91cc8506-1ad3-4bd3-8b8
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="cleanup"></a></p>
-<h2 id="Clean-up">Clean up<a class="anchor-link" href="#Clean-up">¶</a></h2><p>To delete the current experiment, use the <code>cancel_run</code> method.</p>
+<p><a id="Cleanup"></a></p>
+<h2 id="Cleanup">Cleanup<a class="anchor-link" href="#Cleanup">¶</a></h2><p>To delete the current experiment, use the <code>cancel_run</code> method.</p>
 <p><strong>Warning:</strong> Be careful: once you delete an experiment, you will no longer be able to refer to it.</p>
 </div>
 </div>
@@ -9332,7 +9332,7 @@ Successfully finished deployment creation, deployment_id='91cc8506-1ad3-4bd3-8b8
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="summary"></a></p>
+<p><a id="Summary-and-next-steps"></a></p>
 <h2 id="Summary-and-next-steps">Summary and next steps<a class="anchor-link" href="#Summary-and-next-steps">¶</a></h2><p>You successfully completed this notebook!</p>
 <p>You learned how to use <code>ibm-watsonx-ai</code> to run AutoAI RAG experiments.</p>
 <p>Check out our <em><a href="https://ibm.github.io/watsonx-ai-python-sdk/samples.html" rel="noopener no referrer" target="_blank">Online Documentation</a></em> for more samples, tutorials, documentation, how-tos, and blog posts.</p>

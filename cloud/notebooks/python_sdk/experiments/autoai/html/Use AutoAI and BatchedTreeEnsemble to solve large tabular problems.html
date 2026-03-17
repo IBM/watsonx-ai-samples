@@ -7824,14 +7824,14 @@ a.anchor-link {
 </ul>
 <h2 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h2><p>This notebook contains the following parts:</p>
 <ol>
-<li><a href="#setup">Setup</a></li>
-<li><a href="#connection">Create connection</a></li>
-<li><a href="#definition">Optimizer definition</a></li>
-<li><a href="#run">Experiment Run</a></li>
-<li><a href="#comparison">Pipelines comparison and testing</a></li>
-<li><a href="#incremental">Incremental learning</a></li>
-<li><a href="#cleanup">Cleanup</a></li>
-<li><a href="#summary">Summary and next steps</a></li>
+<li><a href="#1.-Set-up-the-environment">Set up the environment</a></li>
+<li><a href="#2.-Connections-to-COS">Connections to COS</a></li>
+<li><a href="#3.-Optimizer-definition">Optimizer definition</a></li>
+<li><a href="#4.-Experiment-run">Experiment run</a></li>
+<li><a href="#5.-Pipelines-comparison-and-testing">Pipelines comparison and testing</a></li>
+<li><a href="#6.-Incremental-learning-of-BatchedTreeEnsemble-pipelines">Incremental learning of BatchedTreeEnsemble pipelines</a></li>
+<li><a href="#7.-Cleanup">Cleanup</a></li>
+<li><a href="#8.-Summary-and-next-steps">Summary and next steps</a></li>
 </ol>
 </div>
 </div>
@@ -7843,7 +7843,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="setup"></a></p>
+<p><a id="1.-Set-up-the-environment"></a></p>
 <h2 id="1.-Set-up-the-environment">1. Set up the environment<a class="anchor-link" href="#1.-Set-up-the-environment">¶</a></h2><p>Before you use the sample code in this notebook, you must perform the following setup tasks:</p>
 <ul>
 <li>Create a <a href="https://cloud.ibm.com/catalog/services/watsonxai-runtime" rel="noopener no referrer" target="_blank">watsonx.ai Runtime Service</a> instance (a free plan is offered and information about how to create the instance can be found <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/wml-plans.html?context=wx&amp;audience=wdp" rel="noopener no referrer" target="_blank">here</a>).</li>
@@ -8081,7 +8081,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="connection"></a></p>
+<p><a id="2.-Connections-to-COS"></a></p>
 <h2 id="2.-Connections-to-COS">2. Connections to COS<a class="anchor-link" href="#2.-Connections-to-COS">¶</a></h2><p>Define connection information to COS bucket and training data CSV file. This example uses the German Credit Risk dataset.</p>
 <p>The dataset can be downloaded from <a href="https://github.com/IBM/watson-machine-learning-samples/blob/master/cloud/data/electricity/electricity.csv">here</a>.</p>
 <p><strong>Action</strong>: Upload training data to COS bucket and enter location information below.</p>
@@ -8229,7 +8229,7 @@ Successfully installed pyarrow-23.0.0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="definition"></a></p>
+<p><a id="3.-Optimizer-definition"></a></p>
 <h2 id="3.-Optimizer-definition">3. Optimizer definition<a class="anchor-link" href="#3.-Optimizer-definition">¶</a></h2>
 </div>
 </div>
@@ -8396,7 +8396,7 @@ Successfully installed pyarrow-23.0.0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="run"></a></p>
+<p><a id="4.-Experiment-run"></a></p>
 <h2 id="4.-Experiment-run">4. Experiment run<a class="anchor-link" href="#4.-Experiment-run">¶</a></h2><p>Call the <code>fit()</code> method to trigger the AutoAI experiment. You can either use interactive mode (synchronous job) or background mode (asychronous job) by specifying <code>background_model=True</code>.</p>
 </div>
 </div>
@@ -8472,7 +8472,7 @@ Successfully installed pyarrow-23.0.0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="comparison"></a></p>
+<p><a id="5.-Pipelines-comparison-and-testing"></a></p>
 <h2 id="5.-Pipelines-comparison-and-testing">5. Pipelines comparison and testing<a class="anchor-link" href="#5.-Pipelines-comparison-and-testing">¶</a></h2><p>You can list trained pipelines and evaluation metrics information in
 the form of a Pandas DataFrame by calling the <code>summary()</code> method. You can
 use the DataFrame to compare all discovered pipelines and select the one
@@ -13642,7 +13642,7 @@ instead pretty-print your pipeline with
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="incremental"></a></p>
+<p><a id="6.-Incremental-learning-of-BatchedTreeEnsemble-pipelines"></a></p>
 <h2 id="6.-Incremental-learning-of-BatchedTreeEnsemble-pipelines">6. Incremental learning of BatchedTreeEnsemble pipelines<a class="anchor-link" href="#6.-Incremental-learning-of-BatchedTreeEnsemble-pipelines">¶</a></h2><p>In this section you learn to train AutoAI models incrementally.</p>
 </div>
 </div>
@@ -13911,8 +13911,8 @@ if (outputEl) {{
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="cleanup"></a></p>
-<h2 id="7.-Clean-up">7. Clean up<a class="anchor-link" href="#7.-Clean-up">¶</a></h2>
+<p><a id="7.-Cleanup"></a></p>
+<h2 id="7.-Cleanup">7. Cleanup<a class="anchor-link" href="#7.-Cleanup">¶</a></h2>
 </div>
 </div>
 </div>
@@ -13944,7 +13944,7 @@ if (outputEl) {{
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="summary"></a></p>
+<p><a id="8.-Summary-and-next-steps"></a></p>
 <h2 id="8.-Summary-and-next-steps">8. Summary and next steps<a class="anchor-link" href="#8.-Summary-and-next-steps">¶</a></h2><p>You successfully completed this notebook!</p>
 <p>You learned how to use <code>ibm-watsonx-ai</code> to run AutoAI experiments.</p>
 <p>Check out our <em><a href="https://www.ibm.com/cloud/watson-studio/autoai">Online Documentation</a></em> for more samples, tutorials, documentation, how-tos, and blog posts.</p>

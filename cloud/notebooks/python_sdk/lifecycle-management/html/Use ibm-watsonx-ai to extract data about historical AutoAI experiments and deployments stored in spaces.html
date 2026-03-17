@@ -7332,7 +7332,12 @@ a.anchor-link {
     if (!diagrams.length) {
       return;
     }
-    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs")).default;
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.0/mermaid.esm.min.mjs")).default;
+    const elkUrl = "https://cdnjs.cloudflare.com/ajax/libs/mermaid-layout-elk/0.1.9/mermaid-layout-elk.esm.min.mjs";
+    if(elkUrl) {
+      const elkLayouts = (await import(elkUrl)).default;
+      mermaid.registerLayoutLoaders(elkLayouts);
+    }
     const parser = new DOMParser();
 
     mermaid.initialize({
@@ -7429,7 +7434,8 @@ a.anchor-link {
      * Post-process to ensure mermaid diagrams contain only valid SVG and XHTML.
      */
     function cleanMermaidSvg(svg) {
-      return svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      svg = svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      return `${SVG_XML_HEADER}${svg}`;
     }
 
 
@@ -7455,6 +7461,285 @@ a.anchor-link {
       }
       return `<${tag} ${rest}>`;
     }
+
+
+  /**
+   * Named HTML entities with their decimal equivalent codes.
+   *
+   * @see https://www.w3.org/TR/WD-html40-970708/sgml/entities.html
+   * */
+  const HTML_ENTITIES = `<!ENTITY Aacute "&#193;">
+<!ENTITY aacute "&#225;">
+<!ENTITY Acirc "&#194;">
+<!ENTITY acirc "&#226;">
+<!ENTITY acute "&#180;">
+<!ENTITY AElig "&#198;">
+<!ENTITY aelig "&#230;">
+<!ENTITY Agrave "&#192;">
+<!ENTITY agrave "&#224;">
+<!ENTITY alefsym "&#8501;">
+<!ENTITY Alpha "&#913;">
+<!ENTITY alpha "&#945;">
+<!ENTITY amp "&#38;">
+<!ENTITY and "&#8869;">
+<!ENTITY ang "&#8736;">
+<!ENTITY Aring "&#197;">
+<!ENTITY aring "&#229;">
+<!ENTITY asymp "&#8776;">
+<!ENTITY Atilde "&#195;">
+<!ENTITY atilde "&#227;">
+<!ENTITY Auml "&#196;">
+<!ENTITY auml "&#228;">
+<!ENTITY bdquo "&#8222;">
+<!ENTITY Beta "&#914;">
+<!ENTITY beta "&#946;">
+<!ENTITY brvbar "&#166;">
+<!ENTITY bull "&#8226;">
+<!ENTITY cap "&#8745;">
+<!ENTITY Ccedil "&#199;">
+<!ENTITY ccedil "&#231;">
+<!ENTITY cedil "&#184;">
+<!ENTITY cent "&#162;">
+<!ENTITY Chi "&#935;">
+<!ENTITY chi "&#967;">
+<!ENTITY circ "&#710;">
+<!ENTITY clubs "&#9827;">
+<!ENTITY cong "&#8773;">
+<!ENTITY copy "&#169;">
+<!ENTITY crarr "&#8629;">
+<!ENTITY cup "&#8746;">
+<!ENTITY curren "&#164;">
+<!ENTITY dagger "&#8224;">
+<!ENTITY Dagger "&#8225;">
+<!ENTITY darr "&#8595;">
+<!ENTITY dArr "&#8659;">
+<!ENTITY deg "&#176;">
+<!ENTITY Delta "&#916;">
+<!ENTITY delta "&#948;">
+<!ENTITY diams "&#9830;">
+<!ENTITY divide "&#247;">
+<!ENTITY Eacute "&#201;">
+<!ENTITY eacute "&#233;">
+<!ENTITY Ecirc "&#202;">
+<!ENTITY ecirc "&#234;">
+<!ENTITY Egrave "&#200;">
+<!ENTITY egrave "&#232;">
+<!ENTITY empty "&#8709;">
+<!ENTITY emsp "&#8195;">
+<!ENTITY ensp "&#8194;">
+<!ENTITY epsilon "&#949;">
+<!ENTITY Epsilon "&#917;">
+<!ENTITY equiv "&#8801;">
+<!ENTITY Eta "&#919;">
+<!ENTITY eta "&#951;">
+<!ENTITY ETH "&#208;">
+<!ENTITY eth "&#240;">
+<!ENTITY Euml "&#203;">
+<!ENTITY euml "&#235;">
+<!ENTITY exist "&#8707;">
+<!ENTITY fnof "&#402;">
+<!ENTITY forall "&#8704;">
+<!ENTITY frac12 "&#189;">
+<!ENTITY frac14 "&#188;">
+<!ENTITY frac34 "&#190;">
+<!ENTITY frasl "&#8260;">
+<!ENTITY Gamma "&#915;">
+<!ENTITY gamma "&#947;">
+<!ENTITY ge "&#8805;">
+<!ENTITY gt "&#62;">
+<!ENTITY harr "&#8596;">
+<!ENTITY hArr "&#8660;">
+<!ENTITY hearts "&#9829;">
+<!ENTITY hellip "&#8230;">
+<!ENTITY Iacute "&#205;">
+<!ENTITY iacute "&#237;">
+<!ENTITY Icirc "&#206;">
+<!ENTITY icirc "&#238;">
+<!ENTITY iexcl "&#161;">
+<!ENTITY Igrave "&#204;">
+<!ENTITY igrave "&#236;">
+<!ENTITY image "&#8465;">
+<!ENTITY infin "&#8734;">
+<!ENTITY int "&#8747;">
+<!ENTITY Iota "&#921;">
+<!ENTITY iota "&#953;">
+<!ENTITY iquest "&#191;">
+<!ENTITY isin "&#8712;">
+<!ENTITY Iuml "&#207;">
+<!ENTITY iuml "&#239;">
+<!ENTITY Kappa "&#922;">
+<!ENTITY kappa "&#954;">
+<!ENTITY Lambda "&#923;">
+<!ENTITY lambda "&#955;">
+<!ENTITY lang "&#9001;">
+<!ENTITY laquo "&#171;">
+<!ENTITY larr "&#8592;">
+<!ENTITY lArr "&#8656;">
+<!ENTITY lceil "&#8968;">
+<!ENTITY ldquo "&#8220;">
+<!ENTITY le "&#8804;">
+<!ENTITY lfloor "&#8970;">
+<!ENTITY lowast "&#8727;">
+<!ENTITY loz "&#9674;">
+<!ENTITY lrm "&#8206;">
+<!ENTITY lsaquo "&#8249;">
+<!ENTITY lsquo "&#8216;">
+<!ENTITY lt "&#60;">
+<!ENTITY macr "&#175;">
+<!ENTITY mdash "&#8212;">
+<!ENTITY micro "&#181;">
+<!ENTITY middot "&#183;">
+<!ENTITY minus "&#8722;">
+<!ENTITY Mu "&#924;">
+<!ENTITY mu "&#956;">
+<!ENTITY nabla "&#8711;">
+<!ENTITY nbsp "&#160;">
+<!ENTITY ndash "&#8211;">
+<!ENTITY ne "&#8800;">
+<!ENTITY ni "&#8715;">
+<!ENTITY not "&#172;">
+<!ENTITY notin "&#8713;">
+<!ENTITY nsub "&#8836;">
+<!ENTITY Ntilde "&#209;">
+<!ENTITY ntilde "&#241;">
+<!ENTITY Nu "&#925;">
+<!ENTITY nu "&#957;">
+<!ENTITY Oacute "&#211;">
+<!ENTITY oacute "&#243;">
+<!ENTITY Ocirc "&#212;">
+<!ENTITY ocirc "&#244;">
+<!ENTITY OElig "&#338;">
+<!ENTITY oelig "&#339;">
+<!ENTITY Ograve "&#210;">
+<!ENTITY ograve "&#242;">
+<!ENTITY oline "&#8254;">
+<!ENTITY Omega "&#937;">
+<!ENTITY omega "&#969;">
+<!ENTITY Omicron "&#927;">
+<!ENTITY omicron "&#959;">
+<!ENTITY oplus "&#8853;">
+<!ENTITY or "&#8870;">
+<!ENTITY ordf "&#170;">
+<!ENTITY ordm "&#186;">
+<!ENTITY Oslash "&#216;">
+<!ENTITY oslash "&#248;">
+<!ENTITY Otilde "&#213;">
+<!ENTITY otilde "&#245;">
+<!ENTITY otimes "&#8855;">
+<!ENTITY Ouml "&#214;">
+<!ENTITY ouml "&#246;">
+<!ENTITY para "&#182;">
+<!ENTITY part "&#8706;">
+<!ENTITY permil "&#8240;">
+<!ENTITY perp "&#8869;">
+<!ENTITY Phi "&#934;">
+<!ENTITY phi "&#966;">
+<!ENTITY Pi "&#928;">
+<!ENTITY pi "&#960;">
+<!ENTITY piv "&#982;">
+<!ENTITY plusmn "&#177;">
+<!ENTITY pound "&#163;">
+<!ENTITY prime "&#8242;">
+<!ENTITY Prime "&#8243;">
+<!ENTITY prod "&#8719;">
+<!ENTITY prop "&#8733;">
+<!ENTITY Psi "&#936;">
+<!ENTITY psi "&#968;">
+<!ENTITY quot "&#34;">
+<!ENTITY radic "&#8730;">
+<!ENTITY rang "&#9002;">
+<!ENTITY raquo "&#187;">
+<!ENTITY rarr "&#8594;">
+<!ENTITY rArr "&#8658;">
+<!ENTITY rceil "&#8969;">
+<!ENTITY rdquo "&#8221;">
+<!ENTITY real "&#8476;">
+<!ENTITY reg "&#174;">
+<!ENTITY rfloor "&#8971;">
+<!ENTITY Rho "&#929;">
+<!ENTITY rho "&#961;">
+<!ENTITY rlm "&#8207;">
+<!ENTITY rsaquo "&#8250;">
+<!ENTITY rsquo "&#8217;">
+<!ENTITY sbquo "&#8218;">
+<!ENTITY Scaron "&#352;">
+<!ENTITY scaron "&#353;">
+<!ENTITY sdot "&#8901;">
+<!ENTITY sect "&#167;">
+<!ENTITY shy "&#173;">
+<!ENTITY Sigma "&#931;">
+<!ENTITY sigma "&#963;">
+<!ENTITY sigmaf "&#962;">
+<!ENTITY sim "&#8764;">
+<!ENTITY spades "&#9824;">
+<!ENTITY sub "&#8834;">
+<!ENTITY sube "&#8838;">
+<!ENTITY sum "&#8721;">
+<!ENTITY sup "&#8835;">
+<!ENTITY sup1 "&#185;">
+<!ENTITY sup2 "&#178;">
+<!ENTITY sup3 "&#179;">
+<!ENTITY supe "&#8839;">
+<!ENTITY szlig "&#223;">
+<!ENTITY Tau "&#932;">
+<!ENTITY tau "&#964;">
+<!ENTITY there4 "&#8756;">
+<!ENTITY Theta "&#920;">
+<!ENTITY theta "&#952;">
+<!ENTITY thetasym "&#977;">
+<!ENTITY thinsp "&#8201;">
+<!ENTITY THORN "&#222;">
+<!ENTITY thorn "&#254;">
+<!ENTITY tilde "&#732;">
+<!ENTITY times "&#215;">
+<!ENTITY trade "&#8482;">
+<!ENTITY Uacute "&#218;">
+<!ENTITY uacute "&#250;">
+<!ENTITY uarr "&#8593;">
+<!ENTITY uArr "&#8657;">
+<!ENTITY Ucirc "&#219;">
+<!ENTITY ucirc "&#251;">
+<!ENTITY Ugrave "&#217;">
+<!ENTITY ugrave "&#249;">
+<!ENTITY uml "&#168;">
+<!ENTITY upsih "&#978;">
+<!ENTITY Upsilon "&#933;">
+<!ENTITY upsilon "&#965;">
+<!ENTITY Uuml "&#220;">
+<!ENTITY uuml "&#252;">
+<!ENTITY weierp "&#8472;">
+<!ENTITY Xi "&#926;">
+<!ENTITY xi "&#958;">
+<!ENTITY Yacute "&#221;">
+<!ENTITY yacute "&#253;">
+<!ENTITY yen "&#165;">
+<!ENTITY Yuml "&#376;">
+<!ENTITY yuml "&#255;">
+<!ENTITY Zeta "&#918;">
+<!ENTITY zeta "&#950;">
+<!ENTITY zwj "&#8205;">
+<!ENTITY zwnj "&#8204;">`.replace(/\n/g, ' ');
+
+  /**
+   * A reasonably strict xml declaration.
+   */
+  const XML_DECL = '<?xml version="1.0" standalone="no"?>';
+
+  /**
+   * The beginning of the XML doctype declaration.
+   */
+  const DOCTYPE_START = `<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [`;
+
+  /**
+   * The end of the XML docype declaration.
+   */
+  const DOCTYPE_END = ']>';
+
+  /**
+   * A full header for an SVG XML document.
+   */
+  const SVG_XML_HEADER = `${XML_DECL}
+    ${DOCTYPE_START}${HTML_ENTITIES}${DOCTYPE_END}`;
 
     void Promise.all([...diagrams].map(renderOneMarmaid));
   });
@@ -7538,17 +7823,16 @@ a.anchor-link {
 </ul>
 <h2 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h2><p>This notebook contains the following parts:</p>
 <ol>
-<li><a href="#setup">Installing and importing the ibm-watsonx-ai and dependecies</a></li>
-<li><a href="#client-setup">Connecting to watsonx.ai Runtime</a></li>
-<li><a href="#get-projects-spaces">Getting available projects and spaces</a></li>
-<li><a href="#get-trainings">Getting all available historical trainings</a></li>
-<li><a href="#get-deployments">Getting all available deployments info</a></li>
-<li><a href="#extract-projects">Extracting trainings info from all available projects</a></li>
-<li><a href="#extract-spaces">Extracting trainings and deployments info from all available spaces</a></li>
-<li><a href="#results">Displaying the results</a></li>
-<li><a href="#exports">Exporting to file</a></li>
-<li><a href="#cleanup">Cleanup</a></li>
-<li><a href="#summary">Summary and next steps</a></li>
+<li><a href="#1.-Set-up-the-environment">Set up the environment</a></li>
+<li><a href="#2.-Getting-available-projects-and-spaces">Getting available projects and spaces</a></li>
+<li><a href="#3.-Getting-all-available-historical-trainings">Getting all available historical trainings</a></li>
+<li><a href="#4.-Getting-all-available-deployments-info">Getting all available deployments info</a></li>
+<li><a href="#5.-Extracting-trainings-info-from-all-available-projects">Extracting trainings info from all available projects</a></li>
+<li><a href="#6.-Extracting-trainings-and-deployments-info-from-all-available-spaces">Extracting trainings and deployments info from all available spaces</a></li>
+<li><a href="#7.-Displaying-the-results">Displaying the results</a></li>
+<li><a href="#8.-Exporting-results-to-file">Exporting results to file</a></li>
+<li><a href="#9.-Cleanup">Cleanup</a></li>
+<li><a href="#10.-Summary-and-next-steps">Summary and next steps</a></li>
 </ol>
 </div>
 </div>
@@ -7560,8 +7844,22 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="setup"></a></p>
-<h2 id="1.-Installing-and-importing-the-ibm-watsonx-ai-and-dependecies">1. Installing and importing the <code>ibm-watsonx-ai</code> and dependecies<a class="anchor-link" href="#1.-Installing-and-importing-the-ibm-watsonx-ai-and-dependecies">¶</a></h2><p><strong>Note:</strong> <code>ibm-watsonx-ai</code> documentation can be found <a href="https://ibm.github.io/watsonx-ai-python-sdk/index.html" rel="noopener no referrer" target="_blank">here</a>.</p>
+<p><a id="1.-Set-up-the-environment"></a></p>
+<h2 id="1.-Set-up-the-environment">1. Set up the environment<a class="anchor-link" href="#1.-Set-up-the-environment">¶</a></h2><p>Before you use the sample code in this notebook, you must perform the following setup tasks:</p>
+<ul>
+<li>Create a <a href="https://cloud.ibm.com/catalog/services/watsonxai-runtime">watsonx.ai Runtime</a> instance (information on service plans and further reading can be found <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/wml-plans.html?context=wx&amp;audience=wdp">here</a>).</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="1.1.-Installing-and-importing-the-ibm-watsonx-ai-and-dependencies">1.1. Installing and importing the <code>ibm-watsonx-ai</code> and dependencies<a class="anchor-link" href="#1.1.-Installing-and-importing-the-ibm-watsonx-ai-and-dependencies">¶</a></h3><p><strong>Note:</strong> <code>ibm-watsonx-ai</code> documentation can be found <a href="https://ibm.github.io/watsonx-ai-python-sdk/index.html" rel="noopener no referrer" target="_blank">here</a>.</p>
 </div>
 </div>
 </div>
@@ -7573,7 +7871,7 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>ibm-watsonx-ai<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">ibm</span><span class="o">-</span><span class="n">watsonx</span><span class="o">-</span><span class="n">ai</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -7600,19 +7898,17 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dateutil</span><span class="w"> </span><span class="kn">import</span> <span class="n">parser</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span><span class="p">,</span> <span class="n">APIClient</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.wml_client_error</span><span class="w"> </span><span class="kn">import</span> <span class="n">ApiRequestFailure</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span><span class="p">,</span> <span class="n">Credentials</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_download_link</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.wml_client_error</span><span class="w"> </span><span class="kn">import</span> <span class="n">ApiRequestFailure</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span>
 </pre></div>
 </div>
 </div>
@@ -7625,8 +7921,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="client-connection"></a></p>
-<h2 id="2.-Connecting-to-watsonx.ai-Runtime">2. Connecting to watsonx.ai Runtime<a class="anchor-link" href="#2.-Connecting-to-watsonx.ai-Runtime">¶</a></h2><p>Authenticate the watsonx.ai Runtime service on IBM Cloud. You need to provide Cloud <code>API key</code> and <code>location</code>.</p>
+<h3 id="1.2.-Connecting-to-watsonx.ai-Runtime">1.2. Connecting to watsonx.ai Runtime<a class="anchor-link" href="#1.2.-Connecting-to-watsonx.ai-Runtime">¶</a></h3><p>Authenticate the watsonx.ai Runtime service on IBM Cloud. You need to provide Cloud <code>API key</code> and <code>location</code>.</p>
 <p><strong>Tip</strong>: Your <code>Cloud API key</code> can be generated by going to the <a href="https://cloud.ibm.com/iam#/users"><strong>Users</strong> section of the Cloud console</a>. From that page, click your name, scroll down to the <strong>API Keys</strong> section, and click <strong>Create an IBM Cloud API key</strong>. Give your key a name and click <strong>Create</strong>, then copy the created key and paste it below. You can also get a service specific url by going to the <a href="https://cloud.ibm.com/apidocs/machine-learning"><strong>Endpoint URLs</strong> section of the watsonx.ai Runtime docs</a>.  You can check your instance location in your  <a href="https://console.ng.bluemix.net/catalog/services/ibm-watson-machine-learning/" rel="noopener no referrer" target="_blank">watsonx.ai Runtime Service</a> instance details.</p>
 <p>You can use <a href="https://cloud.ibm.com/docs/cli/index.html">IBM Cloud CLI</a> to retrieve the instance <code>location</code>.</p>
 <pre><code>ibmcloud login --apikey API_KEY -a https://cloud.ibm.com
@@ -7687,10 +7982,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span>
-    <span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span>
-    <span class="n">url</span><span class="o">=</span><span class="n">url</span>
-<span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7717,8 +8009,8 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="get-projects-spaces"></a></p>
-<h2 id="3.-Getting-available-projects-and-spaces">3. Getting available projects and spaces<a class="anchor-link" href="#3.-Getting-available-projects-and-spaces">¶</a></h2>
+<p><a id="2.-Getting-available-projects-and-spaces"></a></p>
+<h2 id="2.-Getting-available-projects-and-spaces">2. Getting available projects and spaces<a class="anchor-link" href="#2.-Getting-available-projects-and-spaces">¶</a></h2>
 </div>
 </div>
 </div>
@@ -7744,8 +8036,13 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">projects_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">api_client</span><span class="o">.</span><span class="n">PLATFORM_URL</span><span class="si">}</span><span class="s2">/v2/projects"</span>
 <span class="n">params</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">_params</span><span class="p">(</span><span class="n">skip_for_create</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">params</span><span class="p">[</span><span class="s2">"limit"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">projects_url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">api_client</span><span class="o">.</span><span class="n">_get_headers</span><span class="p">())</span>
-<span class="n">available_projects</span> <span class="o">=</span> <span class="p">[</span><span class="n">resource</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"metadata"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"guid"</span><span class="p">)</span> <span class="k">for</span> <span class="n">resource</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"resources"</span><span class="p">,</span> <span class="p">[])]</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+    <span class="n">url</span><span class="o">=</span><span class="n">projects_url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">api_client</span><span class="o">.</span><span class="n">_get_headers</span><span class="p">()</span>
+<span class="p">)</span>
+<span class="n">available_projects</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">resource</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"metadata"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"guid"</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">resource</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"resources"</span><span class="p">,</span> <span class="p">[])</span>
+<span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -7850,7 +8147,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">set_scope</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">scope_name</span><span class="p">,</span> <span class="n">scope_id</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">scope_name</span> <span class="o">==</span> <span class="s2">"project"</span><span class="p">:</span> 
+    <span class="k">if</span> <span class="n">scope_name</span> <span class="o">==</span> <span class="s2">"project"</span><span class="p">:</span>
         <span class="n">client</span><span class="o">.</span><span class="n">set</span><span class="o">.</span><span class="n">default_project</span><span class="p">(</span><span class="n">scope_id</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">client</span><span class="o">.</span><span class="n">set</span><span class="o">.</span><span class="n">default_space</span><span class="p">(</span><span class="n">scope_id</span><span class="p">)</span>
@@ -7867,8 +8164,8 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="get-trainings"></a></p>
-<h2 id="4.-Getting-all-available-historical-trainings">4. Getting all available historical trainings<a class="anchor-link" href="#4.-Getting-all-available-historical-trainings">¶</a></h2><p>Training can be executed in a project or in space. Below methods introduce a mechanism to extract the desired data from the training service instance.</p>
+<p><a id="3.-Getting-all-available-historical-trainings"></a></p>
+<h2 id="3.-Getting-all-available-historical-trainings">3. Getting all available historical trainings<a class="anchor-link" href="#3.-Getting-all-available-historical-trainings">¶</a></h2><p>Training can be executed in a project or in space. Below methods introduce a mechanism to extract the desired data from the training service instance.</p>
 </div>
 </div>
 </div>
@@ -7894,8 +8191,9 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">is_autoai</span><span class="p">(</span><span class="n">metrics</span><span class="p">):</span> 
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">is_autoai</span><span class="p">(</span><span class="n">metrics</span><span class="p">):</span>
     <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="s2">"ml_metrics"</span> <span class="ow">in</span> <span class="n">i</span> <span class="ow">or</span> <span class="s2">"ts_metrics"</span> <span class="ow">in</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">)</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">get_training_info</span><span class="p">(</span><span class="n">api_client</span><span class="p">):</span>
     <span class="n">training_service</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">training</span>
@@ -7907,29 +8205,30 @@ ibmcloud resource service-instance INSTANCE_NAME
     <span class="n">trainings</span> <span class="o">=</span> <span class="n">training_service</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">get_all</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">trainings_ids_list</span> <span class="o">=</span> <span class="n">trainings</span><span class="p">[</span><span class="s2">"ID (training)"</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
     <span class="n">info</span> <span class="o">=</span> <span class="p">[]</span>
-    
-    <span class="k">for</span> <span class="n">training</span> <span class="ow">in</span> <span class="n">trainings_ids_list</span><span class="p">:</span> 
+
+    <span class="k">for</span> <span class="n">training</span> <span class="ow">in</span> <span class="n">trainings_ids_list</span><span class="p">:</span>
         <span class="n">details</span> <span class="o">=</span> <span class="n">training_service</span><span class="o">.</span><span class="n">get_details</span><span class="p">(</span><span class="n">training</span><span class="p">)</span>
         <span class="n">metadata</span> <span class="o">=</span> <span class="n">details</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"metadata"</span><span class="p">,</span> <span class="p">{})</span>
         <span class="n">created_at</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"created_at"</span><span class="p">))</span>
         <span class="n">status</span> <span class="o">=</span> <span class="n">details</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"entity"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"status"</span><span class="p">,</span> <span class="p">{})</span>
         <span class="n">metrics</span> <span class="o">=</span> <span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"metrics"</span><span class="p">,</span> <span class="p">[])</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">state</span><span class="o">:=</span><span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"state"</span><span class="p">))</span> <span class="o">==</span> <span class="s2">"completed"</span> <span class="ow">and</span> <span class="n">is_autoai</span><span class="p">(</span><span class="n">metrics</span><span class="p">):</span> 
+        <span class="k">if</span> <span class="p">(</span><span class="n">state</span> <span class="o">:=</span> <span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"state"</span><span class="p">))</span> <span class="o">==</span> <span class="s2">"completed"</span> <span class="ow">and</span> <span class="n">is_autoai</span><span class="p">(</span><span class="n">metrics</span><span class="p">):</span>
             <span class="n">completed_at</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"completed_at"</span><span class="p">))</span>
-            <span class="c1"># collecting only finished trainings </span>
-            <span class="n">info</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="c1"># collecting only finished trainings</span>
+            <span class="n">info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="p">{</span>
                     <span class="s2">"ID (training)"</span><span class="p">:</span> <span class="n">training</span><span class="p">,</span>
                     <span class="s2">"Created at"</span><span class="p">:</span> <span class="n">created_at</span><span class="p">,</span>
                     <span class="s2">"Finished at"</span><span class="p">:</span> <span class="n">completed_at</span><span class="p">,</span>
                     <span class="s2">"Status"</span><span class="p">:</span> <span class="n">state</span><span class="p">,</span>
                     <span class="s2">"Took"</span><span class="p">:</span> <span class="n">completed_at</span> <span class="o">-</span> <span class="n">created_at</span><span class="p">,</span>
                     <span class="s2">"Scope"</span><span class="p">:</span> <span class="n">scope</span><span class="p">,</span>
-                    <span class="s2">"Scope ID"</span><span class="p">:</span> <span class="n">scope_id</span>
-            <span class="p">})</span>
+                    <span class="s2">"Scope ID"</span><span class="p">:</span> <span class="n">scope_id</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">"."</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
-    
 </pre></div>
 </div>
 </div>
@@ -7942,8 +8241,8 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="get-deployments"></a></p>
-<h2 id="5.-Getting-all-available-deployments-info">5. Getting all available deployments info<a class="anchor-link" href="#5.-Getting-all-available-deployments-info">¶</a></h2><p>Deployments can be stored only in space. Below methods introduce a mechanism to extract the desired data from the deployment.</p>
+<p><a id="4.-Getting-all-available-deployments-info"></a></p>
+<h2 id="4.-Getting-all-available-deployments-info">4. Getting all available deployments info<a class="anchor-link" href="#4.-Getting-all-available-deployments-info">¶</a></h2><p>Deployments can be stored only in space. Below methods introduce a mechanism to extract the desired data from the deployment.</p>
 </div>
 </div>
 </div>
@@ -7959,12 +8258,20 @@ ibmcloud resource service-instance INSTANCE_NAME
     <span class="n">deployments</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">deployments</span><span class="p">[</span><span class="n">deployments</span><span class="p">[</span><span class="s2">"ARTIFACT_TYPE"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"model"</span><span class="p">][</span><span class="s2">"ID"</span><span class="p">]</span>
 
+
 <span class="k">def</span><span class="w"> </span><span class="nf">get_model_details</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">deployment_id</span><span class="p">):</span>
-    <span class="n">asset_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_details</span><span class="p">(</span><span class="n">deployment_id</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"entity"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"asset"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"id"</span><span class="p">)</span>
+    <span class="n">asset_id</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_details</span><span class="p">(</span><span class="n">deployment_id</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"entity"</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"asset"</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"id"</span><span class="p">)</span>
+    <span class="p">)</span>
     <span class="k">return</span> <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">get_details</span><span class="p">(</span><span class="n">asset_id</span><span class="p">)</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">is_autoai_pipeline</span><span class="p">(</span><span class="n">deployment_details</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">deployment_details</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"metadata"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"asset_type"</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"wml_model"</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">extract_details</span><span class="p">(</span><span class="n">deployment_details</span><span class="p">):</span>
     <span class="n">space_id</span> <span class="o">=</span> <span class="n">deployment_details</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"metadata"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"space_id"</span><span class="p">)</span>
@@ -7977,14 +8284,13 @@ ibmcloud resource service-instance INSTANCE_NAME
     <span class="n">pipeline_nodes</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'[</span><span class="si">{</span><span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"pipeline_nodes"</span><span class="p">,</span><span class="w"> </span><span class="p">[]))</span><span class="si">}</span><span class="s1">]'</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"."</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">{</span>
-            <span class="s2">"Scope"</span><span class="p">:</span> <span class="s2">"space"</span><span class="p">,</span>
-            <span class="s2">"Scope ID"</span><span class="p">:</span> <span class="n">space_id</span><span class="p">,</span>
-            <span class="s2">"ID (pipeline)"</span><span class="p">:</span> <span class="n">pipeline_id</span><span class="p">,</span>
-            <span class="s2">"ID (training)"</span><span class="p">:</span> <span class="n">training_id</span><span class="p">,</span>
-            <span class="s2">"Pipeline steps"</span><span class="p">:</span> <span class="n">pipeline_steps</span><span class="p">,</span>
-            <span class="s2">"Pipeline nodes"</span><span class="p">:</span> <span class="n">pipeline_nodes</span>
-            
-        <span class="p">}</span>
+        <span class="s2">"Scope"</span><span class="p">:</span> <span class="s2">"space"</span><span class="p">,</span>
+        <span class="s2">"Scope ID"</span><span class="p">:</span> <span class="n">space_id</span><span class="p">,</span>
+        <span class="s2">"ID (pipeline)"</span><span class="p">:</span> <span class="n">pipeline_id</span><span class="p">,</span>
+        <span class="s2">"ID (training)"</span><span class="p">:</span> <span class="n">training_id</span><span class="p">,</span>
+        <span class="s2">"Pipeline steps"</span><span class="p">:</span> <span class="n">pipeline_steps</span><span class="p">,</span>
+        <span class="s2">"Pipeline nodes"</span><span class="p">:</span> <span class="n">pipeline_nodes</span><span class="p">,</span>
+    <span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -7997,8 +8303,8 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="extract-projects"></a></p>
-<h2 id="6.-Extracting-trainings-info-from-all-available-projects">6. Extracting trainings info from all available projects<a class="anchor-link" href="#6.-Extracting-trainings-info-from-all-available-projects">¶</a></h2>
+<p><a id="5.-Extracting-trainings-info-from-all-available-projects"></a></p>
+<h2 id="5.-Extracting-trainings-info-from-all-available-projects">5. Extracting trainings info from all available projects<a class="anchor-link" href="#5.-Extracting-trainings-info-from-all-available-projects">¶</a></h2>
 </div>
 </div>
 </div>
@@ -8043,8 +8349,8 @@ Working on project_id: eac8bfe2-a00b-43ca-846b-305af5cc6395
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="extract-spaces"></a></p>
-<h2 id="7.-Extracting-trainings-and-deployments-info-from-all-available-spaces">7. Extracting trainings and deployments info from all available spaces<a class="anchor-link" href="#7.-Extracting-trainings-and-deployments-info-from-all-available-spaces">¶</a></h2>
+<p><a id="6.-Extracting-trainings-and-deployments-info-from-all-available-spaces"></a></p>
+<h2 id="6.-Extracting-trainings-and-deployments-info-from-all-available-spaces">6. Extracting trainings and deployments info from all available spaces<a class="anchor-link" href="#6.-Extracting-trainings-and-deployments-info-from-all-available-spaces">¶</a></h2>
 </div>
 </div>
 </div>
@@ -8083,8 +8389,8 @@ Working on project_id: eac8bfe2-a00b-43ca-846b-305af5cc6395
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="results"></a></p>
-<h2 id="8.-Displaying-the-results">8. Displaying the results<a class="anchor-link" href="#8.-Displaying-the-results">¶</a></h2>
+<p><a id="7.-Displaying-the-results"></a></p>
+<h2 id="7.-Displaying-the-results">7. Displaying the results<a class="anchor-link" href="#7.-Displaying-the-results">¶</a></h2>
 </div>
 </div>
 </div>
@@ -8389,8 +8695,8 @@ Working on project_id: eac8bfe2-a00b-43ca-846b-305af5cc6395
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="export"></a></p>
-<h2 id="9.-Exporting-results-to-file">9. Exporting results to file<a class="anchor-link" href="#9.-Exporting-results-to-file">¶</a></h2>
+<p><a id="8.-Exporting-results-to-file"></a></p>
+<h2 id="8.-Exporting-results-to-file">8. Exporting results to file<a class="anchor-link" href="#8.-Exporting-results-to-file">¶</a></h2>
 </div>
 </div>
 </div>
@@ -8475,8 +8781,8 @@ Working on project_id: eac8bfe2-a00b-43ca-846b-305af5cc6395
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="cleanup"></a></p>
-<h2 id="10.-Cleanup">10. Cleanup<a class="anchor-link" href="#10.-Cleanup">¶</a></h2>
+<p><a id="9.-Cleanup"></a></p>
+<h2 id="9.-Cleanup">9. Cleanup<a class="anchor-link" href="#9.-Cleanup">¶</a></h2>
 </div>
 </div>
 </div>
@@ -8508,8 +8814,8 @@ Working on project_id: eac8bfe2-a00b-43ca-846b-305af5cc6395
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="summary"></a></p>
-<h2 id="11.-Summary-and-next-steps">11. Summary and next steps<a class="anchor-link" href="#11.-Summary-and-next-steps">¶</a></h2>
+<p><a id="10.-Summary-and-next-steps"></a></p>
+<h2 id="10.-Summary-and-next-steps">10. Summary and next steps<a class="anchor-link" href="#10.-Summary-and-next-steps">¶</a></h2>
 </div>
 </div>
 </div>

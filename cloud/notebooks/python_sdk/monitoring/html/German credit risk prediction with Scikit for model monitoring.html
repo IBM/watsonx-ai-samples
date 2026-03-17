@@ -7818,16 +7818,6 @@ a.anchor-link {
 <li>watsonx.ai Runtime</li>
 </ul>
 <p>The notebook will train, create and deploy a German Credit Risk model.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="Learning-goals">Learning goals<a class="anchor-link" href="#Learning-goals">¶</a></h3><p>In this notebook, you will learn how to:</p>
 <ul>
 <li>Explore data</li>
@@ -7837,15 +7827,17 @@ a.anchor-link {
 <li>Store a model in the watsonx.ai Runtime repository</li>
 <li>Deploy and score the model</li>
 </ul>
-<h3 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h3><ul>
-<li><a href="#setup">Setup</a></li>
-<li><a href="#explore">Explore Data</a></li>
-<li><a href="#create_model">Create a model</a></li>
-<li><a href="#publish_model">Publish the model</a></li>
-<li><a href="#deploy_model">Deploy and score</a></li>
-<li><a href="#cleanup">Clean up</a></li>
-<li><a href="#summary">Summary</a></li>
-</ul>
+<h3 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h3><ol>
+<li><a href="#Set-up-the-environment">Set up the environment</a></li>
+<li><a href="#Load-the-training-data-from-GitHub">Load the training data from GitHub</a></li>
+<li><a href="#Explore-data">Explore data</a></li>
+<li><a href="#Save-training-data-to-Cloud-Object-Storage">Save training data to Cloud Object Storage</a></li>
+<li><a href="#Create-a-model">Create a model</a></li>
+<li><a href="#Publish-the-model">Publish the model</a></li>
+<li><a href="#Deploy-and-score">Deploy and score</a></li>
+<li><a href="#Cleanup">Cleanup</a></li>
+<li><a href="#Summary-and-next-steps">Summary and next steps</a></li>
+</ol>
 </div>
 </div>
 </div>
@@ -7856,8 +7848,8 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="setup"></a></p>
-<h2 id="1.-Set-up-the-environment">1. Set up the environment<a class="anchor-link" href="#1.-Set-up-the-environment">¶</a></h2><p>Before you use the sample code in this notebook, you must perform the following setup tasks:</p>
+<p><a id="Set-up-the-environment"></a></p>
+<h2 id="Set-up-the-environment">Set up the environment<a class="anchor-link" href="#Set-up-the-environment">¶</a></h2><p>Before you use the sample code in this notebook, you must perform the following setup tasks:</p>
 <ul>
 <li>Create a <a href="https://cloud.ibm.com/catalog/services/watsonxai-runtime" rel="noopener no referrer" target="_blank">watsonx.ai Runtime Service</a> instance (a free plan is offered and information about how to create the instance can be found <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/wml-plans.html?context=wx&amp;audience=wdp" rel="noopener no referrer" target="_blank">here</a>).</li>
 </ul>
@@ -8110,7 +8102,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Run-the-notebook">Run the notebook<a class="anchor-link" href="#Run-the-notebook">¶</a></h2><p>At this point, the notebook is ready to run. You can either run the cells one at a time, or click the <strong>Kernel</strong> option above and select <strong>Restart and Run All</strong> to run all the cells.</p>
+<p>At this point, the notebook is ready to run. You can either run the cells one at a time, or click the <strong>Kernel</strong> option above and select <strong>Restart and Run All</strong> to run all the cells.</p>
 </div>
 </div>
 </div>
@@ -8121,18 +8113,8 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>In this section you will learn how to train Scikit-learn model and next deploy it as web-service using watsonx.ai Runtime service.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Load-the-training-data-from-github">Load the training data from github<a class="anchor-link" href="#Load-the-training-data-from-github">¶</a></h2>
+<p><a id="Load-the-training-data-from-GitHub"></a></p>
+<h2 id="Load-the-training-data-from-GitHub">Load the training data from GitHub<a class="anchor-link" href="#Load-the-training-data-from-GitHub">¶</a></h2>
 </div>
 </div>
 </div>
@@ -8182,7 +8164,8 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Explore-data-">Explore data <a name="explore"></a><a class="anchor-link" href="#Explore-data-">¶</a></h2>
+<p><a id="Explore-data"></a></p>
+<h2 id="Explore-data">Explore data<a class="anchor-link" href="#Explore-data">¶</a></h2>
 </div>
 </div>
 </div>
@@ -8481,7 +8464,7 @@ Name: Risk, dtype: int64</pre>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Visualize-data">Visualize data<a class="anchor-link" href="#Visualize-data">¶</a></h2>
+<h3 id="Visualize-data">Visualize data<a class="anchor-link" href="#Visualize-data">¶</a></h3>
 </div>
 </div>
 </div>
@@ -8524,6 +8507,7 @@ Name: Risk, dtype: int64</pre>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><a id="Save-training-data-to-Cloud-Object-Storage"></a></p>
 <h2 id="Save-training-data-to-Cloud-Object-Storage">Save training data to Cloud Object Storage<a class="anchor-link" href="#Save-training-data-to-Cloud-Object-Storage">¶</a></h2>
 </div>
 </div>
@@ -8576,7 +8560,8 @@ Name: Risk, dtype: int64</pre>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Create-a-model-">Create a model <a name="create_model"></a><a class="anchor-link" href="#Create-a-model-">¶</a></h2><p>In this section you will learn how to:</p>
+<p><a id="Create-a-model"></a></p>
+<h2 id="Create-a-model">Create a model<a class="anchor-link" href="#Create-a-model">¶</a></h2><p>In this section you will learn how to:</p>
 <ul>
 <li>Prepare data for training a model</li>
 <li>Create machine learning pipeline</li>
@@ -8800,7 +8785,8 @@ Name: Risk, dtype: int64</pre>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Publish-the-model-">Publish the model <a name="publish_model"></a><a class="anchor-link" href="#Publish-the-model-">¶</a></h2>
+<p><a id="Publish-the-model"></a></p>
+<h2 id="Publish-the-model">Publish the model<a class="anchor-link" href="#Publish-the-model">¶</a></h2>
 </div>
 </div>
 </div>
@@ -8894,7 +8880,8 @@ Model ID: 31524176-f59b-40b1-8cf0-c8e9a9624064
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Deploy-and-score-">Deploy and score <a name="deploy_model"></a><a class="anchor-link" href="#Deploy-and-score-">¶</a></h2>
+<p><a id="Deploy-and-score"></a></p>
+<h2 id="Deploy-and-score">Deploy and score<a class="anchor-link" href="#Deploy-and-score">¶</a></h2>
 </div>
 </div>
 </div>
@@ -8974,7 +8961,7 @@ Deployment id: b7040aaa-a80a-4803-925d-04a1db9b0788
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Score-the-model">Score the model<a class="anchor-link" href="#Score-the-model">¶</a></h2>
+<h3 id="Score-the-model">Score the model<a class="anchor-link" href="#Score-the-model">¶</a></h3>
 </div>
 </div>
 </div>
@@ -9098,8 +9085,8 @@ Deployment id: b7040aaa-a80a-4803-925d-04a1db9b0788
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="cleanup"></a></p>
-<h2 id="Clean-up">Clean up<a class="anchor-link" href="#Clean-up">¶</a></h2>
+<p><a id="Cleanup"></a></p>
+<h2 id="Cleanup">Cleanup<a class="anchor-link" href="#Cleanup">¶</a></h2>
 </div>
 </div>
 </div>
@@ -9131,7 +9118,7 @@ Deployment id: b7040aaa-a80a-4803-925d-04a1db9b0788
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="summary"></a></p>
+<p><a id="Summary-and-next-steps"></a></p>
 <h2 id="Summary-and-next-steps">Summary and next steps<a class="anchor-link" href="#Summary-and-next-steps">¶</a></h2>
 </div>
 </div>

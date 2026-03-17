@@ -7827,17 +7827,18 @@ a.anchor-link {
 <li>Generate a response by feeding retrieved passage into a large language model (for every user query)</li>
 </ul>
 <h2 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h2><p>This notebook contains the following parts:</p>
-<ul>
-<li><a href="#setup">Setup the environment</a></li>
-<li><a href="#model-gateway">Configure Model Gateway</a></li>
-<li><a href="#model-gateway-providers">Create Model Gateway providers</a></li>
-<li><a href="#data-preparation">Data preparation</a></li>
-<li><a href="#elasticsearch">Set up connection to Elasticsearch</a></li>
-<li><a href="#vectorstore">Set up VectorStore with Elasticsearch credentials</a></li>
-<li><a href="#rag-function">Create RAG AI service</a></li>
-<li><a href="#deploy">Create RAG AI service deployment</a></li>
-<li><a href="#evaluate">Calculate rougeL metric</a></li>
-</ul>
+<ol>
+<li><a href="#Set-up-the-environment">Set up the environment</a></li>
+<li><a href="#Configure-Model-Gateway">Configure Model Gateway</a></li>
+<li><a href="#Create-Model-Gateway-providers">Create Model Gateway providers</a></li>
+<li><a href="#Data-preparation">Data preparation</a></li>
+<li><a href="#Set-up-connectivity-information-to-Elasticsearch">Set up connectivity information to Elasticsearch</a></li>
+<li><a href="#Set-up-VectorStore-with-Elasticsearch-credentials">Set up VectorStore with Elasticsearch credentials</a></li>
+<li><a href="#Create-RAG-AI-service">Create RAG AI service</a></li>
+<li><a href="#Create-RAG-AI-service-deployment">Create RAG AI service deployment</a></li>
+<li><a href="#Calculate-rougeL-metric">Calculate rougeL metric</a></li>
+<li><a href="#Summary-and-next-steps">Summary and next steps</a></li>
+</ol>
 </div>
 </div>
 </div>
@@ -7848,7 +7849,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="setup"></a></p>
+<p><a id="Set-up-the-environment"></a></p>
 <h2 id="Set-up-the-environment">Set up the environment<a class="anchor-link" href="#Set-up-the-environment">¶</a></h2><p>Before you use the sample code in this notebook, you must perform the following setup tasks:</p>
 <ul>
 <li>Create a <a href="https://cloud.ibm.com/catalog/services/watsonxai-runtime" rel="noopener no referrer" target="_blank">watsonx.ai Runtime Service</a> instance (a free plan is offered and information about how to create the instance can be found <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/wml-plans.html?context=wx&amp;audience=wdp" rel="noopener no referrer" target="_blank">here</a>).</li>
@@ -7876,11 +7877,11 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">pip</span> install wget | tail -n 1
-<span class="o">%</span><span class="k">pip</span> install rouge-score | tail -n 1
-<span class="o">%</span><span class="k">pip</span> install -U "ibm-watsonx-ai&gt;=1.3.40" | tail -n 1
-<span class="o">%</span><span class="k">pip</span> install -U "langchain&gt;=0.3,&lt;0.4" | tail -n 1
-<span class="o">%</span><span class="k">pip</span> install -U "langchain-elasticsearch&gt;=0.3,&lt;0.4" | tail -n 1
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">rouge</span><span class="o">-</span><span class="n">score</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"ibm-watsonx-ai&gt;=1.3.40"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"langchain&gt;=0.3,&lt;0.4"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"langchain-elasticsearch&gt;=0.3,&lt;0.4"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -8010,7 +8011,7 @@ Successfully installed elastic-transport-8.17.1 elasticsearch-8.19.3 langchain-e
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="model-gateway"></a></p>
+<p><a id="Configure-Model-Gateway"></a></p>
 <h2 id="Configure-Model-Gateway">Configure Model Gateway<a class="anchor-link" href="#Configure-Model-Gateway">¶</a></h2><p><strong>Note:</strong> You can learn more about setting up Model Gateway in this <a href="https://github.com/IBM/watsonx-ai-samples/blob/master/cloud/notebooks/python_sdk/deployments/ai_services/Use%20watsonx%2C%20and%20Model%20Gateway%20to%20run%20as%20AI%20service%20with%20load%20balancing.ipynb">sample notebook</a>.</p>
 </div>
 </div>
@@ -8112,8 +8113,8 @@ Successfully installed elastic-transport-8.17.1 elasticsearch-8.19.3 langchain-e
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="model-gateway-providers"></a></p>
-<h2 id="Configure-Model-Gateway-providers-and-create-models-with-the-same-alias">Configure Model Gateway providers and create models with the same alias<a class="anchor-link" href="#Configure-Model-Gateway-providers-and-create-models-with-the-same-alias">¶</a></h2>
+<p><a id="Create-Model-Gateway-providers"></a></p>
+<h2 id="Create-Model-Gateway-providers">Create Model Gateway providers<a class="anchor-link" href="#Create-Model-Gateway-providers">¶</a></h2>
 </div>
 </div>
 </div>
@@ -8364,7 +8365,7 @@ Successfully installed elastic-transport-8.17.1 elasticsearch-8.19.3 langchain-e
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="data-preparation"></a></p>
+<p><a id="Data-preparation"></a></p>
 <h2 id="Data-preparation">Data preparation<a class="anchor-link" href="#Data-preparation">¶</a></h2>
 </div>
 </div>
@@ -8602,7 +8603,7 @@ Successfully installed pyarrow-22.0.0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="elasticsearch"></a></p>
+<p><a id="Set-up-connectivity-information-to-Elasticsearch"></a></p>
 <h2 id="Set-up-connectivity-information-to-Elasticsearch">Set up connectivity information to Elasticsearch<a class="anchor-link" href="#Set-up-connectivity-information-to-Elasticsearch">¶</a></h2><p><strong>This notebook focuses on self-managed cluster using <a href="https://cloud.ibm.com/docs/databases-for-elasticsearch?topic=databases-for-elasticsearch-getting-started" rel="noopener no referrer" target="_blank">IBM Cloud® Databases for Elasticsearch.</a></strong></p>
 <p>The following cell retrieves the Elasticsearch users, password, host and port from the environment if available and prompts you otherwise.</p>
 <p>You can provide a connection asset ID to read all required connection data from it. Before doing so, make sure that connection asset was created in your space. To do that, you have to set the client's default space and then create the connection.</p>
@@ -8716,8 +8717,8 @@ SUCCESS
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="vectorstore"></a></p>
-<h2 id="Set-up-VectorStore-with-Elasticsearch-credentials">Set up <code>VectorStore</code> with Elasticsearch credentials<a class="anchor-link" href="#Set-up-VectorStore-with-Elasticsearch-credentials">¶</a></h2><p>Create a <code>VectorStore</code> class that automatically detects the database type (in our case it will be Elasticsearch) and allows us to add, search and delete documents.</p>
+<p><a id="Set-up-VectorStore-with-Elasticsearch-credentials"></a></p>
+<h2 id="Set-up-VectorStore-with-Elasticsearch-credentials">Set up VectorStore with Elasticsearch credentials<a class="anchor-link" href="#Set-up-VectorStore-with-Elasticsearch-credentials">¶</a></h2><p>Create a <code>VectorStore</code> class that automatically detects the database type (in our case it will be Elasticsearch) and allows us to add, search and delete documents.</p>
 <p>It works as a wrapper for LangChain <code>VectorStore</code> classes. You can customize the settings as long as it is supported. Consult the LangChain documentation for more information about <a href="https://api.python.langchain.com/en/latest/vectorstores/langchain_community.vectorstores.elasticsearch.ElasticsearchStore.html" rel="noopener no referrer" target="_blank"><code>ElasticsearchStore</code></a> connector.</p>
 </div>
 </div>
@@ -8775,7 +8776,6 @@ SUCCESS
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="elasticsearchstore_index"></a></p>
 <h3 id="Embed-and-index-documents-with-Elasticsearch">Embed and index documents with Elasticsearch<a class="anchor-link" href="#Embed-and-index-documents-with-Elasticsearch">¶</a></h3><p><strong>Note:</strong> Could take several minutes if you don't have pre-built indices</p>
 </div>
 </div>
@@ -8896,7 +8896,7 @@ SUCCESS
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="rag-function"></a></p>
+<p><a id="Create-RAG-AI-service"></a></p>
 <h2 id="Create-RAG-AI-service">Create RAG AI service<a class="anchor-link" href="#Create-RAG-AI-service">¶</a></h2>
 </div>
 </div>
@@ -9474,7 +9474,7 @@ Bucharest became the capital of Romania in 1862.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="deploy"></a></p>
+<p><a id="Create-RAG-AI-service-deployment"></a></p>
 <h2 id="Create-RAG-AI-service-deployment">Create RAG AI service deployment<a class="anchor-link" href="#Create-RAG-AI-service-deployment">¶</a></h2>
 </div>
 </div>
@@ -9985,7 +9985,7 @@ Answer:John Harbaugh coached the R</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="evaluate"></a></p>
+<p><a id="Calculate-rougeL-metric"></a></p>
 <h2 id="Calculate-rougeL-metric">Calculate rougeL metric<a class="anchor-link" href="#Calculate-rougeL-metric">¶</a></h2><p>Calculate rougeL recall score to verify expected answer presence in generated response.</p>
 </div>
 </div>
@@ -10035,7 +10035,7 @@ Answer:John Harbaugh coached the R</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="summary"></a></p>
+<p><a id="Summary-and-next-steps"></a></p>
 <h2 id="Summary-and-next-steps">Summary and next steps<a class="anchor-link" href="#Summary-and-next-steps">¶</a></h2><p>You successfully completed this notebook!</p>
 <p>Check out our <em><a href="https://ibm.github.io/watsonx-ai-python-sdk/samples.html" rel="noopener no referrer" target="_blank">Online Documentation</a></em> for more samples, tutorials, documentation, how-tos, and blog posts.</p>
 </div>

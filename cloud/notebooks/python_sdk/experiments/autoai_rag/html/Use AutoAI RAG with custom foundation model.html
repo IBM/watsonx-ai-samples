@@ -7332,7 +7332,12 @@ a.anchor-link {
     if (!diagrams.length) {
       return;
     }
-    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs")).default;
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.0/mermaid.esm.min.mjs")).default;
+    const elkUrl = "https://cdnjs.cloudflare.com/ajax/libs/mermaid-layout-elk/0.1.9/mermaid-layout-elk.esm.min.mjs";
+    if(elkUrl) {
+      const elkLayouts = (await import(elkUrl)).default;
+      mermaid.registerLayoutLoaders(elkLayouts);
+    }
     const parser = new DOMParser();
 
     mermaid.initialize({
@@ -7429,7 +7434,8 @@ a.anchor-link {
      * Post-process to ensure mermaid diagrams contain only valid SVG and XHTML.
      */
     function cleanMermaidSvg(svg) {
-      return svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      svg = svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      return `${SVG_XML_HEADER}${svg}`;
     }
 
 
@@ -7455,6 +7461,285 @@ a.anchor-link {
       }
       return `<${tag} ${rest}>`;
     }
+
+
+  /**
+   * Named HTML entities with their decimal equivalent codes.
+   *
+   * @see https://www.w3.org/TR/WD-html40-970708/sgml/entities.html
+   * */
+  const HTML_ENTITIES = `<!ENTITY Aacute "&#193;">
+<!ENTITY aacute "&#225;">
+<!ENTITY Acirc "&#194;">
+<!ENTITY acirc "&#226;">
+<!ENTITY acute "&#180;">
+<!ENTITY AElig "&#198;">
+<!ENTITY aelig "&#230;">
+<!ENTITY Agrave "&#192;">
+<!ENTITY agrave "&#224;">
+<!ENTITY alefsym "&#8501;">
+<!ENTITY Alpha "&#913;">
+<!ENTITY alpha "&#945;">
+<!ENTITY amp "&#38;">
+<!ENTITY and "&#8869;">
+<!ENTITY ang "&#8736;">
+<!ENTITY Aring "&#197;">
+<!ENTITY aring "&#229;">
+<!ENTITY asymp "&#8776;">
+<!ENTITY Atilde "&#195;">
+<!ENTITY atilde "&#227;">
+<!ENTITY Auml "&#196;">
+<!ENTITY auml "&#228;">
+<!ENTITY bdquo "&#8222;">
+<!ENTITY Beta "&#914;">
+<!ENTITY beta "&#946;">
+<!ENTITY brvbar "&#166;">
+<!ENTITY bull "&#8226;">
+<!ENTITY cap "&#8745;">
+<!ENTITY Ccedil "&#199;">
+<!ENTITY ccedil "&#231;">
+<!ENTITY cedil "&#184;">
+<!ENTITY cent "&#162;">
+<!ENTITY Chi "&#935;">
+<!ENTITY chi "&#967;">
+<!ENTITY circ "&#710;">
+<!ENTITY clubs "&#9827;">
+<!ENTITY cong "&#8773;">
+<!ENTITY copy "&#169;">
+<!ENTITY crarr "&#8629;">
+<!ENTITY cup "&#8746;">
+<!ENTITY curren "&#164;">
+<!ENTITY dagger "&#8224;">
+<!ENTITY Dagger "&#8225;">
+<!ENTITY darr "&#8595;">
+<!ENTITY dArr "&#8659;">
+<!ENTITY deg "&#176;">
+<!ENTITY Delta "&#916;">
+<!ENTITY delta "&#948;">
+<!ENTITY diams "&#9830;">
+<!ENTITY divide "&#247;">
+<!ENTITY Eacute "&#201;">
+<!ENTITY eacute "&#233;">
+<!ENTITY Ecirc "&#202;">
+<!ENTITY ecirc "&#234;">
+<!ENTITY Egrave "&#200;">
+<!ENTITY egrave "&#232;">
+<!ENTITY empty "&#8709;">
+<!ENTITY emsp "&#8195;">
+<!ENTITY ensp "&#8194;">
+<!ENTITY epsilon "&#949;">
+<!ENTITY Epsilon "&#917;">
+<!ENTITY equiv "&#8801;">
+<!ENTITY Eta "&#919;">
+<!ENTITY eta "&#951;">
+<!ENTITY ETH "&#208;">
+<!ENTITY eth "&#240;">
+<!ENTITY Euml "&#203;">
+<!ENTITY euml "&#235;">
+<!ENTITY exist "&#8707;">
+<!ENTITY fnof "&#402;">
+<!ENTITY forall "&#8704;">
+<!ENTITY frac12 "&#189;">
+<!ENTITY frac14 "&#188;">
+<!ENTITY frac34 "&#190;">
+<!ENTITY frasl "&#8260;">
+<!ENTITY Gamma "&#915;">
+<!ENTITY gamma "&#947;">
+<!ENTITY ge "&#8805;">
+<!ENTITY gt "&#62;">
+<!ENTITY harr "&#8596;">
+<!ENTITY hArr "&#8660;">
+<!ENTITY hearts "&#9829;">
+<!ENTITY hellip "&#8230;">
+<!ENTITY Iacute "&#205;">
+<!ENTITY iacute "&#237;">
+<!ENTITY Icirc "&#206;">
+<!ENTITY icirc "&#238;">
+<!ENTITY iexcl "&#161;">
+<!ENTITY Igrave "&#204;">
+<!ENTITY igrave "&#236;">
+<!ENTITY image "&#8465;">
+<!ENTITY infin "&#8734;">
+<!ENTITY int "&#8747;">
+<!ENTITY Iota "&#921;">
+<!ENTITY iota "&#953;">
+<!ENTITY iquest "&#191;">
+<!ENTITY isin "&#8712;">
+<!ENTITY Iuml "&#207;">
+<!ENTITY iuml "&#239;">
+<!ENTITY Kappa "&#922;">
+<!ENTITY kappa "&#954;">
+<!ENTITY Lambda "&#923;">
+<!ENTITY lambda "&#955;">
+<!ENTITY lang "&#9001;">
+<!ENTITY laquo "&#171;">
+<!ENTITY larr "&#8592;">
+<!ENTITY lArr "&#8656;">
+<!ENTITY lceil "&#8968;">
+<!ENTITY ldquo "&#8220;">
+<!ENTITY le "&#8804;">
+<!ENTITY lfloor "&#8970;">
+<!ENTITY lowast "&#8727;">
+<!ENTITY loz "&#9674;">
+<!ENTITY lrm "&#8206;">
+<!ENTITY lsaquo "&#8249;">
+<!ENTITY lsquo "&#8216;">
+<!ENTITY lt "&#60;">
+<!ENTITY macr "&#175;">
+<!ENTITY mdash "&#8212;">
+<!ENTITY micro "&#181;">
+<!ENTITY middot "&#183;">
+<!ENTITY minus "&#8722;">
+<!ENTITY Mu "&#924;">
+<!ENTITY mu "&#956;">
+<!ENTITY nabla "&#8711;">
+<!ENTITY nbsp "&#160;">
+<!ENTITY ndash "&#8211;">
+<!ENTITY ne "&#8800;">
+<!ENTITY ni "&#8715;">
+<!ENTITY not "&#172;">
+<!ENTITY notin "&#8713;">
+<!ENTITY nsub "&#8836;">
+<!ENTITY Ntilde "&#209;">
+<!ENTITY ntilde "&#241;">
+<!ENTITY Nu "&#925;">
+<!ENTITY nu "&#957;">
+<!ENTITY Oacute "&#211;">
+<!ENTITY oacute "&#243;">
+<!ENTITY Ocirc "&#212;">
+<!ENTITY ocirc "&#244;">
+<!ENTITY OElig "&#338;">
+<!ENTITY oelig "&#339;">
+<!ENTITY Ograve "&#210;">
+<!ENTITY ograve "&#242;">
+<!ENTITY oline "&#8254;">
+<!ENTITY Omega "&#937;">
+<!ENTITY omega "&#969;">
+<!ENTITY Omicron "&#927;">
+<!ENTITY omicron "&#959;">
+<!ENTITY oplus "&#8853;">
+<!ENTITY or "&#8870;">
+<!ENTITY ordf "&#170;">
+<!ENTITY ordm "&#186;">
+<!ENTITY Oslash "&#216;">
+<!ENTITY oslash "&#248;">
+<!ENTITY Otilde "&#213;">
+<!ENTITY otilde "&#245;">
+<!ENTITY otimes "&#8855;">
+<!ENTITY Ouml "&#214;">
+<!ENTITY ouml "&#246;">
+<!ENTITY para "&#182;">
+<!ENTITY part "&#8706;">
+<!ENTITY permil "&#8240;">
+<!ENTITY perp "&#8869;">
+<!ENTITY Phi "&#934;">
+<!ENTITY phi "&#966;">
+<!ENTITY Pi "&#928;">
+<!ENTITY pi "&#960;">
+<!ENTITY piv "&#982;">
+<!ENTITY plusmn "&#177;">
+<!ENTITY pound "&#163;">
+<!ENTITY prime "&#8242;">
+<!ENTITY Prime "&#8243;">
+<!ENTITY prod "&#8719;">
+<!ENTITY prop "&#8733;">
+<!ENTITY Psi "&#936;">
+<!ENTITY psi "&#968;">
+<!ENTITY quot "&#34;">
+<!ENTITY radic "&#8730;">
+<!ENTITY rang "&#9002;">
+<!ENTITY raquo "&#187;">
+<!ENTITY rarr "&#8594;">
+<!ENTITY rArr "&#8658;">
+<!ENTITY rceil "&#8969;">
+<!ENTITY rdquo "&#8221;">
+<!ENTITY real "&#8476;">
+<!ENTITY reg "&#174;">
+<!ENTITY rfloor "&#8971;">
+<!ENTITY Rho "&#929;">
+<!ENTITY rho "&#961;">
+<!ENTITY rlm "&#8207;">
+<!ENTITY rsaquo "&#8250;">
+<!ENTITY rsquo "&#8217;">
+<!ENTITY sbquo "&#8218;">
+<!ENTITY Scaron "&#352;">
+<!ENTITY scaron "&#353;">
+<!ENTITY sdot "&#8901;">
+<!ENTITY sect "&#167;">
+<!ENTITY shy "&#173;">
+<!ENTITY Sigma "&#931;">
+<!ENTITY sigma "&#963;">
+<!ENTITY sigmaf "&#962;">
+<!ENTITY sim "&#8764;">
+<!ENTITY spades "&#9824;">
+<!ENTITY sub "&#8834;">
+<!ENTITY sube "&#8838;">
+<!ENTITY sum "&#8721;">
+<!ENTITY sup "&#8835;">
+<!ENTITY sup1 "&#185;">
+<!ENTITY sup2 "&#178;">
+<!ENTITY sup3 "&#179;">
+<!ENTITY supe "&#8839;">
+<!ENTITY szlig "&#223;">
+<!ENTITY Tau "&#932;">
+<!ENTITY tau "&#964;">
+<!ENTITY there4 "&#8756;">
+<!ENTITY Theta "&#920;">
+<!ENTITY theta "&#952;">
+<!ENTITY thetasym "&#977;">
+<!ENTITY thinsp "&#8201;">
+<!ENTITY THORN "&#222;">
+<!ENTITY thorn "&#254;">
+<!ENTITY tilde "&#732;">
+<!ENTITY times "&#215;">
+<!ENTITY trade "&#8482;">
+<!ENTITY Uacute "&#218;">
+<!ENTITY uacute "&#250;">
+<!ENTITY uarr "&#8593;">
+<!ENTITY uArr "&#8657;">
+<!ENTITY Ucirc "&#219;">
+<!ENTITY ucirc "&#251;">
+<!ENTITY Ugrave "&#217;">
+<!ENTITY ugrave "&#249;">
+<!ENTITY uml "&#168;">
+<!ENTITY upsih "&#978;">
+<!ENTITY Upsilon "&#933;">
+<!ENTITY upsilon "&#965;">
+<!ENTITY Uuml "&#220;">
+<!ENTITY uuml "&#252;">
+<!ENTITY weierp "&#8472;">
+<!ENTITY Xi "&#926;">
+<!ENTITY xi "&#958;">
+<!ENTITY Yacute "&#221;">
+<!ENTITY yacute "&#253;">
+<!ENTITY yen "&#165;">
+<!ENTITY Yuml "&#376;">
+<!ENTITY yuml "&#255;">
+<!ENTITY Zeta "&#918;">
+<!ENTITY zeta "&#950;">
+<!ENTITY zwj "&#8205;">
+<!ENTITY zwnj "&#8204;">`.replace(/\n/g, ' ');
+
+  /**
+   * A reasonably strict xml declaration.
+   */
+  const XML_DECL = '<?xml version="1.0" standalone="no"?>';
+
+  /**
+   * The beginning of the XML doctype declaration.
+   */
+  const DOCTYPE_START = `<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [`;
+
+  /**
+   * The end of the XML docype declaration.
+   */
+  const DOCTYPE_END = ']>';
+
+  /**
+   * A full header for an SVG XML document.
+   */
+  const SVG_XML_HEADER = `${XML_DECL}
+    ${DOCTYPE_START}${HTML_ENTITIES}${DOCTYPE_END}`;
 
     void Promise.all([...diagrams].map(renderOneMarmaid));
   });
@@ -7541,17 +7826,16 @@ The data used in this notebook is from the <a href="https://arxiv.org/pdf/2405.0
 <li>Create an AutoAI RAG job that will find the best RAG pattern based on custom foundation model used during the experiment</li>
 </ul>
 <h2 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h2><p>This notebook contains the following parts:</p>
-<ul>
+<ol>
 <li><a href="#Set-up-the-environment">Set up the environment</a></li>
 <li><a href="#Prerequisites">Prerequisites</a></li>
-<li><a href="#Create-API-Client-instance.">Create API Client instance.</a></li>
-<li><a href="#Download-custom-model-from-hugging-face">Download custom model from hugging face</a></li>
+<li><a href="#Create-API-Client-instance">Create API Client instance</a></li>
 <li><a href="#Deploy-the-model">Deploy the model</a></li>
 <li><a href="#Prepare-the-data-for-the-AutoAI-RAG-experiment">Prepare the data for the AutoAI RAG experiment</a></li>
 <li><a href="#Run-the-AutoAI-RAG-experiment">Run the AutoAI RAG experiment</a></li>
 <li><a href="#Query-generated-pattern-locally">Query generated pattern locally</a></li>
-<li><a href="#Summary">Summary</a></li>
-</ul>
+<li><a href="#Summary-and-next-steps">Summary and next steps</a></li>
+</ol>
 </div>
 </div>
 </div>
@@ -7562,6 +7846,7 @@ The data used in this notebook is from the <a href="https://arxiv.org/pdf/2405.0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><a id="Set-up-the-environment"></a></p>
 <h2 id="Set-up-the-environment">Set up the environment<a class="anchor-link" href="#Set-up-the-environment">¶</a></h2>
 </div>
 </div>
@@ -7574,8 +7859,8 @@ The data used in this notebook is from the <a href="https://arxiv.org/pdf/2405.0
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">pip</span> install -U wget | tail -n 1
-<span class="o">%</span><span class="k">pip</span> install -U 'ibm-watsonx-ai[rag]&gt;=1.3.26' | tail -n 1
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s1">'ibm-watsonx-ai[rag]&gt;=1.3.26'</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -7606,7 +7891,7 @@ Note: you may need to restart the kernel to use updated packages.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="prerequisites"></a></p>
+<p><a id="Prerequisites"></a></p>
 <h2 id="Prerequisites">Prerequisites<a class="anchor-link" href="#Prerequisites">¶</a></h2><p>Please fill below values to be able to move forward:</p>
 <ul>
 <li>API_KEY - your api key to IBM Cloud, more information about API keys can be found <a href="https://cloud.ibm.com/docs/account?topic=account-userapikey&amp;interface=ui">here</a>.</li>
@@ -7626,15 +7911,21 @@ Note: you may need to restart the kernel to use updated packages.
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">API_KEY</span> <span class="o">=</span> <span class="s2">"PUT YOUR API KEY HERE"</span> <span class="c1"># API key to your IBM Cloud or IBM Cloud Pak® for Data instance</span>
-<span class="n">WML_ENDPOINT</span> <span class="o">=</span> <span class="s2">"https://us-south.ml.cloud.ibm.com"</span> <span class="c1"># endpoint associated with your API key</span>
-<span class="n">PROJECT_ID</span> <span class="o">=</span> <span class="s2">"PUT YOUR PROJECT ID HERE"</span> <span class="c1"># project ID associated with your API key and endpoint</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">API_KEY</span> <span class="o">=</span> <span class="s2">"PUT YOUR API KEY HERE"</span>  <span class="c1"># API key to your IBM Cloud or IBM Cloud Pak® for Data instance</span>
+<span class="n">WML_ENDPOINT</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">"https://us-south.ml.cloud.ibm.com"</span>  <span class="c1"># endpoint associated with your API key</span>
+<span class="p">)</span>
+<span class="n">PROJECT_ID</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">"PUT YOUR PROJECT ID HERE"</span>  <span class="c1"># project ID associated with your API key and endpoint</span>
+<span class="p">)</span>
 
-<span class="n">DATASOURCE_CONNECTION_ASSET_ID</span> <span class="o">=</span> <span class="s2">"PUT YOUR DATASOURCE CONNECTION ASSET ID"</span> <span class="c1"># datasource connection inside your project</span>
-<span class="n">BUCKET_NAME</span> <span class="o">=</span> <span class="s2">"PUT BUCKET NAME WHICH STORES YOUR CUSTOM MODEL FILES HERE"</span> <span class="c1"># bucket name in your Cloud Object Storage</span>
-<span class="n">BUCKET_MODEL_DIR_NAME</span> <span class="o">=</span> <span class="s2">"PUT PATH TO YOUR CUSTOM MODEL FILES IN YOUR BUCKET"</span> <span class="c1"># dir name inside the bucket which will store your custom model files</span>
+<span class="n">DATASOURCE_CONNECTION_ASSET_ID</span> <span class="o">=</span> <span class="s2">"PUT YOUR DATASOURCE CONNECTION ASSET ID"</span>  <span class="c1"># datasource connection inside your project</span>
+<span class="n">BUCKET_NAME</span> <span class="o">=</span> <span class="s2">"PUT BUCKET NAME WHICH STORES YOUR CUSTOM MODEL FILES HERE"</span>  <span class="c1"># bucket name in your Cloud Object Storage</span>
+<span class="n">BUCKET_MODEL_DIR_NAME</span> <span class="o">=</span> <span class="s2">"PUT PATH TO YOUR CUSTOM MODEL FILES IN YOUR BUCKET"</span>  <span class="c1"># dir name inside the bucket which will store your custom model files</span>
 
-<span class="n">BUCKET_BENCHMARK_JSON_FILE_PATH</span> <span class="o">=</span> <span class="s2">"benchmark.json"</span> <span class="c1"># path inside bucket where your benchmark.json file is stored</span>
+<span class="n">BUCKET_BENCHMARK_JSON_FILE_PATH</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">"benchmark.json"</span>  <span class="c1"># path inside bucket where your benchmark.json file is stored</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7647,7 +7938,8 @@ Note: you may need to restart the kernel to use updated packages.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Create-API-Client-instance.">Create API Client instance.<a class="anchor-link" href="#Create-API-Client-instance.">¶</a></h2><p>This client will allow us to connect with the IBM services.</p>
+<p><a id="Create-API-Client-instance"></a></p>
+<h2 id="Create-API-Client-instance">Create API Client instance<a class="anchor-link" href="#Create-API-Client-instance">¶</a></h2><p>This client will allow us to connect with the IBM services.</p>
 </div>
 </div>
 </div>
@@ -7656,17 +7948,14 @@ Note: you may need to restart the kernel to use updated packages.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span><span class="p">,</span> <span class="n">Credentials</span>
 
-<span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span>
-                <span class="n">api_key</span><span class="o">=</span><span class="n">API_KEY</span><span class="p">,</span>
-                <span class="n">url</span><span class="o">=</span><span class="n">WML_ENDPOINT</span>
-            <span class="p">)</span>
+<span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">API_KEY</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">WML_ENDPOINT</span><span class="p">)</span>
 
-<span class="n">client</span> <span class="o">=</span> <span class="n">APIClient</span><span class="p">(</span><span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span>  <span class="n">project_id</span><span class="o">=</span><span class="n">PROJECT_ID</span><span class="p">)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">APIClient</span><span class="p">(</span><span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="n">PROJECT_ID</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7679,6 +7968,7 @@ Note: you may need to restart the kernel to use updated packages.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><a id="Deploy-the-model"></a></p>
 <h2 id="Deploy-the-model">Deploy the model<a class="anchor-link" href="#Deploy-the-model">¶</a></h2><p>Check the docs to avoid any problems during model deployment <a href="https://ibm.github.io/watsonx-ai-python-sdk/fm_custom_models.html">here</a>.</p>
 </div>
 </div>
@@ -7699,10 +7989,10 @@ Note: you may need to restart the kernel to use updated packages.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">software_spec</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">get_id_by_name</span><span class="p">(</span><span class="s1">'watsonx-cfm-caikit-1.1'</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">software_spec</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">get_id_by_name</span><span class="p">(</span><span class="s2">"watsonx-cfm-caikit-1.1"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7736,10 +8026,12 @@ Note: you may need to restart the kernel to use updated packages.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">stored_model_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">store_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">BUCKET_MODEL_DIR_NAME</span><span class="p">,</span> <span class="n">meta_props</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">stored_model_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">store_model</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">BUCKET_MODEL_DIR_NAME</span><span class="p">,</span> <span class="n">meta_props</span><span class="o">=</span><span class="n">metadata</span>
+<span class="p">)</span>
 <span class="n">stored_model_asset_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">get_model_id</span><span class="p">(</span><span class="n">stored_model_details</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -7751,10 +8043,10 @@ Note: you may need to restart the kernel to use updated packages.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">framework_filter</span><span class="o">=</span><span class="s1">'custom_foundation_model_1.0'</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">framework_filter</span><span class="o">=</span><span class="s2">"custom_foundation_model_1.0"</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -7765,7 +8057,7 @@ Note: you may need to restart the kernel to use updated packages.
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[16]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[ ]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
@@ -7876,7 +8168,7 @@ Note: you may need to restart the kernel to use updated packages.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">MAX_SEQUENCE_LENGTH</span> <span class="o">=</span> <span class="mi">32_000</span>
@@ -7888,16 +8180,16 @@ Note: you may need to restart the kernel to use updated packages.
     <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"My custom foundation model deployment"</span><span class="p">,</span>
     <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DESCRIPTION</span><span class="p">:</span> <span class="s2">"My custom foundation model deployment"</span><span class="p">,</span>
     <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">HARDWARE_REQUEST</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s1">'size'</span><span class="p">:</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">HardwareRequestSizes</span><span class="o">.</span><span class="n">Small</span><span class="p">,</span>
-        <span class="s1">'num_nodes'</span><span class="p">:</span> <span class="mi">1</span>
+        <span class="s2">"size"</span><span class="p">:</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">HardwareRequestSizes</span><span class="o">.</span><span class="n">Small</span><span class="p">,</span>
+        <span class="s2">"num_nodes"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
     <span class="p">},</span>
     <span class="c1"># optionally overwrite model parameters here</span>
     <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">FOUNDATION_MODEL</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">"max_sequence_length"</span><span class="p">:</span> <span class="n">MAX_SEQUENCE_LENGTH</span><span class="p">,</span> 
-        <span class="s2">"max_new_tokens"</span><span class="p">:</span> <span class="n">MAX_NEW_TOKENS</span><span class="p">,</span> 
+        <span class="s2">"max_sequence_length"</span><span class="p">:</span> <span class="n">MAX_SEQUENCE_LENGTH</span><span class="p">,</span>
+        <span class="s2">"max_new_tokens"</span><span class="p">:</span> <span class="n">MAX_NEW_TOKENS</span><span class="p">,</span>
         <span class="s2">"max_batch_size"</span><span class="p">:</span> <span class="n">MAX_BATCH_SIZE</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">SERVING_NAME</span><span class="p">:</span> <span class="s2">"custom_foundation_model"</span> <span class="c1"># must be unique</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">SERVING_NAME</span><span class="p">:</span> <span class="s2">"custom_foundation_model"</span><span class="p">,</span>  <span class="c1"># must be unique</span>
 <span class="p">}</span>
 <span class="n">deployment_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">stored_model_asset_id</span><span class="p">,</span> <span class="n">meta_props</span><span class="p">)</span>
 <span class="n">deployment_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">deployment_details</span><span class="o">=</span><span class="n">deployment_details</span><span class="p">)</span>
@@ -7945,6 +8237,7 @@ Successfully finished deployment creation, deployment_id='085784e7-75d5-452d-ae2
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><a id="Prepare-the-data-for-the-AutoAI-RAG-experiment"></a></p>
 <h2 id="Prepare-the-data-for-the-AutoAI-RAG-experiment">Prepare the data for the AutoAI RAG experiment<a class="anchor-link" href="#Prepare-the-data-for-the-AutoAI-RAG-experiment">¶</a></h2>
 </div>
 </div>
@@ -8006,10 +8299,12 @@ Successfully finished deployment creation, deployment_id='085784e7-75d5-452d-ae2
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">document_asset_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">byom_input_filename</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="n">byom_input_filename</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">document_asset_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="n">byom_input_filename</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="n">byom_input_filename</span>
+<span class="p">)</span>
 
 <span class="n">document_asset_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">document_asset_details</span><span class="p">)</span>
 <span class="n">document_asset_id</span>
@@ -8031,7 +8326,7 @@ SUCCESS
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[23]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[ ]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>'f99e0fc9-9170-44b2-bf36-1f32e8384df1'</pre>
 </div>
@@ -8070,29 +8365,29 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span> 
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 
 <span class="n">local_benchmark_json_filename</span> <span class="o">=</span> <span class="s2">"benchmark.json"</span>
 
 <span class="n">benchmarking_data</span> <span class="o">=</span> <span class="p">[</span>
-     <span class="p">{</span>
+    <span class="p">{</span>
         <span class="s2">"question"</span><span class="p">:</span> <span class="s2">"What are the two main variants of Granite Code models?"</span><span class="p">,</span>
         <span class="s2">"correct_answer"</span><span class="p">:</span> <span class="s2">"The two main variants are Granite Code Base and Granite Code Instruct."</span><span class="p">,</span>
-        <span class="s2">"correct_answer_document_ids"</span><span class="p">:</span> <span class="p">[</span><span class="n">byom_input_filename</span><span class="p">]</span>
-     <span class="p">},</span>
-     <span class="p">{</span>
+        <span class="s2">"correct_answer_document_ids"</span><span class="p">:</span> <span class="p">[</span><span class="n">byom_input_filename</span><span class="p">],</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
         <span class="s2">"question"</span><span class="p">:</span> <span class="s2">"What is the purpose of Granite Code Instruct models?"</span><span class="p">,</span>
         <span class="s2">"correct_answer"</span><span class="p">:</span> <span class="s2">"Granite Code Instruct models are finetuned for instruction-following tasks using datasets like CommitPack, OASST, HelpSteer, and synthetic code instruction datasets, aiming to improve reasoning and instruction-following capabilities."</span><span class="p">,</span>
-        <span class="s2">"correct_answer_document_ids"</span><span class="p">:</span> <span class="p">[</span><span class="n">byom_input_filename</span><span class="p">]</span>
-     <span class="p">},</span>
-     <span class="p">{</span>
+        <span class="s2">"correct_answer_document_ids"</span><span class="p">:</span> <span class="p">[</span><span class="n">byom_input_filename</span><span class="p">],</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
         <span class="s2">"question"</span><span class="p">:</span> <span class="s2">"What is the licensing model for Granite Code models?"</span><span class="p">,</span>
         <span class="s2">"correct_answer"</span><span class="p">:</span> <span class="s2">"Granite Code models are released under the Apache 2.0 license, ensuring permissive and enterprise-friendly usage."</span><span class="p">,</span>
-        <span class="s2">"correct_answer_document_ids"</span><span class="p">:</span> <span class="p">[</span><span class="n">byom_input_filename</span><span class="p">]</span>
-     <span class="p">},</span>
+        <span class="s2">"correct_answer_document_ids"</span><span class="p">:</span> <span class="p">[</span><span class="n">byom_input_filename</span><span class="p">],</span>
+    <span class="p">},</span>
 <span class="p">]</span>
 
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">local_benchmark_json_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"w"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
@@ -8118,10 +8413,12 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [27]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">test_asset_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">local_benchmark_json_filename</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="n">local_benchmark_json_filename</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">test_asset_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="n">local_benchmark_json_filename</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="n">local_benchmark_json_filename</span>
+<span class="p">)</span>
 
 <span class="n">test_asset_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">data_assets</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">test_asset_details</span><span class="p">)</span>
 <span class="n">test_asset_id</span>
@@ -8143,7 +8440,7 @@ SUCCESS
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[27]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[ ]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>'ab864a7e-7b75-4e19-a833-936e1d24ed3c'</pre>
 </div>
@@ -8171,6 +8468,7 @@ SUCCESS
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><a id="Run-the-AutoAI-RAG-experiment"></a></p>
 <h2 id="Run-the-AutoAI-RAG-experiment">Run the AutoAI RAG experiment<a class="anchor-link" href="#Run-the-AutoAI-RAG-experiment">¶</a></h2><p>Provide the input information for AutoAI RAG optimizer:</p>
 <ul>
 <li><code>custom_prompt_template_text</code> - custom prompt template text which will be used to query your own foundation model</li>
@@ -8188,45 +8486,45 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [30]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.experiment</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoAI</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.helpers.connections</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataConnection</span><span class="p">,</span> <span class="n">ContainerLocation</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.schema</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-        <span class="n">AutoAIRAGCustomModelConfig</span><span class="p">,</span>
-        <span class="n">AutoAIRAGModelParams</span>
+    <span class="n">AutoAIRAGCustomModelConfig</span><span class="p">,</span>
+    <span class="n">AutoAIRAGModelParams</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.helpers.connections</span><span class="w"> </span><span class="kn">import</span> <span class="n">ContainerLocation</span><span class="p">,</span> <span class="n">DataConnection</span>
 
 <span class="n">experiment</span> <span class="o">=</span> <span class="n">AutoAI</span><span class="p">(</span><span class="n">credentials</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="n">PROJECT_ID</span><span class="p">)</span>
 
-<span class="n">custom_prompt_template_text</span> <span class="o">=</span> <span class="s2">"Answer my question </span><span class="si">{question}</span><span class="s2"> related to these documents </span><span class="si">{reference_documents}</span><span class="s2">."</span>
+<span class="n">custom_prompt_template_text</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">"Answer my question </span><span class="si">{question}</span><span class="s2"> related to these documents </span><span class="si">{reference_documents}</span><span class="s2">."</span>
+<span class="p">)</span>
 <span class="n">custom_context_template_text</span> <span class="o">=</span> <span class="s2">"My document </span><span class="si">{document}</span><span class="s2">"</span>
 
 <span class="n">parameters</span> <span class="o">=</span> <span class="n">AutoAIRAGModelParams</span><span class="p">(</span><span class="n">max_sequence_length</span><span class="o">=</span><span class="mi">32_000</span><span class="p">)</span>
 <span class="n">custom_foundation_model_config</span> <span class="o">=</span> <span class="n">AutoAIRAGCustomModelConfig</span><span class="p">(</span>
-    <span class="n">deployment_id</span><span class="o">=</span><span class="n">deployment_id</span><span class="p">,</span> 
-    <span class="n">project_id</span><span class="o">=</span><span class="n">PROJECT_ID</span><span class="p">,</span> 
-    <span class="n">prompt_template_text</span><span class="o">=</span><span class="n">custom_prompt_template_text</span><span class="p">,</span> 
-    <span class="n">context_template_text</span><span class="o">=</span><span class="n">custom_context_template_text</span><span class="p">,</span> 
-    <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span>
+    <span class="n">deployment_id</span><span class="o">=</span><span class="n">deployment_id</span><span class="p">,</span>
+    <span class="n">project_id</span><span class="o">=</span><span class="n">PROJECT_ID</span><span class="p">,</span>
+    <span class="n">prompt_template_text</span><span class="o">=</span><span class="n">custom_prompt_template_text</span><span class="p">,</span>
+    <span class="n">context_template_text</span><span class="o">=</span><span class="n">custom_context_template_text</span><span class="p">,</span>
+    <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">rag_optimizer</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">rag_optimizer</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s1">'AutoAI RAG - Custom foundation model experiment'</span><span class="p">,</span>
-    <span class="n">description</span> <span class="o">=</span> <span class="s2">"AutoAI RAG experiment using custom foundation model."</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"AutoAI RAG - Custom foundation model experiment"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"AutoAI RAG experiment using custom foundation model."</span><span class="p">,</span>
     <span class="n">max_number_of_rag_patterns</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-    <span class="n">optimization_metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">'faithfulness'</span><span class="p">],</span>
-    <span class="n">foundation_models</span><span class="o">=</span><span class="p">[</span><span class="n">custom_foundation_model_config</span><span class="p">]</span>
-<span class="p">)</span> 
+    <span class="n">optimization_metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">"faithfulness"</span><span class="p">],</span>
+    <span class="n">foundation_models</span><span class="o">=</span><span class="p">[</span><span class="n">custom_foundation_model_config</span><span class="p">],</span>
+<span class="p">)</span>
 
 
 <span class="n">container_data_location</span> <span class="o">=</span> <span class="n">DataConnection</span><span class="p">(</span>
-        <span class="nb">type</span><span class="o">=</span><span class="s2">"container"</span><span class="p">,</span>
-        <span class="n">location</span><span class="o">=</span><span class="n">ContainerLocation</span><span class="p">(</span>
-           <span class="n">path</span><span class="o">=</span><span class="s2">"autorag/results"</span>
-        <span class="p">),</span>
-    <span class="p">)</span>
+    <span class="nb">type</span><span class="o">=</span><span class="s2">"container"</span><span class="p">,</span>
+    <span class="n">location</span><span class="o">=</span><span class="n">ContainerLocation</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">"autorag/results"</span><span class="p">),</span>
+<span class="p">)</span>
 
 <span class="n">container_data_location</span><span class="o">.</span><span class="n">set_client</span><span class="p">(</span><span class="n">api_client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
 
@@ -8234,7 +8532,7 @@ SUCCESS
     <span class="n">test_data_references</span><span class="o">=</span><span class="n">test_data_references</span><span class="p">,</span>
     <span class="n">input_data_references</span><span class="o">=</span><span class="n">input_data_references</span><span class="p">,</span>
     <span class="n">results_reference</span><span class="o">=</span><span class="n">container_data_location</span><span class="p">,</span>
-    <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span>
+    <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -8265,7 +8563,7 @@ Training of 'cc4a3c81-a058-4376-9d94-e5e14d58e36c' finished successfully.
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[30]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[ ]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>{'entity': {'hardware_spec': {'id': 'a6c4923b-b8e4-444c-9f43-8a7ec3020110',
    'name': 'L'},
@@ -9120,7 +9418,7 @@ Training of 'cc4a3c81-a058-4376-9d94-e5e14d58e36c' finished successfully.
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">best_pattern_name</span> <span class="o">=</span> <span class="n">summary</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'Best pattern is:'</span><span class="p">,</span> <span class="n">best_pattern_name</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Best pattern is:"</span><span class="p">,</span> <span class="n">best_pattern_name</span><span class="p">)</span>
 
 <span class="n">best_pattern</span> <span class="o">=</span> <span class="n">rag_optimizer</span><span class="o">.</span><span class="n">get_pattern</span><span class="p">()</span>
 </pre></div>
@@ -9234,6 +9532,7 @@ Training of 'cc4a3c81-a058-4376-9d94-e5e14d58e36c' finished successfully.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><a id="Query-generated-pattern-locally"></a></p>
 <h2 id="Query-generated-pattern-locally">Query generated pattern locally<a class="anchor-link" href="#Query-generated-pattern-locally">¶</a></h2>
 </div>
 </div>
@@ -9402,7 +9701,8 @@ of
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Summary">Summary<a class="anchor-link" href="#Summary">¶</a></h2><p>You successfully completed this notebook!</p>
+<p><a id="Summary-and-next-steps"></a></p>
+<h2 id="Summary-and-next-steps">Summary and next steps<a class="anchor-link" href="#Summary-and-next-steps">¶</a></h2><p>You successfully completed this notebook!</p>
 <p>You learned how to use AutoAI RAG with your own foundation model.</p>
 <p>Check out our <em><a href="https://ibm.github.io/watsonx-ai-python-sdk/samples.html" rel="noopener no referrer" target="_blank">Online Documentation</a></em> for more samples, tutorials, documentation, how-tos, and blog posts.</p>
 </div>

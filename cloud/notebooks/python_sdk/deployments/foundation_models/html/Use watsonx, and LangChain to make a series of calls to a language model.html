@@ -7821,16 +7821,16 @@ a.anchor-link {
 <p>Some familiarity with Python is helpful. This notebook uses Python 3.12.</p>
 <h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The goal of this notebook is to demonstrate how to chain <code>mistral-small-3-1-24b-instruct-2503</code> and <code>mistral-medium-2505</code> models to generate a sequence of creating a random question on a given topic and an answer to that question and also to make the user friends with LangChain framework, using simple chain (LLMChain) and the extended chain (SequentialChain) with the WatsonxLLM.</p>
 <h2 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h2><p>This notebook contains the following parts:</p>
-<ul>
-<li><a href="#setup">Setup</a></li>
-<li><a href="#models">Foundation Models on watsonx</a></li>
-<li><a href="#watsonxllm">LangChain integration</a></li>
-<li><a href="#experiment">Sequential Chain experiment</a></li>
-<li><a href="#function">Python function</a></li>
-<li><a href="#deployment">Custom inference endpoint</a></li>
-<li><a href="#scoring">Scoring</a></li>
-<li><a href="#summary">Summary</a></li>
-</ul>
+<ol>
+<li><a href="#Set-up-the-environment">Set up the environment</a></li>
+<li><a href="#Foundation-Models-on-watsonx.ai">Foundation Models on watsonx.ai</a></li>
+<li><a href="#LangChain-integration">LangChain integration</a></li>
+<li><a href="#Sequential-Chain-experiment">Sequential Chain experiment</a></li>
+<li><a href="#AI-Service">AI Service</a></li>
+<li><a href="#Custom-inference-endpoint">Custom inference endpoint</a></li>
+<li><a href="#Scoring">Scoring</a></li>
+<li><a href="#Summary-and-next-steps">Summary and next steps</a></li>
+</ol>
 </div>
 </div>
 </div>
@@ -7841,7 +7841,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="setup"></a></p>
+<p><a id="Set-up-the-environment"></a></p>
 <h2 id="Set-up-the-environment">Set up the environment<a class="anchor-link" href="#Set-up-the-environment">¶</a></h2><p>Before you use the sample code in this notebook, you must perform the following setup tasks:</p>
 <ul>
 <li>Create a <a href="https://cloud.ibm.com/catalog/services/watsonxai-runtime" rel="noopener no referrer" target="_blank">watsonx.ai Runtime Service</a> instance (a free plan is offered and information about how to create the instance can be found <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/wml-plans.html?context=wx&amp;audience=wdp" rel="noopener no referrer" target="_blank">here</a>).</li>
@@ -7996,8 +7996,8 @@ Successfully installed cachetools-6.2.4 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="models"></a></p>
-<h2 id="Foundation-Models-on-watsonx.ai">Foundation Models on <code>watsonx.ai</code><a class="anchor-link" href="#Foundation-Models-on-watsonx.ai">¶</a></h2>
+<p><a id="Foundation-Models-on-watsonx.ai"></a></p>
+<h2 id="Foundation-Models-on-watsonx.ai">Foundation Models on watsonx.ai<a class="anchor-link" href="#Foundation-Models-on-watsonx.ai">¶</a></h2>
 </div>
 </div>
 </div>
@@ -8108,7 +8108,7 @@ Successfully installed cachetools-6.2.4 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="watsonxllm"></a></p>
+<p><a id="LangChain-integration"></a></p>
 <h2 id="LangChain-integration">LangChain integration<a class="anchor-link" href="#LangChain-integration">¶</a></h2><p><code>WatsonxLLM</code> is a wrapper around watsonx.ai models that provide chain integration around the models.</p>
 <p><strong>Action:</strong> For more details about <code>CustomLLM</code> check the <a href="https://python.langchain.com/docs/modules/model_io/models/llms/custom_llm" rel="noopener no referrer" target="_blank">LangChain documentation</a></p>
 <h3 id="Initialize-the-WatsonxLLM-class.">Initialize the <code>WatsonxLLM</code> class.<a class="anchor-link" href="#Initialize-the-WatsonxLLM-class.">¶</a></h3>
@@ -8197,7 +8197,7 @@ Successfully installed cachetools-6.2.4 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="experiment"></a></p>
+<p><a id="Sequential-Chain-experiment"></a></p>
 <h2 id="Sequential-Chain-experiment">Sequential Chain experiment<a class="anchor-link" href="#Sequential-Chain-experiment">¶</a></h2><p>The simplest type of sequential chain is called a <code>SequentialChain</code>, in which each step has a single input and output and the output of one step serves as the input for the following step.</p>
 <p>The experiment will consist in generating a random question about any topic and answer the following question.</p>
 </div>
@@ -8397,7 +8397,7 @@ Successfully installed cachetools-6.2.4 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="function"></a></p>
+<p><a id="AI-Service"></a></p>
 <h2 id="AI-Service">AI Service<a class="anchor-link" href="#AI-Service">¶</a></h2><p>Let's wrap the chain code within Python function that can be used to create an AI service.</p>
 </div>
 </div>
@@ -8531,7 +8531,7 @@ Successfully installed cachetools-6.2.4 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="deployment"></a></p>
+<p><a id="Custom-inference-endpoint"></a></p>
 <h2 id="Custom-inference-endpoint">Custom inference endpoint<a class="anchor-link" href="#Custom-inference-endpoint">¶</a></h2><p>Create the online deployment of python function.</p>
 </div>
 </div>
@@ -8640,7 +8640,7 @@ Successfully finished deployment creation, deployment_id='e0a20388-d51e-4c3d-a54
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="scoring"></a></p>
+<p><a id="Scoring"></a></p>
 <h2 id="Scoring">Scoring<a class="anchor-link" href="#Scoring">¶</a></h2><p>Generate text using custom inference endpoint.</p>
 </div>
 </div>
@@ -8681,7 +8681,7 @@ Successfully finished deployment creation, deployment_id='e0a20388-d51e-4c3d-a54
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="summary"></a></p>
+<p><a id="Summary-and-next-steps"></a></p>
 <h2 id="Summary-and-next-steps">Summary and next steps<a class="anchor-link" href="#Summary-and-next-steps">¶</a></h2><p>You successfully completed this notebook!</p>
 <p>You learned how to use Sequential Chain using custom llm WastonxLLM.</p>
 <p>Check out our <em><a href="https://ibm.github.io/watsonx-ai-python-sdk/samples.html" rel="noopener no referrer" target="_blank">Online Documentation</a></em> for more samples, tutorials, documentation, how-tos, and blog posts.</p>

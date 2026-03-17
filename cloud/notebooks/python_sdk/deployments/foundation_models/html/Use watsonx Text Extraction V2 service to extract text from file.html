@@ -7821,13 +7821,14 @@ a.anchor-link {
 <p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
 <h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The purpose of this notebook is to demonstrate the usage a Text Extraction V2 service and <code>ibm-watsonx-ai</code> Python SDK to retrieve a text from file that is located at IBM Cloud Object Storage.</p>
 <h2 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h2><p>This notebook contains the following parts:</p>
-<ul>
-<li><a href="#setup">Setup</a></li>
-<li><a href="#cos_connection">COS connection</a></li>
-<li><a href="#text_extraction">Text Extraction request</a></li>
-<li><a href="#results">Results examination</a></li>
-<li><a href="#summary">Summary</a></li>
-</ul>
+<ol>
+<li><a href="#Set-up-the-environment">Set up the environment</a></li>
+<li><a href="#Create-data-connections-with-source-document-and-results-reference">Create data connections with source document and results reference</a></li>
+<li><a href="#Text-Extraction-request-preparation">Text Extraction request preparation</a></li>
+<li><a href="#Run-extraction-job-for-single-return-format">Run extraction job for single return format</a></li>
+<li><a href="#Run-extraction-job-for-multiple-file-formats">Run extraction job for multiple file formats</a></li>
+<li><a href="#Summary-and-next-steps">Summary and next steps</a></li>
+</ol>
 </div>
 </div>
 </div>
@@ -7838,7 +7839,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="setup"></a></p>
+<p><a id="Set-up-the-environment"></a></p>
 <h2 id="Set-up-the-environment">Set up the environment<a class="anchor-link" href="#Set-up-the-environment">¶</a></h2><p>Before you use the sample code in this notebook, you must perform the following setup tasks:</p>
 <ul>
 <li>Create a <a href="https://cloud.ibm.com/catalog/services/watsonxai-runtime" rel="noopener no referrer" target="_blank">watsonx.ai Runtime Service</a> instance (a free plan is offered and information about how to create the instance can be found <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/wml-plans.html?context=wx&amp;audience=wdp" rel="noopener no referrer" target="_blank">here</a>).</li>
@@ -7984,7 +7985,7 @@ Successfully installed anyio-4.9.0 cachetools-6.1.0 certifi-2025.7.14 charset_no
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="cos_connection"></a></p>
+<p><a id="Create-data-connections-with-source-document-and-results-reference"></a></p>
 <h2 id="Create-data-connections-with-source-document-and-results-reference">Create data connections with source document and results reference<a class="anchor-link" href="#Create-data-connections-with-source-document-and-results-reference">¶</a></h2>
 </div>
 </div>
@@ -8212,7 +8213,7 @@ SUCCESS
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="text_extraction"></a></p>
+<p><a id="Text-Extraction-request-preparation"></a></p>
 <h2 id="Text-Extraction-request-preparation">Text Extraction request preparation<a class="anchor-link" href="#Text-Extraction-request-preparation">¶</a></h2>
 </div>
 </div>
@@ -8374,6 +8375,7 @@ SEMANTIC_CONFIG           dict  N
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><a id="Run-extraction-job-for-single-return-format"></a></p>
 <h2 id="Run-extraction-job-for-single-return-format">Run extraction job for single return format<a class="anchor-link" href="#Run-extraction-job-for-single-return-format">¶</a></h2><p>In order to run an extraction job, where only a single output format is requested, the <code>result_formats</code> parameter must be specified using the <code>TextExtractionsV2ResultFormats</code> enum. In our example we will use the <code>TextExtractionsV2ResultFormats.MARKDOWN</code> format.</p>
 </div>
 </div>
@@ -8585,7 +8587,7 @@ completed
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Results-examination">Results examination<a class="anchor-link" href="#Results-examination">¶</a></h3><p>Once the job extraction is completed, we can use the <code>get_results_reference</code> method to create the results data connection.</p>
+<h3 id="Results-examination-for-single-return-format">Results examination for single return format<a class="anchor-link" href="#Results-examination-for-single-return-format">¶</a></h3><p>Once the job extraction is completed, we can use the <code>get_results_reference</code> method to create the results data connection.</p>
 </div>
 </div>
 </div>
@@ -8688,6 +8690,7 @@ Large Language Models (LLMs) trained on code are revolutionizing the software de
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><a id="Run-extraction-job-for-multiple-file-formats"></a></p>
 <h2 id="Run-extraction-job-for-multiple-file-formats">Run extraction job for multiple file formats<a class="anchor-link" href="#Run-extraction-job-for-multiple-file-formats">¶</a></h2><p>In order to run an extraction job, where multiple output formats are requested, the <code>result_format</code> parameter must be specified using either a list of <code>TextExtractionsV2ResultFormats</code> enums (recommended) or a list of <code>str</code> instances. In our example we will use a list of the following file formats:</p>
 <ul>
 <li><code>TextExtractionsV2ResultFormats.ASSEMBLY_JSON</code></li>
@@ -8895,7 +8898,7 @@ completed
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Results-examination">Results examination<a class="anchor-link" href="#Results-examination">¶</a></h3><p>Once the job extraction is completed, we can use the <code>get_results_reference</code> method to create the results data connection.</p>
+<h3 id="Results-examination-for-multiple-result-formats">Results examination for multiple result formats<a class="anchor-link" href="#Results-examination-for-multiple-result-formats">¶</a></h3><p>Once the job extraction is completed, we can use the <code>get_results_reference</code> method to create the results data connection.</p>
 </div>
 </div>
 </div>
@@ -9083,7 +9086,7 @@ completed
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="summary"></a></p>
+<p><a id="Summary-and-next-steps"></a></p>
 <h2 id="Summary-and-next-steps">Summary and next steps<a class="anchor-link" href="#Summary-and-next-steps">¶</a></h2><p>You successfully completed this notebook!</p>
 <p>You learned how to use <code>TextExtractionsV2</code> manager to run text extraction requests, check status of the submitted job and download a results file.</p>
 <p>Check out our <em><a href="https://ibm.github.io/watsonx-ai-python-sdk/samples.html" rel="noopener no referrer" target="_blank">Online Documentation</a></em> for more samples, tutorials, documentation, how-tos, and blog posts.</p>

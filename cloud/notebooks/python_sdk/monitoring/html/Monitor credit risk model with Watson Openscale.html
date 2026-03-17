@@ -7332,7 +7332,12 @@ a.anchor-link {
     if (!diagrams.length) {
       return;
     }
-    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs")).default;
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.0/mermaid.esm.min.mjs")).default;
+    const elkUrl = "https://cdnjs.cloudflare.com/ajax/libs/mermaid-layout-elk/0.1.9/mermaid-layout-elk.esm.min.mjs";
+    if(elkUrl) {
+      const elkLayouts = (await import(elkUrl)).default;
+      mermaid.registerLayoutLoaders(elkLayouts);
+    }
     const parser = new DOMParser();
 
     mermaid.initialize({
@@ -7429,7 +7434,8 @@ a.anchor-link {
      * Post-process to ensure mermaid diagrams contain only valid SVG and XHTML.
      */
     function cleanMermaidSvg(svg) {
-      return svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      svg = svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      return `${SVG_XML_HEADER}${svg}`;
     }
 
 
@@ -7455,6 +7461,285 @@ a.anchor-link {
       }
       return `<${tag} ${rest}>`;
     }
+
+
+  /**
+   * Named HTML entities with their decimal equivalent codes.
+   *
+   * @see https://www.w3.org/TR/WD-html40-970708/sgml/entities.html
+   * */
+  const HTML_ENTITIES = `<!ENTITY Aacute "&#193;">
+<!ENTITY aacute "&#225;">
+<!ENTITY Acirc "&#194;">
+<!ENTITY acirc "&#226;">
+<!ENTITY acute "&#180;">
+<!ENTITY AElig "&#198;">
+<!ENTITY aelig "&#230;">
+<!ENTITY Agrave "&#192;">
+<!ENTITY agrave "&#224;">
+<!ENTITY alefsym "&#8501;">
+<!ENTITY Alpha "&#913;">
+<!ENTITY alpha "&#945;">
+<!ENTITY amp "&#38;">
+<!ENTITY and "&#8869;">
+<!ENTITY ang "&#8736;">
+<!ENTITY Aring "&#197;">
+<!ENTITY aring "&#229;">
+<!ENTITY asymp "&#8776;">
+<!ENTITY Atilde "&#195;">
+<!ENTITY atilde "&#227;">
+<!ENTITY Auml "&#196;">
+<!ENTITY auml "&#228;">
+<!ENTITY bdquo "&#8222;">
+<!ENTITY Beta "&#914;">
+<!ENTITY beta "&#946;">
+<!ENTITY brvbar "&#166;">
+<!ENTITY bull "&#8226;">
+<!ENTITY cap "&#8745;">
+<!ENTITY Ccedil "&#199;">
+<!ENTITY ccedil "&#231;">
+<!ENTITY cedil "&#184;">
+<!ENTITY cent "&#162;">
+<!ENTITY Chi "&#935;">
+<!ENTITY chi "&#967;">
+<!ENTITY circ "&#710;">
+<!ENTITY clubs "&#9827;">
+<!ENTITY cong "&#8773;">
+<!ENTITY copy "&#169;">
+<!ENTITY crarr "&#8629;">
+<!ENTITY cup "&#8746;">
+<!ENTITY curren "&#164;">
+<!ENTITY dagger "&#8224;">
+<!ENTITY Dagger "&#8225;">
+<!ENTITY darr "&#8595;">
+<!ENTITY dArr "&#8659;">
+<!ENTITY deg "&#176;">
+<!ENTITY Delta "&#916;">
+<!ENTITY delta "&#948;">
+<!ENTITY diams "&#9830;">
+<!ENTITY divide "&#247;">
+<!ENTITY Eacute "&#201;">
+<!ENTITY eacute "&#233;">
+<!ENTITY Ecirc "&#202;">
+<!ENTITY ecirc "&#234;">
+<!ENTITY Egrave "&#200;">
+<!ENTITY egrave "&#232;">
+<!ENTITY empty "&#8709;">
+<!ENTITY emsp "&#8195;">
+<!ENTITY ensp "&#8194;">
+<!ENTITY epsilon "&#949;">
+<!ENTITY Epsilon "&#917;">
+<!ENTITY equiv "&#8801;">
+<!ENTITY Eta "&#919;">
+<!ENTITY eta "&#951;">
+<!ENTITY ETH "&#208;">
+<!ENTITY eth "&#240;">
+<!ENTITY Euml "&#203;">
+<!ENTITY euml "&#235;">
+<!ENTITY exist "&#8707;">
+<!ENTITY fnof "&#402;">
+<!ENTITY forall "&#8704;">
+<!ENTITY frac12 "&#189;">
+<!ENTITY frac14 "&#188;">
+<!ENTITY frac34 "&#190;">
+<!ENTITY frasl "&#8260;">
+<!ENTITY Gamma "&#915;">
+<!ENTITY gamma "&#947;">
+<!ENTITY ge "&#8805;">
+<!ENTITY gt "&#62;">
+<!ENTITY harr "&#8596;">
+<!ENTITY hArr "&#8660;">
+<!ENTITY hearts "&#9829;">
+<!ENTITY hellip "&#8230;">
+<!ENTITY Iacute "&#205;">
+<!ENTITY iacute "&#237;">
+<!ENTITY Icirc "&#206;">
+<!ENTITY icirc "&#238;">
+<!ENTITY iexcl "&#161;">
+<!ENTITY Igrave "&#204;">
+<!ENTITY igrave "&#236;">
+<!ENTITY image "&#8465;">
+<!ENTITY infin "&#8734;">
+<!ENTITY int "&#8747;">
+<!ENTITY Iota "&#921;">
+<!ENTITY iota "&#953;">
+<!ENTITY iquest "&#191;">
+<!ENTITY isin "&#8712;">
+<!ENTITY Iuml "&#207;">
+<!ENTITY iuml "&#239;">
+<!ENTITY Kappa "&#922;">
+<!ENTITY kappa "&#954;">
+<!ENTITY Lambda "&#923;">
+<!ENTITY lambda "&#955;">
+<!ENTITY lang "&#9001;">
+<!ENTITY laquo "&#171;">
+<!ENTITY larr "&#8592;">
+<!ENTITY lArr "&#8656;">
+<!ENTITY lceil "&#8968;">
+<!ENTITY ldquo "&#8220;">
+<!ENTITY le "&#8804;">
+<!ENTITY lfloor "&#8970;">
+<!ENTITY lowast "&#8727;">
+<!ENTITY loz "&#9674;">
+<!ENTITY lrm "&#8206;">
+<!ENTITY lsaquo "&#8249;">
+<!ENTITY lsquo "&#8216;">
+<!ENTITY lt "&#60;">
+<!ENTITY macr "&#175;">
+<!ENTITY mdash "&#8212;">
+<!ENTITY micro "&#181;">
+<!ENTITY middot "&#183;">
+<!ENTITY minus "&#8722;">
+<!ENTITY Mu "&#924;">
+<!ENTITY mu "&#956;">
+<!ENTITY nabla "&#8711;">
+<!ENTITY nbsp "&#160;">
+<!ENTITY ndash "&#8211;">
+<!ENTITY ne "&#8800;">
+<!ENTITY ni "&#8715;">
+<!ENTITY not "&#172;">
+<!ENTITY notin "&#8713;">
+<!ENTITY nsub "&#8836;">
+<!ENTITY Ntilde "&#209;">
+<!ENTITY ntilde "&#241;">
+<!ENTITY Nu "&#925;">
+<!ENTITY nu "&#957;">
+<!ENTITY Oacute "&#211;">
+<!ENTITY oacute "&#243;">
+<!ENTITY Ocirc "&#212;">
+<!ENTITY ocirc "&#244;">
+<!ENTITY OElig "&#338;">
+<!ENTITY oelig "&#339;">
+<!ENTITY Ograve "&#210;">
+<!ENTITY ograve "&#242;">
+<!ENTITY oline "&#8254;">
+<!ENTITY Omega "&#937;">
+<!ENTITY omega "&#969;">
+<!ENTITY Omicron "&#927;">
+<!ENTITY omicron "&#959;">
+<!ENTITY oplus "&#8853;">
+<!ENTITY or "&#8870;">
+<!ENTITY ordf "&#170;">
+<!ENTITY ordm "&#186;">
+<!ENTITY Oslash "&#216;">
+<!ENTITY oslash "&#248;">
+<!ENTITY Otilde "&#213;">
+<!ENTITY otilde "&#245;">
+<!ENTITY otimes "&#8855;">
+<!ENTITY Ouml "&#214;">
+<!ENTITY ouml "&#246;">
+<!ENTITY para "&#182;">
+<!ENTITY part "&#8706;">
+<!ENTITY permil "&#8240;">
+<!ENTITY perp "&#8869;">
+<!ENTITY Phi "&#934;">
+<!ENTITY phi "&#966;">
+<!ENTITY Pi "&#928;">
+<!ENTITY pi "&#960;">
+<!ENTITY piv "&#982;">
+<!ENTITY plusmn "&#177;">
+<!ENTITY pound "&#163;">
+<!ENTITY prime "&#8242;">
+<!ENTITY Prime "&#8243;">
+<!ENTITY prod "&#8719;">
+<!ENTITY prop "&#8733;">
+<!ENTITY Psi "&#936;">
+<!ENTITY psi "&#968;">
+<!ENTITY quot "&#34;">
+<!ENTITY radic "&#8730;">
+<!ENTITY rang "&#9002;">
+<!ENTITY raquo "&#187;">
+<!ENTITY rarr "&#8594;">
+<!ENTITY rArr "&#8658;">
+<!ENTITY rceil "&#8969;">
+<!ENTITY rdquo "&#8221;">
+<!ENTITY real "&#8476;">
+<!ENTITY reg "&#174;">
+<!ENTITY rfloor "&#8971;">
+<!ENTITY Rho "&#929;">
+<!ENTITY rho "&#961;">
+<!ENTITY rlm "&#8207;">
+<!ENTITY rsaquo "&#8250;">
+<!ENTITY rsquo "&#8217;">
+<!ENTITY sbquo "&#8218;">
+<!ENTITY Scaron "&#352;">
+<!ENTITY scaron "&#353;">
+<!ENTITY sdot "&#8901;">
+<!ENTITY sect "&#167;">
+<!ENTITY shy "&#173;">
+<!ENTITY Sigma "&#931;">
+<!ENTITY sigma "&#963;">
+<!ENTITY sigmaf "&#962;">
+<!ENTITY sim "&#8764;">
+<!ENTITY spades "&#9824;">
+<!ENTITY sub "&#8834;">
+<!ENTITY sube "&#8838;">
+<!ENTITY sum "&#8721;">
+<!ENTITY sup "&#8835;">
+<!ENTITY sup1 "&#185;">
+<!ENTITY sup2 "&#178;">
+<!ENTITY sup3 "&#179;">
+<!ENTITY supe "&#8839;">
+<!ENTITY szlig "&#223;">
+<!ENTITY Tau "&#932;">
+<!ENTITY tau "&#964;">
+<!ENTITY there4 "&#8756;">
+<!ENTITY Theta "&#920;">
+<!ENTITY theta "&#952;">
+<!ENTITY thetasym "&#977;">
+<!ENTITY thinsp "&#8201;">
+<!ENTITY THORN "&#222;">
+<!ENTITY thorn "&#254;">
+<!ENTITY tilde "&#732;">
+<!ENTITY times "&#215;">
+<!ENTITY trade "&#8482;">
+<!ENTITY Uacute "&#218;">
+<!ENTITY uacute "&#250;">
+<!ENTITY uarr "&#8593;">
+<!ENTITY uArr "&#8657;">
+<!ENTITY Ucirc "&#219;">
+<!ENTITY ucirc "&#251;">
+<!ENTITY Ugrave "&#217;">
+<!ENTITY ugrave "&#249;">
+<!ENTITY uml "&#168;">
+<!ENTITY upsih "&#978;">
+<!ENTITY Upsilon "&#933;">
+<!ENTITY upsilon "&#965;">
+<!ENTITY Uuml "&#220;">
+<!ENTITY uuml "&#252;">
+<!ENTITY weierp "&#8472;">
+<!ENTITY Xi "&#926;">
+<!ENTITY xi "&#958;">
+<!ENTITY Yacute "&#221;">
+<!ENTITY yacute "&#253;">
+<!ENTITY yen "&#165;">
+<!ENTITY Yuml "&#376;">
+<!ENTITY yuml "&#255;">
+<!ENTITY Zeta "&#918;">
+<!ENTITY zeta "&#950;">
+<!ENTITY zwj "&#8205;">
+<!ENTITY zwnj "&#8204;">`.replace(/\n/g, ' ');
+
+  /**
+   * A reasonably strict xml declaration.
+   */
+  const XML_DECL = '<?xml version="1.0" standalone="no"?>';
+
+  /**
+   * The beginning of the XML doctype declaration.
+   */
+  const DOCTYPE_START = `<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [`;
+
+  /**
+   * The end of the XML docype declaration.
+   */
+  const DOCTYPE_END = ']>';
+
+  /**
+   * A full header for an SVG XML document.
+   */
+  const SVG_XML_HEADER = `${XML_DECL}
+    ${DOCTYPE_START}${HTML_ENTITIES}${DOCTYPE_END}`;
 
     void Promise.all([...diagrams].map(renderOneMarmaid));
   });
@@ -7535,38 +7820,8 @@ a.anchor-link {
 </ul>
 <p>If you have a paid Cloud account, you may also provision a <strong>Databases for PostgreSQL</strong> or <strong>Db2 Warehouse</strong> service to take full advantage of integration with Watson Studio and continuous learning services. If you choose not to provision this paid service, you can use the free internal PostgreSQL storage with OpenScale, but will not be able to configure continuous learning for your model.</p>
 <p>The notebook will configure OpenScale to monitor that deployment, and inject seven days' worth of historical records and measurements for viewing in the OpenScale Insights dashboard.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Prerequisite">Prerequisite<a class="anchor-link" href="#Prerequisite">¶</a></h3>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>In order to execute this notebook you will need a deployed model. You can perform it with following <a href="German%20credit%20risk%20prediction%20with%20Scikit%20for%20model%20monitoring.ipynb">notebook</a>. Then you will need to copy <code>deployment_id</code> to this notebook.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><a id="Prerequisite"></a></p>
+<h3 id="Prerequisite">Prerequisite<a class="anchor-link" href="#Prerequisite">¶</a></h3><p>In order to execute this notebook you will need a deployed model. You can perform it with following <a href="German%20credit%20risk%20prediction%20with%20Scikit%20for%20model%20monitoring.ipynb">notebook</a>. Then you will need to copy <code>deployment_id</code> to this notebook.</p>
 <h3 id="Learning-goals">Learning goals<a class="anchor-link" href="#Learning-goals">¶</a></h3><p>In this notebook, you will learn how to:</p>
 <ul>
 <li>Retrieve existing deployment in Watson OpenScale</li>
@@ -7576,15 +7831,15 @@ a.anchor-link {
 <li>Run drift monitor</li>
 <li>Run custom monitors and metrics</li>
 </ul>
-<h3 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h3><ul>
-<li><a href="#setup">Setup</a></li>
-<li><a href="#openscale">OpenScale configuration</a></li>
-<li><a href="#quality">Quality monitor and feedback logging</a></li>
-<li><a href="#fairness">Fairness monitoring and explanations</a></li>
-<li><a href="#drift">Drift monitoring</a></li>
-<li><a href="#custom">Custom monitors and metrics</a></li>
-<li><a href="#summary">Summary</a></li>
-</ul>
+<h3 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h3><ol>
+<li><a href="#Set-up-the-environment">Set up the environment</a></li>
+<li><a href="#Load-the-training-data-from-GitHub">Load the training data from GitHub</a></li>
+<li><a href="#Configure-OpenScale">Configure OpenScale</a></li>
+<li><a href="#Quality-monitoring-and-feedback-logging">Quality monitoring and feedback logging</a></li>
+<li><a href="#Fairness-monitoring-and-explanations">Fairness monitoring and explanations</a></li>
+<li><a href="#Custom-monitors-and-metrics">Custom monitors and metrics</a></li>
+<li><a href="#Summary-and-next-steps">Summary and next steps</a></li>
+</ol>
 </div>
 </div>
 </div>
@@ -7595,8 +7850,8 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="setup"></a></p>
-<h2 id="1.-Set-up-the-environment">1. Set up the environment<a class="anchor-link" href="#1.-Set-up-the-environment">¶</a></h2><p>Before you use the sample code in this notebook, you must perform the following setup tasks:</p>
+<p><a id="Set-up-the-environment"></a></p>
+<h2 id="Set-up-the-environment">Set up the environment<a class="anchor-link" href="#Set-up-the-environment">¶</a></h2><p>Before you use the sample code in this notebook, you must perform the following setup tasks:</p>
 <ul>
 <li>Create a <a href="https://cloud.ibm.com/catalog/services/watsonxai-runtime" rel="noopener no referrer" target="_blank">watsonx.ai Runtime Service</a> instance (a free plan is offered and information about how to create the instance can be found <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/wml-plans.html?context=wx&amp;audience=wdp" rel="noopener no referrer" target="_blank">here</a>).</li>
 </ul>
@@ -7622,7 +7877,7 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>ibm-watsonx-ai<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">ibm</span><span class="o">-</span><span class="n">watsonx</span><span class="o">-</span><span class="n">ai</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -7671,8 +7926,8 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">api_key</span> <span class="o">=</span> <span class="s1">'PASTE YOUR PLATFORM API KEY HERE'</span>
-<span class="n">location</span> <span class="o">=</span> <span class="s1">'PASTE YOUR INSTANCE LOCATION HERE'</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">api_key</span> <span class="o">=</span> <span class="s2">"PASTE YOUR PLATFORM API KEY HERE"</span>
+<span class="n">location</span> <span class="o">=</span> <span class="s2">"PASTE YOUR INSTANCE LOCATION HERE"</span>
 </pre></div>
 </div>
 </div>
@@ -7689,8 +7944,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span>
 
 <span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span>
-    <span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span>
-    <span class="n">url</span><span class="o">=</span><span class="s1">'https://'</span> <span class="o">+</span> <span class="n">location</span> <span class="o">+</span> <span class="s1">'.ml.cloud.ibm.com'</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s2">"https://"</span> <span class="o">+</span> <span class="n">location</span> <span class="o">+</span> <span class="s2">".ml.cloud.ibm.com"</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -7741,7 +7995,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">space_id</span> <span class="o">=</span> <span class="s1">'PASTE YOUR SPACE ID HERE'</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">space_id</span> <span class="o">=</span> <span class="s2">"PASTE YOUR SPACE ID HERE"</span>
 </pre></div>
 </div>
 </div>
@@ -7841,7 +8095,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Put <code>deployment_id</code> of model deployed in <a href="#prereq">prerequisite</a> notebook in the next cell.</p>
+<p>Put <code>deployment_id</code> of model deployed in <a href="#Prerequisite">prerequisite</a> notebook in the next cell.</p>
 </div>
 </div>
 </div>
@@ -7878,8 +8132,10 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">deployment_url</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_details</span><span class="p">(</span><span class="n">deployment_id</span><span class="p">)[</span><span class="s1">'entity'</span><span class="p">][</span><span class="s1">'status'</span><span class="p">][</span><span class="s1">'online_url'</span><span class="p">][</span><span class="s1">'url'</span><span class="p">]</span>
-<span class="n">model_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_details</span><span class="p">(</span><span class="n">deployment_id</span><span class="p">)[</span><span class="s1">'entity'</span><span class="p">][</span><span class="s1">'asset'</span><span class="p">][</span><span class="s1">'id'</span><span class="p">]</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">deployment_url</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_details</span><span class="p">(</span><span class="n">deployment_id</span><span class="p">)[</span><span class="s2">"entity"</span><span class="p">][</span><span class="s2">"status"</span><span class="p">][</span>
+    <span class="s2">"online_url"</span>
+<span class="p">][</span><span class="s2">"url"</span><span class="p">]</span>
+<span class="n">model_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_details</span><span class="p">(</span><span class="n">deployment_id</span><span class="p">)[</span><span class="s2">"entity"</span><span class="p">][</span><span class="s2">"asset"</span><span class="p">][</span><span class="s2">"id"</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -7918,7 +8174,7 @@ Note: online_url and serving_urls are deprecated and will be removed in a future
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>ibm-watson-openscale<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">ibm</span><span class="o">-</span><span class="n">watson</span><span class="o">-</span><span class="n">openscale</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -7932,7 +8188,7 @@ Note: online_url and serving_urls are deprecated and will be removed in a future
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>ibm-cloud-sdk-core<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">ibm</span><span class="o">-</span><span class="n">cloud</span><span class="o">-</span><span class="n">sdk</span><span class="o">-</span><span class="n">core</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -8015,10 +8271,10 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">COS_API_KEY_ID</span> <span class="o">=</span> <span class="s2">"***"</span>
-<span class="n">COS_RESOURCE_CRN</span> <span class="o">=</span> <span class="s2">"***"</span> 
-<span class="n">COS_ENDPOINT</span> <span class="o">=</span> <span class="s2">"***"</span> 
+<span class="n">COS_RESOURCE_CRN</span> <span class="o">=</span> <span class="s2">"***"</span>
+<span class="n">COS_ENDPOINT</span> <span class="o">=</span> <span class="s2">"***"</span>
 <span class="n">IAM_AUTH_ENDPOINT</span> <span class="o">=</span> <span class="s2">"***"</span>
-<span class="n">BUCKET_NAME</span> <span class="o">=</span> <span class="s2">"***"</span> 
+<span class="n">BUCKET_NAME</span> <span class="o">=</span> <span class="s2">"***"</span>
 </pre></div>
 </div>
 </div>
@@ -8031,18 +8287,8 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Run-the-notebook">Run the notebook<a class="anchor-link" href="#Run-the-notebook">¶</a></h2><p>At this point, the notebook is ready to run. You can either run the cells one at a time, or click the <strong>Kernel</strong> option above and select <strong>Restart and Run All</strong> to run all the cells.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Load-the-training-data-from-github">Load the training data from github<a class="anchor-link" href="#Load-the-training-data-from-github">¶</a></h3>
+<p><a id="Load-the-training-data-from-GitHub"></a></p>
+<h2 id="Load-the-training-data-from-GitHub">Load the training data from GitHub<a class="anchor-link" href="#Load-the-training-data-from-GitHub">¶</a></h2>
 </div>
 </div>
 </div>
@@ -8054,8 +8300,8 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>rm<span class="w"> </span>german_credit_data_biased_training.csv
-<span class="o">!</span>wget<span class="w"> </span>https://raw.githubusercontent.com/pmservice/ai-openscale-tutorials/master/assets/historical_data/german_credit_risk/wml/german_credit_data_biased_training.csv
+<div class="highlight hl-ipython3"><pre><span></span><span class="err">!</span><span class="n">rm</span> <span class="n">german_credit_data_biased_training</span><span class="o">.</span><span class="n">csv</span>
+<span class="err">!</span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">raw</span><span class="o">.</span><span class="n">githubusercontent</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">pmservice</span><span class="o">/</span><span class="n">ai</span><span class="o">-</span><span class="n">openscale</span><span class="o">-</span><span class="n">tutorials</span><span class="o">/</span><span class="n">master</span><span class="o">/</span><span class="n">assets</span><span class="o">/</span><span class="n">historical_data</span><span class="o">/</span><span class="n">german_credit_risk</span><span class="o">/</span><span class="n">wml</span><span class="o">/</span><span class="n">german_credit_data_biased_training</span><span class="o">.</span><span class="n">csv</span>
 </pre></div>
 </div>
 </div>
@@ -8096,7 +8342,8 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Configure-OpenScale-">Configure OpenScale <a name="openscale"></a><a class="anchor-link" href="#Configure-OpenScale-">¶</a></h1>
+<p><a id="Configure-OpenScale"></a></p>
+<h2 id="Configure-OpenScale">Configure OpenScale<a class="anchor-link" href="#Configure-OpenScale">¶</a></h2>
 </div>
 </div>
 </div>
@@ -8120,11 +8367,9 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_cloud_sdk_core.authenticators</span><span class="w"> </span><span class="kn">import</span> <span class="n">IAMAuthenticator</span>
-
 <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watson_openscale</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watson_openscale.supporting_classes.enums</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watson_openscale.supporting_classes</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
-
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watson_openscale.supporting_classes.enums</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
 <span class="n">authenticator</span> <span class="o">=</span> <span class="n">IAMAuthenticator</span><span class="p">(</span><span class="n">apikey</span><span class="o">=</span><span class="n">credentials</span><span class="p">[</span><span class="s2">"apikey"</span><span class="p">])</span>
 <span class="n">wos_client</span> <span class="o">=</span> <span class="n">APIClient</span><span class="p">(</span><span class="n">authenticator</span><span class="o">=</span><span class="n">authenticator</span><span class="p">)</span>
@@ -8193,43 +8438,52 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">data_marts</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">data_marts</span><span class="o">.</span><span class="n">list</span><span class="p">()</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">data_marts</span>
 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_marts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">DB_CREDENTIALS</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">SCHEMA_NAME</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> 
+        <span class="k">if</span> <span class="n">SCHEMA_NAME</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">"Please specify the SCHEMA_NAME and rerun the cell"</span><span class="p">)</span>
 
         <span class="nb">print</span><span class="p">(</span><span class="s2">"Setting up external datamart"</span><span class="p">)</span>
         <span class="n">added_data_mart_result</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">data_marts</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-                <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                <span class="n">name</span><span class="o">=</span><span class="s2">"WOS Data Mart"</span><span class="p">,</span>
-                <span class="n">description</span><span class="o">=</span><span class="s2">"Data Mart created by WOS tutorial notebook"</span><span class="p">,</span>
-                <span class="n">database_configuration</span><span class="o">=</span><span class="n">DatabaseConfigurationRequest</span><span class="p">(</span>
-                  <span class="n">database_type</span><span class="o">=</span><span class="n">DatabaseType</span><span class="o">.</span><span class="n">POSTGRESQL</span><span class="p">,</span>
-                    <span class="n">credentials</span><span class="o">=</span><span class="n">PrimaryStorageCredentialsLong</span><span class="p">(</span>
-                        <span class="n">hostname</span><span class="o">=</span><span class="n">DB_CREDENTIALS</span><span class="p">[</span><span class="s2">"connection"</span><span class="p">][</span><span class="s2">"postgres"</span><span class="p">][</span><span class="s2">"hosts"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"hostname"</span><span class="p">],</span>
-                        <span class="n">username</span><span class="o">=</span><span class="n">DB_CREDENTIALS</span><span class="p">[</span><span class="s2">"connection"</span><span class="p">][</span><span class="s2">"postgres"</span><span class="p">][</span><span class="s2">"authentication"</span><span class="p">][</span><span class="s2">"username"</span><span class="p">],</span>
-                        <span class="n">password</span><span class="o">=</span><span class="n">DB_CREDENTIALS</span><span class="p">[</span><span class="s2">"connection"</span><span class="p">][</span><span class="s2">"postgres"</span><span class="p">][</span><span class="s2">"authentication"</span><span class="p">][</span><span class="s2">"password"</span><span class="p">],</span>
-                        <span class="n">db</span><span class="o">=</span><span class="n">DB_CREDENTIALS</span><span class="p">[</span><span class="s2">"connection"</span><span class="p">][</span><span class="s2">"postgres"</span><span class="p">][</span><span class="s2">"database"</span><span class="p">],</span>
-                        <span class="n">port</span><span class="o">=</span><span class="n">DB_CREDENTIALS</span><span class="p">[</span><span class="s2">"connection"</span><span class="p">][</span><span class="s2">"postgres"</span><span class="p">][</span><span class="s2">"hosts"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"port"</span><span class="p">],</span>
-                        <span class="n">ssl</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                        <span class="n">sslmode</span><span class="o">=</span><span class="n">DB_CREDENTIALS</span><span class="p">[</span><span class="s2">"connection"</span><span class="p">][</span><span class="s2">"postgres"</span><span class="p">][</span><span class="s2">"query_options"</span><span class="p">][</span><span class="s2">"sslmode"</span><span class="p">],</span>
-                        <span class="n">certificate_base64</span><span class="o">=</span><span class="n">DB_CREDENTIALS</span><span class="p">[</span><span class="s2">"connection"</span><span class="p">][</span><span class="s2">"postgres"</span><span class="p">][</span><span class="s2">"certificate"</span><span class="p">][</span><span class="s2">"certificate_base64"</span><span class="p">]</span>
-                    <span class="p">),</span>
-                    <span class="n">location</span><span class="o">=</span><span class="n">LocationSchemaName</span><span class="p">(</span>
-                        <span class="n">schema_name</span><span class="o">=</span> <span class="n">SCHEMA_NAME</span>
-                    <span class="p">)</span>
-                <span class="p">)</span>
-             <span class="p">)</span><span class="o">.</span><span class="n">result</span>
+            <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">"WOS Data Mart"</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">"Data Mart created by WOS tutorial notebook"</span><span class="p">,</span>
+            <span class="n">database_configuration</span><span class="o">=</span><span class="n">DatabaseConfigurationRequest</span><span class="p">(</span>
+                <span class="n">database_type</span><span class="o">=</span><span class="n">DatabaseType</span><span class="o">.</span><span class="n">POSTGRESQL</span><span class="p">,</span>
+                <span class="n">credentials</span><span class="o">=</span><span class="n">PrimaryStorageCredentialsLong</span><span class="p">(</span>
+                    <span class="n">hostname</span><span class="o">=</span><span class="n">DB_CREDENTIALS</span><span class="p">[</span><span class="s2">"connection"</span><span class="p">][</span><span class="s2">"postgres"</span><span class="p">][</span><span class="s2">"hosts"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span>
+                        <span class="s2">"hostname"</span>
+                    <span class="p">],</span>
+                    <span class="n">username</span><span class="o">=</span><span class="n">DB_CREDENTIALS</span><span class="p">[</span><span class="s2">"connection"</span><span class="p">][</span><span class="s2">"postgres"</span><span class="p">][</span><span class="s2">"authentication"</span><span class="p">][</span>
+                        <span class="s2">"username"</span>
+                    <span class="p">],</span>
+                    <span class="n">password</span><span class="o">=</span><span class="n">DB_CREDENTIALS</span><span class="p">[</span><span class="s2">"connection"</span><span class="p">][</span><span class="s2">"postgres"</span><span class="p">][</span><span class="s2">"authentication"</span><span class="p">][</span>
+                        <span class="s2">"password"</span>
+                    <span class="p">],</span>
+                    <span class="n">db</span><span class="o">=</span><span class="n">DB_CREDENTIALS</span><span class="p">[</span><span class="s2">"connection"</span><span class="p">][</span><span class="s2">"postgres"</span><span class="p">][</span><span class="s2">"database"</span><span class="p">],</span>
+                    <span class="n">port</span><span class="o">=</span><span class="n">DB_CREDENTIALS</span><span class="p">[</span><span class="s2">"connection"</span><span class="p">][</span><span class="s2">"postgres"</span><span class="p">][</span><span class="s2">"hosts"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"port"</span><span class="p">],</span>
+                    <span class="n">ssl</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">sslmode</span><span class="o">=</span><span class="n">DB_CREDENTIALS</span><span class="p">[</span><span class="s2">"connection"</span><span class="p">][</span><span class="s2">"postgres"</span><span class="p">][</span><span class="s2">"query_options"</span><span class="p">][</span>
+                        <span class="s2">"sslmode"</span>
+                    <span class="p">],</span>
+                    <span class="n">certificate_base64</span><span class="o">=</span><span class="n">DB_CREDENTIALS</span><span class="p">[</span><span class="s2">"connection"</span><span class="p">][</span><span class="s2">"postgres"</span><span class="p">][</span>
+                        <span class="s2">"certificate"</span>
+                    <span class="p">][</span><span class="s2">"certificate_base64"</span><span class="p">],</span>
+                <span class="p">),</span>
+                <span class="n">location</span><span class="o">=</span><span class="n">LocationSchemaName</span><span class="p">(</span><span class="n">schema_name</span><span class="o">=</span><span class="n">SCHEMA_NAME</span><span class="p">),</span>
+            <span class="p">),</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">result</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">"Setting up internal datamart"</span><span class="p">)</span>
         <span class="n">added_data_mart_result</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">data_marts</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-                <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                <span class="n">name</span><span class="o">=</span><span class="s2">"WOS Data Mart"</span><span class="p">,</span>
-                <span class="n">description</span><span class="o">=</span><span class="s2">"Data Mart created by WOS tutorial notebook"</span><span class="p">,</span> 
-                <span class="n">internal_database</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">result</span>
-        
+            <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">"WOS Data Mart"</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">"Data Mart created by WOS tutorial notebook"</span><span class="p">,</span>
+            <span class="n">internal_database</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">result</span>
+
     <span class="n">data_mart_id</span> <span class="o">=</span> <span class="n">added_data_mart_result</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">id</span>
-    
+
 <span class="k">else</span><span class="p">:</span>
-    <span class="n">data_mart_id</span><span class="o">=</span><span class="n">data_marts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">id</span>
+    <span class="n">data_mart_id</span> <span class="o">=</span> <span class="n">data_marts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">id</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Using existing datamart </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_mart_id</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -8287,7 +8541,11 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
     <span class="k">if</span> <span class="n">service_instance_name</span> <span class="o">==</span> <span class="n">SERVICE_PROVIDER_NAME</span><span class="p">:</span>
         <span class="n">service_provider_id</span> <span class="o">=</span> <span class="n">service_provider</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">id</span>
         <span class="n">wos_client</span><span class="o">.</span><span class="n">service_providers</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">service_provider_id</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">"Deleted existing service_provider for watsonx.ai Runtime instance: </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">service_provider_id</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="s2">"Deleted existing service_provider for watsonx.ai Runtime instance: </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">service_provider_id</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8300,7 +8558,7 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Add-service-provider">Add service provider<a class="anchor-link" href="#Add-service-provider">¶</a></h2>
+<h3 id="Add-service-provider">Add service provider<a class="anchor-link" href="#Add-service-provider">¶</a></h3>
 </div>
 </div>
 </div>
@@ -8335,18 +8593,16 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">added_service_provider_result</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">service_providers</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-        <span class="n">name</span><span class="o">=</span><span class="n">SERVICE_PROVIDER_NAME</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="n">SERVICE_PROVIDER_DESCRIPTION</span><span class="p">,</span>
-        <span class="n">service_type</span><span class="o">=</span><span class="n">ServiceTypes</span><span class="o">.</span><span class="n">WATSON_MACHINE_LEARNING</span><span class="p">,</span>
-        <span class="n">deployment_space_id</span> <span class="o">=</span> <span class="n">space_id</span><span class="p">,</span>
-        <span class="n">operational_space_id</span> <span class="o">=</span> <span class="s2">"production"</span><span class="p">,</span>
-        <span class="n">credentials</span><span class="o">=</span><span class="n">WMLCredentialsCloud</span><span class="p">(</span>
-            <span class="n">apikey</span><span class="o">=</span><span class="n">credentials</span><span class="p">[</span><span class="s2">"apikey"</span><span class="p">],</span>
-            <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="p">[</span><span class="s2">"url"</span><span class="p">],</span>
-            <span class="n">instance_id</span><span class="o">=</span><span class="kc">None</span>
-        <span class="p">),</span>
-        <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">result</span>
+    <span class="n">name</span><span class="o">=</span><span class="n">SERVICE_PROVIDER_NAME</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="n">SERVICE_PROVIDER_DESCRIPTION</span><span class="p">,</span>
+    <span class="n">service_type</span><span class="o">=</span><span class="n">ServiceTypes</span><span class="o">.</span><span class="n">WATSON_MACHINE_LEARNING</span><span class="p">,</span>
+    <span class="n">deployment_space_id</span><span class="o">=</span><span class="n">space_id</span><span class="p">,</span>
+    <span class="n">operational_space_id</span><span class="o">=</span><span class="s2">"production"</span><span class="p">,</span>
+    <span class="n">credentials</span><span class="o">=</span><span class="n">WMLCredentialsCloud</span><span class="p">(</span>
+        <span class="n">apikey</span><span class="o">=</span><span class="n">credentials</span><span class="p">[</span><span class="s2">"apikey"</span><span class="p">],</span> <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="p">[</span><span class="s2">"url"</span><span class="p">],</span> <span class="n">instance_id</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">),</span>
+    <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span><span class="o">.</span><span class="n">result</span>
 <span class="n">service_provider_id</span> <span class="o">=</span> <span class="n">added_service_provider_result</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">id</span>
 </pre></div>
 </div>
@@ -8374,7 +8630,7 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Subscriptions">Subscriptions<a class="anchor-link" href="#Subscriptions">¶</a></h2>
+<h3 id="Subscriptions">Subscriptions<a class="anchor-link" href="#Subscriptions">¶</a></h3>
 </div>
 </div>
 </div>
@@ -8385,7 +8641,7 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Remove-existing-credit-risk-subscriptions">Remove existing credit risk subscriptions<a class="anchor-link" href="#Remove-existing-credit-risk-subscriptions">¶</a></h3>
+<p>Remove existing credit risk subscriptions</p>
 </div>
 </div>
 </div>
@@ -8457,36 +8713,70 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
     <span class="n">url</span><span class="o">=</span><span class="n">deployment_url</span><span class="p">,</span>
     <span class="n">asset_type</span><span class="o">=</span><span class="n">AssetTypes</span><span class="o">.</span><span class="n">MODEL</span><span class="p">,</span>
     <span class="n">input_data_type</span><span class="o">=</span><span class="n">InputDataType</span><span class="o">.</span><span class="n">STRUCTURED</span><span class="p">,</span>
-    <span class="n">problem_type</span><span class="o">=</span><span class="n">ProblemType</span><span class="o">.</span><span class="n">BINARY_CLASSIFICATION</span>
+    <span class="n">problem_type</span><span class="o">=</span><span class="n">ProblemType</span><span class="o">.</span><span class="n">BINARY_CLASSIFICATION</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">asset_deployment</span> <span class="o">=</span> <span class="n">AssetDeploymentRequest</span><span class="p">(</span>
     <span class="n">deployment_id</span><span class="o">=</span><span class="n">deployment_id</span><span class="p">,</span>
     <span class="n">name</span><span class="o">=</span><span class="n">DEPLOYMENT_NAME</span><span class="p">,</span>
     <span class="n">deployment_type</span><span class="o">=</span><span class="n">DeploymentTypes</span><span class="o">.</span><span class="n">ONLINE</span><span class="p">,</span>
-    <span class="n">url</span><span class="o">=</span><span class="n">deployment_url</span>
+    <span class="n">url</span><span class="o">=</span><span class="n">deployment_url</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">training_data_reference</span> <span class="o">=</span> <span class="n">TrainingDataReference</span><span class="p">(</span>
     <span class="nb">type</span><span class="o">=</span><span class="s2">"cos"</span><span class="p">,</span>
     <span class="n">location</span><span class="o">=</span><span class="n">COSTrainingDataReferenceLocation</span><span class="p">(</span>
-        <span class="n">bucket</span><span class="o">=</span><span class="n">BUCKET_NAME</span><span class="p">,</span>
-        <span class="n">file_name</span><span class="o">=</span><span class="n">training_data_file_name</span>
+        <span class="n">bucket</span><span class="o">=</span><span class="n">BUCKET_NAME</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="n">training_data_file_name</span>
     <span class="p">),</span>
     <span class="n">connection</span><span class="o">=</span><span class="n">COSTrainingDataReferenceConnection</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span>
         <span class="p">{</span>
             <span class="s2">"resource_instance_id"</span><span class="p">:</span> <span class="n">COS_RESOURCE_CRN</span><span class="p">,</span>
             <span class="s2">"url"</span><span class="p">:</span> <span class="n">COS_ENDPOINT</span><span class="p">,</span>
             <span class="s2">"api_key"</span><span class="p">:</span> <span class="n">COS_API_KEY_ID</span><span class="p">,</span>
-            <span class="s2">"iam_url"</span><span class="p">:</span> <span class="s2">"https://iam.bluemix.net/oidc/token"</span>
+            <span class="s2">"iam_url"</span><span class="p">:</span> <span class="s2">"https://iam.bluemix.net/oidc/token"</span><span class="p">,</span>
         <span class="p">}</span>
-    <span class="p">)</span>
+    <span class="p">),</span>
 <span class="p">)</span>
 <span class="n">asset_properties_request</span> <span class="o">=</span> <span class="n">AssetPropertiesRequest</span><span class="p">(</span>
     <span class="n">label_column</span><span class="o">=</span><span class="s2">"Risk"</span><span class="p">,</span>
     <span class="n">probability_fields</span><span class="o">=</span><span class="p">[</span><span class="s2">"probability"</span><span class="p">],</span>
     <span class="n">prediction_field</span><span class="o">=</span><span class="s2">"prediction"</span><span class="p">,</span>
-    <span class="n">feature_fields</span><span class="o">=</span><span class="p">[</span><span class="s2">"CheckingStatus"</span><span class="p">,</span><span class="s2">"LoanDuration"</span><span class="p">,</span><span class="s2">"CreditHistory"</span><span class="p">,</span><span class="s2">"LoanPurpose"</span><span class="p">,</span><span class="s2">"LoanAmount"</span><span class="p">,</span><span class="s2">"ExistingSavings"</span><span class="p">,</span><span class="s2">"EmploymentDuration"</span><span class="p">,</span><span class="s2">"InstallmentPercent"</span><span class="p">,</span><span class="s2">"Sex"</span><span class="p">,</span><span class="s2">"OthersOnLoan"</span><span class="p">,</span><span class="s2">"CurrentResidenceDuration"</span><span class="p">,</span><span class="s2">"OwnsProperty"</span><span class="p">,</span><span class="s2">"Age"</span><span class="p">,</span><span class="s2">"InstallmentPlans"</span><span class="p">,</span><span class="s2">"Housing"</span><span class="p">,</span><span class="s2">"ExistingCreditsCount"</span><span class="p">,</span><span class="s2">"Job"</span><span class="p">,</span><span class="s2">"Dependents"</span><span class="p">,</span><span class="s2">"Telephone"</span><span class="p">,</span><span class="s2">"ForeignWorker"</span><span class="p">],</span>
-    <span class="n">categorical_fields</span><span class="o">=</span><span class="p">[</span><span class="s2">"CheckingStatus"</span><span class="p">,</span><span class="s2">"CreditHistory"</span><span class="p">,</span><span class="s2">"LoanPurpose"</span><span class="p">,</span><span class="s2">"ExistingSavings"</span><span class="p">,</span><span class="s2">"EmploymentDuration"</span><span class="p">,</span><span class="s2">"Sex"</span><span class="p">,</span><span class="s2">"OthersOnLoan"</span><span class="p">,</span><span class="s2">"OwnsProperty"</span><span class="p">,</span><span class="s2">"InstallmentPlans"</span><span class="p">,</span><span class="s2">"Housing"</span><span class="p">,</span><span class="s2">"Job"</span><span class="p">,</span><span class="s2">"Telephone"</span><span class="p">,</span><span class="s2">"ForeignWorker"</span><span class="p">],</span>
-    <span class="n">training_data_reference</span><span class="o">=</span><span class="n">training_data_reference</span>
+    <span class="n">feature_fields</span><span class="o">=</span><span class="p">[</span>
+        <span class="s2">"CheckingStatus"</span><span class="p">,</span>
+        <span class="s2">"LoanDuration"</span><span class="p">,</span>
+        <span class="s2">"CreditHistory"</span><span class="p">,</span>
+        <span class="s2">"LoanPurpose"</span><span class="p">,</span>
+        <span class="s2">"LoanAmount"</span><span class="p">,</span>
+        <span class="s2">"ExistingSavings"</span><span class="p">,</span>
+        <span class="s2">"EmploymentDuration"</span><span class="p">,</span>
+        <span class="s2">"InstallmentPercent"</span><span class="p">,</span>
+        <span class="s2">"Sex"</span><span class="p">,</span>
+        <span class="s2">"OthersOnLoan"</span><span class="p">,</span>
+        <span class="s2">"CurrentResidenceDuration"</span><span class="p">,</span>
+        <span class="s2">"OwnsProperty"</span><span class="p">,</span>
+        <span class="s2">"Age"</span><span class="p">,</span>
+        <span class="s2">"InstallmentPlans"</span><span class="p">,</span>
+        <span class="s2">"Housing"</span><span class="p">,</span>
+        <span class="s2">"ExistingCreditsCount"</span><span class="p">,</span>
+        <span class="s2">"Job"</span><span class="p">,</span>
+        <span class="s2">"Dependents"</span><span class="p">,</span>
+        <span class="s2">"Telephone"</span><span class="p">,</span>
+        <span class="s2">"ForeignWorker"</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">categorical_fields</span><span class="o">=</span><span class="p">[</span>
+        <span class="s2">"CheckingStatus"</span><span class="p">,</span>
+        <span class="s2">"CreditHistory"</span><span class="p">,</span>
+        <span class="s2">"LoanPurpose"</span><span class="p">,</span>
+        <span class="s2">"ExistingSavings"</span><span class="p">,</span>
+        <span class="s2">"EmploymentDuration"</span><span class="p">,</span>
+        <span class="s2">"Sex"</span><span class="p">,</span>
+        <span class="s2">"OthersOnLoan"</span><span class="p">,</span>
+        <span class="s2">"OwnsProperty"</span><span class="p">,</span>
+        <span class="s2">"InstallmentPlans"</span><span class="p">,</span>
+        <span class="s2">"Housing"</span><span class="p">,</span>
+        <span class="s2">"Job"</span><span class="p">,</span>
+        <span class="s2">"Telephone"</span><span class="p">,</span>
+        <span class="s2">"ForeignWorker"</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">training_data_reference</span><span class="o">=</span><span class="n">training_data_reference</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -8502,11 +8792,12 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">subscription_details</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">subscriptions</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-        <span class="n">data_mart_id</span><span class="o">=</span><span class="n">data_mart_id</span><span class="p">,</span>
-        <span class="n">service_provider_id</span><span class="o">=</span><span class="n">service_provider_id</span><span class="p">,</span>
-        <span class="n">asset</span><span class="o">=</span><span class="n">asset</span><span class="p">,</span>
-        <span class="n">deployment</span><span class="o">=</span><span class="n">asset_deployment</span><span class="p">,</span>
-        <span class="n">asset_properties</span><span class="o">=</span><span class="n">asset_properties_request</span><span class="p">)</span><span class="o">.</span><span class="n">result</span>
+    <span class="n">data_mart_id</span><span class="o">=</span><span class="n">data_mart_id</span><span class="p">,</span>
+    <span class="n">service_provider_id</span><span class="o">=</span><span class="n">service_provider_id</span><span class="p">,</span>
+    <span class="n">asset</span><span class="o">=</span><span class="n">asset</span><span class="p">,</span>
+    <span class="n">deployment</span><span class="o">=</span><span class="n">asset_deployment</span><span class="p">,</span>
+    <span class="n">asset_properties</span><span class="o">=</span><span class="n">asset_properties_request</span><span class="p">,</span>
+<span class="p">)</span><span class="o">.</span><span class="n">result</span>
 <span class="n">subscription_id</span> <span class="o">=</span> <span class="n">subscription_details</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">id</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">subscription_details</span><span class="p">)</span>
 </pre></div>
@@ -8526,9 +8817,15 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 
 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">payload_data_set_id</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="n">payload_data_set_id</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">data_sets</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">DataSetTypes</span><span class="o">.</span><span class="n">PAYLOAD_LOGGING</span><span class="p">,</span> 
-                                                <span class="n">target_target_id</span><span class="o">=</span><span class="n">subscription_id</span><span class="p">,</span> 
-                                                <span class="n">target_target_type</span><span class="o">=</span><span class="n">TargetTypes</span><span class="o">.</span><span class="n">SUBSCRIPTION</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">data_sets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">id</span>
+<span class="n">payload_data_set_id</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">wos_client</span><span class="o">.</span><span class="n">data_sets</span><span class="o">.</span><span class="n">list</span><span class="p">(</span>
+        <span class="nb">type</span><span class="o">=</span><span class="n">DataSetTypes</span><span class="o">.</span><span class="n">PAYLOAD_LOGGING</span><span class="p">,</span>
+        <span class="n">target_target_id</span><span class="o">=</span><span class="n">subscription_id</span><span class="p">,</span>
+        <span class="n">target_target_type</span><span class="o">=</span><span class="n">TargetTypes</span><span class="o">.</span><span class="n">SUBSCRIPTION</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">data_sets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">id</span>
+<span class="p">)</span>
 <span class="k">if</span> <span class="n">payload_data_set_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Payload data set not found. Please check subscription status."</span><span class="p">)</span>
 <span class="k">else</span><span class="p">:</span>
@@ -8607,22 +8904,217 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"CheckingStatus"</span><span class="p">,</span><span class="s2">"LoanDuration"</span><span class="p">,</span><span class="s2">"CreditHistory"</span><span class="p">,</span><span class="s2">"LoanPurpose"</span><span class="p">,</span><span class="s2">"LoanAmount"</span><span class="p">,</span><span class="s2">"ExistingSavings"</span><span class="p">,</span><span class="s2">"EmploymentDuration"</span><span class="p">,</span><span class="s2">"InstallmentPercent"</span><span class="p">,</span><span class="s2">"Sex"</span><span class="p">,</span><span class="s2">"OthersOnLoan"</span><span class="p">,</span><span class="s2">"CurrentResidenceDuration"</span><span class="p">,</span><span class="s2">"OwnsProperty"</span><span class="p">,</span><span class="s2">"Age"</span><span class="p">,</span><span class="s2">"InstallmentPlans"</span><span class="p">,</span><span class="s2">"Housing"</span><span class="p">,</span><span class="s2">"ExistingCreditsCount"</span><span class="p">,</span><span class="s2">"Job"</span><span class="p">,</span><span class="s2">"Dependents"</span><span class="p">,</span><span class="s2">"Telephone"</span><span class="p">,</span><span class="s2">"ForeignWorker"</span><span class="p">]</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">fields</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"CheckingStatus"</span><span class="p">,</span>
+    <span class="s2">"LoanDuration"</span><span class="p">,</span>
+    <span class="s2">"CreditHistory"</span><span class="p">,</span>
+    <span class="s2">"LoanPurpose"</span><span class="p">,</span>
+    <span class="s2">"LoanAmount"</span><span class="p">,</span>
+    <span class="s2">"ExistingSavings"</span><span class="p">,</span>
+    <span class="s2">"EmploymentDuration"</span><span class="p">,</span>
+    <span class="s2">"InstallmentPercent"</span><span class="p">,</span>
+    <span class="s2">"Sex"</span><span class="p">,</span>
+    <span class="s2">"OthersOnLoan"</span><span class="p">,</span>
+    <span class="s2">"CurrentResidenceDuration"</span><span class="p">,</span>
+    <span class="s2">"OwnsProperty"</span><span class="p">,</span>
+    <span class="s2">"Age"</span><span class="p">,</span>
+    <span class="s2">"InstallmentPlans"</span><span class="p">,</span>
+    <span class="s2">"Housing"</span><span class="p">,</span>
+    <span class="s2">"ExistingCreditsCount"</span><span class="p">,</span>
+    <span class="s2">"Job"</span><span class="p">,</span>
+    <span class="s2">"Dependents"</span><span class="p">,</span>
+    <span class="s2">"Telephone"</span><span class="p">,</span>
+    <span class="s2">"ForeignWorker"</span><span class="p">,</span>
+<span class="p">]</span>
 <span class="n">values</span> <span class="o">=</span> <span class="p">[</span>
-  <span class="p">[</span><span class="s2">"no_checking"</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="s2">"credits_paid_to_date"</span><span class="p">,</span><span class="s2">"car_new"</span><span class="p">,</span><span class="mi">1343</span><span class="p">,</span><span class="s2">"100_to_500"</span><span class="p">,</span><span class="s2">"1_to_4"</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s2">"female"</span><span class="p">,</span><span class="s2">"none"</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s2">"savings_insurance"</span><span class="p">,</span><span class="mi">46</span><span class="p">,</span><span class="s2">"none"</span><span class="p">,</span><span class="s2">"own"</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s2">"skilled"</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s2">"none"</span><span class="p">,</span><span class="s2">"yes"</span><span class="p">],</span>
-  <span class="p">[</span><span class="s2">"no_checking"</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="s2">"prior_payments_delayed"</span><span class="p">,</span><span class="s2">"furniture"</span><span class="p">,</span><span class="mi">4567</span><span class="p">,</span><span class="s2">"500_to_1000"</span><span class="p">,</span><span class="s2">"1_to_4"</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="s2">"male"</span><span class="p">,</span><span class="s2">"none"</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="s2">"savings_insurance"</span><span class="p">,</span><span class="mi">36</span><span class="p">,</span><span class="s2">"none"</span><span class="p">,</span><span class="s2">"free"</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s2">"management_self-employed"</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s2">"none"</span><span class="p">,</span><span class="s2">"yes"</span><span class="p">],</span>
-  <span class="p">[</span><span class="s2">"0_to_200"</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="s2">"all_credits_paid_back"</span><span class="p">,</span><span class="s2">"car_new"</span><span class="p">,</span><span class="mi">863</span><span class="p">,</span><span class="s2">"less_100"</span><span class="p">,</span><span class="s2">"less_1"</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s2">"female"</span><span class="p">,</span><span class="s2">"co-applicant"</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s2">"real_estate"</span><span class="p">,</span><span class="mi">38</span><span class="p">,</span><span class="s2">"none"</span><span class="p">,</span><span class="s2">"own"</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s2">"skilled"</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s2">"none"</span><span class="p">,</span><span class="s2">"yes"</span><span class="p">],</span>
-  <span class="p">[</span><span class="s2">"0_to_200"</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="s2">"no_credits"</span><span class="p">,</span><span class="s2">"car_new"</span><span class="p">,</span><span class="mi">2368</span><span class="p">,</span><span class="s2">"less_100"</span><span class="p">,</span><span class="s2">"1_to_4"</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s2">"female"</span><span class="p">,</span><span class="s2">"none"</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s2">"real_estate"</span><span class="p">,</span><span class="mi">29</span><span class="p">,</span><span class="s2">"none"</span><span class="p">,</span><span class="s2">"own"</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s2">"skilled"</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s2">"none"</span><span class="p">,</span><span class="s2">"yes"</span><span class="p">],</span>
-  <span class="p">[</span><span class="s2">"0_to_200"</span><span class="p">,</span><span class="mi">66</span><span class="p">,</span><span class="s2">"no_credits"</span><span class="p">,</span><span class="s2">"car_new"</span><span class="p">,</span><span class="mi">250</span><span class="p">,</span><span class="s2">"less_100"</span><span class="p">,</span><span class="s2">"unemployed"</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s2">"female"</span><span class="p">,</span><span class="s2">"none"</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s2">"real_estate"</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="s2">"none"</span><span class="p">,</span><span class="s2">"rent"</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s2">"management_self-employed"</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s2">"none"</span><span class="p">,</span><span class="s2">"yes"</span><span class="p">],</span>
-  <span class="p">[</span><span class="s2">"no_checking"</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="s2">"credits_paid_to_date"</span><span class="p">,</span><span class="s2">"car_new"</span><span class="p">,</span><span class="mi">832</span><span class="p">,</span><span class="s2">"100_to_500"</span><span class="p">,</span><span class="s2">"1_to_4"</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s2">"male"</span><span class="p">,</span><span class="s2">"none"</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s2">"real_estate"</span><span class="p">,</span><span class="mi">42</span><span class="p">,</span><span class="s2">"none"</span><span class="p">,</span><span class="s2">"own"</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s2">"skilled"</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s2">"none"</span><span class="p">,</span><span class="s2">"yes"</span><span class="p">],</span>
-  <span class="p">[</span><span class="s2">"no_checking"</span><span class="p">,</span><span class="mi">35</span><span class="p">,</span><span class="s2">"outstanding_credit"</span><span class="p">,</span><span class="s2">"appliances"</span><span class="p">,</span><span class="mi">5696</span><span class="p">,</span><span class="s2">"unknown"</span><span class="p">,</span><span class="s2">"greater_7"</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="s2">"male"</span><span class="p">,</span><span class="s2">"co-applicant"</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="s2">"unknown"</span><span class="p">,</span><span class="mi">54</span><span class="p">,</span><span class="s2">"none"</span><span class="p">,</span><span class="s2">"free"</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s2">"skilled"</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s2">"yes"</span><span class="p">,</span><span class="s2">"yes"</span><span class="p">],</span>
-  <span class="p">[</span><span class="s2">"0_to_200"</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="s2">"prior_payments_delayed"</span><span class="p">,</span><span class="s2">"retraining"</span><span class="p">,</span><span class="mi">1375</span><span class="p">,</span><span class="s2">"100_to_500"</span><span class="p">,</span><span class="s2">"4_to_7"</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s2">"male"</span><span class="p">,</span><span class="s2">"none"</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s2">"real_estate"</span><span class="p">,</span><span class="mi">37</span><span class="p">,</span><span class="s2">"none"</span><span class="p">,</span><span class="s2">"own"</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s2">"management_self-employed"</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s2">"none"</span><span class="p">,</span><span class="s2">"yes"</span><span class="p">]</span>
+    <span class="p">[</span>
+        <span class="s2">"no_checking"</span><span class="p">,</span>
+        <span class="mi">10</span><span class="p">,</span>
+        <span class="s2">"credits_paid_to_date"</span><span class="p">,</span>
+        <span class="s2">"car_new"</span><span class="p">,</span>
+        <span class="mi">1343</span><span class="p">,</span>
+        <span class="s2">"100_to_500"</span><span class="p">,</span>
+        <span class="s2">"1_to_4"</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">"female"</span><span class="p">,</span>
+        <span class="s2">"none"</span><span class="p">,</span>
+        <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">"savings_insurance"</span><span class="p">,</span>
+        <span class="mi">46</span><span class="p">,</span>
+        <span class="s2">"none"</span><span class="p">,</span>
+        <span class="s2">"own"</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">"skilled"</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">"none"</span><span class="p">,</span>
+        <span class="s2">"yes"</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="p">[</span>
+        <span class="s2">"no_checking"</span><span class="p">,</span>
+        <span class="mi">20</span><span class="p">,</span>
+        <span class="s2">"prior_payments_delayed"</span><span class="p">,</span>
+        <span class="s2">"furniture"</span><span class="p">,</span>
+        <span class="mi">4567</span><span class="p">,</span>
+        <span class="s2">"500_to_1000"</span><span class="p">,</span>
+        <span class="s2">"1_to_4"</span><span class="p">,</span>
+        <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"male"</span><span class="p">,</span>
+        <span class="s2">"none"</span><span class="p">,</span>
+        <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"savings_insurance"</span><span class="p">,</span>
+        <span class="mi">36</span><span class="p">,</span>
+        <span class="s2">"none"</span><span class="p">,</span>
+        <span class="s2">"free"</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">"management_self-employed"</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">"none"</span><span class="p">,</span>
+        <span class="s2">"yes"</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="p">[</span>
+        <span class="s2">"0_to_200"</span><span class="p">,</span>
+        <span class="mi">24</span><span class="p">,</span>
+        <span class="s2">"all_credits_paid_back"</span><span class="p">,</span>
+        <span class="s2">"car_new"</span><span class="p">,</span>
+        <span class="mi">863</span><span class="p">,</span>
+        <span class="s2">"less_100"</span><span class="p">,</span>
+        <span class="s2">"less_1"</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">"female"</span><span class="p">,</span>
+        <span class="s2">"co-applicant"</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">"real_estate"</span><span class="p">,</span>
+        <span class="mi">38</span><span class="p">,</span>
+        <span class="s2">"none"</span><span class="p">,</span>
+        <span class="s2">"own"</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">"skilled"</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">"none"</span><span class="p">,</span>
+        <span class="s2">"yes"</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="p">[</span>
+        <span class="s2">"0_to_200"</span><span class="p">,</span>
+        <span class="mi">17</span><span class="p">,</span>
+        <span class="s2">"no_credits"</span><span class="p">,</span>
+        <span class="s2">"car_new"</span><span class="p">,</span>
+        <span class="mi">2368</span><span class="p">,</span>
+        <span class="s2">"less_100"</span><span class="p">,</span>
+        <span class="s2">"1_to_4"</span><span class="p">,</span>
+        <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">"female"</span><span class="p">,</span>
+        <span class="s2">"none"</span><span class="p">,</span>
+        <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">"real_estate"</span><span class="p">,</span>
+        <span class="mi">29</span><span class="p">,</span>
+        <span class="s2">"none"</span><span class="p">,</span>
+        <span class="s2">"own"</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">"skilled"</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">"none"</span><span class="p">,</span>
+        <span class="s2">"yes"</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="p">[</span>
+        <span class="s2">"0_to_200"</span><span class="p">,</span>
+        <span class="mi">66</span><span class="p">,</span>
+        <span class="s2">"no_credits"</span><span class="p">,</span>
+        <span class="s2">"car_new"</span><span class="p">,</span>
+        <span class="mi">250</span><span class="p">,</span>
+        <span class="s2">"less_100"</span><span class="p">,</span>
+        <span class="s2">"unemployed"</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">"female"</span><span class="p">,</span>
+        <span class="s2">"none"</span><span class="p">,</span>
+        <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">"real_estate"</span><span class="p">,</span>
+        <span class="mi">23</span><span class="p">,</span>
+        <span class="s2">"none"</span><span class="p">,</span>
+        <span class="s2">"rent"</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">"management_self-employed"</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">"none"</span><span class="p">,</span>
+        <span class="s2">"yes"</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="p">[</span>
+        <span class="s2">"no_checking"</span><span class="p">,</span>
+        <span class="mi">14</span><span class="p">,</span>
+        <span class="s2">"credits_paid_to_date"</span><span class="p">,</span>
+        <span class="s2">"car_new"</span><span class="p">,</span>
+        <span class="mi">832</span><span class="p">,</span>
+        <span class="s2">"100_to_500"</span><span class="p">,</span>
+        <span class="s2">"1_to_4"</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">"male"</span><span class="p">,</span>
+        <span class="s2">"none"</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">"real_estate"</span><span class="p">,</span>
+        <span class="mi">42</span><span class="p">,</span>
+        <span class="s2">"none"</span><span class="p">,</span>
+        <span class="s2">"own"</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">"skilled"</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">"none"</span><span class="p">,</span>
+        <span class="s2">"yes"</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="p">[</span>
+        <span class="s2">"no_checking"</span><span class="p">,</span>
+        <span class="mi">35</span><span class="p">,</span>
+        <span class="s2">"outstanding_credit"</span><span class="p">,</span>
+        <span class="s2">"appliances"</span><span class="p">,</span>
+        <span class="mi">5696</span><span class="p">,</span>
+        <span class="s2">"unknown"</span><span class="p">,</span>
+        <span class="s2">"greater_7"</span><span class="p">,</span>
+        <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"male"</span><span class="p">,</span>
+        <span class="s2">"co-applicant"</span><span class="p">,</span>
+        <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"unknown"</span><span class="p">,</span>
+        <span class="mi">54</span><span class="p">,</span>
+        <span class="s2">"none"</span><span class="p">,</span>
+        <span class="s2">"free"</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">"skilled"</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">"yes"</span><span class="p">,</span>
+        <span class="s2">"yes"</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="p">[</span>
+        <span class="s2">"0_to_200"</span><span class="p">,</span>
+        <span class="mi">23</span><span class="p">,</span>
+        <span class="s2">"prior_payments_delayed"</span><span class="p">,</span>
+        <span class="s2">"retraining"</span><span class="p">,</span>
+        <span class="mi">1375</span><span class="p">,</span>
+        <span class="s2">"100_to_500"</span><span class="p">,</span>
+        <span class="s2">"4_to_7"</span><span class="p">,</span>
+        <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">"male"</span><span class="p">,</span>
+        <span class="s2">"none"</span><span class="p">,</span>
+        <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">"real_estate"</span><span class="p">,</span>
+        <span class="mi">37</span><span class="p">,</span>
+        <span class="s2">"none"</span><span class="p">,</span>
+        <span class="s2">"own"</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">"management_self-employed"</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">"none"</span><span class="p">,</span>
+        <span class="s2">"yes"</span><span class="p">,</span>
+    <span class="p">],</span>
 <span class="p">]</span>
 
 <span class="n">payload_scoring</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"input_data"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"fields"</span><span class="p">:</span> <span class="n">fields</span><span class="p">,</span> <span class="s2">"values"</span><span class="p">:</span> <span class="n">values</span><span class="p">}]}</span>
 <span class="n">predictions</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">deployment_id</span><span class="p">,</span> <span class="n">payload_scoring</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"Single record scoring result:"</span><span class="p">,</span> <span class="s2">"</span><span class="se">\n</span><span class="s2"> fields:"</span><span class="p">,</span> <span class="n">predictions</span><span class="p">[</span><span class="s2">"predictions"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"fields"</span><span class="p">],</span> <span class="s2">"</span><span class="se">\n</span><span class="s2"> values: "</span><span class="p">,</span> <span class="n">predictions</span><span class="p">[</span><span class="s2">"predictions"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"values"</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">"Single record scoring result:"</span><span class="p">,</span>
+    <span class="s2">"</span><span class="se">\n</span><span class="s2"> fields:"</span><span class="p">,</span>
+    <span class="n">predictions</span><span class="p">[</span><span class="s2">"predictions"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"fields"</span><span class="p">],</span>
+    <span class="s2">"</span><span class="se">\n</span><span class="s2"> values: "</span><span class="p">,</span>
+    <span class="n">predictions</span><span class="p">[</span><span class="s2">"predictions"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"values"</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8637,18 +9129,25 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watson_openscale.supporting_classes.payload_record</span><span class="w"> </span><span class="kn">import</span> <span class="n">PayloadRecord</span>
+
 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">pl_records_count</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">data_sets</span><span class="o">.</span><span class="n">get_records_count</span><span class="p">(</span><span class="n">payload_data_set_id</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Number of records in the payload logging table: </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pl_records_count</span><span class="p">))</span>
 <span class="k">if</span> <span class="n">pl_records_count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Payload logging did not happen, performing explicit payload logging."</span><span class="p">)</span>
-    <span class="n">wos_client</span><span class="o">.</span><span class="n">data_sets</span><span class="o">.</span><span class="n">store_records</span><span class="p">(</span><span class="n">data_set_id</span><span class="o">=</span><span class="n">payload_data_set_id</span><span class="p">,</span> <span class="n">request_body</span><span class="o">=</span><span class="p">[</span><span class="n">PayloadRecord</span><span class="p">(</span>
-                   <span class="n">scoring_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()),</span>
-                   <span class="n">request</span><span class="o">=</span><span class="n">payload_scoring</span><span class="p">,</span>
-                   <span class="n">response</span><span class="o">=</span><span class="n">predictions</span><span class="p">,</span>
-                   <span class="n">response_time</span><span class="o">=</span><span class="mi">460</span>
-               <span class="p">)])</span>
+    <span class="n">wos_client</span><span class="o">.</span><span class="n">data_sets</span><span class="o">.</span><span class="n">store_records</span><span class="p">(</span>
+        <span class="n">data_set_id</span><span class="o">=</span><span class="n">payload_data_set_id</span><span class="p">,</span>
+        <span class="n">request_body</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">PayloadRecord</span><span class="p">(</span>
+                <span class="n">scoring_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()),</span>
+                <span class="n">request</span><span class="o">=</span><span class="n">payload_scoring</span><span class="p">,</span>
+                <span class="n">response</span><span class="o">=</span><span class="n">predictions</span><span class="p">,</span>
+                <span class="n">response_time</span><span class="o">=</span><span class="mi">460</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">],</span>
+    <span class="p">)</span>
     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
     <span class="n">pl_records_count</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">data_sets</span><span class="o">.</span><span class="n">get_records_count</span><span class="p">(</span><span class="n">payload_data_set_id</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Number of records in the payload logging table: </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pl_records_count</span><span class="p">))</span>
@@ -8664,7 +9163,8 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Quality-monitoring-and-feedback-logging-">Quality monitoring and feedback logging <a name="quality"></a><a class="anchor-link" href="#Quality-monitoring-and-feedback-logging-">¶</a></h1>
+<p><a id="Quality-monitoring-and-feedback-logging"></a></p>
+<h2 id="Quality-monitoring-and-feedback-logging">Quality monitoring and feedback logging<a class="anchor-link" href="#Quality-monitoring-and-feedback-logging">¶</a></h2>
 </div>
 </div>
 </div>
@@ -8675,7 +9175,7 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Enable-quality-monitoring">Enable quality monitoring<a class="anchor-link" href="#Enable-quality-monitoring">¶</a></h2>
+<h3 id="Enable-quality-monitoring">Enable quality monitoring<a class="anchor-link" href="#Enable-quality-monitoring">¶</a></h3>
 </div>
 </div>
 </div>
@@ -8702,19 +9202,14 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 
 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">target</span> <span class="o">=</span> <span class="n">Target</span><span class="p">(</span>
-        <span class="n">target_type</span><span class="o">=</span><span class="n">TargetTypes</span><span class="o">.</span><span class="n">SUBSCRIPTION</span><span class="p">,</span>
-        <span class="n">target_id</span><span class="o">=</span><span class="n">subscription_id</span>
-<span class="p">)</span>
-<span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"min_feedback_data_size"</span><span class="p">:</span> <span class="mi">50</span>
-<span class="p">}</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">Target</span><span class="p">(</span><span class="n">target_type</span><span class="o">=</span><span class="n">TargetTypes</span><span class="o">.</span><span class="n">SUBSCRIPTION</span><span class="p">,</span> <span class="n">target_id</span><span class="o">=</span><span class="n">subscription_id</span><span class="p">)</span>
+<span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"min_feedback_data_size"</span><span class="p">:</span> <span class="mi">50</span><span class="p">}</span>
 <span class="n">quality_monitor_details</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_instances</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
     <span class="n">data_mart_id</span><span class="o">=</span><span class="n">data_mart_id</span><span class="p">,</span>
     <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">monitor_definition_id</span><span class="o">=</span><span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_definitions</span><span class="o">.</span><span class="n">MONITORS</span><span class="o">.</span><span class="n">QUALITY</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span>
     <span class="n">target</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
-    <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span>
+    <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
 <span class="p">)</span><span class="o">.</span><span class="n">result</span>
 </pre></div>
 </div>
@@ -8742,7 +9237,7 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Feedback-logging">Feedback logging<a class="anchor-link" href="#Feedback-logging">¶</a></h2>
+<h3 id="Feedback-logging">Feedback logging<a class="anchor-link" href="#Feedback-logging">¶</a></h3>
 </div>
 </div>
 </div>
@@ -8765,8 +9260,8 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>rm<span class="w"> </span>additional_feedback_data_v2.json
-<span class="o">!</span>wget<span class="w"> </span>https://raw.githubusercontent.com/pmservice/ai-openscale-tutorials/master/assets/historical_data/german_credit_risk/wml/additional_feedback_data_v2.json
+<div class="highlight hl-ipython3"><pre><span></span><span class="err">!</span><span class="n">rm</span> <span class="n">additional_feedback_data_v2</span><span class="o">.</span><span class="n">json</span>
+<span class="err">!</span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">raw</span><span class="o">.</span><span class="n">githubusercontent</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">pmservice</span><span class="o">/</span><span class="n">ai</span><span class="o">-</span><span class="n">openscale</span><span class="o">-</span><span class="n">tutorials</span><span class="o">/</span><span class="n">master</span><span class="o">/</span><span class="n">assets</span><span class="o">/</span><span class="n">historical_data</span><span class="o">/</span><span class="n">german_credit_risk</span><span class="o">/</span><span class="n">wml</span><span class="o">/</span><span class="n">additional_feedback_data_v2</span><span class="o">.</span><span class="n">json</span>
 </pre></div>
 </div>
 </div>
@@ -8779,7 +9274,7 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Get-feedback-logging-dataset-ID">Get feedback logging dataset ID<a class="anchor-link" href="#Get-feedback-logging-dataset-ID">¶</a></h3>
+<p>Get feedback logging dataset ID</p>
 </div>
 </div>
 </div>
@@ -8792,9 +9287,11 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">feedback_dataset_id</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="n">feedback_dataset</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">data_sets</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">DataSetTypes</span><span class="o">.</span><span class="n">FEEDBACK</span><span class="p">,</span> 
-                                                <span class="n">target_target_id</span><span class="o">=</span><span class="n">subscription_id</span><span class="p">,</span> 
-                                                <span class="n">target_target_type</span><span class="o">=</span><span class="n">TargetTypes</span><span class="o">.</span><span class="n">SUBSCRIPTION</span><span class="p">)</span><span class="o">.</span><span class="n">result</span>
+<span class="n">feedback_dataset</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">data_sets</span><span class="o">.</span><span class="n">list</span><span class="p">(</span>
+    <span class="nb">type</span><span class="o">=</span><span class="n">DataSetTypes</span><span class="o">.</span><span class="n">FEEDBACK</span><span class="p">,</span>
+    <span class="n">target_target_id</span><span class="o">=</span><span class="n">subscription_id</span><span class="p">,</span>
+    <span class="n">target_target_type</span><span class="o">=</span><span class="n">TargetTypes</span><span class="o">.</span><span class="n">SUBSCRIPTION</span><span class="p">,</span>
+<span class="p">)</span><span class="o">.</span><span class="n">result</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">feedback_dataset</span><span class="p">)</span>
 <span class="n">feedback_dataset_id</span> <span class="o">=</span> <span class="n">feedback_dataset</span><span class="o">.</span><span class="n">data_sets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">id</span>
 <span class="k">if</span> <span class="n">feedback_dataset_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -8813,7 +9310,8 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'additional_feedback_data_v2.json'</span><span class="p">)</span> <span class="k">as</span> <span class="n">feedback_file</span><span class="p">:</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"additional_feedback_data_v2.json"</span><span class="p">)</span> <span class="k">as</span> <span class="n">feedback_file</span><span class="p">:</span>
     <span class="n">additional_feedback_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">feedback_file</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -8828,7 +9326,9 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">wos_client</span><span class="o">.</span><span class="n">data_sets</span><span class="o">.</span><span class="n">store_records</span><span class="p">(</span><span class="n">feedback_dataset_id</span><span class="p">,</span> <span class="n">request_body</span><span class="o">=</span><span class="n">additional_feedback_data</span><span class="p">,</span> <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">wos_client</span><span class="o">.</span><span class="n">data_sets</span><span class="o">.</span><span class="n">store_records</span><span class="p">(</span>
+    <span class="n">feedback_dataset_id</span><span class="p">,</span> <span class="n">request_body</span><span class="o">=</span><span class="n">additional_feedback_data</span><span class="p">,</span> <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8856,7 +9356,9 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">run_details</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_instances</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">monitor_instance_id</span><span class="o">=</span><span class="n">quality_monitor_instance_id</span><span class="p">,</span> <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">result</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">run_details</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_instances</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="n">monitor_instance_id</span><span class="o">=</span><span class="n">quality_monitor_instance_id</span><span class="p">,</span> <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span><span class="o">.</span><span class="n">result</span>
 </pre></div>
 </div>
 </div>
@@ -8870,7 +9372,9 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_instances</span><span class="o">.</span><span class="n">show_metrics</span><span class="p">(</span><span class="n">monitor_instance_id</span><span class="o">=</span><span class="n">quality_monitor_instance_id</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_instances</span><span class="o">.</span><span class="n">show_metrics</span><span class="p">(</span>
+    <span class="n">monitor_instance_id</span><span class="o">=</span><span class="n">quality_monitor_instance_id</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8883,7 +9387,8 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Fairness-monitoring-and-explanations-">Fairness monitoring and explanations <a name="fairness"></a><a class="anchor-link" href="#Fairness-monitoring-and-explanations-">¶</a></h1>
+<p><a id="Fairness-monitoring-and-explanations"></a></p>
+<h2 id="Fairness-monitoring-and-explanations">Fairness monitoring and explanations<a class="anchor-link" href="#Fairness-monitoring-and-explanations">¶</a></h2>
 </div>
 </div>
 </div>
@@ -8927,27 +9432,25 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">target</span> <span class="o">=</span> <span class="n">Target</span><span class="p">(</span>
-    <span class="n">target_type</span><span class="o">=</span><span class="n">TargetTypes</span><span class="o">.</span><span class="n">SUBSCRIPTION</span><span class="p">,</span>
-    <span class="n">target_id</span><span class="o">=</span><span class="n">subscription_id</span>
-
-<span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">target</span> <span class="o">=</span> <span class="n">Target</span><span class="p">(</span><span class="n">target_type</span><span class="o">=</span><span class="n">TargetTypes</span><span class="o">.</span><span class="n">SUBSCRIPTION</span><span class="p">,</span> <span class="n">target_id</span><span class="o">=</span><span class="n">subscription_id</span><span class="p">)</span>
 <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">"features"</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span><span class="s2">"feature"</span><span class="p">:</span> <span class="s2">"Sex"</span><span class="p">,</span>
-         <span class="s2">"majority"</span><span class="p">:</span> <span class="p">[</span><span class="s1">'male'</span><span class="p">],</span>
-         <span class="s2">"minority"</span><span class="p">:</span> <span class="p">[</span><span class="s1">'female'</span><span class="p">],</span>
-         <span class="s2">"threshold"</span><span class="p">:</span> <span class="mf">0.95</span>
-         <span class="p">},</span>
-        <span class="p">{</span><span class="s2">"feature"</span><span class="p">:</span> <span class="s2">"Age"</span><span class="p">,</span>
-         <span class="s2">"majority"</span><span class="p">:</span> <span class="p">[[</span><span class="mi">26</span><span class="p">,</span> <span class="mi">75</span><span class="p">]],</span>
-         <span class="s2">"minority"</span><span class="p">:</span> <span class="p">[[</span><span class="mi">18</span><span class="p">,</span> <span class="mi">25</span><span class="p">]],</span>
-         <span class="s2">"threshold"</span><span class="p">:</span> <span class="mf">0.95</span>
-         <span class="p">}</span>
+        <span class="p">{</span>
+            <span class="s2">"feature"</span><span class="p">:</span> <span class="s2">"Sex"</span><span class="p">,</span>
+            <span class="s2">"majority"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"male"</span><span class="p">],</span>
+            <span class="s2">"minority"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"female"</span><span class="p">],</span>
+            <span class="s2">"threshold"</span><span class="p">:</span> <span class="mf">0.95</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s2">"feature"</span><span class="p">:</span> <span class="s2">"Age"</span><span class="p">,</span>
+            <span class="s2">"majority"</span><span class="p">:</span> <span class="p">[[</span><span class="mi">26</span><span class="p">,</span> <span class="mi">75</span><span class="p">]],</span>
+            <span class="s2">"minority"</span><span class="p">:</span> <span class="p">[[</span><span class="mi">18</span><span class="p">,</span> <span class="mi">25</span><span class="p">]],</span>
+            <span class="s2">"threshold"</span><span class="p">:</span> <span class="mf">0.95</span><span class="p">,</span>
+        <span class="p">},</span>
     <span class="p">],</span>
     <span class="s2">"favourable_class"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"No Risk"</span><span class="p">],</span>
     <span class="s2">"unfavourable_class"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"Risk"</span><span class="p">],</span>
-    <span class="s2">"min_records"</span><span class="p">:</span> <span class="mi">4</span>
+    <span class="s2">"min_records"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="n">fairness_monitor_details</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_instances</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
@@ -8955,8 +9458,9 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
     <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">monitor_definition_id</span><span class="o">=</span><span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_definitions</span><span class="o">.</span><span class="n">MONITORS</span><span class="o">.</span><span class="n">FAIRNESS</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span>
     <span class="n">target</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
-    <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span><span class="o">.</span><span class="n">result</span>
-<span class="n">fairness_monitor_instance_id</span> <span class="o">=</span><span class="n">fairness_monitor_details</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">id</span>
+    <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
+<span class="p">)</span><span class="o">.</span><span class="n">result</span>
+<span class="n">fairness_monitor_instance_id</span> <span class="o">=</span> <span class="n">fairness_monitor_details</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">id</span>
 </pre></div>
 </div>
 </div>
@@ -8983,22 +9487,24 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">monitor_instances</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_instances</span><span class="o">.</span><span class="n">list</span><span class="p">()</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">monitor_instances</span>
 <span class="k">for</span> <span class="n">monitor_instance</span> <span class="ow">in</span> <span class="n">monitor_instances</span><span class="p">:</span>
-    <span class="n">monitor_def_id</span><span class="o">=</span><span class="n">monitor_instance</span><span class="o">.</span><span class="n">entity</span><span class="o">.</span><span class="n">monitor_definition_id</span>
-    <span class="k">if</span> <span class="n">monitor_def_id</span> <span class="o">==</span> <span class="s2">"drift"</span> <span class="ow">and</span> <span class="n">monitor_instance</span><span class="o">.</span><span class="n">entity</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">target_id</span> <span class="o">==</span> <span class="n">subscription_id</span><span class="p">:</span>
+    <span class="n">monitor_def_id</span> <span class="o">=</span> <span class="n">monitor_instance</span><span class="o">.</span><span class="n">entity</span><span class="o">.</span><span class="n">monitor_definition_id</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="n">monitor_def_id</span> <span class="o">==</span> <span class="s2">"drift"</span>
+        <span class="ow">and</span> <span class="n">monitor_instance</span><span class="o">.</span><span class="n">entity</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">target_id</span> <span class="o">==</span> <span class="n">subscription_id</span>
+    <span class="p">):</span>
         <span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_instances</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">monitor_instance</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">'Deleted existing drift monitor instance with id: '</span><span class="p">,</span> <span class="n">monitor_instance</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="s2">"Deleted existing drift monitor instance with id: "</span><span class="p">,</span>
+            <span class="n">monitor_instance</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="p">)</span>
 
 
-<span class="n">target</span> <span class="o">=</span> <span class="n">Target</span><span class="p">(</span>
-    <span class="n">target_type</span><span class="o">=</span><span class="n">TargetTypes</span><span class="o">.</span><span class="n">SUBSCRIPTION</span><span class="p">,</span>
-    <span class="n">target_id</span><span class="o">=</span><span class="n">subscription_id</span>
-
-<span class="p">)</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">Target</span><span class="p">(</span><span class="n">target_type</span><span class="o">=</span><span class="n">TargetTypes</span><span class="o">.</span><span class="n">SUBSCRIPTION</span><span class="p">,</span> <span class="n">target_id</span><span class="o">=</span><span class="n">subscription_id</span><span class="p">)</span>
 <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">"min_samples"</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
     <span class="s2">"train_drift_model"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
     <span class="s2">"enable_model_drift"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="s2">"enable_data_drift"</span><span class="p">:</span> <span class="kc">True</span>
+    <span class="s2">"enable_data_drift"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="n">drift_monitor_details</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_instances</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
@@ -9006,7 +9512,7 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
     <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">monitor_definition_id</span><span class="o">=</span><span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_definitions</span><span class="o">.</span><span class="n">MONITORS</span><span class="o">.</span><span class="n">DRIFT</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span>
     <span class="n">target</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
-    <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span>
+    <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
 <span class="p">)</span><span class="o">.</span><span class="n">result</span>
 
 <span class="n">drift_monitor_instance_id</span> <span class="o">=</span> <span class="n">drift_monitor_details</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">id</span>
@@ -9022,7 +9528,7 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Score-the-model-again-now-that-monitoring-is-configured">Score the model again now that monitoring is configured<a class="anchor-link" href="#Score-the-model-again-now-that-monitoring-is-configured">¶</a></h2>
+<h3 id="Score-the-model-again-now-that-monitoring-is-configured">Score the model again now that monitoring is configured<a class="anchor-link" href="#Score-the-model-again-now-that-monitoring-is-configured">¶</a></h3>
 </div>
 </div>
 </div>
@@ -9046,10 +9552,11 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">io</span>
-<span class="o">!</span>rm<span class="w"> </span>german_credit_feed.json
+
+<span class="err">!</span><span class="n">rm</span> <span class="n">german_credit_feed</span><span class="o">.</span><span class="n">json</span>
 <span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">capture_output</span><span class="p">()</span> <span class="k">as</span> <span class="n">captured</span><span class="p">:</span>
-    <span class="o">!</span>wget<span class="w"> </span>https://raw.githubusercontent.com/pmservice/ai-openscale-tutorials/master/assets/historical_data/german_credit_risk/wml/german_credit_feed.json<span class="w"> </span>-O<span class="w"> </span>german_credit_feed.json
-<span class="o">!</span>ls<span class="w"> </span>-lh<span class="w"> </span>german_credit_feed.json
+    <span class="err">!</span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">raw</span><span class="o">.</span><span class="n">githubusercontent</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">pmservice</span><span class="o">/</span><span class="n">ai</span><span class="o">-</span><span class="n">openscale</span><span class="o">-</span><span class="n">tutorials</span><span class="o">/</span><span class="n">master</span><span class="o">/</span><span class="n">assets</span><span class="o">/</span><span class="n">historical_data</span><span class="o">/</span><span class="n">german_credit_risk</span><span class="o">/</span><span class="n">wml</span><span class="o">/</span><span class="n">german_credit_feed</span><span class="o">.</span><span class="n">json</span> <span class="o">-</span><span class="n">O</span> <span class="n">german_credit_feed</span><span class="o">.</span><span class="n">json</span>
+<span class="err">!</span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">german_credit_feed</span><span class="o">.</span><span class="n">json</span>
 </pre></div>
 </div>
 </div>
@@ -9076,13 +9583,13 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
 
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'german_credit_feed.json'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">scoring_file</span><span class="p">:</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"german_credit_feed.json"</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">scoring_file</span><span class="p">:</span>
     <span class="n">scoring_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">scoring_file</span><span class="p">)</span>
 
-<span class="n">fields</span> <span class="o">=</span> <span class="n">scoring_data</span><span class="p">[</span><span class="s1">'fields'</span><span class="p">]</span>
+<span class="n">fields</span> <span class="o">=</span> <span class="n">scoring_data</span><span class="p">[</span><span class="s2">"fields"</span><span class="p">]</span>
 <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">200</span><span class="p">):</span>
-    <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">scoring_data</span><span class="p">[</span><span class="s1">'values'</span><span class="p">]))</span>
+    <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">scoring_data</span><span class="p">[</span><span class="s2">"values"</span><span class="p">]))</span>
 <span class="n">payload_scoring</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"input_data"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"fields"</span><span class="p">:</span> <span class="n">fields</span><span class="p">,</span> <span class="s2">"values"</span><span class="p">:</span> <span class="n">values</span><span class="p">}]}</span>
 
 <span class="n">scoring_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">deployment_id</span><span class="p">,</span> <span class="n">payload_scoring</span><span class="p">)</span>
@@ -9090,12 +9597,17 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 
 <span class="k">if</span> <span class="n">pl_records_count</span> <span class="o">==</span> <span class="mi">8</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Payload logging did not happen, performing explicit payload logging."</span><span class="p">)</span>
-    <span class="n">wos_client</span><span class="o">.</span><span class="n">data_sets</span><span class="o">.</span><span class="n">store_records</span><span class="p">(</span><span class="n">data_set_id</span><span class="o">=</span><span class="n">payload_data_set_id</span><span class="p">,</span> <span class="n">request_body</span><span class="o">=</span><span class="p">[</span><span class="n">PayloadRecord</span><span class="p">(</span>
-                   <span class="n">scoring_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()),</span>
-                   <span class="n">request</span><span class="o">=</span><span class="n">payload_scoring</span><span class="p">,</span>
-                   <span class="n">response</span><span class="o">=</span><span class="n">scoring_response</span><span class="p">,</span>
-                   <span class="n">response_time</span><span class="o">=</span><span class="mi">460</span>
-               <span class="p">)])</span>
+    <span class="n">wos_client</span><span class="o">.</span><span class="n">data_sets</span><span class="o">.</span><span class="n">store_records</span><span class="p">(</span>
+        <span class="n">data_set_id</span><span class="o">=</span><span class="n">payload_data_set_id</span><span class="p">,</span>
+        <span class="n">request_body</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">PayloadRecord</span><span class="p">(</span>
+                <span class="n">scoring_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()),</span>
+                <span class="n">request</span><span class="o">=</span><span class="n">payload_scoring</span><span class="p">,</span>
+                <span class="n">response</span><span class="o">=</span><span class="n">scoring_response</span><span class="p">,</span>
+                <span class="n">response_time</span><span class="o">=</span><span class="mi">460</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">],</span>
+    <span class="p">)</span>
     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
     <span class="n">pl_records_count</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">data_sets</span><span class="o">.</span><span class="n">get_records_count</span><span class="p">(</span><span class="n">payload_data_set_id</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Number of records in the payload logging table: </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pl_records_count</span><span class="p">))</span>
@@ -9112,7 +9624,10 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">"Number of records in payload table:"</span><span class="p">,</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">data_sets</span><span class="o">.</span><span class="n">get_records_count</span><span class="p">(</span><span class="n">data_set_id</span><span class="o">=</span><span class="n">payload_data_set_id</span><span class="p">))</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span>
+    <span class="s2">"Number of records in payload table:"</span><span class="p">,</span>
+    <span class="n">wos_client</span><span class="o">.</span><span class="n">data_sets</span><span class="o">.</span><span class="n">get_records_count</span><span class="p">(</span><span class="n">data_set_id</span><span class="o">=</span><span class="n">payload_data_set_id</span><span class="p">),</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -9125,7 +9640,7 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Run-fairness-monitor">Run fairness monitor<a class="anchor-link" href="#Run-fairness-monitor">¶</a></h2>
+<h3 id="Run-fairness-monitor">Run fairness monitor<a class="anchor-link" href="#Run-fairness-monitor">¶</a></h3>
 </div>
 </div>
 </div>
@@ -9148,7 +9663,9 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">run_details</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_instances</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">monitor_instance_id</span><span class="o">=</span><span class="n">fairness_monitor_instance_id</span><span class="p">,</span> <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">run_details</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_instances</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="n">monitor_instance_id</span><span class="o">=</span><span class="n">fairness_monitor_instance_id</span><span class="p">,</span> <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -9162,7 +9679,9 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_instances</span><span class="o">.</span><span class="n">show_metrics</span><span class="p">(</span><span class="n">monitor_instance_id</span><span class="o">=</span><span class="n">fairness_monitor_instance_id</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_instances</span><span class="o">.</span><span class="n">show_metrics</span><span class="p">(</span>
+    <span class="n">monitor_instance_id</span><span class="o">=</span><span class="n">fairness_monitor_instance_id</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -9175,7 +9694,7 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Run-drift-monitor">Run drift monitor<a class="anchor-link" href="#Run-drift-monitor">¶</a></h2><p>Kick off a drift monitor run on current data. The monitor runs every hour, but can be manually initiated using the Python client, the REST API.</p>
+<h3 id="Run-drift-monitor">Run drift monitor<a class="anchor-link" href="#Run-drift-monitor">¶</a></h3><p>Kick off a drift monitor run on current data. The monitor runs every hour, but can be manually initiated using the Python client, the REST API.</p>
 </div>
 </div>
 </div>
@@ -9187,7 +9706,9 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">drift_run_details</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_instances</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">monitor_instance_id</span><span class="o">=</span><span class="n">drift_monitor_instance_id</span><span class="p">,</span> <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">drift_run_details</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_instances</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="n">monitor_instance_id</span><span class="o">=</span><span class="n">drift_monitor_instance_id</span><span class="p">,</span> <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -9214,7 +9735,7 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Configure-Explainability">Configure Explainability<a class="anchor-link" href="#Configure-Explainability">¶</a></h2>
+<h3 id="Configure-Explainability">Configure Explainability<a class="anchor-link" href="#Configure-Explainability">¶</a></h3>
 </div>
 </div>
 </div>
@@ -9237,19 +9758,14 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">target</span> <span class="o">=</span> <span class="n">Target</span><span class="p">(</span>
-    <span class="n">target_type</span><span class="o">=</span><span class="n">TargetTypes</span><span class="o">.</span><span class="n">SUBSCRIPTION</span><span class="p">,</span>
-    <span class="n">target_id</span><span class="o">=</span><span class="n">subscription_id</span>
-<span class="p">)</span>
-<span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"enabled"</span><span class="p">:</span> <span class="kc">True</span>
-<span class="p">}</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">target</span> <span class="o">=</span> <span class="n">Target</span><span class="p">(</span><span class="n">target_type</span><span class="o">=</span><span class="n">TargetTypes</span><span class="o">.</span><span class="n">SUBSCRIPTION</span><span class="p">,</span> <span class="n">target_id</span><span class="o">=</span><span class="n">subscription_id</span><span class="p">)</span>
+<span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"enabled"</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
 <span class="n">explainability_details</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_instances</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
     <span class="n">data_mart_id</span><span class="o">=</span><span class="n">data_mart_id</span><span class="p">,</span>
     <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">monitor_definition_id</span><span class="o">=</span><span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_definitions</span><span class="o">.</span><span class="n">MONITORS</span><span class="o">.</span><span class="n">EXPLAINABILITY</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span>
     <span class="n">target</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
-    <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span>
+    <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
 <span class="p">)</span><span class="o">.</span><span class="n">result</span>
 
 <span class="n">explainability_monitor_id</span> <span class="o">=</span> <span class="n">explainability_details</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">id</span>
@@ -9265,7 +9781,7 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Run-explanation-for-sample-record">Run explanation for sample record<a class="anchor-link" href="#Run-explanation-for-sample-record">¶</a></h2>
+<h3 id="Run-explanation-for-sample-record">Run explanation for sample record<a class="anchor-link" href="#Run-explanation-for-sample-record">¶</a></h3>
 </div>
 </div>
 </div>
@@ -9277,11 +9793,15 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">pl_records_resp</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">data_sets</span><span class="o">.</span><span class="n">get_list_of_records</span><span class="p">(</span><span class="n">data_set_id</span><span class="o">=</span><span class="n">payload_data_set_id</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">result</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">pl_records_resp</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">data_sets</span><span class="o">.</span><span class="n">get_list_of_records</span><span class="p">(</span>
+    <span class="n">data_set_id</span><span class="o">=</span><span class="n">payload_data_set_id</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span>
+<span class="p">)</span><span class="o">.</span><span class="n">result</span>
 <span class="n">scoring_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">pl_records_resp</span><span class="p">[</span><span class="s2">"records"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"entity"</span><span class="p">][</span><span class="s2">"values"</span><span class="p">][</span><span class="s2">"scoring_id"</span><span class="p">]]</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Running explanations on scoring IDs: </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">scoring_ids</span><span class="p">))</span>
 <span class="n">explanation_types</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"lime"</span><span class="p">,</span> <span class="s2">"contrastive"</span><span class="p">]</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_instances</span><span class="o">.</span><span class="n">explanation_tasks</span><span class="p">(</span><span class="n">scoring_ids</span><span class="o">=</span><span class="n">scoring_ids</span><span class="p">,</span> <span class="n">explanation_types</span><span class="o">=</span><span class="n">explanation_types</span><span class="p">)</span><span class="o">.</span><span class="n">result</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_instances</span><span class="o">.</span><span class="n">explanation_tasks</span><span class="p">(</span>
+    <span class="n">scoring_ids</span><span class="o">=</span><span class="n">scoring_ids</span><span class="p">,</span> <span class="n">explanation_types</span><span class="o">=</span><span class="n">explanation_types</span>
+<span class="p">)</span><span class="o">.</span><span class="n">result</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -9295,7 +9815,8 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Custom-monitors-and-metrics-">Custom monitors and metrics <a name="custom"></a><a class="anchor-link" href="#Custom-monitors-and-metrics-">¶</a></h1>
+<p><a id="Custom-monitors-and-metrics"></a></p>
+<h2 id="Custom-monitors-and-metrics">Custom monitors and metrics<a class="anchor-link" href="#Custom-monitors-and-metrics">¶</a></h2>
 </div>
 </div>
 </div>
@@ -9306,7 +9827,7 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Register-custom-monitor">Register custom monitor<a class="anchor-link" href="#Register-custom-monitor">¶</a></h2>
+<h3 id="Register-custom-monitor">Register custom monitor<a class="anchor-link" href="#Register-custom-monitor">¶</a></h3>
 </div>
 </div>
 </div>
@@ -9319,12 +9840,14 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_definition</span><span class="p">(</span><span class="n">monitor_name</span><span class="p">):</span>
-    <span class="n">monitor_definitions</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_definitions</span><span class="o">.</span><span class="n">list</span><span class="p">()</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">monitor_definitions</span>
-    
+    <span class="n">monitor_definitions</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_definitions</span><span class="o">.</span><span class="n">list</span><span class="p">()</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">monitor_definitions</span>
+    <span class="p">)</span>
+
     <span class="k">for</span> <span class="n">definition</span> <span class="ow">in</span> <span class="n">monitor_definitions</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">monitor_name</span> <span class="o">==</span> <span class="n">definition</span><span class="o">.</span><span class="n">entity</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">definition</span>
-    
+
     <span class="k">return</span> <span class="kc">None</span>
 </pre></div>
 </div>
@@ -9339,17 +9862,29 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">monitor_name</span> <span class="o">=</span> <span class="s1">'my model performance'</span>
-<span class="n">metrics</span> <span class="o">=</span> <span class="p">[</span><span class="n">MonitorMetricRequest</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'sensitivity'</span><span class="p">,</span>
-                                <span class="n">thresholds</span><span class="o">=</span><span class="p">[</span><span class="n">MetricThreshold</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">MetricThresholdTypes</span><span class="o">.</span><span class="n">LOWER_LIMIT</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)]),</span>
-          <span class="n">MonitorMetricRequest</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'specificity'</span><span class="p">,</span>
-                                <span class="n">thresholds</span><span class="o">=</span><span class="p">[</span><span class="n">MetricThreshold</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">MetricThresholdTypes</span><span class="o">.</span><span class="n">LOWER_LIMIT</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)])]</span>
-<span class="n">tags</span> <span class="o">=</span> <span class="p">[</span><span class="n">MonitorTagRequest</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'region'</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">'customer geographical region'</span><span class="p">)]</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">monitor_name</span> <span class="o">=</span> <span class="s2">"my model performance"</span>
+<span class="n">metrics</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">MonitorMetricRequest</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">"sensitivity"</span><span class="p">,</span>
+        <span class="n">thresholds</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">MetricThreshold</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">MetricThresholdTypes</span><span class="o">.</span><span class="n">LOWER_LIMIT</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+        <span class="p">],</span>
+    <span class="p">),</span>
+    <span class="n">MonitorMetricRequest</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">"specificity"</span><span class="p">,</span>
+        <span class="n">thresholds</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">MetricThreshold</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">MetricThresholdTypes</span><span class="o">.</span><span class="n">LOWER_LIMIT</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span>
+        <span class="p">],</span>
+    <span class="p">),</span>
+<span class="p">]</span>
+<span class="n">tags</span> <span class="o">=</span> <span class="p">[</span><span class="n">MonitorTagRequest</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"region"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"customer geographical region"</span><span class="p">)]</span>
 
 <span class="n">existing_definition</span> <span class="o">=</span> <span class="n">get_definition</span><span class="p">(</span><span class="n">monitor_name</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="n">existing_definition</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="n">custom_monitor_details</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_definitions</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">monitor_name</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="n">metrics</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="n">tags</span><span class="p">,</span> <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">result</span>
+    <span class="n">custom_monitor_details</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_definitions</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">monitor_name</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="n">metrics</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="n">tags</span><span class="p">,</span> <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">result</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="n">custom_monitor_details</span> <span class="o">=</span> <span class="n">existing_definition</span>
 </pre></div>
@@ -9364,7 +9899,7 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Show-available-monitors-types">Show available monitors types<a class="anchor-link" href="#Show-available-monitors-types">¶</a></h3>
+<p>Show available monitors types</p>
 </div>
 </div>
 </div>
@@ -9389,7 +9924,7 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Get-monitors-ids-and-details">Get monitors ids and details<a class="anchor-link" href="#Get-monitors-ids-and-details">¶</a></h3>
+<p>Get monitors ids and details</p>
 </div>
 </div>
 </div>
@@ -9417,8 +9952,10 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">custom_monitor_details</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_definitions</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">monitor_definition_id</span><span class="o">=</span><span class="n">custom_monitor_id</span><span class="p">)</span><span class="o">.</span><span class="n">result</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'Monitor definition details:'</span><span class="p">,</span> <span class="n">custom_monitor_details</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">custom_monitor_details</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_definitions</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+    <span class="n">monitor_definition_id</span><span class="o">=</span><span class="n">custom_monitor_id</span>
+<span class="p">)</span><span class="o">.</span><span class="n">result</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Monitor definition details:"</span><span class="p">,</span> <span class="n">custom_monitor_details</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -9431,7 +9968,7 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Enable-custom-monitor-for-subscription">Enable custom monitor for subscription<a class="anchor-link" href="#Enable-custom-monitor-for-subscription">¶</a></h2>
+<h3 id="Enable-custom-monitor-for-subscription">Enable custom monitor for subscription<a class="anchor-link" href="#Enable-custom-monitor-for-subscription">¶</a></h3>
 </div>
 </div>
 </div>
@@ -9443,18 +9980,19 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">target</span> <span class="o">=</span> <span class="n">Target</span><span class="p">(</span>
-        <span class="n">target_type</span><span class="o">=</span><span class="n">TargetTypes</span><span class="o">.</span><span class="n">SUBSCRIPTION</span><span class="p">,</span>
-        <span class="n">target_id</span><span class="o">=</span><span class="n">subscription_id</span>
-    <span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">target</span> <span class="o">=</span> <span class="n">Target</span><span class="p">(</span><span class="n">target_type</span><span class="o">=</span><span class="n">TargetTypes</span><span class="o">.</span><span class="n">SUBSCRIPTION</span><span class="p">,</span> <span class="n">target_id</span><span class="o">=</span><span class="n">subscription_id</span><span class="p">)</span>
 
-<span class="n">thresholds</span> <span class="o">=</span> <span class="p">[</span><span class="n">MetricThresholdOverride</span><span class="p">(</span><span class="n">metric_id</span><span class="o">=</span><span class="s1">'sensitivity'</span><span class="p">,</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">MetricThresholdTypes</span><span class="o">.</span><span class="n">LOWER_LIMIT</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)]</span>
+<span class="n">thresholds</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">MetricThresholdOverride</span><span class="p">(</span>
+        <span class="n">metric_id</span><span class="o">=</span><span class="s2">"sensitivity"</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">MetricThresholdTypes</span><span class="o">.</span><span class="n">LOWER_LIMIT</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">0.9</span>
+    <span class="p">)</span>
+<span class="p">]</span>
 
 <span class="n">custom_monitor_instance_details</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_instances</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-            <span class="n">data_mart_id</span><span class="o">=</span><span class="n">data_mart_id</span><span class="p">,</span>
-            <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">monitor_definition_id</span><span class="o">=</span><span class="n">custom_monitor_id</span><span class="p">,</span>
-            <span class="n">target</span><span class="o">=</span><span class="n">target</span>
+    <span class="n">data_mart_id</span><span class="o">=</span><span class="n">data_mart_id</span><span class="p">,</span>
+    <span class="n">background_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">monitor_definition_id</span><span class="o">=</span><span class="n">custom_monitor_id</span><span class="p">,</span>
+    <span class="n">target</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
 <span class="p">)</span><span class="o">.</span><span class="n">result</span>
 </pre></div>
 </div>
@@ -9468,7 +10006,7 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Get-monitor-instance-id-and-configuration-details">Get monitor instance id and configuration details<a class="anchor-link" href="#Get-monitor-instance-id-and-configuration-details">¶</a></h3>
+<p>Get monitor instance id and configuration details</p>
 </div>
 </div>
 </div>
@@ -9494,7 +10032,9 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">custom_monitor_instance_details</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_instances</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">custom_monitor_instance_id</span><span class="p">)</span><span class="o">.</span><span class="n">result</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">custom_monitor_instance_details</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_instances</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+    <span class="n">custom_monitor_instance_id</span>
+<span class="p">)</span><span class="o">.</span><span class="n">result</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">custom_monitor_instance_details</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -9508,7 +10048,7 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Storing-custom-metrics">Storing custom metrics<a class="anchor-link" href="#Storing-custom-metrics">¶</a></h2>
+<h3 id="Storing-custom-metrics">Storing custom metrics<a class="anchor-link" href="#Storing-custom-metrics">¶</a></h3>
 </div>
 </div>
 </div>
@@ -9521,10 +10061,19 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watson_openscale.base_classes.watson_open_scale_v2</span><span class="w"> </span><span class="kn">import</span> <span class="n">MonitorMeasurementRequest</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watson_openscale.base_classes.watson_open_scale_v2</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">MonitorMeasurementRequest</span><span class="p">,</span>
+<span class="p">)</span>
+
 <span class="n">custom_monitoring_run_id</span> <span class="o">=</span> <span class="s2">"11122223333111abc"</span>
-<span class="n">measurement_request</span> <span class="o">=</span> <span class="p">[</span><span class="n">MonitorMeasurementRequest</span><span class="p">(</span><span class="n">timestamp</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">),</span> 
-                                                 <span class="n">metrics</span><span class="o">=</span><span class="p">[{</span><span class="s2">"specificity"</span><span class="p">:</span> <span class="mf">0.78</span><span class="p">,</span> <span class="s2">"sensitivity"</span><span class="p">:</span> <span class="mf">0.67</span><span class="p">,</span> <span class="s2">"region"</span><span class="p">:</span> <span class="s2">"us-south"</span><span class="p">}],</span> <span class="n">run_id</span><span class="o">=</span><span class="n">custom_monitoring_run_id</span><span class="p">)]</span>
+<span class="n">measurement_request</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">MonitorMeasurementRequest</span><span class="p">(</span>
+        <span class="n">timestamp</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">),</span>
+        <span class="n">metrics</span><span class="o">=</span><span class="p">[{</span><span class="s2">"specificity"</span><span class="p">:</span> <span class="mf">0.78</span><span class="p">,</span> <span class="s2">"sensitivity"</span><span class="p">:</span> <span class="mf">0.67</span><span class="p">,</span> <span class="s2">"region"</span><span class="p">:</span> <span class="s2">"us-south"</span><span class="p">}],</span>
+        <span class="n">run_id</span><span class="o">=</span><span class="n">custom_monitoring_run_id</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">measurement_request</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -9541,7 +10090,8 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">published_measurement_response</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_instances</span><span class="o">.</span><span class="n">measurements</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
     <span class="n">monitor_instance_id</span><span class="o">=</span><span class="n">custom_monitor_instance_id</span><span class="p">,</span>
-    <span class="n">monitor_measurement_request</span><span class="o">=</span><span class="n">measurement_request</span><span class="p">)</span><span class="o">.</span><span class="n">result</span>
+    <span class="n">monitor_measurement_request</span><span class="o">=</span><span class="n">measurement_request</span><span class="p">,</span>
+<span class="p">)</span><span class="o">.</span><span class="n">result</span>
 <span class="n">published_measurement_id</span> <span class="o">=</span> <span class="n">published_measurement_response</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">"measurement_id"</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">published_measurement_response</span><span class="p">)</span>
 </pre></div>
@@ -9556,7 +10106,7 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="List-and-get-custom-metrics">List and get custom metrics<a class="anchor-link" href="#List-and-get-custom-metrics">¶</a></h3>
+<p>List and get custom metrics</p>
 </div>
 </div>
 </div>
@@ -9569,7 +10119,10 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-<span class="n">published_measurement</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_instances</span><span class="o">.</span><span class="n">measurements</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">monitor_instance_id</span><span class="o">=</span><span class="n">custom_monitor_instance_id</span><span class="p">,</span> <span class="n">measurement_id</span><span class="o">=</span><span class="n">published_measurement_id</span><span class="p">)</span><span class="o">.</span><span class="n">result</span>
+<span class="n">published_measurement</span> <span class="o">=</span> <span class="n">wos_client</span><span class="o">.</span><span class="n">monitor_instances</span><span class="o">.</span><span class="n">measurements</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+    <span class="n">monitor_instance_id</span><span class="o">=</span><span class="n">custom_monitor_instance_id</span><span class="p">,</span>
+    <span class="n">measurement_id</span><span class="o">=</span><span class="n">published_measurement_id</span><span class="p">,</span>
+<span class="p">)</span><span class="o">.</span><span class="n">result</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">published_measurement</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -9584,9 +10137,9 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">'Datamart:'</span><span class="p">,</span> <span class="n">data_mart_id</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'Model:'</span><span class="p">,</span> <span class="n">model_id</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'Deployment:'</span><span class="p">,</span> <span class="n">deployment_id</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">"Datamart:"</span><span class="p">,</span> <span class="n">data_mart_id</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Model:"</span><span class="p">,</span> <span class="n">model_id</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Deployment:"</span><span class="p">,</span> <span class="n">deployment_id</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -9599,7 +10152,7 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Identify-transactions-for-Explainability">Identify transactions for Explainability<a class="anchor-link" href="#Identify-transactions-for-Explainability">¶</a></h2>
+<h3 id="Identify-transactions-for-Explainability">Identify transactions for Explainability<a class="anchor-link" href="#Identify-transactions-for-Explainability">¶</a></h3>
 </div>
 </div>
 </div>
@@ -9635,7 +10188,7 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="summary"></a></p>
+<p><a id="Summary-and-next-steps"></a></p>
 <h2 id="Summary-and-next-steps">Summary and next steps<a class="anchor-link" href="#Summary-and-next-steps">¶</a></h2>
 </div>
 </div>
@@ -9665,7 +10218,7 @@ You can find <code>COS_API_KEY_ID</code> and <code>COS_RESOURCE_CRN</code> varia
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Authors">Authors<a class="anchor-link" href="#Authors">¶</a></h2><p>Lukasz Cmielowski, PhD, is an Automation Architect and Data Scientist at IBM with a track record of developing enterprise-level applications that substantially increases clients' ability to turn data into actionable knowledge.</p>
+<h3 id="Authors">Authors<a class="anchor-link" href="#Authors">¶</a></h3><p>Lukasz Cmielowski, PhD, is an Automation Architect and Data Scientist at IBM with a track record of developing enterprise-level applications that substantially increases clients' ability to turn data into actionable knowledge.</p>
 <p>Szymon Kucharczyk, Software Engineer at IBM watsonx.ai.</p>
 </div>
 </div>

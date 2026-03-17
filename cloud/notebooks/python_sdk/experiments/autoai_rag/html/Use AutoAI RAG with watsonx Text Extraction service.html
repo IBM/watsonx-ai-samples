@@ -7826,15 +7826,15 @@ The data used in this notebook is from the <a href="https://arxiv.org/pdf/2405.0
 <li>Create an AutoAI RAG job that will find the best RAG pattern based on processed data</li>
 </ul>
 <h2 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h2><p>This notebook contains the following parts:</p>
-<ul>
-<li><a href="#setup">Set up the environment</a></li>
-<li><a href="#prepare-te">Prepare data and connections for the Text Extraction service</a></li>
-<li><a href="#run-te">Process data using the Text Extraction service</a></li>
-<li><a href="#prepare-autorag">Prepare data and connections for the AutoAI RAG experiment</a></li>
-<li><a href="#run-autorag">Run the AutoAI RAG experiment</a></li>
-<li><a href="#comparision">Compare and test RAG Patterns</a></li>
-<li><a href="#summary">Summary</a></li>
-</ul>
+<ol>
+<li><a href="#Set-up-the-environment">Set up the environment</a></li>
+<li><a href="#Prepare-data-and-connections-for-the-Text-Extraction-service">Prepare data and connections for the Text Extraction service</a></li>
+<li><a href="#Process-data-using-the-Text-Extraction-service">Process data using the Text Extraction service</a></li>
+<li><a href="#Prepare-data-and-connections-for-the-AutoAI-RAG-experiment">Prepare data and connections for the AutoAI RAG experiment</a></li>
+<li><a href="#Run-the-AutoAI-RAG-experiment">Run the AutoAI RAG experiment</a></li>
+<li><a href="#Compare-and-test-of-RAG-Patterns">Compare and test of RAG Patterns</a></li>
+<li><a href="#Summary-and-next-steps">Summary and next steps</a></li>
+</ol>
 </div>
 </div>
 </div>
@@ -7845,8 +7845,8 @@ The data used in this notebook is from the <a href="https://arxiv.org/pdf/2405.0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="setup"></a></p>
-<h1 id="Set-up-the-environment">Set up the environment<a class="anchor-link" href="#Set-up-the-environment">¶</a></h1><p>Before you use the sample code in this notebook, you must perform the following setup tasks:</p>
+<p><a id="Set-up-the-environment"></a></p>
+<h2 id="Set-up-the-environment">Set up the environment<a class="anchor-link" href="#Set-up-the-environment">¶</a></h2><p>Before you use the sample code in this notebook, you must perform the following setup tasks:</p>
 <ul>
 <li>Create a <a href="https://cloud.ibm.com/catalog/services/watson-machine-learning" rel="noopener no referrer" target="_blank">watsonx.ai Runtime Service</a> instance (a free plan is offered and information about how to create the instance can be found <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/wml-plans.html?context=wx&amp;audience=wdp" rel="noopener no referrer" target="_blank">here</a>).</li>
 </ul>
@@ -8113,7 +8113,7 @@ SUCCESS
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="prepare-te"></a></p>
+<p><a id="Prepare-data-and-connections-for-the-Text-Extraction-service"></a></p>
 <h2 id="Prepare-data-and-connections-for-the-Text-Extraction-service">Prepare data and connections for the Text Extraction service<a class="anchor-link" href="#Prepare-data-and-connections-for-the-Text-Extraction-service">¶</a></h2><p>The document, from which we are going to extract text, is located in the IBM Cloud Object Storage (COS). In this notebook, we will use the <a href="https://arxiv.org/pdf/2405.04324">Granite Code Models paper</a> as a source text document. The final results file, which will contain extracted text and necessary metadata, will be placed in the COS. So we will use the <code>ibm_watsonx_ai.helpers.DataConnection</code> and the <code>ibm_watsonx_ai.helpers.S3Location</code> class to create Python objects that will represent the references to the processed files. Reference to the final results will be used as an input for the AutoAI RAG experiment.</p>
 </div>
 </div>
@@ -8230,7 +8230,7 @@ SUCCESS
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="run-te"></a></p>
+<p><a id="Process-data-using-the-Text-Extraction-service"></a></p>
 <h2 id="Process-data-using-the-Text-Extraction-service">Process data using the Text Extraction service<a class="anchor-link" href="#Process-data-using-the-Text-Extraction-service">¶</a></h2>
 </div>
 </div>
@@ -8487,7 +8487,7 @@ SUCCESS
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="prepare-autorag"></a></p>
+<p><a id="Prepare-data-and-connections-for-the-AutoAI-RAG-experiment"></a></p>
 <h2 id="Prepare-data-and-connections-for-the-AutoAI-RAG-experiment">Prepare data and connections for the AutoAI RAG experiment<a class="anchor-link" href="#Prepare-data-and-connections-for-the-AutoAI-RAG-experiment">¶</a></h2>
 </div>
 </div>
@@ -8619,8 +8619,8 @@ SUCCESS
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="run-autorag"></a></p>
-<h1 id="Run-the-AutoAI-RAG-experiment">Run the AutoAI RAG experiment<a class="anchor-link" href="#Run-the-AutoAI-RAG-experiment">¶</a></h1><p>Provide the input information for AutoAI RAG optimizer:</p>
+<p><a id="Run-the-AutoAI-RAG-experiment"></a></p>
+<h2 id="Run-the-AutoAI-RAG-experiment">Run the AutoAI RAG experiment<a class="anchor-link" href="#Run-the-AutoAI-RAG-experiment">¶</a></h2><p>Provide the input information for AutoAI RAG optimizer:</p>
 <ul>
 <li><code>name</code> - experiment name</li>
 <li><code>description</code> - experiment description</li>
@@ -9142,7 +9142,7 @@ Training of 'f2c34e8d-b613-4f25-ab1e-943c5fb8837a' finished successfully.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="comparison"></a></p>
+<p><a id="Compare-and-test-of-RAG-Patterns"></a></p>
 <h2 id="Compare-and-test-of-RAG-Patterns">Compare and test of RAG Patterns<a class="anchor-link" href="#Compare-and-test-of-RAG-Patterns">¶</a></h2><p>You can list the trained patterns and information on evaluation metrics in the form of a Pandas DataFrame by calling the <code>summary()</code> method. You can use the DataFrame to compare all discovered patterns and select the one you like for further testing.</p>
 </div>
 </div>
@@ -9662,8 +9662,8 @@ Please note that this information may not be exhaustive, and there might be othe
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="summary"></a></p>
-<h2 id="Summary">Summary<a class="anchor-link" href="#Summary">¶</a></h2><p>You successfully completed this notebook!</p>
+<p><a id="Summary-and-next-steps"></a></p>
+<h2 id="Summary-and-next-steps">Summary and next steps<a class="anchor-link" href="#Summary-and-next-steps">¶</a></h2><p>You successfully completed this notebook!</p>
 <p>You learned how to use AutoAI RAG with documents processed by the TextExtraction service.</p>
 <p>Check out our <em><a href="https://ibm.github.io/watsonx-ai-python-sdk/samples.html" rel="noopener no referrer" target="_blank">Online Documentation</a></em> for more samples, tutorials, documentation, how-tos, and blog posts.</p>
 </div>

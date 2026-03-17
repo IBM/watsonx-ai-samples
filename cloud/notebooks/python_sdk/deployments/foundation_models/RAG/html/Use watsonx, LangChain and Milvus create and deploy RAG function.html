@@ -7827,14 +7827,15 @@ a.anchor-link {
 <li>Generate a response by feeding retrieved passage into a large language model (for every user query)</li>
 </ul>
 <h2 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h2><p>This notebook contains the following parts:</p>
-<ul>
-<li><a href="#setup">Setup</a></li>
-<li><a href="#data">Data (test) loading</a></li>
-<li><a href="#milvus_conn">Set up connectivity information to Milvus</a></li>
-<li><a href="#vectorstore">Set up VectorStore with Milvus credentials</a></li>
-<li><a href="#deploy">Create and deploy RAG solution</a></li>
-<li><a href="#evaluate">Calculate rougeL metric</a></li>
-</ul>
+<ol>
+<li><a href="#Set-up-the-environment">Set up the environment</a></li>
+<li><a href="#Test-data-preparation">Test data preparation</a></li>
+<li><a href="#Set-up-connectivity-information-to-Milvus">Set up connectivity information to Milvus</a></li>
+<li><a href="#Set-up-VectorStore-with-Milvus-credentials">Set up VectorStore with Milvus credentials</a></li>
+<li><a href="#Create-and-deploy-RAG-solution">Create and deploy RAG solution</a></li>
+<li><a href="#Calculate-rougeL-metric">Calculate rougeL metric</a></li>
+<li><a href="#Summary-and-next-steps">Summary and next steps</a></li>
+</ol>
 </div>
 </div>
 </div>
@@ -7845,7 +7846,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="setup"></a></p>
+<p><a id="Set-up-the-environment"></a></p>
 <h2 id="Set-up-the-environment">Set up the environment<a class="anchor-link" href="#Set-up-the-environment">¶</a></h2><p>Before you use the sample code in this notebook, you must perform the following setup tasks:</p>
 <ul>
 <li>Create a <a href="https://cloud.ibm.com/catalog/services/watsonxai-runtime" rel="noopener no referrer" target="_blank">watsonx.ai Runtime Service</a> instance (a free plan is offered and information about how to create the instance can be found <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/wml-plans.html?context=wx&amp;audience=wdp" rel="noopener no referrer" target="_blank">here</a>).</li>
@@ -8033,6 +8034,18 @@ Successfully installed grpcio-1.76.0 langchain-milvus-0.1.10 protobuf-6.33.4 pym
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span> <span class="o">=</span> <span class="n">APIClient</span><span class="p">(</span><span class="n">credentials</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><a id="Test-data-preparation"></a></p>
+<h2 id="Test-data-preparation">Test data preparation<a class="anchor-link" href="#Test-data-preparation">¶</a></h2>
 </div>
 </div>
 </div>
@@ -8328,7 +8341,7 @@ Successfully installed pyarrow-22.0.0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="elastic_conn"></a></p>
+<p><a id="Set-up-connectivity-information-to-Milvus"></a></p>
 <h2 id="Set-up-connectivity-information-to-Milvus">Set up connectivity information to Milvus<a class="anchor-link" href="#Set-up-connectivity-information-to-Milvus">¶</a></h2><p><strong>This notebook focuses on self-managed Milvus cluster using <a href="https://cloud.ibm.com/docs/watsonxdata?topic=watsonxdata-adding-milvus-service" rel="noopener no referrer" target="_blank">IBM watsonx.data.</a></strong></p>
 <p>The following cell retrieves the Milvus username, password, host and port from the environment if available and prompts you otherwise.</p>
 <p>You can provide a connection asset ID to read all required connection data from it. Before doing so, make sure that connection asset was created in your project.</p>
@@ -8412,7 +8425,7 @@ Successfully installed pyarrow-22.0.0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="vectorstore"></a></p>
+<p><a id="Set-up-VectorStore-with-Milvus-credentials"></a></p>
 <h2 id="Set-up-VectorStore-with-Milvus-credentials">Set up VectorStore with Milvus credentials<a class="anchor-link" href="#Set-up-VectorStore-with-Milvus-credentials">¶</a></h2><p>Create a VectorStore class that automatically detects the database type (in our case it will be Milvus) and allows us to add, search and delete documents.</p>
 <p>It works as a wrapper for LangChain VectorStore classes. You can customize the settings as long as it is supported. Consult the LangChain documentation for more information about <a href="https://api.python.langchain.com/en/latest/vectorstores/langchain_community.vectorstores.milvus.Milvus.html" rel="noopener no referrer" target="_blank">Milvus</a> connector.</p>
 </div>
@@ -8503,7 +8516,6 @@ Successfully installed pyarrow-22.0.0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="milvus_index"></a></p>
 <h3 id="Embed-and-index-documents-with-Milvus">Embed and index documents with Milvus<a class="anchor-link" href="#Embed-and-index-documents-with-Milvus">¶</a></h3><p><strong>Note: Could take several minutes if you don't have pre-built indices</strong></p>
 </div>
 </div>
@@ -8695,7 +8707,7 @@ Successfully installed pyarrow-22.0.0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="deploy"></a></p>
+<p><a id="Create-and-deploy-RAG-solution"></a></p>
 <h2 id="Create-and-deploy-RAG-solution">Create and deploy RAG solution<a class="anchor-link" href="#Create-and-deploy-RAG-solution">¶</a></h2>
 </div>
 </div>
@@ -9623,7 +9635,7 @@ Successfully finished deployment creation, deployment_id='8a53b3e6-282b-4788-b8e
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="evaluate"></a></p>
+<p><a id="Calculate-rougeL-metric"></a></p>
 <h2 id="Calculate-rougeL-metric">Calculate rougeL metric<a class="anchor-link" href="#Calculate-rougeL-metric">¶</a></h2><p>Calculate rougeL recall score to verify expected answer presence in generated response.</p>
 </div>
 </div>
@@ -9684,7 +9696,7 @@ Successfully finished deployment creation, deployment_id='8a53b3e6-282b-4788-b8e
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="summary"></a></p>
+<p><a id="Summary-and-next-steps"></a></p>
 <h2 id="Summary-and-next-steps">Summary and next steps<a class="anchor-link" href="#Summary-and-next-steps">¶</a></h2><p>You successfully completed this notebook!</p>
 <p>Check out our <em><a href="https://ibm.github.io/watsonx-ai-python-sdk/samples.html" rel="noopener no referrer" target="_blank">Online Documentation</a></em> for more samples, tutorials, documentation, how-tos, and blog posts.</p>
 </div>

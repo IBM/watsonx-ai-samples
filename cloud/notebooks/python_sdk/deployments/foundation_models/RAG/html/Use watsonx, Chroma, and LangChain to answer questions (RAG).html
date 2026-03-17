@@ -7827,14 +7827,14 @@ a.anchor-link {
 <li>Generate a response by feeding retrieved passage into a large language model (for every user query)</li>
 </ul>
 <h2 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h2><p>This notebook contains the following parts:</p>
-<ul>
-<li><a href="#setup">Setup</a></li>
-<li><a href="#data">Document data loading</a></li>
-<li><a href="#build_base">Build up knowledge base</a></li>
-<li><a href="#models">Foundation Models on watsonx</a></li>
-<li><a href="#predict">Generate a retrieval-augmented response to a question</a></li>
-<li><a href="#summary">Summary and next steps</a></li>
-</ul>
+<ol>
+<li><a href="#Set-up-the-environment">Set up the environment</a></li>
+<li><a href="#Document-data-loading">Document data loading</a></li>
+<li><a href="#Build-up-knowledge-base">Build up knowledge base</a></li>
+<li><a href="#Foundation-Models-on-IBM-watsonx.ai">Foundation Models on IBM watsonx.ai</a></li>
+<li><a href="#Generate-a-retrieval-augmented-response-to-a-question">Generate a retrieval-augmented response to a question</a></li>
+<li><a href="#Summary-and-next-steps">Summary and next steps</a></li>
+</ol>
 </div>
 </div>
 </div>
@@ -7845,7 +7845,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="setup"></a></p>
+<p><a id="Set-up-the-environment"></a></p>
 <h2 id="Set-up-the-environment">Set up the environment<a class="anchor-link" href="#Set-up-the-environment">¶</a></h2><p>Before you use the sample code in this notebook, you must perform the following setup tasks:</p>
 <ul>
 <li>Create a <a href="https://cloud.ibm.com/catalog/services/watsonxai-runtime" rel="noopener no referrer" target="_blank">watsonx.ai Runtime Service</a> instance (a free plan is offered and information about how to create the instance can be found <a href="https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/wml-plans.html?context=wx&amp;audience=wdp" rel="noopener no referrer" target="_blank">here</a>).</li>
@@ -8003,7 +8003,7 @@ Model inferencing.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="data"></a></p>
+<p><a id="Document-data-loading"></a></p>
 <h2 id="Document-data-loading">Document data loading<a class="anchor-link" href="#Document-data-loading">¶</a></h2><p>Download the file with State of the Union.</p>
 </div>
 </div>
@@ -8035,7 +8035,7 @@ Model inferencing.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="build_base"></a></p>
+<p><a id="Build-up-knowledge-base"></a></p>
 <h2 id="Build-up-knowledge-base">Build up knowledge base<a class="anchor-link" href="#Build-up-knowledge-base">¶</a></h2><p>The most common approach in RAG is to create dense vector representations of the knowledge base in order to calculate the semantic similarity to a given user query.</p>
 <p>In this basic example, we take the State of the Union speech content (filename), split it into chunks, embed it using an open-source embedding model, load it into <a href="https://www.trychroma.com/" rel="noopener no referrer" target="_blank">Chroma</a>, and then query it.</p>
 </div>
@@ -8165,8 +8165,8 @@ Model inferencing.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="models"></a></p>
-<h2 id="Foundation-Models-on-watsonx.ai">Foundation Models on <code>watsonx.ai</code><a class="anchor-link" href="#Foundation-Models-on-watsonx.ai">¶</a></h2>
+<p><a id="Foundation-Models-on-IBM-watsonx.ai"></a></p>
+<h2 id="Foundation-Models-on-IBM-watsonx.ai">Foundation Models on IBM watsonx.ai<a class="anchor-link" href="#Foundation-Models-on-IBM-watsonx.ai">¶</a></h2>
 </div>
 </div>
 </div>
@@ -8279,7 +8279,7 @@ Model inferencing.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="predict"></a></p>
+<p><a id="Generate-a-retrieval-augmented-response-to-a-question"></a></p>
 <h2 id="Generate-a-retrieval-augmented-response-to-a-question">Generate a retrieval-augmented response to a question<a class="anchor-link" href="#Generate-a-retrieval-augmented-response-to-a-question">¶</a></h2>
 </div>
 </div>
@@ -8370,7 +8370,7 @@ Model inferencing.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="summary"></a></p>
+<p><a id="Summary-and-next-steps"></a></p>
 <h2 id="Summary-and-next-steps">Summary and next steps<a class="anchor-link" href="#Summary-and-next-steps">¶</a></h2><p>You successfully completed this notebook!</p>
 <p>You learned how to answer question using RAG using watsonx and LangChain.</p>
 <p>Check out our <em><a href="https://ibm.github.io/watsonx-ai-python-sdk/samples.html" rel="noopener no referrer" target="_blank">Online Documentation</a></em> for more samples, tutorials, documentation, how-tos, and blog posts.</p>
