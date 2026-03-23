@@ -7826,14 +7826,14 @@ a.anchor-link {
 </ul>
 <h2 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h2><p>This notebook contains the following parts:</p>
 <ol>
-<li><a href="#setup">Setup</a></li>
-<li><a href="#state">Deployments state check</a></li>
-<li><a href="#identify">Identification of model requiring retraining</a></li>
-<li><a href="#run">Experiment re-run</a></li>
-<li><a href="#persistence">Persist trained AutoAI model</a></li>
-<li><a href="#redeploy">Redeploy and score new version of the model</a></li>
-<li><a href="#cleanup">Clean up</a></li>
-<li><a href="#summary">Summary and next steps</a></li>
+<li><a href="#1.-Set-up-the-environment">Set up the environment</a></li>
+<li><a href="#2.-Deployments-state-check">Deployments state check</a></li>
+<li><a href="#3.-Identification-of-model-requiring-retraining">Identification of model requiring retraining</a></li>
+<li><a href="#4.-Experiment-re-run">Experiment re-run</a></li>
+<li><a href="#5.-Store-the-model-in-repository">Store the model in repository</a></li>
+<li><a href="#6.-Redeploy-and-score-new-version-of-the-model">Redeploy and score new version of the model</a></li>
+<li><a href="#7.-Cleanup">Cleanup</a></li>
+<li><a href="#8.-Summary-and-next-steps">Summary and next steps</a></li>
 </ol>
 </div>
 </div>
@@ -7845,7 +7845,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="setup"></a></p>
+<p><a id="1.-Set-up-the-environment"></a></p>
 <h2 id="1.-Set-up-the-environment">1. Set up the environment<a class="anchor-link" href="#1.-Set-up-the-environment">¶</a></h2><p>Before you use the sample code in this notebook, contact with your IBM Cloud Pak® for Data administrator and ask for your account credentials.</p>
 </div>
 </div>
@@ -8113,7 +8113,7 @@ Successfully installed anyio-4.12.1 cachetools-7.0.0 certifi-2026.1.4 charset_no
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="state"></a></p>
+<p><a id="2.-Deployments-state-check"></a></p>
 <h2 id="2.-Deployments-state-check">2. Deployments state check<a class="anchor-link" href="#2.-Deployments-state-check">¶</a></h2><p>Iterate over spaces and search for <code>deprecated</code> and <code>unsupported</code> deployments. Next, identify models requiring re-training.</p>
 </div>
 </div>
@@ -8297,7 +8297,7 @@ Successfully installed anyio-4.12.1 cachetools-7.0.0 certifi-2026.1.4 charset_no
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="identify"></a></p>
+<p><a id="3.-Identification-of-model-requiring-retraining"></a></p>
 <h2 id="3.-Identification-of-model-requiring-retraining">3. Identification of model requiring retraining<a class="anchor-link" href="#3.-Identification-of-model-requiring-retraining">¶</a></h2><p>Pick up deployment of the AutoAI model you wish to retrain.</p>
 <p><strong>Hint</strong>: You can also do that programatically in the loop sequence over spaces check (<code>Check the state of your deployments</code> cell).
 <strong>Hint</strong>: You can also use software_specification information (model details) to identify models and deployments that are not yet deprecated but can be retrained (updated software specification is available).</p>
@@ -8502,7 +8502,7 @@ Optimization parameters: {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="run"></a></p>
+<p><a id="4.-Experiment-re-run"></a></p>
 <h2 id="4.-Experiment-re-run">4. Experiment re-run<a class="anchor-link" href="#4.-Experiment-re-run">¶</a></h2><p>Set the training <code>project_id</code> (where data asset resides) to retrain AutoAI models.</p>
 </div>
 </div>
@@ -9642,7 +9642,7 @@ Successfully installed pyarrow-23.0.0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="persistence"></a></p>
+<p><a id="5.-Store-the-model-in-repository"></a></p>
 <h2 id="5.-Store-the-model-in-repository">5. Store the model in repository<a class="anchor-link" href="#5.-Store-the-model-in-repository">¶</a></h2><p>Provide <code>pipeline_name</code> and <code>training_id</code>.</p>
 </div>
 </div>
@@ -9820,7 +9820,7 @@ Successfully installed pyarrow-23.0.0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="redeploy"></a></p>
+<p><a id="6.-Redeploy-and-score-new-version-of-the-model"></a></p>
 <h2 id="6.-Redeploy-and-score-new-version-of-the-model">6. Redeploy and score new version of the model<a class="anchor-link" href="#6.-Redeploy-and-score-new-version-of-the-model">¶</a></h2><p>In this section, you'll learn how to redeploy new version of the model by using the watsonx.ai Client.</p>
 <p><strong>Hint:</strong> As a best practice please consider using the test space before moving to production.</p>
 <pre><code>promote(asset_id: str, source_project_id: str, target_space_id: str, rev_id: str = None)
@@ -10135,8 +10135,8 @@ Deployment update finished with status:  ready
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="cleanup"></a></p>
-<h2 id="7.-Clean-up">7. Clean up<a class="anchor-link" href="#7.-Clean-up">¶</a></h2>
+<p><a id="7.-Cleanup"></a></p>
+<h2 id="7.-Cleanup">7. Cleanup<a class="anchor-link" href="#7.-Cleanup">¶</a></h2>
 </div>
 </div>
 </div>
@@ -10166,7 +10166,7 @@ Deployment update finished with status:  ready
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="summary"></a></p>
+<p><a id="8.-Summary-and-next-steps"></a></p>
 <h2 id="8.-Summary-and-next-steps">8. Summary and next steps<a class="anchor-link" href="#8.-Summary-and-next-steps">¶</a></h2>
 </div>
 </div>
