@@ -7818,7 +7818,7 @@ a.anchor-link {
 <li>Use only Projects and Spaces that are available in watsonx context.</li>
 </ul>
 <h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook contains the steps and code demonstrating how to run a Text Extraction job using Python SDK and then retrieve the results in the form of JSON, Markdown, HTML and image files.</p>
-<p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
+<p>Some familiarity with Python is helpful. This notebook uses Python 3.12.</p>
 <h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The purpose of this notebook is to demonstrate the usage a Text Extraction V2 service and <code>ibm-watsonx-ai</code> Python SDK to retrieve a text from file that is located at IBM Cloud Object Storage.</p>
 <h2 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h2><p>This notebook contains the following parts:</p>
 <ol>
@@ -7881,7 +7881,7 @@ a.anchor-link {
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Successfully installed wget-3.2
-Successfully installed anyio-4.9.0 cachetools-6.1.0 certifi-2025.7.14 charset_normalizer-3.4.2 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.2 ibm-cos-sdk-core-2.14.2 ibm-cos-sdk-s3transfer-2.14.2 ibm-watsonx-ai-1.3.30 idna-3.10 jmespath-1.0.1 lomond-0.3.3 numpy-2.3.1 pandas-2.2.3 pytz-2025.2 requests-2.32.4 sniffio-1.3.1 tabulate-0.9.0 tzdata-2025.2 urllib3-2.5.0
+Successfully installed anyio-4.13.0 cachetools-7.0.5 certifi-2026.2.25 charset_normalizer-3.4.6 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 idna-3.11 jmespath-1.0.1 lomond-0.3.3 numpy-2.4.4 pandas-2.3.3 pytz-2026.1.post1 requests-2.33.1 tabulate-0.10.0 typing_extensions-4.15.0 tzdata-2025.3 urllib3-2.6.3
 </pre>
 </div>
 </div>
@@ -8104,18 +8104,10 @@ To achieve that, creating a connection asset to COS in your project is required.
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Creating connections...
-SUCCESS
-</pre>
-</div>
-</div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'e837391f-71b6-4914-bb48-bd24a66ed956'</pre>
+<pre>'33dd86a4-1a0e-4bc2-b4f3-5e44b1c777d4'</pre>
 </div>
 </div>
 </div>
@@ -8191,7 +8183,7 @@ SUCCESS
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8202,6 +8194,23 @@ SUCCESS
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">document_reference</span><span class="o">.</span><span class="n">set_client</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
 <span class="n">document_reference</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">source_filename</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Collecting pyarrow&gt;=3.0.0
+  Using cached pyarrow-23.0.1-cp312-cp312-macosx_12_0_arm64.whl.metadata (3.1 kB)
+Using cached pyarrow-23.0.1-cp312-cp312-macosx_12_0_arm64.whl (34.2 MB)
+Installing collected packages: pyarrow
+Successfully installed pyarrow-23.0.1
+</pre>
 </div>
 </div>
 </div>
@@ -8288,7 +8297,7 @@ AUTO_ROTATION_CORRECTION  bool  N
 CREATE_EMBEDDED_IMAGES    str   N
 OUTPUT_DPI                int   N
 KVP_MODE                  str   N
-OUTPUT_TOKENS_AND_BBOX    bool  N
+OUTPUT_TOKENS             bool  N
 SEMANTIC_CONFIG           dict  N
 ------------------------  ----  --------
 </pre>
@@ -8324,15 +8333,12 @@ SEMANTIC_CONFIG           dict  N
     <span class="n">TextExtractionsV2ParametersMetaNames</span><span class="o">.</span><span class="n">OUTPUT_DPI</span><span class="p">:</span> <span class="mi">72</span><span class="p">,</span>
     <span class="n">TextExtractionsV2ParametersMetaNames</span><span class="o">.</span><span class="n">KVP_MODE</span><span class="p">:</span> <span class="s2">"generic_with_semantic"</span><span class="p">,</span>
     <span class="n">TextExtractionsV2ParametersMetaNames</span><span class="o">.</span><span class="n">SEMANTIC_CONFIG</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">"target_image_width"</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
         <span class="s2">"enable_text_hints"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
         <span class="s2">"enable_generic_kvp"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
         <span class="s2">"schemas"</span><span class="p">:</span> <span class="p">[</span>
             <span class="p">{</span>
                 <span class="s2">"document_type"</span><span class="p">:</span> <span class="s2">"Scientific paper"</span><span class="p">,</span>
                 <span class="s2">"document_description"</span><span class="p">:</span> <span class="s2">"Article published on arXiv regarding large language models for code generation"</span><span class="p">,</span>
-                <span class="s2">"target_image_width"</span><span class="p">:</span> <span class="mi">800</span><span class="p">,</span>
-                <span class="s2">"enable_text_hints"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
                 <span class="s2">"fields"</span><span class="p">:</span> <span class="p">{</span>
                     <span class="s2">"title"</span><span class="p">:</span> <span class="p">{</span>
                         <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"The title of the paper or work."</span><span class="p">,</span>
@@ -8477,8 +8483,8 @@ SEMANTIC_CONFIG           dict  N
 <tbody>
 <tr>
 <th>0</th>
-<td>6b412b0d-341d-46de-ab73-6f001139d337</td>
-<td>2025-09-15T09:17:35.581Z</td>
+<td>957049f7-1dfe-42e9-802f-1f541e8d1de1</td>
+<td>2026-04-01T06:46:18.276Z</td>
 <td>running</td>
 </tr>
 </tbody>
@@ -8562,7 +8568,7 @@ SEMANTIC_CONFIG           dict  N
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>.................................................................................................................................
+<pre>....................
 completed
 </pre>
 </div>
@@ -8799,15 +8805,15 @@ Large Language Models (LLMs) trained on code are revolutionizing the software de
 <tbody>
 <tr>
 <th>0</th>
-<td>092a0de5-b9cf-4dd4-a90e-07b146eef430</td>
-<td>2025-09-15T09:32:08.222Z</td>
-<td>running</td>
+<td>957049f7-1dfe-42e9-802f-1f541e8d1de1</td>
+<td>2026-04-01T06:46:18.276Z</td>
+<td>completed</td>
 </tr>
 <tr>
 <th>1</th>
-<td>6b412b0d-341d-46de-ab73-6f001139d337</td>
-<td>2025-09-15T09:17:35.581Z</td>
-<td>completed</td>
+<td>b2ebe394-acb3-4989-a3e1-26e81e588a1a</td>
+<td>2026-04-01T06:49:51.367Z</td>
+<td>downloading</td>
 </tr>
 </tbody>
 </table>
@@ -8873,7 +8879,7 @@ Large Language Models (LLMs) trained on code are revolutionizing the software de
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>.................................................................................................................................
+<pre>........................
 completed
 </pre>
 </div>
@@ -9004,8 +9010,8 @@ completed
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-OutputArea-output" data-mime-type="text/markdown" tabindex="0">
 <h3 id="Title">Title<a class="anchor-link" href="#Title">¶</a></h3><p>Granite Code Models: A Family of Open Foundation Models for Code Intelligence</p>
-<h3 id="Authors">Authors<a class="anchor-link" href="#Authors">¶</a></h3><p>Mayank Mishra⋆ Matt Stallone⋆ Gaoyuan Zhang⋆ Yikang Shen Aditya Prasad Adriana Meza Soria Michele Merler Parameswaran Selvam Saptha Surendran Shivdeep Singh Manish Sethi Xuan-Hong Dang Pengyuan Li Kun-Lung Wu Syed Zawad Andrew Coleman Matthew White Mark Lewis Raju Pavuluri Yan Koyfman Boris Lublinsky Maximilien de Bayser Ibrahim Abdelaziz Kinjal Basu Mayank Agarwal Yi Zhou Chris Johnson Aanchal Goyal Hima Patel Yousaf Shah Petros Zerfos Heiko Ludwig Asim Munawar Maxwell Crouse Pavan Kapanipathi Shweta Salaria Bob Calio Sophia Wen Seetharami Seelam Brian Belgodere Carlos Fonseca Amith Singhee Nirmit Desai David D. Cox Ruchir Puri† Rameswar Panda†</p>
-<h3 id="Abstract">Abstract<a class="anchor-link" href="#Abstract">¶</a></h3><p>Large Language Models (LLMs) trained on code are revolutionizing the software development process. Increasingly, code LLMs are being into software development environments to improve the productivity of human programmers, and LLM-based agents are beginning to show promise for handling complex tasks autonomously. Realizing the full potential of code LLMs requires a wide range of capabilities, including code generation, fixing bugs, explaining and documenting code, maintaining repositories, and more. In this work, we introduce the Granite series of decoder-only code models for code generative tasks, trained with code written in 116 programming languages. The Granite Code models family can be used in a wide range of applications, from complex application modernization tasks to on-device memory-constrained use cases. Evaluation on a comprehensive set of tasks demonstrates that Granite Code models consistently reaches state-of-the-art performance among available open-source code LLMs. The Granite Code model family was optimized for enterprise software development workflows and performs well across a range of coding tasks (e.g., code generation, and explanation), making it a versatile “all around” code model. We release all our Granite Code models under an Apache 2.0 license for both research and commercial use.</p>
+<h3 id="Authors">Authors<a class="anchor-link" href="#Authors">¶</a></h3><p>Mayank Mishra, Matt Stallone, Gaoyuan Zhang, Yikang Shen, Aditya Prasad, Adriana Meza Soria, Michele Merler, Parameswaran Selvam, Saptha Surendran, Shivdeep Singh, Manish Sethi, Xuan-Hong Dang, Pengyuan Li, Kun-Lung Wu, Syed Zawad, Andrew Coleman, Matthew White, Mark Lewis, Raju Pavuluri, Yan Koyfman, Boris Lublinsky, Maximilien de Bayser, Ibrahim Abdelaziz, Kinjal Basu, Mayank Agarwal, Yi Zhou, Chris Johnson, Aanchal Goyal, Hima Patel, Yousaf Shah, Petros Zerfos, Heiko Ludwig, Asim Munawar, Maxwell Crouse, Pavan Kapanipathi, Shweta Salaria, Bob Calio, Sophia Wen, Seetharami Seelam, Brian Belgodere, Carlos Fonseca, Amith Singhee, Nirmit Desai, David D. Cox, Ruchir Puri, Rameswar Panda</p>
+<h3 id="Abstract">Abstract<a class="anchor-link" href="#Abstract">¶</a></h3><p>Large Language Models (LLMs) trained on code are revolutionizing the software development process. Increasingly, code LLMs are being integrated into software development environments to improve the productivity of human programmers, and LLM-based agents are beginning to show promise for handling complex tasks autonomously. Realizing the full potential of code LLMs requires a wide range of capabilities, including code generation, fixing bugs, explaining and documenting code, maintaining repositories, and more. In this work, we introduce the Granite series of decoder-only code models for code generative tasks, trained with code written in 116 programming languages. The Granite Code models family consists of models ranging in size from 3 to 34 billion parameters, suitable for applications ranging from complex application modernization tasks to on-device memory-constrained use cases. Evaluation on a comprehensive set of tasks demonstrates that Granite Code models consistently reaches state-of-the-art performance among available open-source code LLMs. The Granite Code model family was optimized for enterprise software development workflows and performs well across a range of coding tasks (e.g., code generation, fixing and explanation), making it a versatile “all around” code model. We release all our Granite Code models under an Apache 2.0 license for both research and commercial use.</p>
 <h3 id="Complete-text-(first-1000-characters)">Complete text (first 1000 characters)<a class="anchor-link" href="#Complete-text-(first-1000-characters)">¶</a></h3><p>Granite Code Models: A Family of Open Foundation Models for Code Intelligence Mayank Mishra⋆ Matt Stallone⋆ Gaoyuan Zhang⋆ Yikang Shen Aditya Prasad Adriana Meza Soria Michele Merler Parameswaran Selvam Saptha Surendran Shivdeep Singh Manish Sethi Xuan-Hong Dang Pengyuan Li Kun-Lung Wu Syed Zawad Andrew Coleman Matthew White Mark Lewis Raju Pavuluri Yan Koyfman Boris Lublinsky Maximilien de Bayser Ibrahim Abdelaziz Kinjal Basu Mayank Agarwal Yi Zhou Chris Johnson Aanchal Goyal Hima Patel Yousaf Shah Petros Zerfos Heiko Ludwig Asim Munawar Maxwell Crouse Pavan Kapanipathi Shweta Salaria Bob Calio Sophia Wen Seetharami Seelam Brian Belgodere Carlos Fonseca Amith Singhee Nirmit Desai David D. Cox Ruchir Puri† Rameswar Panda† IBM Research ⋆Equal Contribution †Corresponding Authors ruchir@us.ibm.com, rpanda@ibm.com Abstract Large Language Models (LLMs) trained on code are revolutionizing the software development process. Increasingly, code LLMs are being inte grated into software developmen</p>
 </div>
 </div>
