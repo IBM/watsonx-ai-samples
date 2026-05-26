@@ -7818,7 +7818,7 @@ a.anchor-link {
 <li>Use only Projects and Spaces that are available in watsonx context.</li>
 </ul>
 <h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook contains the steps and code to demonstrate the usage of IBM AutoAI RAG. The AutoAI RAG experiment conducted in this notebook uses data scraped from the <code>ibm-watsonx-ai</code> SDK documentation.</p>
-<p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
+<p>Some familiarity with Python is helpful. This notebook uses Python 3.12.</p>
 <h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The learning goals of this notebook are:</p>
 <ul>
 <li>Create an AutoAI RAG job that will find the best RAG pattern based on provided data</li>
@@ -7862,16 +7862,29 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s1">'ibm-watsonx-ai[rag]&gt;=1.3.26'</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"ibm-watsonx-ai[rag]&gt;=1.3.26"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Successfully installed Pillow-12.2.0 SQLAlchemy-2.0.49 XlsxWriter-3.2.9 aiohappyeyeballs-2.6.1 aiohttp-3.13.5 aiosignal-1.4.0 annotated-doc-0.0.4 annotated-types-0.7.0 anyio-4.13.0 attrs-26.1.0 bcrypt-5.0.0 beautifulsoup4-4.13.5 build-1.5.0 cachetools-7.1.1 certifi-2026.4.22 charset_normalizer-3.4.7 chromadb-1.5.9 click-8.3.3 dataclasses-json-0.6.7 durationpy-0.10 elastic-transport-8.17.1 elasticsearch-8.19.3 et-xmlfile-2.0.0 filelock-3.29.0 flatbuffers-25.12.19 frozenlist-1.8.0 fsspec-2026.4.0 googleapis-common-protos-1.74.0 grpcio-1.80.0 h11-0.16.0 hf-xet-1.4.3 httpcore-1.0.9 httptools-0.7.1 httpx-0.28.1 httpx-sse-0.4.3 huggingface-hub-1.13.0 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-db-3.2.9 ibm-watsonx-ai-1.5.10 idna-3.13 importlib-metadata-8.7.1 importlib-resources-7.1.0 jmespath-1.0.1 joblib-1.5.3 jsonpatch-1.33 jsonpointer-3.1.1 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 kubernetes-35.0.0 langchain-0.3.28 langchain-chroma-0.2.5 langchain-community-0.3.31 langchain-core-0.3.84 langchain-db2-0.1.7 langchain-elasticsearch-0.3.2 langchain-ibm-0.3.21 langchain-milvus-0.2.1 langchain-text-splitters-0.3.11 langgraph-0.6.11 langgraph-checkpoint-3.0.1 langgraph-prebuilt-0.6.5 langgraph-sdk-0.2.15 langsmith-0.8.0 lomond-0.3.3 lxml-6.1.0 markdown-3.8.2 markdown-it-py-4.0.0 marshmallow-3.26.2 mdurl-0.1.2 mmh3-5.2.1 multidict-6.7.1 mypy-extensions-1.1.0 numpy-2.4.4 oauthlib-3.3.1 onnxruntime-1.25.1 openpyxl-3.1.5 opentelemetry-api-1.41.1 opentelemetry-exporter-otlp-proto-common-1.41.1 opentelemetry-exporter-otlp-proto-grpc-1.41.1 opentelemetry-proto-1.41.1 opentelemetry-sdk-1.41.1 opentelemetry-semantic-conventions-0.62b1 orjson-3.11.8 ormsgpack-1.12.2 overrides-7.7.0 packaging-25.0 pandas-2.3.3 propcache-0.4.1 protobuf-6.33.6 pyYAML-6.0.3 pybase64-1.4.3 pydantic-2.13.3 pydantic-core-2.46.3 pydantic-settings-2.14.0 pymilvus-2.6.6 pypdf-6.10.2 pypika-0.51.1 pyproject_hooks-1.2.0 python-docx-1.2.0 python-dotenv-1.2.2 python-pptx-1.0.2 pytz-2026.2 referencing-0.37.0 requests-2.33.1 requests-oauthlib-2.0.0 requests-toolbelt-1.0.0 rich-15.0.0 rpds-py-0.30.0 scikit-learn-1.8.0 scipy-1.17.1 shellingham-1.5.4 simsimd-6.5.16 soupsieve-2.8.3 tabulate-0.10.0 tenacity-9.1.4 threadpoolctl-3.6.0 tokenizers-0.23.1 tqdm-4.67.3 typer-0.25.1 typing-extensions-4.15.0 typing-inspect-0.9.0 typing-inspection-0.4.2 tzdata-2026.2 urllib3-2.6.3 uuid-utils-0.14.1 uvicorn-0.46.0 uvloop-0.22.1 watchfiles-1.1.1 websocket-client-1.9.0 websockets-16.0 xxhash-3.7.0 yarl-1.23.0 zipp-3.23.1 zstandard-0.25.0
+</pre>
 </div>
 </div>
 </div>
@@ -7893,7 +7906,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
@@ -7935,7 +7948,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
@@ -7994,19 +8007,16 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 
 <span class="n">url</span> <span class="o">=</span> <span class="s2">"https://ibm.github.io/watsonx-ai-python-sdk/v1.3.42/base.html"</span>
 
 <span class="n">document_filename</span> <span class="o">=</span> <span class="s2">"base.html"</span>
 
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">httpx_client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
 <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
 
 <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">document_filename</span><span class="p">):</span>
@@ -8037,9 +8047,9 @@ SUCCESS
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[ ]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'68b540c6-1169-45a8-aac7-d3d1ebfe8e5f'</pre>
+<pre>'019df725-050f-7164-8d88-845ad4ac2a6e'</pre>
 </div>
 </div>
 </div>
@@ -8087,7 +8097,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">benchmarking_data_IBM_page_content</span> <span class="o">=</span> <span class="p">[</span>
@@ -8123,7 +8133,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
@@ -8158,9 +8168,9 @@ SUCCESS
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[ ]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'56411113-3ce3-44b8-b8ab-2d949c069496'</pre>
+<pre>'019df725-306e-7307-835c-99d4e21458f9'</pre>
 </div>
 </div>
 </div>
@@ -8212,7 +8222,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.experiment</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoAI</span>
@@ -8229,7 +8239,7 @@ SUCCESS
 <span class="p">)</span>
 
 <span class="n">foundation_model</span> <span class="o">=</span> <span class="n">AutoAIRAGModelConfig</span><span class="p">(</span>
-    <span class="n">model_id</span><span class="o">=</span><span class="s2">"ibm/granite-3-3-8b-instruct"</span><span class="p">,</span>
+    <span class="n">model_id</span><span class="o">=</span><span class="s2">"ibm/granite-4-h-small"</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">language_config</span> <span class="o">=</span> <span class="n">AutoAIRAGLanguageConfig</span><span class="p">(</span>
@@ -8306,7 +8316,7 @@ SUCCESS
  'max_number_of_rag_patterns': 3,
  'optimization_metrics': ['answer_correctness'],
  'generation': {'language': {'auto_detect': False},
-  'foundation_models': [{'model_id': 'ibm/granite-3-3-8b-instruct'}]},
+  'foundation_models': [{'model_id': 'ibm/granite-4-h-small'}]},
  'retrieval': [{'method': 'window', 'number_of_chunks': 5, 'window_size': 2}]}</pre>
 </div>
 </div>
@@ -8329,7 +8339,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">run_details</span> <span class="o">=</span> <span class="n">rag_optimizer</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
@@ -8353,15 +8363,15 @@ SUCCESS
 
 ##############################################
 
-Running '85cecb9b-1c21-4503-91a4-fc14d43ff8fa'
+Running 'b0748cd0-0da5-4a38-a279-e9e8fe6f488d'
 
 ##############################################
 
 
 pending.........
-running.........
+running....
 completed
-Training of '85cecb9b-1c21-4503-91a4-fc14d43ff8fa' finished successfully.
+Training of 'b0748cd0-0da5-4a38-a279-e9e8fe6f488d' finished successfully.
 </pre>
 </div>
 </div>
@@ -8440,25 +8450,23 @@ Training of '85cecb9b-1c21-4503-91a4-fc14d43ff8fa' finished successfully.
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
-   .dataframe tbody tr th:only-of-type {
-      vertical-align: middle;
-   }
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-   .dataframe tbody tr th {
-      vertical-align: top;
-   }
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
-   .dataframe thead th {
-      text-align: right;
-   }
+    .dataframe thead th {
+        text-align: right;
+    }
 </style>
 <table border="1" class="dataframe">
 <thead>
 <tr style="text-align: right;">
 <th></th>
 <th>mean_answer_correctness</th>
-<th>mean_faithfulness</th>
-<th>mean_context_correctness</th>
 <th>chunking.method</th>
 <th>chunking.chunk_size</th>
 <th>chunking.chunk_overlap</th>
@@ -8466,13 +8474,11 @@ Training of '85cecb9b-1c21-4503-91a4-fc14d43ff8fa' finished successfully.
 <th>vector_store.distance_metric</th>
 <th>retrieval.method</th>
 <th>retrieval.number_of_chunks</th>
-<th>retrieval.hybrid_ranker</th>
 <th>generation.model_id</th>
+<th>agent.type</th>
 </tr>
 <tr>
 <th>Pattern_Name</th>
-<th></th>
-<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -8487,10 +8493,8 @@ Training of '85cecb9b-1c21-4503-91a4-fc14d43ff8fa' finished successfully.
 </thead>
 <tbody>
 <tr>
-<th>Pattern2</th>
+<th>Pattern1</th>
 <td>0.7083</td>
-<td>0.2422</td>
-<td>1.0</td>
 <td>recursive</td>
 <td>256</td>
 <td>128</td>
@@ -8498,23 +8502,8 @@ Training of '85cecb9b-1c21-4503-91a4-fc14d43ff8fa' finished successfully.
 <td>cosine</td>
 <td>window</td>
 <td>5</td>
-<td></td>
-<td>ibm/granite-3-3-8b-instruct</td>
-</tr>
-<tr>
-<th>Pattern1</th>
-<td>0.5833</td>
-<td>0.3195</td>
-<td>1.0</td>
-<td>recursive</td>
-<td>256</td>
-<td>128</td>
-<td>ibm/slate-125m-english-rtrvr</td>
-<td>cosine</td>
-<td>window</td>
-<td>5</td>
-<td></td>
-<td>ibm/granite-3-3-8b-instruct</td>
+<td>ibm/granite-4-h-small</td>
+<td>sequential</td>
 </tr>
 </tbody>
 </table>
@@ -8559,194 +8548,125 @@ Training of '85cecb9b-1c21-4503-91a4-fc14d43ff8fa' finished successfully.
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>{'entity': {'hardware_spec': {'id': 'a6c4923b-b8e4-444c-9f43-8a7ec3020110',
    'name': 'L'},
-  'input_data_references': [{'location': {'href': '/v2/assets/68b540c6-1169-45a8-aac7-d3d1ebfe8e5f?space_id=6f7e632c-8af4-4626-9fe2-c7128b43d32e',
-    'id': '68b540c6-1169-45a8-aac7-d3d1ebfe8e5f'},
-   'type': 'data_asset'}],
+  'input_data_references': [{'location': {'href': '/v2/assets/019df725-050f-7164-8d88-845ad4ac2a6e?space_id=fb3d528a-bf16-460e-bcf6-06f05d8ba57c',
+     'id': '019df725-050f-7164-8d88-845ad4ac2a6e'},
+    'type': 'data_asset'}],
   'parameters': {'constraints': {'chunking': [{'chunk_overlap': 128,
-     'chunk_size': 256,
-     'method': 'recursive'}],
-   'embedding_models': ['ibm/slate-125m-english-rtrvr',
-    'intfloat/multilingual-e5-large'],
-   'generation': {'foundation_models': [{'model_id': 'ibm/granite-3-3-8b-instruct'}],
-    'language': {'auto_detect': False}},
-   'max_number_of_rag_patterns': 3,
-   'retrieval': [{'method': 'window',
-     'number_of_chunks': 5,
-     'window_size': 2}]},
+      'chunk_size': 256,
+      'method': 'recursive'}],
+    'embedding_models': ['ibm/slate-125m-english-rtrvr',
+     'intfloat/multilingual-e5-large'],
+    'generation': {'foundation_models': [{'model_id': 'ibm/granite-4-h-small'}],
+     'language': {'auto_detect': False}},
+    'max_number_of_rag_patterns': 3,
+    'retrieval': [{'method': 'window',
+      'number_of_chunks': 5,
+      'window_size': 2}]},
    'optimization': {'metrics': ['answer_correctness']},
    'output_logs': True},
   'results': [{'context': {'iteration': 0,
-    'max_combinations': 2,
-    'rag_pattern': {'composition_steps': ['model_selection',
-      'chunking',
-      'embeddings',
-      'retrieval',
-      'generation'],
-     'duration_seconds': 10,
-     'location': {'evaluation_results': 'default_autoai_rag_out/85cecb9b-1c21-4503-91a4-fc14d43ff8fa/Pattern1/evaluation_results.json',
-      'indexing_notebook': 'default_autoai_rag_out/85cecb9b-1c21-4503-91a4-fc14d43ff8fa/Pattern1/indexing_inference_notebook.ipynb',
-      'inference_notebook': 'default_autoai_rag_out/85cecb9b-1c21-4503-91a4-fc14d43ff8fa/Pattern1/indexing_inference_notebook.ipynb',
-      'inference_service_code': 'default_autoai_rag_out/85cecb9b-1c21-4503-91a4-fc14d43ff8fa/Pattern1/inference_ai_service.gz',
-      'inference_service_metadata': 'default_autoai_rag_out/85cecb9b-1c21-4503-91a4-fc14d43ff8fa/Pattern1/inference_service_metadata.json'},
-     'name': 'Pattern1',
-     'settings': {'chunking': {'chunk_overlap': 128,
-      'chunk_size': 256,
-      'method': 'recursive'},
-      'embeddings': {'model_id': 'ibm/slate-125m-english-rtrvr',
-      'truncate_input_tokens': 512,
-      'truncate_strategy': 'left'},
-      'generation': {'chat_template_messages': {'system_message_text': 'You are Granite Chat, an AI language model developed by IBM. You are a cautious assistant. You carefully follow instructions. You are helpful and harmless and you follow ethical guidelines and promote positive behaviour.',
-       'user_message_text': 'You are an AI language model designed to function as a specialized Retrieval Augmented Generation (RAG) assistant. When generating responses, prioritize correctness, i.e., ensure that your response is grounded in context and user query. Always make sure that your response is relevant to the question. \nAnswer Length: detailed\n{reference_documents}\nRespond exclusively in English, regardless of the language of the question or any other language used in the provided context. Ensure that your entire response is in English only.\n{question} \n\n'},
-      'context_template_text': '[Document]\n{document}\n[End]',
-      'model_id': 'ibm/granite-3-3-8b-instruct',
-      'parameters': {'max_completion_tokens': 1024, 'temperature': 1.0},
-      'word_to_token_ratio': 2.5035},
-      'retrieval': {'method': 'window',
-      'number_of_chunks': 5,
-      'window_size': 2},
-      'vector_store': {'datasource_type': 'chroma',
-      'distance_metric': 'cosine',
-      'index_name': 'autoai_rag_85cecb9b_20250930063141',
-      'operation': 'upsert',
-      'schema': {'fields': [{'description': 'text field',
-         'name': 'text',
-         'role': 'text',
-         'type': 'string'},
-        {'description': 'document name field',
-         'name': 'document_id',
-         'role': 'document_name',
-         'type': 'string'},
-        {'description': 'chunk starting token position in the source document',
-         'name': 'start_index',
-         'role': 'start_index',
-         'type': 'number'},
-        {'description': 'chunk number per document',
-         'name': 'sequence_number',
-         'role': 'sequence_number',
-         'type': 'number'},
-        {'description': 'vector embeddings',
-         'name': 'vector',
-         'role': 'vector_embeddings',
-         'type': 'array'}],
-       'id': 'autoai_rag_1.0',
-       'name': 'Document schema using open-source loaders',
-       'type': 'struct'}}},
-     'settings_importance': {'chunking': [{'importance': 0.125,
-       'parameter': 'chunking_method'},
-      {'importance': 0.125, 'parameter': 'chunk_overlap'},
-      {'importance': 0.125, 'parameter': 'chunk_size'}],
-      'embeddings': [{'importance': 0.125, 'parameter': 'embedding_model'}],
-      'generation': [{'importance': 0.125, 'parameter': 'foundation_model'}],
-      'retrieval': [{'importance': 0.125, 'parameter': 'retrieval_method'},
-      {'importance': 0.125, 'parameter': 'number_of_chunks'},
-      {'importance': 0.125, 'parameter': 'window_size'}]}},
-    'software_spec': {'name': 'autoai-rag_rt24.1-py3.11'}},
-   'metrics': {'test_data': [{'ci_high': 0.6667,
-      'ci_low': 0.5,
-      'mean': 0.5833,
-      'metric_name': 'answer_correctness'},
-     {'ci_high': 0.3542,
-      'ci_low': 0.2848,
-      'mean': 0.3195,
-      'metric_name': 'faithfulness'},
-     {'mean': 1.0, 'metric_name': 'context_correctness'}]}},
-   {'context': {'iteration': 1,
-    'max_combinations': 2,
-    'rag_pattern': {'composition_steps': ['model_selection',
-      'chunking',
-      'embeddings',
-      'retrieval',
-      'generation'],
-     'duration_seconds': 6,
-     'location': {'evaluation_results': 'default_autoai_rag_out/85cecb9b-1c21-4503-91a4-fc14d43ff8fa/Pattern2/evaluation_results.json',
-      'indexing_notebook': 'default_autoai_rag_out/85cecb9b-1c21-4503-91a4-fc14d43ff8fa/Pattern2/indexing_inference_notebook.ipynb',
-      'inference_notebook': 'default_autoai_rag_out/85cecb9b-1c21-4503-91a4-fc14d43ff8fa/Pattern2/indexing_inference_notebook.ipynb',
-      'inference_service_code': 'default_autoai_rag_out/85cecb9b-1c21-4503-91a4-fc14d43ff8fa/Pattern2/inference_ai_service.gz',
-      'inference_service_metadata': 'default_autoai_rag_out/85cecb9b-1c21-4503-91a4-fc14d43ff8fa/Pattern2/inference_service_metadata.json'},
-     'name': 'Pattern2',
-     'settings': {'chunking': {'chunk_overlap': 128,
-      'chunk_size': 256,
-      'method': 'recursive'},
-      'embeddings': {'model_id': 'intfloat/multilingual-e5-large',
-      'truncate_input_tokens': 512,
-      'truncate_strategy': 'left'},
-      'generation': {'chat_template_messages': {'system_message_text': 'You are Granite Chat, an AI language model developed by IBM. You are a cautious assistant. You carefully follow instructions. You are helpful and harmless and you follow ethical guidelines and promote positive behaviour.',
-       'user_message_text': 'You are an AI language model designed to function as a specialized Retrieval Augmented Generation (RAG) assistant. When generating responses, prioritize correctness, i.e., ensure that your response is grounded in context and user query. Always make sure that your response is relevant to the question. \nAnswer Length: detailed\n{reference_documents}\nRespond exclusively in English, regardless of the language of the question or any other language used in the provided context. Ensure that your entire response is in English only.\n{question} \n\n'},
-      'context_template_text': '[Document]\n{document}\n[End]',
-      'model_id': 'ibm/granite-3-3-8b-instruct',
-      'parameters': {'max_completion_tokens': 1024, 'temperature': 1.0},
-      'word_to_token_ratio': 2.5035},
-      'retrieval': {'method': 'window',
-      'number_of_chunks': 5,
-      'window_size': 2},
-      'vector_store': {'datasource_type': 'chroma',
-      'distance_metric': 'cosine',
-      'index_name': 'autoai_rag_85cecb9b_20250930063203',
-      'operation': 'upsert',
-      'schema': {'fields': [{'description': 'text field',
-         'name': 'text',
-         'role': 'text',
-         'type': 'string'},
-        {'description': 'document name field',
-         'name': 'document_id',
-         'role': 'document_name',
-         'type': 'string'},
-        {'description': 'chunk starting token position in the source document',
-         'name': 'start_index',
-         'role': 'start_index',
-         'type': 'number'},
-        {'description': 'chunk number per document',
-         'name': 'sequence_number',
-         'role': 'sequence_number',
-         'type': 'number'},
-        {'description': 'vector embeddings',
-         'name': 'vector',
-         'role': 'vector_embeddings',
-         'type': 'array'}],
-       'id': 'autoai_rag_1.0',
-       'name': 'Document schema using open-source loaders',
-       'type': 'struct'}}},
-     'settings_importance': {'chunking': [{'importance': 0.0,
-       'parameter': 'chunking_method'},
-      {'importance': 0.0, 'parameter': 'chunk_overlap'},
-      {'importance': 0.0, 'parameter': 'chunk_size'}],
-      'embeddings': [{'importance': 1.0, 'parameter': 'embedding_model'}],
-      'generation': [{'importance': 0.0, 'parameter': 'foundation_model'}],
-      'retrieval': [{'importance': 0.0, 'parameter': 'retrieval_method'},
-      {'importance': 0.0, 'parameter': 'number_of_chunks'},
-      {'importance': 0.0, 'parameter': 'window_size'}]}},
-    'software_spec': {'name': 'autoai-rag_rt24.1-py3.11'}},
-   'metrics': {'test_data': [{'ci_high': 0.75,
-      'ci_low': 0.6667,
-      'mean': 0.7083,
-      'metric_name': 'answer_correctness'},
-     {'ci_high': 0.2814,
-      'ci_low': 0.2029,
-      'mean': 0.2422,
-      'metric_name': 'faithfulness'},
-     {'mean': 1.0, 'metric_name': 'context_correctness'}]}}],
+     'max_combinations': 1,
+     'rag_pattern': {'composition_steps': ['model_selection',
+       'chunking',
+       'embedding',
+       'retrieval',
+       'generation',
+       'optimization'],
+      'duration_seconds': 11,
+      'location': {'evaluation_results': 'default_autoai_rag_out/b0748cd0-0da5-4a38-a279-e9e8fe6f488d/Pattern1/evaluation_results.json',
+       'indexing_notebook': 'default_autoai_rag_out/b0748cd0-0da5-4a38-a279-e9e8fe6f488d/Pattern1/indexing_inference_notebook.ipynb',
+       'inference_notebook': 'default_autoai_rag_out/b0748cd0-0da5-4a38-a279-e9e8fe6f488d/Pattern1/indexing_inference_notebook.ipynb',
+       'inference_service_code': 'default_autoai_rag_out/b0748cd0-0da5-4a38-a279-e9e8fe6f488d/Pattern1/inference_ai_service.gz',
+       'inference_service_metadata': 'default_autoai_rag_out/b0748cd0-0da5-4a38-a279-e9e8fe6f488d/Pattern1/inference_service_metadata.json'},
+      'name': 'Pattern1',
+      'settings': {'agent': {'description': 'Sequential graph with single index retriever.',
+        'framework': 'langgraph',
+        'type': 'sequential'},
+       'chunking': {'chunk_overlap': 128,
+        'chunk_size': 256,
+        'method': 'recursive'},
+       'embeddings': {'model_id': 'intfloat/multilingual-e5-large',
+        'truncate_input_tokens': 512,
+        'truncate_strategy': 'left'},
+       'generation': {'chat_template_messages': {'system_message_text': 'You are Granite Chat, an AI language model developed by IBM. You are a cautious assistant. You carefully follow instructions. You are helpful and harmless and you follow ethical guidelines and promote positive behaviour.',
+         'user_message_text': 'You are an AI language model designed to function as a specialized Retrieval Augmented Generation (RAG) assistant. When generating responses, prioritize correctness, i.e., ensure that your response is grounded in context and user query. Always make sure that your response is relevant to the question. \nAnswer Length: detailed\n{reference_documents}\nRespond exclusively in English, regardless of the language of the question or any other language used in the provided context. Ensure that your entire response is in English only.\n{question} \n\n'},
+        'context_template_text': '[Document]\n{document}\n[End]',
+        'model_id': 'ibm/granite-4-h-small',
+        'parameters': {'max_completion_tokens': 2048, 'temperature': 0.2},
+        'word_to_token_ratio': 2.2102},
+       'retrieval': {'method': 'window',
+        'number_of_chunks': 5,
+        'window_size': 2},
+       'vector_store': {'datasource_type': 'chroma',
+        'distance_metric': 'cosine',
+        'index_name': 'autoai_rag_b0748cd0_20260505075957',
+        'operation': 'upsert',
+        'schema': {'fields': [{'description': 'text chunk extracted from document',
+           'name': 'text',
+           'role': 'text',
+           'type': 'string'},
+          {'description': 'document filename',
+           'name': 'document_id',
+           'role': 'document_name',
+           'type': 'string'},
+          {'description': 'chunk starting token position in the source document',
+           'name': 'start_index',
+           'role': 'chunk_start_position',
+           'type': 'number'},
+          {'description': 'sequential chunk number, representing its position within a larger document',
+           'name': 'sequence_number',
+           'role': 'chunk_sequence_number',
+           'type': 'number'},
+          {'description': 'dense embeddings vector',
+           'name': 'vector',
+           'role': 'dense_vector_embeddings',
+           'type': 'array'}],
+         'id': 'autoai_rag_1.0.1',
+         'name': 'Document schema using open-source loaders',
+         'type': 'struct'}}},
+      'settings_importance': {'agent': [{'importance': 0.11111111,
+         'parameter': 'type'}],
+       'chunking': [{'importance': 0.11111111, 'parameter': 'chunk_overlap'},
+        {'importance': 0.11111111, 'parameter': 'chunk_size'},
+        {'importance': 0.11111111, 'parameter': 'chunking_method'}],
+       'embeddings': [{'importance': 0.11111111,
+         'parameter': 'embedding_model'}],
+       'generation': [{'importance': 0.11111111,
+         'parameter': 'foundation_model'}],
+       'retrieval': [{'importance': 0.11111111, 'parameter': 'window_size'},
+        {'importance': 0.11111111, 'parameter': 'number_of_chunks'},
+        {'importance': 0.11111111, 'parameter': 'retrieval_method'}]}},
+     'software_spec': {'name': 'autoai-rag_rt24.1-py3.11'}},
+    'metrics': {'test_data': [{'ci_high': 0.75,
+       'ci_low': 0.6667,
+       'mean': 0.7083,
+       'metric_name': 'answer_correctness'},
+      {'ci_high': 0.3025,
+       'ci_low': 0.2683,
+       'mean': 0.2854,
+       'metric_name': 'faithfulness'},
+      {'mean': 1.0, 'metric_name': 'context_correctness'}]}}],
   'results_reference': {'location': {'path': 'default_autoai_rag_out',
-   'training': 'default_autoai_rag_out/85cecb9b-1c21-4503-91a4-fc14d43ff8fa',
-   'training_status': 'default_autoai_rag_out/85cecb9b-1c21-4503-91a4-fc14d43ff8fa/training-status.json',
-   'training_log': 'default_autoai_rag_out/85cecb9b-1c21-4503-91a4-fc14d43ff8fa/output.log',
-   'assets_path': 'default_autoai_rag_out/85cecb9b-1c21-4503-91a4-fc14d43ff8fa/assets'},
+    'training': 'default_autoai_rag_out/b0748cd0-0da5-4a38-a279-e9e8fe6f488d',
+    'training_status': 'default_autoai_rag_out/b0748cd0-0da5-4a38-a279-e9e8fe6f488d/training-status.json',
+    'training_log': 'default_autoai_rag_out/b0748cd0-0da5-4a38-a279-e9e8fe6f488d/output.log',
+    'assets_path': 'default_autoai_rag_out/b0748cd0-0da5-4a38-a279-e9e8fe6f488d/assets'},
    'type': 'container'},
-  'status': {'completed_at': '2025-09-30T06:32:25.963Z',
-   'message': {'level': 'info',
-   'text': 'AAR019I: AutoAI execution completed.'},
-   'running_at': '2025-09-30T06:31:26.000Z',
+  'status': {'completed_at': '2026-05-05T08:00:17.400Z',
+   'message': {'level': 'info', 'text': 'AutoAI RAG execution completed.'},
+   'running_at': '2026-05-05T08:00:17.000Z',
    'state': 'completed',
    'step': 'generation'},
-  'test_data_references': [{'location': {'href': '/v2/assets/56411113-3ce3-44b8-b8ab-2d949c069496?space_id=6f7e632c-8af4-4626-9fe2-c7128b43d32e',
-    'id': '56411113-3ce3-44b8-b8ab-2d949c069496'},
-   'type': 'data_asset'}],
-  'timestamp': '2025-09-30T06:32:29.892Z'},
- 'metadata': {'created_at': '2025-09-30T06:30:22.284Z',
+  'test_data_references': [{'location': {'href': '/v2/assets/019df725-306e-7307-835c-99d4e21458f9?space_id=fb3d528a-bf16-460e-bcf6-06f05d8ba57c',
+     'id': '019df725-306e-7307-835c-99d4e21458f9'},
+    'type': 'data_asset'}],
+  'timestamp': '2026-05-05T08:00:20.039Z'},
+ 'metadata': {'created_at': '2026-05-05T07:58:46.475Z',
   'description': 'Experiment run in sample notebook',
-  'id': '85cecb9b-1c21-4503-91a4-fc14d43ff8fa',
-  'modified_at': '2025-09-30T06:32:26.003Z',
+  'id': 'b0748cd0-0da5-4a38-a279-e9e8fe6f488d',
+  'modified_at': '2026-05-05T08:00:17.418Z',
   'name': 'AutoAI RAG - sample notebook',
-  'space_id': '6f7e632c-8af4-4626-9fe2-c7128b43d32e'}}</pre>
+  'space_id': 'fb3d528a-bf16-460e-bcf6-06f05d8ba57c'}}</pre>
 </div>
 </div>
 </div>
@@ -8767,7 +8687,7 @@ Training of '85cecb9b-1c21-4503-91a4-fc14d43ff8fa' finished successfully.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">best_pattern_name</span> <span class="o">=</span> <span class="n">summary</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -8786,7 +8706,12 @@ Training of '85cecb9b-1c21-4503-91a4-fc14d43ff8fa' finished successfully.
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Best pattern is: Pattern2
+<pre>Best pattern is: Pattern1
+Collecting pyarrow&gt;=3.0.0
+  Using cached pyarrow-24.0.0-cp312-cp312-macosx_12_0_arm64.whl.metadata (3.0 kB)
+Using cached pyarrow-24.0.0-cp312-cp312-macosx_12_0_arm64.whl (35.0 MB)
+Installing collected packages: pyarrow
+Successfully installed pyarrow-24.0.0
 </pre>
 </div>
 </div>
@@ -8838,7 +8763,7 @@ Training of '85cecb9b-1c21-4503-91a4-fc14d43ff8fa' finished successfully.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">question</span> <span class="o">=</span> <span class="s2">"How to add Task Credentials?"</span>
@@ -8859,26 +8784,26 @@ Training of '85cecb9b-1c21-4503-91a4-fc14d43ff8fa' finished successfully.
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[ ]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>{'body': {'choices': [{'index': 0,
-   'message': {'role': 'system',
-    'content': 'To add task credentials in IBM Watsonx.ai, you would use the Credentials class. Here\'s a general guideline on how to create and set credentials:\n\n1. **Using an API Key:**\n\n```python\nfrom ibm_watsonx_ai import Credentials\n\ncredentials = Credentials(\n   url = "https://us-south.ml.cloud.ibm.com",\n   api_key = \'IAM_API_KEY\'\n)\n```\n\n2. **Using a Token:**\n\n```python\ncredentials = Credentials(\n   url = "https://us-south.ml.cloud.ibm.com",\n   token = "***********"\n)\n```\n\n3. **Using Username and Password:**\n\n```python\ncredentials = Credentials(\n   url = "&lt;URL&gt;",\n   username = "&lt;USERNAME&gt;",\n   password = "&lt;PASSWORD&gt;",\n   instance_id = "openshift"\n)\n```\n\n4. **Using Username and API Key:**\n\n```python\ncredentials = Credentials(\n   url = "&lt;URL&gt;",\n   username = "&lt;USERNAME&gt;",\n   api_key = IAM_API_KEY,\n   instance_id = "openshift"\n)\n```\n\nOnce you have created the Credentials object, you can set it to the APIClient to perform tasks. Here\'s a simplified version of how you might do this:\n\n```python\nfrom ibm_watsonx_ai import Credentials, APIClient\n\n# Generating a task token.\ntask_token = context.generate_token()\n\n# Creating a client with the credentials.\nclient = APIClient(Credentials(\n   url = "https://us-south.ml.cloud.ibm.com",\n   token = task_token\n))\n\n# Perform operations using the client.\nresponse = client.some_operation()\n```\n\nRemember, replace `&lt;URL&gt;`, `&lt;USERNAME&gt;`, `&lt;PASSWORD&gt;`, and `IAM_API_KEY` with your actual values. Also, ensure the URL, username, password, and API key correspond to your IBM Watsonx.ai setup.\n\nPlease note that the above examples don\'t include error handling or detailed context, which might be necessary depending on your specific use case. Always ensure to handle exceptions, errors, and edge cases while using these APIs in actual applications.'},
-   'reference_documents': [{'page_content': 'bedrock_url (str, optional) – Bedrock URL, applicable for ICP only\nproxies (dict, optional) – dictionary of proxies, containing protocol and URL mapping (example: { “https”: “https://example.url.com” }) verify (bool, optional) – certificate verification flag Example of create Credentials object\n\nIBM watsonx.ai for IBM Cloud\n\nfrom ibm_watsonx_ai import Credentials\n\n# Example of creating the credentials using an API key:\ncredentials = Credentials(\n   url = "https://us-south.ml.cloud.ibm.com",\n   api_key = IAM_API_KEY\n) # Example of creating the credentials using a token:\ncredentials = Credentials(\n   url = "https://us-south.ml.cloud.ibm.com",\n   token = "***********"\n)\n\n\n\nIBM watsonx.ai software\n\nimport os\nfrom ibm_watsonx_ai import Credentials',
-     'metadata': {'sequence_number': [62, 63, 64, 65, 66],
-      'document_id': 'base.html'}},
-    {'page_content': 'Returns:\nAPIClient which is 2-level copy of the current one, without user secrets\n\nReturn type:\nAPIClient\n\n\nExample:\ndef deployable_ai_service(context, params={"k1":"v1"}, **kwargs):\n\n   # imports\n   from ibm_watsonx_ai import Credentials, APIClient\n   from ibm_watsonx_ai.foundation_models import ModelInference task_token = context.generate_token()\n\n   outer_context = context\n\n   client = APIClient(Credentials(\n      url = "https://us-south.ml.cloud.ibm.com",\n      token = task_token\n   ))\n\n   # operations with client\n\n   def generate(context):\n      user_client = client.get_copy()\n      user_client.set_token(context.generate_token())\n\n      # operations with user_client\n\n      return {\'body\': response_body}\n\n   return generate\n\nstored_ai_service_details = client._ai_services.store(deployable_ai_service, meta_props)',
-     'metadata': {'sequence_number': [36, 37, 38, 39, 40],
-      'document_id': 'base.html'}},
-    {'page_content': 'the trusted_profile_id will be used for generating a new trusted profile token based on token passed to this method\nuntil the client lifecycle. The generating process takes place when retrieving a token. Parameters:\ntoken (str) – User Authorization Token\n\n\nExamples\nclient.set_token("&lt;USER AUTHORIZATION TOKEN&gt;")\n\n\n\n\n\n\nCredentials¶ class credentials.Credentials(*, url=None, api_key=None, name=None, iam_serviceid_crn=None, trusted_profile_id=None, token=None, projects_token=None, username=None, password=None, instance_id=None, version=None, bedrock_url=None, platform_url=None, proxies=None, verify=None)[source]¶ This class encapsulate passed credentials and additional params.',
-     'metadata': {'sequence_number': [49, 50, 51, 52, 53],
-      'document_id': 'base.html'}},
-    {'page_content': 'Example of create Credentials object\n\nIBM watsonx.ai for IBM Cloud\n\nfrom ibm_watsonx_ai import Credentials\n\n# Example of creating the credentials using an API key:\ncredentials = Credentials(\n   url = "https://us-south.ml.cloud.ibm.com",\n   api_key = IAM_API_KEY\n) # Example of creating the credentials using a token:\ncredentials = Credentials(\n   url = "https://us-south.ml.cloud.ibm.com",\n   token = "***********"\n)\n\n\n\nIBM watsonx.ai software\n\nimport os\nfrom ibm_watsonx_ai import Credentials\n\n# Example of creating the credentials using username and password:\ncredentials = Credentials(\n   url = "&lt;URL&gt;",\n   username = "&lt;USERNAME&gt;",\n   password = "&lt;PASSWORD&gt;",\n   instance_id = "openshift"\n) # Example of creating the credentials using username and apikey:\ncredentials = Credentials(\n   url = "&lt;URL&gt;",\n   username = "&lt;USERNAME&gt;",\n   api_key = IAM_API_KEY,\n   instance_id = "openshift"\n)',
-     'metadata': {'sequence_number': [64, 65, 66, 67, 68],
-      'document_id': 'base.html'}},
-    {'page_content': 'class credentials.Credentials(*, url=None, api_key=None, name=None, iam_serviceid_crn=None, trusted_profile_id=None, token=None, projects_token=None, username=None, password=None, instance_id=None, version=None, bedrock_url=None, platform_url=None, proxies=None, verify=None)[source]¶ This class encapsulate passed credentials and additional params. Parameters: url (str) – URL of the service\napi_key (str, optional) – service API key used in API key authentication\nname (str, optional) – service name used during space creation for a Cloud environment',
-     'metadata': {'sequence_number': [51, 52, 53, 54, 55],
-      'document_id': 'base.html'}}]}]}}</pre>
+    'message': {'role': 'system',
+     'content': 'To add task credentials using the `Credentials` class from the `ibm_watsonx_ai` library, you can follow these steps:\n\n1. Import the `Credentials` class from the `ibm_watsonx_ai` module:\n   ```python\n   from ibm_watsonx_ai import Credentials\n   ```\n\n2. Create an instance of the `Credentials` class by providing the necessary parameters:\n   - For IBM watsonx.ai for IBM Cloud:\n     ```python\n     credentials = Credentials(\n         url = "https://us-south.ml.cloud.ibm.com",\n         api_key = IAM_API_KEY\n     )\n     ```\n     Replace `"https://us-south.ml.cloud.ibm.com"` with the appropriate URL for your IBM Cloud region, and `IAM_API_KEY` with your actual API key.\n\n   - For IBM watsonx.ai software:\n     ```python\n     credentials = Credentials(\n         url = "&lt;URL&gt;",\n         username = "&lt;USERNAME&gt;",\n         password = "&lt;PASSWORD&gt;",\n         instance_id = "openshift"\n     )\n     ```\n     Replace `&lt;URL&gt;` with the URL of your watsonx.ai software instance, `&lt;USERNAME&gt;` with your username, and `&lt;PASSWORD&gt;` with your password. The `instance_id` parameter is set to `"openshift"` in this example.\n\n   - Alternatively, you can create the credentials using a token instead of an API key:\n     ```python\n     credentials = Credentials(\n         url = "https://us-south.ml.cloud.ibm.com",\n         token = "***********"\n     )\n     ```\n     Replace `"https://us-south.ml.cloud.ibm.com"` with the appropriate URL for your IBM Cloud region, and `"***********"` with your actual token.\n\n3. Use the `credentials` object wherever required in your code to authenticate and authorize access to the watsonx.ai services.\n\nHere\'s an example of how you can use the `Credentials` object to create an `APIClient` instance:\n\n```python\nfrom ibm_watsonx_ai import Credentials, APIClient\n\n# Create the Credentials object\ncredentials = Credentials(\n    url = "https://us-south.ml.cloud.ibm.com",\n    api_key = IAM_API_KEY\n)\n\n# Create an APIClient instance using the Credentials object\nclient = APIClient(credentials)\n```\n\nThe `APIClient` instance can then be used to interact with the watsonx.ai services, such as making API requests, accessing resources, and performing various operations.\n\nRemember to replace the placeholders (`IAM_API_KEY`, `&lt;URL&gt;`, `&lt;USERNAME&gt;`, `&lt;PASSWORD&gt;`) with your actual values specific to your watsonx.ai environment.\n\nBy following these steps, you can add task credentials using the `Credentials` class and utilize them in your code to authenticate and authorize access to the watsonx.ai services.'},
+    'reference_documents': [{'page_content': 'to_dict()[source]¶\nGet dictionary from the Credentials object.\n\nReturns:\ndictionary with credentials\n\nReturn type:\ndict\n\n\nExample:\nfrom ibm_watsonx_ai import Credentials\n\ncredentials = Credentials.from_dict({\n    \'url\': "&lt;url&gt;",\n    \'apikey\': IAM_API_KEY\n})\n\ncredentials_dict = credentials.to_dict()\n\n\n\n\n\n\n\n\n\n\n\n\n\nNext\n\nCore\n\n\n\n\n\n\n\nPrevious\n\nAPI\n\n\n\n\n\n\n                Copyright © 2023-2026, IBM\n            \n            Made with Sphinx and @pradyunsg\'s\n            \n            Furo On this page\n          \n\n\n\n\nBase\nAPIClient\nAPIClient\nAPIClient.get_copy()\nAPIClient.get_headers()\nAPIClient.set_headers()\nAPIClient.set_token()\n\n\n\n\nCredentials\nCredentials\nCredentials.from_dict()\nCredentials.to_dict()',
+      'metadata': {'sequence_number': [71, 72, 73, 74, 75],
+       'document_id': '1086e908-6266-4f6f-9190-f0fe71c2ddcb/019df725-050f-7164-8d88-845ad4ac2a6e/base.html'}},
+     {'page_content': 'Returns:\nAPIClient which is 2-level copy of the current one, without user secrets\n\nReturn type:\nAPIClient\n\n\nExample:\ndef deployable_ai_service(context, params={"k1":"v1"}, **kwargs):\n\n    # imports\n    from ibm_watsonx_ai import Credentials, APIClient\n    from ibm_watsonx_ai.foundation_models import ModelInference task_token = context.generate_token()\n\n    outer_context = context\n\n    client = APIClient(Credentials(\n        url = "https://us-south.ml.cloud.ibm.com",\n        token = task_token\n    ))\n\n    # operations with client\n\n    def generate(context):\n        user_client = client.get_copy()\n        user_client.set_token(context.generate_token())\n\n        # operations with user_client\n\n        return {\'body\': response_body}\n\n    return generate\n\nstored_ai_service_details = client._ai_services.store(deployable_ai_service, meta_props)',
+      'metadata': {'sequence_number': [34, 35, 36, 37, 38],
+       'document_id': '1086e908-6266-4f6f-9190-f0fe71c2ddcb/019df725-050f-7164-8d88-845ad4ac2a6e/base.html'}},
+     {'page_content': "credentials_dict = credentials.to_dict()\n\n\n\n\n\n\n\n\n\n\n\n\n\nNext\n\nCore\n\n\n\n\n\n\n\nPrevious\n\nAPI\n\n\n\n\n\n\n                Copyright © 2023-2026, IBM\n            \n            Made with Sphinx and @pradyunsg's\n            \n            Furo On this page\n          \n\n\n\n\nBase\nAPIClient\nAPIClient\nAPIClient.get_copy()\nAPIClient.get_headers()\nAPIClient.set_headers()\nAPIClient.set_token()\n\n\n\n\nCredentials\nCredentials\nCredentials.from_dict()\nCredentials.to_dict()",
+      'metadata': {'sequence_number': [73, 74, 75],
+       'document_id': '1086e908-6266-4f6f-9190-f0fe71c2ddcb/019df725-050f-7164-8d88-845ad4ac2a6e/base.html'}},
+     {'page_content': 'bedrock_url (str, optional) – Bedrock URL, applicable for ICP only\nproxies (dict, optional) – dictionary of proxies, containing protocol and URL mapping (example: { “https”: “https://example.url.com” }) verify (bool, optional) – certificate verification flag Example of create Credentials object\n\nIBM watsonx.ai for IBM Cloud\n\nfrom ibm_watsonx_ai import Credentials\n\n# Example of creating the credentials using an API key:\ncredentials = Credentials(\n    url = "https://us-south.ml.cloud.ibm.com",\n    api_key = IAM_API_KEY\n) # Example of creating the credentials using a token:\ncredentials = Credentials(\n    url = "https://us-south.ml.cloud.ibm.com",\n    token = "***********"\n)\n\n\n\nIBM watsonx.ai software\n\nimport os\nfrom ibm_watsonx_ai import Credentials',
+      'metadata': {'sequence_number': [60, 61, 62, 63, 64],
+       'document_id': '1086e908-6266-4f6f-9190-f0fe71c2ddcb/019df725-050f-7164-8d88-845ad4ac2a6e/base.html'}},
+     {'page_content': 'Example of create Credentials object\n\nIBM watsonx.ai for IBM Cloud\n\nfrom ibm_watsonx_ai import Credentials\n\n# Example of creating the credentials using an API key:\ncredentials = Credentials(\n    url = "https://us-south.ml.cloud.ibm.com",\n    api_key = IAM_API_KEY\n) # Example of creating the credentials using a token:\ncredentials = Credentials(\n    url = "https://us-south.ml.cloud.ibm.com",\n    token = "***********"\n)\n\n\n\nIBM watsonx.ai software\n\nimport os\nfrom ibm_watsonx_ai import Credentials\n\n# Example of creating the credentials using username and password:\ncredentials = Credentials(\n    url = "&lt;URL&gt;",\n    username = "&lt;USERNAME&gt;",\n    password = "&lt;PASSWORD&gt;",\n    instance_id = "openshift"\n) # Example of creating the credentials using username and apikey:\ncredentials = Credentials(\n    url = "&lt;URL&gt;",\n    username = "&lt;USERNAME&gt;",\n    api_key = IAM_API_KEY,\n    instance_id = "openshift"\n)',
+      'metadata': {'sequence_number': [62, 63, 64, 65, 66],
+       'document_id': '1086e908-6266-4f6f-9190-f0fe71c2ddcb/019df725-050f-7164-8d88-845ad4ac2a6e/base.html'}}]}]}}</pre>
 </div>
 </div>
 </div>
@@ -8899,7 +8824,7 @@ Training of '85cecb9b-1c21-4503-91a4-fc14d43ff8fa' finished successfully.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">deployment_details</span> <span class="o">=</span> <span class="n">best_pattern</span><span class="o">.</span><span class="n">inference_service</span><span class="o">.</span><span class="n">deploy</span><span class="p">(</span>
@@ -8923,19 +8848,19 @@ Training of '85cecb9b-1c21-4503-91a4-fc14d43ff8fa' finished successfully.
 
 ######################################################################################
 
-Synchronous deployment creation for id: '621f18df-cb6c-49d7-84ba-83e148bf875c' started
+Synchronous deployment creation for id: '019df727-da9e-74c1-bde7-9eb7404fb50f' started
 
 ######################################################################################
 
 
 initializing
 Note: online_url and serving_urls are deprecated and will be removed in a future release. Use inference instead.
-......
+.......
 ready
 
 
 -----------------------------------------------------------------------------------------------
-Successfully finished deployment creation, deployment_id='1d5d0cbb-3aa5-4acd-b998-c46f4b210938'
+Successfully finished deployment creation, deployment_id='019df727-f31f-7338-934d-a6e5e9470b93'
 -----------------------------------------------------------------------------------------------
 
 
@@ -8960,7 +8885,7 @@ Successfully finished deployment creation, deployment_id='1d5d0cbb-3aa5-4acd-b99
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">deployment_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">deployment_details</span><span class="p">)</span>
@@ -8993,68 +8918,60 @@ Successfully finished deployment creation, deployment_id='1d5d0cbb-3aa5-4acd-b99
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>To add task credentials in Python while working with IBM watsonx.ai, you would use the `Credentials` class provided by the `ibm_watsonx_ai` package. This class helps encapsulate passed credentials and additional parameters. Here's an example on how you can do this:
+<pre>To add task credentials using the `Credentials` class from the `ibm_watsonx_ai` library, you can follow these steps:
 
-First, you need to import the necessary classes and modules:
+1. Import the `Credentials` class from the `ibm_watsonx_ai` module:
+   ```python
+   from ibm_watsonx_ai import Credentials
+   ```
 
-```python
-from ibm_watsonx_ai import Credentials, APIClient
-```
+2. Create an instance of the `Credentials` class by providing the necessary parameters:
+   - `url`: The URL of the IBM watsonx.ai service.
+   - `api_key`: Your IBM Cloud API key.
+   - `token` (optional): An authentication token.
+   - `username` (optional): Your IBM Cloud username.
+   - `password` (optional): Your IBM Cloud password.
+   - `instance_id` (optional): The instance ID for IBM watsonx.ai software.
 
-Next, create a task token. This token is used to authenticate the client:
+   Example using an API key:
+   ```python
+   credentials = Credentials(
+       url="https://us-south.ml.cloud.ibm.com",
+       api_key=IAM_API_KEY
+   )
+   ```
 
-```python
-task_token = context.generate_token()
-```
+   Example using a token:
+   ```python
+   credentials = Credentials(
+       url="https://us-south.ml.cloud.ibm.com",
+       token="***********"
+   )
+   ```
 
-Now, instantiate the `Credentials` object using the task token (or API key/token as per your use case):
+   Example using username and password for IBM watsonx.ai software:
+   ```python
+   credentials = Credentials(
+       url="&lt;URL&gt;",
+       username="&lt;USERNAME&gt;",
+       password="&lt;PASSWORD&gt;",
+       instance_id="openshift"
+   )
+   ```
 
-```python
-# Using task token
-credentials = Credentials(
-   url = "https://us-south.ml.cloud.ibm.com",
-   token = task_token
-)
-```
+   Example using username and API key for IBM watsonx.ai software:
+   ```python
+   credentials = Credentials(
+       url="&lt;URL&gt;",
+       username="&lt;USERNAME&gt;",
+       api_key=IAM_API_KEY,
+       instance_id="openshift"
+   )
+   ```
 
-Now, you can create an instance of the `APIClient` using the credentials object:
+3. Use the `credentials` object wherever required in your code to authenticate and interact with the IBM watsonx.ai service.
 
-```python
-client = APIClient(credentials)
-```
-
-You can create a function to encapsulate your operations with this client and handle token generation within it. Here's an example:
-
-```python
-def deployable_ai_service(context, params={"k1":"v1"}, **kwargs):
-   task_token = context.generate_token()
-
-   outer_context = context
-
-   client = APIClient(Credentials(
-      url = "https://us-south.ml.cloud.ibm.com",
-      token = task_token
-   ))
-
-   # operations with client
-
-   def generate(context):
-      user_client = client.get_copy()
-      user_client.set_token(context.generate_token())
-
-      # operations with user_client
-
-      return {'body': response_body}
-
-   return generate
-
-# Use the deployable_ai_service function as needed
-stored_ai_service_details = client._ai_services.store(deployable_ai_service, meta_props)
-```
-
-Note: Replace `IAM_API_KEY`, `URL`, `&lt;USERNAME&gt;`, `&lt;PASSWORD&gt;`, and `meta_props` with your actual values. The use of a token (`task_token`) or API key depends on your specific use case and security requirements.
-
-To clarify, this isn't about "adding" task credentials in the sense of storing or managing them somewhere. Rather, it's about initializing your client with task-specific credentials to perform operations on the IBM watsonx.ai platform. The credentials object is where you'd pass these details, allowing the client to authenticate correctly with the IBM service.
+By following these steps, you can easily add task credentials to your code using the `Credentials` class from the `ibm_watsonx_ai` library. Make sure to replace the placeholders (`IAM_API_KEY`, `&lt;URL&gt;`, `&lt;USERNAME&gt;`, `&lt;PASSWORD&gt;`) with your actual credentials and values.
 </pre>
 </div>
 </div>
@@ -9081,7 +8998,7 @@ To clarify, this isn't about "adding" task credentials in the sense of storing o
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[22]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'To add task credentials in Python while working with IBM watsonx.ai, you would use the `Credentials` class provided by the `ibm_watsonx_ai` package. This class helps encapsulate passed credentials and additional parameters. Here\'s an example on how you can do this:\n\nFirst, you need to import the necessary classes and modules:\n\n```python\nfrom ibm_watsonx_ai import Credentials, APIClient\n```\n\nNext, create a task token. This token is used to authenticate the client:\n\n```python\ntask_token = context.generate_token()\n```\n\nNow, instantiate the `Credentials` object using the task token (or API key/token as per your use case):\n\n```python\n# Using task token\ncredentials = Credentials(\n   url = "https://us-south.ml.cloud.ibm.com",\n   token = task_token\n)\n```\n\nNow, you can create an instance of the `APIClient` using the credentials object:\n\n```python\nclient = APIClient(credentials)\n```\n\nYou can create a function to encapsulate your operations with this client and handle token generation within it. Here\'s an example:\n\n```python\ndef deployable_ai_service(context, params={"k1":"v1"}, **kwargs):\n   task_token = context.generate_token()\n\n   outer_context = context\n\n   client = APIClient(Credentials(\n      url = "https://us-south.ml.cloud.ibm.com",\n      token = task_token\n   ))\n\n   # operations with client\n\n   def generate(context):\n      user_client = client.get_copy()\n      user_client.set_token(context.generate_token())\n\n      # operations with user_client\n\n      return {\'body\': response_body}\n\n   return generate\n\n# Use the deployable_ai_service function as needed\nstored_ai_service_details = client._ai_services.store(deployable_ai_service, meta_props)\n```\n\nNote: Replace `IAM_API_KEY`, `URL`, `&lt;USERNAME&gt;`, `&lt;PASSWORD&gt;`, and `meta_props` with your actual values. The use of a token (`task_token`) or API key depends on your specific use case and security requirements.\n\nTo clarify, this isn\'t about "adding" task credentials in the sense of storing or managing them somewhere. Rather, it\'s about initializing your client with task-specific credentials to perform operations on the IBM watsonx.ai platform. The credentials object is where you\'d pass these details, allowing the client to authenticate correctly with the IBM service.'</pre>
+<pre>'To add task credentials using the `Credentials` class from the `ibm_watsonx_ai` library, you can follow these steps:\n\n1. Import the `Credentials` class from the `ibm_watsonx_ai` module:\n   ```python\n   from ibm_watsonx_ai import Credentials\n   ```\n\n2. Create an instance of the `Credentials` class by providing the necessary parameters:\n   - `url`: The URL of the IBM watsonx.ai service.\n   - `api_key`: Your IBM Cloud API key.\n   - `token` (optional): An authentication token.\n   - `username` (optional): Your IBM Cloud username.\n   - `password` (optional): Your IBM Cloud password.\n   - `instance_id` (optional): The instance ID for IBM watsonx.ai software.\n\n   Example using an API key:\n   ```python\n   credentials = Credentials(\n       url="https://us-south.ml.cloud.ibm.com",\n       api_key=IAM_API_KEY\n   )\n   ```\n\n   Example using a token:\n   ```python\n   credentials = Credentials(\n       url="https://us-south.ml.cloud.ibm.com",\n       token="***********"\n   )\n   ```\n\n   Example using username and password for IBM watsonx.ai software:\n   ```python\n   credentials = Credentials(\n       url="&lt;URL&gt;",\n       username="&lt;USERNAME&gt;",\n       password="&lt;PASSWORD&gt;",\n       instance_id="openshift"\n   )\n   ```\n\n   Example using username and API key for IBM watsonx.ai software:\n   ```python\n   credentials = Credentials(\n       url="&lt;URL&gt;",\n       username="&lt;USERNAME&gt;",\n       api_key=IAM_API_KEY,\n       instance_id="openshift"\n   )\n   ```\n\n3. Use the `credentials` object wherever required in your code to authenticate and interact with the IBM watsonx.ai service.\n\nBy following these steps, you can easily add task credentials to your code using the `Credentials` class from the `ibm_watsonx_ai` library. Make sure to replace the placeholders (`IAM_API_KEY`, `&lt;URL&gt;`, `&lt;USERNAME&gt;`, `&lt;PASSWORD&gt;`) with your actual credentials and values.'</pre>
 </div>
 </div>
 </div>
@@ -9099,16 +9016,62 @@ To clarify, this isn't about "adding" task credentials in the sense of storing o
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">experiment</span><span class="o">.</span><span class="n">runs</span><span class="p">(</span><span class="nb">filter</span><span class="o">=</span><span class="s2">"rag_optimizer"</span><span class="p">)</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[23]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>timestamp</th>
+<th>run_id</th>
+<th>state</th>
+<th>auto_pipeline_optimizer name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>2026-05-05T08:00:17.418Z</td>
+<td>b0748cd0-0da5-4a38-a279-e9e8fe6f488d</td>
+<td>completed</td>
+<td>AutoAI RAG - sample notebook</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 </div>
@@ -9118,7 +9081,7 @@ To clarify, this isn't about "adding" task credentials in the sense of storing o
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">run_id</span> <span class="o">=</span> <span class="n">run_details</span><span class="p">[</span><span class="s2">"metadata"</span><span class="p">][</span><span class="s2">"id"</span><span class="p">]</span>
@@ -9133,9 +9096,9 @@ To clarify, this isn't about "adding" task credentials in the sense of storing o
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[ ]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[24]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'85cecb9b-1c21-4503-91a4-fc14d43ff8fa'</pre>
+<pre>'b0748cd0-0da5-4a38-a279-e9e8fe6f488d'</pre>
 </div>
 </div>
 </div>
@@ -9180,7 +9143,7 @@ To clarify, this isn't about "adding" task credentials in the sense of storing o
  'embedding_models': ['ibm/slate-125m-english-rtrvr',
   'intfloat/multilingual-e5-large'],
  'max_number_of_rag_patterns': 3,
- 'generation': {'foundation_models': [{'model_id': 'ibm/granite-3-3-8b-instruct'}],
+ 'generation': {'foundation_models': [{'model_id': 'ibm/granite-4-h-small'}],
   'language': {'auto_detect': False}},
  'retrieval': [{'method': 'window', 'number_of_chunks': 5, 'window_size': 2}],
  'optimization_metrics': ['answer_correctness']}</pre>
@@ -9247,25 +9210,23 @@ To clarify, this isn't about "adding" task credentials in the sense of storing o
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
-   .dataframe tbody tr th:only-of-type {
-      vertical-align: middle;
-   }
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-   .dataframe tbody tr th {
-      vertical-align: top;
-   }
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
-   .dataframe thead th {
-      text-align: right;
-   }
+    .dataframe thead th {
+        text-align: right;
+    }
 </style>
 <table border="1" class="dataframe">
 <thead>
 <tr style="text-align: right;">
 <th></th>
 <th>mean_answer_correctness</th>
-<th>mean_faithfulness</th>
-<th>mean_context_correctness</th>
 <th>chunking.method</th>
 <th>chunking.chunk_size</th>
 <th>chunking.chunk_overlap</th>
@@ -9273,13 +9234,11 @@ To clarify, this isn't about "adding" task credentials in the sense of storing o
 <th>vector_store.distance_metric</th>
 <th>retrieval.method</th>
 <th>retrieval.number_of_chunks</th>
-<th>retrieval.hybrid_ranker</th>
 <th>generation.model_id</th>
+<th>agent.type</th>
 </tr>
 <tr>
 <th>Pattern_Name</th>
-<th></th>
-<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -9294,10 +9253,8 @@ To clarify, this isn't about "adding" task credentials in the sense of storing o
 </thead>
 <tbody>
 <tr>
-<th>Pattern2</th>
+<th>Pattern1</th>
 <td>0.7083</td>
-<td>0.2422</td>
-<td>1.0</td>
 <td>recursive</td>
 <td>256</td>
 <td>128</td>
@@ -9305,23 +9262,8 @@ To clarify, this isn't about "adding" task credentials in the sense of storing o
 <td>cosine</td>
 <td>window</td>
 <td>5</td>
-<td></td>
-<td>ibm/granite-3-3-8b-instruct</td>
-</tr>
-<tr>
-<th>Pattern1</th>
-<td>0.5833</td>
-<td>0.3195</td>
-<td>1.0</td>
-<td>recursive</td>
-<td>256</td>
-<td>128</td>
-<td>ibm/slate-125m-english-rtrvr</td>
-<td>cosine</td>
-<td>window</td>
-<td>5</td>
-<td></td>
-<td>ibm/granite-3-3-8b-instruct</td>
+<td>ibm/granite-4-h-small</td>
+<td>sequential</td>
 </tr>
 </tbody>
 </table>

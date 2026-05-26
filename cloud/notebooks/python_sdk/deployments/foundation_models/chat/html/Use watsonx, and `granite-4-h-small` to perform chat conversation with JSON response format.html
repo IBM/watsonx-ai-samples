@@ -7803,7 +7803,7 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><img alt="image" src="https://raw.githubusercontent.com/IBM/watson-machine-learning-samples/master/cloud/notebooks/headers/watsonx-Prompt_Lab-Notebook.png"/></p>
-<h1 id="Use-watsonx,-and-ibm/granite-3-3-8b-instruct-to-perform-chat-conversation-with-JSON-response-format">Use watsonx, and <code>ibm/granite-3-3-8b-instruct</code> to perform chat conversation with JSON response format<a class="anchor-link" href="#Use-watsonx,-and-ibm/granite-3-3-8b-instruct-to-perform-chat-conversation-with-JSON-response-format">¶</a></h1>
+<h1 id="Use-watsonx,-and-ibm/granite-4-h-small-to-perform-chat-conversation-with-JSON-response-format">Use watsonx, and <code>ibm/granite-4-h-small</code> to perform chat conversation with JSON response format<a class="anchor-link" href="#Use-watsonx,-and-ibm/granite-4-h-small-to-perform-chat-conversation-with-JSON-response-format">¶</a></h1>
 </div>
 </div>
 </div>
@@ -7818,7 +7818,7 @@ a.anchor-link {
 <li>Use only Projects and Spaces that are available in watsonx context.</li>
 </ul>
 <h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook provides a detailed demonstration of the steps and code required to showcase support for JSON response format in Chat models.</p>
-<p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
+<p>Some familiarity with Python is helpful. This notebook uses Python 3.12.</p>
 <h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The purpose of this notebook is to demonstrate how to use JSON response format in Chat models and how to specify the response JSON schema.</p>
 <h2 id="Table-of-Contents">Table of Contents<a class="anchor-link" href="#Table-of-Contents">¶</a></h2><p>This notebook contains the following parts:</p>
 <ol>
@@ -7878,7 +7878,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Successfully installed anyio-4.11.0 cachetools-6.2.1 certifi-2025.10.5 charset_normalizer-3.4.4 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-watsonx-ai-1.4.2 idna-3.11 jmespath-1.0.1 lomond-0.3.3 numpy-2.3.4 pandas-2.2.3 pytz-2025.2 requests-2.32.5 sniffio-1.3.1 tabulate-0.9.0 tzdata-2025.2 urllib3-2.5.0
+<pre>Successfully installed anyio-4.13.0 cachetools-7.1.1 certifi-2026.4.22 charset_normalizer-3.4.7 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-watsonx-ai-1.5.10 idna-3.13 jmespath-1.0.1 lomond-0.3.3 numpy-2.4.4 pandas-2.3.3 pytz-2026.2 requests-2.33.1 tabulate-0.10.0 typing_extensions-4.15.0 tzdata-2026.2 urllib3-2.6.3
 </pre>
 </div>
 </div>
@@ -7978,7 +7978,7 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">model_id</span> <span class="o">=</span> <span class="s2">"ibm/granite-3-3-8b-instruct"</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">model_id</span> <span class="o">=</span> <span class="s2">"ibm/granite-4-h-small"</span>
 </pre></div>
 </div>
 </div>
@@ -8063,6 +8063,10 @@ a.anchor-link {
 | reasoning_effort      | Literal, NoneType                      | high                                                                                                                                                                                                                                                                            |
 +-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | include_reasoning     | bool, NoneType                         | True                                                                                                                                                                                                                                                                            |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| repetition_penalty    | float, NoneType                        | 1.5                                                                                                                                                                                                                                                                             |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| length_penalty        | float, NoneType                        | 1.0                                                                                                                                                                                                                                                                             |
 +-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 </pre>
 </div>
@@ -8220,34 +8224,34 @@ a.anchor-link {
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>{
-  "Methods_of_Calculating_Pi": [
+  "methods": [
     {
-      "Method": "Ancient Method (Archimedes' Method)",
-      "Description": "This method involves approximating the area of a polygon inscribed within a circle and a polygon circumscribed around the circle. Archimedes used this method to calculate Pi up to four decimal places."
+      "name": "Leibniz formula",
+      "description": "An infinite series that converges to pi. It is given by the formula: pi/4 = 1 - 1/3 + 1/5 - 1/7 + 1/9 - ..."
     },
     {
-      "Method": "Gregory-Leibniz Series",
-      "Description": "This is an infinite series used to calculate Pi: Pi = 4 * (1 - 1/3 + 1/5 - 1/7 + 1/9 - 1/11 + ...). However, this series converges very slowly, thus making it impractical for calculating Pi to a large number of decimal places."
+      "name": "Nilakantha series",
+      "description": "An infinite series developed by the Indian mathematician Nilakantha Somayaji. It converges to pi faster than the Leibniz formula. The series is: pi = 3 + 4/(2*3*4) - 4/(4*5*6) + 4/(6*7*8) - 4/(8*9*10) + ..."
     },
     {
-      "Method": "Nilakantha Series",
-      "Description": "This is an infinite series that converges faster than the Gregory-Leibniz series, and can be used to calculate Pi: Pi = 3 + 4/(2*3*4) - 4/(4*5*6) + 4/(6*7*8) - 4/(8*9*10) + ... "
+      "name": "Monte Carlo method",
+      "description": "A probabilistic approach to estimate pi. It involves randomly placing points inside a square and calculating the ratio of points inside the inscribed circle to the total points. This ratio, multiplied by 4, approximates pi."
     },
     {
-      "Method": "Machin-like Formulas",
-      "Description": "These are formulas that express Pi as a sum of arctan values, such as Pi/4 = 4*arctan(1/2) - arctan(1/7), and computationally, arctan(1/x) is usually calculated using Taylor series."
+      "name": "Chudnovsky algorithm",
+      "description": "A fast converging series that is currently one of the most efficient methods for calculating pi to a large number of decimal places. It is based on a formula involving factorials and square roots."
     },
     {
-      "Method": "Gaussian Method",
-      "Description": "This is a method using complex numbers and theta functions. The series Pi = 12 Σ [k=0 to infinity] (1 / (2k+1)^4) converges extremely rapidly."
+      "name": "Gauss-Legendre algorithm",
+      "description": "An iterative algorithm that converges quadratically to pi. It involves repeatedly applying a set of arithmetic and geometric mean operations on a pair of numbers to progressively refine the approximation of pi."
     },
     {
-      "Method": "Chudnovsky Algorithm",
-      "Description": "This is a method that uses Ramanujan's Pi formulas and involves entire functions and modular forms. It is one of the most efficient algorithms for calculating Pi to trillions of digits."
+      "name": "Bailey-Borwein-Plouffe formula",
+      "description": "A spigot algorithm that can directly calculate the nth hexadecimal digit of pi without needing to calculate the preceding digits. This allows for efficient calculation of specific digits deep within the decimal expansion of pi."
     },
     {
-      "Method": "Monte Carlo Methods",
-      "Description": "This involves statistical sampling techniques to estimate Pi. For instance, dropping random points in a square and observing which fall within an inscribed circle can estimate Pi."
+      "name": "Iterative algorithms (e.g., Newton's method, Halley's method)",
+      "description": "These are iterative numerical methods that use successive approximations to converge rapidly to the value of pi. They are based on refining an initial guess through repeated application of a formula until a desired level of accuracy is reached."
     }
   ]
 }
@@ -8396,34 +8400,64 @@ a.anchor-link {
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>[
   {
-    "cake_name": "Classic Vanilla Cake",
-    "description": "Fluffy and light, with a pure vanilla flavor. Great as is or with frosting and fillings.",
+    "cake_name": "Vanilla Cake",
+    "description": "A classic, moist, and fluffy vanilla cake with a sweet and creamy taste.",
+    "difficulty_score": 3,
+    "expected_price": 25.0
+  },
+  {
+    "cake_name": "Chocolate Cake",
+    "description": "A rich, decadent, and moist chocolate cake that is a crowd-pleaser.",
     "difficulty_score": 4,
-    "expected_price": 25.5
+    "expected_price": 30.0
   },
   {
     "cake_name": "Red Velvet Cake",
-    "description": "Rich, slightly sweet, with a hint of cocoa and a creamy cream cheese frosting.",
-    "difficulty_score": 6,
-    "expected_price": 32.75
-  },
-  {
-    "cake_name": "Chocolate Fudge Cake",
-    "description": "Dense and incredibly rich, with an intense chocolate flavor.",
-    "difficulty_score": 7,
-    "expected_price": 35.25
+    "description": "A velvety, slightly tart red velvet cake with a luscious cream cheese frosting.",
+    "difficulty_score": 5,
+    "expected_price": 35.0
   },
   {
     "cake_name": "Lemon Drizzle Cake",
-    "description": "Light, tangy, and refreshing with a hint of sweetness from the drizzle.",
-    "difficulty_score": 5,
+    "description": "A zesty and moist lemon cake with a sweet lemon drizzle glaze on top.",
+    "difficulty_score": 3,
     "expected_price": 28.0
   },
   {
     "cake_name": "Carrot Cake",
-    "description": "Moist and sweet with a blend of carrots and spices, typically topped with cream cheese frosting.",
+    "description": "A sweet and moist carrot cake with warm spices and a creamy frosting.",
+    "difficulty_score": 4,
+    "expected_price": 32.0
+  },
+  {
+    "cake_name": "Black Forest Cake",
+    "description": "A rich chocolate cake layered with cherries, whipped cream, and chocolate shavings.",
     "difficulty_score": 6,
-    "expected_price": 30.75
+    "expected_price": 40.0
+  },
+  {
+    "cake_name": "Tiramisu Cake",
+    "description": "A delightful combination of coffee-flavored sponge cake and creamy mascarpone filling.",
+    "difficulty_score": 5,
+    "expected_price": 38.0
+  },
+  {
+    "cake_name": "Coconut Cake",
+    "description": "A tropical delight with moist coconut cake layers and a luscious coconut cream frosting.",
+    "difficulty_score": 4,
+    "expected_price": 33.0
+  },
+  {
+    "cake_name": "Banana Cake",
+    "description": "A moist and flavorful banana cake with a hint of vanilla and a creamy frosting.",
+    "difficulty_score": 3,
+    "expected_price": 27.0
+  },
+  {
+    "cake_name": "Fruit Cake",
+    "description": "A dense and moist cake packed with a variety of dried fruits and warm spices.",
+    "difficulty_score": 5,
+    "expected_price": 36.0
   }
 ]
 </pre>
