@@ -8277,7 +8277,7 @@ Successfully installed MarkupSafe-3.0.3 aiofiles-25.1.0 beautifulsoup4-4.14.3 bl
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="Create-vector-index">Create vector index<a class="anchor-link" href="#Create-vector-index">¶</a></h4>
+<h4 id="Create-vector-index">Create vector index<a class="anchor-link" href="#Create-vector-index">¶</a></h4><p><strong>Note</strong>: This vector index does not require patching when updates are made to the collection.</p>
 </div>
 </div>
 </div>
@@ -8786,18 +8786,6 @@ Successfully saved data asset content to file: 'state_of_the_union.txt'
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Create-vector-index">Create vector index<a class="anchor-link" href="#Create-vector-index">¶</a></h3><p>Invoke the vector indexes API to create a vector index asset that points to this Milvus collection.</p>
-<p><em>Note</em>: This vector index does not require patching when updates are made to the collection.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><a id="Deploy-AI-Service"></a></p>
 <h2 id="Deploy-AI-Service">Deploy AI Service<a class="anchor-link" href="#Deploy-AI-Service">¶</a></h2><p>Below is a step-by-step example demonstrating how to deploy a prompt that interacts with a document using vector indexes.</p>
 <p><em>Note</em>: This feature is available only for models supported by the Chat AP</p>
@@ -8947,7 +8935,10 @@ Successfully saved data asset content to file: 'state_of_the_union.txt'
 
     <span class="c1"># Setup client</span>
     <span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span>
-        <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="n">context</span><span class="o">.</span><span class="n">generate_token</span><span class="p">(),</span> <span class="n">instance_id</span><span class="o">=</span><span class="s2">"openshift"</span>
+        <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+        <span class="n">token</span><span class="o">=</span><span class="n">context</span><span class="o">.</span><span class="n">generate_token</span><span class="p">(),</span>
+        <span class="n">instance_id</span><span class="o">=</span><span class="s2">"openshift"</span><span class="p">,</span>
+        <span class="n">version</span><span class="o">=</span><span class="s2">"5.4"</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">client</span> <span class="o">=</span> <span class="n">APIClient</span><span class="p">(</span><span class="n">credentials</span><span class="p">,</span> <span class="n">space_id</span><span class="o">=</span><span class="n">space_id</span><span class="p">)</span>
@@ -9109,7 +9100,10 @@ Successfully saved data asset content to file: 'state_of_the_union.txt'
 <span class="sd">            APIClient: An instance of APIClient configured with the constructed credentials and space ID.</span>
 <span class="sd">        """</span>
         <span class="n">inner_credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span>
-            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="n">context</span><span class="o">.</span><span class="n">get_token</span><span class="p">(),</span> <span class="n">instance_id</span><span class="o">=</span><span class="s2">"openshift"</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+            <span class="n">token</span><span class="o">=</span><span class="n">context</span><span class="o">.</span><span class="n">get_token</span><span class="p">(),</span>
+            <span class="n">instance_id</span><span class="o">=</span><span class="s2">"openshift"</span><span class="p">,</span>
+            <span class="n">version</span><span class="o">=</span><span class="s2">"5.4"</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">inner_client</span> <span class="o">=</span> <span class="n">APIClient</span><span class="p">(</span><span class="n">inner_credentials</span><span class="p">,</span> <span class="n">space_id</span><span class="o">=</span><span class="n">space_id</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">inner_client</span>
