@@ -7802,8 +7802,8 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Use-ONNX-model-converted-from-scikit-learn-with-ibm-watsonx-ai">Use ONNX model converted from scikit-learn with <code>ibm-watsonx-ai</code><a class="anchor-link" href="#Use-ONNX-model-converted-from-scikit-learn-with-ibm-watsonx-ai">¶</a></h1><p>This notebook facilitates <code>ONNX</code>, <code>scikit-learn</code>, and <code>watsonx.ai Runtime</code> service. It contains steps and code to work with <a href="https://pypi.python.org/pypi/ibm-watsonx-ai">ibm-watsonx-ai</a> library available in PyPI repository in order to convert the model to ONNX format. It also introduces commands for persisting model, deploying model, and scoring it.</p>
-<p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
+<h1 id="Use-ONNX-model-converted-from-scikit-learn-with-ibm-watsonx-ai">Use ONNX model converted from scikit-learn with <code>ibm-watsonx-ai</code><a class="anchor-link" href="#Use-ONNX-model-converted-from-scikit-learn-with-ibm-watsonx-ai">¶</a></h1><p>This notebook facilitates <code>ONNX</code>, <code>scikit-learn</code>, and watsonx.ai Runtime service. It contains steps and code to work with <a href="https://pypi.python.org/pypi/ibm-watsonx-ai">ibm-watsonx-ai</a> library available in PyPI repository in order to convert the model to ONNX format. It also introduces commands for persisting model, deploying model, and scoring it.</p>
+<p>Some familiarity with Python is helpful. This notebook uses Python 3.12.</p>
 </div>
 </div>
 </div>
@@ -7872,9 +7872,9 @@ a.anchor-link {
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">ibm</span><span class="o">-</span><span class="n">watsonx</span><span class="o">-</span><span class="n">ai</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 <span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="s2">"numpy&gt;=1.26.4,&lt;2"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">scikit</span><span class="o">-</span><span class="n">learn</span><span class="o">==</span><span class="mf">1.3.0</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">onnxruntime</span><span class="o">==</span><span class="mf">1.16.3</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">onnx</span><span class="o">==</span><span class="mf">1.16.2</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">scikit</span><span class="o">-</span><span class="n">learn</span><span class="o">==</span><span class="mf">1.6.1</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">onnxruntime</span><span class="o">==</span><span class="mf">1.21</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">onnx</span><span class="o">==</span><span class="mf">1.17</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 <span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">skl2onnx</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
 </div>
@@ -7888,41 +7888,13 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Successfully installed anyio-4.12.1 cachetools-6.2.4 certifi-2026.1.4 charset_normalizer-3.4.4 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 idna-3.11 jmespath-1.0.1 lomond-0.3.3 numpy-2.4.1 pandas-2.2.3 pytz-2025.2 requests-2.32.5 tabulate-0.9.0 tzdata-2025.3 urllib3-2.6.3
+<pre>Successfully installed anyio-4.14.2 cachetools-7.1.4 certifi-2026.6.17 charset_normalizer-3.4.9 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 idna-3.18 jmespath-1.0.1 lomond-0.3.3 numpy-2.5.1 pandas-2.3.3 pytz-2026.2 requests-2.34.2 tabulate-0.10.0 tzdata-2026.3 urllib3-2.7.0
 Successfully installed numpy-1.26.4
-Successfully installed joblib-1.5.3 scikit-learn-1.3.0 scipy-1.17.0 threadpoolctl-3.6.0
-Successfully installed coloredlogs-15.0.1 flatbuffers-25.12.19 humanfriendly-10.0 mpmath-1.3.0 onnxruntime-1.16.3 protobuf-6.33.3 sympy-1.14.0
-Successfully installed onnx-1.16.2
-Successfully installed skl2onnx-1.19.1
+Successfully installed joblib-1.5.3 numpy-2.5.1 scikit-learn-1.6.1 scipy-1.18.0 threadpoolctl-3.6.0
+Successfully installed coloredlogs-15.0.1 flatbuffers-25.12.19 humanfriendly-10.0 mpmath-1.3.0 onnxruntime-1.21.0 protobuf-7.35.1 sympy-1.14.0
+Successfully installed onnx-1.17.0
+Successfully installed skl2onnx-1.20.0
 </pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">onnx</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">onnxruntime</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ort</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span><span class="p">,</span> <span class="n">Credentials</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">skl2onnx</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_onnx</span><span class="p">,</span> <span class="n">update_registered_converter</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">skl2onnx.algebra.onnx_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">OnnxDiv</span><span class="p">,</span> <span class="n">OnnxSub</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">skl2onnx.common.data_types</span><span class="w"> </span><span class="kn">import</span> <span class="n">guess_numpy_type</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn</span><span class="w"> </span><span class="kn">import</span> <span class="n">datasets</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomForestClassifier</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pipeline</span>
-</pre></div>
 </div>
 </div>
 </div>
@@ -7956,13 +7928,13 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><strong>Tip</strong>: You can generate your <code>Cloud API key</code> by going to the <a href="https://cloud.ibm.com/iam#/users"><strong>Users</strong> section of the Cloud console</a>. From that page, click your name, scroll down to the <strong>API Keys</strong> section, and click <strong>Create an IBM Cloud API key</strong>. Give your key a name and click <strong>Create</strong>, then copy the created key and paste it below. You can also get a service-specific url by going to the <a href="https://cloud.ibm.com/apidocs/machine-learning"><strong>Endpoint URLs</strong> section of the watsonx.ai Runtime docs</a>.  You can check your instance location in your  <a href="https://cloud.ibm.com/catalog/services/watson-machine-learning" rel="noopener no referrer" target="_blank">watsonx.ai Runtime Service</a> instance details.</p>
-<p>You can also get the service specific apikey by going to the <a href="https://cloud.ibm.com/iam/serviceids"><strong>Service IDs</strong> section of the Cloud Console</a>.  From that page, click <strong>Create</strong>, then copy the created key, and paste it below.</p>
-<p><strong>Action</strong>: Enter your <code>api_key</code> and <code>location</code> in the following cells.</p>
+<p><strong>Tip</strong>: Your <code>Cloud API key</code> can be generated by going to the <a href="https://cloud.ibm.com/iam#/users"><strong>Users</strong> section of the Cloud console</a>. From that page, click your name, scroll down to the <strong>API Keys</strong> section, and click <strong>Create an IBM Cloud API key</strong>. Give your key a name and click <strong>Create</strong>, then copy the created key and paste it below. You can also get a service specific url by going to the <a href="https://cloud.ibm.com/apidocs/machine-learning"><strong>Endpoint URLs</strong> section of the watsonx.ai Runtime docs</a>.  You can check your instance location in your  <a href="https://cloud.ibm.com/catalog/services/watsonxai-runtime" rel="noopener no referrer" target="_blank">watsonx.ai Runtime Service</a> instance details.</p>
+<p>You can also get service specific apikey by going to the <a href="https://cloud.ibm.com/iam/serviceids"><strong>Service IDs</strong> section of the Cloud Console</a>.  From that page, click <strong>Create</strong>, then copy the created key and paste it below.</p>
+<p><strong>Action</strong>: Enter your <code>url</code> and <code>api_key</code> in the following cell.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7970,21 +7942,15 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">api_key</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Please enter your api key (hit enter): "</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span>
+
+<span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span>
+    <span class="n">url</span><span class="o">=</span><span class="s2">"https://us-south.ml.cloud.ibm.com"</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Please enter your watsonx.ai api key (hit enter): "</span><span class="p">),</span>
+<span class="p">)</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Please enter your api key (hit enter):  ········
-</pre>
 </div>
 </div>
 </div>
@@ -7997,58 +7963,9 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">location</span> <span class="o">=</span> <span class="s2">"ENTER YOUR LOCATION HERE"</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>If you are running this notebook on Cloud, you can access the <code>location</code> via:</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<pre><code>location = os.environ.get("RUNTIME_ENV_REGION")
-</code></pre>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">"https://</span><span class="si">{</span><span class="n">location</span><span class="si">}</span><span class="s2">.ml.cloud.ibm.com"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span> <span class="o">=</span> <span class="n">APIClient</span><span class="p">(</span><span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">APIClient</span><span class="p">(</span><span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8079,7 +7996,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">space_id</span> <span class="o">=</span> <span class="s2">"ENTER YOUR SPACE ID HERE"</span>
@@ -8129,7 +8046,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">set</span><span class="o">.</span><span class="n">default_space</span><span class="p">(</span><span class="n">space_id</span><span class="p">)</span>
@@ -8143,7 +8060,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>'SUCCESS'</pre>
 </div>
@@ -8178,10 +8095,13 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">iris</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_iris</span><span class="p">()</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn</span><span class="w"> </span><span class="kn">import</span> <span class="n">datasets</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">iris</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_iris</span><span class="p">()</span>
 <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span>
 <span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
     <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.20</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
@@ -8207,10 +8127,12 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">()</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -8234,22 +8156,26 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<pre><code>class CustomStandardScaler(BaseEstimator, TransformerMixin):
-    def __init__(self):
-        self.mean_ = None
-        self.scale_ = None
+<div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pipeline</span>
 
-    def fit(self, X, y=None):
-        self.mean_ = np.mean(X, axis=0)
-        self.scale_ = np.std(X, axis=0)
-        self.scale_[self.scale_ == 0] = 1.0
-        return self
+<span class="k">class</span><span class="w"> </span><span class="nc">CustomStandardScaler</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean_</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scale_</span> <span class="o">=</span> <span class="kc">None</span>
 
-    def transform(self, X):
-        return (X - self.mean_) / self.scale_
+    <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scale_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scale_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">scale_</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="k">return</span> <span class="bp">self</span>
 
-model = Pipeline([("transformer", CustomStandardScaler()), ("estimator", model)])
-</code></pre>
+    <span class="k">def</span><span class="w"> </span><span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean_</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale_</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([(</span><span class="s2">"transformer"</span><span class="p">,</span> <span class="n">CustomStandardScaler</span><span class="p">()),</span> <span class="p">(</span><span class="s2">"estimator"</span><span class="p">,</span> <span class="n">model</span><span class="p">)])</span>
+</pre></div>
 </div>
 </div>
 </div>
@@ -8269,7 +8195,7 @@ model = Pipeline([("transformer", CustomStandardScaler()), ("estimator", model)]
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
@@ -8283,9 +8209,424 @@ model = Pipeline([("transformer", CustomStandardScaler()), ("estimator", model)]
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[11]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
-<style>#sk-container-id-1 {color: black;}#sk-container-id-1 pre{padding: 0;}#sk-container-id-1 div.sk-toggleable {background-color: white;}#sk-container-id-1 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-1 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-1 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-1 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-1 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-1 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-1 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-1 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-1 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-1 div.sk-item {position: relative;z-index: 1;}#sk-container-id-1 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-1 div.sk-item::before, #sk-container-id-1 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-1 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-1 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-1 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-1 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-1 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-1 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-1 div.sk-label-container {text-align: center;}#sk-container-id-1 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-1 div.sk-text-repr-fallback {display: none;}</style><div class="sk-top-container" id="sk-container-id-1"><div class="sk-text-repr-fallback"><pre>RandomForestClassifier()</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br/>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item"><div class="sk-estimator sk-toggleable"><input checked="" class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox"/><label class="sk-toggleable__label sk-toggleable__label-arrow" for="sk-estimator-id-1">RandomForestClassifier</label><div class="sk-toggleable__content"><pre>RandomForestClassifier()</pre></div></div></div></div></div>
+<style>#sk-container-id-1 {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: #000;
+  --sklearn-color-text-muted: #666;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, white)));
+  --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-icon: #696969;
+
+  @media (prefers-color-scheme: dark) {
+    /* Redefinition of color scheme for dark theme */
+    --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, #111)));
+    --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-icon: #878787;
+  }
+}
+
+#sk-container-id-1 {
+  color: var(--sklearn-color-text);
+}
+
+#sk-container-id-1 pre {
+  padding: 0;
+}
+
+#sk-container-id-1 input.sk-hidden--visually {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+#sk-container-id-1 div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+#sk-container-id-1 div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+#sk-container-id-1 div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+#sk-container-id-1 div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+#sk-container-id-1 div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+#sk-container-id-1 div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+#sk-container-id-1 div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+#sk-container-id-1 div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+#sk-container-id-1 div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+#sk-container-id-1 div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+#sk-container-id-1 div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+#sk-container-id-1 label.sk-toggleable__label {
+  cursor: pointer;
+  display: flex;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+
+#sk-container-id-1 label.sk-toggleable__label .caption {
+  font-size: 0.6rem;
+  font-weight: lighter;
+  color: var(--sklearn-color-text-muted);
+}
+
+#sk-container-id-1 label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+#sk-container-id-1 div.sk-toggleable__content {
+  max-height: 0;
+  max-width: 0;
+  overflow: hidden;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  max-height: 200px;
+  max-width: 100%;
+  overflow: auto;
+}
+
+#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+#sk-container-id-1 div.sk-label label.sk-toggleable__label,
+#sk-container-id-1 div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+#sk-container-id-1 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+#sk-container-id-1 div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 1.2em;
+}
+
+#sk-container-id-1 div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+#sk-container-id-1 div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+#sk-container-id-1 div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 0.5em;
+  text-align: center;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-1);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+#sk-container-id-1 a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+#sk-container-id-1 a.estimator_doc_link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+#sk-container-id-1 a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+#sk-container-id-1 a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+</style><div class="sk-top-container" id="sk-container-id-1"><div class="sk-text-repr-fallback"><pre>RandomForestClassifier()</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br/>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input checked="" class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-1"><div><div>RandomForestClassifier</div></div><div><a class="sk-estimator-doc-link fitted" href="https://scikit-learn.org/1.6/modules/generated/sklearn.ensemble.RandomForestClassifier.html" rel="noreferrer" target="_blank">?<span>Documentation for RandomForestClassifier</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>RandomForestClassifier()</pre></div> </div></div></div></div>
 </div>
 </div>
 </div>
@@ -8307,7 +8648,7 @@ model = Pipeline([("transformer", CustomStandardScaler()), ("estimator", model)]
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_test</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
@@ -8321,7 +8662,7 @@ model = Pipeline([("transformer", CustomStandardScaler()), ("estimator", model)]
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>array([1, 0, 2])</pre>
 </div>
@@ -8359,33 +8700,37 @@ For more information refer to the <a href="https://onnx.ai/sklearn-onnx/auto_tut
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<pre><code>def custom_standard_scaler_shape_calculator(operator):
-    operator.outputs[0].type = operator.inputs[0].type
+<div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">skl2onnx</span><span class="w"> </span><span class="kn">import</span> <span class="n">update_registered_converter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">skl2onnx.algebra.onnx_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">OnnxDiv</span><span class="p">,</span> <span class="n">OnnxSub</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">skl2onnx.common.data_types</span><span class="w"> </span><span class="kn">import</span> <span class="n">guess_numpy_type</span>
 
-def custom_standard_scaler_converter(scope, operator, container):
-    op = operator.raw_operator
-    opv = container.target_opset
-    out = operator.outputs
+<span class="k">def</span><span class="w"> </span><span class="nf">custom_standard_scaler_shape_calculator</span><span class="p">(</span><span class="n">operator</span><span class="p">):</span>
+    <span class="n">operator</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">type</span>
 
-    X = operator.inputs[0]
+<span class="k">def</span><span class="w"> </span><span class="nf">custom_standard_scaler_converter</span><span class="p">(</span><span class="n">scope</span><span class="p">,</span> <span class="n">operator</span><span class="p">,</span> <span class="n">container</span><span class="p">):</span>
+    <span class="n">op</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">raw_operator</span>
+    <span class="n">opv</span> <span class="o">=</span> <span class="n">container</span><span class="o">.</span><span class="n">target_opset</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">outputs</span>
 
-    dtype = guess_numpy_type(X.type)
-    Y = OnnxDiv(
-        OnnxSub(X, op.mean_.astype(dtype), op_version=opv),
-        op.scale_.astype(dtype),
-        op_version=opv,
-        output_names=out[:1],
-    )
-    Y.add_to(scope, container)
+    <span class="n">X</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">dtype</span> <span class="o">=</span> <span class="n">guess_numpy_type</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">OnnxDiv</span><span class="p">(</span>
+        <span class="n">OnnxSub</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">op</span><span class="o">.</span><span class="n">mean_</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">),</span> <span class="n">op_version</span><span class="o">=</span><span class="n">opv</span><span class="p">),</span>
+        <span class="n">op</span><span class="o">.</span><span class="n">scale_</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">),</span>
+        <span class="n">op_version</span><span class="o">=</span><span class="n">opv</span><span class="p">,</span>
+        <span class="n">output_names</span><span class="o">=</span><span class="n">out</span><span class="p">[:</span><span class="mi">1</span><span class="p">],</span>
+    <span class="p">)</span>
+    <span class="n">Y</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">scope</span><span class="p">,</span> <span class="n">container</span><span class="p">)</span>
 
 
-update_registered_converter(
-    CustomStandardScaler,
-    "CustomStandardScaler",
-    custom_standard_scaler_shape_calculator,
-    custom_standard_scaler_converter,
-)
-</code></pre>
+<span class="n">update_registered_converter</span><span class="p">(</span>
+    <span class="n">CustomStandardScaler</span><span class="p">,</span>
+    <span class="s2">"CustomStandardScaler"</span><span class="p">,</span>
+    <span class="n">custom_standard_scaler_shape_calculator</span><span class="p">,</span>
+    <span class="n">custom_standard_scaler_converter</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
 </div>
 </div>
 </div>
@@ -8405,10 +8750,12 @@ update_registered_converter(
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">onnx_model</span> <span class="o">=</span> <span class="n">to_onnx</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_train</span><span class="p">,</span> <span class="n">target_opset</span><span class="o">=</span><span class="mi">19</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">skl2onnx</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_onnx</span>
+
+<span class="n">onnx_model</span> <span class="o">=</span> <span class="n">to_onnx</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_train</span><span class="p">,</span> <span class="n">target_opset</span><span class="o">=</span><span class="mi">21</span><span class="p">)</span>
 
 <span class="n">onnx_model_filename</span> <span class="o">=</span> <span class="s2">"sklearn_model.onnx"</span>
 
@@ -8436,10 +8783,12 @@ update_registered_converter(
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">onnx</span><span class="o">.</span><span class="n">checker</span><span class="o">.</span><span class="n">check_model</span><span class="p">(</span><span class="n">onnx_model</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">onnx</span>
+
+<span class="n">onnx</span><span class="o">.</span><span class="n">checker</span><span class="o">.</span><span class="n">check_model</span><span class="p">(</span><span class="n">onnx_model</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8450,10 +8799,12 @@ update_registered_converter(
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">session</span> <span class="o">=</span> <span class="n">ort</span><span class="o">.</span><span class="n">InferenceSession</span><span class="p">(</span><span class="n">onnx_model_filename</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">onnxruntime</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ort</span>
+
+<span class="n">session</span> <span class="o">=</span> <span class="n">ort</span><span class="o">.</span><span class="n">InferenceSession</span><span class="p">(</span><span class="n">onnx_model_filename</span><span class="p">)</span>
 
 <span class="n">input_data</span> <span class="o">=</span> <span class="p">{</span><span class="n">session</span><span class="o">.</span><span class="n">get_inputs</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">x_test</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()}</span>
 <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">([],</span> <span class="n">input_data</span><span class="p">)</span>
@@ -8467,11 +8818,11 @@ update_registered_converter(
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[15]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>[array([1, 0, 2], dtype=int64),
- [{0: 0.0, 1: 0.9899999499320984, 2: 0.009999999776482582},
-  {0: 0.9899999499320984, 1: 0.009999999776482582, 2: 0.0},
+ [{0: 0.0, 1: 0.9699999690055847, 2: 0.029999999329447746},
+  {0: 0.9799999594688416, 1: 0.019999999552965164, 2: 0.0},
   {0: 0.0, 1: 0.0, 2: 1.0}]]</pre>
 </div>
 </div>
@@ -8539,10 +8890,10 @@ As you can see, the predicted values are consistent with those calculated in the
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">sofware_spec_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">get_id_by_name</span><span class="p">(</span><span class="s2">"onnxruntime_opset_19"</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">software_spec_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">software_specifications</span><span class="o">.</span><span class="n">get_id_by_name</span><span class="p">(</span><span class="s2">"onnxruntime_opset_21"</span><span class="p">)</span>
 <span class="n">onnx_model_zip</span> <span class="o">=</span> <span class="s2">"sklearn_onnx.zip"</span>
 </pre></div>
 </div>
@@ -8554,7 +8905,7 @@ As you can see, the predicted values are consistent with those calculated in the
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="err">!</span><span class="nb">zip</span> <span class="p">{</span><span class="n">onnx_model_zip</span><span class="p">}</span> <span class="p">{</span><span class="n">onnx_model_filename</span><span class="p">}</span>
@@ -8570,7 +8921,7 @@ As you can see, the predicted values are consistent with those calculated in the
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>updating: sklearn_model.onnx (deflated 92%)
+<pre>  adding: sklearn_model.onnx (deflated 92%)
 </pre>
 </div>
 </div>
@@ -8581,13 +8932,13 @@ As you can see, the predicted values are consistent with those calculated in the
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">ModelMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="s2">"scikit-learn to ONNX converted model"</span><span class="p">,</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">ModelMetaNames</span><span class="o">.</span><span class="n">TYPE</span><span class="p">:</span> <span class="s2">"onnxruntime_1.16"</span><span class="p">,</span>
-    <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">ModelMetaNames</span><span class="o">.</span><span class="n">SOFTWARE_SPEC_ID</span><span class="p">:</span> <span class="n">sofware_spec_id</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">ModelMetaNames</span><span class="o">.</span><span class="n">TYPE</span><span class="p">:</span> <span class="s2">"onnxruntime_1.17"</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">ModelMetaNames</span><span class="o">.</span><span class="n">SOFTWARE_SPEC_ID</span><span class="p">:</span> <span class="n">software_spec_id</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="n">published_model</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">store_model</span><span class="p">(</span>
@@ -8609,18 +8960,58 @@ As you can see, the predicted values are consistent with those calculated in the
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">published_model_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">get_model_id</span><span class="p">(</span><span class="n">published_model</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="n">published_model_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">get_model_id</span><span class="p">(</span><span class="n">published_model</span><span class="p">)</span>
 <span class="n">model_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">get_details</span><span class="p">(</span><span class="n">published_model_id</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">model_details</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>{
+  "metadata": {
+    "name": "scikit-learn to ONNX converted model",
+    "space_id": "ec654d74-517e-45b0-8cfa-0b355266b56a",
+    "resource_key": "16a00512-88d6-42f9-a4bc-214822f0879d",
+    "id": "019f7fb2-a464-7391-a9da-6cbce80e0de1",
+    "created_at": "2026-07-20T13:24:01Z",
+    "rov": {
+      "member_roles": {
+        "IBMid-696000GJGB": {
+          "user_iam_id": "IBMid-696000GJGB",
+          "roles": [
+            "OWNER"
+          ]
+        }
+      }
+    },
+    "owner": "IBMid-696000GJGB"
+  },
+  "entity": {
+    "software_spec": {
+      "id": "d0b5361f-0810-554e-8d7b-874b5ff799b1"
+    },
+    "type": "onnxruntime_1.17"
+  }
+}
+</pre>
 </div>
 </div>
 </div>
@@ -8664,7 +9055,7 @@ As you can see, the predicted values are consistent with those calculated in the
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
@@ -8689,19 +9080,19 @@ As you can see, the predicted values are consistent with those calculated in the
 
 ######################################################################################
 
-Synchronous deployment creation for id: '41f34250-e6f0-4f19-933d-da60ccf3dd6e' started
+Synchronous deployment creation for id: '019f7fb2-a464-7391-a9da-6cbce80e0de1' started
 
 ######################################################################################
 
 
 initializing
 Note: online_url and serving_urls are deprecated and will be removed in a future release. Use inference instead.
-.
+......
 ready
 
 
 -----------------------------------------------------------------------------------------------
-Successfully finished deployment creation, deployment_id='7629ed62-cdfa-4607-9b29-e0d93d2a7f4f'
+Successfully finished deployment creation, deployment_id='019f7fb2-db53-72da-8db7-da44e89a11aa'
 -----------------------------------------------------------------------------------------------
 
 
@@ -8715,7 +9106,7 @@ Successfully finished deployment creation, deployment_id='7629ed62-cdfa-4607-9b2
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">deployment_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">created_deployment</span><span class="p">)</span>
@@ -8740,7 +9131,7 @@ Successfully finished deployment creation, deployment_id='7629ed62-cdfa-4607-9b2
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_scoring_href</span><span class="p">(</span><span class="n">created_deployment</span><span class="p">)</span>
@@ -8765,7 +9156,7 @@ Successfully finished deployment creation, deployment_id='7629ed62-cdfa-4607-9b2
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_details</span><span class="p">(</span><span class="n">deployment_id</span><span class="p">)</span>
@@ -8812,7 +9203,7 @@ Successfully finished deployment creation, deployment_id='7629ed62-cdfa-4607-9b2
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">scoring_payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"input_data"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"values"</span><span class="p">:</span> <span class="n">x_test</span><span class="p">[:</span><span class="mi">3</span><span class="p">]}]}</span>
@@ -8837,7 +9228,7 @@ Successfully finished deployment creation, deployment_id='7629ed62-cdfa-4607-9b2
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">deployment_id</span><span class="p">,</span> <span class="n">scoring_payload</span><span class="p">)</span>
@@ -8862,7 +9253,7 @@ Successfully finished deployment creation, deployment_id='7629ed62-cdfa-4607-9b2
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
@@ -8893,12 +9284,12 @@ Successfully finished deployment creation, deployment_id='7629ed62-cdfa-4607-9b2
       "values": [
         {
           "0": 0.0,
-          "1": 0.9899999499320984,
-          "2": 0.009999999776482582
+          "1": 0.9699999690055847,
+          "2": 0.029999999329447746
         },
         {
-          "0": 0.9899999499320984,
-          "1": 0.009999999776482582,
+          "0": 0.9799999594688416,
+          "1": 0.019999999552965164,
           "2": 0.0
         },
         {

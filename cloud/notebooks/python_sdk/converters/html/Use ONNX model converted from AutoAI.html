@@ -7802,8 +7802,8 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Use-ONNX-model-converted-from-AutoAI-with-ibm-watsonx-ai">Use ONNX model converted from AutoAI with <code>ibm-watsonx-ai</code><a class="anchor-link" href="#Use-ONNX-model-converted-from-AutoAI-with-ibm-watsonx-ai">¶</a></h1><p>This notebook facilitates <code>ONNX</code>, <code>AutoAI</code>, and <code>watsonx.ai Runtime</code> service. It contains steps and code to work with <a href="https://pypi.python.org/pypi/ibm-watsonx-ai">ibm-watsonx-ai</a> library available in PyPI repository in order to convert the model to ONNX format. It also introduces commands for persisting, deploying and scoring the model.</p>
-<p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
+<h1 id="Use-ONNX-model-converted-from-AutoAI-with-ibm-watsonx-ai">Use ONNX model converted from AutoAI with <code>ibm-watsonx-ai</code><a class="anchor-link" href="#Use-ONNX-model-converted-from-AutoAI-with-ibm-watsonx-ai">¶</a></h1><p>This notebook facilitates <code>ONNX</code>, <code>AutoAI</code>, and watsonx.ai Runtime service. It contains steps and code to work with <a href="https://pypi.python.org/pypi/ibm-watsonx-ai">ibm-watsonx-ai</a> library available in PyPI repository in order to convert the model to ONNX format. It also introduces commands for persisting, deploying and scoring the model.</p>
+<p>Some familiarity with Python is helpful. This notebook uses Python 3.12.</p>
 </div>
 </div>
 </div>
@@ -7867,10 +7867,10 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">ibm</span><span class="o">-</span><span class="n">watsonx</span><span class="o">-</span><span class="n">ai</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="s2">"autoai_libs[onnx]&lt;3.0.0"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">onnxruntime</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">ibm</span><span class="o">-</span><span class="n">watsonx</span><span class="o">-</span><span class="n">ai</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="s2">"autoai_libs[onnx]&gt;=3.0.12,&lt;4.0.0"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">onnxruntime</span><span class="o">==</span><span class="mf">1.21</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -7883,10 +7883,10 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Successfully installed anyio-4.12.0 cachetools-6.2.2 certifi-2025.11.12 charset_normalizer-3.4.4 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-watsonx-ai-1.4.11 idna-3.11 jmespath-1.0.1 lomond-0.3.3 numpy-2.3.5 pandas-2.2.3 pytz-2025.2 requests-2.32.5 tabulate-0.9.0 tzdata-2025.2 urllib3-2.6.2
+<pre>Successfully installed anyio-4.14.2 cachetools-7.1.4 certifi-2026.6.17 charset_normalizer-3.4.9 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 idna-3.18 jmespath-1.0.1 lomond-0.3.3 numpy-2.5.1 pandas-2.3.3 pytz-2026.2 requests-2.34.2 tabulate-0.10.0 tzdata-2026.3 urllib3-2.7.0
 Successfully installed wget-3.2
-Successfully installed astunparse-1.6.3 attrs-25.4.0 autoai_libs-2.0.29 black-25.12.0 click-8.3.1 cloudpickle-3.1.2 future-1.0.0 gensim-4.3.3 graphviz-0.21 greenery-3.3.3 hyperopt-0.2.7 joblib-1.5.2 jsonref-1.1.0 jsonschema-4.20.0 jsonschema-specifications-2025.9.1 jsonsubschema-0.0.7 lale-0.8.4 lightgbm-4.2.0 mypy-extensions-1.1.0 networkx-3.6.1 numpy-1.26.4 onnx-1.16.0 onnxconverter-common-1.13.0 onnxmltools-1.14.0 onnxruntime-extensions-0.13.0 pandas-2.1.4 parameterized-0.8.1 pathspec-0.12.1 portion-2.6.1 protobuf-6.33.2 py4j-0.10.9.9 pytokens-0.3.0 referencing-0.37.0 rpds-py-0.30.0 scikit-learn-1.3.2 scipy-1.13.1 skl2onnx-1.18.0 smart-open-7.5.0 sortedcontainers-2.4.0 threadpoolctl-3.6.0 tqdm-4.67.1 wheel-0.45.1 wrapt-2.0.1 xgboost-2.0.3
-Successfully installed coloredlogs-15.0.1 flatbuffers-25.9.23 humanfriendly-10.0 mpmath-1.3.0 onnxruntime-1.23.2 sympy-1.14.0
+Successfully installed attrs-25.3.0 autoai_libs-3.0.12 black-26.5.1 click-8.4.2 cloudpickle-3.1.2 future-1.0.0 greenery-4.2.2 hyperopt-0.2.7 joblib-1.5.3 jsonref-1.1.0 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 jsonsubschema-0.0.8 lale-0.9.4 lightgbm-4.6.0 mypy-extensions-1.1.0 networkx-3.6.1 numpy-2.0.2 onnx-1.17.0 onnxconverter-common-1.13.0 onnxmltools-1.14.0 onnxruntime-extensions-0.13.0 pandas-2.2.3 parameterized-0.9.0 pathspec-1.1.1 portion-2.6.2 protobuf-6.33.5 py4j-0.10.9.9 pytokens-0.4.1 referencing-0.37.0 rpds-py-2026.6.3 scikit-learn-1.6.1 scipy-1.15.3 setuptools-81.0.0 skl2onnx-1.18.0 snapml-1.16.4 sortedcontainers-2.4.0 threadpoolctl-3.6.0 tqdm-4.69.0 xgboost-2.1.4
+Successfully installed coloredlogs-15.0.1 flatbuffers-25.12.19 humanfriendly-10.0 mpmath-1.3.0 onnxruntime-1.21.0 sympy-1.14.0
 </pre>
 </div>
 </div>
@@ -7921,9 +7921,9 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><strong>Tip</strong>: You can generate your <code>Cloud API key</code> by going to the <a href="https://cloud.ibm.com/iam#/users"><strong>Users</strong> section of the Cloud console</a>. From that page, click your name, scroll down to the <strong>API Keys</strong> section, and click <strong>Create an IBM Cloud API key</strong>. Give your key a name and click <strong>Create</strong>, then copy the created key and paste it below. You can also get a service-specific url by going to the <a href="https://cloud.ibm.com/apidocs/machine-learning"><strong>Endpoint URLs</strong> section of the watsonx.ai Runtime docs</a>.  You can check your instance location in your  <a href="https://cloud.ibm.com/catalog/services/watson-machine-learning" rel="noopener no referrer" target="_blank">watsonx.ai Runtime Service</a> instance details.</p>
-<p>You can also get the service specific apikey by going to the <a href="https://cloud.ibm.com/iam/serviceids"><strong>Service IDs</strong> section of the Cloud Console</a>.  From that page, click <strong>Create</strong>, then copy the created key, and paste it below.</p>
-<p><strong>Action</strong>: Enter your <code>api_key</code> and <code>location</code> in the following cells.</p>
+<p><strong>Tip</strong>: Your <code>Cloud API key</code> can be generated by going to the <a href="https://cloud.ibm.com/iam#/users"><strong>Users</strong> section of the Cloud console</a>. From that page, click your name, scroll down to the <strong>API Keys</strong> section, and click <strong>Create an IBM Cloud API key</strong>. Give your key a name and click <strong>Create</strong>, then copy the created key and paste it below. You can also get a service specific url by going to the <a href="https://cloud.ibm.com/apidocs/machine-learning"><strong>Endpoint URLs</strong> section of the watsonx.ai Runtime docs</a>.  You can check your instance location in your  <a href="https://cloud.ibm.com/catalog/services/watsonxai-runtime" rel="noopener no referrer" target="_blank">watsonx.ai Runtime Service</a> instance details.</p>
+<p>You can also get service specific apikey by going to the <a href="https://cloud.ibm.com/iam/serviceids"><strong>Service IDs</strong> section of the Cloud Console</a>.  From that page, click <strong>Create</strong>, then copy the created key and paste it below.</p>
+<p><strong>Action</strong>: Enter your <code>url</code> and <code>api_key</code> in the following cell.</p>
 </div>
 </div>
 </div>
@@ -7937,7 +7937,12 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
 
-<span class="n">api_key</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Please enter your api key (hit enter): "</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span>
+
+<span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span>
+    <span class="n">url</span><span class="o">=</span><span class="s2">"https://us-south.ml.cloud.ibm.com"</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Please enter your watsonx.ai api key (hit enter): "</span><span class="p">),</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7949,59 +7954,6 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">location</span> <span class="o">=</span> <span class="s2">"PASTE YOUR LOCATION HERE"</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>If you are running this notebook on Cloud, you can access the <code>location</code> via:</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<pre><code>location = os.environ.get("RUNTIME_ENV_REGION")
-</code></pre>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Credentials</span>
-
-<span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s2">"https://</span><span class="si">{</span><span class="n">location</span><span class="si">}</span><span class="s2">.ml.cloud.ibm.com"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span>
@@ -8037,7 +7989,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">space_id</span> <span class="o">=</span> <span class="s2">"PASTE YOUR SPACE ID HERE"</span>
@@ -8087,7 +8039,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">set</span><span class="o">.</span><span class="n">default_space</span><span class="p">(</span><span class="n">space_id</span><span class="p">)</span>
@@ -8101,7 +8053,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>'SUCCESS'</pre>
 </div>
@@ -8124,7 +8076,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_from_json</span>
@@ -8138,7 +8090,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">space_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">spaces</span><span class="o">.</span><span class="n">get_details</span><span class="p">(</span><span class="n">space_id</span><span class="o">=</span><span class="n">space_id</span><span class="p">)</span>
@@ -8178,7 +8130,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s2">"credit_risk_training_light.csv"</span>
@@ -8205,7 +8157,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
@@ -8236,7 +8188,7 @@ ibmcloud resource service-instance INSTANCE_NAME
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">conn_meta_props</span> <span class="o">=</span> <span class="p">{</span>
@@ -8287,22 +8239,21 @@ SUCCESS
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><strong>Note</strong>: The above connection can be initialized alternatively with <code>api_key</code> and <code>resource_instance_id</code>.<br/>
 The above cell can be replaced with:</p>
-<pre><code>conn_meta_props= {
-    client.connections.ConfigurationMetaNames.NAME: f"Connection to Database - {db_name} ",
-    client.connections.ConfigurationMetaNames.DATASOURCE_TYPE: client.connections.get_datasource_type_id_by_name(db_name),
-    client.connections.ConfigurationMetaNames.DESCRIPTION: "Connection to external Database",
-    client.connections.ConfigurationMetaNames.PROPERTIES: {
-        "bucket": bucket_name,
-        "api_key": cos_credentials["apikey"],
-        "resource_instance_id": cos_credentials["resource_instance_id"],
-        "iam_url": "https://iam.cloud.ibm.com/identity/token",
-        "url": "https://s3.us.cloud-object-storage.appdomain.cloud"
-    }
-}
+<div class="highlight"><pre><span></span><span class="n">conn_meta_props</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">NAME</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Connection to Database - </span><span class="si">{</span><span class="n">db_name</span><span class="si">}</span><span class="s2"> "</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DATASOURCE_TYPE</span><span class="p">:</span> <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">get_datasource_type_id_by_name</span><span class="p">(</span><span class="n">db_name</span><span class="p">),</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">DESCRIPTION</span><span class="p">:</span> <span class="s2">"Connection to external Database"</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">ConfigurationMetaNames</span><span class="o">.</span><span class="n">PROPERTIES</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"bucket"</span><span class="p">:</span> <span class="n">bucket_name</span><span class="p">,</span>
+        <span class="s2">"api_key"</span><span class="p">:</span> <span class="n">cos_credentials</span><span class="p">[</span><span class="s2">"apikey"</span><span class="p">],</span>
+        <span class="s2">"resource_instance_id"</span><span class="p">:</span> <span class="n">cos_credentials</span><span class="p">[</span><span class="s2">"resource_instance_id"</span><span class="p">],</span>
+        <span class="s2">"iam_url"</span><span class="p">:</span> <span class="s2">"https://iam.cloud.ibm.com/identity/token"</span><span class="p">,</span>
+        <span class="s2">"url"</span><span class="p">:</span> <span class="s2">"https://s3.us.cloud-object-storage.appdomain.cloud"</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 
-conn_details = client.connections.create(meta_props=conn_meta_props)
-
-</code></pre>
+<span class="n">conn_details</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">meta_props</span><span class="o">=</span><span class="n">conn_meta_props</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
 </div>
@@ -8311,7 +8262,7 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">connection_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">conn_details</span><span class="p">)</span>
@@ -8336,7 +8287,7 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataConnection</span><span class="p">,</span> <span class="n">S3Location</span>
@@ -8368,7 +8319,7 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">credit_risk_conn</span><span class="o">.</span><span class="n">set_client</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
@@ -8383,8 +8334,20 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Collecting pyarrow&gt;=3.0.0
+  Downloading pyarrow-25.0.0-cp312-cp312-macosx_12_0_x86_64.whl.metadata (3.0 kB)
+Downloading pyarrow-25.0.0-cp312-cp312-macosx_12_0_x86_64.whl (37.6 MB)
+   <span class="ansi-black-intense-fg">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-green-fg">37.6/37.6 MB</span> <span class="ansi-red-fg">41.7 MB/s</span>  <span class="ansi-yellow-fg">0:00:00</span> eta <span class="ansi-cyan-fg">0:00:01</span>
+Installing collected packages: pyarrow
+Successfully installed pyarrow-25.0.0
+</pre>
+</div>
+</div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[15]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[13]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
@@ -8722,7 +8685,7 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.experiment</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoAI</span>
@@ -8756,7 +8719,7 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">pipeline_optimizer</span><span class="o">.</span><span class="n">get_params</span><span class="p">()</span>
@@ -8770,7 +8733,7 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[15]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>{'name': 'Credit Risk Prediction - AutoAI',
  'desc': '',
@@ -8847,7 +8810,7 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">run_details</span> <span class="o">=</span> <span class="n">pipeline_optimizer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
@@ -8865,7 +8828,7 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Training job c5bb1f49-573e-49d9-8641-2a35adb5aa35 completed: 100%|████████| [03:03&lt;00:00,  1.84s/it]
+<pre>Training job b04433c5-17b6-442d-9dad-19ebe4f7c22b completed: 100%|████████| [03:53&lt;00:00,  2.33s/it]
 </pre>
 </div>
 </div>
@@ -8887,7 +8850,7 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">pipeline_optimizer</span><span class="o">.</span><span class="n">get_run_status</span><span class="p">()</span>
@@ -8901,7 +8864,7 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[19]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>'completed'</pre>
 </div>
@@ -8913,7 +8876,7 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">pipeline_optimizer</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
@@ -8927,7 +8890,7 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[20]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
@@ -9014,85 +8977,85 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 <th>Pipeline_2</th>
 <td>HPO</td>
 <td>RandomForestClassifier</td>
-<td>0.857733</td>
-<td>0.540481</td>
-<td>0.526002</td>
-<td>0.781261</td>
-<td>0.772059</td>
-<td>0.760147</td>
-<td>0.838123</td>
-<td>0.833333</td>
-<td>0.933404</td>
-<td>0.492098</td>
-<td>0.882353</td>
-<td>0.863971</td>
-<td>0.80</td>
-<td>0.753676</td>
-<td>0.814103</td>
-<td>0.857143</td>
+<td>0.847079</td>
+<td>0.539802</td>
+<td>0.536486</td>
+<td>0.763423</td>
+<td>0.764706</td>
+<td>0.734544</td>
+<td>0.825995</td>
+<td>0.812500</td>
+<td>0.926441</td>
+<td>0.511568</td>
+<td>0.764706</td>
+<td>0.845779</td>
+<td>0.72</td>
+<td>0.694853</td>
+<td>0.807692</td>
+<td>0.787879</td>
 </tr>
 <tr>
 <th>Pipeline_3</th>
 <td>HPO, FE</td>
 <td>RandomForestClassifier</td>
-<td>0.857885</td>
-<td>0.537330</td>
-<td>0.518701</td>
-<td>0.790150</td>
-<td>0.750000</td>
-<td>0.773981</td>
-<td>0.842970</td>
-<td>0.800000</td>
-<td>0.927565</td>
-<td>0.459822</td>
-<td>0.705882</td>
-<td>0.876053</td>
-<td>0.68</td>
-<td>0.665441</td>
-<td>0.814103</td>
-<td>0.750000</td>
+<td>0.858620</td>
+<td>0.533092</td>
+<td>0.523155</td>
+<td>0.767988</td>
+<td>0.772059</td>
+<td>0.741791</td>
+<td>0.828248</td>
+<td>0.866667</td>
+<td>0.932751</td>
+<td>0.477012</td>
+<td>0.764706</td>
+<td>0.851342</td>
+<td>0.76</td>
+<td>0.757353</td>
+<td>0.807692</td>
+<td>0.812500</td>
 </tr>
 <tr>
 <th>Pipeline_4</th>
 <td>HPO, FE, HPO</td>
 <td>RandomForestClassifier</td>
-<td>0.863282</td>
-<td>0.539113</td>
-<td>0.531957</td>
-<td>0.785706</td>
+<td>0.864789</td>
+<td>0.533769</td>
+<td>0.488062</td>
+<td>0.799159</td>
+<td>0.750000</td>
+<td>0.768268</td>
+<td>0.854053</td>
+<td>0.866667</td>
+<td>0.937886</td>
+<td>0.450578</td>
 <td>0.764706</td>
-<td>0.766735</td>
-<td>0.840249</td>
-<td>0.857143</td>
-<td>0.931310</td>
-<td>0.458750</td>
-<td>0.705882</td>
-<td>0.869655</td>
-<td>0.72</td>
-<td>0.727941</td>
-<td>0.814103</td>
-<td>0.774194</td>
+<td>0.862862</td>
+<td>0.76</td>
+<td>0.757353</td>
+<td>0.846154</td>
+<td>0.812500</td>
 </tr>
 <tr>
 <th>Pipeline_5</th>
 <td>HPO, FE, HPO, Ensemble</td>
 <td>BatchedTreeEnsembleClassifier(RandomForestClas...</td>
-<td>0.863282</td>
-<td>0.539113</td>
-<td>0.531957</td>
-<td>0.785706</td>
+<td>0.864789</td>
+<td>0.533769</td>
+<td>0.488062</td>
+<td>0.799159</td>
+<td>0.750000</td>
+<td>0.768268</td>
+<td>0.854053</td>
+<td>0.866667</td>
+<td>0.937886</td>
+<td>0.450578</td>
 <td>0.764706</td>
-<td>0.766735</td>
-<td>0.840249</td>
-<td>0.857143</td>
-<td>0.931310</td>
-<td>0.458750</td>
-<td>0.705882</td>
-<td>0.869655</td>
-<td>0.72</td>
-<td>0.727941</td>
-<td>0.814103</td>
-<td>0.774194</td>
+<td>0.862862</td>
+<td>0.76</td>
+<td>0.757353</td>
+<td>0.846154</td>
+<td>0.812500</td>
 </tr>
 </tbody>
 </table>
@@ -9106,7 +9069,7 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">pipeline_name</span> <span class="o">=</span> <span class="s2">"Pipeline_1"</span>
@@ -9120,7 +9083,7 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">pipeline_model</span> <span class="o">=</span> <span class="n">pipeline_optimizer</span><span class="o">.</span><span class="n">get_pipeline</span><span class="p">(</span>
@@ -9147,7 +9110,7 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">X_test</span> <span class="o">=</span> <span class="n">credit_risk_conn</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">"Risk"</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:</span><span class="mi">3</span><span class="p">]</span>
@@ -9161,7 +9124,7 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">X_test_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">col</span><span class="p">:</span> <span class="n">X_test</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">[</span><span class="n">x</span><span class="p">])</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">X_test</span><span class="o">.</span><span class="n">columns</span><span class="p">}</span>
@@ -9176,7 +9139,7 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[24]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[22]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>[array(['No Risk', 'No Risk', 'No Risk'], dtype=object),
  [{'No Risk': 0.8999999761581421, 'Risk': 0.10000000149011612},
@@ -9214,7 +9177,7 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">run_id</span> <span class="o">=</span> <span class="n">get_from_json</span><span class="p">(</span><span class="n">run_details</span><span class="p">,</span> <span class="p">[</span><span class="s2">"metadata"</span><span class="p">,</span> <span class="s2">"id"</span><span class="p">])</span>
@@ -9228,7 +9191,7 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.deployment</span><span class="w"> </span><span class="kn">import</span> <span class="n">WebService</span>
@@ -9253,25 +9216,25 @@ conn_details = client.connections.create(meta_props=conn_meta_props)
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Preparing an AutoAI Deployment...
-Published model uid: 62e3bf7b-37f7-4c38-8e4e-db82ce5a9f79
-Deploying model 62e3bf7b-37f7-4c38-8e4e-db82ce5a9f79 using V4 client.
+Published model uid: 019f7f34-842b-7496-bc2c-25834a5dd526
+Deploying model 019f7f34-842b-7496-bc2c-25834a5dd526 using V4 client.
 
 
 ######################################################################################
 
-Synchronous deployment creation for id: '62e3bf7b-37f7-4c38-8e4e-db82ce5a9f79' started
+Synchronous deployment creation for id: '019f7f34-842b-7496-bc2c-25834a5dd526' started
 
 ######################################################################################
 
 
 initializing
 Note: online_url and serving_urls are deprecated and will be removed in a future release. Use inference instead.
-.....
+......
 ready
 
 
 -----------------------------------------------------------------------------------------------
-Successfully finished deployment creation, deployment_id='368c2d8f-cb12-430f-be1d-0ff493b2d3d5'
+Successfully finished deployment creation, deployment_id='019f7f34-bdae-74fb-a7b3-6566673756c9'
 -----------------------------------------------------------------------------------------------
 
 
@@ -9296,7 +9259,7 @@ Successfully finished deployment creation, deployment_id='368c2d8f-cb12-430f-be1
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [27]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">service</span><span class="p">)</span>
@@ -9321,7 +9284,7 @@ Successfully finished deployment creation, deployment_id='368c2d8f-cb12-430f-be1
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [28]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">service</span><span class="o">.</span><span class="n">get_params</span><span class="p">()</span>
@@ -9335,7 +9298,7 @@ Successfully finished deployment creation, deployment_id='368c2d8f-cb12-430f-be1
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [29]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [27]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">deployment_id</span> <span class="o">=</span> <span class="n">get_from_json</span><span class="p">(</span><span class="n">service</span><span class="o">.</span><span class="n">get_params</span><span class="p">(),</span> <span class="p">[</span><span class="s2">"metadata"</span><span class="p">,</span> <span class="s2">"id"</span><span class="p">])</span>
@@ -9357,9 +9320,9 @@ Successfully finished deployment creation, deployment_id='368c2d8f-cb12-430f-be1
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[29]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[27]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'368c2d8f-cb12-430f-be1d-0ff493b2d3d5'</pre>
+<pre>'019f7f34-bdae-74fb-a7b3-6566673756c9'</pre>
 </div>
 </div>
 </div>
@@ -9369,7 +9332,7 @@ Successfully finished deployment creation, deployment_id='368c2d8f-cb12-430f-be1
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [30]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [28]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">scoring_payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"input_data"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"values"</span><span class="p">:</span> <span class="n">X_test</span><span class="p">}]}</span>
@@ -9394,7 +9357,7 @@ Successfully finished deployment creation, deployment_id='368c2d8f-cb12-430f-be1
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [31]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [29]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">deployment_id</span><span class="p">,</span> <span class="n">scoring_payload</span><span class="p">)</span>
@@ -9410,7 +9373,7 @@ Successfully finished deployment creation, deployment_id='368c2d8f-cb12-430f-be1
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[31]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[29]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>{'predictions': [{'fields': ['prediction', 'probability'],
    'values': [['No Risk', [0.9, 0.1]],
