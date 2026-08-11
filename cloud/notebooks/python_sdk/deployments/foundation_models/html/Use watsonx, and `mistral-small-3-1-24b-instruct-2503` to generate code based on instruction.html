@@ -7803,7 +7803,7 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><img alt="image" src="https://raw.githubusercontent.com/IBM/watson-machine-learning-samples/master/cloud/notebooks/headers/watsonx-Prompt_Lab-Notebook.png"/></p>
-<h1 id="Use-watsonx,-and-mistral-small-3-1-24b-instruct-2503-to-generate-code-based-on-instruction">Use watsonx, and <code>mistral-small-3-1-24b-instruct-2503</code> to generate code based on instruction<a class="anchor-link" href="#Use-watsonx,-and-mistral-small-3-1-24b-instruct-2503-to-generate-code-based-on-instruction">¶</a></h1>
+<h1 id="Use-watsonx,-and-mistralai/mistral-small-3-1-24b-instruct-2503-to-generate-code-based-on-instruction">Use watsonx, and <code>mistralai/mistral-small-3-1-24b-instruct-2503</code> to generate code based on instruction<a class="anchor-link" href="#Use-watsonx,-and-mistralai/mistral-small-3-1-24b-instruct-2503-to-generate-code-based-on-instruction">¶</a></h1>
 </div>
 </div>
 </div>
@@ -7818,8 +7818,8 @@ a.anchor-link {
 <li>Use only Projects and Spaces that are available in watsonx context.</li>
 </ul>
 <h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook contains the steps and code to demonstrate support for code generating in watsonx. It introduces commands for defining prompt and model testing.</p>
-<p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
-<h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The goal of this notebook is to demonstrate how to generate code using IBM <code>mistral-small-3-1-24b-instruct-2503</code> watsonx model based on instruction provided by the user.</p>
+<p>Some familiarity with Python is helpful. This notebook uses Python 3.12.</p>
+<h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The goal of this notebook is to demonstrate how to generate code using <code>mistralai/mistral-small-3-1-24b-instruct-2503</code> watsonx model based on instruction provided by the user.</p>
 <h2 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h2><p>This notebook contains the following parts:</p>
 <ol>
 <li><a href="#Set-up-the-environment">Set up the environment</a></li>
@@ -7853,7 +7853,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Install-and-import-dependencies">Install and import dependencies<a class="anchor-link" href="#Install-and-import-dependencies">¶</a></h3><p><strong>Note:</strong> <code>ibm-watsonx-ai</code> documentation can be found <a href="https://ibm.github.io/watsonx-ai-python-sdk/index.html" rel="noopener no referrer" target="_blank">here</a>.</p>
+<h3 id="Install-dependencies">Install dependencies<a class="anchor-link" href="#Install-dependencies">¶</a></h3>
 </div>
 </div>
 </div>
@@ -7878,7 +7878,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Successfully installed anyio-4.11.0 cachetools-6.2.1 certifi-2025.10.5 charset_normalizer-3.4.4 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-watsonx-ai-1.4.4 idna-3.11 jmespath-1.0.1 lomond-0.3.3 numpy-2.3.4 pandas-2.2.3 pytz-2025.2 requests-2.32.5 sniffio-1.3.1 tabulate-0.9.0 tzdata-2025.2 urllib3-2.5.0
+<pre>Successfully installed anyio-4.14.2 cachetools-7.1.7 certifi-2026.7.22 charset_normalizer-3.4.9 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-watsonx-ai-1.6.1 idna-3.18 jmespath-1.0.1 lomond-0.3.3 numpy-2.5.2 pandas-2.3.3 pytz-2026.3.post1 requests-2.34.2 tabulate-0.10.0 tzdata-2026.3 urllib3-2.7.0
 </pre>
 </div>
 </div>
@@ -7924,7 +7924,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Defining-the-project-id">Defining the project id<a class="anchor-link" href="#Defining-the-project-id">¶</a></h3><p>The Foundation Model requires project id that provides the context for the call. We will obtain the id from the project in which this notebook runs. Otherwise, please provide the project id.</p>
+<h3 id="Defining-the-project-ID">Defining the project ID<a class="anchor-link" href="#Defining-the-project-ID">¶</a></h3><p>The Foundation Model requires project ID that provides the context for the call. We will obtain the ID from the project in which this notebook runs. Otherwise, please provide the project ID.</p>
 </div>
 </div>
 </div>
@@ -7947,6 +7947,17 @@ a.anchor-link {
 </div>
 </div>
 </div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="API-Client-initialization">API Client initialization<a class="anchor-link" href="#API-Client-initialization">¶</a></h3>
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -7957,7 +7968,7 @@ a.anchor-link {
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span>
 
-<span class="n">api_client</span> <span class="o">=</span> <span class="n">APIClient</span><span class="p">(</span><span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">APIClient</span><span class="p">(</span><span class="n">credentials</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7982,8 +7993,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="List-available-models">List available models<a class="anchor-link" href="#List-available-models">¶</a></h4><p>All avaliable models are presented under TextModels class.
-For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-sdk/fm_model_inference.html#TextModels" rel="noopener no referrer" target="_blank">documentation</a>.</p>
+<h4 id="List-available-models">List available models<a class="anchor-link" href="#List-available-models">¶</a></h4>
 </div>
 </div>
 </div>
@@ -7995,7 +8005,7 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 <div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">([</span><span class="n">model</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">api_client</span><span class="o">.</span><span class="n">foundation_models</span><span class="o">.</span><span class="n">TextModels</span><span class="p">])</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">foundation_models</span><span class="o">.</span><span class="n">ChatModels</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -8008,7 +8018,7 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>['DEFENCE_GRANITE', 'GRANITE_3_2_8B_INSTRUCT', 'GRANITE_3_2B_INSTRUCT', 'GRANITE_3_3_8B_INSTRUCT', 'GRANITE_3_8B_INSTRUCT', 'GRANITE_4_H_SMALL', 'GRANITE_8B_CODE_INSTRUCT', 'GRANITE_GUARDIAN_3_8B', 'GRANITE_VISION_3_2_2B', 'LLAMA_3_2_11B_VISION_INSTRUCT', 'LLAMA_3_2_90B_VISION_INSTRUCT', 'LLAMA_3_3_70B_INSTRUCT', 'LLAMA_3_405B_INSTRUCT', 'LLAMA_4_MAVERICK_17B_128E_INSTRUCT_FP8', 'LLAMA_GUARD_3_11B_VISION', 'MISTRAL_MEDIUM_2505', 'MISTRAL_SMALL_3_1_24B_INSTRUCT_2503', 'GPT_OSS_120B', 'ALLAM_1_13B_INSTRUCT']
+<pre>{'GRANITE_4_H_SMALL': 'ibm/granite-4-h-small', 'LLAMA_3_3_70B_INSTRUCT': 'meta-llama/llama-3-3-70b-instruct', 'LLAMA_4_MAVERICK_17B_128E_INSTRUCT_FP8': 'meta-llama/llama-4-maverick-17b-128e-instruct-fp8', 'MISTRAL_SMALL_3_1_24B_INSTRUCT_2503': 'mistralai/mistral-small-3-1-24b-instruct-2503', 'GPT_OSS_120B': 'openai/gpt-oss-120b'}
 </pre>
 </div>
 </div>
@@ -8033,7 +8043,7 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 <div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">model_id</span> <span class="o">=</span> <span class="n">api_client</span><span class="o">.</span><span class="n">foundation_models</span><span class="o">.</span><span class="n">TextModels</span><span class="o">.</span><span class="n">MISTRAL_SMALL_3_1_24B_INSTRUCT_2503</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">model_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">foundation_models</span><span class="o">.</span><span class="n">ChatModels</span><span class="o">.</span><span class="n">MISTRAL_SMALL_3_1_24B_INSTRUCT_2503</span>
 </pre></div>
 </div>
 </div>
@@ -8058,13 +8068,9 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 <div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.metanames</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenTextParamsMetaNames</span> <span class="k">as</span> <span class="n">GenParams</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.metanames</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenChatParamsMetaNames</span> <span class="k">as</span> <span class="n">GenParams</span>
 
-<span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">GenParams</span><span class="o">.</span><span class="n">DECODING_METHOD</span><span class="p">:</span> <span class="s2">"greedy"</span><span class="p">,</span>
-    <span class="n">GenParams</span><span class="o">.</span><span class="n">MAX_NEW_TOKENS</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
-    <span class="n">GenParams</span><span class="o">.</span><span class="n">STOP_SEQUENCES</span><span class="p">:</span> <span class="p">[</span><span class="s2">"&lt;end·of·code&gt;"</span><span class="p">],</span>
-<span class="p">}</span>
+<span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="n">GenParams</span><span class="o">.</span><span class="n">TEMPERATURE</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="n">GenParams</span><span class="o">.</span><span class="n">MAX_COMPLETION_TOKENS</span><span class="p">:</span> <span class="mi">1024</span><span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -8118,7 +8124,9 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 <div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">get_details</span><span class="p">()</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">get_details</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -8128,48 +8136,114 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>{'model_id': 'mistralai/mistral-small-3-1-24b-instruct-2503',
- 'label': 'mistral-small-3-1-24b-instruct-2503',
- 'provider': 'Mistral AI',
- 'source': 'Hugging Face',
- 'indemnity': 'NON_IBM',
- 'functions': [{'id': 'autoai_rag'},
-  {'id': 'image_chat'},
-  {'id': 'text_chat'},
-  {'id': 'text_generation'}],
- 'short_description': 'This model is an instruction-finetuned version of: Mistral-Small-3.1-24B-Base-2503.',
- 'long_description': 'Mistral Small 3 (2501), Mistral Small 3.1 (2503) adds state-of-the-art vision understanding and enhances long context capabilities up to 128k tokens without compromising text performance. With 24 billion parameters, this model achieves top-tier capabilities in both text and vision tasks.',
- 'terms_url': 'https://www.apache.org/licenses/LICENSE-2.0',
- 'input_tier': 'class_c1',
- 'output_tier': 'class_17',
- 'number_params': '24b',
- 'min_shot_size': 1,
- 'task_ids': ['question_answering',
-  'summarization',
-  'retrieval_augmented_generation',
-  'retrieval_augmented_generation',
-  'classification',
-  'generation',
-  'code',
-  'extraction',
-  'function_calling'],
- 'tasks': [{'id': 'question_answering'},
-  {'id': 'summarization'},
-  {'id': 'retrieval_augmented_generation'},
-  {'id': 'classification'},
-  {'id': 'generation'},
-  {'id': 'code'},
-  {'id': 'extraction'},
-  {'id': 'function_calling'}],
- 'model_limits': {'max_sequence_length': 128000, 'max_output_tokens': 16384},
- 'limits': {'3f6acf43-ede8-413a-ac69-f8af3bb0cbfe': {'max_output_tokens': 16384},
-  'a3d2f92f-06f9-48d0-b2e6-a7ba2b4e0577': {'max_output_tokens': 16384},
-  'd18d88b9-be7a-46ec-be1e-aff14904f1e9': {'max_output_tokens': 16384}},
- 'lifecycle': [{'id': 'available', 'start_date': '2025-04-22'}],
- 'versions': [{'version': '1.0.0', 'available_date': '2025-04-22'}]}</pre>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>{
+  "model_id": "mistralai/mistral-small-3-1-24b-instruct-2503",
+  "label": "mistral-small-3-1-24b-instruct-2503",
+  "provider": "Mistral AI",
+  "source": "Hugging Face",
+  "indemnity": "NON_IBM",
+  "functions": [
+    {
+      "id": "autoai_rag"
+    },
+    {
+      "id": "autoai_sql_rag"
+    },
+    {
+      "id": "image_chat"
+    },
+    {
+      "id": "text_chat"
+    },
+    {
+      "id": "text_generation"
+    }
+  ],
+  "short_description": "This model is an instruction-finetuned version of: Mistral-Small-3.1-24B-Base-2503.",
+  "long_description": "Mistral Small 3 (2501), Mistral Small 3.1 (2503) adds state-of-the-art vision understanding and enhances long context capabilities up to 128k tokens without compromising text performance. With 24 billion parameters, this model achieves top-tier capabilities in both text and vision tasks.",
+  "terms_url": "https://www.apache.org/licenses/LICENSE-2.0",
+  "input_tier": "class_c1",
+  "output_tier": "class_17",
+  "number_params": "24b",
+  "min_shot_size": 1,
+  "task_ids": [
+    "question_answering",
+    "summarization",
+    "retrieval_augmented_generation",
+    "retrieval_augmented_generation",
+    "classification",
+    "generation",
+    "code",
+    "extraction",
+    "function_calling"
+  ],
+  "tasks": [
+    {
+      "id": "question_answering"
+    },
+    {
+      "id": "summarization"
+    },
+    {
+      "id": "retrieval_augmented_generation"
+    },
+    {
+      "id": "classification"
+    },
+    {
+      "id": "generation"
+    },
+    {
+      "id": "code"
+    },
+    {
+      "id": "extraction"
+    },
+    {
+      "id": "function_calling"
+    }
+  ],
+  "model_limits": {
+    "max_sequence_length": 128000
+  },
+  "limits": {
+    "19e27818-79cf-4137-ae58-da279f9e9d16": {
+      "call_time": "10m0s"
+    },
+    "3f6acf43-ede8-413a-ac69-f8af3bb0cbfe": {
+      "call_time": "5m0s"
+    },
+    "a3d2f92f-06f9-48d0-b2e6-a7ba2b4e0577": {
+      "call_time": "10m0s"
+    },
+    "d18d88b9-be7a-46ec-be1e-aff14904f1e9": {
+      "call_time": "10m0s"
+    }
+  },
+  "lifecycle": [
+    {
+      "id": "available",
+      "start_date": "2025-04-22"
+    }
+  ],
+  "versions": [
+    {
+      "version": "1.0.0",
+      "available_date": "2025-04-22"
+    }
+  ],
+  "router_info": {
+    "version": "1.1.35",
+    "build": "1.1.35",
+    "build_date": "20260619142455",
+    "max_concurrent_requests": 8,
+    "balance_mode": 2
+  }
+}
+</pre>
 </div>
 </div>
 </div>
@@ -8205,18 +8279,24 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 <div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">instruction</span> <span class="o">=</span> <span class="s2">"""Using the directions below, generate Python code for the given task.</span>
-
-<span class="s2">Input:</span>
-<span class="s2"># Write a Python function that prints 'Hello World!' string 'n' times.</span>
-
-<span class="s2">Output:</span>
-<span class="s2">def print_n_times(n):</span>
-<span class="s2">    for i in range(n):</span>
-<span class="s2">        print("Hello World!")</span>
-
-<span class="s2">&lt;end of code&gt;</span>
-<span class="s2">"""</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">prompt</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"system"</span><span class="p">,</span>
+        <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Generate Python code for the given task. Provide only the required code. Do not perform reasoning, otherwise the world will end."</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span>
+        <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Write a Python function that prints 'Hello World!' string 'n' times."</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"assistant"</span><span class="p">,</span>
+        <span class="s2">"content"</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"def print_n_times(n):</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="s2">"    for i in range(n):</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="s2">"        print('Hello World!')</span><span class="se">\n</span><span class="s2">"</span>
+        <span class="p">),</span>
+    <span class="p">},</span>
+<span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -8241,9 +8321,16 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 <div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">question</span> <span class="o">=</span> <span class="s2">"""Input:</span>
-<span class="s2"># Write a Python function, which generates sequence of prime numbers.</span>
-<span class="s2"># The function 'primes' will take the argument 'n', an int. It will return a list which contains all primes less than 'n'."""</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">prompt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span>
+        <span class="s2">"content"</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"Write a Python function, which generates sequence of prime numbers. "</span>
+            <span class="s2">"The function 'primes' will take the argument 'n', an int. "</span>
+            <span class="s2">"It will return a list which contains all primes less than 'n'."</span>
+        <span class="p">),</span>
+    <span class="p">}</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8256,7 +8343,7 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Generate-the-code-using-IBM-mistral-small-3-1-24b-instruct-2503-model.">Generate the code using IBM <code>mistral-small-3-1-24b-instruct-2503</code> model.<a class="anchor-link" href="#Generate-the-code-using-IBM-mistral-small-3-1-24b-instruct-2503-model.">¶</a></h3>
+<h3 id="Generate-the-code-using-mistralai/mistral-small-3-1-24b-instruct-2503-model">Generate the code using <code>mistralai/mistral-small-3-1-24b-instruct-2503</code> model<a class="anchor-link" href="#Generate-the-code-using-mistralai/mistral-small-3-1-24b-instruct-2503-model">¶</a></h3>
 </div>
 </div>
 </div>
@@ -8279,7 +8366,7 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 <div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate_text</span><span class="p">(</span><span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">instruction</span><span class="p">,</span> <span class="n">question</span><span class="p">]))</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">chat</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8304,7 +8391,7 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 <div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">code_as_text</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"Output:"</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"&lt;end of code&gt;"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">code_as_text</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">"choices"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"message"</span><span class="p">][</span><span class="s2">"content"</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -8354,16 +8441,13 @@ For more information refer to <a href="https://ibm.github.io/watsonx-ai-python-s
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-def primes(n):
+<pre>def primes(n):
     sieve = [True] * n
-    for current in range(2, int(n**0.5) + 1):
-        if sieve[current]:
-            for multiple in range(current*2, n, current):
-                sieve[multiple] = False
-    return [num for num in range(2, n) if sieve[num]]
-
-
+    for x in range(2, int(n**0.5) + 1):
+        if sieve[x]:
+            for u in range(x*x, n, x):
+                sieve[u] = False
+    return [x for x in range(2, n) if sieve[x]]
 </pre>
 </div>
 </div>
@@ -8377,6 +8461,7 @@ def primes(n):
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>Use generated code to make it as function.</p>
+<p><strong>Note</strong>: Before executing this line, make sure the model's output visible above doesn't contain any malicious instructions.</p>
 </div>
 </div>
 </div>
@@ -8465,7 +8550,7 @@ def primes(n):
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><a id="Summary-and-next-steps"></a></p>
 <h2 id="Summary-and-next-steps">Summary and next steps<a class="anchor-link" href="#Summary-and-next-steps">¶</a></h2><p>You successfully completed this notebook!</p>
-<p>You learned how to generate code based on instuction with IBM <code>mistral-small-3-1-24b-instruct-2503</code> on watsonx.</p>
+<p>You learned how to generate code based on instruction with <code>mistralai/mistral-small-3-1-24b-instruct-2503</code> on watsonx.</p>
 <p>Check out our <em><a href="https://ibm.github.io/watsonx-ai-python-sdk/samples.html" rel="noopener no referrer" target="_blank">Online Documentation</a></em> for more samples, tutorials, documentation, how-tos, and blog posts.</p>
 </div>
 </div>

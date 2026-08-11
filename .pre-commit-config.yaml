@@ -2,8 +2,33 @@ repos:
   - repo: https://github.com/ibm/detect-secrets
     rev: 0.13.1+ibm.64.dss
     hooks:
-      - id: detect-secrets # pragma: whitelist secret
-        args: [--baseline, .secrets.baseline, --use-all-plugins]
+      - id: detect-secrets
+        args: [
+          --baseline, .secrets.baseline,
+          --use-all-plugins,
+          --exclude-lines, "
+          api_key=getpass|\
+          api_key=api_key|\
+          api_key = IAM_API_KEY|\
+          api_key = 'PASTE YOUR PLATFORM API KEY HERE'|\
+          api_key = 'PASTE YOUR API_KEY HERE'|\
+          password=getpass|\
+          password=password|\
+          credentials = Credentials|\
+          credentials=credentials|\
+          credentials=Credentials|\
+          credentials=ibm_watsonx_ai.Credentials|\
+          \"credentials\"|\
+          credentials.api_key|\
+          credentials: 'Credentials|\
+          credentials: credentials|\
+          credentials: dict|\
+          API_KEY=\\n|\"|\
+          WATSONX_API_KEY=VALUE|\
+          wml_credentials = {|\
+          best-kept secret: community colleges"
+        ]
+        exclude: \.html$|.pre-commit-config.yaml
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:

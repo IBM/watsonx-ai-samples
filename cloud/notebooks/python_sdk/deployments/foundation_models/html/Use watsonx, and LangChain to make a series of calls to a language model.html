@@ -7819,7 +7819,7 @@ a.anchor-link {
 </ul>
 <h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook contains the steps and code to demonstrate Sequential Chain using langchain integration with watsonx models.</p>
 <p>Some familiarity with Python is helpful. This notebook uses Python 3.12.</p>
-<h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The goal of this notebook is to demonstrate how to chain <code>mistral-small-3-1-24b-instruct-2503</code> and <code>mistral-medium-2505</code> models to generate a sequence of creating a random question on a given topic and an answer to that question and also to make the user friends with LangChain framework, using simple chain (LLMChain) and the extended chain (SequentialChain) with the WatsonxLLM.</p>
+<h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The goal of this notebook is to demonstrate how to chain <code>mistral-small-3-1-24b-instruct-2503</code> and <code>gpt-oss-120b</code> models to generate a sequence of creating a random question on a given topic and an answer to that question and also to make the user friends with LangChain framework, using simple chain (LLMChain) and the extended chain (SequentialChain) with the ChatWatsonx.</p>
 <h2 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h2><p>This notebook contains the following parts:</p>
 <ol>
 <li><a href="#Set-up-the-environment">Set up the environment</a></li>
@@ -7882,8 +7882,8 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Successfully installed PyYAML-6.0.3 SQLAlchemy-2.0.45 annotated-types-0.7.0 anyio-4.12.1 certifi-2026.1.4 charset_normalizer-3.4.4 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 idna-3.11 jsonpatch-1.33 jsonpointer-3.0.0 langchain-0.3.27 langchain-core-0.3.83 langchain-text-splitters-0.3.11 langsmith-0.6.3 orjson-3.11.5 pydantic-2.12.5 pydantic-core-2.41.5 requests-2.32.5 requests-toolbelt-1.0.0 tenacity-9.1.2 typing-extensions-4.15.0 typing-inspection-0.4.2 urllib3-2.6.3 uuid-utils-0.13.0 zstandard-0.25.0
-Successfully installed cachetools-6.2.4 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-watsonx-ai-1.5.0 jmespath-1.0.1 langchain_ibm-0.3.20 lomond-0.3.3 numpy-2.4.1 pandas-2.2.3 pytz-2025.2 tabulate-0.9.0 tzdata-2025.3
+<pre>Successfully installed PyYAML-6.0.3 SQLAlchemy-2.0.51 annotated-types-0.8.0 anyio-4.14.2 certifi-2026.7.22 charset_normalizer-3.4.9 distro-1.9.0 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 idna-3.18 jsonpatch-1.33 jsonpointer-3.1.1 langchain-0.3.30 langchain-core-0.3.86 langchain-text-splitters-0.3.11 langsmith-0.10.17 orjson-3.11.9 packaging-25.0 pydantic-2.13.4 pydantic-core-2.46.4 requests-2.34.2 requests-toolbelt-1.0.0 sniffio-1.3.1 tenacity-9.1.4 typing-inspection-0.4.2 urllib3-2.7.0 uuid-utils-0.17.0 websockets-17.0.1 xxhash-3.8.1 zstandard-0.25.0
+Successfully installed cachetools-7.1.7 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-watsonx-ai-1.6.1 jmespath-1.0.1 langchain_ibm-0.3.22 lomond-0.3.3 numpy-2.5.2 pandas-2.3.3 pytz-2026.3.post1 tabulate-0.10.0 tzdata-2026.3
 </pre>
 </div>
 </div>
@@ -8008,7 +8008,7 @@ Successfully installed cachetools-6.2.4 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="List-available-models">List available models<a class="anchor-link" href="#List-available-models">¶</a></h4><p>All avaliable models are presented under <code>TextModels</code> class.</p>
+<h4 id="List-available-models">List available models<a class="anchor-link" href="#List-available-models">¶</a></h4>
 </div>
 </div>
 </div>
@@ -8020,7 +8020,7 @@ Successfully installed cachetools-6.2.4 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
 <div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">foundation_models</span><span class="o">.</span><span class="n">TextModels</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">foundation_models</span><span class="o">.</span><span class="n">ChatModels</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -8033,7 +8033,7 @@ Successfully installed cachetools-6.2.4 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>{'GRANITE_3_2_8B_INSTRUCT': 'ibm/granite-3-2-8b-instruct', 'GRANITE_3_3_8B_INSTRUCT': 'ibm/granite-3-3-8b-instruct', 'GRANITE_3_8B_INSTRUCT': 'ibm/granite-3-8b-instruct', 'GRANITE_4_H_SMALL': 'ibm/granite-4-h-small', 'GRANITE_8B_CODE_INSTRUCT': 'ibm/granite-8b-code-instruct', 'GRANITE_GUARDIAN_3_8B': 'ibm/granite-guardian-3-8b', 'LLAMA_3_2_11B_VISION_INSTRUCT': 'meta-llama/llama-3-2-11b-vision-instruct', 'LLAMA_3_2_90B_VISION_INSTRUCT': 'meta-llama/llama-3-2-90b-vision-instruct', 'LLAMA_3_3_70B_INSTRUCT': 'meta-llama/llama-3-3-70b-instruct', 'LLAMA_3_405B_INSTRUCT': 'meta-llama/llama-3-405b-instruct', 'LLAMA_4_MAVERICK_17B_128E_INSTRUCT_FP8': 'meta-llama/llama-4-maverick-17b-128e-instruct-fp8', 'LLAMA_GUARD_3_11B_VISION': 'meta-llama/llama-guard-3-11b-vision', 'MISTRAL_MEDIUM_2505': 'mistralai/mistral-medium-2505', 'MISTRAL_SMALL_3_1_24B_INSTRUCT_2503': 'mistralai/mistral-small-3-1-24b-instruct-2503', 'GPT_OSS_120B': 'openai/gpt-oss-120b'}
+<pre>{'GRANITE_4_H_SMALL': 'ibm/granite-4-h-small', 'LLAMA_3_3_70B_INSTRUCT': 'meta-llama/llama-3-3-70b-instruct', 'LLAMA_4_MAVERICK_17B_128E_INSTRUCT_FP8': 'meta-llama/llama-4-maverick-17b-128e-instruct-fp8', 'MISTRAL_SMALL_3_1_24B_INSTRUCT_2503': 'mistralai/mistral-small-3-1-24b-instruct-2503', 'GPT_OSS_120B': 'openai/gpt-oss-120b'}
 </pre>
 </div>
 </div>
@@ -8059,7 +8059,7 @@ Successfully installed cachetools-6.2.4 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">model_id_1</span> <span class="o">=</span> <span class="s2">"mistralai/mistral-small-3-1-24b-instruct-2503"</span>
-<span class="n">model_id_2</span> <span class="o">=</span> <span class="s2">"mistralai/mistral-medium-2505"</span>
+<span class="n">model_id_2</span> <span class="o">=</span> <span class="s2">"openai/gpt-oss-120b"</span>
 </pre></div>
 </div>
 </div>
@@ -8072,7 +8072,7 @@ Successfully installed cachetools-6.2.4 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Defining-the-model-parameters">Defining the model parameters<a class="anchor-link" href="#Defining-the-model-parameters">¶</a></h3><p>You might need to adjust model <code>parameters</code> for different models or tasks, to do so please refer to documentation under <code>GenTextParamsMetaNames</code> class.</p>
+<h3 id="Defining-the-model-parameters">Defining the model parameters<a class="anchor-link" href="#Defining-the-model-parameters">¶</a></h3><p>You might need to adjust model <code>parameters</code> for different models or tasks, to do so please refer to documentation under <code>GenChatParamsMetaNames</code> class.</p>
 <p><strong>Action:</strong> If any complications please refer to the <a href="https://ibm.github.io/watsonx-ai-python-sdk/index.html" rel="noopener no referrer" target="_blank">documentation</a>.</p>
 </div>
 </div>
@@ -8085,15 +8085,11 @@ Successfully installed cachetools-6.2.4 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
 <div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.utils.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecodingMethods</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.metanames</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenTextParamsMetaNames</span> <span class="k">as</span> <span class="n">GenParams</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.metanames</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenChatParamsMetaNames</span> <span class="k">as</span> <span class="n">GenParams</span>
 
 <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">GenParams</span><span class="o">.</span><span class="n">DECODING_METHOD</span><span class="p">:</span> <span class="n">DecodingMethods</span><span class="o">.</span><span class="n">SAMPLE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
-    <span class="n">GenParams</span><span class="o">.</span><span class="n">MAX_NEW_TOKENS</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
-    <span class="n">GenParams</span><span class="o">.</span><span class="n">MIN_NEW_TOKENS</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">GenParams</span><span class="o">.</span><span class="n">MAX_COMPLETION_TOKENS</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
     <span class="n">GenParams</span><span class="o">.</span><span class="n">TEMPERATURE</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
-    <span class="n">GenParams</span><span class="o">.</span><span class="n">TOP_K</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
     <span class="n">GenParams</span><span class="o">.</span><span class="n">TOP_P</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
 <span class="p">}</span>
 </pre></div>
@@ -8109,9 +8105,9 @@ Successfully installed cachetools-6.2.4 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><a id="LangChain-integration"></a></p>
-<h2 id="LangChain-integration">LangChain integration<a class="anchor-link" href="#LangChain-integration">¶</a></h2><p><code>WatsonxLLM</code> is a wrapper around watsonx.ai models that provide chain integration around the models.</p>
+<h2 id="LangChain-integration">LangChain integration<a class="anchor-link" href="#LangChain-integration">¶</a></h2><p><code>ChatWatsonx</code> is a wrapper around watsonx.ai models that provide chain integration around the models.</p>
 <p><strong>Action:</strong> For more details about <code>CustomLLM</code> check the <a href="https://python.langchain.com/docs/modules/model_io/models/llms/custom_llm" rel="noopener no referrer" target="_blank">LangChain documentation</a></p>
-<h3 id="Initialize-the-WatsonxLLM-class.">Initialize the <code>WatsonxLLM</code> class.<a class="anchor-link" href="#Initialize-the-WatsonxLLM-class.">¶</a></h3>
+<h3 id="Initialize-the-ChatWatsonx-class.">Initialize the <code>ChatWatsonx</code> class.<a class="anchor-link" href="#Initialize-the-ChatWatsonx-class.">¶</a></h3>
 </div>
 </div>
 </div>
@@ -8123,16 +8119,16 @@ Successfully installed cachetools-6.2.4 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
 <div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_ibm</span><span class="w"> </span><span class="kn">import</span> <span class="n">WatsonxLLM</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_ibm</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatWatsonx</span>
 
-<span class="n">mistral_small_llm</span> <span class="o">=</span> <span class="n">WatsonxLLM</span><span class="p">(</span>
+<span class="n">mistral_small_llm</span> <span class="o">=</span> <span class="n">ChatWatsonx</span><span class="p">(</span>
     <span class="n">model_id</span><span class="o">=</span><span class="n">model_id_1</span><span class="p">,</span>
     <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
     <span class="n">apikey</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span>
     <span class="n">space_id</span><span class="o">=</span><span class="n">space_id</span><span class="p">,</span>
     <span class="n">params</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">mistral_medium_llm</span> <span class="o">=</span> <span class="n">WatsonxLLM</span><span class="p">(</span>
+<span class="n">mistral_medium_llm</span> <span class="o">=</span> <span class="n">ChatWatsonx</span><span class="p">(</span>
     <span class="n">model_id</span><span class="o">=</span><span class="n">model_id_2</span><span class="p">,</span>
     <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
     <span class="n">apikey</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span>
@@ -8150,7 +8146,7 @@ Successfully installed cachetools-6.2.4 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>You can print all set data about the WatsonxLLM object using the <code>dict()</code> method.</p>
+<p>You can print all set data about the ChatWatsonx object using the <code>dict()</code> method.</p>
 </div>
 </div>
 </div>
@@ -8175,17 +8171,7 @@ Successfully installed cachetools-6.2.4 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>{'model_id': 'mistralai/mistral-small-3-1-24b-instruct-2503',
- 'deployment_id': None,
- 'params': {'decoding_method': 'sample',
-  'max_new_tokens': 200,
-  'min_new_tokens': 1,
-  'temperature': 0.1,
-  'top_k': 50,
-  'top_p': 1},
- 'project_id': None,
- 'space_id': 'fb3d528a-bf16-460e-bcf6-06f05d8ba57c',
- '_type': 'IBM watsonx.ai'}</pre>
+<pre>{'_type': 'watsonx-chat'}</pre>
 </div>
 </div>
 </div>
@@ -8307,85 +8293,148 @@ Successfully installed cachetools-6.2.4 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
 }
 <span class="ansi-cyan-intense-fg ansi-bold">[chain/end]</span> <span class="ansi-bold">[chain:RunnableSequence &gt; prompt:PromptTemplate] [0ms] Exiting Prompt run with output:
 </span>[outputs]
-<span class="ansi-green-intense-fg ansi-bold">[llm/start]</span> <span class="ansi-bold">[chain:RunnableSequence &gt; llm:WatsonxLLM] Entering LLM run with input:
+<span class="ansi-green-intense-fg ansi-bold">[llm/start]</span> <span class="ansi-bold">[chain:RunnableSequence &gt; llm:ChatWatsonx] Entering LLM run with input:
 </span>{
   "prompts": [
-    "Describe a single specific person related to Formula 1. The description must fit only this exact person. Do not use their name anywhere in your response."
+    "Human: Describe a single specific person related to Formula 1. The description must fit only this exact person. Do not use their name anywhere in your response."
   ]
 }
-<span class="ansi-cyan-intense-fg ansi-bold">[llm/end]</span> <span class="ansi-bold">[chain:RunnableSequence &gt; llm:WatsonxLLM] [2.96s] Exiting LLM run with output:
+<span class="ansi-cyan-intense-fg ansi-bold">[llm/end]</span> <span class="ansi-bold">[chain:RunnableSequence &gt; llm:ChatWatsonx] [1.79s] Exiting LLM run with output:
 </span>{
   "generations": [
     [
       {
-        "text": "1960s Formula 1 driver, born in the United Kingdom, who was the first to win a Grand Prix in a car with a rear-mounted engine. The driver was also the first to win a Grand Prix in a car with a monocoque chassis. The driver was the first to win a Grand Prix in a car with a semi-automatic gearbox. The driver was the first to win a Grand Prix in a car with a carbon-fiber chassis. The driver was the first to win a Grand Prix in a car with a turbocharged engine. The driver was the first to win a Grand Prix in a car with a ground-effect aerodynamics. The driver was the first to win a Grand Prix in a car with a carbon-fiber brake discs. The driver was the first to win a Grand Prix in a car with a traction control system. The driver was the first to win a Grand Prix in a car with a carbon-fiber wishbones. The driver",
+        "text": "This individual is known for their distinctive red overalls and has been a prominent figure in Formula 1 for over three decades. Born in Italy, they began their career in the sport as a mechanic before transitioning into a managerial role. They are renowned for their strategic acumen and have led one of the most successful teams in the history of the sport, amassing numerous championships. Their fiery personality and passionate demeanor are as famous as their tactical brilliance on the pit wall. They are also known for their unique celebrations, often seen with a victory cigar in hand. Their influence extends beyond the track, as they have been instrumental in shaping the modern era of Formula 1.",
         "generation_info": {
-          "finish_reason": "max_tokens"
+          "finish_reason": "stop"
         },
-        "type": "Generation"
+        "type": "ChatGeneration",
+        "message": {
+          "lc": 1,
+          "type": "constructor",
+          "id": [
+            "langchain",
+            "schema",
+            "messages",
+            "AIMessage"
+          ],
+          "kwargs": {
+            "content": "This individual is known for their distinctive red overalls and has been a prominent figure in Formula 1 for over three decades. Born in Italy, they began their career in the sport as a mechanic before transitioning into a managerial role. They are renowned for their strategic acumen and have led one of the most successful teams in the history of the sport, amassing numerous championships. Their fiery personality and passionate demeanor are as famous as their tactical brilliance on the pit wall. They are also known for their unique celebrations, often seen with a victory cigar in hand. Their influence extends beyond the track, as they have been instrumental in shaping the modern era of Formula 1.",
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 138,
+                "prompt_tokens": 35,
+                "total_tokens": 173
+              },
+              "model_name": "mistralai/mistral-small-3-1-24b-instruct-2503",
+              "system_fingerprint": "",
+              "finish_reason": "stop"
+            },
+            "type": "ai",
+            "id": "chatcmpl-b3eeba2518fb9968557c969e38f808e8---15698c59-0ef5-4ce9-ab6d-7b0f9fa55ce0",
+            "usage_metadata": {
+              "input_tokens": 35,
+              "output_tokens": 138,
+              "total_tokens": 173
+            },
+            "tool_calls": [],
+            "invalid_tool_calls": []
+          }
+        }
       }
     ]
   ],
   "llm_output": {
     "token_usage": {
-      "completion_tokens": 200,
-      "prompt_tokens": 33,
-      "total_tokens": 233
+      "completion_tokens": 138,
+      "prompt_tokens": 35,
+      "total_tokens": 173
     },
-    "model_id": "mistralai/mistral-small-3-1-24b-instruct-2503",
-    "deployment_id": null
+    "model_name": "mistralai/mistral-small-3-1-24b-instruct-2503",
+    "system_fingerprint": ""
   },
   "run": null,
   "type": "LLMResult"
 }
 <span class="ansi-green-intense-fg ansi-bold">[chain/start]</span> <span class="ansi-bold">[chain:RunnableSequence &gt; prompt:PromptTemplate] Entering Prompt run with input:
-</span>{
-  "input": "1960s Formula 1 driver, born in the United Kingdom, who was the first to win a Grand Prix in a car with a rear-mounted engine. The driver was also the first to win a Grand Prix in a car with a monocoque chassis. The driver was the first to win a Grand Prix in a car with a semi-automatic gearbox. The driver was the first to win a Grand Prix in a car with a carbon-fiber chassis. The driver was the first to win a Grand Prix in a car with a turbocharged engine. The driver was the first to win a Grand Prix in a car with a ground-effect aerodynamics. The driver was the first to win a Grand Prix in a car with a carbon-fiber brake discs. The driver was the first to win a Grand Prix in a car with a traction control system. The driver was the first to win a Grand Prix in a car with a carbon-fiber wishbones. The driver"
-}
+</span>[inputs]
 <span class="ansi-cyan-intense-fg ansi-bold">[chain/end]</span> <span class="ansi-bold">[chain:RunnableSequence &gt; prompt:PromptTemplate] [0ms] Exiting Prompt run with output:
 </span>[outputs]
-<span class="ansi-green-intense-fg ansi-bold">[llm/start]</span> <span class="ansi-bold">[chain:RunnableSequence &gt; llm:WatsonxLLM] Entering LLM run with input:
+<span class="ansi-green-intense-fg ansi-bold">[llm/start]</span> <span class="ansi-bold">[chain:RunnableSequence &gt; llm:ChatWatsonx] Entering LLM run with input:
 </span>{
   "prompts": [
-    "1960s Formula 1 driver, born in the United Kingdom, who was the first to win a Grand Prix in a car with a rear-mounted engine. The driver was also the first to win a Grand Prix in a car with a monocoque chassis. The driver was the first to win a Grand Prix in a car with a semi-automatic gearbox. The driver was the first to win a Grand Prix in a car with a carbon-fiber chassis. The driver was the first to win a Grand Prix in a car with a turbocharged engine. The driver was the first to win a Grand Prix in a car with a ground-effect aerodynamics. The driver was the first to win a Grand Prix in a car with a carbon-fiber brake discs. The driver was the first to win a Grand Prix in a car with a traction control system. The driver was the first to win a Grand Prix in a car with a carbon-fiber wishbones. The driver The previous text describes a person. Their name is:"
+    "Human: content='This individual is known for their distinctive red overalls and has been a prominent figure in Formula 1 for over three decades. Born in Italy, they began their career in the sport as a mechanic before transitioning into a managerial role. They are renowned for their strategic acumen and have led one of the most successful teams in the history of the sport, amassing numerous championships. Their fiery personality and passionate demeanor are as famous as their tactical brilliance on the pit wall. They are also known for their unique celebrations, often seen with a victory cigar in hand. Their influence extends beyond the track, as they have been instrumental in shaping the modern era of Formula 1.' additional_kwargs={} response_metadata={'token_usage': {'completion_tokens': 138, 'prompt_tokens': 35, 'total_tokens': 173}, 'model_name': 'mistralai/mistral-small-3-1-24b-instruct-2503', 'system_fingerprint': '', 'finish_reason': 'stop'} id='chatcmpl-b3eeba2518fb9968557c969e38f808e8---15698c59-0ef5-4ce9-ab6d-7b0f9fa55ce0' usage_metadata={'input_tokens': 35, 'output_tokens': 138, 'total_tokens': 173} The previous text describes a person. Their name is:"
   ]
 }
-<span class="ansi-cyan-intense-fg ansi-bold">[llm/end]</span> <span class="ansi-bold">[chain:RunnableSequence &gt; llm:WatsonxLLM] [793ms] Exiting LLM run with output:
+<span class="ansi-cyan-intense-fg ansi-bold">[llm/end]</span> <span class="ansi-bold">[chain:RunnableSequence &gt; llm:ChatWatsonx] [11.48s] Exiting LLM run with output:
 </span>{
   "generations": [
     [
       {
-        "text": "1960s Formula 1 driver, born in the United Kingdom, who was the first",
+        "text": "",
         "generation_info": {
-          "finish_reason": "max_tokens"
+          "finish_reason": "length"
         },
-        "type": "Generation"
+        "type": "ChatGeneration",
+        "message": {
+          "lc": 1,
+          "type": "constructor",
+          "id": [
+            "langchain",
+            "schema",
+            "messages",
+            "AIMessage"
+          ],
+          "kwargs": {
+            "content": "",
+            "additional_kwargs": {
+              "reasoning_content": "We need to answer: Who is described? The description: distinctive red overalls, prominent figure in F1 for over three decades, born in Italy, started as mechanic, became manager, strategic acumen, led most successful team, many championships, fiery personality, victory cigar. That's Team Principal of Scuderia Ferrari: Stefano Domenicali? He started as engineer, not mechanic. Red overalls reminiscent of Ferrari pit crew. The person is maybe \"Maurizio Arrivabene\"? He is Italian, but not mechanic. The unique celebrations with a victory cigar – that's \"Franz Tost\"? No. Actually the moustached guy with cigar is \"Jean Todt\"? He wasn't Italian. The red overalls and cigar reminds me of \"Flavio Briatore\"? He is Italian, but not mechanic, and not team boss of Ferrari. \"Ruth\"? No. Could be \"Clemente\"? Hmm.\n\nRed overalls also worn by \"Team principal of Ferrari, Stefano Domenicali\"? He used to wear red suit? He is also in F1 for decades, but not mechanic.\n\nMaybe it's not Ferrari but \"Renault\"? Red overalls overalls... Actually \"Team Principal of Ferrari, ???\" The person known for victory cigar is \"Flavio Briatore\"? He used to light a cigarette after wins? Not sure. Alternatively \"Christian Horner\"? He is British, not Italian.\n\nAnother clue: born in Italy, started as mechanic, became manager of the most successful team in history (Ferrari). That points to \"Jean Todt\" but he's French, not Italian. Wait Jean Todt started as rally co-driver, not mechanic, and not Italian.\n\nWho started as mechanic at Ferrari? \"Michele Alboreto\"? No.\n\nMaybe the description is about \"Francesco 'Frank' Gerhard\"? Not.\n\nSearch memory: There's a famous Ferrari team manager \"Raffaele 'Raff' Rape\" no.\n\nThink about the person known as \"the Red Devil\" on the pit wall: That's \"Team manager and strategist for Ferrari\" - \"Roberto 'Bob' ?\".\n\nThere is a famous Ferrari chief strategist \"Giovanni Leoni\"? Not.\n\nWait maybe it's about \"Mike 'Red' something\"? The person style: distinct red overalls and victory cigar is \"Luca di Montezemolo\"? He was Ferrari chairman, but not mechanic.\n\nReg could be \"Flavio Briatore\" (born 1944 in Italy, started as a manager in motorsport, not mechanic). He was at Benetton and Renault, not Ferrari.\n\nUnique deal: \"victory cigar\" is famously associated with \"Flavio Briatore\"? I recall he used to celebrate with cigarettes but not cigar.\n\nAlso \"Red overalls\" maybe a reference to \"croupier\"? However the most successful team in F1 history is Ferrari. The team principal for many years: \"Jean Todt\" (2000-2007), \"Rossi\"? Actually \"Maurizio Arrivabene\" (2014-2019), \"Mattia Binotto\" (2019-2022), \"Frederic Vasseur\" (2023-present). Of these, Binotto is Italian, born 1969, started as a mechanic? He studied engineering, started as a race engineer, not mechanic. He wore red overalls often? Possibly.\n\n\"Mattia Binotto\" known for victory cigar? I haven't seen.\n\nThe description could be fictional; but likely they want \"Mattia Binotto\". Yet he is younger (less than three decades in F1? He started in Ferrari in 1998, so about 25 years). Known for strategic acumen. The red overalls? He often appears in red suits.\n\nHowever the famous \"victory cigar\" belongs to \"Francois.\" Wait, I recall images of \"Team principal of Ferrari, Johann\" no.\n\nAnother angle: The person might be \"Team Principal of Mercedes\"? That's \"Toto Wolff\" not Italian.\n\nThe person who is known for victory cigar is \"Team principal of Scuderia Ferrari\" \"Stefano Domenicali\"? He used to celebrate smoking cigars? He is Italian, worked as mechanic? He started as a race engineer at Ferrari, not mechanic.\n\nMaybe it's about \"Jolyon Palmer\"? No.\n\nLet's think of the famous \"red overalls\" scouting: In the pit lane, the \"Chief mechanic\" of Ferrari often wears red jumpsuit. That person is \"Francesco \"Cicolino\" L.?\" Actually \"Ferrari's Head of Operations, Andrea Stella\"? Not.\n\nBut the description says \"prominent figure\" not \"mechanic\". So they are a manager, not a mechanic now, but started as mechanic.\n\nThe person fitting: \"Rikard\". Hmm.\n\nMaybe answer is \"Stefano Domenicali\". He was born in Imola, Italy. Started as mechanic? I think he started as a mechanic at Ferrari's test team?"
+            },
+            "response_metadata": {
+              "token_usage": {
+                "completion_tokens": 1024,
+                "prompt_tokens": 357,
+                "total_tokens": 1381
+              },
+              "model_name": "openai/gpt-oss-120b",
+              "system_fingerprint": "",
+              "finish_reason": "length"
+            },
+            "type": "ai",
+            "id": "chatcmpl-d2aface7f1d71c4334387bf415ea7377",
+            "usage_metadata": {
+              "input_tokens": 357,
+              "output_tokens": 1024,
+              "total_tokens": 1381
+            },
+            "tool_calls": [],
+            "invalid_tool_calls": []
+          }
+        }
       }
     ]
   ],
   "llm_output": {
     "token_usage": {
-      "completion_tokens": 20,
-      "prompt_tokens": 213,
-      "total_tokens": 233
+      "completion_tokens": 1024,
+      "prompt_tokens": 357,
+      "total_tokens": 1381
     },
-    "model_id": "mistralai/mistral-medium-2505",
-    "deployment_id": null
+    "model_name": "openai/gpt-oss-120b",
+    "system_fingerprint": ""
   },
   "run": null,
   "type": "LLMResult"
 }
-<span class="ansi-cyan-intense-fg ansi-bold">[chain/end]</span> <span class="ansi-bold">[chain:RunnableSequence] [3.75s] Exiting Chain run with output:
-</span>{
-  "output": "1960s Formula 1 driver, born in the United Kingdom, who was the first"
-}
+<span class="ansi-cyan-intense-fg ansi-bold">[chain/end]</span> <span class="ansi-bold">[chain:RunnableSequence] [13.27s] Exiting Chain run with output:
+</span>[outputs]
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'1960s Formula 1 driver, born in the United Kingdom, who was the first'</pre>
+<pre>AIMessage(content='', additional_kwargs={'reasoning_content': 'We need to answer: Who is described? The description: distinctive red overalls, prominent figure in F1 for over three decades, born in Italy, started as mechanic, became manager, strategic acumen, led most successful team, many championships, fiery personality, victory cigar. That\'s Team Principal of Scuderia Ferrari: Stefano Domenicali? He started as engineer, not mechanic. Red overalls reminiscent of Ferrari pit crew. The person is maybe "Maurizio Arrivabene"? He is Italian, but not mechanic. The unique celebrations with a victory cigar – that\'s "Franz Tost"? No. Actually the moustached guy with cigar is "Jean Todt"? He wasn\'t Italian. The red overalls and cigar reminds me of "Flavio Briatore"? He is Italian, but not mechanic, and not team boss of Ferrari. "Ruth"? No. Could be "Clemente"? Hmm.\n\nRed overalls also worn by "Team principal of Ferrari, Stefano Domenicali"? He used to wear red suit? He is also in F1 for decades, but not mechanic.\n\nMaybe it\'s not Ferrari but "Renault"? Red overalls overalls... Actually "Team Principal of Ferrari, ???" The person known for victory cigar is "Flavio Briatore"? He used to light a cigarette after wins? Not sure. Alternatively "Christian Horner"? He is British, not Italian.\n\nAnother clue: born in Italy, started as mechanic, became manager of the most successful team in history (Ferrari). That points to "Jean Todt" but he\'s French, not Italian. Wait Jean Todt started as rally co-driver, not mechanic, and not Italian.\n\nWho started as mechanic at Ferrari? "Michele Alboreto"? No.\n\nMaybe the description is about "Francesco \'Frank\' Gerhard"? Not.\n\nSearch memory: There\'s a famous Ferrari team manager "Raffaele \'Raff\' Rape" no.\n\nThink about the person known as "the Red Devil" on the pit wall: That\'s "Team manager and strategist for Ferrari" - "Roberto \'Bob\' ?".\n\nThere is a famous Ferrari chief strategist "Giovanni Leoni"? Not.\n\nWait maybe it\'s about "Mike \'Red\' something"? The person style: distinct red overalls and victory cigar is "Luca di Montezemolo"? He was Ferrari chairman, but not mechanic.\n\nReg could be "Flavio Briatore" (born 1944 in Italy, started as a manager in motorsport, not mechanic). He was at Benetton and Renault, not Ferrari.\n\nUnique deal: "victory cigar" is famously associated with "Flavio Briatore"? I recall he used to celebrate with cigarettes but not cigar.\n\nAlso "Red overalls" maybe a reference to "croupier"? However the most successful team in F1 history is Ferrari. The team principal for many years: "Jean Todt" (2000-2007), "Rossi"? Actually "Maurizio Arrivabene" (2014-2019), "Mattia Binotto" (2019-2022), "Frederic Vasseur" (2023-present). Of these, Binotto is Italian, born 1969, started as a mechanic? He studied engineering, started as a race engineer, not mechanic. He wore red overalls often? Possibly.\n\n"Mattia Binotto" known for victory cigar? I haven\'t seen.\n\nThe description could be fictional; but likely they want "Mattia Binotto". Yet he is younger (less than three decades in F1? He started in Ferrari in 1998, so about 25 years). Known for strategic acumen. The red overalls? He often appears in red suits.\n\nHowever the famous "victory cigar" belongs to "Francois." Wait, I recall images of "Team principal of Ferrari, Johann" no.\n\nAnother angle: The person might be "Team Principal of Mercedes"? That\'s "Toto Wolff" not Italian.\n\nThe person who is known for victory cigar is "Team principal of Scuderia Ferrari" "Stefano Domenicali"? He used to celebrate smoking cigars? He is Italian, worked as mechanic? He started as a race engineer at Ferrari, not mechanic.\n\nMaybe it\'s about "Jolyon Palmer"? No.\n\nLet\'s think of the famous "red overalls" scouting: In the pit lane, the "Chief mechanic" of Ferrari often wears red jumpsuit. That person is "Francesco "Cicolino" L.?" Actually "Ferrari\'s Head of Operations, Andrea Stella"? Not.\n\nBut the description says "prominent figure" not "mechanic". So they are a manager, not a mechanic now, but started as mechanic.\n\nThe person fitting: "Rikard". Hmm.\n\nMaybe answer is "Stefano Domenicali". He was born in Imola, Italy. Started as mechanic? I think he started as a mechanic at Ferrari\'s test team?'}, response_metadata={'token_usage': {'completion_tokens': 1024, 'prompt_tokens': 357, 'total_tokens': 1381}, 'model_name': 'openai/gpt-oss-120b', 'system_fingerprint': '', 'finish_reason': 'length'}, id='chatcmpl-d2aface7f1d71c4334387bf415ea7377', usage_metadata={'input_tokens': 357, 'output_tokens': 1024, 'total_tokens': 1381})</pre>
 </div>
 </div>
 </div>
@@ -8424,20 +8473,20 @@ Successfully installed cachetools-6.2.4 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">chain_text_generator</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">):</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span><span class="p">,</span> <span class="n">Credentials</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.prompts</span><span class="w"> </span><span class="kn">import</span> <span class="n">PromptTemplate</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">langchain_ibm</span><span class="w"> </span><span class="kn">import</span> <span class="n">WatsonxLLM</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">langchain_ibm</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatWatsonx</span>
 
     <span class="n">api_client</span> <span class="o">=</span> <span class="n">APIClient</span><span class="p">(</span>
         <span class="n">credentials</span><span class="o">=</span><span class="n">Credentials</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="n">context</span><span class="o">.</span><span class="n">generate_token</span><span class="p">()),</span>
         <span class="n">space_id</span><span class="o">=</span><span class="n">context</span><span class="o">.</span><span class="n">get_space_id</span><span class="p">(),</span>
     <span class="p">)</span>
 
-    <span class="n">mistral_small_llm</span> <span class="o">=</span> <span class="n">WatsonxLLM</span><span class="p">(</span>
+    <span class="n">mistral_small_llm</span> <span class="o">=</span> <span class="n">ChatWatsonx</span><span class="p">(</span>
         <span class="n">model_id</span><span class="o">=</span><span class="s2">"mistralai/mistral-small-3-1-24b-instruct-2503"</span><span class="p">,</span>
         <span class="n">params</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
         <span class="n">watsonx_client</span><span class="o">=</span><span class="n">api_client</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">mistral_medium_llm</span> <span class="o">=</span> <span class="n">WatsonxLLM</span><span class="p">(</span>
-        <span class="n">model_id</span><span class="o">=</span><span class="s2">"mistralai/mistral-medium-2505"</span><span class="p">,</span>
+    <span class="n">mistral_medium_llm</span> <span class="o">=</span> <span class="n">ChatWatsonx</span><span class="p">(</span>
+        <span class="n">model_id</span><span class="o">=</span><span class="s2">"openai/gpt-oss-120b"</span><span class="p">,</span>
         <span class="n">watsonx_client</span><span class="o">=</span><span class="n">api_client</span><span class="p">,</span>
     <span class="p">)</span>
 
@@ -8459,7 +8508,7 @@ Successfully installed cachetools-6.2.4 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
         <span class="n">topic</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get_json</span><span class="p">()[</span><span class="s2">"topic"</span><span class="p">]</span>
         <span class="n">answer</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">"topic"</span><span class="p">:</span> <span class="n">topic</span><span class="p">})</span>
 
-        <span class="k">return</span> <span class="p">{</span><span class="s2">"body"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"topic"</span><span class="p">:</span> <span class="n">topic</span><span class="p">,</span> <span class="s2">"answer"</span><span class="p">:</span> <span class="n">answer</span><span class="p">}}</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"body"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"topic"</span><span class="p">:</span> <span class="n">topic</span><span class="p">,</span> <span class="s2">"answer"</span><span class="p">:</span> <span class="n">answer</span><span class="o">.</span><span class="n">content</span><span class="p">}}</span>
 
     <span class="k">return</span> <span class="n">generate</span>
 </pre></div>
@@ -8519,7 +8568,7 @@ Successfully installed cachetools-6.2.4 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[15]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>{'body': {'topic': 'Football',
-  'answer': '1. Eric Cantona 2. Paul Gascoigne 3. David Beckham 4'}}</pre>
+  'answer': 'The description matches the Brazilian legend **Ronaldo\u202fLuís\u202fNazário\u202fde\u202fLima** – commonly known simply as **Ronaldo**.'}}</pre>
 </div>
 </div>
 </div>
@@ -8612,7 +8661,7 @@ Successfully installed cachetools-6.2.4 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
 
 ######################################################################################
 
-Synchronous deployment creation for id: '727d35d4-08ea-41b7-b44b-de6b50f51ed7' started
+Synchronous deployment creation for id: '019feb12-9f1f-7671-9db2-ab28ae7a0e67' started
 
 ######################################################################################
 
@@ -8624,7 +8673,7 @@ ready
 
 
 -----------------------------------------------------------------------------------------------
-Successfully finished deployment creation, deployment_id='e0a20388-d51e-4c3d-a54a-da4b0aa5fdb7'
+Successfully finished deployment creation, deployment_id='019feb13-24e4-702d-b8cb-cef1af31d3a4'
 -----------------------------------------------------------------------------------------------
 
 
@@ -8668,8 +8717,8 @@ Successfully finished deployment creation, deployment_id='e0a20388-d51e-4c3d-a54
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>{'answer': '1. Paul Gascoigne 2. Glenn Hoddle 3. Chris Waddle ',
- 'topic': 'Football'}</pre>
+<pre>{'topic': 'Football',
+ 'answer': 'The description matches **Ronaldo Luís Nazário de Lima** – the Brazilian football legend commonly known simply as **Ronaldo**.'}</pre>
 </div>
 </div>
 </div>
@@ -8683,7 +8732,7 @@ Successfully finished deployment creation, deployment_id='e0a20388-d51e-4c3d-a54
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><a id="Summary-and-next-steps"></a></p>
 <h2 id="Summary-and-next-steps">Summary and next steps<a class="anchor-link" href="#Summary-and-next-steps">¶</a></h2><p>You successfully completed this notebook!</p>
-<p>You learned how to use Sequential Chain using custom llm WastonxLLM.</p>
+<p>You learned how to use Sequential Chain using custom llm <code>ChatWatsonx</code>.</p>
 <p>Check out our <em><a href="https://ibm.github.io/watsonx-ai-python-sdk/samples.html" rel="noopener no referrer" target="_blank">Online Documentation</a></em> for more samples, tutorials, documentation, how-tos, and blog posts.</p>
 </div>
 </div>

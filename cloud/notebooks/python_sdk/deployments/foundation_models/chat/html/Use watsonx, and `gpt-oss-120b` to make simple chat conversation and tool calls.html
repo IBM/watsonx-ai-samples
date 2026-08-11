@@ -7802,8 +7802,8 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><img alt="image" src="https://raw.githubusercontent.com/IBM/watson-machine-learning-samples/master/cloud/notebooks/headers/watsonx-Prompt_Lab-Notebook.png"/></p>
-<h1 id="Use-watsonx,-and-mistralai/mistral-medium-2505-with-support-for-tools-to-perform-simple-calculations">Use watsonx, and <code>mistralai/mistral-medium-2505</code> with support for tools to perform simple calculations<a class="anchor-link" href="#Use-watsonx,-and-mistralai/mistral-medium-2505-with-support-for-tools-to-perform-simple-calculations">¶</a></h1>
+<p><img alt="image" src="https://raw.githubusercontent.com/IBM/watsonx-ai-samples/master/cloud/notebooks/headers/watsonx-Prompt_Lab-Notebook.png"/></p>
+<h1 id="Use-watsonx,-and-openai/gpt-oss-120b-to-make-simple-chat-conversation-and-tool-calls">Use watsonx, and <code>openai/gpt-oss-120b</code> to make simple chat conversation and tool calls<a class="anchor-link" href="#Use-watsonx,-and-openai/gpt-oss-120b-to-make-simple-chat-conversation-and-tool-calls">¶</a></h1>
 </div>
 </div>
 </div>
@@ -7817,15 +7817,14 @@ a.anchor-link {
 <h4 id="Disclaimers">Disclaimers<a class="anchor-link" href="#Disclaimers">¶</a></h4><ul>
 <li>Use only Projects and Spaces that are available in watsonx context.</li>
 </ul>
-<h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook provides a detailed demonstration of the steps and code required to showcase support for Chat models, including the integration of tools using <a href="https://langchain-ai.github.io/langgraph/">LangGraph</a> and watsonx.ai models.</p>
-<p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
-<h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The purpose of this notebook is to demonstrate how to use Chat models, e.g. <code>mistralai/mistral-medium-2505</code> using the tools available in LangGraph. LangGraph is an Agent Orchestrator with which you can build graph applications that automatically execute sequences of actions and in which the LLM is the key decision maker that determines the next step.</p>
+<h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook provides a detailed demonstration of the steps and code required to showcase support for Chat models, including the integration of tools and watsonx.ai models.</p>
+<p>Some familiarity with Python is helpful. This notebook uses Python 3.12.</p>
+<h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The purpose of this notebook is to demonstrate how to use Chat models, e.g. <code>openai/gpt-oss-120b</code> by using tools.</p>
 <h2 id="Table-of-Contents">Table of Contents<a class="anchor-link" href="#Table-of-Contents">¶</a></h2><p>This notebook contains the following parts:</p>
 <ol>
 <li><a href="#Set-up-the-environment">Set up the environment</a></li>
-<li><a href="#Set-up-a-Foundation-Model-on-IBM-watsonx.ai">Set up a Foundation Model on IBM watsonx.ai</a></li>
-<li><a href="#LangChain-integration">LangChain integration</a></li>
-<li><a href="#Example-usage">Example usage</a></li>
+<li><a href="#Set-up-the-Foundation-Model-on-IBM-watsonx.ai">Set up the Foundation Model on IBM watsonx.ai</a></li>
+<li><a href="#Work-with-chat-messages">Work with chat messages</a></li>
 <li><a href="#Summary-and-next-steps">Summary and next steps</a></li>
 </ol>
 </div>
@@ -7865,8 +7864,7 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"langgraph&gt;0.2,&lt;0.3"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"langchain_ibm&gt;=0.3,&lt;0.4"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"langchain_ibm&gt;=0.3,&lt;0.4"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -7879,8 +7877,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Successfully installed PyYAML-6.0.3 annotated-types-0.7.0 anyio-4.11.0 certifi-2025.10.5 charset_normalizer-3.4.4 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 idna-3.11 jsonpatch-1.33 jsonpointer-3.0.0 langchain-core-0.3.79 langgraph-0.2.76 langgraph-checkpoint-2.1.2 langgraph-sdk-0.1.74 langsmith-0.4.38 orjson-3.11.4 ormsgpack-1.11.0 pydantic-2.12.3 pydantic-core-2.41.4 requests-2.32.5 requests-toolbelt-1.0.0 sniffio-1.3.1 tenacity-9.1.2 typing-inspection-0.4.2 urllib3-2.5.0 zstandard-0.25.0
-Successfully installed cachetools-6.2.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-watsonx-ai-1.4.2 jmespath-1.0.1 langchain_ibm-0.3.19 lomond-0.3.3 numpy-2.3.4 pandas-2.2.3 pytz-2025.2 tabulate-0.9.0 tzdata-2025.2
+<pre>Successfully installed PyYAML-6.0.3 annotated-types-0.8.0 anyio-4.14.2 cachetools-7.1.7 certifi-2026.7.22 charset_normalizer-3.4.9 distro-1.9.0 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 idna-3.18 jmespath-1.0.1 jsonpatch-1.33 jsonpointer-3.1.1 langchain-core-0.3.86 langchain_ibm-0.3.22 langsmith-0.10.17 lomond-0.3.3 numpy-2.5.2 orjson-3.11.9 packaging-25.0 pandas-2.3.3 pydantic-2.13.4 pydantic-core-2.46.4 pytz-2026.3.post1 requests-2.34.2 requests-toolbelt-1.0.0 sniffio-1.3.1 tabulate-0.10.0 tenacity-9.1.4 typing-inspection-0.4.2 tzdata-2026.3 urllib3-2.7.0 uuid-utils-0.17.0 websockets-17.0.1 xxhash-3.8.1 zstandard-0.25.0
 </pre>
 </div>
 </div>
@@ -7956,8 +7953,8 @@ Successfully installed cachetools-6.2.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="Set-up-a-Foundation-Model-on-IBM-watsonx.ai"></a></p>
-<h2 id="Set-up-a-Foundation-Model-on-IBM-watsonx.ai">Set up a Foundation Model on IBM watsonx.ai<a class="anchor-link" href="#Set-up-a-Foundation-Model-on-IBM-watsonx.ai">¶</a></h2>
+<p><a id="Set-up-the-Foundation-Model-on-IBM-watsonx.ai"></a></p>
+<h2 id="Set-up-the-Foundation-Model-on-IBM-watsonx.ai">Set up the Foundation Model on IBM watsonx.ai<a class="anchor-link" href="#Set-up-the-Foundation-Model-on-IBM-watsonx.ai">¶</a></h2>
 </div>
 </div>
 </div>
@@ -7980,7 +7977,7 @@ Successfully installed cachetools-6.2.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
 <div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">model_id</span> <span class="o">=</span> <span class="s2">"mistralai/mistral-medium-2505"</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">model_id</span> <span class="o">=</span> <span class="s2">"openai/gpt-oss-120b"</span>
 </pre></div>
 </div>
 </div>
@@ -7993,9 +7990,85 @@ Successfully installed cachetools-6.2.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="LangChain-integration"></a></p>
-<h2 id="LangChain-integration">LangChain integration<a class="anchor-link" href="#LangChain-integration">¶</a></h2><p><code>ChatWatsonx</code> is a wrapper around watsonx.ai models that provides chat integration around the models.</p>
-<h3 id="Initialize-the-ChatWatsonx-class">Initialize the <code>ChatWatsonx</code> class<a class="anchor-link" href="#Initialize-the-ChatWatsonx-class">¶</a></h3>
+<h3 id="Define-the-model-parameters">Define the model parameters<a class="anchor-link" href="#Define-the-model-parameters">¶</a></h3><p>You might need to adjust model <code>parameters</code> depending on the model you use.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextChatParameters</span>
+
+<span class="n">TextChatParameters</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>+-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| PARAMETER             | TYPE                                   | EXAMPLE VALUE                                                                                                                                                                                                                                                                   |
++=======================+========================================+=================================================================================================================================================================================================================================================================================+
+| frequency_penalty     | float, NoneType                        | 0.5                                                                                                                                                                                                                                                                             |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| logprobs              | bool, NoneType                         | True                                                                                                                                                                                                                                                                            |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| top_logprobs          | int, NoneType                          | 3                                                                                                                                                                                                                                                                               |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| presence_penalty      | float, NoneType                        | 0.3                                                                                                                                                                                                                                                                             |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| response_format       | dict, TextChatResponseFormat, NoneType | {'type': 'json_schema', 'json_schema': {'name': 'Sample JSON schema', 'schema': {'title': 'SimpleUser', 'type': 'object', 'properties': {'username': {'type': 'string'}, 'email': {'type': 'string', 'format': 'email'}}, 'required': ['username', 'email']}, 'strict': False}} |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| temperature           | float, NoneType                        | 0.7                                                                                                                                                                                                                                                                             |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| max_tokens            | int, NoneType                          | N/A                                                                                                                                                                                                                                                                             |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| max_completion_tokens | int, NoneType                          | 512                                                                                                                                                                                                                                                                             |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| time_limit            | int, NoneType                          | 600000                                                                                                                                                                                                                                                                          |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| top_p                 | float, NoneType                        | 0.9                                                                                                                                                                                                                                                                             |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| n                     | int, NoneType                          | 1                                                                                                                                                                                                                                                                               |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| logit_bias            | dict, NoneType                         | {'1003': -100, '1004': -100}                                                                                                                                                                                                                                                    |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| seed                  | int, NoneType                          | 41                                                                                                                                                                                                                                                                              |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| stop                  | list, NoneType                         | ['this', 'the']                                                                                                                                                                                                                                                                 |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| guided_choice         | list, NoneType                         | ['red', 'blue']                                                                                                                                                                                                                                                                 |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| guided_regex          | str, NoneType                          | \w+@\w+\.xai                                                                                                                                                                                                                                                                    |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| guided_grammar        | str, NoneType                          | root ::= rating " stars"                                                                                                                                                                                                                                                        |
+|                       |                                        | rating ::= [1-5]                                                                                                                                                                                                                                                                |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| guided_json           | dict, NoneType                         | {'type': 'object', 'properties': {'sentiment': {'type': 'string'}}}                                                                                                                                                                                                             |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| chat_template_kwargs  | dict, NoneType                         | {'thinking': True}                                                                                                                                                                                                                                                              |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| reasoning_effort      | Literal, NoneType                      | high                                                                                                                                                                                                                                                                            |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| include_reasoning     | bool, NoneType                         | True                                                                                                                                                                                                                                                                            |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| repetition_penalty    | float, NoneType                        | 1.5                                                                                                                                                                                                                                                                             |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| length_penalty        | float, NoneType                        | 1.0                                                                                                                                                                                                                                                                             |
++-----------------------+----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+</pre>
+</div>
 </div>
 </div>
 </div>
@@ -8004,16 +8077,38 @@ Successfully installed cachetools-6.2.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_ibm</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatWatsonx</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="n">TextChatParameters</span><span class="p">(</span><span class="n">temperature</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Initialize-the-model">Initialize the model<a class="anchor-link" href="#Initialize-the-model">¶</a></h3><p>Initialize the <code>ModelInference</code> class with the previously set parameters.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelInference</span>
 
-<span class="n">chat</span> <span class="o">=</span> <span class="n">ChatWatsonx</span><span class="p">(</span>
-    <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
-    <span class="n">apikey</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
-    <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span>
-    <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">,</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">ModelInference</span><span class="p">(</span>
+    <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -8027,48 +8122,8 @@ Successfully installed cachetools-6.2.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Next, define the assistant's tools to make a calculation.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">tool</span>
-
-
-<span class="nd">@tool</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Add a and b."""</span>
-    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
-
-
-<span class="nd">@tool</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">subtract</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Subtract a and b."""</span>
-    <span class="k">return</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span>
-
-
-<span class="nd">@tool</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">multiply</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Multiply a and b."""</span>
-    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
-
-
-<span class="nd">@tool</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">divide</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Divide a and b."""</span>
-    <span class="k">return</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span>
-
-
-<span class="n">tools</span> <span class="o">=</span> <span class="p">[</span><span class="n">add</span><span class="p">,</span> <span class="n">subtract</span><span class="p">,</span> <span class="n">multiply</span><span class="p">,</span> <span class="n">divide</span><span class="p">]</span>
-</pre></div>
-</div>
+<p><a id="Work-with-chat-messages"></a></p>
+<h2 id="Work-with-chat-messages">Work with chat messages<a class="anchor-link" href="#Work-with-chat-messages">¶</a></h2>
 </div>
 </div>
 </div>
@@ -8079,38 +8134,11 @@ Successfully installed cachetools-6.2.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Define the graph.</p>
+<h4 id="Work-with-a-simple-chat-message">Work with a simple chat message<a class="anchor-link" href="#Work-with-a-simple-chat-message">¶</a></h4>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langgraph.prebuilt</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_react_agent</span>
-
-<span class="n">graph</span> <span class="o">=</span> <span class="n">create_react_agent</span><span class="p">(</span><span class="n">chat</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="n">tools</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Visualize the graph you just created.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8118,66 +8146,11 @@ Successfully installed cachetools-6.2.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
 <div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">display</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">messages</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"What is 1 + 1"</span><span class="p">}]</span>
 
-<span class="n">display</span><span class="p">(</span><span class="n">Image</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">get_graph</span><span class="p">()</span><span class="o">.</span><span class="n">draw_mermaid_png</span><span class="p">()))</span>
+<span class="n">simple_chat_response</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">chat</span><span class="p">(</span><span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedImage jp-OutputArea-output" tabindex="0">
-<img alt="No description has been provided for this image" class="" src="data:image/png;base64,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"/>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Add a helpful function to print messages from the model.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">print_stream</span><span class="p">(</span><span class="n">stream</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">stream</span><span class="p">:</span>
-        <span class="n">message</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="s2">"messages"</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">message</span><span class="o">.</span><span class="n">pretty_print</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="Example-usage"></a></p>
-<h2 id="Example-usage">Example usage<a class="anchor-link" href="#Example-usage">¶</a></h2><p>Run the app with an input that needs a tool call.</p>
 </div>
 </div>
 </div>
@@ -8186,13 +8159,10 @@ Successfully installed cachetools-6.2.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"messages"</span><span class="p">:</span> <span class="p">[(</span><span class="s2">"user"</span><span class="p">,</span> <span class="s2">"What is the total sum of the numbers 11, 13, and 20?"</span><span class="p">)]</span>
-<span class="p">}</span>
-<span class="n">print_stream</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">stream_mode</span><span class="o">=</span><span class="s2">"values"</span><span class="p">))</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">simple_chat_response</span><span class="p">[</span><span class="s2">"choices"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"message"</span><span class="p">][</span><span class="s2">"content"</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -8205,35 +8175,35 @@ Successfully installed cachetools-6.2.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>================================<span class="ansi-bold"> Human Message </span>=================================
-
-What is the total sum of the numbers 11, 13, and 20?
-==================================<span class="ansi-bold"> Ai Message </span>==================================
-Tool Calls:
-  add (MoNulGNl0)
- Call ID: MoNulGNl0
-  Args:
-    a: 11
-    b: 13
-=================================<span class="ansi-bold"> Tool Message </span>=================================
-Name: add
-
-24.0
-==================================<span class="ansi-bold"> Ai Message </span>==================================
-Tool Calls:
-  add (U1IIs5nbA)
- Call ID: U1IIs5nbA
-  Args:
-    a: 24.0
-    b: 20
-=================================<span class="ansi-bold"> Tool Message </span>=================================
-Name: add
-
-44.0
-==================================<span class="ansi-bold"> Ai Message </span>==================================
-
-The total sum of the numbers 11, 13, and 20 is 44.
+<pre>1 + 1 = 2.
 </pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h4 id="Work-with-a-simple-chat-message-using-chat_stream">Work with a simple chat message using chat_stream<a class="anchor-link" href="#Work-with-a-simple-chat-message-using-chat_stream">¶</a></h4>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">messages</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"What are main sources of IBM's revenue?"</span><span class="p">}]</span>
+
+<span class="n">simple_chat_stream_response</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">chat_stream</span><span class="p">(</span><span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
 </div>
@@ -8246,8 +8216,9 @@ The total sum of the numbers 11, 13, and 20 is 44.
 <div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"messages"</span><span class="p">:</span> <span class="p">[(</span><span class="s2">"user"</span><span class="p">,</span> <span class="s2">"What is the result when 81 is subtracted from 100?"</span><span class="p">)]}</span>
-<span class="n">print_stream</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">stream_mode</span><span class="o">=</span><span class="s2">"values"</span><span class="p">))</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">simple_chat_stream_response</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">chunk</span><span class="p">[</span><span class="s2">"choices"</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">chunk</span><span class="p">[</span><span class="s2">"choices"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"delta"</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"content"</span><span class="p">,</span> <span class="s2">""</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8260,31 +8231,52 @@ The total sum of the numbers 11, 13, and 20 is 44.
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>================================<span class="ansi-bold"> Human Message </span>=================================
+<pre>**IBM’s revenue comes from a few core business segments that reflect its evolution from a traditional hardware‑focused company to a hybrid‑cloud and AI‑centric enterprise.**
+Below is a high‑level overview of the main sources of IBM’s revenue (as of the most recent FY 2023‑24 data and the company’s latest earnings releases). Numbers are rounded and expressed in **U.S. billion dollars**; percentages are approximate to give a sense of the relative weight of each segment.
 
-What is the result when 81 is subtracted from 100?
-==================================<span class="ansi-bold"> Ai Message </span>==================================
+| Segment (2023‑24) | Revenue (≈) | % of Total Revenue | What the segment includes |
+|-------------------|-------------|-------------------|---------------------------|
+| **Cloud &amp; Cognitive Software** | **$19 B** | **≈ 40 %** | • **IBM Cloud** (public, private, hybrid cloud platforms)  &lt;br&gt;• **Red Hat** (OpenShift, Linux, middleware)  &lt;br&gt;• **Data &amp; AI** (Watson, Db2, Cognos, SPSS, InfoSphere)  &lt;br&gt;• **Security software** (Guardium, QRadar, Cloud Pak for Security) |
+| **Global Business Services (GBS)** | **$14 B** | **≈ 30 %** | • Consulting &amp; system integration  &lt;br&gt;• Application management and modernization  &lt;br&gt;• Business process services (e.g., finance &amp; accounting outsourcing) |
+| **Global Technology Services (GTS)** | **$11 B** | **≈ 23 %** | • Infrastructure services (managed hosting, colocation, network)  &lt;br&gt;• Technology support &amp; maintenance  &lt;br&gt;• Cloud migration &amp; hybrid‑cloud operations |
+| **Systems** (Infrastructure, IBM Z, Power Systems) | **$2 B** | **≈ 4 %** | • Mainframes (IBM Z)  &lt;br&gt;• Power servers, storage, and related software  &lt;br&gt;• Edge‑computing appliances |
+| **Research &amp; Other** | **$0.5 B** | **≈ 1 %** | • IBM Research collaborations, patents/licensing, engineering services not classified elsewhere |
 
-Let's calculate the result when 81 is subtracted from 100.
-Tool Calls:
-  subtract (YNhbvK3Ay)
- Call ID: YNhbvK3Ay
-  Args:
-    a: 100
-    b: 81
-=================================<span class="ansi-bold"> Tool Message </span>=================================
-Name: subtract
+### How the mix has shifted over time
 
-19.0
-==================================<span class="ansi-bold"> Ai Message </span>==================================
+| Year | Cloud &amp; Cognitive Software | GBS | GTS | Systems |
+|------|----------------------------|-----|-----|---------|
+| 2018 | ~ 27 % | ~ 33 % | ~ 31 % | ~ 9 % |
+| 2020 | ~ 33 % | ~ 30 % | ~ 30 % | ~ 7 % |
+| 2022 | ~ 38 % | ~ 31 % | ~ 25 % | ~ 6 % |
+| 2023‑24 | **≈ 40 %** | **≈ 30 %** | **≈ 23 %** | **≈ 4 %** |
 
-The result when 81 is subtracted from 100 is 19.
-</pre>
+*The trend shows a steady rise of **software‑and‑cloud** revenue, driven largely by the 2019 acquisition of **Red Hat**, while traditional hardware (Systems) has become a modest, niche contributor.*
+
+### Key drivers behind each segment
+
+| Segment | Main growth drivers (2023‑24) |
+|---------|------------------------------|
+| **Cloud &amp; Cognitive Software** | • **Hybrid‑cloud demand** from enterprises looking to run workloads across on‑prem and public clouds.&lt;br&gt;• Expansion of **AI‑enabled analytics** (Watsonx, generative AI offerings).&lt;br&gt;• Red Hat subscription renewals &amp; growth of OpenShift‑based services.&lt;br&gt;• Security‑as‑a‑service (e.g., QRadar SaaS). |
+| **Global Business Services** | • Large‑scale **digital transformation** projects (SAP/Oracle migrations, AI integration).&lt;br&gt;• Consulting contracts with Fortune 500 firms for **industry‑specific cloud** solutions.&lt;br&gt;• Continued **outsourcing** of finance, HR, and procurement processes. |
+| **Global Technology Services** | • Migration and **managed‑cloud** services for legacy workloads.&lt;br&gt;• **Hybrid‑cloud operations** (IBM Cloud Satellite, edge).&lt;br&gt;• Infrastructure **maintenance** contracts, especially for IBM Z and Power environments. |
+| **Systems** | • **Mainframe** (IBM Z) sales to banks, airlines, and government agencies that need extreme reliability.&lt;br</pre>
 </div>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h4 id="Work-with-an-advanced-chat-message">Work with an advanced chat message<a class="anchor-link" href="#Work-with-an-advanced-chat-message">¶</a></h4>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8292,40 +8284,27 @@ The result when 81 is subtracted from 100 is 19.
 <div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"messages"</span><span class="p">:</span> <span class="p">[(</span><span class="s2">"user"</span><span class="p">,</span> <span class="s2">"Calculate the result of multiplying 10 by 12."</span><span class="p">)]}</span>
-<span class="n">print_stream</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">stream_mode</span><span class="o">=</span><span class="s2">"values"</span><span class="p">))</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"system"</span><span class="p">,</span>
+        <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"You are a helpful assistant."</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span>
+        <span class="s2">"content"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"text"</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">:</span> <span class="s2">"Who won the world series in 2020?"</span><span class="p">}],</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"assistant"</span><span class="p">,</span>
+        <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"The Los Angeles Dodgers won the World Series in 2020."</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span>
+        <span class="s2">"content"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"text"</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">:</span> <span class="s2">"Where was it played?"</span><span class="p">}],</span>
+    <span class="p">},</span>
+<span class="p">]</span>
+
+<span class="n">advanced_chat_response</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">chat</span><span class="p">(</span><span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">)</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>================================<span class="ansi-bold"> Human Message </span>=================================
-
-Calculate the result of multiplying 10 by 12.
-==================================<span class="ansi-bold"> Ai Message </span>==================================
-
-To calculate the result of multiplying 10 by 12, I will use the multiplication function.
-Tool Calls:
-  multiply (64szrwa6o)
- Call ID: 64szrwa6o
-  Args:
-    a: 10
-    b: 12
-=================================<span class="ansi-bold"> Tool Message </span>=================================
-Name: multiply
-
-120.0
-==================================<span class="ansi-bold"> Ai Message </span>==================================
-
-The result of multiplying 10 by 12 is 120.
-</pre>
 </div>
 </div>
 </div>
@@ -8338,8 +8317,7 @@ The result of multiplying 10 by 12 is 120.
 <div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"messages"</span><span class="p">:</span> <span class="p">[(</span><span class="s2">"user"</span><span class="p">,</span> <span class="s2">"Determine the result of dividing 2 by 3."</span><span class="p">)]}</span>
-<span class="n">print_stream</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">stream_mode</span><span class="o">=</span><span class="s2">"values"</span><span class="p">))</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">advanced_chat_response</span><span class="p">[</span><span class="s2">"choices"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"message"</span><span class="p">][</span><span class="s2">"content"</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -8352,18 +8330,314 @@ The result of multiplying 10 by 12 is 120.
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>================================<span class="ansi-bold"> Human Message </span>=================================
+<pre>The 2020 World Series was played at a neutral site — **Globe Life Field** in Arlington, Texas. The pandemic‑related schedule changes led Major League Baseball to hold the entire championship series there (instead of the usual home‑team venues).
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h4 id="Work-with-chat-messages-using-tools-and-tool_choice">Work with chat messages using <code>tools</code> and <code>tool_choice</code><a class="anchor-link" href="#Work-with-chat-messages-using-tools-and-tool_choice">¶</a></h4>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_current_weather</span><span class="p">(</span><span class="n">location</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"celsius"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Get the current weather in a given location.</span>
 
-Determine the result of dividing 2 by 3.
-==================================<span class="ansi-bold"> Ai Message </span>==================================
+<span class="sd">    Parameters:</span>
+<span class="sd">    - location (str): The city and state, e.g., "San Francisco, CA".</span>
+<span class="sd">    - unit (str): The unit for temperature, either "celsius" or "fahrenheit". Defaults to "celsius".</span>
 
-To determine the result of dividing \( 2 \) by \( 3 \), we can perform the division operation.
+<span class="sd">    Returns:</span>
+<span class="sd">    - dict: A dictionary containing the current weather details.</span>
+<span class="sd">    """</span>
 
-Let's calculate \( \frac{2}{3} \).
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">"location"</span><span class="p">:</span> <span class="n">location</span><span class="p">,</span>
+        <span class="s2">"temperature"</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+        <span class="s2">"unit"</span><span class="p">:</span> <span class="n">unit</span><span class="p">,</span>
+        <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"Partly cloudy"</span><span class="p">,</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Converting raw python function to correct tool schema</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 
-The result of dividing \( 2 \) by \( 3 \) is approximately \( 0.6667 \).
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.utils.function_calling</span><span class="w"> </span><span class="kn">import</span> <span class="n">convert_to_openai_tool</span>
 
-So, \( \frac{2}{3} = 0.\overline{6} \) or approximately \( 0.6667 \).[TOOL_CALLS]divide{"a": 2, "b": 3}
+<span class="n">formatted_tools</span> <span class="o">=</span> <span class="p">[</span><span class="n">convert_to_openai_tool</span><span class="p">(</span><span class="n">get_current_weather</span><span class="p">)]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">formatted_tools</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[
+  {
+    "type": "function",
+    "function": {
+      "name": "get_current_weather",
+      "description": "Get the current weather in a given location. Parameters:\n- location (str): The city and state, e.g., \"San Francisco, CA\".\n- unit (str): The unit for temperature, either \"celsius\" or \"fahrenheit\". Defaults to \"celsius\".",
+      "parameters": {
+        "properties": {
+          "location": {
+            "type": "string"
+          },
+          "unit": {
+            "default": "celsius",
+            "type": "string"
+          }
+        },
+        "required": [
+          "location"
+        ],
+        "type": "object"
+      }
+    }
+  }
+]
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"What's the weather like in Boston today?"</span><span class="p">},</span>
+<span class="p">]</span>
+
+<span class="n">tool_choice</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"function"</span><span class="p">,</span> <span class="s2">"function"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"name"</span><span class="p">:</span> <span class="s2">"get_current_weather"</span><span class="p">}}</span>
+
+<span class="n">tool_response</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">chat</span><span class="p">(</span>
+    <span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="n">formatted_tools</span><span class="p">,</span> <span class="n">tool_choice</span><span class="o">=</span><span class="n">tool_choice</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">tool_response</span><span class="p">[</span><span class="s2">"choices"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"message"</span><span class="p">],</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>{
+    "role": "assistant",
+    "reasoning_content": "The user wants current weather in Boston. Use function.",
+    "tool_calls": [
+        {
+            "id": "chatcmpl-tool-abe51b1691b000ff",
+            "type": "function",
+            "function": {
+                "name": "get_current_weather",
+                "arguments": "{\"location\": \"Boston, MA\", \"unit\": \"fahrenheit\"}"
+            }
+        }
+    ]
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h4 id="Work-with-chat-messages-using-tools-and-tool_choice_option">Work with chat messages using <code>tools</code> and <code>tool_choice_option</code><a class="anchor-link" href="#Work-with-chat-messages-using-tools-and-tool_choice_option">¶</a></h4>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">add_numbers</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Adds two numbers.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    - a (float): The first number.</span>
+<span class="sd">    - b (float): The second number.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    - float: The result of a + b.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">multiply_numbers</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Multiplies two numbers.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    - a (float): The first number.</span>
+<span class="sd">    - b (float): The second number.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    - float: The result of a * b.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Converting raw python function to correct tool schema</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">formatted_tools</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">convert_to_openai_tool</span><span class="p">(</span><span class="n">tool</span><span class="p">)</span> <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="p">[</span><span class="n">add_numbers</span><span class="p">,</span> <span class="n">multiply_numbers</span><span class="p">]</span>
+<span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">formatted_tools</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[
+  {
+    "type": "function",
+    "function": {
+      "name": "add_numbers",
+      "description": "Adds two numbers. Parameters:\n- a (float): The first number.\n- b (float): The second number.",
+      "parameters": {
+        "properties": {
+          "a": {
+            "type": "number"
+          },
+          "b": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "a",
+          "b"
+        ],
+        "type": "object"
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "multiply_numbers",
+      "description": "Multiplies two numbers. Parameters:\n- a (float): The first number.\n- b (float): The second number.",
+      "parameters": {
+        "properties": {
+          "a": {
+            "type": "number"
+          },
+          "b": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "a",
+          "b"
+        ],
+        "type": "object"
+      }
+    }
+  }
+]
 </pre>
 </div>
 </div>
@@ -8374,18 +8648,19 @@ So, \( \frac{2}{3} = 0.\overline{6} \) or approximately \( 0.6667 \).[TOOL_CALLS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"messages"</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">(</span>
-            <span class="s2">"user"</span><span class="p">,</span>
-            <span class="s2">"What is the result when the sum of 2 and 3 is multiplied by 6 and then divided by 10?"</span><span class="p">,</span>
-        <span class="p">)</span>
-    <span class="p">]</span>
-<span class="p">}</span>
-<span class="n">print_stream</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">stream_mode</span><span class="o">=</span><span class="s2">"values"</span><span class="p">))</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"system"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Use tools to perform calculations"</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"What is 5 + 6?"</span><span class="p">},</span>
+<span class="p">]</span>
+
+<span class="n">tools_response</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">chat</span><span class="p">(</span>
+    <span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="n">formatted_tools</span><span class="p">,</span> <span class="n">tool_choice_option</span><span class="o">=</span><span class="s2">"auto"</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">tools_response</span><span class="p">[</span><span class="s2">"choices"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"message"</span><span class="p">],</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -8398,54 +8673,166 @@ So, \( \frac{2}{3} = 0.\overline{6} \) or approximately \( 0.6667 \).[TOOL_CALLS
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>================================<span class="ansi-bold"> Human Message </span>=================================
+<pre>{
+  "role": "assistant",
+  "reasoning_content": "User asks basic addition. Use add_numbers function.",
+  "tool_calls": [
+    {
+      "id": "chatcmpl-tool-a7f3db9e4abeb138",
+      "type": "function",
+      "function": {
+        "name": "add_numbers",
+        "arguments": "{\"a\": 5, \"b\": 6}"
+      }
+    }
+  ]
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"system"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Use tools to perform calculations"</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"What is 5 * 6?"</span><span class="p">},</span>
+<span class="p">]</span>
 
-What is the result when the sum of 2 and 3 is multiplied by 6 and then divided by 10?
-==================================<span class="ansi-bold"> Ai Message </span>==================================
+<span class="n">tools_response_2</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">chat</span><span class="p">(</span>
+    <span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="n">formatted_tools</span><span class="p">,</span> <span class="n">tool_choice_option</span><span class="o">=</span><span class="s2">"auto"</span>
+<span class="p">)</span>
 
-To solve the problem step-by-step, I will first add 2 and 3, then multiply the result by 6, and finally divide the result by 10.
+<span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">tools_response_2</span><span class="p">[</span><span class="s2">"choices"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"message"</span><span class="p">],</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>{
+  "role": "assistant",
+  "reasoning_content": "We need to compute 5 * 6. Use multiply_numbers function.",
+  "tool_calls": [
+    {
+      "id": "chatcmpl-tool-ae355d3b808eaf53",
+      "type": "function",
+      "function": {
+        "name": "multiply_numbers",
+        "arguments": "{\"a\": 5, \"b\": 6}"
+      }
+    }
+  ]
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h4 id="Execute-tool-calls">Execute tool calls<a class="anchor-link" href="#Execute-tool-calls">¶</a></h4><p>We organize the two functions into a dictionary where keys represent the function name, and values are the function.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">names_to_functions</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"add_numbers"</span><span class="p">:</span> <span class="n">add_numbers</span><span class="p">,</span>
+    <span class="s2">"multiply_numbers"</span><span class="p">:</span> <span class="n">multiply_numbers</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">tool_call</span> <span class="o">=</span> <span class="n">tools_response</span><span class="p">[</span><span class="s2">"choices"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"message"</span><span class="p">][</span><span class="s2">"tool_calls"</span><span class="p">]</span>
+<span class="n">function_name</span> <span class="o">=</span> <span class="n">tool_call</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">"function"</span><span class="p">][</span><span class="s2">"name"</span><span class="p">]</span>
+<span class="n">function_params</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">tool_call</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">"function"</span><span class="p">][</span><span class="s2">"arguments"</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Executing function: `</span><span class="si">{</span><span class="n">function_name</span><span class="si">}</span><span class="s2">`, with parameters: </span><span class="si">{</span><span class="n">function_params</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-1. **Add 2 and 3**:
-   - 2 + 3 = 5
+<span class="n">function_result</span> <span class="o">=</span> <span class="n">names_to_functions</span><span class="p">[</span><span class="n">function_name</span><span class="p">](</span><span class="o">**</span><span class="n">function_params</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Function result: </span><span class="si">{</span><span class="n">function_result</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Executing function: `add_numbers`, with parameters: {'a': 5, 'b': 6}
+Function result: 11
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">tool_call</span> <span class="o">=</span> <span class="n">tools_response_2</span><span class="p">[</span><span class="s2">"choices"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"message"</span><span class="p">][</span><span class="s2">"tool_calls"</span><span class="p">]</span>
+<span class="n">function_name</span> <span class="o">=</span> <span class="n">tool_call</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">"function"</span><span class="p">][</span><span class="s2">"name"</span><span class="p">]</span>
+<span class="n">function_params</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">tool_call</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">"function"</span><span class="p">][</span><span class="s2">"arguments"</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Executing function: `</span><span class="si">{</span><span class="n">function_name</span><span class="si">}</span><span class="s2">`, with parameters: </span><span class="si">{</span><span class="n">function_params</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-2. **Multiply the result by 6**:
-   - 5 * 6 = 30
 
-3. **Divide the result by 10**:
-   - 30 / 10 = 3
-
-So, the final result is 3.
-Tool Calls:
-  add (mksTOhpie)
- Call ID: mksTOhpie
-  Args:
-    a: 2
-    b: 3
-=================================<span class="ansi-bold"> Tool Message </span>=================================
-Name: add
-
-5.0
-==================================<span class="ansi-bold"> Ai Message </span>==================================
-
-multiply{"a": 5, "b": 6}
-Tool Calls:
-  multiply (2QF2LA9us)
- Call ID: 2QF2LA9us
-  Args:
-    a: 5
-    b: 6
-  divide (QWxazhO2S)
- Call ID: QWxazhO2S
-  Args:
-    a: 30
-    b: 10
-=================================<span class="ansi-bold"> Tool Message </span>=================================
-Name: divide
-
-3.0
-==================================<span class="ansi-bold"> Ai Message </span>==================================
-
-The result when the sum of 2 and 3 is multiplied by 6 and then divided by 10 is 3.
+<span class="n">function_result</span> <span class="o">=</span> <span class="n">names_to_functions</span><span class="p">[</span><span class="n">function_name</span><span class="p">](</span><span class="o">**</span><span class="n">function_params</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Function result: </span><span class="si">{</span><span class="n">function_result</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Executing function: `multiply_numbers`, with parameters: {'a': 5, 'b': 6}
+Function result: 30
 </pre>
 </div>
 </div>
@@ -8460,7 +8847,7 @@ The result when the sum of 2 and 3 is multiplied by 6 and then divided by 10 is 
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><a id="Summary-and-next-steps"></a></p>
 <h2 id="Summary-and-next-steps">Summary and next steps<a class="anchor-link" href="#Summary-and-next-steps">¶</a></h2><p>You successfully completed this notebook!</p>
-<p>You learned how to build a simple graph using LangGraph and <code>ChatWatsonx</code>.</p>
+<p>You learned how to work with chat models using tools and watsonx.ai.</p>
 <p>Check out our <em><a href="https://ibm.github.io/watsonx-ai-python-sdk/samples.html" rel="noopener no referrer" target="_blank">Online Documentation</a></em> for more samples, tutorials, documentation, how-tos, and blog posts.</p>
 </div>
 </div>

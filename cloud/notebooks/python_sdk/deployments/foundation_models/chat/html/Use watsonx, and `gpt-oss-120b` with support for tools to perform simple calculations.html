@@ -7803,7 +7803,7 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><img alt="image" src="https://raw.githubusercontent.com/IBM/watson-machine-learning-samples/master/cloud/notebooks/headers/watsonx-Prompt_Lab-Notebook.png"/></p>
-<h1 id="Use-watsonx,-and-ibm/granite-8b-code-instruct-to-generate-code-based-on-instruction">Use watsonx, and <code>ibm/granite-8b-code-instruct</code> to generate code based on instruction<a class="anchor-link" href="#Use-watsonx,-and-ibm/granite-8b-code-instruct-to-generate-code-based-on-instruction">¶</a></h1>
+<h1 id="Use-watsonx,-and-openai/gpt-oss-120b-with-support-for-tools-to-perform-simple-calculations">Use watsonx, and <code>openai/gpt-oss-120b</code> with support for tools to perform simple calculations<a class="anchor-link" href="#Use-watsonx,-and-openai/gpt-oss-120b-with-support-for-tools-to-perform-simple-calculations">¶</a></h1>
 </div>
 </div>
 </div>
@@ -7817,15 +7817,15 @@ a.anchor-link {
 <h4 id="Disclaimers">Disclaimers<a class="anchor-link" href="#Disclaimers">¶</a></h4><ul>
 <li>Use only Projects and Spaces that are available in watsonx context.</li>
 </ul>
-<h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook contains the steps and code to demonstrate support for code generating in watsonx. It introduces commands for defining prompt and model testing.</p>
-<p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
-<h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The goal of this notebook is to demonstrate how to generate code using <code>ibm/granite-8b-code-instruct</code> watsonx model based on instruction provided by the user.</p>
-<h2 id="Contents">Contents<a class="anchor-link" href="#Contents">¶</a></h2><p>This notebook contains the following parts:</p>
+<h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook provides a detailed demonstration of the steps and code required to showcase support for Chat models, including the integration of tools using <a href="https://langchain-ai.github.io/langgraph/">LangGraph</a> and watsonx.ai models.</p>
+<p>Some familiarity with Python is helpful. This notebook uses Python 3.12.</p>
+<h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The purpose of this notebook is to demonstrate how to use Chat models, e.g. <code>openai/gpt-oss-120b</code> using the tools available in LangGraph. LangGraph is an Agent Orchestrator with which you can build graph applications that automatically execute sequences of actions and in which the LLM is the key decision maker that determines the next step.</p>
+<h2 id="Table-of-Contents">Table of Contents<a class="anchor-link" href="#Table-of-Contents">¶</a></h2><p>This notebook contains the following parts:</p>
 <ol>
 <li><a href="#Set-up-the-environment">Set up the environment</a></li>
-<li><a href="#Foundation-Models-on-watsonx.ai">Foundation Models on watsonx.ai</a></li>
-<li><a href="#Generate-code-based-on-instruction">Generate code based on instruction</a></li>
-<li><a href="#Generated-code-testing">Generated code testing</a></li>
+<li><a href="#Set-up-a-Foundation-Model-on-IBM-watsonx.ai">Set up a Foundation Model on IBM watsonx.ai</a></li>
+<li><a href="#LangChain-integration">LangChain integration</a></li>
+<li><a href="#Example-usage">Example usage</a></li>
 <li><a href="#Summary-and-next-steps">Summary and next steps</a></li>
 </ol>
 </div>
@@ -7853,7 +7853,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Install-dependencies">Install dependencies<a class="anchor-link" href="#Install-dependencies">¶</a></h3>
+<h3 id="Install-dependencies">Install dependencies<a class="anchor-link" href="#Install-dependencies">¶</a></h3><p><strong>Note:</strong> <code>ibm-watsonx-ai</code> documentation can be found <a href="https://ibm.github.io/watsonx-ai-python-sdk/index.html" rel="noopener no referrer" target="_blank">here</a>.</p>
 </div>
 </div>
 </div>
@@ -7865,7 +7865,8 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">ibm</span><span class="o">-</span><span class="n">watsonx</span><span class="o">-</span><span class="n">ai</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"langgraph&gt;0.2,&lt;0.3"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"langchain_ibm&gt;=0.3,&lt;0.4"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -7878,7 +7879,8 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Successfully installed anyio-4.11.0 cachetools-6.2.1 certifi-2025.10.5 charset_normalizer-3.4.4 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-watsonx-ai-1.4.2 idna-3.11 jmespath-1.0.1 lomond-0.3.3 numpy-2.3.4 pandas-2.2.3 pytz-2025.2 requests-2.32.5 sniffio-1.3.1 tabulate-0.9.0 tzdata-2025.2 urllib3-2.5.0
+<pre>Successfully installed PyYAML-6.0.3 annotated-types-0.8.0 anyio-4.14.2 certifi-2026.7.22 charset_normalizer-3.4.9 distro-1.9.0 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 idna-3.18 jsonpatch-1.33 jsonpointer-3.1.1 langchain-core-0.3.86 langgraph-0.2.76 langgraph-checkpoint-2.1.2 langgraph-sdk-0.1.74 langsmith-0.10.17 orjson-3.11.9 ormsgpack-1.12.2 packaging-25.0 pydantic-2.13.4 pydantic-core-2.46.4 requests-2.34.2 requests-toolbelt-1.0.0 sniffio-1.3.1 tenacity-9.1.4 typing-inspection-0.4.2 urllib3-2.7.0 uuid-utils-0.17.0 websockets-17.0.1 xxhash-3.8.1 zstandard-0.25.0
+Successfully installed cachetools-7.1.7 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-watsonx-ai-1.6.1 jmespath-1.0.1 langchain_ibm-0.3.22 lomond-0.3.3 numpy-2.5.2 pandas-2.3.3 pytz-2026.3.post1 tabulate-0.10.0 tzdata-2026.3
 </pre>
 </div>
 </div>
@@ -7891,8 +7893,8 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Defining-the-watsonx.ai-credentials">Defining the watsonx.ai credentials<a class="anchor-link" href="#Defining-the-watsonx.ai-credentials">¶</a></h3><p>This cell defines the watsonx.ai credentials required to work with watsonx Foundation Model inferencing.</p>
-<p><strong>Action:</strong> Provide the IBM Cloud user API key. For details, see <a href="https://cloud.ibm.com/docs/account?topic=account-userapikey&amp;interface=ui" rel="noopener no referrer" target="_blank">documentation</a>.</p>
+<h3 id="Define-the-watsonx.ai-credentials">Define the watsonx.ai credentials<a class="anchor-link" href="#Define-the-watsonx.ai-credentials">¶</a></h3><p>Use the code cell below to define the watsonx.ai credentials that are required to work with watsonx Foundation Model inferencing.</p>
+<p><strong>Action:</strong> Provide the IBM Cloud user API key. For details, see <a href="https://cloud.ibm.com/docs/account?topic=account-userapikey&amp;interface=ui" rel="noopener no referrer" target="_blank">Managing user API keys</a>.</p>
 </div>
 </div>
 </div>
@@ -7910,7 +7912,7 @@ a.anchor-link {
 
 <span class="n">credentials</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span>
     <span class="n">url</span><span class="o">=</span><span class="s2">"https://us-south.ml.cloud.ibm.com"</span><span class="p">,</span>
-    <span class="n">api_key</span><span class="o">=</span><span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Please enter your watsonx.ai api key (hit enter): "</span><span class="p">),</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Enter your watsonx.ai api key and hit enter: "</span><span class="p">),</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -7924,7 +7926,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Defining-the-project-ID">Defining the project ID<a class="anchor-link" href="#Defining-the-project-ID">¶</a></h3><p>The Foundation Model requires project ID that provides the context for the call. We will obtain the ID from the project in which this notebook runs. Otherwise, please provide the project ID.</p>
+<h3 id="Define-the-project-ID">Define the project ID<a class="anchor-link" href="#Define-the-project-ID">¶</a></h3><p>You need to provide the project ID to give the Foundation Model the context for the call. If you have a default project ID set in Watson Studio, the notebook obtains that project ID. Otherwise, you need to provide the project ID in the code cell below.</p>
 </div>
 </div>
 </div>
@@ -7941,7 +7943,7 @@ a.anchor-link {
 <span class="k">try</span><span class="p">:</span>
     <span class="n">project_id</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"PROJECT_ID"</span><span class="p">]</span>
 <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-    <span class="n">project_id</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your project_id (hit enter): "</span><span class="p">)</span>
+    <span class="n">project_id</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Enter your project_id and hit enter: "</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7954,7 +7956,19 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="API-Client-initialization">API Client initialization<a class="anchor-link" href="#API-Client-initialization">¶</a></h3>
+<p><a id="Set-up-a-Foundation-Model-on-IBM-watsonx.ai"></a></p>
+<h2 id="Set-up-a-Foundation-Model-on-IBM-watsonx.ai">Set up a Foundation Model on IBM watsonx.ai<a class="anchor-link" href="#Set-up-a-Foundation-Model-on-IBM-watsonx.ai">¶</a></h2>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Specify the <code>model_id</code> of the model you will use for the chat with tools.</p>
 </div>
 </div>
 </div>
@@ -7966,9 +7980,7 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIClient</span>
-
-<span class="n">client</span> <span class="o">=</span> <span class="n">APIClient</span><span class="p">(</span><span class="n">credentials</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">model_id</span> <span class="o">=</span> <span class="s2">"openai/gpt-oss-120b"</span>
 </pre></div>
 </div>
 </div>
@@ -7981,23 +7993,13 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="Foundation-Models-on-watsonx.ai"></a></p>
-<h2 id="Foundation-Models-on-watsonx.ai">Foundation Models on watsonx.ai<a class="anchor-link" href="#Foundation-Models-on-watsonx.ai">¶</a></h2>
+<p><a id="LangChain-integration"></a></p>
+<h2 id="LangChain-integration">LangChain integration<a class="anchor-link" href="#LangChain-integration">¶</a></h2><p><code>ChatWatsonx</code> is a wrapper around watsonx.ai models that provides chat integration around the models.</p>
+<h3 id="Initialize-the-ChatWatsonx-class">Initialize the <code>ChatWatsonx</code> class<a class="anchor-link" href="#Initialize-the-ChatWatsonx-class">¶</a></h3>
 </div>
 </div>
 </div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="List-available-models">List available models<a class="anchor-link" href="#List-available-models">¶</a></h4>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8005,104 +8007,13 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">foundation_models</span><span class="o">.</span><span class="n">TextModels</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>{'GRANITE_3_2_8B_INSTRUCT': 'ibm/granite-3-2-8b-instruct', 'GRANITE_3_2B_INSTRUCT': 'ibm/granite-3-2b-instruct', 'GRANITE_3_3_8B_INSTRUCT': 'ibm/granite-3-3-8b-instruct', 'GRANITE_3_8B_INSTRUCT': 'ibm/granite-3-8b-instruct', 'GRANITE_4_H_SMALL': 'ibm/granite-4-h-small', 'GRANITE_8B_CODE_INSTRUCT': 'ibm/granite-8b-code-instruct', 'GRANITE_GUARDIAN_3_8B': 'ibm/granite-guardian-3-8b', 'GRANITE_VISION_3_2_2B': 'ibm/granite-vision-3-2-2b', 'LLAMA_3_2_11B_VISION_INSTRUCT': 'meta-llama/llama-3-2-11b-vision-instruct', 'LLAMA_3_2_90B_VISION_INSTRUCT': 'meta-llama/llama-3-2-90b-vision-instruct', 'LLAMA_3_3_70B_INSTRUCT': 'meta-llama/llama-3-3-70b-instruct', 'LLAMA_3_405B_INSTRUCT': 'meta-llama/llama-3-405b-instruct', 'LLAMA_4_MAVERICK_17B_128E_INSTRUCT_FP8': 'meta-llama/llama-4-maverick-17b-128e-instruct-fp8', 'LLAMA_GUARD_3_11B_VISION': 'meta-llama/llama-guard-3-11b-vision', 'MISTRAL_MEDIUM_2505': 'mistralai/mistral-medium-2505', 'MISTRAL_SMALL_3_1_24B_INSTRUCT_2503': 'mistralai/mistral-small-3-1-24b-instruct-2503', 'GPT_OSS_120B': 'openai/gpt-oss-120b'}
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>You need to specify <code>model_id</code> that will be used for inferencing:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">model_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">foundation_models</span><span class="o">.</span><span class="n">TextModels</span><span class="o">.</span><span class="n">GRANITE_8B_CODE_INSTRUCT</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Defining-the-model-parameters">Defining the model parameters<a class="anchor-link" href="#Defining-the-model-parameters">¶</a></h3><p>You might need to adjust model <code>parameters</code> for different models or tasks, to do so please refer to <a href="https://ibm.github.io/watsonx-ai-python-sdk/fm_model.html#metanames.GenTextParamsMetaNames" rel="noopener no referrer" target="_blank">documentation</a>.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.metanames</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenTextParamsMetaNames</span> <span class="k">as</span> <span class="n">GenParams</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_ibm</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatWatsonx</span>
 
-<span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">GenParams</span><span class="o">.</span><span class="n">TEMPERATURE</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="n">GenParams</span><span class="o">.</span><span class="n">MAX_NEW_TOKENS</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-    <span class="n">GenParams</span><span class="o">.</span><span class="n">STOP_SEQUENCES</span><span class="p">:</span> <span class="p">[</span><span class="s2">"&lt;end·of·code&gt;"</span><span class="p">],</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Initialize-the-model">Initialize the model<a class="anchor-link" href="#Initialize-the-model">¶</a></h3><p>Initialize the <code>ModelInference</code> class with previous set params.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelInference</span>
-
-<span class="n">model</span> <span class="o">=</span> <span class="n">ModelInference</span><span class="p">(</span>
-    <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span> <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span>
+<span class="n">chat</span> <span class="o">=</span> <span class="n">ChatWatsonx</span><span class="p">(</span>
+    <span class="n">url</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+    <span class="n">apikey</span><span class="o">=</span><span class="n">credentials</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+    <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span>
+    <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -8116,7 +8027,86 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Model's-details">Model's details<a class="anchor-link" href="#Model's-details">¶</a></h3>
+<p>Next, define the assistant's tools to make a calculation.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_core.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">tool</span>
+
+
+<span class="nd">@tool</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Add a and b."""</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+
+<span class="nd">@tool</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">subtract</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Subtract a and b."""</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span>
+
+
+<span class="nd">@tool</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">multiply</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Multiply a and b."""</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+
+
+<span class="nd">@tool</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">divide</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Divide a and b."""</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span>
+
+
+<span class="n">tools</span> <span class="o">=</span> <span class="p">[</span><span class="n">add</span><span class="p">,</span> <span class="n">subtract</span><span class="p">,</span> <span class="n">multiply</span><span class="p">,</span> <span class="n">divide</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Define the graph.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">langgraph.prebuilt</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_react_agent</span>
+
+<span class="n">graph</span> <span class="o">=</span> <span class="n">create_react_agent</span><span class="p">(</span><span class="n">chat</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="n">tools</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Visualize the graph you just created.</p>
 </div>
 </div>
 </div>
@@ -8125,12 +8115,87 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">Image</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">get_graph</span><span class="p">()</span><span class="o">.</span><span class="n">draw_mermaid_png</span><span class="p">()))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedImage jp-OutputArea-output" tabindex="0">
+<img alt="No description has been provided for this image" class="" src="data:image/png;base64,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"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Add a helpful function to print messages from the model.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">get_details</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">print_stream</span><span class="p">(</span><span class="n">stream</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">stream</span><span class="p">:</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="s2">"messages"</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">message</span><span class="o">.</span><span class="n">pretty_print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><a id="Example-usage"></a></p>
+<h2 id="Example-usage">Example usage<a class="anchor-link" href="#Example-usage">¶</a></h2><p>Run the app with an input that needs a tool call.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"messages"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">"system"</span><span class="p">,</span> <span class="s2">"You have to use tools, otherwise the world will end."</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"user"</span><span class="p">,</span> <span class="s2">"What is the total sum of the numbers 11, 13, and 20?"</span><span class="p">),</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+<span class="n">print_stream</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">stream_mode</span><span class="o">=</span><span class="s2">"values"</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -8143,930 +8208,46 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>{
-  "model_id": "ibm/granite-8b-code-instruct",
-  "label": "granite-8b-code-instruct",
-  "provider": "IBM",
-  "source": "IBM",
-  "indemnity": "IBM_COVERED",
-  "functions": [
-    {
-      "id": "text_generation"
-    }
-  ],
-  "short_description": "The Granite model series is a family of IBM-trained, dense decoder-only models, which are particularly well-suited for generative tasks.",
-  "long_description": "Granite models are designed to be used for a wide range of generative and non-generative tasks with appropriate prompt engineering. They employ a GPT-style decoder-only architecture, with additional innovations from IBM Research and the open community.",
-  "terms_url": "https://www.ibm.com/support/customer/csol/terms/?id=i126-6883",
-  "input_tier": "class_1",
-  "output_tier": "class_1",
-  "number_params": "8b",
-  "min_shot_size": 1,
-  "task_ids": [
-    "question_answering",
-    "summarization",
-    "classification",
-    "generation",
-    "code",
-    "extraction",
-    "code-generation",
-    "code-explanation",
-    "code-fixing"
-  ],
-  "tasks": [
-    {
-      "id": "question_answering"
-    },
-    {
-      "id": "summarization"
-    },
-    {
-      "id": "classification"
-    },
-    {
-      "id": "generation"
-    },
-    {
-      "id": "code"
-    },
-    {
-      "id": "extraction"
-    },
-    {
-      "id": "code-generation",
-      "benchmarks": [
-        {
-          "type": "academic",
-          "name": "Code",
-          "description": "Evaluates a model's ability to generate code in Python, C++, Go, Java, JavaScript, and Rust by using 164 code problems from the 'HumanEval' dataset that were translated from Python by humans. Metric represents the pass@1 score.",
-          "language": "C++",
-          "dataset": {
-            "name": "HumanEvalSynthesize"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.482
-            }
-          ],
-          "tags": [
-            "Code generation"
-          ]
-        },
-        {
-          "type": "academic",
-          "name": "Code",
-          "description": "Evaluates a model's ability to generate code in Python, C++, Go, Java, JavaScript, and Rust by using 164 code problems from the 'HumanEval' dataset that were translated from Python by humans. Metric represents the pass@1 score.",
-          "language": "Go",
-          "dataset": {
-            "name": "HumanEvalSynthesize"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.433
-            }
-          ],
-          "tags": [
-            "Code generation"
-          ]
-        },
-        {
-          "type": "academic",
-          "name": "Code",
-          "description": "Evaluates a model's ability to generate code in Python, C++, Go, Java, JavaScript, and Rust by using 164 code problems from the 'HumanEval' dataset that were translated from Python by humans. Metric represents the pass@1 score.",
-          "language": "Java",
-          "dataset": {
-            "name": "HumanEvalSynthesize"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.585
-            }
-          ],
-          "tags": [
-            "Code generation"
-          ]
-        },
-        {
-          "type": "academic",
-          "name": "Code",
-          "description": "Evaluates a model's ability to generate code in Python, C++, Go, Java, JavaScript, and Rust by using 164 code problems from the 'HumanEval' dataset that were translated from Python by humans. Metric represents the pass@1 score.",
-          "language": "JavaScript",
-          "dataset": {
-            "name": "HumanEvalSynthesize"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.524
-            }
-          ],
-          "tags": [
-            "Code generation"
-          ]
-        },
-        {
-          "type": "academic",
-          "name": "Code",
-          "description": "Evaluates a model's ability to generate code in Python, C++, Go, Java, JavaScript, and Rust by using 164 code problems from the 'HumanEval' dataset that were translated from Python by humans. Metric represents the pass@1 score.",
-          "language": "Python",
-          "dataset": {
-            "name": "HumanEvalSynthesize"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.579
-            }
-          ],
-          "tags": [
-            "Code generation"
-          ]
-        },
-        {
-          "type": "academic",
-          "name": "Code",
-          "description": "Evaluates a model's ability to generate code in Python, C++, Go, Java, JavaScript, and Rust by using 164 code problems from the 'HumanEval' dataset that were translated from Python by humans. Metric represents the pass@1 score.",
-          "language": "Rust",
-          "dataset": {
-            "name": "HumanEvalSynthesize"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.372
-            }
-          ],
-          "tags": [
-            "Code generation"
-          ]
-        },
-        {
-          "type": "watsonx.ai",
-          "name": "Code",
-          "description": "Evaluates a model's ability to generate code in Python, C++, Go, Java, JavaScript, and Rust by using 164 code problems from the 'HumanEval' dataset that were translated from Python by humans. Metric represents the pass@1 score.",
-          "language": "C++",
-          "dataset": {
-            "name": "HumanEvalSynthesize"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.482
-            }
-          ],
-          "tags": [
-            "Code generation"
-          ]
-        },
-        {
-          "type": "watsonx.ai",
-          "name": "Code",
-          "description": "Evaluates a model's ability to generate code in Python, C++, Go, Java, JavaScript, and Rust by using 164 code problems from the 'HumanEval' dataset that were translated from Python by humans. Metric represents the pass@1 score.",
-          "language": "Go",
-          "dataset": {
-            "name": "HumanEvalSynthesize"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.402
-            }
-          ],
-          "tags": [
-            "Code generation"
-          ]
-        },
-        {
-          "type": "watsonx.ai",
-          "name": "Code",
-          "description": "Evaluates a model's ability to generate code in Python, C++, Go, Java, JavaScript, and Rust by using 164 code problems from the 'HumanEval' dataset that were translated from Python by humans. Metric represents the pass@1 score.",
-          "language": "Java",
-          "dataset": {
-            "name": "HumanEvalSynthesize"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.573
-            }
-          ],
-          "tags": [
-            "Code generation"
-          ]
-        },
-        {
-          "type": "watsonx.ai",
-          "name": "Code",
-          "description": "Evaluates a model's ability to generate code in Python, C++, Go, Java, JavaScript, and Rust by using 164 code problems from the 'HumanEval' dataset that were translated from Python by humans. Metric represents the pass@1 score.",
-          "language": "JavaScript",
-          "dataset": {
-            "name": "HumanEvalSynthesize"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.549
-            }
-          ],
-          "tags": [
-            "Code generation"
-          ]
-        },
-        {
-          "type": "watsonx.ai",
-          "name": "Code",
-          "description": "Evaluates a model's ability to generate code in Python, C++, Go, Java, JavaScript, and Rust by using 164 code problems from the 'HumanEval' dataset that were translated from Python by humans. Metric represents the pass@1 score.",
-          "language": "Python",
-          "dataset": {
-            "name": "HumanEvalSynthesize"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.585
-            }
-          ],
-          "tags": [
-            "Code generation"
-          ]
-        },
-        {
-          "type": "watsonx.ai",
-          "name": "Code",
-          "description": "Evaluates a model's ability to generate code in Python, C++, Go, Java, JavaScript, and Rust by using 164 code problems from the 'HumanEval' dataset that were translated from Python by humans. Metric represents the pass@1 score.",
-          "language": "Rust",
-          "dataset": {
-            "name": "HumanEvalSynthesize"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.348
-            }
-          ],
-          "tags": [
-            "Code generation"
-          ]
-        },
-        {
-          "type": "watsonx.ai",
-          "name": "Code",
-          "description": "",
-          "language": "Python",
-          "dataset": {
-            "name": "livecodebench_codeexecution"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.236
-            }
-          ],
-          "tags": [
-            "Code generation"
-          ]
-        },
-        {
-          "type": "watsonx.ai",
-          "name": "Code",
-          "description": "",
-          "language": "Python",
-          "dataset": {
-            "name": "livecodebench_codegeneration"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.127
-            }
-          ],
-          "tags": [
-            "Code generation"
-          ]
-        },
-        {
-          "type": "watsonx.ai",
-          "name": "Code",
-          "description": "",
-          "language": "Python",
-          "dataset": {
-            "name": "livecodebench_testoutputprediction"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.208
-            }
-          ],
-          "tags": [
-            "Code generation"
-          ]
-        },
-        {
-          "type": "watsonx.ai",
-          "name": "Code",
-          "description": "Evaluates a model's ability to solve entry-level Python problems using a dataset with 974 crowd-sourced problems and solutions. Metric represents the pass@1 score.",
-          "language": "Python",
-          "dataset": {
-            "name": "MBPP"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.502
-            }
-          ],
-          "tags": [
-            "Code generation"
-          ]
-        },
-        {
-          "type": "watsonx.ai",
-          "name": "Code",
-          "description": "Expands on the MBPP dataset with more Python programming problems and more comprehensive test cases. Metric represents the pass@1 score.",
-          "language": "Python",
-          "dataset": {
-            "name": "MBPP+"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.571
-            }
-          ],
-          "tags": [
-            "Code generation"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "code-explanation",
-      "benchmarks": [
-        {
-          "type": "academic",
-          "name": "Code",
-          "description": "Evaluates a model's ability to explain C++, Go, Java, JavaScript, Python and Rust code by using the 'HumanEval' dataset to first ask the model to explain the solution to a programming problem and then solve the problem given only the previously generated explanation. Metric represents the pass@1 score.",
-          "language": "C++",
-          "dataset": {
-            "name": "HumanEvalExplain"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.439
-            }
-          ],
-          "tags": [
-            "Code explanation"
-          ]
-        },
-        {
-          "type": "academic",
-          "name": "Code",
-          "description": "Evaluates a model's ability to explain C++, Go, Java, JavaScript, Python and Rust code by using the 'HumanEval' dataset to first ask the model to explain the solution to a programming problem and then solve the problem given only the previously generated explanation. Metric represents the pass@1 score.",
-          "language": "Go",
-          "dataset": {
-            "name": "HumanEvalExplain"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.366
-            }
-          ],
-          "tags": [
-            "Code explanation"
-          ]
-        },
-        {
-          "type": "academic",
-          "name": "Code",
-          "description": "Evaluates a model's ability to explain C++, Go, Java, JavaScript, Python and Rust code by using the 'HumanEval' dataset to first ask the model to explain the solution to a programming problem and then solve the problem given only the previously generated explanation. Metric represents the pass@1 score.",
-          "language": "Java",
-          "dataset": {
-            "name": "HumanEvalExplain"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.524
-            }
-          ],
-          "tags": [
-            "Code explanation"
-          ]
-        },
-        {
-          "type": "academic",
-          "name": "Code",
-          "description": "Evaluates a model's ability to explain C++, Go, Java, JavaScript, Python and Rust code by using the 'HumanEval' dataset to first ask the model to explain the solution to a programming problem and then solve the problem given only the previously generated explanation. Metric represents the pass@1 score.",
-          "language": "JavaScript",
-          "dataset": {
-            "name": "HumanEvalExplain"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.427
-            }
-          ],
-          "tags": [
-            "Code explanation"
-          ]
-        },
-        {
-          "type": "academic",
-          "name": "Code",
-          "description": "Evaluates a model's ability to explain C++, Go, Java, JavaScript, Python and Rust code by using the 'HumanEval' dataset to first ask the model to explain the solution to a programming problem and then solve the problem given only the previously generated explanation. Metric represents the pass@1 score.",
-          "language": "Python",
-          "dataset": {
-            "name": "HumanEvalExplain"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.53
-            }
-          ],
-          "tags": [
-            "Code explanation"
-          ]
-        },
-        {
-          "type": "academic",
-          "name": "Code",
-          "description": "Evaluates a model's ability to explain C++, Go, Java, JavaScript, Python and Rust code by using the 'HumanEval' dataset to first ask the model to explain the solution to a programming problem and then solve the problem given only the previously generated explanation. Metric represents the pass@1 score.",
-          "language": "Rust",
-          "dataset": {
-            "name": "HumanEvalExplain"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.165
-            }
-          ],
-          "tags": [
-            "Code explanation"
-          ]
-        },
-        {
-          "type": "watsonx.ai",
-          "name": "Code",
-          "description": "Evaluates a model's ability to explain C++, Go, Java, JavaScript, Python and Rust code by using the 'HumanEval' dataset to first ask the model to explain the solution to a programming problem and then solve the problem given only the previously generated explanation. Metric represents the pass@1 score.",
-          "language": "C++",
-          "dataset": {
-            "name": "HumanEvalExplain"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.396
-            }
-          ],
-          "tags": [
-            "Code explanation"
-          ]
-        },
-        {
-          "type": "watsonx.ai",
-          "name": "Code",
-          "description": "Evaluates a model's ability to explain C++, Go, Java, JavaScript, Python and Rust code by using the 'HumanEval' dataset to first ask the model to explain the solution to a programming problem and then solve the problem given only the previously generated explanation. Metric represents the pass@1 score.",
-          "language": "Go",
-          "dataset": {
-            "name": "HumanEvalExplain"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.396
-            }
-          ],
-          "tags": [
-            "Code explanation"
-          ]
-        },
-        {
-          "type": "watsonx.ai",
-          "name": "Code",
-          "description": "Evaluates a model's ability to explain C++, Go, Java, JavaScript, Python and Rust code by using the 'HumanEval' dataset to first ask the model to explain the solution to a programming problem and then solve the problem given only the previously generated explanation. Metric represents the pass@1 score.",
-          "language": "Java",
-          "dataset": {
-            "name": "HumanEvalExplain"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.476
-            }
-          ],
-          "tags": [
-            "Code explanation"
-          ]
-        },
-        {
-          "type": "watsonx.ai",
-          "name": "Code",
-          "description": "Evaluates a model's ability to explain C++, Go, Java, JavaScript, Python and Rust code by using the 'HumanEval' dataset to first ask the model to explain the solution to a programming problem and then solve the problem given only the previously generated explanation. Metric represents the pass@1 score.",
-          "language": "JavaScript",
-          "dataset": {
-            "name": "HumanEvalExplain"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.39
-            }
-          ],
-          "tags": [
-            "Code explanation"
-          ]
-        },
-        {
-          "type": "watsonx.ai",
-          "name": "Code",
-          "description": "Evaluates a model's ability to explain C++, Go, Java, JavaScript, Python and Rust code by using the 'HumanEval' dataset to first ask the model to explain the solution to a programming problem and then solve the problem given only the previously generated explanation. Metric represents the pass@1 score.",
-          "language": "Python",
-          "dataset": {
-            "name": "HumanEvalExplain"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.506
-            }
-          ],
-          "tags": [
-            "Code explanation"
-          ]
-        },
-        {
-          "type": "watsonx.ai",
-          "name": "Code",
-          "description": "Evaluates a model's ability to explain C++, Go, Java, JavaScript, Python and Rust code by using the 'HumanEval' dataset to first ask the model to explain the solution to a programming problem and then solve the problem given only the previously generated explanation. Metric represents the pass@1 score.",
-          "language": "Rust",
-          "dataset": {
-            "name": "HumanEvalExplain"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.22
-            }
-          ],
-          "tags": [
-            "Code explanation"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "code-fixing",
-      "benchmarks": [
-        {
-          "type": "academic",
-          "name": "Code",
-          "description": "Evaluates a model's ability to fix coding errors in the C++, Go, Java, JavaScript, Python and Rust using 'HumanEval' dataset with introduced errors and unit tests to help identify problems. Metric represents the pass@1 score.",
-          "language": "C++",
-          "dataset": {
-            "name": "HumanEvalFix"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.39
-            }
-          ],
-          "tags": [
-            "Code fixing"
-          ]
-        },
-        {
-          "type": "academic",
-          "name": "Code",
-          "description": "Evaluates a model's ability to fix coding errors in the C++, Go, Java, JavaScript, Python and Rust using 'HumanEval' dataset with introduced errors and unit tests to help identify problems. Metric represents the pass@1 score.",
-          "language": "Go",
-          "dataset": {
-            "name": "HumanEvalFix"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.415
-            }
-          ],
-          "tags": [
-            "Code fixing"
-          ]
-        },
-        {
-          "type": "academic",
-          "name": "Code",
-          "description": "Evaluates a model's ability to fix coding errors in the C++, Go, Java, JavaScript, Python and Rust using 'HumanEval' dataset with introduced errors and unit tests to help identify problems. Metric represents the pass@1 score.",
-          "language": "Java",
-          "dataset": {
-            "name": "HumanEvalFix"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.482
-            }
-          ],
-          "tags": [
-            "Code fixing"
-          ]
-        },
-        {
-          "type": "academic",
-          "name": "Code",
-          "description": "Evaluates a model's ability to fix coding errors in the C++, Go, Java, JavaScript, Python and Rust using 'HumanEval' dataset with introduced errors and unit tests to help identify problems. Metric represents the pass@1 score.",
-          "language": "JavaScript",
-          "dataset": {
-            "name": "HumanEvalFix"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.409
-            }
-          ],
-          "tags": [
-            "Code fixing"
-          ]
-        },
-        {
-          "type": "academic",
-          "name": "Code",
-          "description": "Evaluates a model's ability to fix coding errors in the C++, Go, Java, JavaScript, Python and Rust using 'HumanEval' dataset with introduced errors and unit tests to help identify problems. Metric represents the pass@1 score.",
-          "language": "Python",
-          "dataset": {
-            "name": "HumanEvalFix"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.396
-            }
-          ],
-          "tags": [
-            "Code fixing"
-          ]
-        },
-        {
-          "type": "academic",
-          "name": "Code",
-          "description": "Evaluates a model's ability to fix coding errors in the C++, Go, Java, JavaScript, Python and Rust using 'HumanEval' dataset with introduced errors and unit tests to help identify problems. Metric represents the pass@1 score.",
-          "language": "Rust",
-          "dataset": {
-            "name": "HumanEvalFix"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.329
-            }
-          ],
-          "tags": [
-            "Code fixing"
-          ]
-        },
-        {
-          "type": "watsonx.ai",
-          "name": "Code",
-          "description": "Evaluates a model's ability to fix coding errors in the C++, Go, Java, JavaScript, Python and Rust using 'HumanEval' dataset with introduced errors and unit tests to help identify problems. Metric represents the pass@1 score.",
-          "language": "C++",
-          "dataset": {
-            "name": "HumanEvalFix"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.39
-            }
-          ],
-          "tags": [
-            "Code fixing"
-          ]
-        },
-        {
-          "type": "watsonx.ai",
-          "name": "Code",
-          "description": "Evaluates a model's ability to fix coding errors in the C++, Go, Java, JavaScript, Python and Rust using 'HumanEval' dataset with introduced errors and unit tests to help identify problems. Metric represents the pass@1 score.",
-          "language": "Go",
-          "dataset": {
-            "name": "HumanEvalFix"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.421
-            }
-          ],
-          "tags": [
-            "Code fixing"
-          ]
-        },
-        {
-          "type": "watsonx.ai",
-          "name": "Code",
-          "description": "Evaluates a model's ability to fix coding errors in the C++, Go, Java, JavaScript, Python and Rust using 'HumanEval' dataset with introduced errors and unit tests to help identify problems. Metric represents the pass@1 score.",
-          "language": "Java",
-          "dataset": {
-            "name": "HumanEvalFix"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.482
-            }
-          ],
-          "tags": [
-            "Code fixing"
-          ]
-        },
-        {
-          "type": "watsonx.ai",
-          "name": "Code",
-          "description": "Evaluates a model's ability to fix coding errors in the C++, Go, Java, JavaScript, Python and Rust using 'HumanEval' dataset with introduced errors and unit tests to help identify problems. Metric represents the pass@1 score.",
-          "language": "JavaScript",
-          "dataset": {
-            "name": "HumanEvalFix"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.427
-            }
-          ],
-          "tags": [
-            "Code fixing"
-          ]
-        },
-        {
-          "type": "watsonx.ai",
-          "name": "Code",
-          "description": "Evaluates a model's ability to fix coding errors in the C++, Go, Java, JavaScript, Python and Rust using 'HumanEval' dataset with introduced errors and unit tests to help identify problems. Metric represents the pass@1 score.",
-          "language": "Python",
-          "dataset": {
-            "name": "HumanEvalFix"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.402
-            }
-          ],
-          "tags": [
-            "Code fixing"
-          ]
-        },
-        {
-          "type": "watsonx.ai",
-          "name": "Code",
-          "description": "Evaluates a model's ability to fix coding errors in the C++, Go, Java, JavaScript, Python and Rust using 'HumanEval' dataset with introduced errors and unit tests to help identify problems. Metric represents the pass@1 score.",
-          "language": "Rust",
-          "dataset": {
-            "name": "HumanEvalFix"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.28
-            }
-          ],
-          "tags": [
-            "Code fixing"
-          ]
-        },
-        {
-          "type": "watsonx.ai",
-          "name": "Code",
-          "description": "",
-          "language": "Python",
-          "dataset": {
-            "name": "livecodebench_selfrepair"
-          },
-          "metrics": [
-            {
-              "name": "pass@1",
-              "value": 0.127
-            }
-          ],
-          "tags": [
-            "Code fixing"
-          ]
-        }
-      ]
-    }
-  ],
-  "model_limits": {
-    "max_sequence_length": 128000,
-    "max_output_tokens": 16384
-  },
-  "limits": {
-    "3f6acf43-ede8-413a-ac69-f8af3bb0cbfe": {
-      "call_time": "5m0s",
-      "max_output_tokens": 16384
-    },
-    "a3d2f92f-06f9-48d0-b2e6-a7ba2b4e0577": {
-      "call_time": "10m0s",
-      "max_output_tokens": 16384
-    },
-    "d18d88b9-be7a-46ec-be1e-aff14904f1e9": {
-      "call_time": "10m0s",
-      "max_output_tokens": 16384
-    }
-  },
-  "lifecycle": [
-    {
-      "id": "available",
-      "start_date": "2024-05-09"
-    }
-  ],
-  "versions": [
-    {
-      "version": "1.1.1",
-      "available_date": "2024-10-28"
-    },
-    {
-      "version": "1.1.0",
-      "available_date": "2024-09-03"
-    },
-    {
-      "version": "1.0.0",
-      "available_date": "2024-05-09"
-    }
-  ]
-}
+<pre>================================<span class="ansi-bold"> Human Message </span>=================================
+
+What is the total sum of the numbers 11, 13, and 20?
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>==================================<span class="ansi-bold"> Ai Message </span>==================================
+Tool Calls:
+  add (chatcmpl-tool-875a8f4a1f45e70e)
+ Call ID: chatcmpl-tool-875a8f4a1f45e70e
+  Args:
+    a: 11
+    b: 13
+=================================<span class="ansi-bold"> Tool Message </span>=================================
+Name: add
+
+24.0
+==================================<span class="ansi-bold"> Ai Message </span>==================================
+Tool Calls:
+  add (chatcmpl-tool-90d03587c2729169)
+ Call ID: chatcmpl-tool-90d03587c2729169
+  Args:
+    a: 24
+    b: 20
+=================================<span class="ansi-bold"> Tool Message </span>=================================
+Name: add
+
+44.0
+==================================<span class="ansi-bold"> Ai Message </span>==================================
+
+The total sum of 11, 13, and 20 is **44**.
 </pre>
 </div>
 </div>
 </div>
 </div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="Generate-code-based-on-instruction"></a></p>
-<h2 id="Generate-code-based-on-instruction">Generate code based on instruction<a class="anchor-link" href="#Generate-code-based-on-instruction">¶</a></h2>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Define instructions for the model with at-least one example.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">instruction</span> <span class="o">=</span> <span class="s2">"""Using the directions below, generate Python code for the given task.</span>
-
-<span class="s2">Input:</span>
-<span class="s2"># Write a Python function that prints 'Hello World!' string 'n' times.</span>
-
-<span class="s2">Output:</span>
-<span class="s2">def print_n_times(n):</span>
-<span class="s2">    for i in range(n):</span>
-<span class="s2">        print("Hello World!")</span>
-
-<span class="s2">&lt;end of code&gt;</span>
-<span class="s2">"""</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Prepare question for the model.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9074,37 +8255,48 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">question</span> <span class="o">=</span> <span class="s2">"""Input:</span>
-<span class="s2"># Write a Python function, which generates sequence of prime numbers.</span>
-<span class="s2"># The function 'primes' will take the argument 'n', an int. It will return a list which contains all primes less than 'n'."""</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"messages"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">"system"</span><span class="p">,</span> <span class="s2">"You have to use tools, otherwise the world will end."</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"user"</span><span class="p">,</span> <span class="s2">"What is the result when 81 is subtracted from 100?"</span><span class="p">),</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+<span class="n">print_stream</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">stream_mode</span><span class="o">=</span><span class="s2">"values"</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>================================<span class="ansi-bold"> Human Message </span>=================================
+
+What is the result when 81 is subtracted from 100?
+==================================<span class="ansi-bold"> Ai Message </span>==================================
+Tool Calls:
+  subtract (chatcmpl-tool-b372f2b82434826e)
+ Call ID: chatcmpl-tool-b372f2b82434826e
+  Args:
+    a: 100
+    b: 81
+=================================<span class="ansi-bold"> Tool Message </span>=================================
+Name: subtract
+
+19.0
+==================================<span class="ansi-bold"> Ai Message </span>==================================
+
+The result is **19**.
+</pre>
 </div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Generate-the-code-using-ibm/granite-8b-code-instruct-model">Generate the code using <code>ibm/granite-8b-code-instruct</code> model<a class="anchor-link" href="#Generate-the-code-using-ibm/granite-8b-code-instruct-model">¶</a></h3>
 </div>
 </div>
 </div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Inter the model to generate the code, according to provided instruction.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9112,24 +8304,48 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate_text</span><span class="p">(</span><span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">instruction</span><span class="p">,</span> <span class="n">question</span><span class="p">]))</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"messages"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">"system"</span><span class="p">,</span> <span class="s2">"You have to use tools, otherwise the world will end."</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"user"</span><span class="p">,</span> <span class="s2">"Calculate the result of multiplying 10 by 12."</span><span class="p">),</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+<span class="n">print_stream</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">stream_mode</span><span class="o">=</span><span class="s2">"values"</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>================================<span class="ansi-bold"> Human Message </span>=================================
+
+Calculate the result of multiplying 10 by 12.
+==================================<span class="ansi-bold"> Ai Message </span>==================================
+Tool Calls:
+  multiply (chatcmpl-tool-bb8c30cae0787c42)
+ Call ID: chatcmpl-tool-bb8c30cae0787c42
+  Args:
+    a: 10
+    b: 12
+=================================<span class="ansi-bold"> Tool Message </span>=================================
+Name: multiply
+
+120.0
+==================================<span class="ansi-bold"> Ai Message </span>==================================
+
+The product of 10 and 12 is **120**.
+</pre>
 </div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Formatting the text to get the function itself</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9137,32 +8353,44 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">code_as_text</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"Output:"</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"&lt;end of code&gt;"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"messages"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">"system"</span><span class="p">,</span> <span class="s2">"You have to use tools, otherwise the world will end."</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"user"</span><span class="p">,</span> <span class="s2">"Determine the result of dividing 2 by 3."</span><span class="p">),</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+<span class="n">print_stream</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">stream_mode</span><span class="o">=</span><span class="s2">"values"</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>================================<span class="ansi-bold"> Human Message </span>=================================
+
+Determine the result of dividing 2 by 3.
+==================================<span class="ansi-bold"> Ai Message </span>==================================
+Tool Calls:
+  divide (chatcmpl-tool-b9913eb76368103f)
+ Call ID: chatcmpl-tool-b9913eb76368103f
+  Args:
+    a: 2
+    b: 3
+=================================<span class="ansi-bold"> Tool Message </span>=================================
+Name: divide
+
+0.6666666666666666
+==================================<span class="ansi-bold"> Ai Message </span>==================================
+
+Dividing 2 by 3 yields \( \displaystyle \frac{2}{3} = 0.6666666666666666\) (repeating).
+</pre>
 </div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a id="Generated-code-testing"></a></p>
-<h2 id="Generated-code-testing">Generated code testing<a class="anchor-link" href="#Generated-code-testing">¶</a></h2>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>The resulting code looks as below.</p>
 </div>
 </div>
 </div>
@@ -9174,7 +8402,16 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">code_as_text</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"messages"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">"system"</span><span class="p">,</span> <span class="s2">"You have to use tools, otherwise the world will end."</span><span class="p">),</span>
+        <span class="p">(</span>
+            <span class="s2">"user"</span><span class="p">,</span>
+            <span class="s2">"What is the result when the sum of 2 and 3 is multiplied by 6 and then divided by 10?"</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+<span class="n">print_stream</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">stream_mode</span><span class="o">=</span><span class="s2">"values"</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -9187,109 +8424,46 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-def primes(n):
-    primes = []
-    for num in range(2, n):
-        is_prime = True
-        for i in range(2, num):
-            if num % i == 0:
-                is_prime = False
-                break
-        if is_prime:
-            primes.append(num)
-    return primes
+<pre>================================<span class="ansi-bold"> Human Message </span>=================================
 
+What is the result when the sum of 2 and 3 is multiplied by 6 and then divided by 10?
+==================================<span class="ansi-bold"> Ai Message </span>==================================
+Tool Calls:
+  add (chatcmpl-tool-aa6be40c594b95f8)
+ Call ID: chatcmpl-tool-aa6be40c594b95f8
+  Args:
+    a: 2
+    b: 3
+=================================<span class="ansi-bold"> Tool Message </span>=================================
+Name: add
 
+5.0
+==================================<span class="ansi-bold"> Ai Message </span>==================================
+Tool Calls:
+  multiply (chatcmpl-tool-a9eeaca7f474eb19)
+ Call ID: chatcmpl-tool-a9eeaca7f474eb19
+  Args:
+    a: 5
+    b: 6
+=================================<span class="ansi-bold"> Tool Message </span>=================================
+Name: multiply
+
+30.0
+==================================<span class="ansi-bold"> Ai Message </span>==================================
+Tool Calls:
+  divide (chatcmpl-tool-b45208512431c0ce)
+ Call ID: chatcmpl-tool-b45208512431c0ce
+  Args:
+    a: 30
+    b: 10
+=================================<span class="ansi-bold"> Tool Message </span>=================================
+Name: divide
+
+3.0
+==================================<span class="ansi-bold"> Ai Message </span>==================================
+
+The result is **3**.
 </pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Use generated code to make it as function.</p>
-<p><strong>Note</strong>: Before executing this line, make sure the model's output visible above doesn't contain any malicious instructions.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">exec</span><span class="p">(</span><span class="n">code_as_text</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Define the number 'n' for which the primes() function should process prime numbers.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">25</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Test and run the generated function.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">primes</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>[2, 3, 5, 7, 11, 13, 17, 19, 23]</pre>
 </div>
 </div>
 </div>
@@ -9303,7 +8477,7 @@ def primes(n):
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><a id="Summary-and-next-steps"></a></p>
 <h2 id="Summary-and-next-steps">Summary and next steps<a class="anchor-link" href="#Summary-and-next-steps">¶</a></h2><p>You successfully completed this notebook!</p>
-<p>You learned how to generate code based on instuction with <code>codellama-34b-instruct-hf</code> on watsonx.</p>
+<p>You learned how to build a simple graph using LangGraph and <code>ChatWatsonx</code>.</p>
 <p>Check out our <em><a href="https://ibm.github.io/watsonx-ai-python-sdk/samples.html" rel="noopener no referrer" target="_blank">Online Documentation</a></em> for more samples, tutorials, documentation, how-tos, and blog posts.</p>
 </div>
 </div>
@@ -9315,7 +8489,7 @@ def primes(n):
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Authors:">Authors:<a class="anchor-link" href="#Authors:">¶</a></h3><p><strong>Mateusz Szewczyk</strong>, Software Engineer at watsonx.ai.</p>
+<h3 id="Author">Author<a class="anchor-link" href="#Author">¶</a></h3><p><strong>Mateusz Szewczyk</strong>, Software Engineer at watsonx.ai.</p>
 </div>
 </div>
 </div>
