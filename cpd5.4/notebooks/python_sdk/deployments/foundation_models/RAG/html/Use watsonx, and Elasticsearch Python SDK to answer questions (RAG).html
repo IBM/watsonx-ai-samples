@@ -7874,15 +7874,15 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"langchain&gt;=0.3,&lt;0.4"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"langchain-elasticsearch&gt;=0.3,&lt;0.4"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"langchain-community&gt;=0.3,&lt;0.4"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"langchain-huggingface&gt;=0.2,&lt;0.3"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">rouge</span><span class="o">-</span><span class="n">score</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">evaluate</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">ipywidgets</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">ibm</span><span class="o">-</span><span class="n">watsonx</span><span class="o">-</span><span class="n">ai</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">pip</span> install -U "langchain&gt;=0.3,&lt;0.4" | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install -U "langchain-elasticsearch&gt;=0.3,&lt;0.4" | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install -U "langchain-community&gt;=0.3,&lt;0.4" | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install -U "langchain-huggingface&gt;=0.2,&lt;0.3" | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install -U rouge-score | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install -U wget | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install -U evaluate | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install -U ipywidgets | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install -U ibm-watsonx-ai | tail -n 1
 </pre></div>
 </div>
 </div>
@@ -8558,7 +8558,7 @@ meta-llama/llama-3-1-8b-instruct
 <div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">es_ssl_fingerprint</span> <span class="o">=</span> <span class="err">!</span><span class="n">openssl</span> <span class="n">s_client</span> <span class="o">-</span><span class="n">connect</span> <span class="err">$</span><span class="n">eshost</span><span class="p">:</span><span class="err">$</span><span class="n">esport</span>  <span class="o">-</span><span class="n">showcerts</span> <span class="o">&lt;/</span><span class="n">dev</span><span class="o">/</span><span class="n">null</span> <span class="mi">2</span><span class="o">&gt;/</span><span class="n">dev</span><span class="o">/</span><span class="n">null</span> <span class="o">|</span> <span class="n">openssl</span> <span class="n">x509</span> <span class="o">-</span><span class="n">fingerprint</span> <span class="o">-</span><span class="n">sha256</span> <span class="o">-</span><span class="n">noout</span> <span class="o">-</span><span class="ow">in</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">stdin</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">es_ssl_fingerprint</span> <span class="o">=</span> <span class="o">!</span>openssl<span class="w"> </span>s_client<span class="w"> </span>-connect<span class="w"> </span><span class="nv">$eshost</span>:<span class="nv">$esport</span><span class="w">  </span>-showcerts<span class="w"> </span>&lt;/dev/null<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-fingerprint<span class="w"> </span>-sha256<span class="w"> </span>-noout<span class="w"> </span>-in<span class="w"> </span>/dev/stdin
 <span class="n">es_ssl_fingerprint</span> <span class="o">=</span> <span class="n">es_ssl_fingerprint</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"="</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">es_ssl_fingerprint</span>
 </pre></div>
@@ -9048,21 +9048,21 @@ names of founding fathers of the united states?
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Question =  names of founding fathers of the united states?
-Answer =  
+Answer =
 
 The seven key Founding Fathers of the United States, as identified by historian Richard B. Morris in 1973, are John Adams, Benjamin Franklin, Alexander Hamilton, John Jay
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Thomas Jefferson::James Madison::John Jay::George Washington::John Adams::Benjamin Franklin::Alexander Hamilton
 
 
 Question =  who played in the super bowl in 2013?
-Answer =  
+Answer =
 
 In the 2013 Super Bowl, the Baltimore Ravens played against the San Francisco 49ers. The Ravens won the match with a score of 34-31. This
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  Baltimore Ravens::San Francisco 49ers
 
 
 Question =  when did bucharest become the capital of romania?
-Answer =  
+Answer =
 
 Bucharest became the capital of Romania in 1862 after Wallachia and Moldavia were united to form the Principality of Romania.
 Expected Answer(s) (may not be appear with exact wording in the dataset) =  1862
@@ -9149,7 +9149,9 @@ Expected Answer(s) (may not be appear with exact wording in the dataset) =  1862
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Authors">Authors<a class="anchor-link" href="#Authors">¶</a></h3><p><strong>Mateusz Szewczyk</strong>, Software Engineer at watsonx.ai.</p>
+<h3 id="Authors-and-Maintainers">Authors and Maintainers<a class="anchor-link" href="#Authors-and-Maintainers">¶</a></h3><p><strong>Mateusz Szewczyk (Former)</strong>, Software Engineer at IBM watsonx.ai</p>
+<p><strong>Rafał Chrzanowski</strong>, Software Engineer at IBM watsonx.ai</p>
+<p><strong>Karol Zmorski</strong>, Software Engineer at IBM watsonx.ai</p>
 </div>
 </div>
 </div>

@@ -7866,14 +7866,14 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">wget</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">autoai</span><span class="o">-</span><span class="n">libs</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">ibm</span><span class="o">-</span><span class="n">watsonx</span><span class="o">-</span><span class="n">ai</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="s2">"scikit-learn==1.6.1"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"lale[fairness]"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">nbformat</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="s2">"setuptools&gt;=65.5.1,&lt;82.0.0"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">plotly</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">pip</span> install -U wget | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install -U autoai-libs | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install -U ibm-watsonx-ai | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install "scikit-learn==1.6.1" | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install -U "lale[fairness]" | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install -U nbformat | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install -U "setuptools&gt;=65.5.1,&lt;82.0.0" | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install -U plotly | tail -n 1
 </pre></div>
 </div>
 </div>
@@ -8346,7 +8346,7 @@ SUCCESS
 <p>Examples of supported configuration:</p>
 <pre><code>fairness_info = {
             "protected_attributes": [
-                {"feature": "Age", "reference_group": [[26, 26], [30, 75]], 
+                {"feature": "Age", "reference_group": [[26, 26], [30, 75]],
                                     "monitored_group": [[18, 25], [27, 29]]}
             ],
             "favorable_labels": ["No Risk"]
@@ -8355,7 +8355,7 @@ SUCCESS
 </code></pre>
 <pre><code>fairness_info = {
             "protected_attributes": [
-                {"feature": "sex", "reference_group": ['male', 'not specified'], 
+                {"feature": "sex", "reference_group": ['male', 'not specified'],
                                    "monitored_group": ['female']},
                 {"feature": "age", "reference_group": [[26, 100]], "monitored_group": [[18, 25], [27, 29]]}
             ],
@@ -9587,10 +9587,11 @@ Accuracy and disparate impact: 0.75
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Authors">Authors<a class="anchor-link" href="#Authors">¶</a></h3><p><strong>Lukasz Cmielowski, PhD</strong>, is an Automation Architect and Data Scientist at IBM with a track record of developing enterprise-level applications that substantially increases clients' ability to turn data into actionable knowledge.</p>
-<p><strong>Dorota Lączak</strong>, Software Engineer at watsonx.ai.</p>
-<p><strong>Szymon Kucharczyk</strong>, Software Engineer at watsonx.ai.</p>
-<p><strong>Rafał Chrzanowski</strong>, Software Engineer at watsonx.ai.</p>
+<h3 id="Authors-and-Maintainers">Authors and Maintainers<a class="anchor-link" href="#Authors-and-Maintainers">¶</a></h3><p><strong>Lukasz Cmielowski (Former)</strong>, PhD, Senior Technical Staff Member at IBM watsonx.ai</p>
+<p><strong>Dorota Lączak (Former)</strong>, Software Engineer at IBM watsonx.ai</p>
+<p><strong>Szymon Kucharczyk (Former)</strong>, Software Engineer at IBM watsonx.ai</p>
+<p><strong>Rafał Chrzanowski</strong>, Software Engineer at IBM watsonx.ai</p>
+<p><strong>Maksym Sydorchuk</strong>, Software Engineer at IBM watsonx.ai</p>
 </div>
 </div>
 </div>
