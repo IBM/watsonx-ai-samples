@@ -7880,9 +7880,9 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">wget</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="s2">"scikit-learn==1.3.2"</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">ibm</span><span class="o">-</span><span class="n">watsonx</span><span class="o">-</span><span class="n">ai</span> <span class="o">|</span> <span class="n">tail</span> <span class="o">-</span><span class="n">n</span> <span class="mi">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>wget
+<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"scikit-learn==1.3.2"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>ibm-watsonx-ai<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
 </pre></div>
 </div>
 </div>
@@ -8100,7 +8100,7 @@ Any 3rd party libraries that are required for the custom transformer must be def
 <div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="err">!</span><span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="n">linalgnorm</span><span class="o">-</span><span class="mf">0.1</span><span class="o">/</span><span class="n">linalg_norm</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>mkdir<span class="w"> </span>-p<span class="w"> </span>linalgnorm-0.1/linalg_norm
 </pre></div>
 </div>
 </div>
@@ -8125,7 +8125,7 @@ Any 3rd party libraries that are required for the custom transformer must be def
 <div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="n">writefile</span> <span class="n">linalgnorm</span><span class="o">-</span><span class="mf">0.1</span><span class="o">/</span><span class="n">linalg_norm</span><span class="o">/</span><span class="n">sklearn_transformers</span><span class="o">.</span><span class="n">py</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%%writefile</span> linalgnorm-0.1/linalg_norm/sklearn_transformers.py
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -8185,7 +8185,7 @@ Any 3rd party libraries that are required for the custom transformer must be def
 <div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="n">writefile</span> <span class="n">linalgnorm</span><span class="o">-</span><span class="mf">0.1</span><span class="o">/</span><span class="n">linalg_norm</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%%writefile</span> linalgnorm-0.1/linalg_norm/__init__.py
 
 <span class="n">__version__</span> <span class="o">=</span> <span class="s2">"0.1"</span>
 </pre></div>
@@ -8214,7 +8214,7 @@ Any 3rd party libraries that are required for the custom transformer must be def
 <div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="n">writefile</span> <span class="n">linalgnorm</span><span class="o">-</span><span class="mf">0.1</span><span class="o">/</span><span class="n">README</span><span class="o">.</span><span class="n">md</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%%writefile</span> linalgnorm-0.1/README.md
 
 <span class="n">A</span> <span class="n">simple</span> <span class="n">library</span> <span class="n">containing</span> <span class="n">a</span> <span class="n">simple</span> <span class="n">custom</span> <span class="n">scikit</span> <span class="n">estimator</span><span class="o">.</span>
 </pre></div>
@@ -8243,7 +8243,7 @@ Any 3rd party libraries that are required for the custom transformer must be def
 <div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="n">writefile</span> <span class="n">linalgnorm</span><span class="o">-</span><span class="mf">0.1</span><span class="o">/</span><span class="n">setup</span><span class="o">.</span><span class="n">py</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%%writefile</span> linalgnorm-0.1/setup.py
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">setuptools</span><span class="w"> </span><span class="kn">import</span> <span class="n">setup</span>
 
@@ -8316,7 +8316,7 @@ rm<span class="w"> </span>-rf<span class="w"> </span>linalgnorm-0.1
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">linalgnorm</span><span class="o">-</span><span class="mf">0.1</span><span class="o">.</span><span class="n">zip</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>linalgnorm-0.1.zip
 </pre></div>
 </div>
 </div>
@@ -8353,8 +8353,8 @@ rm<span class="w"> </span>-rf<span class="w"> </span>linalgnorm-0.1
 <div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="err">!</span><span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="n">dataset</span>
-<span class="err">!</span><span class="n">mkdir</span> <span class="n">dataset</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>rm<span class="w"> </span>-rf<span class="w"> </span>dataset
+<span class="o">!</span>mkdir<span class="w"> </span>dataset
 </pre></div>
 </div>
 </div>
@@ -8368,7 +8368,7 @@ rm<span class="w"> </span>-rf<span class="w"> </span>linalgnorm-0.1
 <div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="err">!</span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">archive</span><span class="o">.</span><span class="n">ics</span><span class="o">.</span><span class="n">uci</span><span class="o">.</span><span class="n">edu</span><span class="o">/</span><span class="n">ml</span><span class="o">/</span><span class="n">machine</span><span class="o">-</span><span class="n">learning</span><span class="o">-</span><span class="n">databases</span><span class="o">/</span><span class="mi">00452</span><span class="o">/</span><span class="n">GNFUV</span><span class="o">%</span><span class="mi">20</span><span class="n">USV</span><span class="o">%</span><span class="mi">20</span><span class="n">Dataset</span><span class="o">.</span><span class="n">zip</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">document</span><span class="o">=</span><span class="n">dataset</span><span class="o">/</span><span class="n">gnfuv_dataset</span><span class="o">.</span><span class="n">zip</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>wget<span class="w"> </span>https://archive.ics.uci.edu/ml/machine-learning-databases/00452/GNFUV%20USV%20Dataset.zip<span class="w"> </span>--output-document<span class="o">=</span>dataset/gnfuv_dataset.zip
 </pre></div>
 </div>
 </div>
@@ -8388,7 +8388,7 @@ HTTP request sent, awaiting response... 200 OK
 Length: unspecified
 Saving to: ‘dataset/gnfuv_dataset.zip’
 
-dataset/gnfuv_datas     [      &lt;=&gt;           ] 490,21K   439KB/s    in 1,1s    
+dataset/gnfuv_datas     [      &lt;=&gt;           ] 490,21K   439KB/s    in 1,1s
 
 2024-04-26 14:11:35 (439 KB/s) - ‘dataset/gnfuv_dataset.zip’ saved [501978]
 
@@ -8405,7 +8405,7 @@ dataset/gnfuv_datas     [      &lt;=&gt;           ] 490,21K   439KB/s    in 1,1
 <div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="err">!</span><span class="n">unzip</span> <span class="n">dataset</span><span class="o">/</span><span class="n">gnfuv_dataset</span><span class="o">.</span><span class="n">zip</span> <span class="o">-</span><span class="n">d</span> <span class="n">dataset</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>unzip<span class="w"> </span>dataset/gnfuv_dataset.zip<span class="w"> </span>-d<span class="w"> </span>dataset
 </pre></div>
 </div>
 </div>
@@ -8419,11 +8419,11 @@ dataset/gnfuv_datas     [      &lt;=&gt;           ] 490,21K   439KB/s    in 1,1
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Archive:  dataset/gnfuv_dataset.zip
-  inflating: dataset/pi2/gnfuv-temp-exp1-55d487b85b-5g2xh_1.0.csv  
-  inflating: dataset/pi3/gnfuv-temp-exp1-55d487b85b-2bl8b_1.0.csv  
-  inflating: dataset/pi4/gnfuv-temp-exp1-55d487b85b-xcl97_1.0.csv  
-  inflating: dataset/pi5/gnfuv-temp-exp1-55d487b85b-5ztk8_1.0.csv  
-  inflating: dataset/README.pdf      
+  inflating: dataset/pi2/gnfuv-temp-exp1-55d487b85b-5g2xh_1.0.csv
+  inflating: dataset/pi3/gnfuv-temp-exp1-55d487b85b-2bl8b_1.0.csv
+  inflating: dataset/pi4/gnfuv-temp-exp1-55d487b85b-xcl97_1.0.csv
+  inflating: dataset/pi5/gnfuv-temp-exp1-55d487b85b-5ztk8_1.0.csv
+  inflating: dataset/README.pdf
 </pre>
 </div>
 </div>
@@ -8736,7 +8736,7 @@ dataset/gnfuv_datas     [      &lt;=&gt;           ] 490,21K   439KB/s    in 1,1
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[22]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <style>#sk-container-id-1 {color: black;}#sk-container-id-1 pre{padding: 0;}#sk-container-id-1 div.sk-toggleable {background-color: white;}#sk-container-id-1 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-1 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-1 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-1 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-1 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-1 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-1 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-1 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-1 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-1 div.sk-item {position: relative;z-index: 1;}#sk-container-id-1 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-1 div.sk-item::before, #sk-container-id-1 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-1 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-1 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-1 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-1 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-1 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-1 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-1 div.sk-label-container {text-align: center;}#sk-container-id-1 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-1 div.sk-text-repr-fallback {display: none;}</style><div class="sk-top-container" id="sk-container-id-1"><div class="sk-text-repr-fallback"><pre>Pipeline(steps=[('normalizer', LNormalizer()),
-                ('regression_estimator', LinearRegression())])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br/>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox"/><label class="sk-toggleable__label sk-toggleable__label-arrow" for="sk-estimator-id-1">Pipeline</label><div class="sk-toggleable__content"><pre>Pipeline(steps=[('normalizer', LNormalizer()),
+                ('regression_estimator', LinearRegression())])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</br></b></div><div class="sk-container" hidden=""><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox"/><label class="sk-toggleable__label sk-toggleable__label-arrow" for="sk-estimator-id-1">Pipeline</label><div class="sk-toggleable__content"><pre>Pipeline(steps=[('normalizer', LNormalizer()),
                 ('regression_estimator', LinearRegression())])</pre></div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox"/><label class="sk-toggleable__label sk-toggleable__label-arrow" for="sk-estimator-id-2">LNormalizer</label><div class="sk-toggleable__content"><pre>LNormalizer()</pre></div></div></div><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-3" type="checkbox"/><label class="sk-toggleable__label sk-toggleable__label-arrow" for="sk-estimator-id-3">LinearRegression</label><div class="sk-toggleable__content"><pre>LinearRegression()</pre></div></div></div></div></div></div></div>
 </div>
 </div>

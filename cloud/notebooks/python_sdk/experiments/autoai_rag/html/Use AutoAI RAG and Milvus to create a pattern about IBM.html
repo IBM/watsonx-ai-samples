@@ -7818,7 +7818,7 @@ a.anchor-link {
 <li>Use only Spaces that are available in watsonx context.</li>
 </ul>
 <h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook contains the steps and code to demonstrate the usage of IBM AutoAI RAG. The AutoAI RAG experiment conducted in this notebook uses data scraped from the <code>ibm-watsonx-ai</code> SDK documentation.</p>
-<p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
+<p>Some familiarity with Python is helpful. This notebook uses Python 3.12.</p>
 <h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The learning goals of this notebook are:</p>
 <ul>
 <li>Create an AutoAI RAG job that will find the best RAG pattern based on provided data</li>
@@ -7862,17 +7862,31 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">pip</span> install -U wget | tail -n 1
-<span class="o">%</span><span class="k">pip</span> install -U 'ibm-watsonx-ai[rag]&gt;=1.3.26' | tail -n 1
+<span class="o">%</span><span class="k">pip</span> install -U "ibm-watsonx-ai[rag]&gt;=1.3.26" | tail -n 1
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Successfully installed wget-3.2
+Successfully installed Pillow-12.3.0 SQLAlchemy-2.0.52 XlsxWriter-3.2.9 aiohappyeyeballs-2.7.1 aiohttp-3.14.3 aiosignal-1.4.0 annotated-doc-0.0.5 annotated-types-0.8.0 anyio-4.15.1 attrs-26.1.0 bcrypt-5.0.0 beautifulsoup4-4.13.5 build-1.6.0 cachetools-7.1.8 certifi-2026.7.22 charset_normalizer-3.5.1 chromadb-1.5.9 click-8.5.0 cloudpickle-3.1.2 dataclasses-json-0.6.7 distro-1.9.0 durationpy-0.11 elastic-transport-8.19.0 elasticsearch-8.19.3 et-xmlfile-2.0.0 filelock-3.32.6 flatbuffers-25.12.19 frozenlist-1.8.0 fsspec-2026.7.0 googleapis-common-protos-1.75.3 grpcio-1.83.1 h11-0.16.0 hf-xet-1.6.0 httpcore-1.0.9 httpcore2-2.12.0 httptools-0.8.0 httpx-0.28.1 httpx-sse-0.4.3 httpx2-2.12.0 huggingface-hub-1.30.0 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-db-3.3.0 idna-3.19 importlib-resources-7.1.0 jmespath-1.0.1 joblib-1.6.0 jsonpatch-1.33 jsonpointer-3.1.1 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 kubernetes-36.0.3 langchain-0.3.30 langchain-chroma-0.2.5 langchain-community-0.3.31 langchain-core-0.3.86 langchain-db2-0.1.7 langchain-elasticsearch-0.3.2 langchain-ibm-0.3.22 langchain-milvus-0.2.1 langchain-text-splitters-0.3.11 langgraph-0.6.11 langgraph-checkpoint-3.0.1 langgraph-prebuilt-0.6.5 langgraph-sdk-0.2.15 langsmith-0.12.2 lomond-0.3.3 lxml-6.1.3 markdown-3.8.2 markdown-it-py-4.2.0 marshmallow-3.26.2 mdurl-0.1.2 mmh3-5.3.0 multidict-6.7.1 mypy-extensions-1.1.0 narwhals-2.26.0 numpy-2.5.3 oauthlib-3.3.1 onnxruntime-1.29.0 openpyxl-3.1.5 opentelemetry-api-1.44.0 opentelemetry-exporter-otlp-proto-common-1.44.0 opentelemetry-exporter-otlp-proto-grpc-1.44.0 opentelemetry-proto-1.44.0 opentelemetry-sdk-1.44.0 opentelemetry-semantic-conventions-0.65b0 orjson-3.12.0 ormsgpack-1.12.2 overrides-7.7.0 packaging-25.0 pandas-2.3.3 propcache-0.5.2 protobuf-7.36.1 pyYAML-6.0.3 pybase64-1.5.0 pydantic-2.13.5 pydantic-core-2.46.5 pydantic-settings-2.15.0 pymilvus-2.6.6 pypdf-6.18.0 pypika-0.51.1 pyproject_hooks-1.2.0 python-docx-1.2.0 python-dotenv-1.2.3 python-pptx-1.0.2 pytz-2026.3.post1 referencing-0.37.0 requests-2.34.2 requests-oauthlib-2.0.0 requests-toolbelt-1.0.0 rich-15.0.0 rpds-py-2026.6.3 scikit-learn-1.9.0 scipy-1.18.1 shellingham-1.5.4 simsimd-6.5.16 sniffio-1.3.1 soupsieve-2.9.2 tabulate-0.10.0 tenacity-9.1.4 threadpoolctl-3.6.0 tokenizers-0.23.2 tqdm-4.70.0 truststore-0.10.4 typer-0.27.2 typing-inspect-0.9.0 typing-inspection-0.4.4 tzdata-2026.3 urllib3-2.7.0 uuid-utils-0.17.1 uvicorn-0.52.4 uvloop-0.22.1 watchfiles-1.2.0 websocket-client-1.9.2 websockets-17.1 xxhash-4.0.1 yarl-1.24.5 zstandard-0.25.0
+</pre>
 </div>
 </div>
 </div>
@@ -7939,7 +7953,12 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">space_id</span> <span class="o">=</span> <span class="s2">"PASTE YOUR SPACE GUID HERE"</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">space_id</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"SPACE_ID"</span><span class="p">]</span>
+<span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+    <span class="n">space_id</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your space id (hit enter): "</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8000,7 +8019,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
@@ -8029,7 +8048,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">ContainerLocation</span><span class="p">,</span> <span class="n">DataConnection</span>
@@ -8061,12 +8080,12 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">html_docs_files</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">root</span> <span class="o">==</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">/watsonx-ai-python-sdk-gh-pages"</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">root</span> <span class="o">==</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">/watsonx-ai-python-sdk-gh-pages/v1.4.11"</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">".html"</span><span class="p">):</span>
                 <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
@@ -8092,7 +8111,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
@@ -8118,7 +8137,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Progress: ✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓</pre>
+<pre>Progress: ✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓</pre>
 </div>
 </div>
 </div>
@@ -8139,7 +8158,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">cos_credentials</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">spaces</span><span class="o">.</span><span class="n">get_details</span><span class="p">(</span><span class="n">space_id</span><span class="o">=</span><span class="n">space_id</span><span class="p">)[</span><span class="s2">"entity"</span><span class="p">][</span><span class="s2">"storage"</span><span class="p">][</span>
@@ -8155,7 +8174,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">datasource_name</span> <span class="o">=</span> <span class="s2">"bluemixcloudobjectstorage"</span>
@@ -8170,7 +8189,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">conn_meta_props</span> <span class="o">=</span> <span class="p">{</span>
@@ -8225,7 +8244,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataConnection</span><span class="p">,</span> <span class="n">S3Location</span>
@@ -8258,7 +8277,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">benchmarking_data_IBM_page_content</span> <span class="o">=</span> <span class="p">[</span>
@@ -8319,7 +8338,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
@@ -8354,9 +8373,9 @@ SUCCESS
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[16]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[14]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'9d67c83f-3862-4885-a8a7-58ebf047ebe3'</pre>
+<pre>'01a085bd-5137-7123-8b3d-2f9899b027ff'</pre>
 </div>
 </div>
 </div>
@@ -8377,7 +8396,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataConnection</span>
@@ -8401,12 +8420,12 @@ SUCCESS
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
@@ -8421,23 +8440,23 @@ SUCCESS
 
 <span class="k">if</span> <span class="n">milvus_connection_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">username</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"USERNAME"</span><span class="p">]</span>
+        <span class="n">username</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"MILVUS_USER"</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="n">username</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your Milvus user name and hit enter: "</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">password</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"PASSWORD"</span><span class="p">]</span>
+        <span class="n">password</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"MILVUS_PASSWORD"</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="n">password</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Please enter your Milvus password and hit enter: "</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">host</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"HOST"</span><span class="p">]</span>
+        <span class="n">host</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"MILVUS_HOST"</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="n">host</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your Milvus hostname and hit enter: "</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">port</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"PORT"</span><span class="p">]</span>
+        <span class="n">port</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"MILVUS_PORT"</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="n">port</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your Milvus port number and hit enter: "</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">ssl</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"SSL"</span><span class="p">]</span>
+        <span class="n">ssl</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"MILVUS_SSL"</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="n">ssl</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span>
             <span class="nb">input</span><span class="p">(</span>
@@ -8470,6 +8489,20 @@ SUCCESS
 </div>
 </div>
 </div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Creating connections...
+SUCCESS
+</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
@@ -8486,7 +8519,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">vector_store_references</span> <span class="o">=</span> <span class="p">[</span><span class="n">DataConnection</span><span class="p">(</span><span class="n">connection_asset_id</span><span class="o">=</span><span class="n">milvus_connection_id</span><span class="p">)]</span>
@@ -8517,18 +8550,35 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.experiment</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoAI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.foundation_models.schema</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AutoAIRAGGenerationConfig</span><span class="p">,</span>
+    <span class="n">AutoAIRAGModelConfig</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="n">experiment</span> <span class="o">=</span> <span class="n">AutoAI</span><span class="p">(</span><span class="n">credentials</span><span class="p">,</span> <span class="n">space_id</span><span class="o">=</span><span class="n">space_id</span><span class="p">)</span>
+
+<span class="n">foundation_model</span> <span class="o">=</span> <span class="n">AutoAIRAGModelConfig</span><span class="p">(</span>
+    <span class="n">model_id</span><span class="o">=</span><span class="s2">"mistralai/mistral-small-3-1-24b-instruct-2503"</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">generation_config</span> <span class="o">=</span> <span class="n">AutoAIRAGGenerationConfig</span><span class="p">(</span>
+    <span class="n">foundation_models</span><span class="o">=</span><span class="p">[</span><span class="n">foundation_model</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">chunking_config</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"method"</span><span class="p">:</span> <span class="s2">"recursive"</span><span class="p">,</span> <span class="s2">"chunk_size"</span><span class="p">:</span> <span class="mi">512</span><span class="p">,</span> <span class="s2">"chunk_overlap"</span><span class="p">:</span> <span class="mi">128</span><span class="p">}</span>
 
 <span class="n">rag_optimizer</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">rag_optimizer</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">"AutoAI RAG ibm-watsonx-ai SDK documentation"</span><span class="p">,</span>
     <span class="n">description</span><span class="o">=</span><span class="s2">"AutoAI RAG experiemnt trained on ibm-watsonx-ai SDK documentation"</span><span class="p">,</span>
+    <span class="n">chunking</span><span class="o">=</span><span class="p">[</span><span class="n">chunking_config</span><span class="p">],</span>
     <span class="n">max_number_of_rag_patterns</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
     <span class="n">optimization_metrics</span><span class="o">=</span><span class="p">[</span><span class="n">AutoAI</span><span class="o">.</span><span class="n">RAGMetrics</span><span class="o">.</span><span class="n">ANSWER_CORRECTNESS</span><span class="p">],</span>
+    <span class="n">generation</span><span class="o">=</span><span class="n">generation_config</span><span class="p">,</span>
+    <span class="n">embedding_model</span><span class="o">=</span><span class="p">[</span><span class="s2">"ibm/slate-125m-english-rtrvr-v2"</span><span class="p">],</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -8551,7 +8601,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">rag_optimizer</span><span class="o">.</span><span class="n">get_params</span><span class="p">()</span>
@@ -8565,12 +8615,16 @@ SUCCESS
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[22]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[19]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>{'name': 'AutoAI RAG ibm-watsonx-ai SDK documentation',
- 'description': 'AutoAI RAG experiemnt trainded on ibm-watsonx-ai SDK documentataion',
+ 'description': 'AutoAI RAG experiemnt trained on ibm-watsonx-ai SDK documentation',
+ 'chunking': [{'method': 'recursive',
+   'chunk_size': 512,
+   'chunk_overlap': 128}],
  'max_number_of_rag_patterns': 6,
- 'optimization_metrics': ['answer_correctness']}</pre>
+ 'optimization_metrics': ['answer_correctness'],
+ 'generation': {'foundation_models': [{'model_id': 'mistralai/mistral-small-3-1-24b-instruct-2503'}]}}</pre>
 </div>
 </div>
 </div>
@@ -8592,7 +8646,7 @@ SUCCESS
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">run_details</span> <span class="o">=</span> <span class="n">rag_optimizer</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
@@ -8617,15 +8671,15 @@ SUCCESS
 
 ##############################################
 
-Running '09437777-a9e4-4cc6-aac0-96c2c8352d10'
+Running 'ddd60fa0-5f89-4032-b3ef-6c0a004bcb91'
 
 ##############################################
 
 
-pending.............
-running......................................................................................................................................................................................................
+pending.....
+running...................................................
 completed
-Training of '09437777-a9e4-4cc6-aac0-96c2c8352d10' finished successfully.
+Training of 'ddd60fa0-5f89-4032-b3ef-6c0a004bcb91' finished successfully.
 </pre>
 </div>
 </div>
@@ -8647,7 +8701,7 @@ Training of '09437777-a9e4-4cc6-aac0-96c2c8352d10' finished successfully.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">rag_optimizer</span><span class="o">.</span><span class="n">get_run_status</span><span class="p">()</span>
@@ -8661,7 +8715,7 @@ Training of '09437777-a9e4-4cc6-aac0-96c2c8352d10' finished successfully.
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[24]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[21]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>'completed'</pre>
 </div>
@@ -8685,7 +8739,7 @@ Training of '09437777-a9e4-4cc6-aac0-96c2c8352d10' finished successfully.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">summary</span> <span class="o">=</span> <span class="n">rag_optimizer</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
@@ -8700,7 +8754,7 @@ Training of '09437777-a9e4-4cc6-aac0-96c2c8352d10' finished successfully.
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[25]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[22]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
@@ -8721,8 +8775,6 @@ Training of '09437777-a9e4-4cc6-aac0-96c2c8352d10' finished successfully.
 <tr style="text-align: right;">
 <th></th>
 <th>mean_answer_correctness</th>
-<th>mean_faithfulness</th>
-<th>mean_context_correctness</th>
 <th>chunking.method</th>
 <th>chunking.chunk_size</th>
 <th>chunking.chunk_overlap</th>
@@ -8732,10 +8784,10 @@ Training of '09437777-a9e4-4cc6-aac0-96c2c8352d10' finished successfully.
 <th>retrieval.number_of_chunks</th>
 <th>retrieval.hybrid_ranker</th>
 <th>generation.model_id</th>
+<th>agent.type</th>
 </tr>
 <tr>
 <th>Pattern_Name</th>
-<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -8751,25 +8803,50 @@ Training of '09437777-a9e4-4cc6-aac0-96c2c8352d10' finished successfully.
 </thead>
 <tbody>
 <tr>
-<th>Pattern3</th>
-<td>0.7857</td>
-<td>0.7706</td>
-<td>0.8571</td>
+<th>Pattern4</th>
+<td>0.7143</td>
 <td>recursive</td>
-<td>1024</td>
-<td>256</td>
+<td>512</td>
+<td>128</td>
 <td>ibm/granite-embedding-278m-multilingual</td>
 <td>cosine</td>
 <td>window</td>
-<td>3</td>
+<td>5</td>
 <td>{'k': 60, 'sparse_vectors': {'model_id': 'bm25...</td>
-<td>mistralai/mistral-large</td>
+<td>mistralai/mistral-small-3-1-24b-instruct-2503</td>
+<td>sequential</td>
 </tr>
 <tr>
-<th>Pattern1</th>
-<td>0.7418</td>
-<td>0.4968</td>
-<td>0.6905</td>
+<th>Pattern5</th>
+<td>0.7143</td>
+<td>recursive</td>
+<td>512</td>
+<td>128</td>
+<td>ibm/granite-embedding-278m-multilingual</td>
+<td>cosine</td>
+<td>window</td>
+<td>5</td>
+<td>{'k': 60, 'sparse_vectors': {'model_id': 'bm25...</td>
+<td>mistralai/mistral-small-3-1-24b-instruct-2503</td>
+<td>sequential</td>
+</tr>
+<tr>
+<th>Pattern2</th>
+<td>0.6429</td>
+<td>recursive</td>
+<td>512</td>
+<td>128</td>
+<td>ibm/granite-embedding-278m-multilingual</td>
+<td>cosine</td>
+<td>simple</td>
+<td>5</td>
+<td>{'k': 60, 'sparse_vectors': {'model_id': 'bm25...</td>
+<td>mistralai/mistral-small-3-1-24b-instruct-2503</td>
+<td>sequential</td>
+</tr>
+<tr>
+<th>Pattern3</th>
+<td>0.6429</td>
 <td>recursive</td>
 <td>512</td>
 <td>128</td>
@@ -8777,59 +8854,13 @@ Training of '09437777-a9e4-4cc6-aac0-96c2c8352d10' finished successfully.
 <td>cosine</td>
 <td>window</td>
 <td>3</td>
-<td>{'alpha': 0.8, 'sparse_vectors': {'model_id': ...</td>
-<td>ibm/granite-3-8b-instruct</td>
+<td>{'k': 60, 'sparse_vectors': {'model_id': 'bm25...</td>
+<td>mistralai/mistral-small-3-1-24b-instruct-2503</td>
+<td>sequential</td>
 </tr>
 <tr>
 <th>Pattern6</th>
 <td>0.6429</td>
-<td>0.7091</td>
-<td>0.7857</td>
-<td>recursive</td>
-<td>1024</td>
-<td>256</td>
-<td>ibm/granite-embedding-278m-multilingual</td>
-<td>cosine</td>
-<td>window</td>
-<td>3</td>
-<td>{'alpha': 0.8, 'sparse_vectors': {'model_id': ...</td>
-<td>mistralai/mistral-large</td>
-</tr>
-<tr>
-<th>Pattern4</th>
-<td>0.5934</td>
-<td>0.5517</td>
-<td>0.7143</td>
-<td>recursive</td>
-<td>1024</td>
-<td>512</td>
-<td>ibm/granite-embedding-278m-multilingual</td>
-<td>cosine</td>
-<td>window</td>
-<td>3</td>
-<td>{'alpha': 0.8, 'sparse_vectors': {'model_id': ...</td>
-<td>ibm/granite-3-8b-instruct</td>
-</tr>
-<tr>
-<th>Pattern2</th>
-<td>0.5000</td>
-<td>0.6354</td>
-<td>0.7857</td>
-<td>recursive</td>
-<td>1024</td>
-<td>256</td>
-<td>ibm/slate-125m-english-rtrvr</td>
-<td>cosine</td>
-<td>window</td>
-<td>3</td>
-<td>{'k': 60, 'sparse_vectors': {'model_id': 'bm25...</td>
-<td>ibm/granite-3-8b-instruct</td>
-</tr>
-<tr>
-<th>Pattern5</th>
-<td>0.5000</td>
-<td>0.5715</td>
-<td>0.6429</td>
 <td>recursive</td>
 <td>512</td>
 <td>128</td>
@@ -8838,7 +8869,22 @@ Training of '09437777-a9e4-4cc6-aac0-96c2c8352d10' finished successfully.
 <td>window</td>
 <td>3</td>
 <td>{'k': 60, 'sparse_vectors': {'model_id': 'bm25...</td>
-<td>mistralai/mistral-large</td>
+<td>mistralai/mistral-small-3-1-24b-instruct-2503</td>
+<td>sequential</td>
+</tr>
+<tr>
+<th>Pattern1</th>
+<td>0.3681</td>
+<td>recursive</td>
+<td>512</td>
+<td>128</td>
+<td>ibm/slate-30m-english-rtrvr-v2</td>
+<td>cosine</td>
+<td>simple</td>
+<td>3</td>
+<td>{'alpha': 0.8, 'sparse_vectors': {'model_id': ...</td>
+<td>mistralai/mistral-small-3-1-24b-instruct-2503</td>
+<td>sequential</td>
 </tr>
 </tbody>
 </table>
@@ -8876,7 +8922,7 @@ Training of '09437777-a9e4-4cc6-aac0-96c2c8352d10' finished successfully.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">best_pattern_name</span> <span class="o">=</span> <span class="n">summary</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -8895,7 +8941,7 @@ Training of '09437777-a9e4-4cc6-aac0-96c2c8352d10' finished successfully.
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Best pattern is: Pattern3
+<pre>Best pattern is: Pattern4
 </pre>
 </div>
 </div>
@@ -8930,7 +8976,7 @@ Training of '09437777-a9e4-4cc6-aac0-96c2c8352d10' finished successfully.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [27]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ibm_watsonx_ai.deployments</span><span class="w"> </span><span class="kn">import</span> <span class="n">RuntimeContext</span>
@@ -8947,7 +8993,7 @@ Training of '09437777-a9e4-4cc6-aac0-96c2c8352d10' finished successfully.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">question</span> <span class="o">=</span> <span class="s2">"How to use new approach of providing credentials to APIClient?"</span>
@@ -8970,7 +9016,7 @@ Training of '09437777-a9e4-4cc6-aac0-96c2c8352d10' finished successfully.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [29]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">inference_service_function</span><span class="p">(</span><span class="n">context</span><span class="p">)[</span><span class="s2">"body"</span><span class="p">][</span><span class="s2">"choices"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"message"</span><span class="p">][</span><span class="s2">"content"</span><span class="p">])</span>
@@ -8986,33 +9032,46 @@ Training of '09437777-a9e4-4cc6-aac0-96c2c8352d10' finished successfully.
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre> &lt;/s&gt;To use the new approach of providing credentials to `APIClient`, you should use the `Credentials` class instead of a dictionary. Here's how you can do it:
+<pre>In the context of the documents, **New approach to Credentials**, there is a new way to provide credentials to the APIClient in the ibm_watsonx_ai 1.0 release.
 
-1. Import the necessary classes from `ibm_watsonx_ai`.
-2. Create an instance of the `Credentials` class with the required parameters.
-3. Pass the `Credentials` instance to the `APIClient` constructor.
+This new approach introduces the `Credentials` class to replace the old credentials dictionary. Here's how you can use the new approach to provide credentials to the `APIClient`:
 
-Here's an example:
+### New approach
 
+1. **Import the necessary classes**:
+   ```python
+   from ibm_watsonx_ai import APIClient
+   from ibm_watsonx_ai import Credentials
+   ```
+
+2. **Create a `Credentials` object**:
+   ```python
+   credentials = Credentials(
+       url="https://us-south.ml.cloud.ibm.com",
+       token="***********",
+   )
+   ```
+
+3. **Initialize the `APIClient` with the `Credentials` object**:
+   ```python
+   client = APIClient(credentials)
+   ```
+### Example
+
+Here is a complete example:
 ```python
-from ibm_watsonx_ai import APIClient, Credentials
+from ibm_watsonx_ai import APIClient
+from ibm_watsonx_ai import Credentials
 
-# Create a Credentials instance
+# Creating the Credentials object
 credentials = Credentials(
     url="https://us-south.ml.cloud.ibm.com",
-    token="***********"
+    token="***********",
 )
 
-# Initialize the APIClient with the Credentials instance
+# Initializing the APIClient with the Credentials object
 client = APIClient(credentials)
-
-# Now you can use the client to interact with the API
-url = client.credentials.url
-# OR
-url = credentials.url
 ```
-
-This approach ensures that you are using the latest and recommended method for providing credentials to the `APIClient`.
 </pre>
 </div>
 </div>
@@ -9034,7 +9093,7 @@ This approach ensures that you are using the latest and recommended method for p
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [30]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [27]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">deployment_details</span> <span class="o">=</span> <span class="n">best_pattern</span><span class="o">.</span><span class="n">inference_service</span><span class="o">.</span><span class="n">deploy</span><span class="p">(</span>
@@ -9058,19 +9117,19 @@ This approach ensures that you are using the latest and recommended method for p
 
 ######################################################################################
 
-Synchronous deployment creation for id: 'f54af56a-9d55-4b58-8db1-5b3cd1ed2673' started
+Synchronous deployment creation for id: '01a085ca-9728-752f-9b60-de288f2f17b9' started
 
 ######################################################################################
 
 
 initializing
 Note: online_url and serving_urls are deprecated and will be removed in a future release. Use inference instead.
-..........
+....
 ready
 
 
 -----------------------------------------------------------------------------------------------
-Successfully finished deployment creation, deployment_id='cfabea10-76b5-4a8c-ae43-b3e4c9d70885'
+Successfully finished deployment creation, deployment_id='01a085ca-b92c-74c9-919a-ea215de1d043'
 -----------------------------------------------------------------------------------------------
 
 
@@ -9095,7 +9154,7 @@ Successfully finished deployment creation, deployment_id='cfabea10-76b5-4a8c-ae4
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [31]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [28]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">deployment_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">deployment_details</span><span class="p">)</span>
@@ -9112,7 +9171,7 @@ Successfully finished deployment creation, deployment_id='cfabea10-76b5-4a8c-ae4
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [32]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [29]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">score_response</span>
@@ -9126,20 +9185,26 @@ Successfully finished deployment creation, deployment_id='cfabea10-76b5-4a8c-ae4
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[32]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[29]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>{'choices': [{'index': 0,
-   'message': {'content': ' &lt;/s&gt;To use the new approach of providing credentials to `APIClient`, you should use the `Credentials` class instead of a dictionary. Here\'s how you can do it:\n\n1. Import the necessary classes from `ibm_watsonx_ai`.\n2. Create an instance of the `Credentials` class with the required parameters.\n3. Pass the `Credentials` instance to the `APIClient` constructor.\n\nHere\'s an example:\n\n```python\nfrom ibm_watsonx_ai import APIClient, Credentials\n\n# Create a Credentials instance\ncredentials = Credentials(\n    url="https://us-south.ml.cloud.ibm.com",\n    token="***********"\n)\n\n# Initialize the APIClient with the Credentials instance\nclient = APIClient(credentials)\n\n# Now you can use the client to interact with the API\nurl = client.credentials.url\n# OR\nurl = credentials.url\n```\n\nThis approach ensures that you are using the latest and recommended method for providing credentials to the `APIClient`.',
-    'role': 'assistant'},
-   'reference_documents': [{'metadata': {'document_id': 'migration_v1.html',
-      'sequence_number': [7, 8, 9, 10, 11]},
-     'page_content': 'get_model_lifecycle(\n    url="https://us-south.ml.cloud.ibm.com",\n    model_id="ibm/granite-13b-instruct-v2"\n)\n\nget_model_specs_with_prompt_tuning_support(\n    url="https://us-south.ml.cloud.ibm.com"\n)\n\nget_embedding_model_specs(\n    url="https://us-south.ml.cloud.ibm.com"\n)\n\n\n\n\nBreaking changes¶\n\nThe client.&lt;resource&gt;.list() methods don’t print the table with listed assets. They return the table as pandas.DataFrame. The optional parameter for the return_as_df methods was removed.\n\n✅ New approach - Access to credential fields as class attributes.\nconn_list = client.connections.list()  ## table not printed\n\n\n❌ Old approach - Table with listed resources printed.\nconn_list = client.connections.list()\n### Table returned as pandas.DataFrame `conn_list` object and printed output:\n---------------------------  ------------------------------------  --------------------  ------------------------------------\nNAME                         ID                                    CREATED               DATASOURCE_TYPE_ID\nConnection to COS            71738a79-6585-4f33-bf4a-18907abcf06a  2024-04-25T10:42:23Z  193a97c1-4475-4a19-b90c-295c4fdc6517\n---------------------------  ------------------------------------  --------------------  ------------------------------------\n\n\n\nMethods and parameters that were marked as deprecated in ibm_watsonx_ai v0 were removed. For example:\n\n✅ New approach - Use the method that replaced the deprecated one, for get_uid it’s get_id\nasset_id = client.data_assets.get_id(asset_details)\n\n\n❌ Old approach - Deprecated get_uid method called\nclient.data_assets.get_uid(asset_details)\n\n\n\nclient.credentials and client.wml_credentials returns a Credentials object instead of a dictionary.\n\n✅ New approach - Access to credential fields as class attributes.\nfrom ibm_watsonx_ai import APIClient\nfrom ibm_watsonx_ai import Credentials\n\ncredentials = Credentials(\n                   url = "https://us-south.ml.cloud.ibm.com",\n                   token = "***********",\n                  )\n\nclient = APIClient(credentials)\n\nurl = client.credentials.url\n# OR\nurl = credentials.url\n\n\n❌ Old approach - Access to credential fields as keys in a dictionary.\nfrom ibm_watsonx_ai import APIClient\n\ncredentials = {\n                   "url": "https://us-south.ml.cloud.ibm.com",\n                   "token":"***********",\n                  }\nclient = APIClient(credentials)\nurl = client.wml_credentials.get(\'url\')\n\n\n\nParameter changes in service.score(...) for online deployment\n\nservice.score(...) has an additional forecast_window parameter added before the transaction_id parameter.\nFrom ibm_watsonx_ai 1.0.0,  in the service.score(...) function, you need to pass all named parameters except for the payload parameter.\n✅ New approach - named parameters and a new parameter.\npredictions = service.score({\n        "observations": AbstractTestTSAsync.observations,\n        "supporting_features": AbstractTestTSAsync.supporting_features,\n    },\n    forecast_window=1,\n    transaction_id=transaction_id,\n) ❌ Old approach - all parameters are not named, the forecast_window parameter is absent\npredictions = service.score({\n        "observations": AbstractTestTSAsync.observations,\n        "supporting_features": AbstractTestTSAsync.supporting_features,\n    },\n    transaction_id,\n)\n\n\n\n\nDeprecations¶\n\nInitializing APIClient with credentials as a dictionary is deprecated.\n\nAll parameters with wml in the name are deprecated. They were renamed to:\nwml_credentials -&gt; credentials\nwml_client -&gt; api_client.\n\n\n\n\nid naming was aligned in parameters and methods and all uid were replaced by id. Methods that were using uid were removed or marked as deprecated.\n\n\n\n\n\n\n\n\n\n\n\nNext\n\nChangelog\n\n\n\n\n\n\n\nPrevious\n\nMigration from ibm_watson_machine_learning\n\n\n\n\n\n\n                Copyright © 2023-2025, IBM\n            \n            Made with Sphinx and @pradyunsg\'s\n            \n            Furo\n\n\n\n\n\n\n\n\n\n\n            On this page'},
-    {'metadata': {'document_id': 'base.html',
-      'sequence_number': [5, 6, 7, 8, 9]},
-     'page_content': 'A direct instance of httpx.Client()\nA set of parameters provided via the HttpClientConfig class\n\nExample:\nfrom ibm_watsonx_ai.utils.utils import HttpClientConfig\n\nlimits=httpx.Limits(\n    max_connections=5\n)\ntimeout = httpx.Timeout(7)\nhttp_config = HttpClientConfig(timeout=timeout, limits=limits)\n\n\nIf not provided, a default instance of httpx.Client is created.\n\nNote\nIf you need to adjust timeouts or limits, using HttpClientConfig is the recommended approach.\nWhen the proxies parameter is provided in credentials, httpx.Client will use these proxies.\nHowever, if you want to create a separate httpx.Client, all parameters must be provided by the user.\n\n\nasync_httpx_client (httpx.AsyncClient, HttpClientConfig, optional) – A customizable httpx.AsyncClient for ModelInference. The httpx.AsyncClient is used to improve performance of foundation models inference. This parameter accepts two types of input:\n\nA direct instance of httpx.AsyncClient\nA set of parameters provided via the HttpClientConfig class\n\nExample:\nfrom ibm_watsonx_ai.utils.utils import HttpClientConfig\n\nlimits=httpx.Limits(\n    max_connections=5\n)\ntimeout = httpx.Timeout(7)\nhttp_config = HttpClientConfig(timeout=timeout, limits=limits)\n\n\nIf not provided, a default instance of httpx.AsyncClient is created.\n\nNote\nIf you need to adjust timeouts or limits, using HttpClientConfig is the recommended approach.\nWhen the proxies parameter is provided in credentials, httpx.Client will use these proxies.\nHowever, if you want to create a separate httpx.Client, all parameters must be provided by the user.\n\n\n\n\n\nExample:\nfrom ibm_watsonx_ai import APIClient, Credentials\n\ncredentials = Credentials(\n    url = "&lt;url&gt;",\n    api_key = IAM_API_KEY\n)\n\nclient = APIClient(credentials, space_id="&lt;space_id&gt;")\n\nclient.models.list()\nclient.deployments.get_details()\n\nclient.set.default_project("&lt;project_id&gt;")\n\n...\n\n\n\n\nget_copy()[source]¶\nPrepares clean copy of APIClient. The clean copy contains no token, password, api key data. It is used\nin AI services scenarios, when the client is used in deployed code, and can be reused between users.\nThe copy needs to be set with current user token in the inner function of AI service.\n\nReturns:\nAPIClient which is 2-level copy of the current one, without user secrets\n\nReturn type:\nAPIClient\n\n\nExample:\ndef deployable_ai_service(context, params={"k1":"v1"}, **kwargs):\n\n    # imports\n    from ibm_watsonx_ai import Credentials, APIClient\n    from ibm_watsonx_ai.foundation_models import ModelInference\n\n    task_token = context.generate_token()\n\n    outer_context = context\n\n    client = APIClient(Credentials(\n        url = "https://us-south.ml.cloud.ibm.com",\n        token = task_token\n    ))\n\n    # operations with client\n\n    def generate(context):\n        user_client = client.get_copy()\n        user_client.set_token(context.generate_token())\n\n        # operations with user_client\n\n        return {\'body\': response_body}\n\n    return generate\n\nstored_ai_service_details = client._ai_services.store(deployable_ai_service, meta_props)\n\n\n\n\n\nget_headers(content_type=\'application/json\', include_user_agent=False)[source]¶\nGet HTTP headers used during requests.\n\nParameters:\n\ncontent_type – value for Content-Type header, defaults to application/json\ninclude_user_agent – whether the result should include User-Agent header, defaults to False\n\n\nReturns:\nheaders used during requests\n\nReturn type:\ndict\n\n\n\n\n\nset_headers(headers)[source]¶\nMethod which allows refresh/set new User Request Headers.\n\nParameters:\nheaders (dict) – User Request Headers\n\n\nExamples\nheaders = {\n    \'Authorization\': \'Bearer &lt;USER AUTHORIZATION TOKEN&gt;\',\n    \'User-Agent\': \'ibm-watsonx-ai/1.0.1 (lang=python; arch=x86_64; os=darwin; python.version=3.10.13)\',\n    \'Content-Type\': \'application/json\'\n}\n\nclient.set_headers(headers)\n\n\n\n\n\nset_token(token)[source]¶\nMethod which allows refresh/set new User Authorization Token.\n\nNote\nUsing this function will cause that token will not be automatically refreshed anymore, if password or apikey were passed.\nThe user needs to take care of token refresh using set_token function from that point in time until they finish using the client instance.'},
-    {'metadata': {'document_id': 'migration_v1.html',
-      'sequence_number': [8, 9, 10, 11, 12]},
-     'page_content': '✅ New approach - Access to credential fields as class attributes.\nconn_list = client.connections.list()  ## table not printed\n\n\n❌ Old approach - Table with listed resources printed.\nconn_list = client.connections.list()\n### Table returned as pandas.DataFrame `conn_list` object and printed output:\n---------------------------  ------------------------------------  --------------------  ------------------------------------\nNAME                         ID                                    CREATED               DATASOURCE_TYPE_ID\nConnection to COS            71738a79-6585-4f33-bf4a-18907abcf06a  2024-04-25T10:42:23Z  193a97c1-4475-4a19-b90c-295c4fdc6517\n---------------------------  ------------------------------------  --------------------  ------------------------------------\n\n\n\nMethods and parameters that were marked as deprecated in ibm_watsonx_ai v0 were removed. For example:\n\n✅ New approach - Use the method that replaced the deprecated one, for get_uid it’s get_id\nasset_id = client.data_assets.get_id(asset_details)\n\n\n❌ Old approach - Deprecated get_uid method called\nclient.data_assets.get_uid(asset_details)\n\n\n\nclient.credentials and client.wml_credentials returns a Credentials object instead of a dictionary.\n\n✅ New approach - Access to credential fields as class attributes.\nfrom ibm_watsonx_ai import APIClient\nfrom ibm_watsonx_ai import Credentials\n\ncredentials = Credentials(\n                   url = "https://us-south.ml.cloud.ibm.com",\n                   token = "***********",\n                  )\n\nclient = APIClient(credentials)\n\nurl = client.credentials.url\n# OR\nurl = credentials.url\n\n\n❌ Old approach - Access to credential fields as keys in a dictionary.\nfrom ibm_watsonx_ai import APIClient\n\ncredentials = {\n                   "url": "https://us-south.ml.cloud.ibm.com",\n                   "token":"***********",\n                  }\nclient = APIClient(credentials)\nurl = client.wml_credentials.get(\'url\')\n\n\n\nParameter changes in service.score(...) for online deployment\n\nservice.score(...) has an additional forecast_window parameter added before the transaction_id parameter.\nFrom ibm_watsonx_ai 1.0.0,  in the service.score(...) function, you need to pass all named parameters except for the payload parameter.\n✅ New approach - named parameters and a new parameter.\npredictions = service.score({\n        "observations": AbstractTestTSAsync.observations,\n        "supporting_features": AbstractTestTSAsync.supporting_features,\n    },\n    forecast_window=1,\n    transaction_id=transaction_id,\n) ❌ Old approach - all parameters are not named, the forecast_window parameter is absent\npredictions = service.score({\n        "observations": AbstractTestTSAsync.observations,\n        "supporting_features": AbstractTestTSAsync.supporting_features,\n    },\n    transaction_id,\n)\n\n\n\n\nDeprecations¶\n\nInitializing APIClient with credentials as a dictionary is deprecated.\n\nAll parameters with wml in the name are deprecated. They were renamed to:\nwml_credentials -&gt; credentials\nwml_client -&gt; api_client.\n\n\n\n\nid naming was aligned in parameters and methods and all uid were replaced by id. Methods that were using uid were removed or marked as deprecated.\n\n\n\n\n\n\n\n\n\n\n\nNext\n\nChangelog\n\n\n\n\n\n\n\nPrevious\n\nMigration from ibm_watson_machine_learning\n\n\n\n\n\n\n                Copyright © 2023-2025, IBM\n            \n            Made with Sphinx and @pradyunsg\'s\n            \n            Furo\n\n\n\n\n\n\n\n\n\n\n            On this page\n          \n\n\n\n\nV1 Migration Guide\nWhat’s new?\nRefactor and Cleanup\nNew authorization\nEasier project and space setup\nFoundation model functions moved under APIClient\nBreaking changes\nDeprecations'}]}]}</pre>
+   'message': {'role': 'system',
+    'content': 'In the document **"Refactor and Cleanup"** and **"New authorization"** under title **"New authorization"**, and **"Easier project and space setup"** under title **"Easier project and space setup"** the following approach is described to use the new way of providing credentials to `APIClient` in `ibm_watsonx_ai` version 1.0:\n\n1. Import the necessary classes:\n   ```python\n   from ibm_watsonx_ai import APIClient\n   from ibm_watsonx_ai import Credentials\n   ```\n\n2. Create a `Credentials` object using the required parameters (e.g., `url` and `token`):\n   ```python\n   credentials = Credentials(\n       url="https://us-south.ml.cloud.ibm.com",\n       token="***********",\n   )\n   ```\n\n3. Initialize the `APIClient` object with the `Credentials` object:\n   ```python\n   client = APIClient(credentials)\n   ```\n\nAdditionally, you can set the default space or project while initializing the `APIClient` object:\n\n- For a project:\n  ```python\n  client_project = APIClient(credentials, project_id=project_id)\n  ```\n\n- For a space:\n  ```python\n  client_space = APIClient(credentials, space_id=space_id)\n  ```'},
+   'reference_documents': [{'page_content': 'What’s new?¶\n\nRefactor and Cleanup¶\nThis major release marks a thorough refactoring and cleanup of the codebase. We’ve diligently worked to improve code\nreadability and enhance overall performance. As a result, you can expect a more efficient and maintainable package. New authorization¶\nIn ibm_watsonx_ai 1.0, Credentials, a new class, was introduced and it replaces the credentials dictionary. For\nexamples and more information, see Authentication Cloud and Authentication\n✅ New approach\nfrom ibm_watsonx_ai import APIClient\nfrom ibm_watsonx_ai import Credentials\n\ncredentials = Credentials(\n    url="https://us-south.ml.cloud.ibm.com",\n    token="***********",\n)\n\nclient = APIClient(credentials)\n\n\n❌ Old approach\nfrom ibm_watsonx_ai import APIClient\n\ncredentials = {\n    "url": "https://us-south.ml.cloud.ibm.com",\n    "token": "***********",\n}\n\nclient = APIClient(credentials)\n\n\n\n\nEasier project and space setup¶\nStarting from ibm_watsonx_ai 1.0, you can set the default space or project while initializing the APIClient object.\n✅ New approach\nclient_project = APIClient(credentials, project_id=project_id)\nclient_space = APIClient(credentials, space_id=space_id)',
+     'metadata': {'sequence_number': [6, 7, 8],
+      'document_id': 'ibm_watsonx_ai_sdk_docs/migration_v1.html'}},
+    {'page_content': 'client = APIClient(credentials)\n\n\n❌ Old approach\nfrom ibm_watsonx_ai import APIClient\n\ncredentials = {\n    "url": "https://us-south.ml.cloud.ibm.com",\n    "token": "***********",\n}\n\nclient = APIClient(credentials)\n\n\n\n\nEasier project and space setup¶\nStarting from ibm_watsonx_ai 1.0, you can set the default space or project while initializing the APIClient object.\n✅ New approach\nclient_project = APIClient(credentials, project_id=project_id)\nclient_space = APIClient(credentials, space_id=space_id) ❌ Old approach\nclient_project = APIClient(credentials)\nclient_project.set.default_project(project_id)\n\nclient_space = APIClient(credentials)\nclient_space.set.default_space(space_id) Foundation model functions moved under APIClient¶\nStarting from ibm_watsonx_ai 1.0, foundation model functions (get_model_specs, get_custom_model_specs,\nget_model_lifecycle, get_model_specs_with_prompt_tuning_support, get_embedding_model_specs) are moved into\nthe client.foundation_models object.\nOld versions of the functions are not removed but will no longer work because they lack authentication.\n✅ New approach - Using functions from client.foundation_models.\nclient.foundation_models.get_model_specs()',
+     'metadata': {'sequence_number': [8, 9, 10],
+      'document_id': 'ibm_watsonx_ai_sdk_docs/migration_v1.html'}},
+    {'page_content': 'Returns:\ninitialised credentials object\n\nReturn type:\nCredentials\n\n\nExample:\nfrom ibm_watsonx_ai import Credentials\n\ncredentials = Credentials.from_dict(\n    {"url": "&lt;url&gt;", "apikey": IAM_API_URL}\n)\n\n\n\n\n\nto_dict()[source]¶\nGet dictionary from the Credentials object.\n\nReturns:\ndictionary with credentials\n\nReturn type:\ndict\n\n\nExample:\nfrom ibm_watsonx_ai import Credentials\n\ncredentials = Credentials.from_dict(\n    {"url": "&lt;url&gt;", "apikey": IAM_API_KEY}\n)\n\ncredentials_dict = credentials.to_dict()\n\n\n\n\n\n\n\n\n\n\n\n\n\nNext\n\nCore\n\n\n\n\n\n\n\nPrevious\n\nAPI\n\n\n\n\n\n\n                Copyright © 2023-2026, IBM\n            \n            Made with Sphinx and @pradyunsg\'s\n            \n            Furo\n\n\n\n\n\n\n\n\n\n\n            On this page\n          \n\n\n\n\nBase\nAPIClient\nAPIClient\nAPIClient.get_copy()\nAPIClient.get_headers()\nAPIClient.set_headers()\nAPIClient.set_token()\n\n\n\n\nCredentials\nCredentials\nCredentials.from_dict()\nCredentials.to_dict()',
+     'metadata': {'sequence_number': [32, 33],
+      'document_id': 'ibm_watsonx_ai_sdk_docs/base.html'}},
+    {'page_content': 'Methods and parameters that were marked as deprecated in ibm_watsonx_ai v0 were removed. For example:\n\n✅ New approach - Use the method that replaced the deprecated one, for get_uid it’s get_id\nasset_id = client.data_assets.get_id(asset_details)\n\n\n❌ Old approach - Deprecated get_uid method called\nclient.data_assets.get_uid(asset_details)\n\n\n\nclient.credentials and client.wml_credentials returns a Credentials object instead of a dictionary.\n\n✅ New approach - Access to credential fields as class attributes.\nfrom ibm_watsonx_ai import APIClient\nfrom ibm_watsonx_ai import Credentials\n\ncredentials = Credentials(\n    url="https://us-south.ml.cloud.ibm.com",\n    token="***********",\n)\n\nclient = APIClient(credentials)\n\nurl = client.credentials.url\n# OR\nurl = credentials.url\n\n\n❌ Old approach - Access to credential fields as keys in a dictionary.\nfrom ibm_watsonx_ai import APIClient\n\ncredentials = {\n    "url": "https://us-south.ml.cloud.ibm.com",\n    "token": "***********",\n}\nclient = APIClient(credentials)\nurl = client.wml_credentials.get("url")\n\n\n\nParameter changes in service.score(...) for online deployment',
+     'metadata': {'sequence_number': [18, 19, 20],
+      'document_id': 'ibm_watsonx_ai_sdk_docs/migration_v1.html'}},
+    {'page_content': 'New authorization¶\nIn ibm_watsonx_ai 1.0, Credentials, a new class, was introduced and it replaces the credentials dictionary. For\nexamples and more information, see Authentication Cloud and Authentication\n✅ New approach\nfrom ibm_watsonx_ai import APIClient\nfrom ibm_watsonx_ai import Credentials\n\ncredentials = Credentials(\n    url="https://us-south.ml.cloud.ibm.com",\n    token="***********",\n)\n\nclient = APIClient(credentials)\n\n\n❌ Old approach\nfrom ibm_watsonx_ai import APIClient\n\ncredentials = {\n    "url": "https://us-south.ml.cloud.ibm.com",\n    "token": "***********",\n}\n\nclient = APIClient(credentials)\n\n\n\n\nEasier project and space setup¶\nStarting from ibm_watsonx_ai 1.0, you can set the default space or project while initializing the APIClient object.\n✅ New approach\nclient_project = APIClient(credentials, project_id=project_id)\nclient_space = APIClient(credentials, space_id=space_id) ❌ Old approach\nclient_project = APIClient(credentials)\nclient_project.set.default_project(project_id)\n\nclient_space = APIClient(credentials)\nclient_space.set.default_space(space_id)',
+     'metadata': {'sequence_number': [7, 8, 9],
+      'document_id': 'ibm_watsonx_ai_sdk_docs/migration_v1.html'}}]}]}</pre>
 </div>
 </div>
 </div>
@@ -9149,7 +9214,7 @@ Successfully finished deployment creation, deployment_id='cfabea10-76b5-4a8c-ae4
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [33]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [30]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">score_response</span><span class="p">[</span><span class="s2">"choices"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"message"</span><span class="p">][</span><span class="s2">"content"</span><span class="p">])</span>
@@ -9165,33 +9230,38 @@ Successfully finished deployment creation, deployment_id='cfabea10-76b5-4a8c-ae4
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre> &lt;/s&gt;To use the new approach of providing credentials to `APIClient`, you should use the `Credentials` class instead of a dictionary. Here's how you can do it:
+<pre>In the document **"Refactor and Cleanup"** and **"New authorization"** under title **"New authorization"**, and **"Easier project and space setup"** under title **"Easier project and space setup"** the following approach is described to use the new way of providing credentials to `APIClient` in `ibm_watsonx_ai` version 1.0:
 
-1. Import the necessary classes from `ibm_watsonx_ai`.
-2. Create an instance of the `Credentials` class with the required parameters.
-3. Pass the `Credentials` instance to the `APIClient` constructor.
+1. Import the necessary classes:
+   ```python
+   from ibm_watsonx_ai import APIClient
+   from ibm_watsonx_ai import Credentials
+   ```
 
-Here's an example:
+2. Create a `Credentials` object using the required parameters (e.g., `url` and `token`):
+   ```python
+   credentials = Credentials(
+       url="https://us-south.ml.cloud.ibm.com",
+       token="***********",
+   )
+   ```
 
-```python
-from ibm_watsonx_ai import APIClient, Credentials
+3. Initialize the `APIClient` object with the `Credentials` object:
+   ```python
+   client = APIClient(credentials)
+   ```
 
-# Create a Credentials instance
-credentials = Credentials(
-    url="https://us-south.ml.cloud.ibm.com",
-    token="***********"
-)
+Additionally, you can set the default space or project while initializing the `APIClient` object:
 
-# Initialize the APIClient with the Credentials instance
-client = APIClient(credentials)
+- For a project:
+  ```python
+  client_project = APIClient(credentials, project_id=project_id)
+  ```
 
-# Now you can use the client to interact with the API
-url = client.credentials.url
-# OR
-url = credentials.url
-```
-
-This approach ensures that you are using the latest and recommended method for providing credentials to the `APIClient`.
+- For a space:
+  ```python
+  client_space = APIClient(credentials, space_id=space_id)
+  ```
 </pre>
 </div>
 </div>
@@ -9215,7 +9285,7 @@ This approach ensures that you are using the latest and recommended method for p
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [34]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [31]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">experiment</span><span class="o">.</span><span class="n">runs</span><span class="p">(</span><span class="nb">filter</span><span class="o">=</span><span class="s2">"rag_optimizer"</span><span class="p">)</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
@@ -9229,7 +9299,7 @@ This approach ensures that you are using the latest and recommended method for p
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[34]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[31]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
@@ -9258,8 +9328,8 @@ This approach ensures that you are using the latest and recommended method for p
 <tbody>
 <tr>
 <th>0</th>
-<td>2025-06-25T13:42:45.199Z</td>
-<td>09437777-a9e4-4cc6-aac0-96c2c8352d10</td>
+<td>2026-09-09T10:48:59.871Z</td>
+<td>ddd60fa0-5f89-4032-b3ef-6c0a004bcb91</td>
 <td>completed</td>
 <td>AutoAI RAG ibm-watsonx-ai SDK documentation</td>
 </tr>
@@ -9275,7 +9345,7 @@ This approach ensures that you are using the latest and recommended method for p
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [35]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [32]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">run_id</span> <span class="o">=</span> <span class="n">run_details</span><span class="p">[</span><span class="s2">"metadata"</span><span class="p">][</span><span class="s2">"id"</span><span class="p">]</span>
@@ -9290,9 +9360,9 @@ This approach ensures that you are using the latest and recommended method for p
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[35]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[32]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'09437777-a9e4-4cc6-aac0-96c2c8352d10'</pre>
+<pre>'ddd60fa0-5f89-4032-b3ef-6c0a004bcb91'</pre>
 </div>
 </div>
 </div>
@@ -9313,7 +9383,7 @@ This approach ensures that you are using the latest and recommended method for p
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [37]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [33]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">experiment</span><span class="o">.</span><span class="n">runs</span><span class="o">.</span><span class="n">get_rag_params</span><span class="p">(</span><span class="n">run_id</span><span class="o">=</span><span class="n">run_id</span><span class="p">)</span>
@@ -9327,11 +9397,15 @@ This approach ensures that you are using the latest and recommended method for p
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[37]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[33]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>{'name': 'AutoAI RAG ibm-watsonx-ai SDK documentation',
- 'description': 'AutoAI RAG experiemnt trainded on ibm-watsonx-ai SDK documentataion',
+ 'description': 'AutoAI RAG experiemnt trained on ibm-watsonx-ai SDK documentation',
+ 'chunking': [{'chunk_overlap': 128,
+   'chunk_size': 512,
+   'method': 'recursive'}],
  'max_number_of_rag_patterns': 6,
+ 'generation': {'foundation_models': [{'model_id': 'mistralai/mistral-small-3-1-24b-instruct-2503'}]},
  'optimization_metrics': ['answer_correctness']}</pre>
 </div>
 </div>
@@ -9353,7 +9427,7 @@ This approach ensures that you are using the latest and recommended method for p
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [38]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [34]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">historical_opt</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">runs</span><span class="o">.</span><span class="n">get_rag_optimizer</span><span class="p">(</span><span class="n">run_id</span><span class="p">)</span>
@@ -9378,7 +9452,7 @@ This approach ensures that you are using the latest and recommended method for p
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [39]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [35]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">historical_opt</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
@@ -9392,7 +9466,7 @@ This approach ensures that you are using the latest and recommended method for p
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[39]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[35]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
@@ -9413,8 +9487,6 @@ This approach ensures that you are using the latest and recommended method for p
 <tr style="text-align: right;">
 <th></th>
 <th>mean_answer_correctness</th>
-<th>mean_faithfulness</th>
-<th>mean_context_correctness</th>
 <th>chunking.method</th>
 <th>chunking.chunk_size</th>
 <th>chunking.chunk_overlap</th>
@@ -9424,10 +9496,10 @@ This approach ensures that you are using the latest and recommended method for p
 <th>retrieval.number_of_chunks</th>
 <th>retrieval.hybrid_ranker</th>
 <th>generation.model_id</th>
+<th>agent.type</th>
 </tr>
 <tr>
 <th>Pattern_Name</th>
-<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -9443,25 +9515,50 @@ This approach ensures that you are using the latest and recommended method for p
 </thead>
 <tbody>
 <tr>
-<th>Pattern3</th>
-<td>0.7857</td>
-<td>0.7706</td>
-<td>0.8571</td>
+<th>Pattern4</th>
+<td>0.7143</td>
 <td>recursive</td>
-<td>1024</td>
-<td>256</td>
+<td>512</td>
+<td>128</td>
 <td>ibm/granite-embedding-278m-multilingual</td>
 <td>cosine</td>
 <td>window</td>
-<td>3</td>
+<td>5</td>
 <td>{'k': 60, 'sparse_vectors': {'model_id': 'bm25...</td>
-<td>mistralai/mistral-large</td>
+<td>mistralai/mistral-small-3-1-24b-instruct-2503</td>
+<td>sequential</td>
 </tr>
 <tr>
-<th>Pattern1</th>
-<td>0.7418</td>
-<td>0.4968</td>
-<td>0.6905</td>
+<th>Pattern5</th>
+<td>0.7143</td>
+<td>recursive</td>
+<td>512</td>
+<td>128</td>
+<td>ibm/granite-embedding-278m-multilingual</td>
+<td>cosine</td>
+<td>window</td>
+<td>5</td>
+<td>{'k': 60, 'sparse_vectors': {'model_id': 'bm25...</td>
+<td>mistralai/mistral-small-3-1-24b-instruct-2503</td>
+<td>sequential</td>
+</tr>
+<tr>
+<th>Pattern2</th>
+<td>0.6429</td>
+<td>recursive</td>
+<td>512</td>
+<td>128</td>
+<td>ibm/granite-embedding-278m-multilingual</td>
+<td>cosine</td>
+<td>simple</td>
+<td>5</td>
+<td>{'k': 60, 'sparse_vectors': {'model_id': 'bm25...</td>
+<td>mistralai/mistral-small-3-1-24b-instruct-2503</td>
+<td>sequential</td>
+</tr>
+<tr>
+<th>Pattern3</th>
+<td>0.6429</td>
 <td>recursive</td>
 <td>512</td>
 <td>128</td>
@@ -9469,59 +9566,13 @@ This approach ensures that you are using the latest and recommended method for p
 <td>cosine</td>
 <td>window</td>
 <td>3</td>
-<td>{'alpha': 0.8, 'sparse_vectors': {'model_id': ...</td>
-<td>ibm/granite-3-8b-instruct</td>
+<td>{'k': 60, 'sparse_vectors': {'model_id': 'bm25...</td>
+<td>mistralai/mistral-small-3-1-24b-instruct-2503</td>
+<td>sequential</td>
 </tr>
 <tr>
 <th>Pattern6</th>
 <td>0.6429</td>
-<td>0.7091</td>
-<td>0.7857</td>
-<td>recursive</td>
-<td>1024</td>
-<td>256</td>
-<td>ibm/granite-embedding-278m-multilingual</td>
-<td>cosine</td>
-<td>window</td>
-<td>3</td>
-<td>{'alpha': 0.8, 'sparse_vectors': {'model_id': ...</td>
-<td>mistralai/mistral-large</td>
-</tr>
-<tr>
-<th>Pattern4</th>
-<td>0.5934</td>
-<td>0.5517</td>
-<td>0.7143</td>
-<td>recursive</td>
-<td>1024</td>
-<td>512</td>
-<td>ibm/granite-embedding-278m-multilingual</td>
-<td>cosine</td>
-<td>window</td>
-<td>3</td>
-<td>{'alpha': 0.8, 'sparse_vectors': {'model_id': ...</td>
-<td>ibm/granite-3-8b-instruct</td>
-</tr>
-<tr>
-<th>Pattern2</th>
-<td>0.5000</td>
-<td>0.6354</td>
-<td>0.7857</td>
-<td>recursive</td>
-<td>1024</td>
-<td>256</td>
-<td>ibm/slate-125m-english-rtrvr</td>
-<td>cosine</td>
-<td>window</td>
-<td>3</td>
-<td>{'k': 60, 'sparse_vectors': {'model_id': 'bm25...</td>
-<td>ibm/granite-3-8b-instruct</td>
-</tr>
-<tr>
-<th>Pattern5</th>
-<td>0.5000</td>
-<td>0.5715</td>
-<td>0.6429</td>
 <td>recursive</td>
 <td>512</td>
 <td>128</td>
@@ -9530,7 +9581,22 @@ This approach ensures that you are using the latest and recommended method for p
 <td>window</td>
 <td>3</td>
 <td>{'k': 60, 'sparse_vectors': {'model_id': 'bm25...</td>
-<td>mistralai/mistral-large</td>
+<td>mistralai/mistral-small-3-1-24b-instruct-2503</td>
+<td>sequential</td>
+</tr>
+<tr>
+<th>Pattern1</th>
+<td>0.3681</td>
+<td>recursive</td>
+<td>512</td>
+<td>128</td>
+<td>ibm/slate-30m-english-rtrvr-v2</td>
+<td>cosine</td>
+<td>simple</td>
+<td>3</td>
+<td>{'alpha': 0.8, 'sparse_vectors': {'model_id': ...</td>
+<td>mistralai/mistral-small-3-1-24b-instruct-2503</td>
+<td>sequential</td>
 </tr>
 </tbody>
 </table>
@@ -9557,7 +9623,7 @@ This approach ensures that you are using the latest and recommended method for p
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [40]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [36]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">rag_optimizer</span><span class="o">.</span><span class="n">cancel_run</span><span class="p">(</span><span class="n">hard_delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -9571,7 +9637,7 @@ This approach ensures that you are using the latest and recommended method for p
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[40]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[36]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>'SUCCESS'</pre>
 </div>
@@ -9595,7 +9661,7 @@ This approach ensures that you are using the latest and recommended method for p
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [41]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [37]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">deployments</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">deployment_id</span><span class="p">)</span>
@@ -9609,7 +9675,7 @@ This approach ensures that you are using the latest and recommended method for p
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[41]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[37]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>'SUCCESS'</pre>
 </div>

@@ -7818,7 +7818,7 @@ a.anchor-link {
 <li>Use only Projects and Spaces that are available in watsonx context.</li>
 </ul>
 <h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook contains the steps and code to demonstrate the usage of IBM AutoAI RAG with SQL database as knowledge source. The AutoAI RAG experiment conducted in this notebook uses simple exemplary data about employees of an imaginary company.</p>
-<p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
+<p>Some familiarity with Python is helpful. This notebook uses Python 3.12.</p>
 <h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The learning goals of this notebook are:</p>
 <ul>
 <li>Create an AutoAI RAG job that will find the best SQL RAG agent pattern based on provided SQL knowledge base.</li>
@@ -7871,7 +7871,7 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">pip</span> install -U 'ibm-watsonx-ai[rag]&gt;=1.4.6' | tail -n 1
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">pip</span> install -U "ibm-watsonx-ai[rag]&gt;=1.4.6" | tail -n 1
 </pre></div>
 </div>
 </div>
@@ -7884,8 +7884,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Successfully installed Pillow-12.0.0 SQLAlchemy-2.0.44 XlsxWriter-3.2.9 aiohappyeyeballs-2.6.1 aiohttp-3.13.2 aiosignal-1.4.0 annotated-types-0.7.0 anyio-4.11.0 attrs-25.4.0 backoff-2.2.1 bcrypt-5.0.0 beautifulsoup4-4.13.5 build-1.3.0 cachetools-6.2.2 certifi-2025.11.12 charset_normalizer-3.4.4 chromadb-1.3.5 click-8.3.1 coloredlogs-15.0.1 dataclasses-json-0.6.7 distro-1.9.0 durationpy-0.10 elastic-transport-8.17.1 elasticsearch-8.19.2 et-xmlfile-2.0.0 filelock-3.20.0 flatbuffers-25.9.23 frozenlist-1.8.0 fsspec-2025.10.0 google-auth-2.43.0 googleapis-common-protos-1.72.0 grpcio-1.76.0 h11-0.16.0 hf-xet-1.2.0 httpcore-1.0.9 httptools-0.7.1 httpx-0.28.1 httpx-sse-0.4.3 huggingface-hub-1.1.5 humanfriendly-10.0 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-db-3.2.7 ibm-watsonx-ai-1.4.7 idna-3.11 importlib-resources-6.5.2 jmespath-1.0.1 joblib-1.5.2 jsonpatch-1.33 jsonpointer-3.0.0 jsonschema-4.25.1 jsonschema-specifications-2025.9.1 kubernetes-33.1.0 langchain-0.3.27 langchain-chroma-0.2.5 langchain-community-0.3.31 langchain-core-0.3.80 langchain-db2-0.1.7 langchain-elasticsearch-0.3.2 langchain-ibm-0.3.20 langchain-milvus-0.2.1 langchain-text-splitters-0.3.11 langgraph-0.6.11 langgraph-checkpoint-3.0.1 langgraph-prebuilt-0.6.5 langgraph-sdk-0.2.10 langsmith-0.4.48 lomond-0.3.3 lxml-6.0.2 markdown-3.8.2 markdown-it-py-4.0.0 marshmallow-3.26.1 mdurl-0.1.2 mmh3-5.2.0 mpmath-1.3.0 multidict-6.7.0 mypy-extensions-1.1.0 numpy-2.3.5 oauthlib-3.3.1 onnxruntime-1.23.2 openpyxl-3.1.5 opentelemetry-api-1.38.0 opentelemetry-exporter-otlp-proto-common-1.38.0 opentelemetry-exporter-otlp-proto-grpc-1.38.0 opentelemetry-proto-1.38.0 opentelemetry-sdk-1.38.0 opentelemetry-semantic-conventions-0.59b0 orjson-3.11.4 ormsgpack-1.12.0 overrides-7.7.0 pandas-2.2.3 posthog-5.4.0 propcache-0.4.1 protobuf-6.33.1 pyYAML-6.0.3 pyasn1-0.6.1 pyasn1-modules-0.4.2 pybase64-1.4.2 pydantic-2.12.5 pydantic-core-2.41.5 pydantic-settings-2.12.0 pymilvus-2.6.4 pypdf-6.4.0 pypika-0.48.9 pyproject_hooks-1.2.0 python-docx-1.2.0 python-dotenv-1.2.1 python-pptx-1.0.2 pytz-2025.2 referencing-0.37.0 requests-2.32.5 requests-oauthlib-2.0.0 requests-toolbelt-1.0.0 rich-14.2.0 rpds-py-0.29.0 rsa-4.9.1 scikit-learn-1.7.2 scipy-1.16.3 shellingham-1.5.4 simsimd-6.5.3 sniffio-1.3.1 soupsieve-2.8 sympy-1.14.0 tabulate-0.9.0 tenacity-9.1.2 threadpoolctl-3.6.0 tokenizers-0.22.1 tqdm-4.67.1 typer-0.20.0 typer-slim-0.20.0 typing-inspect-0.9.0 typing-inspection-0.4.2 tzdata-2025.2 urllib3-2.5.0 uvicorn-0.38.0 uvloop-0.22.1 watchfiles-1.1.1 websocket-client-1.9.0 websockets-15.0.1 xxhash-3.6.0 yarl-1.22.0 zstandard-0.25.0
-Note: you may need to restart the kernel to use updated packages.
+<pre>Successfully installed Pillow-12.3.0 SQLAlchemy-2.0.52 XlsxWriter-3.2.9 aiohappyeyeballs-2.7.1 aiohttp-3.14.3 aiosignal-1.4.0 annotated-doc-0.0.5 annotated-types-0.8.0 anyio-4.15.1 attrs-26.1.0 bcrypt-5.0.0 beautifulsoup4-4.13.5 build-1.6.0 cachetools-7.1.8 certifi-2026.7.22 charset_normalizer-3.5.1 chromadb-1.5.9 click-8.5.0 cloudpickle-3.1.2 dataclasses-json-0.6.7 distro-1.9.0 durationpy-0.11 elastic-transport-8.19.0 elasticsearch-8.19.3 et-xmlfile-2.0.0 filelock-3.32.6 flatbuffers-25.12.19 frozenlist-1.8.0 fsspec-2026.7.0 googleapis-common-protos-1.75.3 grpcio-1.83.1 h11-0.16.0 hf-xet-1.6.0 httpcore-1.0.9 httpcore2-2.12.0 httptools-0.8.0 httpx-0.28.1 httpx-sse-0.4.3 httpx2-2.12.0 huggingface-hub-1.30.0 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-db-3.3.0 idna-3.19 importlib-resources-7.1.0 jmespath-1.0.1 joblib-1.6.0 jsonpatch-1.33 jsonpointer-3.1.1 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 kubernetes-36.0.3 langchain-0.3.30 langchain-chroma-0.2.5 langchain-community-0.3.31 langchain-core-0.3.86 langchain-db2-0.1.7 langchain-elasticsearch-0.3.2 langchain-ibm-0.3.22 langchain-milvus-0.2.1 langchain-text-splitters-0.3.11 langgraph-0.6.11 langgraph-checkpoint-3.0.1 langgraph-prebuilt-0.6.5 langgraph-sdk-0.2.15 langsmith-0.12.2 lomond-0.3.3 lxml-6.1.3 markdown-3.8.2 markdown-it-py-4.2.0 marshmallow-3.26.2 mdurl-0.1.2 mmh3-5.3.0 multidict-6.7.1 mypy-extensions-1.1.0 narwhals-2.26.0 numpy-2.5.3 oauthlib-3.3.1 onnxruntime-1.29.0 openpyxl-3.1.5 opentelemetry-api-1.44.0 opentelemetry-exporter-otlp-proto-common-1.44.0 opentelemetry-exporter-otlp-proto-grpc-1.44.0 opentelemetry-proto-1.44.0 opentelemetry-sdk-1.44.0 opentelemetry-semantic-conventions-0.65b0 orjson-3.12.0 ormsgpack-1.12.2 overrides-7.7.0 packaging-25.0 pandas-2.3.3 propcache-0.5.2 protobuf-7.36.1 pyYAML-6.0.3 pybase64-1.5.0 pydantic-2.13.5 pydantic-core-2.46.5 pydantic-settings-2.15.0 pymilvus-2.6.6 pypdf-6.18.0 pypika-0.51.1 pyproject_hooks-1.2.0 python-docx-1.2.0 python-dotenv-1.2.3 python-pptx-1.0.2 pytz-2026.3.post1 referencing-0.37.0 requests-2.34.2 requests-oauthlib-2.0.0 requests-toolbelt-1.0.0 rich-15.0.0 rpds-py-2026.6.3 scikit-learn-1.9.0 scipy-1.18.1 shellingham-1.5.4 simsimd-6.5.16 sniffio-1.3.1 soupsieve-2.9.2 tabulate-0.10.0 tenacity-9.1.4 threadpoolctl-3.6.0 tokenizers-0.23.2 tqdm-4.70.0 truststore-0.10.4 typer-0.27.2 typing-inspect-0.9.0 typing-inspection-0.4.4 tzdata-2026.3 urllib3-2.7.0 uuid-utils-0.17.1 uvicorn-0.52.4 uvloop-0.22.1 watchfiles-1.2.0 websocket-client-1.9.2 websockets-17.1 xxhash-4.0.1 yarl-1.24.5 zstandard-0.25.0
 </pre>
 </div>
 </div>
@@ -7910,8 +7909,17 @@ Note: you may need to restart the kernel to use updated packages.
 <div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">USERNAME</span> <span class="o">=</span> <span class="s2">"PUT YOUR USERNAME HERE"</span>
-<span class="n">URL</span> <span class="o">=</span> <span class="s2">"PUT YOUR URL HERE"</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">URL</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"URL"</span><span class="p">]</span>
+<span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+    <span class="n">URL</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter CPD instance url (hit enter): "</span><span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">USERNAME</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"USERNAME"</span><span class="p">]</span>
+<span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+    <span class="n">USERNAME</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your username (hit enter): "</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8069,7 +8077,7 @@ Note: you may need to restart the kernel to use updated packages.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">set</span><span class="o">.</span><span class="n">default_space</span><span class="p">(</span><span class="n">space_id</span><span class="p">)</span>
@@ -8083,7 +8091,7 @@ Note: you may need to restart the kernel to use updated packages.
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[ ]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>'SUCCESS'</pre>
 </div>
@@ -8102,7 +8110,7 @@ Note: you may need to restart the kernel to use updated packages.
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8137,11 +8145,11 @@ Note: you may need to restart the kernel to use updated packages.
         <span class="p">)</span>
 
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">hostname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"HOSTNAME"</span><span class="p">]</span>
+        <span class="n">hostname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"DATABASE_HOST"</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="n">hostname</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter hostname or IP address of your database: "</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">port</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"PORT"</span><span class="p">]</span>
+        <span class="n">port</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"DATABASE_PORT"</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="n">port</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your database port number and hit enter: "</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
@@ -8149,15 +8157,15 @@ Note: you may need to restart the kernel to use updated packages.
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="n">database</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your database name and hit enter: "</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">username</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"USERNAME"</span><span class="p">]</span>
+        <span class="n">username</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"DATABASE_USERNAME"</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="n">username</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your username and hit enter: "</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">password</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"PASSWORD"</span><span class="p">]</span>
+        <span class="n">password</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"DATABASE_PASSWORD"</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="n">password</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Please enter your password and hit enter: "</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">ssl</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"SSL"</span><span class="p">]</span>
+        <span class="n">ssl</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"DATABASE_SSL_CERTIFICATE"</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="n">ssl</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Please enter your ssl certificate and hit enter: "</span><span class="p">)</span>
 
@@ -8192,6 +8200,20 @@ Note: you may need to restart the kernel to use updated packages.
         <span class="ow">or</span> <span class="s2">"public"</span>
     <span class="p">)</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Creating connections...
+SUCCESS
+</pre>
 </div>
 </div>
 </div>
@@ -8324,7 +8346,7 @@ SUCCESS
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[11]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'87c1560c-7369-440f-af78-cc636f5c2281'</pre>
+<pre>'01a06cea-ecba-7233-b388-09afa8116bf4'</pre>
 </div>
 </div>
 </div>
@@ -8391,7 +8413,7 @@ SUCCESS
 <span class="p">)</span>
 
 <span class="n">foundation_model</span> <span class="o">=</span> <span class="n">AutoAIRAGModelConfig</span><span class="p">(</span>
-    <span class="n">model_id</span><span class="o">=</span><span class="s2">"mistralai/mistral-small-3-1-24b-instruct-2503"</span><span class="p">,</span>
+    <span class="n">model_id</span><span class="o">=</span><span class="s2">"ibm/granite-4-h-small"</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">generation_config</span> <span class="o">=</span> <span class="n">AutoAIRAGGenerationConfig</span><span class="p">(</span>
@@ -8446,7 +8468,7 @@ SUCCESS
  'description': 'Experiment run in sample notebook',
  'max_number_of_rag_patterns': 3,
  'optimization_metrics': ['answer_correctness'],
- 'generation': {'foundation_models': [{'model_id': 'mistralai/mistral-small-3-1-24b-instruct-2503'}]}}</pre>
+ 'generation': {'foundation_models': [{'model_id': 'ibm/granite-4-h-small'}]}}</pre>
 </div>
 </div>
 </div>
@@ -8492,15 +8514,15 @@ SUCCESS
 
 ##############################################
 
-Running 'ca399499-9d56-4d1f-8aa9-4d8e99683228'
+Running '5f45462d-e956-4e94-a0b7-6d6e9dffc8b2'
 
 ##############################################
 
 
-pending...........
-running.......
+pending.....
+running..........
 completed
-Training of 'ca399499-9d56-4d1f-8aa9-4d8e99683228' finished successfully.
+Training of '5f45462d-e956-4e94-a0b7-6d6e9dffc8b2' finished successfully.
 </pre>
 </div>
 </div>
@@ -8596,28 +8618,12 @@ Training of 'ca399499-9d56-4d1f-8aa9-4d8e99683228' finished successfully.
 <tr style="text-align: right;">
 <th></th>
 <th>mean_answer_correctness</th>
-<th>mean_faithfulness</th>
-<th>mean_context_correctness</th>
-<th>chunking.method</th>
-<th>chunking.chunk_size</th>
-<th>chunking.chunk_overlap</th>
-<th>embeddings.model_id</th>
-<th>vector_store.distance_metric</th>
 <th>retrieval.method</th>
-<th>retrieval.number_of_chunks</th>
-<th>retrieval.hybrid_ranker</th>
 <th>generation.model_id</th>
+<th>agent.type</th>
 </tr>
 <tr>
 <th>Pattern_Name</th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -8627,33 +8633,10 @@ Training of 'ca399499-9d56-4d1f-8aa9-4d8e99683228' finished successfully.
 <tbody>
 <tr>
 <th>Pattern1</th>
-<td>0.9697</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>mistralai/mistral-small-3-1-24b-instruct-2503</td>
-</tr>
-<tr>
-<th>Pattern2</th>
-<td>0.0238</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>mistralai/mistral-small-3-1-24b-instruct-2503</td>
+<td>0.3755</td>
+<td>query_engine</td>
+<td>ibm/granite-4-h-small</td>
+<td>sequential</td>
 </tr>
 </tbody>
 </table>
@@ -8700,91 +8683,63 @@ Training of 'ca399499-9d56-4d1f-8aa9-4d8e99683228' finished successfully.
    'name': 'L'},
   'knowledge_base_references': [{'description': 'Base used in exemplary notebook from watsonx_ai_samples',
     'name': 'Sample notebook knowledge database',
-    'reference': {'connection': {'id': '7001a013-c61b-4393-b43e-29922a40b00f'},
-     'location': {'schema_name': 'scheme_functional_test_1'},
+    'reference': {'connection': {'id': '01a06cea-c7fc-7076-a516-af3fd4e039fe'},
+     'location': {'schema_name': 'public'},
      'type': 'connection_asset'},
     'type': 'database'}],
-  'parameters': {'constraints': {'generation': {'foundation_models': [{'model_id': 'mistralai/mistral-small-3-1-24b-instruct-2503'}]},
+  'parameters': {'constraints': {'generation': {'foundation_models': [{'model_id': 'ibm/granite-4-h-small'}]},
     'max_number_of_rag_patterns': 3},
    'optimization': {'metrics': ['answer_correctness']},
    'output_logs': True},
   'results': [{'context': {'iteration': 0,
-     'max_combinations': 2,
+     'max_combinations': 1,
      'rag_pattern': {'composition_steps': ['model_selection',
-       'chunking',
-       'embeddings',
-       'retrieval',
-       'generation'],
-      'duration_seconds': 33,
-      'location': {'evaluation_results': 'default_autoai_rag_out/ca399499-9d56-4d1f-8aa9-4d8e99683228/Pattern1/evaluation_results.json',
-       'inference_notebook': 'default_autoai_rag_out/ca399499-9d56-4d1f-8aa9-4d8e99683228/Pattern1/inference_notebook.ipynb',
-       'inference_service_code': 'default_autoai_rag_out/ca399499-9d56-4d1f-8aa9-4d8e99683228/Pattern1/inference_ai_service.gz',
-       'inference_service_metadata': 'default_autoai_rag_out/ca399499-9d56-4d1f-8aa9-4d8e99683228/Pattern1/inference_service_metadata.json'},
+       'sql_execution',
+       'optimization'],
+      'duration_seconds': 48,
+      'location': {'evaluation_results': 'default_autoai_rag_out/5f45462d-e956-4e94-a0b7-6d6e9dffc8b2/Pattern1/evaluation_results.json',
+       'inference_notebook': 'default_autoai_rag_out/5f45462d-e956-4e94-a0b7-6d6e9dffc8b2/Pattern1/inference_notebook.ipynb',
+       'inference_service_code': 'default_autoai_rag_out/5f45462d-e956-4e94-a0b7-6d6e9dffc8b2/Pattern1/inference_ai_service.gz',
+       'inference_service_metadata': 'default_autoai_rag_out/5f45462d-e956-4e94-a0b7-6d6e9dffc8b2/Pattern1/inference_service_metadata.json'},
       'name': 'Pattern1',
       'settings': {'agent': {'description': 'Sequential graph with query checking and rewriting nodes.',
         'framework': 'langgraph',
         'type': 'sequential'},
-       'generation': {'chat_template_messages': {'user_message_text': '\nGiven an input question, create a syntactically correct {dialect} query to\nrun to help find the answer. Unless the user specifies in his question a\nspecific number of examples they wish to obtain, always limit your query to\nat most {top_k} results. You can order the results by a relevant column to\nreturn the most interesting examples in the database.\n\nNever query for all the columns from a specific table, only ask for a\nfew relevant columns given the question.\n\nPay attention to use only the column names that you can see in the schema\ndescription. Be careful to not query for columns that do not exist. Also,\npay attention to which column is in which table.\n\n You will format your generation as a python dictionary, such as:\n{{"sql_query": &lt;prepared sql query&gt;}}\n\n\nOnly use the following tables:\n{table_info}\n\nUser query in natural language:\n{question}\n\n'},
-        'model_id': 'mistralai/mistral-small-3-1-24b-instruct-2503',
+       'generation': {'chat_template_messages': {'user_message_text': '\nYou are an SQL expert.\n\nTASK:\nGiven the database schema and a user question, you MUST follow these steps:\n\nSTEP 1: List the exact table names you will use.\n- Table names MUST exactly match the schema.\n- Do NOT invent or rename tables.\n\nSTEP 2: For each table, list the exact column names you will use.\n- Column names MUST exactly match the schema.\n- Do NOT invent columns.\n\nSTEP 3: Generate a syntactically correct {dialect} SQL query using ONLY:\n- The tables from STEP 1\n- The columns from STEP 2\n\nRULES:\n- If the question cannot be answered using the provided tables, say so explicitly.\n- Never use tables or columns not listed in STEP 1 and STEP 2.\n- Never use SELECT *.\n- Use table aliases, but aliases must map to real table names.\n- Do not guess table names.\n- **Row Limit Rule**:\n  - Check if the user question specifies a specific number of results (e.g., "top 5", "give me 10") or implies retrieving all data (e.g., "list all", "show every").\n  - If the user specified a number, use that limit.\n  - If the user asked for "all" or "every", do NOT add a limit.\n  - Otherwise, you MUST append `LIMIT {top_k}` to the final query to restrict the result set.\n\nIMPORTANT:\n- Table and column names are case-sensitive and must match EXACTLY.\n- Do NOT infer or translate table names (e.g., "users" ≠ "user_accounts").\n- If no exact match exists, do not guess.\n\nOUTPUT FORMAT (Python dict):\n{{\n"tables_used": [...],\n"columns_used": {{ "table": [...] }},\n"sql_query": "&lt;final SQL query&gt;"\n}}\n\nDATABASE SCHEMA:\n{table_info}\n\nUSER QUESTION:\n{question}\n'},
+        'model_id': 'ibm/granite-4-h-small',
         'parameters': {'max_completion_tokens': 2048, 'temperature': 0.2},
-        'word_to_token_ratio': 1.5}},
+        'word_to_token_ratio': 1.5},
+       'retrieval': {'method': 'query_engine'}},
       'settings_importance': {'agent': [{'importance': 0.5,
          'parameter': 'type'}],
        'generation': [{'importance': 0.5, 'parameter': 'foundation_model'}]}},
-     'software_spec': {'name': 'autoai-rag_rt24.1-py3.11'}},
-    'metrics': {'test_data': [{'ci_high': 1.0,
-       'ci_low': 0.9091,
-       'mean': 0.9697,
-       'metric_name': 'answer_correctness'}]}},
-   {'context': {'iteration': 1,
-     'max_combinations': 2,
-     'rag_pattern': {'composition_steps': ['model_selection',
-       'chunking',
-       'embeddings',
-       'retrieval',
-       'generation'],
-      'duration_seconds': 4,
-      'location': {'evaluation_results': 'default_autoai_rag_out/ca399499-9d56-4d1f-8aa9-4d8e99683228/Pattern2/evaluation_results.json',
-       'inference_notebook': 'default_autoai_rag_out/ca399499-9d56-4d1f-8aa9-4d8e99683228/Pattern2/inference_notebook.ipynb',
-       'inference_service_code': 'default_autoai_rag_out/ca399499-9d56-4d1f-8aa9-4d8e99683228/Pattern2/inference_ai_service.gz',
-       'inference_service_metadata': 'default_autoai_rag_out/ca399499-9d56-4d1f-8aa9-4d8e99683228/Pattern2/inference_service_metadata.json'},
-      'name': 'Pattern2',
-      'settings': {'agent': {'description': 'ReAct agent with WatsonxSQLDatabaseToolkit.',
-        'framework': 'langgraph',
-        'type': 'react'},
-       'generation': {'chat_template_messages': {'system_message_text': 'You are an agent designed to interact with a SQL database.\nGiven an input question, create a syntactically correct {dialect} query to run, then look at the results of the query and return the answer.\nUnless the user specifies a specific number of examples they wish to obtain, always limit your query to at most {top_k} results.\nYou can order the results by a relevant column to return the most interesting examples in the database.\nNever query for all the columns from a specific table, only ask for the relevant columns given the question.\nYou have access to tools for interacting with the database.\nOnly use the below tools. Only use the information returned by the below tools to construct your final answer.\nYou MUST double check your query before executing it. If you get an error while executing a query, rewrite the query and try again.\n\nDO NOT make any DML statements (INSERT, UPDATE, DELETE, DROP etc.) to the database.\n\nTo start you should ALWAYS look at the tables in the database to see what you can query.\nDo NOT skip this step.\nThen you should query the schema of the most relevant tables.'},
-        'model_id': 'mistralai/mistral-small-3-1-24b-instruct-2503',
-        'parameters': {'max_completion_tokens': 2048, 'temperature': 0.01},
-        'word_to_token_ratio': 1.5}},
-      'settings_importance': {'agent': [{'importance': 1.0,
-         'parameter': 'type'}],
-       'generation': [{'importance': 0.0, 'parameter': 'foundation_model'}]}},
-     'software_spec': {'name': 'autoai-rag_rt24.1-py3.11'}},
-    'metrics': {'test_data': [{'ci_high': 0.0714,
-       'ci_low': 0.0,
-       'mean': 0.0238,
+     'software_spec': {'name': 'autoai-rag_ai25a-py3.12'}},
+    'metrics': {'test_data': [{'ci_high': 0.75,
+       'ci_low': 0.1558,
+       'mean': 0.3755,
        'metric_name': 'answer_correctness'}]}}],
   'results_reference': {'location': {'path': 'default_autoai_rag_out',
-    'training': 'default_autoai_rag_out/ca399499-9d56-4d1f-8aa9-4d8e99683228',
-    'training_status': 'default_autoai_rag_out/ca399499-9d56-4d1f-8aa9-4d8e99683228/training-status.json',
-    'training_log': 'default_autoai_rag_out/ca399499-9d56-4d1f-8aa9-4d8e99683228/output.log',
-    'assets_path': 'default_autoai_rag_out/ca399499-9d56-4d1f-8aa9-4d8e99683228/assets'},
+    'training': 'default_autoai_rag_out/5f45462d-e956-4e94-a0b7-6d6e9dffc8b2',
+    'training_status': 'default_autoai_rag_out/5f45462d-e956-4e94-a0b7-6d6e9dffc8b2/training-status.json',
+    'training_log': 'default_autoai_rag_out/5f45462d-e956-4e94-a0b7-6d6e9dffc8b2/output.log',
+    'assets_path': 'default_autoai_rag_out/5f45462d-e956-4e94-a0b7-6d6e9dffc8b2/assets'},
    'type': 'container'},
-  'status': {'completed_at': '2025-11-26T21:42:38.983Z',
+  'status': {'completed_at': '2026-09-04T14:57:21.243Z',
    'message': {'level': 'info', 'text': 'AutoAI RAG execution completed.'},
-   'running_at': '2025-11-26T21:42:38.000Z',
+   'running_at': '2026-09-04T14:56:19.000Z',
    'state': 'completed',
    'step': 'generation'},
-  'test_data_references': [{'location': {'href': '/v2/assets/87c1560c-7369-440f-af78-cc636f5c2281?space_id=d95bc9d3-1521-4059-ba89-4a5884ac864e',
-     'id': '87c1560c-7369-440f-af78-cc636f5c2281'},
+  'test_data_references': [{'location': {'href': '/v2/assets/01a06cea-ecba-7233-b388-09afa8116bf4?space_id=da2041ad-d2e1-43af-94e0-93bb1aaa4e4c',
+     'id': '01a06cea-ecba-7233-b388-09afa8116bf4'},
     'type': 'data_asset'}],
-  'timestamp': '2025-11-26T21:42:39.678Z'},
- 'metadata': {'created_at': '2025-11-26T21:40:26.769Z',
+  'timestamp': '2026-09-04T14:57:24.175Z'},
+ 'metadata': {'created_at': '2026-09-04T14:55:48.844Z',
   'description': 'Experiment run in sample notebook',
-  'id': 'ca399499-9d56-4d1f-8aa9-4d8e99683228',
-  'modified_at': '2025-11-26T21:42:39.025Z',
+  'id': '5f45462d-e956-4e94-a0b7-6d6e9dffc8b2',
+  'modified_at': '2026-09-04T14:57:21.256Z',
   'name': 'AutoAI RAG - sample notebook - knowledge base',
-  'space_id': 'd95bc9d3-1521-4059-ba89-4a5884ac864e'}}</pre>
+  'space_id': 'da2041ad-d2e1-43af-94e0-93bb1aaa4e4c',
+  'tags': ['autorag.01a06ceb-34fc-765c-8063-519a5500ec56']}}</pre>
 </div>
 </div>
 </div>
@@ -8825,11 +8780,6 @@ Training of 'ca399499-9d56-4d1f-8aa9-4d8e99683228' finished successfully.
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Best pattern is: Pattern1
-Collecting pyarrow&gt;=3.0.0
-  Using cached pyarrow-22.0.0-cp311-cp311-macosx_12_0_arm64.whl.metadata (3.1 kB)
-Using cached pyarrow-22.0.0-cp311-cp311-macosx_12_0_arm64.whl (34.3 MB)
-Installing collected packages: pyarrow
-Successfully installed pyarrow-22.0.0
 </pre>
 </div>
 </div>
@@ -8905,9 +8855,13 @@ Successfully installed pyarrow-22.0.0
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[21]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>{'body': {'choices': [{'index': 0,
-    'message': {'role': 'assistant',
-     'content': 'Based on the provided SQL query and result, the employees based in New York are:\n\n1. Alice Johnson - Software Engineer\n2. Frank Miller - Data Scientist\n3. Jack Thompson - Software Architect'},
-    'reference_documents': [{'metadata': {'document_id': 'scheme_functional_test_1'}}]}]}}</pre>
+'message': {'role': 'assistant',
+'content': 'Based on the provided SQL query and result, the employees based in New York are:
+
+1. Alice Johnson - Software Engineer
+2. Frank Miller - Data Scientist
+3. Jack Thompson - Software Architect'},
+'reference_documents': [{'metadata': {'document_id': 'scheme_functional_test_1'}}]}]}}</pre>
 </div>
 </div>
 </div>
@@ -8952,19 +8906,19 @@ Successfully installed pyarrow-22.0.0
 
 ######################################################################################
 
-Synchronous deployment creation for id: '219dfb3c-6880-4a1b-82f1-e34eaefd4c8d' started
+Synchronous deployment creation for id: '01a06cef-8d16-7040-87d9-030407e6bfe3' started
 
 ######################################################################################
 
 
 initializing
 Note: online_url and serving_urls are deprecated and will be removed in a future release. Use inference instead.
-..............
+.......
 ready
 
 
 -----------------------------------------------------------------------------------------------
-Successfully finished deployment creation, deployment_id='32676950-ce68-45b7-808b-4533b8d6b4c3'
+Successfully finished deployment creation, deployment_id='01a06cef-b191-75de-8af5-37050930ecf5'
 -----------------------------------------------------------------------------------------------
 
 
@@ -9026,8 +8980,7 @@ Successfully finished deployment creation, deployment_id='32676950-ce68-45b7-808
 
 1. **Alice Johnson** - Software Engineer in the Engineering department
 2. **Frank Miller** - Data Scientist in the Engineering department
-3. **Jack Thompson** - Software Architect in the Engineering department
-</pre>
+3. **Jack Thompson** - Software Architect in the Engineering department</pre>
 </div>
 </div>
 </div>
@@ -9053,7 +9006,7 @@ Successfully finished deployment creation, deployment_id='32676950-ce68-45b7-808
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[25]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'Based on the provided SQL query and result, the employees who are based in New York are:\n\n1. **Alice Johnson** - Software Engineer in the Engineering department\n2. **Frank Miller** - Data Scientist in the Engineering department\n3. **Jack Thompson** - Software Architect in the Engineering department'</pre>
+<pre>Based on the provided SQL query and result, the employees who are based in New York are:\n\n1. **Alice Johnson** - Software Engineer in the Engineering department\n2. **Frank Miller** - Data Scientist in the Engineering department\n3. **Jack Thompson** - Software Architect in the Engineering department</pre>
 </div>
 </div>
 </div>
@@ -9071,7 +9024,7 @@ Successfully finished deployment creation, deployment_id='32676950-ce68-45b7-808
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9081,6 +9034,52 @@ Successfully finished deployment creation, deployment_id='32676950-ce68-45b7-808
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">experiment</span><span class="o">.</span><span class="n">runs</span><span class="p">(</span><span class="nb">filter</span><span class="o">=</span><span class="s2">"rag_optimizer"</span><span class="p">)</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[26]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>timestamp</th>
+<th>run_id</th>
+<th>state</th>
+<th>auto_pipeline_optimizer name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>2026-09-04T14:57:21.256Z</td>
+<td>5f45462d-e956-4e94-a0b7-6d6e9dffc8b2</td>
+<td>completed</td>
+<td>AutoAI RAG - sample notebook - knowledge base</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 </div>
@@ -9107,7 +9106,7 @@ Successfully finished deployment creation, deployment_id='32676950-ce68-45b7-808
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[27]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'ca399499-9d56-4d1f-8aa9-4d8e99683228'</pre>
+<pre>'5f45462d-e956-4e94-a0b7-6d6e9dffc8b2'</pre>
 </div>
 </div>
 </div>
@@ -9147,7 +9146,7 @@ Successfully finished deployment creation, deployment_id='32676950-ce68-45b7-808
 <pre>{'name': 'AutoAI RAG - sample notebook - knowledge base',
  'description': 'Experiment run in sample notebook',
  'max_number_of_rag_patterns': 3,
- 'generation': {'foundation_models': [{'model_id': 'mistralai/mistral-small-3-1-24b-instruct-2503'}]},
+ 'generation': {'foundation_models': [{'model_id': 'ibm/granite-4-h-small'}]},
  'optimization_metrics': ['answer_correctness']}</pre>
 </div>
 </div>
@@ -9229,28 +9228,12 @@ Successfully finished deployment creation, deployment_id='32676950-ce68-45b7-808
 <tr style="text-align: right;">
 <th></th>
 <th>mean_answer_correctness</th>
-<th>mean_faithfulness</th>
-<th>mean_context_correctness</th>
-<th>chunking.method</th>
-<th>chunking.chunk_size</th>
-<th>chunking.chunk_overlap</th>
-<th>embeddings.model_id</th>
-<th>vector_store.distance_metric</th>
 <th>retrieval.method</th>
-<th>retrieval.number_of_chunks</th>
-<th>retrieval.hybrid_ranker</th>
 <th>generation.model_id</th>
+<th>agent.type</th>
 </tr>
 <tr>
 <th>Pattern_Name</th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -9260,33 +9243,10 @@ Successfully finished deployment creation, deployment_id='32676950-ce68-45b7-808
 <tbody>
 <tr>
 <th>Pattern1</th>
-<td>0.9697</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>mistralai/mistral-small-3-1-24b-instruct-2503</td>
-</tr>
-<tr>
-<th>Pattern2</th>
-<td>0.0238</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>mistralai/mistral-small-3-1-24b-instruct-2503</td>
+<td>0.3755</td>
+<td>query_engine</td>
+<td>ibm/granite-4-h-small</td>
+<td>sequential</td>
 </tr>
 </tbody>
 </table>

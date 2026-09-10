@@ -7332,7 +7332,12 @@ a.anchor-link {
     if (!diagrams.length) {
       return;
     }
-    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs")).default;
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.0/mermaid.esm.min.mjs")).default;
+    const elkUrl = "https://cdnjs.cloudflare.com/ajax/libs/mermaid-layout-elk/0.1.9/mermaid-layout-elk.esm.min.mjs";
+    if(elkUrl) {
+      const elkLayouts = (await import(elkUrl)).default;
+      mermaid.registerLayoutLoaders(elkLayouts);
+    }
     const parser = new DOMParser();
 
     mermaid.initialize({
@@ -7429,7 +7434,8 @@ a.anchor-link {
      * Post-process to ensure mermaid diagrams contain only valid SVG and XHTML.
      */
     function cleanMermaidSvg(svg) {
-      return svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      svg = svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+      return `${SVG_XML_HEADER}${svg}`;
     }
 
 
@@ -7455,6 +7461,285 @@ a.anchor-link {
       }
       return `<${tag} ${rest}>`;
     }
+
+
+  /**
+   * Named HTML entities with their decimal equivalent codes.
+   *
+   * @see https://www.w3.org/TR/WD-html40-970708/sgml/entities.html
+   * */
+  const HTML_ENTITIES = `<!ENTITY Aacute "&#193;">
+<!ENTITY aacute "&#225;">
+<!ENTITY Acirc "&#194;">
+<!ENTITY acirc "&#226;">
+<!ENTITY acute "&#180;">
+<!ENTITY AElig "&#198;">
+<!ENTITY aelig "&#230;">
+<!ENTITY Agrave "&#192;">
+<!ENTITY agrave "&#224;">
+<!ENTITY alefsym "&#8501;">
+<!ENTITY Alpha "&#913;">
+<!ENTITY alpha "&#945;">
+<!ENTITY amp "&#38;">
+<!ENTITY and "&#8869;">
+<!ENTITY ang "&#8736;">
+<!ENTITY Aring "&#197;">
+<!ENTITY aring "&#229;">
+<!ENTITY asymp "&#8776;">
+<!ENTITY Atilde "&#195;">
+<!ENTITY atilde "&#227;">
+<!ENTITY Auml "&#196;">
+<!ENTITY auml "&#228;">
+<!ENTITY bdquo "&#8222;">
+<!ENTITY Beta "&#914;">
+<!ENTITY beta "&#946;">
+<!ENTITY brvbar "&#166;">
+<!ENTITY bull "&#8226;">
+<!ENTITY cap "&#8745;">
+<!ENTITY Ccedil "&#199;">
+<!ENTITY ccedil "&#231;">
+<!ENTITY cedil "&#184;">
+<!ENTITY cent "&#162;">
+<!ENTITY Chi "&#935;">
+<!ENTITY chi "&#967;">
+<!ENTITY circ "&#710;">
+<!ENTITY clubs "&#9827;">
+<!ENTITY cong "&#8773;">
+<!ENTITY copy "&#169;">
+<!ENTITY crarr "&#8629;">
+<!ENTITY cup "&#8746;">
+<!ENTITY curren "&#164;">
+<!ENTITY dagger "&#8224;">
+<!ENTITY Dagger "&#8225;">
+<!ENTITY darr "&#8595;">
+<!ENTITY dArr "&#8659;">
+<!ENTITY deg "&#176;">
+<!ENTITY Delta "&#916;">
+<!ENTITY delta "&#948;">
+<!ENTITY diams "&#9830;">
+<!ENTITY divide "&#247;">
+<!ENTITY Eacute "&#201;">
+<!ENTITY eacute "&#233;">
+<!ENTITY Ecirc "&#202;">
+<!ENTITY ecirc "&#234;">
+<!ENTITY Egrave "&#200;">
+<!ENTITY egrave "&#232;">
+<!ENTITY empty "&#8709;">
+<!ENTITY emsp "&#8195;">
+<!ENTITY ensp "&#8194;">
+<!ENTITY epsilon "&#949;">
+<!ENTITY Epsilon "&#917;">
+<!ENTITY equiv "&#8801;">
+<!ENTITY Eta "&#919;">
+<!ENTITY eta "&#951;">
+<!ENTITY ETH "&#208;">
+<!ENTITY eth "&#240;">
+<!ENTITY Euml "&#203;">
+<!ENTITY euml "&#235;">
+<!ENTITY exist "&#8707;">
+<!ENTITY fnof "&#402;">
+<!ENTITY forall "&#8704;">
+<!ENTITY frac12 "&#189;">
+<!ENTITY frac14 "&#188;">
+<!ENTITY frac34 "&#190;">
+<!ENTITY frasl "&#8260;">
+<!ENTITY Gamma "&#915;">
+<!ENTITY gamma "&#947;">
+<!ENTITY ge "&#8805;">
+<!ENTITY gt "&#62;">
+<!ENTITY harr "&#8596;">
+<!ENTITY hArr "&#8660;">
+<!ENTITY hearts "&#9829;">
+<!ENTITY hellip "&#8230;">
+<!ENTITY Iacute "&#205;">
+<!ENTITY iacute "&#237;">
+<!ENTITY Icirc "&#206;">
+<!ENTITY icirc "&#238;">
+<!ENTITY iexcl "&#161;">
+<!ENTITY Igrave "&#204;">
+<!ENTITY igrave "&#236;">
+<!ENTITY image "&#8465;">
+<!ENTITY infin "&#8734;">
+<!ENTITY int "&#8747;">
+<!ENTITY Iota "&#921;">
+<!ENTITY iota "&#953;">
+<!ENTITY iquest "&#191;">
+<!ENTITY isin "&#8712;">
+<!ENTITY Iuml "&#207;">
+<!ENTITY iuml "&#239;">
+<!ENTITY Kappa "&#922;">
+<!ENTITY kappa "&#954;">
+<!ENTITY Lambda "&#923;">
+<!ENTITY lambda "&#955;">
+<!ENTITY lang "&#9001;">
+<!ENTITY laquo "&#171;">
+<!ENTITY larr "&#8592;">
+<!ENTITY lArr "&#8656;">
+<!ENTITY lceil "&#8968;">
+<!ENTITY ldquo "&#8220;">
+<!ENTITY le "&#8804;">
+<!ENTITY lfloor "&#8970;">
+<!ENTITY lowast "&#8727;">
+<!ENTITY loz "&#9674;">
+<!ENTITY lrm "&#8206;">
+<!ENTITY lsaquo "&#8249;">
+<!ENTITY lsquo "&#8216;">
+<!ENTITY lt "&#60;">
+<!ENTITY macr "&#175;">
+<!ENTITY mdash "&#8212;">
+<!ENTITY micro "&#181;">
+<!ENTITY middot "&#183;">
+<!ENTITY minus "&#8722;">
+<!ENTITY Mu "&#924;">
+<!ENTITY mu "&#956;">
+<!ENTITY nabla "&#8711;">
+<!ENTITY nbsp "&#160;">
+<!ENTITY ndash "&#8211;">
+<!ENTITY ne "&#8800;">
+<!ENTITY ni "&#8715;">
+<!ENTITY not "&#172;">
+<!ENTITY notin "&#8713;">
+<!ENTITY nsub "&#8836;">
+<!ENTITY Ntilde "&#209;">
+<!ENTITY ntilde "&#241;">
+<!ENTITY Nu "&#925;">
+<!ENTITY nu "&#957;">
+<!ENTITY Oacute "&#211;">
+<!ENTITY oacute "&#243;">
+<!ENTITY Ocirc "&#212;">
+<!ENTITY ocirc "&#244;">
+<!ENTITY OElig "&#338;">
+<!ENTITY oelig "&#339;">
+<!ENTITY Ograve "&#210;">
+<!ENTITY ograve "&#242;">
+<!ENTITY oline "&#8254;">
+<!ENTITY Omega "&#937;">
+<!ENTITY omega "&#969;">
+<!ENTITY Omicron "&#927;">
+<!ENTITY omicron "&#959;">
+<!ENTITY oplus "&#8853;">
+<!ENTITY or "&#8870;">
+<!ENTITY ordf "&#170;">
+<!ENTITY ordm "&#186;">
+<!ENTITY Oslash "&#216;">
+<!ENTITY oslash "&#248;">
+<!ENTITY Otilde "&#213;">
+<!ENTITY otilde "&#245;">
+<!ENTITY otimes "&#8855;">
+<!ENTITY Ouml "&#214;">
+<!ENTITY ouml "&#246;">
+<!ENTITY para "&#182;">
+<!ENTITY part "&#8706;">
+<!ENTITY permil "&#8240;">
+<!ENTITY perp "&#8869;">
+<!ENTITY Phi "&#934;">
+<!ENTITY phi "&#966;">
+<!ENTITY Pi "&#928;">
+<!ENTITY pi "&#960;">
+<!ENTITY piv "&#982;">
+<!ENTITY plusmn "&#177;">
+<!ENTITY pound "&#163;">
+<!ENTITY prime "&#8242;">
+<!ENTITY Prime "&#8243;">
+<!ENTITY prod "&#8719;">
+<!ENTITY prop "&#8733;">
+<!ENTITY Psi "&#936;">
+<!ENTITY psi "&#968;">
+<!ENTITY quot "&#34;">
+<!ENTITY radic "&#8730;">
+<!ENTITY rang "&#9002;">
+<!ENTITY raquo "&#187;">
+<!ENTITY rarr "&#8594;">
+<!ENTITY rArr "&#8658;">
+<!ENTITY rceil "&#8969;">
+<!ENTITY rdquo "&#8221;">
+<!ENTITY real "&#8476;">
+<!ENTITY reg "&#174;">
+<!ENTITY rfloor "&#8971;">
+<!ENTITY Rho "&#929;">
+<!ENTITY rho "&#961;">
+<!ENTITY rlm "&#8207;">
+<!ENTITY rsaquo "&#8250;">
+<!ENTITY rsquo "&#8217;">
+<!ENTITY sbquo "&#8218;">
+<!ENTITY Scaron "&#352;">
+<!ENTITY scaron "&#353;">
+<!ENTITY sdot "&#8901;">
+<!ENTITY sect "&#167;">
+<!ENTITY shy "&#173;">
+<!ENTITY Sigma "&#931;">
+<!ENTITY sigma "&#963;">
+<!ENTITY sigmaf "&#962;">
+<!ENTITY sim "&#8764;">
+<!ENTITY spades "&#9824;">
+<!ENTITY sub "&#8834;">
+<!ENTITY sube "&#8838;">
+<!ENTITY sum "&#8721;">
+<!ENTITY sup "&#8835;">
+<!ENTITY sup1 "&#185;">
+<!ENTITY sup2 "&#178;">
+<!ENTITY sup3 "&#179;">
+<!ENTITY supe "&#8839;">
+<!ENTITY szlig "&#223;">
+<!ENTITY Tau "&#932;">
+<!ENTITY tau "&#964;">
+<!ENTITY there4 "&#8756;">
+<!ENTITY Theta "&#920;">
+<!ENTITY theta "&#952;">
+<!ENTITY thetasym "&#977;">
+<!ENTITY thinsp "&#8201;">
+<!ENTITY THORN "&#222;">
+<!ENTITY thorn "&#254;">
+<!ENTITY tilde "&#732;">
+<!ENTITY times "&#215;">
+<!ENTITY trade "&#8482;">
+<!ENTITY Uacute "&#218;">
+<!ENTITY uacute "&#250;">
+<!ENTITY uarr "&#8593;">
+<!ENTITY uArr "&#8657;">
+<!ENTITY Ucirc "&#219;">
+<!ENTITY ucirc "&#251;">
+<!ENTITY Ugrave "&#217;">
+<!ENTITY ugrave "&#249;">
+<!ENTITY uml "&#168;">
+<!ENTITY upsih "&#978;">
+<!ENTITY Upsilon "&#933;">
+<!ENTITY upsilon "&#965;">
+<!ENTITY Uuml "&#220;">
+<!ENTITY uuml "&#252;">
+<!ENTITY weierp "&#8472;">
+<!ENTITY Xi "&#926;">
+<!ENTITY xi "&#958;">
+<!ENTITY Yacute "&#221;">
+<!ENTITY yacute "&#253;">
+<!ENTITY yen "&#165;">
+<!ENTITY Yuml "&#376;">
+<!ENTITY yuml "&#255;">
+<!ENTITY Zeta "&#918;">
+<!ENTITY zeta "&#950;">
+<!ENTITY zwj "&#8205;">
+<!ENTITY zwnj "&#8204;">`.replace(/\n/g, ' ');
+
+  /**
+   * A reasonably strict xml declaration.
+   */
+  const XML_DECL = '<?xml version="1.0" standalone="no"?>';
+
+  /**
+   * The beginning of the XML doctype declaration.
+   */
+  const DOCTYPE_START = `<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [`;
+
+  /**
+   * The end of the XML docype declaration.
+   */
+  const DOCTYPE_END = ']>';
+
+  /**
+   * A full header for an SVG XML document.
+   */
+  const SVG_XML_HEADER = `${XML_DECL}
+    ${DOCTYPE_START}${HTML_ENTITIES}${DOCTYPE_END}`;
 
     void Promise.all([...diagrams].map(renderOneMarmaid));
   });
@@ -7810,7 +8095,7 @@ with statsmodels module calculating describition of a given data.<br/>
         <span class="kn">from</span><span class="w"> </span><span class="nn">statsmodels.stats.descriptivestats</span><span class="w"> </span><span class="kn">import</span> <span class="n">describe</span>
     <span class="k">except</span> <span class="ne">ModuleNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"statsmodels not installed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-        
+
     <span class="k">def</span><span class="w"> </span><span class="nf">score</span><span class="p">(</span><span class="n">payload</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Score method.</span>
@@ -7824,7 +8109,7 @@ with statsmodels module calculating describition of a given data.<br/>
             <span class="p">}</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">{</span><span class="s1">'predictions'</span><span class="p">:</span> <span class="p">[{</span><span class="s1">'values'</span><span class="p">:</span> <span class="p">[</span><span class="nb">repr</span><span class="p">(</span><span class="n">e</span><span class="p">)]}]}</span>
-        
+
     <span class="k">return</span> <span class="n">score</span>
 </pre></div>
 </div>
@@ -7873,52 +8158,52 @@ with statsmodels module calculating describition of a given data.<br/>
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>                          0          1          2          3          4  \
-nobs              10.000000  10.000000  10.000000  10.000000  10.000000   
-missing            0.000000   0.000000   0.000000   0.000000   0.000000   
-mean              -0.087662  -0.162800   0.021847  -0.484764  -0.151347   
-std_err            0.086628   0.082336   0.088078   0.154758   0.060011   
-upper_ci           0.082126  -0.001424   0.194477  -0.181444  -0.033728   
-lower_ci          -0.257450  -0.324175  -0.150783  -0.788085  -0.268967   
-std                0.866281   0.823361   0.880783   1.547581   0.600109   
-iqr                1.220332   0.774040   1.173032   1.866595   0.455900   
-iqr_normal         0.904633   0.573797   0.869570   1.383709   0.337959   
-mad                0.696300   0.556041   0.700227   1.257709   0.403634   
-mad_normal         0.872682   0.696895   0.877605   1.576305   0.505881   
-coef_var          -9.882045  -5.057510  40.315579  -3.192440  -3.965111   
-range              2.514768   2.889136   2.903603   4.598605   2.228215   
-max                1.458946   0.788044   1.426277   1.386525   0.671509   
-min               -1.055823  -2.101093  -1.477326  -3.212081  -1.556706   
-skew               0.621923  -1.182308  -0.110031  -0.582020  -1.165771   
-kurtosis           2.083665   4.191979   2.178047   2.099710   4.236195   
-jarque_bera        0.994509   2.921762   0.301681   0.902296   2.901779   
-jarque_bera_pval   0.608198   0.232032   0.859985   0.636897   0.234362   
-mode              -1.055823  -2.101093  -1.477326  -3.212081  -1.556706   
-mode_freq          0.100000   0.100000   0.100000   0.100000   0.100000   
-median            -0.259626  -0.203613   0.127268  -0.060631  -0.028983   
+nobs              10.000000  10.000000  10.000000  10.000000  10.000000
+missing            0.000000   0.000000   0.000000   0.000000   0.000000
+mean              -0.087662  -0.162800   0.021847  -0.484764  -0.151347
+std_err            0.086628   0.082336   0.088078   0.154758   0.060011
+upper_ci           0.082126  -0.001424   0.194477  -0.181444  -0.033728
+lower_ci          -0.257450  -0.324175  -0.150783  -0.788085  -0.268967
+std                0.866281   0.823361   0.880783   1.547581   0.600109
+iqr                1.220332   0.774040   1.173032   1.866595   0.455900
+iqr_normal         0.904633   0.573797   0.869570   1.383709   0.337959
+mad                0.696300   0.556041   0.700227   1.257709   0.403634
+mad_normal         0.872682   0.696895   0.877605   1.576305   0.505881
+coef_var          -9.882045  -5.057510  40.315579  -3.192440  -3.965111
+range              2.514768   2.889136   2.903603   4.598605   2.228215
+max                1.458946   0.788044   1.426277   1.386525   0.671509
+min               -1.055823  -2.101093  -1.477326  -3.212081  -1.556706
+skew               0.621923  -1.182308  -0.110031  -0.582020  -1.165771
+kurtosis           2.083665   4.191979   2.178047   2.099710   4.236195
+jarque_bera        0.994509   2.921762   0.301681   0.902296   2.901779
+jarque_bera_pval   0.608198   0.232032   0.859985   0.636897   0.234362
+mode              -1.055823  -2.101093  -1.477326  -3.212081  -1.556706
+mode_freq          0.100000   0.100000   0.100000   0.100000   0.100000
+median            -0.259626  -0.203613   0.127268  -0.060631  -0.028983
 
-                          5          6          7          8          9  
-nobs              10.000000  10.000000  10.000000  10.000000  10.000000  
-missing            0.000000   0.000000   0.000000   0.000000   0.000000  
-mean               0.273284   0.205051   0.023256   0.102842  -0.209529  
-std_err            0.061042   0.087203   0.126508   0.103825   0.072225  
-upper_ci           0.392923   0.375966   0.271207   0.306335  -0.067971  
-lower_ci           0.153644   0.034137  -0.224696  -0.100650  -0.351088  
-std                0.610416   0.872028   1.265081   1.038247   0.722251  
-iqr                0.780093   1.144017   1.897466   1.087920   1.181144  
-iqr_normal         0.578284   0.848061   1.406594   0.806476   0.875583  
-mad                0.476876   0.702078   0.962314   0.802775   0.623214  
-mad_normal         0.597675   0.879924   1.206082   1.006129   0.781083  
-coef_var           2.233637   4.252729  54.398852  10.095509  -3.447017  
-range              2.012750   2.399845   3.639744   3.386568   1.965249  
-max                1.364230   1.624449   1.719675   1.524333   0.677055  
-min               -0.648519  -0.775396  -1.920069  -1.862235  -1.288194  
-skew               0.305785   0.606322  -0.150434  -0.368515  -0.382710  
-kurtosis           2.245390   1.963650   1.837083   2.477825   1.604283  
-jarque_bera        0.393106   1.060220   0.601208   0.339950   1.055789  
-jarque_bera_pval   0.821558   0.588540   0.740371   0.843686   0.589846  
-mode              -0.648519  -0.775396  -1.920069  -1.862235  -1.288194  
-mode_freq          0.100000   0.100000   0.100000   0.100000   0.100000  
-median             0.228023  -0.050927   0.073169   0.306686   0.022939  
+                          5          6          7          8          9
+nobs              10.000000  10.000000  10.000000  10.000000  10.000000
+missing            0.000000   0.000000   0.000000   0.000000   0.000000
+mean               0.273284   0.205051   0.023256   0.102842  -0.209529
+std_err            0.061042   0.087203   0.126508   0.103825   0.072225
+upper_ci           0.392923   0.375966   0.271207   0.306335  -0.067971
+lower_ci           0.153644   0.034137  -0.224696  -0.100650  -0.351088
+std                0.610416   0.872028   1.265081   1.038247   0.722251
+iqr                0.780093   1.144017   1.897466   1.087920   1.181144
+iqr_normal         0.578284   0.848061   1.406594   0.806476   0.875583
+mad                0.476876   0.702078   0.962314   0.802775   0.623214
+mad_normal         0.597675   0.879924   1.206082   1.006129   0.781083
+coef_var           2.233637   4.252729  54.398852  10.095509  -3.447017
+range              2.012750   2.399845   3.639744   3.386568   1.965249
+max                1.364230   1.624449   1.719675   1.524333   0.677055
+min               -0.648519  -0.775396  -1.920069  -1.862235  -1.288194
+skew               0.305785   0.606322  -0.150434  -0.368515  -0.382710
+kurtosis           2.245390   1.963650   1.837083   2.477825   1.604283
+jarque_bera        0.393106   1.060220   0.601208   0.339950   1.055789
+jarque_bera_pval   0.821558   0.588540   0.740371   0.843686   0.589846
+mode              -0.648519  -0.775396  -1.920069  -1.862235  -1.288194
+mode_freq          0.100000   0.100000   0.100000   0.100000   0.100000
+median             0.228023  -0.050927   0.073169   0.306686   0.022939
 </pre>
 </div>
 </div>
@@ -8427,52 +8712,52 @@ Successfully finished deployment creation, deployment_uid='340eb7f7-4a08-4c9c-83
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>                          0          1          2          3          4  \
-nobs              10.000000  10.000000  10.000000  10.000000  10.000000   
-missing            0.000000   0.000000   0.000000   0.000000   0.000000   
-mean              -0.087662  -0.162800   0.021847  -0.484764  -0.151347   
-std_err            0.086628   0.082336   0.088078   0.154758   0.060011   
-upper_ci           0.082126  -0.001424   0.194477  -0.181444  -0.033728   
-lower_ci          -0.257450  -0.324175  -0.150783  -0.788085  -0.268967   
-std                0.866281   0.823361   0.880783   1.547581   0.600109   
-iqr                1.220332   0.774040   1.173032   1.866595   0.455900   
-iqr_normal         0.904633   0.573797   0.869570   1.383709   0.337959   
-mad                0.696300   0.556041   0.700227   1.257709   0.403634   
-mad_normal         0.872682   0.696895   0.877605   1.576305   0.505881   
-coef_var          -9.882045  -5.057510  40.315579  -3.192440  -3.965111   
-range              2.514768   2.889136   2.903603   4.598605   2.228215   
-max                1.458946   0.788044   1.426277   1.386525   0.671509   
-min               -1.055823  -2.101093  -1.477326  -3.212081  -1.556706   
-skew               0.621923  -1.182308  -0.110031  -0.582020  -1.165771   
-kurtosis           2.083665   4.191979   2.178047   2.099710   4.236195   
-jarque_bera        0.994509   2.921762   0.301681   0.902296   2.901779   
-jarque_bera_pval   0.608198   0.232032   0.859985   0.636897   0.234362   
-mode              -1.055823  -2.101093  -1.477326  -3.212081  -1.556706   
-mode_freq          0.100000   0.100000   0.100000   0.100000   0.100000   
-median            -0.259626  -0.203613   0.127268  -0.060631  -0.028983   
+nobs              10.000000  10.000000  10.000000  10.000000  10.000000
+missing            0.000000   0.000000   0.000000   0.000000   0.000000
+mean              -0.087662  -0.162800   0.021847  -0.484764  -0.151347
+std_err            0.086628   0.082336   0.088078   0.154758   0.060011
+upper_ci           0.082126  -0.001424   0.194477  -0.181444  -0.033728
+lower_ci          -0.257450  -0.324175  -0.150783  -0.788085  -0.268967
+std                0.866281   0.823361   0.880783   1.547581   0.600109
+iqr                1.220332   0.774040   1.173032   1.866595   0.455900
+iqr_normal         0.904633   0.573797   0.869570   1.383709   0.337959
+mad                0.696300   0.556041   0.700227   1.257709   0.403634
+mad_normal         0.872682   0.696895   0.877605   1.576305   0.505881
+coef_var          -9.882045  -5.057510  40.315579  -3.192440  -3.965111
+range              2.514768   2.889136   2.903603   4.598605   2.228215
+max                1.458946   0.788044   1.426277   1.386525   0.671509
+min               -1.055823  -2.101093  -1.477326  -3.212081  -1.556706
+skew               0.621923  -1.182308  -0.110031  -0.582020  -1.165771
+kurtosis           2.083665   4.191979   2.178047   2.099710   4.236195
+jarque_bera        0.994509   2.921762   0.301681   0.902296   2.901779
+jarque_bera_pval   0.608198   0.232032   0.859985   0.636897   0.234362
+mode              -1.055823  -2.101093  -1.477326  -3.212081  -1.556706
+mode_freq          0.100000   0.100000   0.100000   0.100000   0.100000
+median            -0.259626  -0.203613   0.127268  -0.060631  -0.028983
 
-                          5          6          7          8          9  
-nobs              10.000000  10.000000  10.000000  10.000000  10.000000  
-missing            0.000000   0.000000   0.000000   0.000000   0.000000  
-mean               0.273284   0.205051   0.023256   0.102842  -0.209529  
-std_err            0.061042   0.087203   0.126508   0.103825   0.072225  
-upper_ci           0.392923   0.375966   0.271207   0.306335  -0.067971  
-lower_ci           0.153644   0.034137  -0.224696  -0.100650  -0.351088  
-std                0.610416   0.872028   1.265081   1.038247   0.722251  
-iqr                0.780093   1.144017   1.897466   1.087920   1.181144  
-iqr_normal         0.578284   0.848061   1.406594   0.806476   0.875583  
-mad                0.476876   0.702078   0.962314   0.802775   0.623214  
-mad_normal         0.597675   0.879924   1.206082   1.006129   0.781083  
-coef_var           2.233637   4.252729  54.398852  10.095509  -3.447017  
-range              2.012750   2.399845   3.639744   3.386568   1.965249  
-max                1.364230   1.624449   1.719675   1.524333   0.677055  
-min               -0.648519  -0.775396  -1.920069  -1.862235  -1.288194  
-skew               0.305785   0.606322  -0.150434  -0.368515  -0.382710  
-kurtosis           2.245390   1.963650   1.837083   2.477825   1.604283  
-jarque_bera        0.393106   1.060220   0.601208   0.339950   1.055789  
-jarque_bera_pval   0.821558   0.588540   0.740371   0.843686   0.589846  
-mode              -0.648519  -0.775396  -1.920069  -1.862235  -1.288194  
-mode_freq          0.100000   0.100000   0.100000   0.100000   0.100000  
-median             0.228023  -0.050927   0.073169   0.306686   0.022939  
+                          5          6          7          8          9
+nobs              10.000000  10.000000  10.000000  10.000000  10.000000
+missing            0.000000   0.000000   0.000000   0.000000   0.000000
+mean               0.273284   0.205051   0.023256   0.102842  -0.209529
+std_err            0.061042   0.087203   0.126508   0.103825   0.072225
+upper_ci           0.392923   0.375966   0.271207   0.306335  -0.067971
+lower_ci           0.153644   0.034137  -0.224696  -0.100650  -0.351088
+std                0.610416   0.872028   1.265081   1.038247   0.722251
+iqr                0.780093   1.144017   1.897466   1.087920   1.181144
+iqr_normal         0.578284   0.848061   1.406594   0.806476   0.875583
+mad                0.476876   0.702078   0.962314   0.802775   0.623214
+mad_normal         0.597675   0.879924   1.206082   1.006129   0.781083
+coef_var           2.233637   4.252729  54.398852  10.095509  -3.447017
+range              2.012750   2.399845   3.639744   3.386568   1.965249
+max                1.364230   1.624449   1.719675   1.524333   0.677055
+min               -0.648519  -0.775396  -1.920069  -1.862235  -1.288194
+skew               0.305785   0.606322  -0.150434  -0.368515  -0.382710
+kurtosis           2.245390   1.963650   1.837083   2.477825   1.604283
+jarque_bera        0.393106   1.060220   0.601208   0.339950   1.055789
+jarque_bera_pval   0.821558   0.588540   0.740371   0.843686   0.589846
+mode              -0.648519  -0.775396  -1.920069  -1.862235  -1.288194
+mode_freq          0.100000   0.100000   0.100000   0.100000   0.100000
+median             0.228023  -0.050927   0.073169   0.306686   0.022939
 </pre>
 </div>
 </div>

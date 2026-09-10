@@ -7818,7 +7818,7 @@ a.anchor-link {
 <li>Use only Projects and Spaces that are available in watsonx context.</li>
 </ul>
 <h2 id="Notebook-content">Notebook content<a class="anchor-link" href="#Notebook-content">¶</a></h2><p>This notebook contains the steps and code to demonstrate the usage of IBM AutoAI RAG with predefined vector store collection. Although this example uses Milvus, Elasticsearch and Chroma databases can be used similarly. Note that the AutoAI RAG experiment conducted in this notebook uses data scraped from the <code>ibm-watsonx-ai</code> SDK documentation.</p>
-<p>Some familiarity with Python is helpful. This notebook uses Python 3.11.</p>
+<p>Some familiarity with Python is helpful. This notebook uses Python 3.12.</p>
 <h2 id="Learning-goal">Learning goal<a class="anchor-link" href="#Learning-goal">¶</a></h2><p>The learning goals of this notebook are:</p>
 <ul>
 <li>Create an AutoAI RAG job that will find the best RAG pattern based on collection created from <code>ibm-watsonx-ai</code> SDK documentation.</li>
@@ -7871,7 +7871,7 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">pip</span> install -U 'ibm-watsonx-ai[rag]&gt;=1.4.6' | tail -n 1
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">pip</span> install -U "ibm-watsonx-ai[rag]&gt;=1.4.6" | tail -n 1
 </pre></div>
 </div>
 </div>
@@ -7884,8 +7884,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Successfully installed Pillow-12.0.0 SQLAlchemy-2.0.44 XlsxWriter-3.2.9 aiohappyeyeballs-2.6.1 aiohttp-3.13.2 aiosignal-1.4.0 annotated-types-0.7.0 anyio-4.11.0 attrs-25.4.0 backoff-2.2.1 bcrypt-5.0.0 beautifulsoup4-4.13.5 build-1.3.0 cachetools-6.2.2 certifi-2025.11.12 charset_normalizer-3.4.4 chromadb-1.3.5 click-8.3.1 coloredlogs-15.0.1 dataclasses-json-0.6.7 distro-1.9.0 durationpy-0.10 elastic-transport-8.17.1 elasticsearch-8.19.2 et-xmlfile-2.0.0 filelock-3.20.0 flatbuffers-25.9.23 frozenlist-1.8.0 fsspec-2025.10.0 google-auth-2.43.0 googleapis-common-protos-1.72.0 grpcio-1.76.0 h11-0.16.0 hf-xet-1.2.0 httpcore-1.0.9 httptools-0.7.1 httpx-0.28.1 httpx-sse-0.4.3 huggingface-hub-1.1.5 humanfriendly-10.0 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-db-3.2.7 ibm-watsonx-ai-1.4.7 idna-3.11 importlib-resources-6.5.2 jmespath-1.0.1 joblib-1.5.2 jsonpatch-1.33 jsonpointer-3.0.0 jsonschema-4.25.1 jsonschema-specifications-2025.9.1 kubernetes-33.1.0 langchain-0.3.27 langchain-chroma-0.2.5 langchain-community-0.3.31 langchain-core-0.3.80 langchain-db2-0.1.7 langchain-elasticsearch-0.3.2 langchain-ibm-0.3.20 langchain-milvus-0.2.1 langchain-text-splitters-0.3.11 langgraph-0.6.11 langgraph-checkpoint-3.0.1 langgraph-prebuilt-0.6.5 langgraph-sdk-0.2.10 langsmith-0.4.48 lomond-0.3.3 lxml-6.0.2 markdown-3.8.2 markdown-it-py-4.0.0 marshmallow-3.26.1 mdurl-0.1.2 mmh3-5.2.0 mpmath-1.3.0 multidict-6.7.0 mypy-extensions-1.1.0 numpy-2.3.5 oauthlib-3.3.1 onnxruntime-1.23.2 openpyxl-3.1.5 opentelemetry-api-1.38.0 opentelemetry-exporter-otlp-proto-common-1.38.0 opentelemetry-exporter-otlp-proto-grpc-1.38.0 opentelemetry-proto-1.38.0 opentelemetry-sdk-1.38.0 opentelemetry-semantic-conventions-0.59b0 orjson-3.11.4 ormsgpack-1.12.0 overrides-7.7.0 pandas-2.2.3 posthog-5.4.0 propcache-0.4.1 protobuf-6.33.1 pyYAML-6.0.3 pyasn1-0.6.1 pyasn1-modules-0.4.2 pybase64-1.4.2 pydantic-2.12.5 pydantic-core-2.41.5 pydantic-settings-2.12.0 pymilvus-2.6.4 pypdf-6.4.0 pypika-0.48.9 pyproject_hooks-1.2.0 python-docx-1.2.0 python-dotenv-1.2.1 python-pptx-1.0.2 pytz-2025.2 referencing-0.37.0 requests-2.32.5 requests-oauthlib-2.0.0 requests-toolbelt-1.0.0 rich-14.2.0 rpds-py-0.29.0 rsa-4.9.1 scikit-learn-1.7.2 scipy-1.16.3 shellingham-1.5.4 simsimd-6.5.3 sniffio-1.3.1 soupsieve-2.8 sympy-1.14.0 tabulate-0.9.0 tenacity-9.1.2 threadpoolctl-3.6.0 tokenizers-0.22.1 tqdm-4.67.1 typer-0.20.0 typer-slim-0.20.0 typing-inspect-0.9.0 typing-inspection-0.4.2 tzdata-2025.2 urllib3-2.5.0 uvicorn-0.38.0 uvloop-0.22.1 watchfiles-1.1.1 websocket-client-1.9.0 websockets-15.0.1 xxhash-3.6.0 yarl-1.22.0 zstandard-0.25.0
-Note: you may need to restart the kernel to use updated packages.
+<pre>Successfully installed Pillow-12.3.0 SQLAlchemy-2.0.52 XlsxWriter-3.2.9 aiohappyeyeballs-2.7.1 aiohttp-3.14.3 aiosignal-1.4.0 annotated-doc-0.0.5 annotated-types-0.8.0 anyio-4.15.1 attrs-26.1.0 bcrypt-5.0.0 beautifulsoup4-4.13.5 build-1.6.0 cachetools-7.1.8 certifi-2026.7.22 charset_normalizer-3.5.1 chromadb-1.5.9 click-8.5.0 cloudpickle-3.1.2 dataclasses-json-0.6.7 distro-1.9.0 durationpy-0.11 elastic-transport-8.19.0 elasticsearch-8.19.3 et-xmlfile-2.0.0 filelock-3.32.6 flatbuffers-25.12.19 frozenlist-1.8.0 fsspec-2026.7.0 googleapis-common-protos-1.75.3 grpcio-1.83.1 h11-0.16.0 hf-xet-1.6.0 httpcore-1.0.9 httpcore2-2.12.0 httptools-0.8.0 httpx-0.28.1 httpx-sse-0.4.3 httpx2-2.12.0 huggingface-hub-1.30.0 ibm-cos-sdk-2.14.3 ibm-cos-sdk-core-2.14.3 ibm-cos-sdk-s3transfer-2.14.3 ibm-db-3.3.0 idna-3.19 importlib-resources-7.1.0 jmespath-1.0.1 joblib-1.6.0 jsonpatch-1.33 jsonpointer-3.1.1 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 kubernetes-36.0.3 langchain-0.3.30 langchain-chroma-0.2.5 langchain-community-0.3.31 langchain-core-0.3.86 langchain-db2-0.1.7 langchain-elasticsearch-0.3.2 langchain-ibm-0.3.22 langchain-milvus-0.2.1 langchain-text-splitters-0.3.11 langgraph-0.6.11 langgraph-checkpoint-3.0.1 langgraph-prebuilt-0.6.5 langgraph-sdk-0.2.15 langsmith-0.12.2 lomond-0.3.3 lxml-6.1.3 markdown-3.8.2 markdown-it-py-4.2.0 marshmallow-3.26.2 mdurl-0.1.2 mmh3-5.3.0 multidict-6.7.1 mypy-extensions-1.1.0 narwhals-2.26.0 numpy-2.5.3 oauthlib-3.3.1 onnxruntime-1.29.0 openpyxl-3.1.5 opentelemetry-api-1.44.0 opentelemetry-exporter-otlp-proto-common-1.44.0 opentelemetry-exporter-otlp-proto-grpc-1.44.0 opentelemetry-proto-1.44.0 opentelemetry-sdk-1.44.0 opentelemetry-semantic-conventions-0.65b0 orjson-3.12.0 ormsgpack-1.12.2 overrides-7.7.0 packaging-25.0 pandas-2.3.3 propcache-0.5.2 protobuf-7.36.1 pyYAML-6.0.3 pybase64-1.5.0 pydantic-2.13.5 pydantic-core-2.46.5 pydantic-settings-2.15.0 pymilvus-2.6.6 pypdf-6.18.0 pypika-0.51.1 pyproject_hooks-1.2.0 python-docx-1.2.0 python-dotenv-1.2.3 python-pptx-1.0.2 pytz-2026.3.post1 referencing-0.37.0 requests-2.34.2 requests-oauthlib-2.0.0 requests-toolbelt-1.0.0 rich-15.0.0 rpds-py-2026.6.3 scikit-learn-1.9.0 scipy-1.18.1 shellingham-1.5.4 simsimd-6.5.16 sniffio-1.3.1 soupsieve-2.9.2 tabulate-0.10.0 tenacity-9.1.4 threadpoolctl-3.6.0 tokenizers-0.23.2 tqdm-4.70.0 truststore-0.10.4 typer-0.27.2 typing-inspect-0.9.0 typing-inspection-0.4.4 tzdata-2026.3 urllib3-2.7.0 uuid-utils-0.17.1 uvicorn-0.52.4 uvloop-0.22.1 watchfiles-1.2.0 websocket-client-1.9.2 websockets-17.1 xxhash-4.0.1 yarl-1.24.5 zstandard-0.25.0
 </pre>
 </div>
 </div>
@@ -8003,7 +8002,7 @@ Note: you may need to restart the kernel to use updated packages.
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8020,23 +8019,23 @@ Note: you may need to restart the kernel to use updated packages.
 
 <span class="k">if</span> <span class="n">vector_store_connection_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">username</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"USERNAME"</span><span class="p">]</span>
+        <span class="n">username</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"MILVUS_USER"</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="n">username</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your Milvus user name and hit enter: "</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">password</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"PASSWORD"</span><span class="p">]</span>
+        <span class="n">password</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"MILVUS_PASSWORD"</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="n">password</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Please enter your Milvus password and hit enter: "</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">host</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"HOST"</span><span class="p">]</span>
+        <span class="n">host</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"MILVUS_HOST"</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="n">host</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your Milvus hostname and hit enter: "</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">port</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"PORT"</span><span class="p">]</span>
+        <span class="n">port</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"MILVUS_PORT"</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="n">port</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your Milvus port number and hit enter: "</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">ssl</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"SSL"</span><span class="p">]</span>
+        <span class="n">ssl</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"MILVUS_SSL"</span><span class="p">]</span>
     <span class="k">except</span><span class="p">:</span>
         <span class="n">ssl</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span>
             <span class="nb">input</span><span class="p">(</span>
@@ -8065,6 +8064,20 @@ Note: you may need to restart the kernel to use updated packages.
 
     <span class="n">vector_store_connection_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">details</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Creating connections...
+SUCCESS
+</pre>
 </div>
 </div>
 </div>
@@ -8160,7 +8173,7 @@ Note: you may need to restart the kernel to use updated packages.
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>['e1152397722fe38aed87100b0da9aca5e1780efffc8a3d5cfd635ddc5af59269', '4a9dd2ad8fd9b7328e4fc0492987d506bb0f08d0896c906892068b6f474b4797', '6bad206f416d5c7453c6c57bc3b24b0464d46c798f9d590c95c7fdc653909afc', '664773b7d870a46ed5974a600a0a1f15a9f4b62a40e2f8fc83e3753b396de1a7', '615e519eb7710ea9a58781d9c0d230700dd15e6ebda69c24f369f8132a6d756b']
+<pre>['8b427f0c5f8937f53cb044e8f33eef298554344625d456dea268c6ad2474f01f', '3894eb5d7dea204d68490e08a17d87b151c8a517e14d2585574d75b1fac0d365', '038e7d15480b0e0169e4642efa5a4d4abd5b976d42f459d7732cd3037e604991', '6c904049a07ffe19a594217e0acfb6bad47716e8a52c2afd5d5a30c7edd883a5', 'd745774f5ac8e2e12a071716cb284158b57291e65cdd42ead8ee6b93950f8d00']
 </pre>
 </div>
 </div>
@@ -8328,7 +8341,7 @@ SUCCESS
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[10]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'7ef06995-b9ca-4c2f-9a8e-3e490301c9f5'</pre>
+<pre>'01a0809a-581e-73cb-a914-647163110d1f'</pre>
 </div>
 </div>
 </div>
@@ -8496,15 +8509,15 @@ SUCCESS
 
 ##############################################
 
-Running '7b817550-66ae-4c80-8b74-7aceac97c9d9'
+Running 'be8d610a-93f7-41ed-8a92-0267e2abcc9f'
 
 ##############################################
 
 
-pending..............
-running......
+pending.....
+running...........
 completed
-Training of '7b817550-66ae-4c80-8b74-7aceac97c9d9' finished successfully.
+Training of 'be8d610a-93f7-41ed-8a92-0267e2abcc9f' finished successfully.
 </pre>
 </div>
 </div>
@@ -8600,29 +8613,11 @@ Training of '7b817550-66ae-4c80-8b74-7aceac97c9d9' finished successfully.
 <tr style="text-align: right;">
 <th></th>
 <th>mean_answer_correctness</th>
-<th>mean_faithfulness</th>
-<th>mean_context_correctness</th>
-<th>chunking.method</th>
-<th>chunking.chunk_size</th>
-<th>chunking.chunk_overlap</th>
-<th>embeddings.model_id</th>
-<th>vector_store.distance_metric</th>
-<th>retrieval.method</th>
-<th>retrieval.number_of_chunks</th>
-<th>retrieval.hybrid_ranker</th>
 <th>generation.model_id</th>
+<th>agent.type</th>
 </tr>
 <tr>
 <th>Pattern_Name</th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -8630,49 +8625,22 @@ Training of '7b817550-66ae-4c80-8b74-7aceac97c9d9' finished successfully.
 </thead>
 <tbody>
 <tr>
-<th>Pattern1</th>
+<th>Pattern3</th>
 <td>0.7083</td>
-<td>0.0867</td>
-<td>1.0</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 <td>mistralai/mistral-small-3-1-24b-instruct-2503</td>
+<td>sequential</td>
 </tr>
 <tr>
 <th>Pattern2</th>
-<td>0.7083</td>
-<td>0.1228</td>
-<td>1.0</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>0.5833</td>
 <td>mistralai/mistral-small-3-1-24b-instruct-2503</td>
+<td>sequential</td>
 </tr>
 <tr>
-<th>Pattern3</th>
-<td>0.5833</td>
-<td>0.1396</td>
-<td>1.0</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<th>Pattern1</th>
+<td>0.5417</td>
 <td>mistralai/mistral-small-3-1-24b-instruct-2503</td>
+<td>sequential</td>
 </tr>
 </tbody>
 </table>
@@ -8719,7 +8687,7 @@ Training of '7b817550-66ae-4c80-8b74-7aceac97c9d9' finished successfully.
    'name': 'L'},
   'knowledge_base_references': [{'description': 'This knowledge base contains samples from watsonx.ai sdk documentation.',
     'name': 'Embedded base.html file',
-    'reference': {'connection': {'id': 'b05e66e7-380c-47ff-a692-56702e005753'},
+    'reference': {'connection': {'id': '01a08099-f47f-777f-adff-7d93e3d11f53'},
      'location': {},
      'type': 'connection_asset'},
     'settings': {'embeddings': {'model_id': 'ibm/slate-125m-english-rtrvr-v2'},
@@ -8737,15 +8705,13 @@ Training of '7b817550-66ae-4c80-8b74-7aceac97c9d9' finished successfully.
   'results': [{'context': {'iteration': 0,
      'max_combinations': 20,
      'rag_pattern': {'composition_steps': ['model_selection',
-       'chunking',
-       'embeddings',
-       'retrieval',
-       'generation'],
-      'duration_seconds': 9,
-      'location': {'evaluation_results': 'default_autoai_rag_out/7b817550-66ae-4c80-8b74-7aceac97c9d9/Pattern1/evaluation_results.json',
-       'inference_notebook': 'default_autoai_rag_out/7b817550-66ae-4c80-8b74-7aceac97c9d9/Pattern1/inference_notebook.ipynb',
-       'inference_service_code': 'default_autoai_rag_out/7b817550-66ae-4c80-8b74-7aceac97c9d9/Pattern1/inference_ai_service.gz',
-       'inference_service_metadata': 'default_autoai_rag_out/7b817550-66ae-4c80-8b74-7aceac97c9d9/Pattern1/inference_service_metadata.json'},
+       'generation',
+       'optimization'],
+      'duration_seconds': 15,
+      'location': {'evaluation_results': 'default_autoai_rag_out/be8d610a-93f7-41ed-8a92-0267e2abcc9f/Pattern1/evaluation_results.json',
+       'inference_notebook': 'default_autoai_rag_out/be8d610a-93f7-41ed-8a92-0267e2abcc9f/Pattern1/inference_notebook.ipynb',
+       'inference_service_code': 'default_autoai_rag_out/be8d610a-93f7-41ed-8a92-0267e2abcc9f/Pattern1/inference_ai_service.gz',
+       'inference_service_metadata': 'default_autoai_rag_out/be8d610a-93f7-41ed-8a92-0267e2abcc9f/Pattern1/inference_service_metadata.json'},
       'name': 'Pattern1',
       'settings': {'agent': {'description': 'Sequential graph with multi-index retriever and reranking.',
         'framework': 'langgraph',
@@ -8762,31 +8728,29 @@ Training of '7b817550-66ae-4c80-8b74-7aceac97c9d9' finished successfully.
       'settings_importance': {'agent': [{'importance': 0.2,
          'parameter': 'type'}],
        'generation': [{'importance': 0.2, 'parameter': 'foundation_model'}],
-       'retrieval': [{'importance': 0.2, 'parameter': 'number_of_chunks'},
+       'retrieval': [{'importance': 0.2, 'parameter': 'retrieval_method'},
         {'importance': 0.2, 'parameter': 'window_size'},
-        {'importance': 0.2, 'parameter': 'retrieval_method'}]}},
-     'software_spec': {'name': 'autoai-rag_rt24.1-py3.11'}},
+        {'importance': 0.2, 'parameter': 'number_of_chunks'}]}},
+     'software_spec': {'name': 'autoai-rag_ai25a-py3.12'}},
     'metrics': {'test_data': [{'ci_high': 0.75,
-       'ci_low': 0.6667,
-       'mean': 0.7083,
+       'ci_low': 0.3333,
+       'mean': 0.5417,
        'metric_name': 'answer_correctness'},
-      {'ci_high': 0.1154,
-       'ci_low': 0.058,
-       'mean': 0.0867,
+      {'ci_high': 0.1,
+       'ci_low': 0.0593,
+       'mean': 0.0796,
        'metric_name': 'faithfulness'},
       {'mean': 1.0, 'metric_name': 'context_correctness'}]}},
    {'context': {'iteration': 1,
      'max_combinations': 20,
      'rag_pattern': {'composition_steps': ['model_selection',
-       'chunking',
-       'embeddings',
-       'retrieval',
-       'generation'],
-      'duration_seconds': 7,
-      'location': {'evaluation_results': 'default_autoai_rag_out/7b817550-66ae-4c80-8b74-7aceac97c9d9/Pattern2/evaluation_results.json',
-       'inference_notebook': 'default_autoai_rag_out/7b817550-66ae-4c80-8b74-7aceac97c9d9/Pattern2/inference_notebook.ipynb',
-       'inference_service_code': 'default_autoai_rag_out/7b817550-66ae-4c80-8b74-7aceac97c9d9/Pattern2/inference_ai_service.gz',
-       'inference_service_metadata': 'default_autoai_rag_out/7b817550-66ae-4c80-8b74-7aceac97c9d9/Pattern2/inference_service_metadata.json'},
+       'generation',
+       'optimization'],
+      'duration_seconds': 19,
+      'location': {'evaluation_results': 'default_autoai_rag_out/be8d610a-93f7-41ed-8a92-0267e2abcc9f/Pattern2/evaluation_results.json',
+       'inference_notebook': 'default_autoai_rag_out/be8d610a-93f7-41ed-8a92-0267e2abcc9f/Pattern2/inference_notebook.ipynb',
+       'inference_service_code': 'default_autoai_rag_out/be8d610a-93f7-41ed-8a92-0267e2abcc9f/Pattern2/inference_ai_service.gz',
+       'inference_service_metadata': 'default_autoai_rag_out/be8d610a-93f7-41ed-8a92-0267e2abcc9f/Pattern2/inference_service_metadata.json'},
       'name': 'Pattern2',
       'settings': {'agent': {'description': 'Sequential graph with multi-index retriever and reranking.',
         'framework': 'langgraph',
@@ -8800,34 +8764,32 @@ Training of '7b817550-66ae-4c80-8b74-7aceac97c9d9' finished successfully.
          'retrieval': {'method': 'window',
           'number_of_chunks': 5,
           'window_size': 4}}]},
-      'settings_importance': {'agent': [{'importance': 0.2,
+      'settings_importance': {'agent': [{'importance': 0.0,
          'parameter': 'type'}],
-       'generation': [{'importance': 0.2, 'parameter': 'foundation_model'}],
-       'retrieval': [{'importance': 0.2, 'parameter': 'number_of_chunks'},
-        {'importance': 0.2, 'parameter': 'window_size'},
-        {'importance': 0.2, 'parameter': 'retrieval_method'}]}},
-     'software_spec': {'name': 'autoai-rag_rt24.1-py3.11'}},
-    'metrics': {'test_data': [{'ci_high': 0.75,
-       'ci_low': 0.6667,
-       'mean': 0.7083,
+       'generation': [{'importance': 0.0, 'parameter': 'foundation_model'}],
+       'retrieval': [{'importance': 0.0, 'parameter': 'retrieval_method'},
+        {'importance': 1.0, 'parameter': 'window_size'},
+        {'importance': 0.0, 'parameter': 'number_of_chunks'}]}},
+     'software_spec': {'name': 'autoai-rag_ai25a-py3.12'}},
+    'metrics': {'test_data': [{'ci_high': 0.6667,
+       'ci_low': 0.5,
+       'mean': 0.5833,
        'metric_name': 'answer_correctness'},
-      {'ci_high': 0.1368,
-       'ci_low': 0.1087,
-       'mean': 0.1228,
+      {'ci_high': 0.1687,
+       'ci_low': 0.0732,
+       'mean': 0.1209,
        'metric_name': 'faithfulness'},
       {'mean': 1.0, 'metric_name': 'context_correctness'}]}},
    {'context': {'iteration': 2,
      'max_combinations': 20,
      'rag_pattern': {'composition_steps': ['model_selection',
-       'chunking',
-       'embeddings',
-       'retrieval',
-       'generation'],
-      'duration_seconds': 6,
-      'location': {'evaluation_results': 'default_autoai_rag_out/7b817550-66ae-4c80-8b74-7aceac97c9d9/Pattern3/evaluation_results.json',
-       'inference_notebook': 'default_autoai_rag_out/7b817550-66ae-4c80-8b74-7aceac97c9d9/Pattern3/inference_notebook.ipynb',
-       'inference_service_code': 'default_autoai_rag_out/7b817550-66ae-4c80-8b74-7aceac97c9d9/Pattern3/inference_ai_service.gz',
-       'inference_service_metadata': 'default_autoai_rag_out/7b817550-66ae-4c80-8b74-7aceac97c9d9/Pattern3/inference_service_metadata.json'},
+       'generation',
+       'optimization'],
+      'duration_seconds': 13,
+      'location': {'evaluation_results': 'default_autoai_rag_out/be8d610a-93f7-41ed-8a92-0267e2abcc9f/Pattern3/evaluation_results.json',
+       'inference_notebook': 'default_autoai_rag_out/be8d610a-93f7-41ed-8a92-0267e2abcc9f/Pattern3/inference_notebook.ipynb',
+       'inference_service_code': 'default_autoai_rag_out/be8d610a-93f7-41ed-8a92-0267e2abcc9f/Pattern3/inference_ai_service.gz',
+       'inference_service_metadata': 'default_autoai_rag_out/be8d610a-93f7-41ed-8a92-0267e2abcc9f/Pattern3/inference_service_metadata.json'},
       'name': 'Pattern3',
       'settings': {'agent': {'description': 'Sequential graph with multi-index retriever and reranking.',
         'framework': 'langgraph',
@@ -8844,41 +8806,41 @@ Training of '7b817550-66ae-4c80-8b74-7aceac97c9d9' finished successfully.
       'settings_importance': {'agent': [{'importance': 0.0,
          'parameter': 'type'}],
        'generation': [{'importance': 0.0, 'parameter': 'foundation_model'}],
-       'retrieval': [{'importance': 0.8064516,
-         'parameter': 'number_of_chunks'},
-        {'importance': 0.19354838, 'parameter': 'window_size'},
-        {'importance': 0.0, 'parameter': 'retrieval_method'}]}},
-     'software_spec': {'name': 'autoai-rag_rt24.1-py3.11'}},
-    'metrics': {'test_data': [{'ci_high': 0.6667,
-       'ci_low': 0.5,
-       'mean': 0.5833,
+       'retrieval': [{'importance': 0.0, 'parameter': 'retrieval_method'},
+        {'importance': 0.4253043, 'parameter': 'window_size'},
+        {'importance': 0.5746957, 'parameter': 'number_of_chunks'}]}},
+     'software_spec': {'name': 'autoai-rag_ai25a-py3.12'}},
+    'metrics': {'test_data': [{'ci_high': 0.75,
+       'ci_low': 0.6667,
+       'mean': 0.7083,
        'metric_name': 'answer_correctness'},
-      {'ci_high': 0.1429,
-       'ci_low': 0.1364,
-       'mean': 0.1396,
+      {'ci_high': 0.1264,
+       'ci_low': 0.0839,
+       'mean': 0.1052,
        'metric_name': 'faithfulness'},
       {'mean': 1.0, 'metric_name': 'context_correctness'}]}}],
   'results_reference': {'location': {'path': 'default_autoai_rag_out',
-    'training': 'default_autoai_rag_out/7b817550-66ae-4c80-8b74-7aceac97c9d9',
-    'training_status': 'default_autoai_rag_out/7b817550-66ae-4c80-8b74-7aceac97c9d9/training-status.json',
-    'training_log': 'default_autoai_rag_out/7b817550-66ae-4c80-8b74-7aceac97c9d9/output.log',
-    'assets_path': 'default_autoai_rag_out/7b817550-66ae-4c80-8b74-7aceac97c9d9/assets'},
+    'training': 'default_autoai_rag_out/be8d610a-93f7-41ed-8a92-0267e2abcc9f',
+    'training_status': 'default_autoai_rag_out/be8d610a-93f7-41ed-8a92-0267e2abcc9f/training-status.json',
+    'training_log': 'default_autoai_rag_out/be8d610a-93f7-41ed-8a92-0267e2abcc9f/output.log',
+    'assets_path': 'default_autoai_rag_out/be8d610a-93f7-41ed-8a92-0267e2abcc9f/assets'},
    'type': 'container'},
-  'status': {'completed_at': '2025-11-26T20:02:29.885Z',
+  'status': {'completed_at': '2026-09-08T10:41:46.624Z',
    'message': {'level': 'info', 'text': 'AutoAI RAG execution completed.'},
-   'running_at': '2025-11-26T20:02:29.000Z',
+   'running_at': '2026-09-08T10:40:33.000Z',
    'state': 'completed',
    'step': 'generation'},
-  'test_data_references': [{'location': {'href': '/v2/assets/7ef06995-b9ca-4c2f-9a8e-3e490301c9f5?space_id=d95bc9d3-1521-4059-ba89-4a5884ac864e',
-     'id': '7ef06995-b9ca-4c2f-9a8e-3e490301c9f5'},
+  'test_data_references': [{'location': {'href': '/v2/assets/01a0809a-581e-73cb-a914-647163110d1f?space_id=da2041ad-d2e1-43af-94e0-93bb1aaa4e4c',
+     'id': '01a0809a-581e-73cb-a914-647163110d1f'},
     'type': 'data_asset'}],
-  'timestamp': '2025-11-26T20:02:32.006Z'},
- 'metadata': {'created_at': '2025-11-26T20:00:12.553Z',
+  'timestamp': '2026-09-08T10:41:49.711Z'},
+ 'metadata': {'created_at': '2026-09-08T10:40:07.260Z',
   'description': 'Experiment run in sample notebook',
-  'id': '7b817550-66ae-4c80-8b74-7aceac97c9d9',
-  'modified_at': '2025-11-26T20:02:29.943Z',
+  'id': 'be8d610a-93f7-41ed-8a92-0267e2abcc9f',
+  'modified_at': '2026-09-08T10:41:46.634Z',
   'name': 'AutoAI RAG - sample notebook - knowledge base',
-  'space_id': 'd95bc9d3-1521-4059-ba89-4a5884ac864e'}}</pre>
+  'space_id': 'da2041ad-d2e1-43af-94e0-93bb1aaa4e4c',
+  'tags': ['autorag.01a0809a-8cf2-7114-9ffc-a761c2c63628']}}</pre>
 </div>
 </div>
 </div>
@@ -8918,18 +8880,7 @@ Training of '7b817550-66ae-4c80-8b74-7aceac97c9d9' finished successfully.
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Best pattern is: Pattern1
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Collecting pyarrow&gt;=3.0.0
-  Using cached pyarrow-22.0.0-cp311-cp311-macosx_12_0_arm64.whl.metadata (3.1 kB)
-Using cached pyarrow-22.0.0-cp311-cp311-macosx_12_0_arm64.whl (34.3 MB)
-Installing collected packages: pyarrow
-Successfully installed pyarrow-22.0.0
+<pre>Best pattern is: Pattern3
 </pre>
 </div>
 </div>
@@ -9006,21 +8957,39 @@ Successfully installed pyarrow-22.0.0
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>{'body': {'choices': [{'index': 0,
     'message': {'role': 'system',
-     'content': 'Based on the provided document titled "IBM watsonx.ai for IBM Cloud", here\'s how you can add task credentials:\n\n1. **Using the `Credentials` class:**\n\nYou can create credentials using an API key like this:\n\n```python\nfrom ibm_watsonx_ai import Credentials\n\ncredentials = Credentials(\n    url="https://us-south.ml.cloud.ibm.com",\n    api_key=IAM_API_KEY\n)\n```\n\nOr, you can create credentials from a dictionary:\n\n```python\nfrom ibm_watsonx_ai import Credentials\n\ncredentials = Credentials.from_dict({\n    \'url\': "&lt;url&gt;",\n    \'apikey\': IAM_API_KEY\n})\n```\n\n2. **Using the `APIClient` class:**\n\nYou can also add credentials when creating an `APIClient` instance:\n\n```python\nfrom ibm_watsonx_ai import APIClient, Credentials\n\ncredentials = Credentials(\n    url="&lt;url&gt;",\n    api_key=IAM_API_KEY\n)\n\nclient = APIClient(credentials, space_id=&lt;space_id&gt;)\n```\n\nIn these examples, replace `&lt;url&gt;` with the appropriate URL, `IAM_API_KEY` with your actual API key, and `&lt;space_id&gt;` with your space ID.\n\nIf you\'re referring to task credentials in a different context, I don\'t have an answer based on the provided documents.'},
-    'reference_documents': [{'page_content': '&lt;ul class="simple"&gt;\n&lt;li&gt;&lt;p&gt;IBM watsonx.ai for IBM Cloud&lt;/p&gt;&lt;/li&gt;\n&lt;/ul&gt; &lt;div class="highlight-python notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;ibm_watsonx_ai&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Credentials&lt;/span&gt; &lt;span class="c1"&gt;# Example of creating the credentials using an API key:&lt;/span&gt;\n&lt;span class="n"&gt;credentials&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Credentials&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="n"&gt;url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;https://us-south.ml.cloud.ibm.com&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;\n    &lt;span class="n"&gt;api_key&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;IAM_API_KEY&lt;/span&gt;',
-      'metadata': {'sequence_number': [259, 260, 261, 262, 263],
+     'content': 'The information provided does not include explicit details about adding "Task Credentials." However, there are indications of how to work with credentials in the context of IBM Watsonx.ai. Here’s what can be inferred from the given documents:\n\n**IBM watsonx.ai for IBM Cloud:**\n1. **Creating Credentials Object:**\n   - You can create a `Credentials` object using an API key or a token.\n   - Example of creating credentials using an API key:\n     ```python\n     from ibm_watsonx_ai import Credentials\n     credentials = Credentials(url="https://us-south.ml.cloud.ibm.com", api_key=IAM_API_KEY)\n     ```\n   - Example of creating credentials using a token:\n     ```python\n     credentials = Credentials(\n         url="https://us-south.ml.cloud.ibm.com",\n         apikey=IAM_API_KEY\n     )\n     ```\n\n2. **Creating Credentials from a Dictionary:**\n   - You can also create a `Credentials` object from a dictionary.\n     ```python\n     credentials = Credentials.from_dict({\n         \'url\': \'&lt;url&gt;\',\n         \'apikey\': IAM_API_KEY\n     })\n     ```\n\n3. **Converting Credentials to a Dictionary:**\n   - You can get a dictionary from the `Credentials` object using the `to_dict` method.\n     ```python\n     credentials_dict = credentials.to_dict()\n     ```\n\nIf "Task Credentials" refers to a specific type of credential not covered in the provided documents, then I do not have an answer based on the given information. You might need to refer to additional documentation or resources specific to "Task Credentials" for IBM Watsonx.ai.'},
+    'reference_documents': [{'page_content': '&lt;li&gt;&lt;p&gt;&lt;strong&gt;proxies&lt;/strong&gt; (&lt;em&gt;dict&lt;/em&gt;&lt;em&gt;, &lt;/em&gt;&lt;em&gt;optional&lt;/em&gt;) – dictionary of proxies, containing protocol and URL mapping (example: &lt;cite&gt;{ “https”: “https://example.url.com” }&lt;/cite&gt;)&lt;/p&gt;&lt;/li&gt; &lt;li&gt;&lt;p&gt;&lt;strong&gt;verify&lt;/strong&gt; (&lt;em&gt;bool&lt;/em&gt;&lt;em&gt;, &lt;/em&gt;&lt;em&gt;optional&lt;/em&gt;) – certificate verification flag&lt;/p&gt;&lt;/li&gt;\n&lt;/ul&gt;\n&lt;/dd&gt;\n&lt;/dl&gt;\n&lt;p&gt;&lt;strong&gt;Example of create Credentials object&lt;/strong&gt;&lt;/p&gt;\n&lt;ul class="simple"&gt;\n&lt;li&gt;&lt;p&gt;IBM watsonx.ai for IBM Cloud&lt;/p&gt;&lt;/li&gt;\n&lt;/ul&gt; &lt;div class="highlight-python notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;ibm_watsonx_ai&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Credentials&lt;/span&gt; &lt;span class="c1"&gt;# Example of creating the credentials using an API key:&lt;/span&gt;\n&lt;span class="n"&gt;credentials&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Credentials&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="n"&gt;url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;https://us-south.ml.cloud.ibm.com&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;\n    &lt;span class="n"&gt;api_key&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;IAM_API_KEY&lt;/span&gt; &lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# Example of creating the credentials using a token:&lt;/span&gt;\n&lt;span class="n"&gt;credentials&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Credentials&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;',
+      'metadata': {'sequence_number': [257,
+        258,
+        259,
+        260,
+        261,
+        262,
+        263,
+        264,
+        265],
        'document_id': 'base.html'}},
-     {'page_content': '&lt;/dd&gt;\n&lt;/dl&gt;\n&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt;&lt;/p&gt; &lt;div class="highlight-python notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;ibm_watsonx_ai&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Credentials&lt;/span&gt; &lt;span class="n"&gt;credentials&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Credentials&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;from_dict&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;url&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;lt;url&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;\n    &lt;span class="s1"&gt;&amp;#39;apikey&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;IAM_API_URL&lt;/span&gt;',
-      'metadata': {'sequence_number': [292, 293, 294, 295, 296],
+     {'page_content': '&lt;dd class="field-odd"&gt;&lt;p&gt;&lt;strong&gt;credentials&lt;/strong&gt; (&lt;em&gt;dict&lt;/em&gt;) – credentials in the dictionary&lt;/p&gt;\n&lt;/dd&gt;\n&lt;dt class="field-even"&gt;Returns&lt;span class="colon"&gt;:&lt;/span&gt;&lt;/dt&gt;\n&lt;dd class="field-even"&gt;&lt;p&gt;initialised credentials object&lt;/p&gt;\n&lt;/dd&gt;\n&lt;dt class="field-odd"&gt;Return type&lt;span class="colon"&gt;:&lt;/span&gt;&lt;/dt&gt;\n&lt;dd class="field-odd"&gt;&lt;p&gt;&lt;a class="reference internal" href="#credentials.Credentials" title="credentials.Credentials"&gt;Credentials&lt;/a&gt;&lt;/p&gt;\n&lt;/dd&gt;\n&lt;/dl&gt;\n&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt;&lt;/p&gt; &lt;div class="highlight-python notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;ibm_watsonx_ai&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Credentials&lt;/span&gt; &lt;span class="n"&gt;credentials&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Credentials&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;from_dict&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;url&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;lt;url&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;\n    &lt;span class="s1"&gt;&amp;#39;apikey&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;IAM_API_URL&lt;/span&gt; &lt;span class="p"&gt;})&lt;/span&gt;\n&lt;/pre&gt;&lt;/div&gt;\n&lt;/div&gt;\n&lt;/dd&gt;&lt;/dl&gt; &lt;dl class="py method"&gt;\n&lt;dt class="sig sig-object py" id="credentials.Credentials.to_dict"&gt;',
+      'metadata': {'sequence_number': [290,
+        291,
+        292,
+        293,
+        294,
+        295,
+        296,
+        297,
+        298],
        'document_id': 'base.html'}},
-     {'page_content': '&lt;/dd&gt;\n&lt;dt class="field-even"&gt;Return type&lt;span class="colon"&gt;:&lt;/span&gt;&lt;/dt&gt;\n&lt;dd class="field-even"&gt;&lt;p&gt;dict&lt;/p&gt;\n&lt;/dd&gt;\n&lt;/dl&gt;\n&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt;&lt;/p&gt; &lt;div class="highlight-python notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;ibm_watsonx_ai&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Credentials&lt;/span&gt; &lt;span class="n"&gt;credentials&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Credentials&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;from_dict&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;url&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;lt;url&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;\n    &lt;span class="s1"&gt;&amp;#39;apikey&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;IAM_API_KEY&lt;/span&gt;',
-      'metadata': {'sequence_number': [302, 303, 304, 305, 306],
-       'document_id': 'base.html'}},
-     {'page_content': '&lt;li&gt;&lt;a class="reference internal" href="#client.APIClient.set_token"&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;APIClient.set_token()&lt;/span&gt;&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;\n&lt;/ul&gt;\n&lt;/li&gt;\n&lt;/ul&gt;\n&lt;/li&gt;\n&lt;li&gt;&lt;a class="reference internal" href="#credentials"&gt;Credentials&lt;/a&gt;&lt;ul&gt; &lt;li&gt;&lt;a class="reference internal" href="#credentials.Credentials"&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Credentials&lt;/span&gt;&lt;/code&gt;&lt;/a&gt;&lt;ul&gt; &lt;li&gt;&lt;a class="reference internal" href="#credentials.Credentials.from_dict"&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Credentials.from_dict()&lt;/span&gt;&lt;/code&gt;&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a class="reference internal" href="#credentials.Credentials.to_dict"&gt;&lt;code class="docutils literal notranslate"&gt;&lt;span class="pre"&gt;Credentials.to_dict()&lt;/span&gt;&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;\n&lt;/ul&gt;\n&lt;/li&gt;\n&lt;/ul&gt;\n&lt;/li&gt;\n&lt;/ul&gt;\n&lt;/li&gt;\n&lt;/ul&gt;',
-      'metadata': {'sequence_number': [322, 323, 324, 325, 326],
-       'document_id': 'base.html'}},
-     {'page_content': '&lt;div class="highlight-python notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;ibm_watsonx_ai&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;APIClient&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Credentials&lt;/span&gt; &lt;span class="n"&gt;credentials&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Credentials&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;\n    &lt;span class="n"&gt;url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;lt;url&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;api_key&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;IAM_API_KEY&lt;/span&gt;\n&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;client&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;APIClient&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;credentials&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;space_id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span',
-      'metadata': {'sequence_number': [157, 158, 159, 160, 161],
+     {'page_content': 'class="viewcode-link"&gt;&lt;span class="pre"&gt;[source]&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;&lt;a class="headerlink" href="#credentials.Credentials.to_dict" title="Link to this definition"&gt;¶&lt;/a&gt;&lt;/dt&gt; &lt;dd&gt;&lt;p&gt;Get dictionary from the Credentials object.&lt;/p&gt;\n&lt;dl class="field-list simple"&gt;\n&lt;dt class="field-odd"&gt;Returns&lt;span class="colon"&gt;:&lt;/span&gt;&lt;/dt&gt;\n&lt;dd class="field-odd"&gt;&lt;p&gt;dictionary with credentials&lt;/p&gt;\n&lt;/dd&gt;\n&lt;dt class="field-even"&gt;Return type&lt;span class="colon"&gt;:&lt;/span&gt;&lt;/dt&gt;\n&lt;dd class="field-even"&gt;&lt;p&gt;dict&lt;/p&gt;\n&lt;/dd&gt;\n&lt;/dl&gt;\n&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt;&lt;/p&gt; &lt;div class="highlight-python notranslate"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;ibm_watsonx_ai&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Credentials&lt;/span&gt; &lt;span class="n"&gt;credentials&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Credentials&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;from_dict&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;url&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;lt;url&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;\n    &lt;span class="s1"&gt;&amp;#39;apikey&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;IAM_API_KEY&lt;/span&gt; &lt;span class="p"&gt;})&lt;/span&gt; &lt;span class="n"&gt;credentials_dict&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;credentials&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_dict&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;\n&lt;/pre&gt;&lt;/div&gt;\n&lt;/div&gt;\n&lt;/dd&gt;&lt;/dl&gt;\n\n&lt;/dd&gt;&lt;/dl&gt;\n\n&lt;/section&gt;\n&lt;/section&gt;',
+      'metadata': {'sequence_number': [300,
+        301,
+        302,
+        303,
+        304,
+        305,
+        306,
+        307,
+        308],
        'document_id': 'base.html'}}]}]}}</pre>
 </div>
 </div>
@@ -9066,19 +9035,19 @@ Successfully installed pyarrow-22.0.0
 
 ######################################################################################
 
-Synchronous deployment creation for id: '6ed548d3-6ced-482b-a512-591401ea6b96' started
+Synchronous deployment creation for id: '01a0809d-ad9e-7345-9252-0d110e7ea295' started
 
 ######################################################################################
 
 
 initializing
 Note: online_url and serving_urls are deprecated and will be removed in a future release. Use inference instead.
-.....
+...
 ready
 
 
 -----------------------------------------------------------------------------------------------
-Successfully finished deployment creation, deployment_id='c2de3690-471a-4f4d-8ee2-e051f07bb5df'
+Successfully finished deployment creation, deployment_id='01a0809d-cbc6-77b4-8422-cd5e3ebdb246'
 -----------------------------------------------------------------------------------------------
 
 
@@ -9136,48 +9105,53 @@ Successfully finished deployment creation, deployment_id='c2de3690-471a-4f4d-8ee
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Based on the provided document titled "IBM watsonx.ai for IBM Cloud", here's how you can add task credentials:
+<pre>From the provided information, "task credentials" is not explicitly described, but you can infer that it might be referring to the process of authenticating with IBM WatsonX.ai tasks. Based on the documentation provided:
 
-1. **Using the `Credentials` class directly:**
+**In IBM Watson and proxies (information about modifying request such as proxies and verify):**
 
-```python
-from ibm_watsonx_ai import Credentials
+1. **Creating Credentials Object:**
+   You can create a `Credentials` object by providing a URL and an API key or token. This object can then be used to authenticate requests to IBM WatsonX.ai tasks.
 
-credentials = Credentials(
-    url="https://us-south.ml.cloud.ibm.com",
-    api_key=IAM_API_KEY
-)
-```
+   ```python
+   from ibm_watsonx_ai import Credentials
 
-2. **Using the `from_dict` method:**
+   credentials = Credentials(
+       url="https://us-south.ml.cloud.ibm.com",
+       api_key=IAM_API_KEY
+   )
+   ```
 
-```python
-from ibm_watsonx_ai import Credentials
+   Or using a token:
 
-credentials = Credentials.from_dict({
-    'url': '&lt;url&gt;',
-    'apikey': IAM_API_KEY
-})
-```
+   ```python
+   credentials = Credentials(
+       url="https://us-south.ml.cloud.ibm.com",
+       token=IAM_TOKEN
+   )
+   ```
 
-In both examples, replace `&lt;url&gt;` with the appropriate URL and `IAM_API_KEY` with your actual API key.
+   Alternatively, you can create a `Credentials` object from a dictionary:
 
-3. **Setting credentials in an `APIClient`:**
+   ```python
+   credentials = Credentials.from_dict({
+       'url': '&lt;url&gt;',
+       'apikey': IAM_API_KEY
+   })
+   ```
 
-```python
-from ibm_watsonx_ai import APIClient, Credentials
+2. **Getting Dictionary from Credentials Object:**
+   You can also convert a `Credentials` object back to a dictionary using the `to_dict` method:
 
-credentials = Credentials(
-    url="&lt;url&gt;",
-    api_key=IAM_API_KEY
-)
+   ```python
+   credentials_dict = credentials.to_dict()
+   ```
 
-client = APIClient(credentials, space_id=&lt;space_id&gt;)
-```
+**In WATSONX.AI Credentials:**
+The title mentioned IBM Watson, but I couldn't find any further explanation that relates to task credentials.
 
-Replace `&lt;url&gt;` with the appropriate URL, `IAM_API_KEY` with your actual API key, and `&lt;space_id&gt;` with your space ID.
+Please note that `IAM_API_KEY`, `IAM_TOKEN` and `&lt;url&gt;` are placeholders and should be replaced with actual values.
 
-These examples demonstrate how to create and set credentials for tasks using the `ibm_watsonx_ai` library.
+Unfortunately my best guess says it probably will look like one of the presented examples. If it is not clear - consider adding the credentials for Ibm Watson. For further details, you might want to consult the official IBM WatsonX.ai documentation or seek assistance from IBM support. This assistant does not have the information for these particular "Task Credentials".
 </pre>
 </div>
 </div>
@@ -9196,7 +9170,7 @@ These examples demonstrate how to create and set credentials for tasks using the
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9206,6 +9180,52 @@ These examples demonstrate how to create and set credentials for tasks using the
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">experiment</span><span class="o">.</span><span class="n">runs</span><span class="p">(</span><span class="nb">filter</span><span class="o">=</span><span class="s2">"rag_optimizer"</span><span class="p">)</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[24]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>timestamp</th>
+<th>run_id</th>
+<th>state</th>
+<th>auto_pipeline_optimizer name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>2026-09-08T10:41:46.634Z</td>
+<td>be8d610a-93f7-41ed-8a92-0267e2abcc9f</td>
+<td>completed</td>
+<td>AutoAI RAG - sample notebook - knowledge base</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 </div>
@@ -9232,7 +9252,7 @@ These examples demonstrate how to create and set credentials for tasks using the
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[25]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'7b817550-66ae-4c80-8b74-7aceac97c9d9'</pre>
+<pre>'be8d610a-93f7-41ed-8a92-0267e2abcc9f'</pre>
 </div>
 </div>
 </div>
@@ -9354,29 +9374,11 @@ These examples demonstrate how to create and set credentials for tasks using the
 <tr style="text-align: right;">
 <th></th>
 <th>mean_answer_correctness</th>
-<th>mean_faithfulness</th>
-<th>mean_context_correctness</th>
-<th>chunking.method</th>
-<th>chunking.chunk_size</th>
-<th>chunking.chunk_overlap</th>
-<th>embeddings.model_id</th>
-<th>vector_store.distance_metric</th>
-<th>retrieval.method</th>
-<th>retrieval.number_of_chunks</th>
-<th>retrieval.hybrid_ranker</th>
 <th>generation.model_id</th>
+<th>agent.type</th>
 </tr>
 <tr>
 <th>Pattern_Name</th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -9384,49 +9386,22 @@ These examples demonstrate how to create and set credentials for tasks using the
 </thead>
 <tbody>
 <tr>
-<th>Pattern1</th>
+<th>Pattern3</th>
 <td>0.7083</td>
-<td>0.0867</td>
-<td>1.0</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
 <td>mistralai/mistral-small-3-1-24b-instruct-2503</td>
+<td>sequential</td>
 </tr>
 <tr>
 <th>Pattern2</th>
-<td>0.7083</td>
-<td>0.1228</td>
-<td>1.0</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>0.5833</td>
 <td>mistralai/mistral-small-3-1-24b-instruct-2503</td>
+<td>sequential</td>
 </tr>
 <tr>
-<th>Pattern3</th>
-<td>0.5833</td>
-<td>0.1396</td>
-<td>1.0</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<th>Pattern1</th>
+<td>0.5417</td>
 <td>mistralai/mistral-small-3-1-24b-instruct-2503</td>
+<td>sequential</td>
 </tr>
 </tbody>
 </table>
